@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">HDesign</string>
+    <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
+
+    <string name="next">Далее</string>
+    <string name="title_splash_01">Дизайн Человека</string>
+    <string name="desc_splash_01">
+        <![CDATA[
+        Дизайн Человека - это новейшая система<br/>для познания себя
+<br/><br/>
+Это инструмент, позволяющий изучить свою <br/>истинную природу, узнать свои уникальные<br/>особенности и научиться принимать<br/>правильные для себя решения.
+<br/><br/>
+Дизайна Человека помогает построить<br/>гармоничные отношения с собой и<br/>окружающим миром. Дает рекомендации к<br/>действию для раскрытия своего потенциала
+]]>
+    </string>
+
+    <string name="desc_splash_02">
+        <![CDATA[
+        Дизайн Человека не религия или<br/>философское учение, а отдельная<br/>современная система знаний на стыке науки<br/>и духовности.
+<br/><br/>
+Дизайн Человека собрал в себе такие<br/>знания как китайская ИЗЦИН, индуистская<br/>чакровая система, кабалла, астрология,<br/>квантовая физика и генетика.
+]]>
+    </string>
+
+    <string name="title_splash_03"><![CDATA[Знали ли вы что-то о<br/>Дизайне Человека?]]></string>
+    <string name="title_splash_04"><![CDATA[Что бы вы хотели<br>получить с помощью<br>Дизайна Человека?]]></string>
+
+    <string name="desc_splash_03"><![CDATA[Ваши ответы помогут<br>подобрать для вас более<br>персонализированный подход]]></string>
+    <string name="desc_splash_04"><![CDATA[Ваши ответы помогут выбрать более<br>персональный подход ]]></string>
+
+    <string name="variant_1_splash_03"><![CDATA[Я ничего не знал<br>о Дизайне Человека]]></string>
+    <string name="variant_2_splash_03"><![CDATA[Что-то знал, но<br>поверхностно]]></string>
+    <string name="variant_3_splash_03"><![CDATA[Я немного разбираюсь<br>в системе ]]></string>
+    <string name="variant_4_splash_03"><![CDATA[Профессионально<br>изучаю Дизайн<br>Человека]]></string>
+
+    <string name="variant_1_splash_04"><![CDATA[Лучше познать себя]]></string>
+    <string name="variant_2_splash_04"><![CDATA[Повысить качество жизни]]></string>
+    <string name="variant_3_splash_04"><![CDATA[Найти своё<br>предназначение]]></string>
+    <string name="variant_4_splash_04"><![CDATA[Наладить отношения<br>с близкими]]></string>
+    <string name="variant_5_splash_04"><![CDATA[Для общего развития]]></string>
+
+    <string name="text_1_splash_05"><![CDATA[Разрешите нам отслеживать использование<br>приложения. Это важно, чтобы мы смогли:]]></string>
+    <string name="text_2_splash_05"><![CDATA[- персонализировать ваш опыт<br>использования приложения<br>- приглашать в приложение пользователей<br>похожих на вас<br>- присылать индивидуальные предложения<br>специально для вас]]></string>
+    <string name="text_3_splash_05"><![CDATA[Эти параметры всегда могут быть изменены<br>в "настройках" вашего устройства]]></string>
+</resources>

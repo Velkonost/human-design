@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">HDesign</string>
+    <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
+
+    <string name="title_splash_01">Дизайн Человека</string>
+    <string name="desc_splash_01">
+        <![CDATA[
+        Дизайн Человека - это новейшая система<br/>для познания себя
+<br/><br/>
+Это инструмент, позволяющий изучить свою <br/>истинную природу, узнать свои уникальные<br/>особенности и научиться принимать<br/>правильные для себя решения.
+<br/><br/>
+Дизайна Человека помогает построить<br/>гармоничные отношения с собой и<br/>окружающим миром. Дает рекомендации к<br/>действию для раскрытия своего потенциала
+]]>
+    </string>
+</resources>

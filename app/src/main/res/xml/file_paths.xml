@@ -1,0 +1,11 @@
+<paths>
+    <cache-path
+        name="camera"
+        path="camera/"
+        />
+
+    <cache-path
+        name="shared_images"
+        path="images/"
+        />
+</paths>
