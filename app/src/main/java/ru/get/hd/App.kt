@@ -63,6 +63,7 @@ class App : DaggerApplication() {
         lateinit var resourcesProvider: ResourcesProvider
 
         val READ_EXTERNAL_STORAGE_REQUEST_CODE = 123
+        val LOCATION_REQUEST_CODE = 99
 
     }
 }

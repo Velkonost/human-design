@@ -42,4 +42,28 @@
     <string name="text_1_splash_05"><![CDATA[Разрешите нам отслеживать использование<br>приложения. Это важно, чтобы мы смогли:]]></string>
     <string name="text_2_splash_05"><![CDATA[- персонализировать ваш опыт<br>использования приложения<br>- приглашать в приложение пользователей<br>похожих на вас<br>- присылать индивидуальные предложения<br>специально для вас]]></string>
     <string name="text_3_splash_05"><![CDATA[Эти параметры всегда могут быть изменены<br>в "настройках" вашего устройства]]></string>
+
+    <string name="rave_title">Рейв-карта</string>
+    <string name="rave_desc"><![CDATA[В Дизайне Человека анализ личности<br>осуществляется на основе бодиграфа,<br>так называемой карты человека,<br>которая содержит в себе схематичное<br>изображение энергетических центров,<br>каналов и ворот, которые отражают<br>персональную энергетическую<br>механику каждого человека, а так же<br>алгоритм её работы.
+<br><br>
+Чтобы рассчитать персональную Рейв-<br>карту (бодиграф), вам нужно заполнить данные и ответить на несколько вопросов</string>
+]]></string>
+    <string name="understand">Понятно</string>
+    <string name="continue_btn">Продолжить</string>
+
+    <string name="start_name_title">Ваше имя?</string>
+    <string name="start_name_desc"><![CDATA[Давайте знакомиться! Представьтесь,<br>пожалуйста, чтобы мы знали, как<br>лучше к вам обращаться!]]></string>
+    <string name="start_name_hint">ИМЯ</string>
+
+    <string name="start_date_title">Дата рождения</string>
+    <string name="start_date_desc"><![CDATA[ , укажите дату рождения,<br>и мы сможем построить ваш личный<br>бодиграф!]]></string>
+
+    <string name="start_time_title">Время рождения</string>
+    <string name="start_time_desc"><![CDATA[Оно покажет точное расположение<br>планет и звезд в момент вашего<br>рождения, что важно для расчета<br>карты.]]></string>
+    <string name="start_time_skip">Я НЕ ЗНАЮ ТОЧНОЕ ВРЕМЯ</string>
+
+    <string name="start_place_title">Место рождения</string>
+    <string name="start_place_desc"><![CDATA[Место, где вы появились на свет очень<br>важно. Так мы сможем точнее<br>определить положение небесных тел,<br>которые оставили отпечаток в вашей<br>судьбе.]]></string>
+
+    <string name="start_place_hint">ГОРОД, СТРАНА</string>
 </resources>

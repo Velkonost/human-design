@@ -6,4 +6,15 @@
 
     <color name="darkCardColor">#19191A</color>
     <color name="lightCardColor">#F9FAFD</color>
+
+    <color name="darkHintColor">#66FFFFFF</color>
+    <color name="lightHintColor">#66000000</color>
+
+
+    <color name="blue">#2a9df4</color>
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="color_text">#ffffff</color>
+    <color name="color_grey">#999999</color>
+    <color name="color_grey1">#bbbbbb</color>
+    <color name="color_grey2">#dfdfdf</color>
 </resources>

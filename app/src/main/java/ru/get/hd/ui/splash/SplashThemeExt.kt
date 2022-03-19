@@ -183,4 +183,14 @@ fun SplashFragment.updateTheme() {
         if (App.preferences.isDarkTheme) R.color.lightColor
         else R.color.darkColor
     ))
+
+    binding.icSplashBigCircle.setImageResource(
+        if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
+        else R.drawable.ic_circle_big_light
+    )
+
+    binding.icSplashMidCircle.setImageResource(
+        if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
+        else R.drawable.ic_circle_mid_light
+    )
 }

@@ -51,7 +51,6 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-
         setupInitTheme()
         setupLocale()
 
@@ -191,12 +190,16 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     }
 
     private fun setupSplash05() {
+        currentSplashPage = SplashPage.SPLASH_05
+
         binding.splash0304Container.alpha0(500)
         binding.splash05Container.alpha1(500)
 
         binding.text1Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_1_splash_05))
         binding.text2Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_2_splash_05))
         binding.text3Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_3_splash_05))
+
+        binding.splashBtnText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.understand))
     }
 
     override fun updateThemeAndLocale() {
@@ -255,7 +258,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 SplashPage.SPLASH_02 -> setupSplash03()
                 SplashPage.SPLASH_03 -> setupSplash04()
                 SplashPage.SPLASH_04 -> setupSplash05()
-
+                SplashPage.SPLASH_05 -> Navigator.splashToStart(this@SplashFragment)
             }
         }
 

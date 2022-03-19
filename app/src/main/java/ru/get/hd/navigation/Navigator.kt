@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import ru.get.hd.R
 import ru.get.hd.ui.NavigationResult
+import ru.get.hd.ui.splash.SplashFragment
 import kotlin.properties.Delegates
 
 object Navigator {
@@ -30,6 +31,10 @@ object Navigator {
 
         f.findNavController().popBackStack()
         f.findNavController().navigate(destId, null)
+    }
+
+    fun splashToStart(f: SplashFragment) {
+        f.findNavController().navigate(R.id.action_navigation_splash_to_navigation_start)
     }
 
 

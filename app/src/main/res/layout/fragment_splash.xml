@@ -28,10 +28,10 @@
             android:layout_height="977dp"
             android:adjustViewBounds="true"
             android:rotation="90"
-
             android:layout_marginTop="-120dp"
             app:layout_constraintTop_toTopOf="@id/splashBtn"
             android:src="@drawable/ic_circle_big_dark"
+            android:alpha="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />
@@ -44,6 +44,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/ic_circle_mid_dark"
             android:adjustViewBounds="true"
+            android:alpha="0.2"
             android:layout_width="977dp"
             android:layout_height="977dp"/>
 
@@ -68,6 +69,7 @@
                 android:background="@drawable/bg_btn" />
 
             <TextView
+                android:id="@+id/splashBtnText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
