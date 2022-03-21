@@ -25,6 +25,7 @@ import ru.get.hd.R
 import ru.get.hd.event.UpdateThemeEvent
 import ru.get.hd.glide.GlideApp
 import ru.get.hd.navigation.Navigator
+import ru.get.hd.ui.settings.SettingsFragment
 import ru.get.hd.util.ext.getViewModel
 import ru.get.hd.util.lazyErrorDelegate
 import timber.log.Timber
@@ -92,12 +93,12 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
 
     @Subscribe
     fun onUpdateThemeEvent(e: UpdateThemeEvent) {
-//        if (this is SettingsFragment) {
-//            updateThemeAndLocale(
-//                e.withAnimation,
-//                e.withTextAnimation
-//            )
-//        } else
+        if (this is SettingsFragment) {
+            updateThemeAndLocale(
+                e.withAnimation,
+                e.withTextAnimation
+            )
+        } else
             updateThemeAndLocale()
 
     }

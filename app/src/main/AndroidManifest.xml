@@ -27,7 +27,7 @@
 
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Upgrade"
+        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 <!--android:icon="@drawable/ic_launcher_background"-->
 <!--        android:roundIcon="@drawable/logo"-->

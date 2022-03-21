@@ -160,7 +160,8 @@ dependencies {
 //    expandable layout
     implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
 
-//    implementation 'com.github.OzcanAlasalvar:DatePicker:1.0.4'
+//   switch button
+    compile 'com.github.zcweng:switch-button:0.0.3@aar'
 
 
 

@@ -20,6 +20,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -61,13 +62,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-//        StatusBarUtil.setTransparent(this)
-//
-//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
 
         navController = findNavController(R.id.nav_host_fragment)
         binding.navView.setupWithNavController(navController!!)
-
+        setupNavMenu()
 
         binding.navView.setOnNavigationItemReselectedListener {
             if (binding.navView.selectedItemId == it.itemId) {
@@ -80,11 +78,16 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     }
 
+    override fun onViewModelReady(viewModel: BaseViewModel) {
+        viewModel.loadFaqs()
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray
     ) {
+
         when (requestCode) {
             LOCATION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -120,6 +123,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 return
             }
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun updateThemeAndLocale() {
@@ -134,15 +138,21 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             if (App.preferences.isDarkTheme) R.color.darkColor
             else R.color.lightColor
         )
+
+        binding.navViewContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.darkMenu
+            else R.color.lightMenu
+        ))
+
+        binding.navView.setBackgroundColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.darkMenu
+            else R.color.lightMenu
+        ))
     }
 
-    override fun onViewModelReady(viewModel: BaseViewModel) {
-        super.onViewModelReady(viewModel)
-
-
-    }
-
-    private fun setupNavMenu(msg: String) {
+    private fun setupNavMenu() {
         if (binding.navView.menu.size() != 0) return
 
         binding.navView.inflateMenu(R.menu.bottom_nav_menu)
@@ -150,41 +160,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navViewContainer.isVisible = true
         binding.navView.isVisible = true
 
-        val options = NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setEnterAnim(R.anim.open_from_top)
-            .setExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopEnterAnim(R.anim.open_from_top)
-            .setPopExitAnim(R.anim.activity_close_translate_to_bottom)
-            .setPopUpTo(navController!!.graph.startDestination, false)
-            .build()
-
-//        binding.navView.menu.getItem(0).setOnMenuItemClickListener {
-//            navController!!.navigate(R.id.navigation_metric, null, options)
-//            return@setOnMenuItemClickListener true
-//        }
-//
-//        binding.navView.menu.getItem(1).setOnMenuItemClickListener {
-//            navController!!.navigate(R.id.navigation_diary, null, options)
-//            return@setOnMenuItemClickListener true
-//        }
-//
-//        binding.navView.menu.getItem(2).setOnMenuItemClickListener {
-//            showSelectNoteTypeView()
-//            return@setOnMenuItemClickListener true
-//        }
-//
-//        binding.navView.menu.getItem(3).setOnMenuItemClickListener {
-//            navController!!.navigate(R.id.navigation_achievements, null, options)
-//            return@setOnMenuItemClickListener true
-//        }
-//
-//        binding.navView.menu.getItem(4).setOnMenuItemClickListener {
-//            navController!!.navigate(R.id.navigation_settings, null, options)
-//            return@setOnMenuItemClickListener true
-//        }
-
-
+        binding.navView.itemIconTintList = null
     }
 
     inner class Handler

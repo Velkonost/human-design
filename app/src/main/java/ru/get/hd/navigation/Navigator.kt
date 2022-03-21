@@ -1,11 +1,14 @@
 package ru.get.hd.navigation
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import ru.get.hd.R
 import ru.get.hd.ui.NavigationResult
+import ru.get.hd.ui.faq.FaqFragment
+import ru.get.hd.ui.settings.SettingsFragment
 import ru.get.hd.ui.splash.SplashFragment
 import kotlin.properties.Delegates
 
@@ -35,6 +38,24 @@ object Navigator {
 
     fun splashToStart(f: SplashFragment) {
         f.findNavController().navigate(R.id.action_navigation_splash_to_navigation_start)
+    }
+
+    fun settingsToFaq(f: SettingsFragment) {
+        f.findNavController().navigate(R.id.action_navigation_settings_to_navigation_faq)
+    }
+
+    fun faqToFaqDetail(
+        f: FaqFragment,
+        title: String,
+        desc: String
+    ) {
+        f.findNavController().navigate(
+            R.id.action_navigation_faq_to_navigation_faq_detail,
+            bundleOf(
+                "title" to title,
+                "desc" to desc
+            )
+        )
     }
 
 

@@ -28,17 +28,18 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/navViewContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:cardCornerRadius="12dp"
-                app:cardUseCompatPadding="true"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginBottom="12dp"
                 android:animateLayoutChanges="true"
+                android:elevation="4dp"
+                app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <com.google.android.material.bottomnavigation.BottomNavigationView
                     android:id="@+id/nav_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
                     app:labelVisibilityMode="unlabeled"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"

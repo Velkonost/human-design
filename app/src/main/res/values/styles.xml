@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -11,12 +11,14 @@
         <item name="android:ambientShadowAlpha">0.05</item>
         <item name="colorControlHighlight">@null</item>
         <item name="android:spotShadowAlpha">0.05</item>
-<!--        <item name="colorPrimary">@color/colorLightPrimaryStyles</item>-->
-<!--        <item name="colorPrimaryDark">@color/colorLightPrimaryDarkStyles</item>-->
-<!--        <item name="colorAccent">@color/colorLightAccentStyles</item>-->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 
-<!--        <item name="colorControlNormal">@color/colorLightControlNormalStyles</item>-->
-<!--        <item name="colorControlActivated">@color/colorLightPrimaryStyles</item>-->
+        <!--        <item name="colorPrimary">@color/colorLightPrimaryStyles</item>-->
+        <!--        <item name="colorPrimaryDark">@color/colorLightPrimaryDarkStyles</item>-->
+        <!--        <item name="colorAccent">@color/colorLightAccentStyles</item>-->
+
+        <!--        <item name="colorControlNormal">@color/colorLightControlNormalStyles</item>-->
+        <!--        <item name="colorControlActivated">@color/colorLightPrimaryStyles</item>-->
     </style>
 
 
@@ -70,9 +72,9 @@
         <item name="android:fontFamily">@font/opensans_bold</item>
     </style>
 
-<!--    <style name="TextView.SemiBold" parent="TextView">-->
-<!--        <item name="android:fontFamily">@font/sf_ui_display_semibold</item>-->
-<!--    </style>-->
+    <!--    <style name="TextView.SemiBold" parent="TextView">-->
+    <!--        <item name="android:fontFamily">@font/sf_ui_display_semibold</item>-->
+    <!--    </style>-->
 
     <style name="TextView.Medium" parent="TextView">
         <item name="android:fontFamily">@font/opensans</item>
@@ -107,13 +109,13 @@
         <item name="android:textSize">@dimen/text_size_24</item>
     </style>
 
-<!--    <style name="Text24.SemiBold" parent="TextView.SemiBold">-->
-<!--        <item name="android:textSize">@dimen/text_size_24</item>-->
-<!--    </style>-->
+    <!--    <style name="Text24.SemiBold" parent="TextView.SemiBold">-->
+    <!--        <item name="android:textSize">@dimen/text_size_24</item>-->
+    <!--    </style>-->
 
-<!--    <style name="Text24.SemiBold.Primary" parent="Text24.SemiBold">-->
-<!--        <item name="android:textColor">@color/colorPrimary</item>-->
-<!--    </style>-->
+    <!--    <style name="Text24.SemiBold.Primary" parent="Text24.SemiBold">-->
+    <!--        <item name="android:textColor">@color/colorPrimary</item>-->
+    <!--    </style>-->
 
     <!-- 24 ends -->
 
@@ -128,13 +130,13 @@
     <!-- 22 ends -->
 
     <!-- 21 -->
-<!--    <style name="Text21.SemiBold" parent="TextView.SemiBold">-->
-<!--        <item name="android:textSize">@dimen/text_size_24</item>-->
-<!--    </style>-->
+    <!--    <style name="Text21.SemiBold" parent="TextView.SemiBold">-->
+    <!--        <item name="android:textSize">@dimen/text_size_24</item>-->
+    <!--    </style>-->
 
-<!--    <style name="Text21.SemiBold.Primary" parent="Text21.SemiBold">-->
-<!--        <item name="android:textColor">@color/colorPrimary</item>-->
-<!--    </style>-->
+    <!--    <style name="Text21.SemiBold.Primary" parent="Text21.SemiBold">-->
+    <!--        <item name="android:textColor">@color/colorPrimary</item>-->
+    <!--    </style>-->
     <!-- 21 ends -->
 
     <!-- 19 -->
@@ -160,9 +162,9 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-<!--    <style name="Text18.SemiBold" parent="TextView.SemiBold">-->
-<!--        <item name="android:textSize">@dimen/text_size_18</item>-->
-<!--    </style>-->
+    <!--    <style name="Text18.SemiBold" parent="TextView.SemiBold">-->
+    <!--        <item name="android:textSize">@dimen/text_size_18</item>-->
+    <!--    </style>-->
     <!-- 18 ends-->
 
     <!-- 16 -->
@@ -179,9 +181,9 @@
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
-<!--    <style name="Text16.SemiBold" parent="TextView.SemiBold">-->
-<!--        <item name="android:textSize">@dimen/text_size_16</item>-->
-<!--    </style>-->
+    <!--    <style name="Text16.SemiBold" parent="TextView.SemiBold">-->
+    <!--        <item name="android:textSize">@dimen/text_size_16</item>-->
+    <!--    </style>-->
 
     <style name="Text16.Medium.Primary" parent="Text16.Medium">
         <item name="android:textColor">@color/colorPrimary</item>
@@ -199,9 +201,9 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-<!--    <style name="Text16.SemiBold.Primary" parent="Text16.SemiBold">-->
-<!--        <item name="android:textColor">@color/colorPrimary</item>-->
-<!--    </style>-->
+    <!--    <style name="Text16.SemiBold.Primary" parent="Text16.SemiBold">-->
+    <!--        <item name="android:textColor">@color/colorPrimary</item>-->
+    <!--    </style>-->
     <!-- 16 ends-->
     <style name="Text15.Medium" parent="TextView.Medium">
         <item name="android:textSize">@dimen/text_size_15</item>
@@ -219,9 +221,9 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
-<!--    <style name="Text14.SemiBold" parent="TextView.SemiBold">-->
-<!--        <item name="android:textSize">@dimen/text_size_14</item>-->
-<!--    </style>-->
+    <!--    <style name="Text14.SemiBold" parent="TextView.SemiBold">-->
+    <!--        <item name="android:textSize">@dimen/text_size_14</item>-->
+    <!--    </style>-->
 
     <style name="Text14.Medium.Primary" parent="Text14.Medium">
         <item name="android:textColor">@color/colorPrimary</item>

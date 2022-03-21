@@ -28,4 +28,36 @@
         tools:layout="@layout/fragment_start"
         />
 
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="ru.get.hd.ui.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings"
+        >
+        <action
+            android:id="@+id/action_navigation_settings_to_navigation_faq"
+            app:destination="@id/navigation_faq" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_faq"
+        android:name="ru.get.hd.ui.faq.FaqFragment"
+        android:label="FaqFragment"
+        tools:layout="@layout/fragment_faq"
+        >
+        <action
+            android:id="@+id/action_navigation_faq_to_navigation_faq_detail"
+            app:destination="@id/navigation_faq_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_faq_detail"
+        android:name="ru.get.hd.ui.faq.detail.FaqDetailFragment"
+        android:label="FaqDetailFragment"
+        tools:layout="@layout/fragment_faq_detail"
+        />
+
+
+
+
 </navigation>

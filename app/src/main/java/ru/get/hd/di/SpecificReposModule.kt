@@ -9,9 +9,9 @@ import ru.get.hd.rest.RestService
 @Module
 class SpecificReposModule {
 
-    @Provides
-    fun nasaRepo(
-        restService: RestService
-    ): RestRepo = RestRepoImpl(restService)
+//    @Provides
+//    fun nasaRepo(
+//        restService: RestService
+//    ): RestRepo = RestRepoImpl(restService)
 
 }

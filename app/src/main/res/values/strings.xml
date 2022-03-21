@@ -66,4 +66,19 @@
     <string name="start_place_desc"><![CDATA[Место, где вы появились на свет очень<br>важно. Так мы сможем точнее<br>определить положение небесных тел,<br>которые оставили отпечаток в вашей<br>судьбе.]]></string>
 
     <string name="start_place_hint">ГОРОД, СТРАНА</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_dark_theme_title">Night</string>
+    <string name="settings_light_theme_title">Day</string>
+
+    <string name="settings_personal_info_title">Personal info</string>
+    <string name="settings_faq_title">FAQ</string>
+    <string name="settings_privace_policy_title">Privacy Policy</string>
+    <string name="settings_terms_conditions_title">Terms &amp; Conditions</string>
+    <string name="settings_version_title">Version</string>
+    <string name="settings_write_us_title">Write to us</string>
+
+    <string name="faq_title">FAQ</string>
 </resources>

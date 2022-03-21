@@ -3,11 +3,14 @@ package ru.get.hd
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.UiModeManager
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import ru.get.hd.di.AppModule
 import ru.get.hd.di.DaggerAppComponent
+import ru.get.hd.repo.AppDatabase
 import ru.get.hd.rest.di.RetrofitModule
 import ru.get.hd.util.Preferences
 import ru.get.hd.util.ResourcesProvider
@@ -27,10 +30,10 @@ class App : DaggerApplication() {
         instance = this
         preferences = Preferences(this)
         resourcesProvider = ResourcesProvider(this)
+        database = AppDatabase(this)
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
+
+        if (BuildConfig.DEBUG) { Timber.plant(Timber.DebugTree()) }
 
         createNotificationChannel()
     }
@@ -53,17 +56,16 @@ class App : DaggerApplication() {
         }
     }
 
-
-
     companion object {
         lateinit var instance: App
         lateinit var preferences: Preferences
+        lateinit var database: AppDatabase
 
         @SuppressLint("StaticFieldLeak")
         lateinit var resourcesProvider: ResourcesProvider
 
-        val READ_EXTERNAL_STORAGE_REQUEST_CODE = 123
-        val LOCATION_REQUEST_CODE = 99
+        const val READ_EXTERNAL_STORAGE_REQUEST_CODE = 123
+        const val LOCATION_REQUEST_CODE = 99
 
     }
 }

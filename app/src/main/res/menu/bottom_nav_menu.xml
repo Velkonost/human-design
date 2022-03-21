@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-<!--    <item-->
-<!--        android:id="@+id/navigation_metric"-->
-<!--        android:icon="@drawable/tire"-->
-<!--        android:title="" />-->
+    <item
+        android:id="@+id/navigation_bodygraph"
+        android:icon="@drawable/item_menu_first"
+        android:title="" />
 
-<!--    <item-->
-<!--        android:id="@+id/navigation_diary"-->
-<!--        android:icon="@drawable/diary"-->
-<!--        android:title="" />-->
+    <item
+        android:id="@+id/navigation_transition"
+        android:icon="@drawable/item_menu_second"
+        android:title="" />
 
-<!--    <item-->
-<!--        android:id="@+id/addPostFragment"-->
-<!--        android:icon="@drawable/add_post"-->
-<!--        android:title="" />-->
+    <item
+        android:id="@+id/navigation_compatibility"
+        android:icon="@drawable/item_menu_third"
+        android:title="" />
 
-<!--    <item-->
-<!--        android:id="@+id/navigation_achievements"-->
-<!--        android:icon="@drawable/achievements"-->
-<!--        android:title="" />-->
+    <item
+        android:id="@+id/navigation_affirmation"
+        android:icon="@drawable/item_menu_forth"
+        android:title="" />
 
-<!--    <item-->
-<!--        android:id="@+id/navigation_settings"-->
-<!--        android:icon="@drawable/settings"-->
-<!--        android:title="" />-->
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/item_menu_fifth"
+        android:title="" />
 
 </menu>
