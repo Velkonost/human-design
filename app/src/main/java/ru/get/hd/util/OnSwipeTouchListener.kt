@@ -1,15 +1,11 @@
 package ru.get.hd.util
 
 import android.content.Context
-import android.view.MotionEvent
-
-import android.view.GestureDetector.SimpleOnGestureListener
-
 import android.view.GestureDetector
+import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.MotionEvent
 import android.view.View
-
 import android.view.View.OnTouchListener
-import java.lang.Exception
 import kotlin.math.abs
 
 
@@ -57,9 +53,9 @@ open class OnSwipeTouchListener(ctx: Context?) : OnTouchListener {
             return result
         }
 
-//        companion  object {
-            private  val SWIPE_THRESHOLD = 100
-            private val SWIPE_VELOCITY_THRESHOLD = 100
+        //        companion  object {
+        private val SWIPE_THRESHOLD = 100
+        private val SWIPE_VELOCITY_THRESHOLD = 100
 //        }
     }
 

@@ -34,4 +34,4 @@ data class User(
     var forecastWeekMills: Long,
 
 
-)
+    )

@@ -1,43 +1,26 @@
 package ru.get.hd.ui.splash
 
-import android.animation.Animator
-import android.app.Activity
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Html
 import android.view.View
-import android.view.animation.AnimationUtils
-import androidx.core.content.ContextCompat
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import androidx.core.os.ConfigurationCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
-import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.jaeger.library.StatusBarUtil
 import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentSplashBinding
 import ru.get.hd.event.UpdateThemeEvent
 import ru.get.hd.navigation.Navigator
-import ru.get.hd.ui.activity.main.MainActivity
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.util.ext.alpha0
 import ru.get.hd.util.ext.alpha1
 import ru.get.hd.util.ext.setImageAnimation
 import ru.get.hd.util.ext.setTextAnimation
 import java.util.*
-
-import android.view.animation.LinearInterpolator
-
-import android.view.animation.Animation
-
-import android.view.animation.RotateAnimation
-import android.widget.ImageView
 
 
 class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
@@ -158,10 +141,14 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         binding.cardVariant3.isVisible = true
         binding.cardVariant4.isVisible = true
 
-        binding.textVariant1.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.variant_1_splash_03))
-        binding.textVariant2.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.variant_2_splash_03))
-        binding.textVariant3.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.variant_3_splash_03))
-        binding.textVariant4.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.variant_4_splash_03))
+        binding.textVariant1.text =
+            Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.variant_1_splash_03))
+        binding.textVariant2.text =
+            Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.variant_2_splash_03))
+        binding.textVariant3.text =
+            Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.variant_3_splash_03))
+        binding.textVariant4.text =
+            Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.variant_4_splash_03))
     }
 
     private fun unselectAllVariants() {
@@ -243,17 +230,17 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 else "en"
         }
 
-        Locale.setDefault(Locale(App.preferences.locale ?: "ru"))
+        Locale.setDefault(Locale(App.preferences.locale))
         val resources = requireActivity().resources
         val config = resources.configuration
-        config.setLocale(Locale(App.preferences.locale ?: "ru"))
+        config.setLocale(Locale(App.preferences.locale))
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     inner class Handler {
 
         fun onBtnClicked(v: View) {
-            when(currentSplashPage) {
+            when (currentSplashPage) {
                 SplashPage.SPLASH_01 -> setupSplash02()
                 SplashPage.SPLASH_02 -> setupSplash03()
                 SplashPage.SPLASH_03 -> setupSplash04()
@@ -263,7 +250,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         }
 
         fun onVariantClicked(v: View) {
-            val selectedStroke = when(v.id) {
+            val selectedStroke = when (v.id) {
                 binding.cardVariant1.id -> binding.strokeVariant1
                 binding.cardVariant2.id -> binding.strokeVariant2
                 binding.cardVariant3.id -> binding.strokeVariant3
@@ -279,7 +266,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 unselectAllVariants()
             }
 
-         }
+        }
     }
 }
 

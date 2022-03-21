@@ -166,23 +166,29 @@ fun SplashFragment.updateTheme() {
         else R.drawable.ic_splash_05_header_light
     )
 
-    binding.text1Splash05.setTextColor(ContextCompat.getColor(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.color.lightColor
-        else R.color.darkColor
-    ))
+    binding.text1Splash05.setTextColor(
+        ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        )
+    )
 
-    binding.text2Splash05.setTextColor(ContextCompat.getColor(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.color.lightColor
-        else R.color.darkColor
-    ))
+    binding.text2Splash05.setTextColor(
+        ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        )
+    )
 
-    binding.text3Splash05.setTextColor(ContextCompat.getColor(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.color.lightColor
-        else R.color.darkColor
-    ))
+    binding.text3Splash05.setTextColor(
+        ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        )
+    )
 
     binding.icSplashBigCircle.setImageResource(
         if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark

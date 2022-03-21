@@ -9,4 +9,4 @@ data class Forecast(
     @field:JsonProperty("id") val id: String = "",
     @field:JsonProperty("ru") val ru: String = "",
     @field:JsonProperty("en") val en: String = "",
-): Parcelable
+) : Parcelable

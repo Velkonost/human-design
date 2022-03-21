@@ -1,27 +1,19 @@
 package ru.get.hd.ui.base
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.FrameLayout
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.BaseTransientBottomBar
-import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.EventBusException
 import org.greenrobot.eventbus.Subscribe
-import ru.get.hd.App
 import ru.get.hd.BR
-import ru.get.hd.R
 import ru.get.hd.event.UpdateThemeEvent
 import ru.get.hd.glide.GlideApp
 import ru.get.hd.navigation.Navigator

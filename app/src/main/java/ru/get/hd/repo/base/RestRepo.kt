@@ -1,7 +1,6 @@
 package ru.get.hd.repo.base
 
 import io.reactivex.Single
-import retrofit2.http.Query
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.CompatibilityResponse
 import ru.get.hd.model.DesignChildResponse

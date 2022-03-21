@@ -3,10 +3,8 @@ package ru.get.hd.ui.view
 import android.content.Context
 import android.text.TextUtils
 import android.util.AttributeSet
-
 import android.widget.NumberPicker
 import ru.get.hd.ui.view.datepicker.view.datePicker.DatePicker
-import java.lang.Exception
 import java.lang.reflect.Field
 
 
@@ -46,7 +44,6 @@ internal class CustomDatePicker(context: Context?, attrs: AttributeSet?) :
             e.printStackTrace()
         }
     }
-
 
 
 }

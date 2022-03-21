@@ -6,10 +6,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import ru.get.hd.App
 import ru.get.hd.R
-import ru.get.hd.databinding.FragmentFaqBinding
 import ru.get.hd.databinding.FragmentFaqDetailBinding
 import ru.get.hd.ui.base.BaseFragment
-import ru.get.hd.ui.faq.FaqFragment
 import ru.get.hd.ui.faq.FaqViewModel
 import ru.get.hd.util.ext.setTextAnimation
 
@@ -31,36 +29,43 @@ class FaqDetailFragment : BaseFragment<FaqViewModel, FragmentFaqDetailBinding>(
 
         binding.faqDetailContainer.setBackgroundColor(
             ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
         binding.faqsTitle.setTextColor(
             ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         binding.faqBack.imageTintList = ColorStateList.valueOf(
             ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.title.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.title.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.desc.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.desc.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
     }
 
     inner class Handler {

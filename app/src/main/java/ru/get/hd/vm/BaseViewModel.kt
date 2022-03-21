@@ -1,10 +1,5 @@
 package ru.get.hd.vm
 
-import android.util.Log
-import com.google.firebase.database.core.Repo
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -12,7 +7,6 @@ import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.model.Faq
 import ru.get.hd.model.User
-import ru.get.hd.repo.AppDatabase
 import ru.get.hd.repo.base.RestRepo
 import ru.get.hd.util.RxViewModel
 import ru.get.hd.util.SingleLiveEvent
@@ -31,7 +25,7 @@ class BaseViewModel @Inject constructor(
 
     init {
         if (EventBus.getDefault().isRegistered(this))
-        EventBus.getDefault().register(this)
+            EventBus.getDefault().register(this)
     }
 
     fun createNewUser(

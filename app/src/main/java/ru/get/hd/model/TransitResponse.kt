@@ -14,24 +14,24 @@ data class TransitResponse(
     @field:JsonProperty("birth_personality_planets") val birthPersonalityPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
     @field:JsonProperty("current_design_planets") val currentDesignPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
     @field:JsonProperty("current_personality_planets") val currentPersonalityPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class TransitionGate(
     @field:JsonProperty("number") val number: Int = 0,
     @field:JsonProperty("title") val title: String = "",
     @field:JsonProperty("description") val description: String = "",
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class TransitionChannel(
     @field:JsonProperty("number") val number: String = "",
     @field:JsonProperty("title") val title: String = "",
     @field:JsonProperty("description") val description: String = "",
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class TransitionPlanet(
     @field:JsonProperty("gate") val gate: Int = 0,
     @field:JsonProperty("line") val line: Int = 0,
-): Parcelable
+) : Parcelable

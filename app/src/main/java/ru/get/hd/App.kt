@@ -3,9 +3,7 @@ package ru.get.hd
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.UiModeManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import ru.get.hd.di.AppModule
@@ -33,7 +31,9 @@ class App : DaggerApplication() {
         database = AppDatabase(this)
 
 
-        if (BuildConfig.DEBUG) { Timber.plant(Timber.DebugTree()) }
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
 
         createNotificationChannel()
     }

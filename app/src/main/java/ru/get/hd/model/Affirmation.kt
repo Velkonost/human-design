@@ -11,4 +11,4 @@ data class Affirmation(
     @field:JsonProperty("image_d") val imageD: String = "",
     @field:JsonProperty("ru") val ru: String = "",
     @field:JsonProperty("en") val en: String = "",
-): Parcelable
+) : Parcelable

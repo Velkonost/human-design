@@ -25,24 +25,30 @@ import java.util.List;
 import ru.get.hd.R;
 
 public class WheelView extends ScrollView {
+    public static final int OFF_SET_DEFAULT = 1;
+    private static final int SCROLL_DIRECTION_UP = 0;
+    private static final int SCROLL_DIRECTION_DOWN = 1;
+    private final int newCheck = 50;
     public String TAG = WheelView.class.getSimpleName();
-
+    public boolean isNightTheme = false;
+    int itemHeight = 0;
+    int[] selectedAreaBorder;
     private int displayItemCount;
     private int selectedIndex = 1;
-    public static final int OFF_SET_DEFAULT = 1;
     private int offset = OFF_SET_DEFAULT;
     private boolean configChanged = false;
     private int initialY;
     private Runnable scrollerTask;
-    private final int newCheck = 50;
-    public boolean isNightTheme = false;
-
-    public interface OnWheelViewListener {
-        void onSelected(int selectedIndex, String item);
-    }
-
     private Context context;
     private LinearLayout views;
+    private List<String> items;
+    private int textSize = 19;
+    private int ALIGNMENT = View.TEXT_ALIGNMENT_CENTER;
+    private int GRAVITY = Gravity.CENTER;
+    private int scrollDirection = -1;
+    private Paint paint;
+    private int viewWidth;
+    private OnWheelViewListener onWheelViewListener;
 
     public WheelView(Context context) {
         super(context);
@@ -58,12 +64,6 @@ public class WheelView extends ScrollView {
         super(context, attrs, defStyle);
         init(context);
     }
-
-    private List<String> items;
-    private int textSize = 19;
-    private int ALIGNMENT = View.TEXT_ALIGNMENT_CENTER;
-    private int GRAVITY = Gravity.CENTER;
-
 
     public List<String> getItems() {
         return items;
@@ -90,7 +90,6 @@ public class WheelView extends ScrollView {
         }
         this.offset = offset;
     }
-
 
     private void init(Context context) {
         this.context = context;
@@ -184,9 +183,6 @@ public class WheelView extends ScrollView {
         this.GRAVITY = gravity;
     }
 
-    int itemHeight = 0;
-
-
     private LinearLayout createView(String item) {
         LinearLayout viewContainer = new LinearLayout(context);
         TextView tv = new TextView(context);
@@ -218,7 +214,6 @@ public class WheelView extends ScrollView {
 
         return viewContainer;
     }
-
 
     @Override
     protected void onScrollChanged(int l, int t, int oldL, int oldT) {
@@ -296,8 +291,6 @@ public class WheelView extends ScrollView {
         }
     }
 
-    int[] selectedAreaBorder;
-
     private int[] obtainSelectedAreaBorder() {
         if (null == selectedAreaBorder) {
             selectedAreaBorder = new int[2];
@@ -306,14 +299,6 @@ public class WheelView extends ScrollView {
         }
         return selectedAreaBorder;
     }
-
-
-    private int scrollDirection = -1;
-    private static final int SCROLL_DIRECTION_UP = 0;
-    private static final int SCROLL_DIRECTION_DOWN = 1;
-
-    private Paint paint;
-    private int viewWidth;
 
     @Override
     public void setBackground(Drawable background) {
@@ -405,8 +390,6 @@ public class WheelView extends ScrollView {
         return super.onTouchEvent(ev);
     }
 
-    private OnWheelViewListener onWheelViewListener;
-
     public void setOnWheelViewListener(OnWheelViewListener onWheelViewListener) {
         this.onWheelViewListener = onWheelViewListener;
     }
@@ -433,6 +416,10 @@ public class WheelView extends ScrollView {
             }
         }
         return super.onInterceptTouchEvent(ev);
+    }
+
+    public interface OnWheelViewListener {
+        void onSelected(int selectedIndex, String item);
     }
 
 }

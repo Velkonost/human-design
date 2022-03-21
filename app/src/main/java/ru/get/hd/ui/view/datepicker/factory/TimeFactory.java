@@ -7,7 +7,7 @@ public class TimeFactory {
 
     private int hour;
     private int minute;
-    private TimeFactoryListener listener;
+    private final TimeFactoryListener listener;
 
     public TimeFactory(TimeFactoryListener listener) {
         this.listener = listener;

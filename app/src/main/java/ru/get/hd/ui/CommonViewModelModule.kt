@@ -9,7 +9,7 @@ import ru.get.hd.ui.faq.FaqViewModel
 import ru.get.hd.ui.settings.SettingsViewModel
 import ru.get.hd.ui.splash.SplashViewModel
 import ru.get.hd.ui.start.StartViewModel
-import ru.get.hd.vm.*
+import ru.get.hd.vm.BaseViewModel
 
 @Module
 interface CommonViewModelModule {

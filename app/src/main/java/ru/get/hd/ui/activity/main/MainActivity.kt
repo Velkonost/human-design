@@ -1,44 +1,21 @@
 package ru.get.hd.ui.activity.main
 
 import android.Manifest
-import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
-import android.graphics.Rect
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.provider.Settings
-import android.view.MotionEvent
-import android.view.View
-import android.view.animation.DecelerateInterpolator
-import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.auth.AuthUI
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.storage.FirebaseStorage
 import com.jaeger.library.StatusBarUtil
-import com.squareup.picasso.Picasso
-import com.stfalcon.imageviewer.StfalconImageViewer
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import org.greenrobot.eventbus.EventBus
@@ -139,17 +116,21 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             else R.color.lightColor
         )
 
-        binding.navViewContainer.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.darkMenu
-            else R.color.lightMenu
-        ))
+        binding.navViewContainer.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.darkMenu
+                else R.color.lightMenu
+            )
+        )
 
-        binding.navView.setBackgroundColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.darkMenu
-            else R.color.lightMenu
-        ))
+        binding.navView.setBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.darkMenu
+                else R.color.lightMenu
+            )
+        )
     }
 
     private fun setupNavMenu() {

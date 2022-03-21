@@ -1,8 +1,6 @@
 package ru.get.hd.rest
 
-import androidx.annotation.StringRes
 import retrofit2.HttpException
-import ru.get.hd.R
 
 class Error(
     val message: String = "",

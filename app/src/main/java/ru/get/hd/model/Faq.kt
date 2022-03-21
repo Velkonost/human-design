@@ -10,4 +10,4 @@ data class Faq(
     @field:JsonProperty("title_en") val titleEn: String = "",
     @field:JsonProperty("text_ru") val textRu: String = "",
     @field:JsonProperty("text_en") val textEn: String = "",
-): Parcelable
+) : Parcelable

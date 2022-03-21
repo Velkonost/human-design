@@ -21,15 +21,14 @@ import ru.get.hd.ui.view.datepicker.factory.TimeFactoryListener;
 import ru.get.hd.ui.view.datepicker.view.WheelView;
 
 public class TimePicker extends LinearLayout implements TimeFactoryListener {
+    private final static int MAX_TEXT_SIZE = 20;
+    private final static int MAX_OFFSET = 3;
     private WheelView emptyView1;
     private WheelView emptyView2;
     private Context context;
     private LinearLayout container;
     private int offset = 3;
     private int textSize = 19;
-
-    private final static int MAX_TEXT_SIZE = 20;
-    private final static int MAX_OFFSET = 3;
     private boolean darkModeEnabled = true;
 
     private boolean isNightTheme = false;
@@ -37,6 +36,7 @@ public class TimePicker extends LinearLayout implements TimeFactoryListener {
     private WheelView minuteView;
     private WheelView formatView;
     private TimeFactory factory;
+    private TimeSelectListener timeSelectListener;
 
     public TimePicker(Context context) {
         super(context);
@@ -90,7 +90,6 @@ public class TimePicker extends LinearLayout implements TimeFactoryListener {
         setUpInitialViews();
     }
 
-
     private void setUpInitialViews() {
         if (darkModeEnabled) {
             checkDarkMode();
@@ -119,7 +118,6 @@ public class TimePicker extends LinearLayout implements TimeFactoryListener {
                 break;
         }
     }
-
 
     private View createMinuteView(Context context) {
         minuteView = new WheelView(context);
@@ -170,7 +168,6 @@ public class TimePicker extends LinearLayout implements TimeFactoryListener {
         ly.addView(hourView);
         return ly;
     }
-
 
     private LinearLayout createEmptyView1(Context context) {
         emptyView1 = createEmptyWheel(context);
@@ -228,12 +225,6 @@ public class TimePicker extends LinearLayout implements TimeFactoryListener {
         notifyTimeSelect();
     }
 
-    public interface TimeSelectListener {
-        void onTimeSelected(int hour, int minute);
-    }
-
-    private TimeSelectListener timeSelectListener;
-
     public void setTimeSelectListener(TimeSelectListener dataSelectListener) {
         this.timeSelectListener = dataSelectListener;
     }
@@ -257,25 +248,29 @@ public class TimePicker extends LinearLayout implements TimeFactoryListener {
         setUpInitialViews();
     }
 
-    public void setHour(int hour) {
-        factory.setHour(hour);
-    }
-
     public int getHour() {
         return factory.getHour();
     }
 
-    public void setMinute(int minute) {
-        factory.setMinute(minute);
+    public void setHour(int hour) {
+        factory.setHour(hour);
     }
 
     public int getMinute() {
         return factory.getMinute();
     }
 
+    public void setMinute(int minute) {
+        factory.setMinute(minute);
+    }
+
     public void setTime(int hour, int minute) {
         factory.setHour(hour);
         factory.setMinute(minute);
+    }
+
+    public interface TimeSelectListener {
+        void onTimeSelected(int hour, int minute);
     }
 
 }

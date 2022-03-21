@@ -9,8 +9,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import ru.get.hd.R;
-
 public class PickerPopup extends BottomSheetDialog implements IPopupInterface {
 
     public TextView confirm;

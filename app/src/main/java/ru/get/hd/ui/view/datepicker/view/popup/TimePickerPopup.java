@@ -43,6 +43,10 @@ public class TimePickerPopup extends PickerPopup {
     }
 
 
+    public interface OnTimeSelectListener {
+        void onTimeSelected(TimePicker timePicker, int hour, int minute);
+    }
+
     public static final class Builder {
         private Context context;
         private TimePicker timePicker;
@@ -89,10 +93,6 @@ public class TimePickerPopup extends PickerPopup {
             popup.setListener(listener);
             return popup;
         }
-    }
-
-    public interface OnTimeSelectListener {
-        void onTimeSelected(TimePicker timePicker, int hour, int minute);
     }
 
 }

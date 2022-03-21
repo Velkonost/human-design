@@ -2,25 +2,20 @@ package ru.get.hd.ui.settings
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
+import ru.get.hd.BuildConfig
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentSettingsBinding
-import ru.get.hd.databinding.FragmentSplashBinding
-import ru.get.hd.ui.base.BaseFragment
-import ru.get.hd.ui.splash.SplashFragment
-import ru.get.hd.ui.splash.SplashViewModel
-import android.content.Intent
-import android.net.Uri
-import androidx.core.app.ShareCompat
-import com.google.protobuf.Value
-import org.greenrobot.eventbus.EventBus
-import ru.get.hd.BuildConfig
 import ru.get.hd.event.UpdateThemeEvent
 import ru.get.hd.navigation.Navigator
+import ru.get.hd.ui.base.BaseFragment
 
 
 class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding>(
@@ -29,24 +24,28 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     Handler::class
 ) {
 
-    override fun onLayoutReady(savedInstanceState: Bundle?) {
-        super.onLayoutReady(savedInstanceState)
-
-    }
-
     private fun setupLocale() {
         binding.title.text = App.resourcesProvider.getStringLocale(R.string.settings_title)
-        binding.notificationsTitle.text = App.resourcesProvider.getStringLocale(R.string.settings_notifications_title)
-        binding.themeTitle.text = App.resourcesProvider.getStringLocale(R.string.settings_theme_title)
-        binding.personalInfoTitle.text = App.resourcesProvider.getStringLocale(R.string.settings_personal_info_title)
+        binding.notificationsTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.settings_notifications_title)
+        binding.themeTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.settings_theme_title)
+        binding.personalInfoTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.settings_personal_info_title)
         binding.faqTitle.text = App.resourcesProvider.getStringLocale(R.string.settings_faq_title)
-        binding.privacyPolicyTitle.text = App.resourcesProvider.getStringLocale(R.string.settings_privace_policy_title)
-        binding.termsTitle.text = App.resourcesProvider.getStringLocale(R.string.settings_terms_conditions_title)
-        binding.writeUs.text = App.resourcesProvider.getStringLocale(R.string.settings_write_us_title)
-        binding.version.text = App.resourcesProvider.getStringLocale(R.string.settings_version_title) + " " + BuildConfig.VERSION_NAME
+        binding.privacyPolicyTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.settings_privace_policy_title)
+        binding.termsTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.settings_terms_conditions_title)
+        binding.writeUs.text =
+            App.resourcesProvider.getStringLocale(R.string.settings_write_us_title)
+        binding.version.text =
+            App.resourcesProvider.getStringLocale(R.string.settings_version_title) + " " + BuildConfig.VERSION_NAME
 
-        binding.dayTheme.text = App.resourcesProvider.getStringLocale(R.string.settings_light_theme_title)
-        binding.nightTheme.text = App.resourcesProvider.getStringLocale(R.string.settings_dark_theme_title)
+        binding.dayTheme.text =
+            App.resourcesProvider.getStringLocale(R.string.settings_light_theme_title)
+        binding.nightTheme.text =
+            App.resourcesProvider.getStringLocale(R.string.settings_dark_theme_title)
     }
 
     private val updateThemeDuration = 300L
@@ -133,9 +132,12 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             )
             cardTintAnimation.duration = updateThemeDuration
             cardTintAnimation.addUpdateListener {
-                binding.notificationBlock.backgroundTintList = ColorStateList.valueOf(it.animatedValue.toString().toInt())
-                binding.themeBlock.backgroundTintList = ColorStateList.valueOf(it.animatedValue.toString().toInt())
-                binding.infoBlock.backgroundTintList = ColorStateList.valueOf(it.animatedValue.toString().toInt())
+                binding.notificationBlock.backgroundTintList =
+                    ColorStateList.valueOf(it.animatedValue.toString().toInt())
+                binding.themeBlock.backgroundTintList =
+                    ColorStateList.valueOf(it.animatedValue.toString().toInt())
+                binding.infoBlock.backgroundTintList =
+                    ColorStateList.valueOf(it.animatedValue.toString().toInt())
 
             }
             cardTintAnimation.start()
@@ -147,11 +149,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             )
         } else {
 
-            binding.nightTheme.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            binding.nightTheme.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             binding.settingsContainer.setBackgroundColor(
                 ContextCompat.getColor(
@@ -278,22 +282,26 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         fun onNightClicked(v: View) {
             if (!App.preferences.isDarkTheme) {
                 App.preferences.isDarkTheme = true
-                EventBus.getDefault().post(UpdateThemeEvent(
-                    isDarkTheme = true,
-                    withAnimation = true,
-                    withTextAnimation = true
-                ))
+                EventBus.getDefault().post(
+                    UpdateThemeEvent(
+                        isDarkTheme = true,
+                        withAnimation = true,
+                        withTextAnimation = true
+                    )
+                )
             }
         }
 
         fun onDayClicked(v: View) {
             if (App.preferences.isDarkTheme) {
                 App.preferences.isDarkTheme = false
-                EventBus.getDefault().post(UpdateThemeEvent(
-                    isDarkTheme = false,
-                    withAnimation = true,
-                    withTextAnimation = true
-                ))
+                EventBus.getDefault().post(
+                    UpdateThemeEvent(
+                        isDarkTheme = false,
+                        withAnimation = true,
+                        withTextAnimation = true
+                    )
+                )
             }
         }
 
@@ -315,12 +323,23 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             val email = "humdesignhd@gmail.com"
             val uri = Uri.parse("mailto:$email")
                 .buildUpon()
-                .appendQueryParameter("subject", App.resourcesProvider.getStringLocale(R.string.app_name))
-                .appendQueryParameter("body", App.resourcesProvider.getStringLocale(R.string.app_name))
+                .appendQueryParameter(
+                    "subject",
+                    App.resourcesProvider.getStringLocale(R.string.app_name)
+                )
+                .appendQueryParameter(
+                    "body",
+                    App.resourcesProvider.getStringLocale(R.string.app_name)
+                )
                 .build()
 
             val emailIntent = Intent(Intent.ACTION_SENDTO, uri)
-            startActivity(Intent.createChooser(emailIntent, App.resourcesProvider.getStringLocale(R.string.app_name)))
+            startActivity(
+                Intent.createChooser(
+                    emailIntent,
+                    App.resourcesProvider.getStringLocale(R.string.app_name)
+                )
+            )
         }
 
         fun onFaqClicked(v: View) {

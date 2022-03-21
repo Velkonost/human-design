@@ -1,6 +1,5 @@
 package ru.get.hd.util
 
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 
 class ProgressDelegate(

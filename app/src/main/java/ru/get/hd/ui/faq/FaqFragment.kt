@@ -5,17 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigator
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentFaqBinding
-import ru.get.hd.databinding.FragmentSettingsBinding
 import ru.get.hd.event.FaqClickedEvent
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.faq.adapter.FaqAdapter
-import ru.get.hd.ui.settings.SettingsFragment
-import ru.get.hd.ui.settings.SettingsViewModel
 import ru.get.hd.util.ext.setTextAnimation
 import ru.get.hd.vm.BaseViewModel
 
@@ -44,23 +40,29 @@ class FaqFragment : BaseFragment<FaqViewModel, FragmentFaqBinding>(
     override fun updateThemeAndLocale() {
         binding.faqsTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.faq_title))
 
-        binding.faqsContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+        binding.faqsContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
-        binding.faqsTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.faqsTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.faqBack.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.faqBack.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
     }
 
     @Subscribe

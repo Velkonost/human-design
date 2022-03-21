@@ -11,13 +11,12 @@ import ru.get.hd.ui.view.datepicker.model.DateModel;
 import ru.get.hd.ui.view.datepicker.utils.DateUtils;
 
 public class DatePickerFactory {
+    private static final DateFormatSymbols dfs = new DateFormatSymbols();
     private DateModel maxDate;
     private DateModel minDate;
     private DateModel selectedDate;
-    private DateFactoryListener listener;
+    private final DateFactoryListener listener;
     private int monthMin;
-
-    private static final DateFormatSymbols dfs = new DateFormatSymbols();
 
     public DatePickerFactory(DateFactoryListener listener) {
         this.listener = listener;
@@ -102,7 +101,7 @@ public class DatePickerFactory {
 
     public List<String> getMonthList() {
 
-        String[] russianMonths = new String[] {
+        String[] russianMonths = new String[]{
                 "Января",
                 "Февраля",
                 "Марта",

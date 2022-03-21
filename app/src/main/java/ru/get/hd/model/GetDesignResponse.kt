@@ -19,20 +19,20 @@ data class GetDesignResponse(
     @field:JsonProperty("active_centres") val activeCentres: List<Center> = listOf(),
     @field:JsonProperty("inactive_centres") val inactiveCentres: List<Center> = listOf(),
 
-): Parcelable
+    ) : Parcelable
 
 @Parcelize
 data class Authority(
     @field:JsonProperty("id") val id: Int = 0,
     @field:JsonProperty("name") val name: String = "",
     @field:JsonProperty("description") val description: String = "",
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class Planet(
     @field:JsonProperty("gate") val gate: Int = 0,
     @field:JsonProperty("line") val line: Int = 0,
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class Center(
@@ -40,7 +40,7 @@ data class Center(
     @field:JsonProperty("name") val name: String = "",
     @field:JsonProperty("description") val description: String = "",
     @field:JsonProperty("shortDescription") val shortDescription: String = "",
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class GetDesignDescription(
@@ -48,4 +48,4 @@ data class GetDesignDescription(
     @field:JsonProperty("type_title") val typeTitle: String = "",
     @field:JsonProperty("profile") val profile: String = "",
     @field:JsonProperty("profile_title") val profileTitle: String = "",
-): Parcelable
+) : Parcelable

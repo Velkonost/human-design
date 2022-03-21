@@ -352,7 +352,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 //                    StartPage.PLACE_BIRTH -> StartPage.BODYGRAPH
 //                    StartPage.BODYGRAPH -> StartPage.BODYGRAPH
 //                }
-            currentStartPage
+                currentStartPage
             )
         }
 

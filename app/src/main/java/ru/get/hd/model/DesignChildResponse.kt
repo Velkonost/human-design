@@ -19,4 +19,4 @@ data class DesignChildResponse(
     @field:JsonProperty("active_centres") val activeCentres: List<Center> = listOf(),
     @field:JsonProperty("inactive_centres") val inactiveCentres: List<Center> = listOf(),
 
-    ): Parcelable
+    ) : Parcelable

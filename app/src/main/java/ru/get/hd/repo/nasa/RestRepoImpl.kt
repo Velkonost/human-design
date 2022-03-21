@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class RestRepoImpl @Inject constructor(
     private val restService: RestService
-): RestRepo {
+) : RestRepo {
 
 
     override fun getDesign(
