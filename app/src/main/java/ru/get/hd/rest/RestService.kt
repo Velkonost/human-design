@@ -59,7 +59,7 @@ interface RestService {
 
     //  Метод получения прогнозов
     @GET("/forecasts/forecastsJson.json")
-    fun getForecasts(): Single<List<List<Forecast>>>
+    fun getForecasts(): Single<HashMap<String, List<Forecast>>>
 
     //  Метод получения FAQ вопросов
     @GET("/getfaq.php")

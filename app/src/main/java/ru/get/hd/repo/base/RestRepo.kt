@@ -45,7 +45,7 @@ interface RestRepo {
 
     fun getAffirmations(): Single<List<Affirmation>>
 
-    fun getForecasts(): Single<List<List<Forecast>>>
+    fun getForecasts(): Single<HashMap<String, List<Forecast>>>
 
     fun getFaq(): Single<List<Faq>>
 }

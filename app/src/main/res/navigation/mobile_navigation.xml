@@ -26,7 +26,11 @@
         android:name="ru.get.hd.ui.start.StartFragment"
         android:label="StartFragment"
         tools:layout="@layout/fragment_start"
-        />
+        >
+        <action
+            android:id="@+id/action_navigation_start_to_navigation_bodygraph"
+            app:destination="@id/navigation_bodygraph" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
@@ -55,6 +59,35 @@
         android:name="ru.get.hd.ui.faq.detail.FaqDetailFragment"
         android:label="FaqDetailFragment"
         tools:layout="@layout/fragment_faq_detail"
+        />
+
+
+    <fragment
+        android:id="@+id/navigation_bodygraph"
+        android:name="ru.get.hd.ui.bodygraph.BodygraphFragment"
+        android:label="BodygraphFragment"
+        tools:layout="@layout/fragment_bodygraph"
+        />
+
+    <fragment
+        android:id="@+id/navigation_transit"
+        android:name="ru.get.hd.ui.transit.TransitFragment"
+        android:label="TransitFragment"
+        tools:layout="@layout/fragment_transit"
+        />
+
+    <fragment
+        android:id="@+id/navigation_compatibility"
+        android:name="ru.get.hd.ui.compatibility.CompatibilityFragment"
+        android:label="CompatibilityFragment"
+        tools:layout="@layout/fragment_compatibility"
+        />
+
+    <fragment
+        android:id="@+id/navigation_affirmation"
+        android:name="ru.get.hd.ui.affirmation.AffirmationFragment"
+        android:label="AffirmationFragment"
+        tools:layout="@layout/fragment_affirmation"
         />
 
 

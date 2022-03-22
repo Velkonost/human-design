@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
 data class User(
-    @PrimaryKey(autoGenerate = true)
-    var id: String,
+    @PrimaryKey(autoGenerate = false)
+    var id: Long,
 
     @ColumnInfo(name = "name")
     var name: String,
@@ -16,7 +16,7 @@ data class User(
     var place: String,
 
     @ColumnInfo(name = "date")
-    var date: String,
+    var date: Long,
 
     @ColumnInfo(name = "time")
     var time: String,
@@ -32,6 +32,4 @@ data class User(
 
     @ColumnInfo(name = "forecastWeekMills")
     var forecastWeekMills: Long,
-
-
-    )
+)

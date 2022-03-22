@@ -81,4 +81,10 @@
     <string name="settings_write_us_title">Write to us</string>
 
     <string name="faq_title">FAQ</string>
+
+    <string name="affirmations_title">Affirmations</string>
+    <string name="forecasts_title">Forecasts</string>
+    <string name="next_affirmation_text">The next affirmation will be tomorrow</string>
+    <string name="next_forecast_text">Individual forecast changes every Monday</string>
+    <string name="affirmation_share">Share</string>
 </resources>

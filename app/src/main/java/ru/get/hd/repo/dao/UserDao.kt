@@ -14,7 +14,7 @@ interface UserDao {
     fun getAll(): List<User>
 
     @Query("SELECT * FROM users WHERE id LIKE :id")
-    fun findById(id: String): User
+    fun findById(id: Long): User
 
     @Insert
     fun insert(user: User)

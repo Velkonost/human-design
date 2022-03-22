@@ -7,7 +7,7 @@
         android:title="" />
 
     <item
-        android:id="@+id/navigation_transition"
+        android:id="@+id/navigation_transit"
         android:icon="@drawable/item_menu_second"
         android:title="" />
 

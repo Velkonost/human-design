@@ -61,7 +61,7 @@ class RestRepoImpl @Inject constructor(
     override fun getAffirmations(): Single<List<Affirmation>> =
         restService.getAffirmations().subscribeIoObserveMain()
 
-    override fun getForecasts(): Single<List<List<Forecast>>> =
+    override fun getForecasts(): Single<HashMap<String, List<Forecast>>> =
         restService.getForecasts().subscribeIoObserveMain()
 
     override fun getFaq(): Single<List<Faq>> =

@@ -18,6 +18,8 @@
 
     <color name="darkMenu">#111111</color>
     <color name="lightMenu">#F9F9F9</color>
+    
+    <color name="unselectText">#888888</color>
 
     <color name="blue">#2a9df4</color>
     <color name="backgroundColor">#FFFFFF</color>

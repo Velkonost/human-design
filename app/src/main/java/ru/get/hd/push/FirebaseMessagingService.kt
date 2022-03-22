@@ -53,7 +53,6 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
-        App.preferences.pushToken = token
         Timber.d("Token pushed. $token")
 
 //        repo.sendToken(token, androidId)

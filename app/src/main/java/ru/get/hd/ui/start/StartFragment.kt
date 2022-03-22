@@ -21,8 +21,11 @@ import androidx.core.animation.doOnEnd
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import kotlinx.android.synthetic.main.fragment_start.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
@@ -30,6 +33,7 @@ import ru.get.hd.App.Companion.LOCATION_REQUEST_CODE
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentStartBinding
 import ru.get.hd.event.PermissionGrantedEvent
+import ru.get.hd.navigation.Navigator
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.util.Keyboard
 import ru.get.hd.util.convertDpToPx
@@ -37,6 +41,7 @@ import ru.get.hd.util.ext.alpha0
 import ru.get.hd.util.ext.alpha1
 import ru.get.hd.util.ext.setTextAnimation
 import ru.get.hd.util.ext.translationY
+import ru.get.hd.vm.BaseViewModel
 import java.util.*
 
 class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
@@ -50,6 +55,11 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     private lateinit var geocoder: Geocoder
     private var isCurrentLocationVariantSet = false
 
+    private val baseViewModel: BaseViewModel by lazy {
+        ViewModelProviders.of(requireActivity()).get(
+            BaseViewModel::class.java
+        )
+    }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -57,10 +67,34 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         geocoder = Geocoder(requireContext(), Locale.getDefault())
         prepareLogic()
         startCirclesRotation(StartPage.RAVE)
-        setupRave()
 
         mLocationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
         setupLocationListener()
+
+        when(App.preferences.lastLoginPageId) {
+            StartPage.RAVE.pageId -> setupRave()
+            StartPage.NAME.pageId -> {
+                animateCirclesBtwPages(1000)
+                setupName()
+            }
+            StartPage.DATE_BIRTH.pageId -> {
+                animateCirclesBtwPages(1000)
+                setupDateBirth()
+            }
+            StartPage.TIME_BIRTH.pageId -> {
+                animateCirclesBtwPages(1000)
+                setupTimeBirth()
+            }
+            StartPage.PLACE_BIRTH.pageId -> {
+                animateCirclesBtwPages(1000)
+                setupPlaceBirth()
+            }
+            StartPage.BODYGRAPH.pageId -> {
+                animateCirclesBtwPages(1000)
+                setupBodygraph()
+            }
+            else -> setupRave()
+        }
 
 //        binding.nameET.addTextChangedListener {
 //            if (!binding.nameET.text.isNullOrEmpty() && ::geocoder.isInitialized) {
@@ -217,6 +251,22 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             )
         )
 
+        binding.placeET.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+
+        binding.placeET.setHintTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
+
     }
 
     private var totalTranslationYForBigCircle = 0f
@@ -316,9 +366,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         }
         animSizeMidCircle.duration = 1000
 
-
-//        animSizeBigCircle.start()
-
         val yAnimatorBigCircle = ObjectAnimator.ofFloat(
             binding.icSplashBigCircle, "translationY", stepTranslationYForBigCircle * step
         )
@@ -370,6 +417,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupName() {
         currentStartPage = StartPage.NAME
+        App.preferences.lastLoginPageId = StartPage.NAME.pageId
 
         unselectAllIndicators()
         binding.indicator1.background = ContextCompat.getDrawable(
@@ -393,6 +441,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupDateBirth() {
         currentStartPage = StartPage.DATE_BIRTH
+        App.preferences.lastLoginPageId = StartPage.DATE_BIRTH.pageId
 
         unselectAllIndicators()
         binding.indicator2.background = ContextCompat.getDrawable(
@@ -423,6 +472,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupTimeBirth() {
         currentStartPage = StartPage.TIME_BIRTH
+        App.preferences.lastLoginPageId = StartPage.TIME_BIRTH.pageId
 
         unselectAllIndicators()
         binding.indicator3.background = ContextCompat.getDrawable(
@@ -448,6 +498,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupPlaceBirth() {
         currentStartPage = StartPage.PLACE_BIRTH
+        App.preferences.lastLoginPageId = StartPage.PLACE_BIRTH.pageId
 
         unselectAllIndicators()
         binding.indicator4.background = ContextCompat.getDrawable(
@@ -478,6 +529,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupBodygraph() {
         currentStartPage = StartPage.BODYGRAPH
+        App.preferences.lastLoginPageId = StartPage.BODYGRAPH.pageId
+        Log.d("keke", "3")
     }
 
     private fun unselectAllIndicators() {
@@ -546,7 +599,22 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 }
                 StartPage.PLACE_BIRTH -> {
                     animateCirclesBtwPages(1000)
-                    setupBodygraph()
+
+                    lifecycleScope.launch {
+                        baseViewModel.createNewUser(
+                            name = binding.nameET.text.toString(),
+                            place = binding.placeET.text.toString(),
+                            date = binding.date.date,
+                            time = String.format("%02d", binding.time.hour) + ":" + String.format("%02d", binding.time.minute)
+                        )
+                        setupBodygraph()
+                    }
+
+                }
+                StartPage.BODYGRAPH -> {
+                    App.preferences.lastLoginPageId = -1
+                    Log.d("keke", App.preferences.lastLoginPageId.toString())
+                    Navigator.startToBodygraph(this@StartFragment)
                 }
             }
         }
@@ -624,7 +692,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         rotate.repeatCount = Animation.INFINITE
         rotate.fillAfter = true
-        rotate.duration = 10000
+        rotate.duration = 100000
         rotate.interpolator = LinearInterpolator()
 
         val rotateNegative = RotateAnimation(
@@ -637,7 +705,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         )
         rotateNegative.repeatCount = Animation.INFINITE
         rotateNegative.fillAfter = true
-        rotateNegative.duration = 10000
+        rotateNegative.duration = 100000
 //        rotateNegative.interpolator = LinearInterpolator()
 
         binding.icSplashBigCircle.startAnimation(rotate)
@@ -646,11 +714,11 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     }
 }
 
-enum class StartPage {
-    RAVE,
-    NAME,
-    DATE_BIRTH,
-    TIME_BIRTH,
-    PLACE_BIRTH,
-    BODYGRAPH
+enum class StartPage(val pageId: Int) {
+    RAVE(5),
+    NAME(6),
+    DATE_BIRTH(7),
+    TIME_BIRTH(8),
+    PLACE_BIRTH(9),
+    BODYGRAPH(10)
 }

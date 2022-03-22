@@ -5,10 +5,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.get.hd.di.scope.ViewModelKey
+import ru.get.hd.ui.affirmation.AffirmationViewModel
+import ru.get.hd.ui.bodygraph.BodygraphViewModel
+import ru.get.hd.ui.compatibility.CompatibilityViewModel
 import ru.get.hd.ui.faq.FaqViewModel
 import ru.get.hd.ui.settings.SettingsViewModel
 import ru.get.hd.ui.splash.SplashViewModel
 import ru.get.hd.ui.start.StartViewModel
+import ru.get.hd.ui.transit.TransitViewModel
 import ru.get.hd.vm.BaseViewModel
 
 @Module
@@ -38,5 +42,25 @@ interface CommonViewModelModule {
     @IntoMap
     @ViewModelKey(FaqViewModel::class)
     fun faqViewModel(m: FaqViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BodygraphViewModel::class)
+    fun bodygraphViewModel(m: BodygraphViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TransitViewModel::class)
+    fun transitViewModel(m: TransitViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AffirmationViewModel::class)
+    fun affirmationViewModel(m: AffirmationViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CompatibilityViewModel::class)
+    fun compatibilityViewModel(m: CompatibilityViewModel): ViewModel
 
 }

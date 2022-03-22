@@ -35,10 +35,36 @@ class Preferences(context: Context) {
             .apply()
         get() = sharedPreferences.getBoolean(IS_PUSH_AVAILABLE, true)
 
-    var currentUserId: String?
-        set(value) = sharedPreferences.edit().putString(USER_ID, value).apply()
-        get() = sharedPreferences.getString(USER_ID, null)
+    var currentUserId: Long
+        set(value) = sharedPreferences.edit().putLong(USER_ID, value).apply()
+        get() = sharedPreferences.getLong(USER_ID, -1)
 
+    var newUserName: String?
+        set(value) = sharedPreferences.edit().putString(NEW_USER_NAME, value).apply()
+        get() = sharedPreferences.getString(NEW_USER_NAME, null)
+
+    var newUserDate: String?
+        set(value) = sharedPreferences.edit().putString(NEW_USER_DATE, value).apply()
+        get() = sharedPreferences.getString(NEW_USER_DATE, null)
+
+    var newUserTime: String?
+        set(value) = sharedPreferences.edit().putString(NEW_USER_TIME, value).apply()
+        get() = sharedPreferences.getString(NEW_USER_TIME, null)
+
+    var newUserPlace: String?
+        set(value) = sharedPreferences.edit().putString(NEW_USER_PLACE, value).apply()
+        get() = sharedPreferences.getString(NEW_USER_PLACE, null)
+
+    var lastLoginPageId: Int
+        set(value) = sharedPreferences.edit().putInt(LAST_LOGIN_PAGE_ID, value).apply()
+        get() = sharedPreferences.getInt(LAST_LOGIN_PAGE_ID, 0)
+
+    fun clearNewUserTemps() {
+        newUserName = null
+        newUserDate = null
+        newUserTime = null
+        newUserPlace = null
+    }
 
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"
@@ -50,5 +76,13 @@ class Preferences(context: Context) {
         const val IS_DARK_THEME = "is_dark_theme"
 
         const val IS_PUSH_AVAILABLE = "is_push_available"
+
+        const val NEW_USER_NAME = "new_user_name"
+        const val NEW_USER_DATE = "new_user_date"
+        const val NEW_USER_TIME = "new_user_time"
+        const val NEW_USER_PLACE = "new_user_place"
+
+        const val LAST_LOGIN_PAGE_ID = "last_login_page_id"
+
     }
 }

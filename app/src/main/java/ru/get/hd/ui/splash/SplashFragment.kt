@@ -39,7 +39,15 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
         prepareUI()
         startCirclesRotation()
-        setupSplash01()
+
+        when(App.preferences.lastLoginPageId) {
+            SplashPage.SPLASH_01.pageId -> setupSplash01()
+            SplashPage.SPLASH_02.pageId -> setupSplash02()
+            SplashPage.SPLASH_03.pageId -> setupSplash03()
+            SplashPage.SPLASH_04.pageId -> setupSplash04()
+            SplashPage.SPLASH_05.pageId -> setupSplash05()
+            else -> setupSplash01()
+        }
     }
 
     private fun prepareUI() {
@@ -95,6 +103,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
     private fun setupSplash01() {
         currentSplashPage = SplashPage.SPLASH_01
+        App.preferences.lastLoginPageId = SplashPage.SPLASH_01.pageId
 
         binding.icSplash0102Header.setImageAnimation(
             resId =
@@ -108,6 +117,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
     private fun setupSplash02() {
         currentSplashPage = SplashPage.SPLASH_02
+        App.preferences.lastLoginPageId = SplashPage.SPLASH_02.pageId
 
         if (!App.preferences.isDarkTheme) {
             binding.icSplash0102Header.setImageAnimation(
@@ -120,6 +130,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
     private fun setupSplash03() {
         currentSplashPage = SplashPage.SPLASH_03
+        App.preferences.lastLoginPageId = SplashPage.SPLASH_03.pageId
 
         binding.splash0102Container.alpha0(500) {
             binding.splash0102Container.isVisible = false
@@ -161,6 +172,8 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
     private fun setupSplash04() {
         currentSplashPage = SplashPage.SPLASH_04
+        App.preferences.lastLoginPageId = SplashPage.SPLASH_04.pageId
+
         unselectAllVariants()
 
         binding.titleSplash0304.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.title_splash_04))
@@ -178,6 +191,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
 
     private fun setupSplash05() {
         currentSplashPage = SplashPage.SPLASH_05
+        App.preferences.lastLoginPageId = SplashPage.SPLASH_05.pageId
 
         binding.splash0304Container.alpha0(500)
         binding.splash05Container.alpha1(500)
@@ -270,10 +284,10 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
     }
 }
 
-enum class SplashPage {
-    SPLASH_01,
-    SPLASH_02,
-    SPLASH_03,
-    SPLASH_04,
-    SPLASH_05
+enum class SplashPage(val pageId: Int) {
+    SPLASH_01(0),
+    SPLASH_02(1),
+    SPLASH_03(2),
+    SPLASH_04(3),
+    SPLASH_05(4)
 }

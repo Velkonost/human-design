@@ -10,6 +10,7 @@ import ru.get.hd.ui.NavigationResult
 import ru.get.hd.ui.faq.FaqFragment
 import ru.get.hd.ui.settings.SettingsFragment
 import ru.get.hd.ui.splash.SplashFragment
+import ru.get.hd.ui.start.StartFragment
 import kotlin.properties.Delegates
 
 object Navigator {
@@ -58,6 +59,9 @@ object Navigator {
         )
     }
 
+    fun startToBodygraph(f: StartFragment) {
+        f.findNavController().navigate(R.id.action_navigation_start_to_navigation_bodygraph)
+    }
 
 //    fun splashToAuth(f: Fragment) {
 //        val options = NavOptions.Builder()

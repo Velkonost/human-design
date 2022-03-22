@@ -1,15 +1,21 @@
 package ru.get.hd.vm
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
+import ru.get.hd.model.Affirmation
 import ru.get.hd.model.Faq
+import ru.get.hd.model.Forecast
 import ru.get.hd.model.User
 import ru.get.hd.repo.base.RestRepo
 import ru.get.hd.util.RxViewModel
 import ru.get.hd.util.SingleLiveEvent
+import ru.get.hd.util.ext.mutableLiveDataOf
 import javax.inject.Inject
 
 class BaseViewModel @Inject constructor(
@@ -21,6 +27,8 @@ class BaseViewModel @Inject constructor(
     val setupNavMenuEvent = SingleLiveEvent<String>()
 
     lateinit var currentUser: User
+    var currentAffirmation: MutableLiveData<Affirmation> = mutableLiveDataOf(Affirmation())
+    var currentForecast: MutableLiveData<Forecast> = mutableLiveDataOf(Forecast())
     val faqsList: MutableList<Faq> = mutableListOf()
 
     init {
@@ -28,15 +36,52 @@ class BaseViewModel @Inject constructor(
             EventBus.getDefault().register(this)
     }
 
+    fun setupCurrentForecast() {
+        val currentWeek = System.currentTimeMillis() / 604800000
+
+        if (currentUser.forecastWeekMills != currentWeek) {
+            currentUser.forecastNumber ++
+            currentUser.forecastWeekMills = currentWeek
+
+            updateUser()
+        }
+
+        repo.getForecasts()
+            .subscribe({
+                val allForecasts = mutableListOf<Forecast>()
+                it.values.forEach { list-> allForecasts.plusAssign(list) }
+
+                currentForecast.postValue(allForecasts[currentUser.forecastNumber % it.size])
+            }, {
+
+            }).disposeOnCleared()
+    }
+
+    fun setupCurrentAffirmation() {
+        val today = System.currentTimeMillis() / 86400000
+
+        if (currentUser.affirmationDayMills != today) {
+            currentUser.affirmationNumber ++
+            currentUser.affirmationDayMills = today
+
+            updateUser()
+        }
+
+        repo.getAffirmations()
+            .subscribe({
+                currentAffirmation.postValue(it[currentUser.affirmationNumber % it.size])
+            }, {}).disposeOnCleared()
+    }
+
     fun createNewUser(
         name: String,
         place: String,
-        date: String,
+        date: Long,
         time: String,
     ) {
 
         GlobalScope.launch {
-            val userId = System.currentTimeMillis().toString()
+            val userId = System.currentTimeMillis()
 
             App.database.userDao()
                 .insert(
@@ -53,6 +98,7 @@ class BaseViewModel @Inject constructor(
                     )
                 )
 
+            Log.d("keke", "1")
             App.preferences.currentUserId = userId
             setupCurrentUser()
         }
@@ -62,13 +108,16 @@ class BaseViewModel @Inject constructor(
     fun setupCurrentUser() {
         GlobalScope.launch {
             currentUser = App.database.userDao()
-                .findById(App.preferences.currentUserId!!)
+                .findById(App.preferences.currentUserId)
 
+            setupCurrentForecast()
+            setupCurrentAffirmation()
+            Log.d("keke", "2")
         }
     }
 
     fun deleteUser(
-        userIdToDelete: String
+        userIdToDelete: Long
     ) {
 
         GlobalScope.launch {

@@ -33,6 +33,7 @@
                 android:layout_marginBottom="12dp"
                 android:animateLayoutChanges="true"
                 android:elevation="4dp"
+                android:visibility="gone"
                 app:cardCornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent">
 
@@ -56,8 +57,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:navGraph="@navigation/mobile_navigation" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <FrameLayout
                 android:id="@+id/subContainer"
