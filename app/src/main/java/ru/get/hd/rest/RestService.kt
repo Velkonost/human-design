@@ -14,7 +14,7 @@ import ru.get.hd.model.TransitResponse
 interface RestService {
 
     //  Метод получения бодиграфа и описания типа человека,
-    @GET("/getdesign,php")
+    @GET("/getdesign.php")
     fun getDesign(
         @Query("language") language: String,
         @Query("lat") lat: String,

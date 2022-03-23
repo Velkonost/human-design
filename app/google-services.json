@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1062483768432",
-    "project_id": "getbetter-bd8dc",
-    "storage_bucket": "getbetter-bd8dc.appspot.com"
+    "project_number": "740588431855",
+    "project_id": "hdesign-aab91",
+    "storage_bucket": "hdesign-aab91.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1062483768432:android:11908fffa66287793870b5",
+        "mobilesdk_app_id": "1:740588431855:android:5fe171a5ddceb560aa2e1a",
         "android_client_info": {
           "package_name": "ru.get.hd"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1062483768432-k93hlbq39hhfljeat48d8irtsgftr5fe.apps.googleusercontent.com",
+          "client_id": "740588431855-gbv146349psdotfhtrilpe8jo511fvj9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBRNXgRfS8oybVewo2aDApHnq0i8fpeO70"
+          "current_key": "AIzaSyBpqzDOKfV3juri4D-lVcyUwn_FDFjmSac"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1062483768432-k93hlbq39hhfljeat48d8irtsgftr5fe.apps.googleusercontent.com",
+              "client_id": "740588431855-gbv146349psdotfhtrilpe8jo511fvj9.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

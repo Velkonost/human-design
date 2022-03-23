@@ -37,5 +37,21 @@ data class User(
     var lat: String,
 
     @ColumnInfo(name = "lon")
-    val lon: String
+    var lon: String,
+
+    @ColumnInfo(name = "subtitle1Ru")
+    var subtitle1Ru: String? = null,
+
+    @ColumnInfo(name = "subtitle1En")
+    var subtitle1En: String? = null,
+
+    @ColumnInfo(name = "subtitle2")
+    var subtitle2: String? = null,
+
+    @ColumnInfo(name = "subtitle3Ru")
+    var subtitle3Ru: String? = null,
+
+    @ColumnInfo(name = "subtitle3En")
+    var subtitle3En: String? = null
+
 )

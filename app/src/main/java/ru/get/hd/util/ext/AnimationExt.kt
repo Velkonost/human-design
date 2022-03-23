@@ -21,6 +21,21 @@ fun TextView.setTextAnimation(
     }
 }
 
+fun TextView.setTextAnimation07(
+    text: String,
+    duration: Long = 300,
+    completion: (() -> Unit)? = null
+) {
+    fadOutAnimation(duration) {
+        this.text = Html.fromHtml(text)
+        fad07Animation(duration) {
+            completion?.let {
+                it()
+            }
+        }
+    }
+}
+
 fun ImageView.setImageAnimation(
     resId: Int,
     duration: Long = 300,
@@ -63,6 +78,19 @@ fun View.fadInAnimation(duration: Long = 300, completion: (() -> Unit)? = null) 
         }
 }
 
+fun View.fad07Animation(duration: Long = 300, completion: (() -> Unit)? = null) {
+    alpha = 0f
+    visibility = View.VISIBLE
+    animate()
+        .alpha(0.7f)
+        .setDuration(duration)
+        .withEndAction {
+            completion?.let {
+                it()
+            }
+        }
+}
+
 
 fun View.alpha0(duration: Long, onEnd: () -> Unit = {}) {
     animate()
@@ -92,6 +120,58 @@ fun View.alpha0(duration: Long, onEnd: () -> Unit = {}) {
 fun View.alpha1(duration: Long, onEnd: () -> Unit = {}) {
     animate()
         .alpha(1f)
+        .setDuration(duration)
+        .setListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+                super.onAnimationStart(animation, isReverse)
+            }
+
+            override fun onAnimationStart(animation: Animator?) {}
+
+            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+                super.onAnimationEnd(animation, isReverse)
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                onEnd.invoke()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {}
+
+            override fun onAnimationRepeat(animation: Animator?) {}
+        })
+}
+
+fun View.translationYalpha0(y: Float, duration: Long, onEnd: () -> Unit = {}) {
+    animate()
+        .alpha(0f)
+        .translationY(y)
+        .setDuration(duration)
+        .setListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+                super.onAnimationStart(animation, isReverse)
+            }
+
+            override fun onAnimationStart(animation: Animator?) {}
+
+            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+                super.onAnimationEnd(animation, isReverse)
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                onEnd.invoke()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {}
+
+            override fun onAnimationRepeat(animation: Animator?) {}
+        })
+}
+
+fun View.translationYalpha1(y: Float, duration: Long, onEnd: () -> Unit = {}) {
+    animate()
+        .alpha(1f)
+        .translationY(y)
         .setDuration(duration)
         .setListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {

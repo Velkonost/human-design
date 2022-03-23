@@ -18,7 +18,7 @@ data class TransitResponse(
 
 @Parcelize
 data class TransitionGate(
-    @field:JsonProperty("number") val number: Int = 0,
+    @field:JsonProperty("number") val number: String = "",
     @field:JsonProperty("title") val title: String = "",
     @field:JsonProperty("description") val description: String = "",
 ) : Parcelable

@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -29,9 +30,16 @@ import ru.get.hd.R
 import ru.get.hd.databinding.ActivityMainBinding
 import ru.get.hd.event.PermissionGrantedEvent
 import ru.get.hd.event.SetupNavMenuEvent
+import ru.get.hd.event.ToBodygraphClickEvent
+import ru.get.hd.event.UpdateToBodygraphCardStateEvent
 import ru.get.hd.ui.base.BaseActivity
 import ru.get.hd.ui.splash.SplashPage
 import ru.get.hd.ui.start.StartPage
+import ru.get.hd.util.convertDpToPx
+import ru.get.hd.util.ext.alpha0
+import ru.get.hd.util.ext.alpha1
+import ru.get.hd.util.ext.translationYalpha0
+import ru.get.hd.util.ext.translationYalpha1
 import ru.get.hd.vm.*
 import java.util.*
 
@@ -176,6 +184,25 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 else R.color.lightMenu
             )
         )
+
+        binding.toBodygraphTitle.text = App.resourcesProvider.getStringLocale(R.string.to_bodygraph)
+        binding.toBodygraphTitle.setTextColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.icToBodygraphArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.toBodygraphCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+            else R.color.lightSettingsCard
+        ))
     }
 
     private fun setupNavMenu() {
@@ -190,6 +217,27 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navView.itemIconTintList = null
     }
 
-    inner class Handler
+    private fun updateToBodygraphCard(isVisible: Boolean) {
+        if (isVisible) {
+            binding.toBodygraphCard.translationYalpha1(this.convertDpToPx(0f), 500)
+            binding.toBodygraphContainer.translationYalpha1(this.convertDpToPx(0f), 500)
+        } else {
+            binding.toBodygraphCard.translationYalpha0(this.convertDpToPx(20f), 500)
+            binding.toBodygraphContainer.translationYalpha0(this.convertDpToPx(20f), 500)
+        }
+    }
+
+    @Subscribe
+    fun onUpdateToBodygraphCardStateEvent(e: UpdateToBodygraphCardStateEvent) {
+        updateToBodygraphCard(e.isVisible)
+    }
+
+    inner class Handler {
+
+        fun onToBodygraphClicked(v: View) {
+            updateToBodygraphCard(false)
+            EventBus.getDefault().post(ToBodygraphClickEvent())
+        }
+    }
 
 }

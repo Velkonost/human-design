@@ -3,6 +3,8 @@ package ru.get.hd.di
 import dagger.Module
 import ru.get.hd.ui.affirmation.di.AffirmationModule
 import ru.get.hd.ui.bodygraph.di.BodygraphModule
+import ru.get.hd.ui.bodygraph.first.di.BodygraphFirstModule
+import ru.get.hd.ui.bodygraph.second.di.BodygraphSecondModule
 import ru.get.hd.ui.compatibility.di.CompatibilityModule
 import ru.get.hd.ui.faq.detail.di.FaqDetailModule
 import ru.get.hd.ui.faq.di.FaqModule
@@ -21,7 +23,9 @@ import ru.get.hd.ui.transit.di.TransitModule
         BodygraphModule::class,
         TransitModule::class,
         AffirmationModule::class,
-        CompatibilityModule::class
+        CompatibilityModule::class,
+        BodygraphFirstModule::class,
+        BodygraphSecondModule::class
     ]
 )
 class FragmentsModule

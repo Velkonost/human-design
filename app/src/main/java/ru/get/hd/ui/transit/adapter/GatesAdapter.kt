@@ -11,6 +11,7 @@ import ru.get.hd.R
 import ru.get.hd.model.TransitionChannel
 import ru.get.hd.model.TransitionGate
 import ru.get.hd.util.ext.setTextAnimation
+import ru.get.hd.util.ext.setTextAnimation07
 
 class GatesAdapter : EpoxyAdapter() {
 
@@ -34,8 +35,8 @@ class GateModel(
 //        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
 
         with(view) {
-            channelTitle.text = model.title
-            channelDesc.text = model.description
+            channelTitle.setTextAnimation(model.title)
+            channelDesc.setTextAnimation07(model.description)
             number.setTextAnimation(model.number.toString())
 
             channelTitle.setTextColor(

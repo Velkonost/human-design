@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
+import android.location.Address
 import android.location.Geocoder
 import android.location.LocationListener
 import android.location.LocationManager
@@ -21,20 +22,28 @@ import androidx.core.animation.doOnEnd
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_start.*
+import kotlinx.android.synthetic.main.view_place_select.view.*
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.App.Companion.LOCATION_REQUEST_CODE
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentStartBinding
 import ru.get.hd.event.PermissionGrantedEvent
+import ru.get.hd.event.PlaceSelectedEvent
+import ru.get.hd.model.Place
 import ru.get.hd.navigation.Navigator
 import ru.get.hd.ui.base.BaseFragment
+import ru.get.hd.ui.start.adapter.PlacesAdapter
 import ru.get.hd.util.Keyboard
 import ru.get.hd.util.convertDpToPx
 import ru.get.hd.util.ext.alpha0
@@ -64,6 +73,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         )
     }
 
+    private val placesAdapter: PlacesAdapter by lazy {
+        PlacesAdapter()
+    }
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
@@ -74,7 +87,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         mLocationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
         setupLocationListener()
 
-        when(App.preferences.lastLoginPageId) {
+        when (App.preferences.lastLoginPageId) {
             StartPage.RAVE.pageId -> setupRave()
             StartPage.NAME.pageId -> {
                 animateCirclesBtwPages(1000)
@@ -98,6 +111,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             }
             else -> setupRave()
         }
+
+        setupPlacesView()
 
 //        binding.nameET.addTextChangedListener {
 //            if (!binding.nameET.text.isNullOrEmpty() && ::geocoder.isInitialized) {
@@ -175,19 +190,22 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private val mLocationListener: LocationListener = LocationListener {
         if (::geocoder.isInitialized) {
-            val currentLocationVariants = geocoder.getFromLocation(it.latitude, it.longitude, 10)
+            kotlin.runCatching {
+                val currentLocationVariants =
+                    geocoder.getFromLocation(it.latitude, it.longitude, 10)
 
-            if (
-                currentLocationVariants.isNotEmpty()
-                && currentLocationVariants.any { variant ->
-                    !variant.locality.isNullOrEmpty() && !variant.countryName.isNullOrEmpty()
+                if (
+                    currentLocationVariants.isNotEmpty()
+                    && currentLocationVariants.any { variant ->
+                        !variant.locality.isNullOrEmpty() && !variant.countryName.isNullOrEmpty()
+                    }
+                ) {
+                    isCurrentLocationVariantSet = true
+
+                    selectedLat = currentLocationVariants[0].latitude.toString()
+                    selectedLon = currentLocationVariants[0].longitude.toString()
+                    binding.placeET.setText("${currentLocationVariants[0].locality}, ${currentLocationVariants[0].countryName}")
                 }
-            ) {
-                isCurrentLocationVariantSet = true
-
-                selectedLat = currentLocationVariants[0].latitude.toString()
-                selectedLon = currentLocationVariants[0].longitude.toString()
-                binding.placeET.setText("${currentLocationVariants[0].locality}, ${currentLocationVariants[0].countryName}")
             }
         }
     }
@@ -273,6 +291,85 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             )
         )
 
+        binding.placesView.newPlaceET.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+
+        binding.placesView.newPlaceET.setHintTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
+
+        binding.placesView.placesViewContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
+
+    }
+
+    private fun setupPlacesView() {
+        binding.placesView.placeRecycler.adapter = placesAdapter
+
+        binding.placesView.icArrow.setOnClickListener {
+            binding.placesView.isVisible = false
+            placesAdapter.createList(emptyList())
+        }
+
+        binding.placesView.newPlaceET.addTextChangedListener {
+            if (!binding.placesView.newPlaceET.text.isNullOrEmpty() && ::geocoder.isInitialized) {
+
+
+                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                    val suggestions = getSuggestions()
+                    val addresses: MutableList<Place> = mutableListOf()
+
+                    suggestions.forEach { suggestion ->
+                        if (addresses.none { it.name == "${suggestion.locality}, ${suggestion.countryName}" }) {
+                            addresses.add(
+                                Place(
+                                    name = "${suggestion.locality}, ${suggestion.countryName}",
+                                    lat = suggestion.latitude.toString(),
+                                    lon = suggestion.longitude.toString()
+                                )
+
+                            )
+                        }
+                    }
+                    placesAdapter.createList(addresses.toList())
+                }
+            }
+        }
+    }
+
+    private suspend fun getSuggestions(): List<Address> =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                geocoder.getFromLocationName(binding.placesView.newPlaceET.text.toString(), 300)
+            }
+        }
+
+
+    @Subscribe
+    fun onPlaceSelectedEvent(e: PlaceSelectedEvent) {
+        Keyboard.hide(requireActivity())
+
+        binding.placesView.isVisible = false
+        binding.placesView.newPlaceET.setText("")
+        placesAdapter.createList(emptyList())
+
+        binding.placeET.setText(e.place.name)
+        selectedLat = e.place.lat
+        selectedLon = e.place.lon
     }
 
     private var totalTranslationYForBigCircle = 0f
@@ -413,7 +510,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupRave() {
         currentStartPage = StartPage.RAVE
-
 
         binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_title))
         binding.raveDesc.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_desc)) {
@@ -573,6 +669,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     inner class Handler {
 
+        fun openPlacesView(v: View) {
+            binding.placesView.isVisible = true
+        }
+
         fun onBtnClicked(v: View) {
 
             when (currentStartPage) {
@@ -611,7 +711,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                             name = binding.nameET.text.toString(),
                             place = binding.placeET.text.toString(),
                             date = binding.date.date,
-                            time = String.format("%02d", binding.time.hour) + ":" + String.format("%02d", binding.time.minute),
+                            time = String.format(
+                                "%02d",
+                                binding.time.hour
+                            ) + ":" + String.format("%02d", binding.time.minute),
                             lat = selectedLat,
                             lon = selectedLon
                         )

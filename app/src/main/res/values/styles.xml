@@ -21,6 +21,17 @@
         <!--        <item name="colorControlActivated">@color/colorLightPrimaryStyles</item>-->
     </style>
 
+    <style name="ToBodygraphCard" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ToBodygraphCardCorners</item>
+    </style>
+
+    <style name="ToBodygraphCardCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">35dp</item>
+        <item name="cornerSizeTopLeft">35dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
 
     <style name="ToolBarStyle" parent="">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>

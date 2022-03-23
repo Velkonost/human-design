@@ -18,8 +18,21 @@ data class GetDesignResponse(
     @field:JsonProperty("authority") val authority: Authority = Authority(),
     @field:JsonProperty("active_centres") val activeCentres: List<Center> = listOf(),
     @field:JsonProperty("inactive_centres") val inactiveCentres: List<Center> = listOf(),
+    @field:JsonProperty("design") val design: Design = Design(),
+    @field:JsonProperty("personality") val personality: Personality = Personality(),
+    @field:JsonProperty("description") val description: GetDesignDescription = GetDesignDescription(),
 
-    ) : Parcelable
+) : Parcelable
+
+@Parcelize
+data class Design(
+    @field:JsonProperty("planets") val planets: List<Planet> = listOf(),
+): Parcelable
+
+@Parcelize
+data class Personality(
+    @field:JsonProperty("planets") val planets: List<Planet> = listOf(),
+): Parcelable
 
 @Parcelize
 data class Authority(
@@ -48,4 +61,10 @@ data class GetDesignDescription(
     @field:JsonProperty("type_title") val typeTitle: String = "",
     @field:JsonProperty("profile") val profile: String = "",
     @field:JsonProperty("profile_title") val profileTitle: String = "",
+    @field:JsonProperty("gates") val gates: HashMap<String, String> = hashMapOf(),
+    @field:JsonProperty("gates_titles") val gatesTitles: HashMap<String, String> = hashMapOf(),
+    @field:JsonProperty("channels") val channels: HashMap<String, String> = hashMapOf(),
+    @field:JsonProperty("channels_titles") val channelsTitles: HashMap<String, String> = hashMapOf(),
+
 ) : Parcelable
+

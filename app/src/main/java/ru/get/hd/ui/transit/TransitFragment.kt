@@ -8,28 +8,20 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import kotlinx.android.synthetic.main.item_affirmation.view.*
-import kotlinx.android.synthetic.main.item_forecast.view.*
 import kotlinx.android.synthetic.main.item_transit_channels.view.*
 import kotlinx.android.synthetic.main.item_transit_gates.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import ru.get.hd.App
-import ru.get.hd.BuildConfig
 import ru.get.hd.R
-import ru.get.hd.databinding.FragmentBodygraphBinding
 import ru.get.hd.databinding.FragmentTransitBinding
 import ru.get.hd.ui.base.BaseFragment
-import ru.get.hd.ui.bodygraph.BodygraphViewModel
 import ru.get.hd.ui.transit.adapter.ChannelsAdapter
 import ru.get.hd.ui.transit.adapter.GatesAdapter
+import ru.get.hd.util.ext.alpha1
 import ru.get.hd.util.ext.setTextAnimation
 import ru.get.hd.vm.BaseViewModel
-import java.util.*
 
 class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     R.layout.fragment_transit,
@@ -83,10 +75,11 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
-            ) {}
+            ) {
+            }
 
             override fun onPageSelected(position: Int) {
-                when(position) {
+                when (position) {
                     0 -> selectGates()
                     else -> selectChannels()
                 }
@@ -164,47 +157,125 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                         gatesAdapter.createList(it.onlyCurrentGates)
 
 
-                        view.leftZnak1.text = "${it.birthDesignPlanets[0].gate}.${it.birthDesignPlanets[0].line}"
-                        view.leftZnak2.text = "${it.birthDesignPlanets[1].gate}.${it.birthDesignPlanets[1].line}"
-                        view.leftZnak3.text = "${it.birthDesignPlanets[2].gate}.${it.birthDesignPlanets[2].line}"
-                        view.leftZnak4.text = "${it.birthDesignPlanets[3].gate}.${it.birthDesignPlanets[3].line}"
-                        view.leftZnak5.text = "${it.birthDesignPlanets[4].gate}.${it.birthDesignPlanets[4].line}"
-                        view.leftZnak6.text = "${it.birthDesignPlanets[5].gate}.${it.birthDesignPlanets[5].line}"
-                        view.leftZnak7.text = "${it.birthDesignPlanets[6].gate}.${it.birthDesignPlanets[6].line}"
-                        view.leftZnak8.text = "${it.birthDesignPlanets[7].gate}.${it.birthDesignPlanets[7].line}"
-                        view.leftZnak9.text = "${it.birthDesignPlanets[8].gate}.${it.birthDesignPlanets[8].line}"
-                        view.leftZnak10.text = "${it.birthDesignPlanets[9].gate}.${it.birthDesignPlanets[9].line}"
-                        view.leftZnak11.text = "${it.birthDesignPlanets[10].gate}.${it.birthDesignPlanets[10].line}"
-                        view.leftZnak12.text = "${it.birthDesignPlanets[11].gate}.${it.birthDesignPlanets[11].line}"
-                        view.leftZnak13.text = "${it.birthDesignPlanets[12].gate}.${it.birthDesignPlanets[12].line}"
+                        view.leftZnak1.setTextAnimation("${it.birthDesignPlanets[0].gate}.${it.birthDesignPlanets[0].line}") {
+                            view.designTitle.alpha1(500)
+                            view.znak1Red.alpha1(500)
+                        }
 
-                        view.rightZnak1.text = "${it.currentDesignPlanets[0].gate}.${it.currentDesignPlanets[0].line}"
-                        view.rightZnak2.text = "${it.currentDesignPlanets[1].gate}.${it.currentDesignPlanets[1].line}"
-                        view.rightZnak3.text = "${it.currentDesignPlanets[2].gate}.${it.currentDesignPlanets[2].line}"
-                        view.rightZnak4.text = "${it.currentDesignPlanets[3].gate}.${it.currentDesignPlanets[3].line}"
-                        view.rightZnak5.text = "${it.currentDesignPlanets[4].gate}.${it.currentDesignPlanets[4].line}"
-                        view.rightZnak6.text = "${it.currentDesignPlanets[5].gate}.${it.currentDesignPlanets[5].line}"
-                        view.rightZnak7.text = "${it.currentDesignPlanets[6].gate}.${it.currentDesignPlanets[6].line}"
-                        view.rightZnak8.text = "${it.currentDesignPlanets[7].gate}.${it.currentDesignPlanets[7].line}"
-                        view.rightZnak9.text = "${it.currentDesignPlanets[8].gate}.${it.currentDesignPlanets[8].line}"
-                        view.rightZnak10.text = "${it.currentDesignPlanets[9].gate}.${it.currentDesignPlanets[9].line}"
-                        view.rightZnak11.text = "${it.currentDesignPlanets[10].gate}.${it.currentDesignPlanets[10].line}"
-                        view.rightZnak12.text = "${it.currentDesignPlanets[11].gate}.${it.currentDesignPlanets[11].line}"
-                        view.rightZnak13.text = "${it.currentDesignPlanets[12].gate}.${it.currentDesignPlanets[12].line}"
+                        view.leftZnak2.setTextAnimation("${it.birthDesignPlanets[1].gate}.${it.birthDesignPlanets[1].line}") {
+                            view.znak2Red.alpha1(500)
+                        }
 
-                        view.blueZnak1.text = "${it.currentPersonalityPlanets[0].gate}.${it.currentPersonalityPlanets[0].line}"
-                        view.blueZnak2.text = "${it.currentPersonalityPlanets[1].gate}.${it.currentPersonalityPlanets[1].line}"
-                        view.blueZnak3.text = "${it.currentPersonalityPlanets[2].gate}.${it.currentPersonalityPlanets[2].line}"
-                        view.blueZnak4.text = "${it.currentPersonalityPlanets[3].gate}.${it.currentPersonalityPlanets[3].line}"
-                        view.blueZnak5.text = "${it.currentPersonalityPlanets[4].gate}.${it.currentPersonalityPlanets[4].line}"
-                        view.blueZnak6.text = "${it.currentPersonalityPlanets[5].gate}.${it.currentPersonalityPlanets[5].line}"
-                        view.blueZnak7.text = "${it.currentPersonalityPlanets[6].gate}.${it.currentPersonalityPlanets[6].line}"
-                        view.blueZnak8.text = "${it.currentPersonalityPlanets[7].gate}.${it.currentPersonalityPlanets[7].line}"
-                        view.blueZnak9.text = "${it.currentPersonalityPlanets[8].gate}.${it.currentPersonalityPlanets[8].line}"
-                        view.blueZnak10.text = "${it.currentPersonalityPlanets[9].gate}.${it.currentPersonalityPlanets[9].line}"
-                        view.blueZnak11.text = "${it.currentPersonalityPlanets[10].gate}.${it.currentPersonalityPlanets[10].line}"
-                        view.blueZnak12.text = "${it.currentPersonalityPlanets[11].gate}.${it.currentPersonalityPlanets[11].line}"
-                        view.blueZnak13.text = "${it.currentPersonalityPlanets[12].gate}.${it.currentPersonalityPlanets[12].line}"
+                        view.leftZnak3.setTextAnimation("${it.birthDesignPlanets[2].gate}.${it.birthDesignPlanets[2].line}") {
+                            view.znak3Red.alpha1(500)
+                        }
+
+                        view.leftZnak4.setTextAnimation("${it.birthDesignPlanets[3].gate}.${it.birthDesignPlanets[3].line}") {
+                            view.znak4Red.alpha1(500)
+                        }
+
+                        view.leftZnak5.setTextAnimation("${it.birthDesignPlanets[4].gate}.${it.birthDesignPlanets[4].line}") {
+                            view.znak5Red.alpha1(500)
+                        }
+
+                        view.leftZnak6.setTextAnimation("${it.birthDesignPlanets[5].gate}.${it.birthDesignPlanets[5].line}") {
+                            view.znak6Red.alpha1(500)
+                        }
+
+                        view.leftZnak7.setTextAnimation("${it.birthDesignPlanets[6].gate}.${it.birthDesignPlanets[6].line}") {
+                            view.znak7Red.alpha1(500)
+                        }
+
+                        view.leftZnak8.setTextAnimation("${it.birthDesignPlanets[7].gate}.${it.birthDesignPlanets[7].line}") {
+                            view.znak8Red.alpha1(500)
+                        }
+
+                        view.leftZnak9.setTextAnimation("${it.birthDesignPlanets[8].gate}.${it.birthDesignPlanets[8].line}") {
+                            view.znak9Red.alpha1(500)
+                        }
+
+                        view.leftZnak10.setTextAnimation("${it.birthDesignPlanets[9].gate}.${it.birthDesignPlanets[9].line}") {
+                            view.znak10Red.alpha1(500)
+                        }
+
+                        view.leftZnak11.setTextAnimation("${it.birthDesignPlanets[10].gate}.${it.birthDesignPlanets[10].line}") {
+                            view.znak11Red.alpha1(500)
+                        }
+
+                        view.leftZnak12.setTextAnimation("${it.birthDesignPlanets[11].gate}.${it.birthDesignPlanets[11].line}") {
+                            view.znak12Red.alpha1(500)
+                        }
+
+                        view.leftZnak13.setTextAnimation("${it.birthDesignPlanets[12].gate}.${it.birthDesignPlanets[12].line}") {
+                            view.znak13Red.alpha1(500)
+                        }
+
+                        view.rightZnak1.setTextAnimation("${it.currentDesignPlanets[0].gate}.${it.currentDesignPlanets[0].line}")
+                        view.rightZnak2.setTextAnimation("${it.currentDesignPlanets[1].gate}.${it.currentDesignPlanets[1].line}")
+                        view.rightZnak3.setTextAnimation("${it.currentDesignPlanets[2].gate}.${it.currentDesignPlanets[2].line}")
+                        view.rightZnak4.setTextAnimation("${it.currentDesignPlanets[3].gate}.${it.currentDesignPlanets[3].line}")
+                        view.rightZnak5.setTextAnimation("${it.currentDesignPlanets[4].gate}.${it.currentDesignPlanets[4].line}")
+                        view.rightZnak6.setTextAnimation("${it.currentDesignPlanets[5].gate}.${it.currentDesignPlanets[5].line}")
+                        view.rightZnak7.setTextAnimation("${it.currentDesignPlanets[6].gate}.${it.currentDesignPlanets[6].line}")
+                        view.rightZnak8.setTextAnimation("${it.currentDesignPlanets[7].gate}.${it.currentDesignPlanets[7].line}")
+                        view.rightZnak9.setTextAnimation("${it.currentDesignPlanets[8].gate}.${it.currentDesignPlanets[8].line}")
+                        view.rightZnak10.setTextAnimation("${it.currentDesignPlanets[9].gate}.${it.currentDesignPlanets[9].line}")
+                        view.rightZnak11.setTextAnimation("${it.currentDesignPlanets[10].gate}.${it.currentDesignPlanets[10].line}")
+                        view.rightZnak12.setTextAnimation("${it.currentDesignPlanets[11].gate}.${it.currentDesignPlanets[11].line}")
+                        view.rightZnak13.setTextAnimation("${it.currentDesignPlanets[12].gate}.${it.currentDesignPlanets[12].line}")
+
+                        view.blueZnak1.setTextAnimation("${it.currentPersonalityPlanets[0].gate}.${it.currentPersonalityPlanets[0].line}") {
+                            view.transitTitle.alpha1(500)
+                            view.znak1Blue.alpha1(500)
+                        }
+
+                        view.blueZnak2.setTextAnimation("${it.currentPersonalityPlanets[1].gate}.${it.currentPersonalityPlanets[1].line}") {
+                            view.znak2Blue.alpha1(500)
+                        }
+
+                        view.blueZnak3.setTextAnimation("${it.currentPersonalityPlanets[2].gate}.${it.currentPersonalityPlanets[2].line}") {
+                            view.znak3Blue.alpha1(500)
+                        }
+
+                        view.blueZnak4.setTextAnimation("${it.currentPersonalityPlanets[3].gate}.${it.currentPersonalityPlanets[3].line}") {
+                            view.znak4Blue.alpha1(500)
+                        }
+
+                        view.blueZnak5.setTextAnimation("${it.currentPersonalityPlanets[4].gate}.${it.currentPersonalityPlanets[4].line}") {
+                            view.znak5Blue.alpha1(500)
+                        }
+
+                        view.blueZnak6.setTextAnimation("${it.currentPersonalityPlanets[5].gate}.${it.currentPersonalityPlanets[5].line}") {
+                            view.znak6Blue.alpha1(500)
+                        }
+
+                        view.blueZnak7.setTextAnimation("${it.currentPersonalityPlanets[6].gate}.${it.currentPersonalityPlanets[6].line}") {
+                            view.znak7Blue.alpha1(500)
+                        }
+
+                        view.blueZnak8.setTextAnimation("${it.currentPersonalityPlanets[7].gate}.${it.currentPersonalityPlanets[7].line}") {
+                            view.znak8Blue.alpha1(500)
+                        }
+
+                        view.blueZnak9.setTextAnimation("${it.currentPersonalityPlanets[8].gate}.${it.currentPersonalityPlanets[8].line}") {
+                            view.znak9Blue.alpha1(500)
+                        }
+
+                        view.blueZnak10.setTextAnimation("${it.currentPersonalityPlanets[9].gate}.${it.currentPersonalityPlanets[9].line}") {
+                            view.znak10Blue.alpha1(500)
+                        }
+
+                        view.blueZnak11.setTextAnimation("${it.currentPersonalityPlanets[10].gate}.${it.currentPersonalityPlanets[10].line}") {
+                            view.znak11Blue.alpha1(500)
+                        }
+
+                        view.blueZnak12.setTextAnimation("${it.currentPersonalityPlanets[11].gate}.${it.currentPersonalityPlanets[11].line}") {
+                            view.znak12Blue.alpha1(500)
+                        }
+
+                        view.blueZnak13.setTextAnimation("${it.currentPersonalityPlanets[12].gate}.${it.currentPersonalityPlanets[12].line}") {
+                            view.znak13Blue.alpha1(500)
+                        }
                     }
 
 

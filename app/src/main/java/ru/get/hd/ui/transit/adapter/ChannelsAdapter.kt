@@ -15,6 +15,7 @@ import ru.get.hd.event.FaqClickedEvent
 import ru.get.hd.model.Faq
 import ru.get.hd.model.TransitionChannel
 import ru.get.hd.util.ext.setTextAnimation
+import ru.get.hd.util.ext.setTextAnimation07
 
 class ChannelsAdapter : EpoxyAdapter() {
 
@@ -38,8 +39,8 @@ class ChannelModel(
 //        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
 
         with(view) {
-            channelTitle.text = model.title
-            channelDesc.text = model.description
+            channelTitle.setTextAnimation(model.title)
+            channelDesc.setTextAnimation07(model.description)
             number.setTextAnimation(model.number)
 
             channelTitle.setTextColor(ContextCompat.getColor(

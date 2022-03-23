@@ -11,6 +11,7 @@ import ru.get.hd.App
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.Faq
 import ru.get.hd.model.Forecast
+import ru.get.hd.model.GetDesignResponse
 import ru.get.hd.model.TransitResponse
 import ru.get.hd.model.User
 import ru.get.hd.repo.base.RestRepo
@@ -30,7 +31,11 @@ class BaseViewModel @Inject constructor(
     val successEvent = SingleLiveEvent<String>()
     val setupNavMenuEvent = SingleLiveEvent<String>()
 
+    val currentUserSetupEvent = SingleLiveEvent<Boolean>()
+
+    fun isCurrentUserInitialized() = ::currentUser.isInitialized
     lateinit var currentUser: User
+    var currentBodygraph: MutableLiveData<GetDesignResponse> = mutableLiveDataOf(GetDesignResponse())
     var currentAffirmation: MutableLiveData<Affirmation> = mutableLiveDataOf(Affirmation())
     var currentForecast: MutableLiveData<Forecast> = mutableLiveDataOf(Forecast())
     var currentTransit: MutableLiveData<TransitResponse> = mutableLiveDataOf(TransitResponse())
@@ -40,6 +45,36 @@ class BaseViewModel @Inject constructor(
     init {
         if (EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this)
+    }
+
+    fun setupCurrentBodygraph() {
+        val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
+        val calendar: Calendar = Calendar.getInstance()
+
+        calendar.timeInMillis = currentUser.date
+        val dateStr = formatter.format(calendar.time)
+
+        repo.getDesign(
+            language = App.preferences.locale,
+            lat = currentUser.lat,
+            lon = currentUser.lon,
+            date = dateStr
+        ).subscribe({
+            currentUser.subtitle1Ru = it.typeRu
+            currentUser.subtitle1En = it.typeEn
+
+            currentUser.subtitle2 = it.line
+
+            currentUser.subtitle3Ru = it.profileRu
+            currentUser.subtitle3En = it.profileEn
+
+            updateUser()
+
+            currentBodygraph.postValue(it)
+        }, {
+
+            Log.d("keke", "keek")
+        }).disposeOnCleared()
     }
 
     fun setupCurrentTransit() {
@@ -60,7 +95,6 @@ class BaseViewModel @Inject constructor(
             currentDate = currentDateStr
         ).subscribe({
             currentTransit.postValue(it)
-            Log.d("keke", "lele")
         }, {
 
         }).disposeOnCleared()
@@ -144,9 +178,12 @@ class BaseViewModel @Inject constructor(
             currentUser = App.database.userDao()
                 .findById(App.preferences.currentUserId)
 
+            setupCurrentBodygraph()
             setupCurrentForecast()
             setupCurrentAffirmation()
             setupCurrentTransit()
+
+            currentUserSetupEvent.postValue(true)
             Log.d("keke", "2")
         }
     }

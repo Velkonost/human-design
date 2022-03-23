@@ -45,7 +45,7 @@
 
                     <TextView
                         android:id="@+id/designTitle"
-                        android:text="ДИЗАЙН"
+                        android:alpha="0"
                         android:textAllCaps="true"
                         android:textColor="#BC4D68"
                         android:textSize="12sp"
@@ -56,7 +56,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -68,6 +68,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak1Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_1_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -85,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -97,6 +99,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak2Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_2_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -114,7 +118,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -126,6 +130,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak3Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_3_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -143,7 +149,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -155,6 +161,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak4Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_4_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -172,7 +180,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -184,6 +192,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak5Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_5_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -201,7 +211,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -213,6 +223,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak6Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_6_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -230,7 +242,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -242,6 +254,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak7Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_7_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -259,7 +273,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -271,6 +285,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak8Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_8_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -287,7 +303,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -299,6 +315,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak9Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_9_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -315,7 +333,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -327,6 +345,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak10Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_10_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -343,7 +363,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -355,6 +375,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak11Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_11_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -371,7 +393,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -383,6 +405,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak12Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_12_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -400,7 +424,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_gravity="start"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -412,6 +436,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak13Red"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_13_red"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -437,7 +463,7 @@
 
                     <TextView
                         android:id="@+id/transitTitle"
-                        android:text="ДИЗАЙН"
+                        android:alpha="0"
                         android:textColor="#5352BD"
                         android:textSize="12sp"
                         android:textAllCaps="true"
@@ -460,6 +486,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak1Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_1_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -483,6 +511,7 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak2Blue"
                             android:src="@drawable/ic_znak_2_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -506,6 +535,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak3Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_3_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -528,6 +559,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak4Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_4_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -550,6 +583,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak5Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_5_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -573,6 +608,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak6Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_6_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -595,6 +632,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak7Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_7_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -618,6 +657,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak8Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_8_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -640,6 +681,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak9Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_9_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -662,6 +705,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak10Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_10_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -684,6 +729,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak11Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_11_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -705,6 +752,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak12Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_12_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
@@ -728,6 +777,8 @@
                             android:layout_height="wrap_content"/>
 
                         <ImageView
+                            android:id="@+id/znak13Blue"
+                            android:alpha="0"
                             android:src="@drawable/ic_znak_13_blue"
                             android:layout_marginStart="6dp"
                             android:layout_width="@dimen/transit_znak_size"
