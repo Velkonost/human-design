@@ -32,4 +32,10 @@ data class User(
 
     @ColumnInfo(name = "forecastWeekMills")
     var forecastWeekMills: Long,
+
+    @ColumnInfo(name = "lat")
+    var lat: String,
+
+    @ColumnInfo(name = "lon")
+    val lon: String
 )

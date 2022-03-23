@@ -11,11 +11,15 @@ import ru.get.hd.App
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.Faq
 import ru.get.hd.model.Forecast
+import ru.get.hd.model.TransitResponse
 import ru.get.hd.model.User
 import ru.get.hd.repo.base.RestRepo
 import ru.get.hd.util.RxViewModel
 import ru.get.hd.util.SingleLiveEvent
 import ru.get.hd.util.ext.mutableLiveDataOf
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class BaseViewModel @Inject constructor(
@@ -29,11 +33,37 @@ class BaseViewModel @Inject constructor(
     lateinit var currentUser: User
     var currentAffirmation: MutableLiveData<Affirmation> = mutableLiveDataOf(Affirmation())
     var currentForecast: MutableLiveData<Forecast> = mutableLiveDataOf(Forecast())
+    var currentTransit: MutableLiveData<TransitResponse> = mutableLiveDataOf(TransitResponse())
+
     val faqsList: MutableList<Faq> = mutableListOf()
 
     init {
         if (EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this)
+    }
+
+    fun setupCurrentTransit() {
+        val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
+        val calendar: Calendar = Calendar.getInstance()
+
+        calendar.timeInMillis = currentUser.date
+        val dateStr = formatter.format(calendar.time)
+
+        calendar.timeInMillis = System.currentTimeMillis()
+        val currentDateStr = formatter.format(calendar.time)
+
+        repo.getTransit(
+            language = App.preferences.locale,
+            lat = currentUser.lat,
+            lon = currentUser.lon,
+            date = dateStr,
+            currentDate = currentDateStr
+        ).subscribe({
+            currentTransit.postValue(it)
+            Log.d("keke", "lele")
+        }, {
+
+        }).disposeOnCleared()
     }
 
     fun setupCurrentForecast() {
@@ -78,6 +108,8 @@ class BaseViewModel @Inject constructor(
         place: String,
         date: Long,
         time: String,
+        lat: String,
+        lon: String
     ) {
 
         GlobalScope.launch {
@@ -94,7 +126,9 @@ class BaseViewModel @Inject constructor(
                         affirmationNumber = 0,
                         forecastNumber = 0,
                         affirmationDayMills = System.currentTimeMillis() / 86400000,
-                        forecastWeekMills = System.currentTimeMillis() / 604800000
+                        forecastWeekMills = System.currentTimeMillis() / 604800000,
+                        lat = lat,
+                        lon = lon
                     )
                 )
 
@@ -112,6 +146,7 @@ class BaseViewModel @Inject constructor(
 
             setupCurrentForecast()
             setupCurrentAffirmation()
+            setupCurrentTransit()
             Log.d("keke", "2")
         }
     }

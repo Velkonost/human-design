@@ -67,5 +67,7 @@ class App : DaggerApplication() {
         const val READ_EXTERNAL_STORAGE_REQUEST_CODE = 123
         const val LOCATION_REQUEST_CODE = 99
 
+        const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
+
     }
 }

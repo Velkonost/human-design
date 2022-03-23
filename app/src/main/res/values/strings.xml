@@ -87,4 +87,13 @@
     <string name="next_affirmation_text">The next affirmation will be tomorrow</string>
     <string name="next_forecast_text">Individual forecast changes every Monday</string>
     <string name="affirmation_share">Share</string>
+    
+    <string name="daily_transits_title">Daily transits</string>
+    <string name="gates_title">Gates</string>
+    <string name="channels_title">Channels</string>
+    <string name="next_transit_text">the next transit will be tomorrow</string>
+
+    <string name="design_title">Дизайн</string>
+    <string name="transit_title">Транзит</string>
+
 </resources>

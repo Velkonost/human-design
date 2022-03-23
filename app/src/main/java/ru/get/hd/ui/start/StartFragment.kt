@@ -55,6 +55,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     private lateinit var geocoder: Geocoder
     private var isCurrentLocationVariantSet = false
 
+    private var selectedLat = ""
+    private var selectedLon = ""
+
     private val baseViewModel: BaseViewModel by lazy {
         ViewModelProviders.of(requireActivity()).get(
             BaseViewModel::class.java
@@ -181,6 +184,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 }
             ) {
                 isCurrentLocationVariantSet = true
+
+                selectedLat = currentLocationVariants[0].latitude.toString()
+                selectedLon = currentLocationVariants[0].longitude.toString()
                 binding.placeET.setText("${currentLocationVariants[0].locality}, ${currentLocationVariants[0].countryName}")
             }
         }
@@ -605,7 +611,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                             name = binding.nameET.text.toString(),
                             place = binding.placeET.text.toString(),
                             date = binding.date.date,
-                            time = String.format("%02d", binding.time.hour) + ":" + String.format("%02d", binding.time.minute)
+                            time = String.format("%02d", binding.time.hour) + ":" + String.format("%02d", binding.time.minute),
+                            lat = selectedLat,
+                            lon = selectedLon
                         )
                         setupBodygraph()
                     }
