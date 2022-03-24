@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.content.Context
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import dagger.android.HasAndroidInjector
 import ru.get.hd.di.AppModule
 import ru.get.hd.di.DaggerAppComponent
 import ru.get.hd.repo.AppDatabase
@@ -13,9 +14,21 @@ import ru.get.hd.rest.di.RetrofitModule
 import ru.get.hd.util.Preferences
 import ru.get.hd.util.ResourcesProvider
 import timber.log.Timber
+import dagger.android.DispatchingAndroidInjector
+
+import javax.inject.Inject
+
+import android.app.Activity
+import androidx.fragment.app.Fragment
+import com.github.terrakok.cicerone.Cicerone
 
 
 class App : DaggerApplication() {
+
+    private val cicerone = Cicerone.create()
+
+    val router get() = cicerone.router
+    val navigatorHolder get() = cicerone.getNavigatorHolder()
 
     private val appComponent = DaggerAppComponent.builder()
         .appModule(AppModule(this))
@@ -37,6 +50,8 @@ class App : DaggerApplication() {
 
         createNotificationChannel()
     }
+
+    fun getAppComponent() = appComponent
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> = appComponent
 
@@ -71,3 +86,4 @@ class App : DaggerApplication() {
 
     }
 }
+

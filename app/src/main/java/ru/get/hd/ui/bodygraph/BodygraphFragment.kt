@@ -2,6 +2,7 @@ package ru.get.hd.ui.bodygraph
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
@@ -21,6 +22,7 @@ import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.bodygraph.adapter.VerticalViewPagerAdapter
 import ru.get.hd.ui.faq.FaqFragment
 import ru.get.hd.ui.faq.FaqViewModel
+import ru.get.hd.ui.transit.TransitFragment
 import ru.get.hd.ui.view.VerticalViewPager
 import ru.get.hd.util.ext.alpha1
 import ru.get.hd.util.ext.setTextAnimation
@@ -46,9 +48,13 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         super.onLayoutReady(savedInstanceState)
 
         setupUserData()
-        setupViewPager()
+        android.os.Handler().postDelayed({
+            setupViewPager()
+        }, 50)
 
         EventBus.getDefault().post(SetupNavMenuEvent())
+
+        isFirstFragmentLaunch = false
     }
 
     @Subscribe
@@ -59,6 +65,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
     private fun setupViewPager() {
         binding.verticalViewPager.adapter = verticalViewPagerAdapter
+        binding.verticalViewPager.offscreenPageLimit = 1
         binding.verticalViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
@@ -72,26 +79,44 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
+        EventBus.getDefault().post(
+            UpdateToBodygraphCardStateEvent(
+                isVisible = binding.verticalViewPager.currentItem == 1
+            )
+        )
     }
 
     private fun setupUserData() {
         if (baseViewModel.isCurrentUserInitialized()) {
-            binding.userName.setTextAnimation(baseViewModel.currentUser.name)
+            if (isFirstFragmentLaunch)
+                binding.userName.setTextAnimation(baseViewModel.currentUser.name)
+            else binding.userName.text = baseViewModel.currentUser.name
         }
 
         baseViewModel.currentUserSetupEvent.observe(viewLifecycleOwner) {
             if (it) {
-                binding.userName.setTextAnimation(baseViewModel.currentUser.name)
+                if (isFirstFragmentLaunch)
+                    binding.userName.setTextAnimation(baseViewModel.currentUser.name)
+                else binding.userName.text = baseViewModel.currentUser.name
             }
         }
 
         baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
-            if (it.typeRu.isNotEmpty() && it.line.isNotEmpty() && it.profileRu.isNotEmpty())
-                binding.subtitle1.setTextAnimation(
-                    "${if (App.preferences.locale == "ru") it.typeRu else it.typeEn} • " +
+            if (it.typeRu.isNotEmpty() && it.line.isNotEmpty() && it.profileRu.isNotEmpty()) {
+                if (isFirstFragmentLaunch) {
+                    binding.subtitle1.setTextAnimation(
+                        "${if (App.preferences.locale == "ru") it.typeRu else it.typeEn} • " +
+                                "${it.line} • " +
+                                "${if (App.preferences.locale == "ru") it.profileRu else it.profileEn}"
+                    )
+                } else {
+                    binding.subtitle1.text =
+                        "${if (App.preferences.locale == "ru") it.typeRu else it.typeEn} • " +
                             "${it.line} • " +
                             "${if (App.preferences.locale == "ru") it.profileRu else it.profileEn}"
-                )
+                }
+            }
+
 
         }
     }
@@ -114,30 +139,20 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             if (App.preferences.isDarkTheme) R.color.lightColor
             else R.color.darkColor
         ))
+    }
 
-//        binding.subtitle2.setTextColor(ContextCompat.getColor(
-//            requireContext(),
-//            if (App.preferences.isDarkTheme) R.color.lightColor
-//            else R.color.darkColor
-//        ))
-//
-//        binding.subtitle3.setTextColor(ContextCompat.getColor(
-//            requireContext(),
-//            if (App.preferences.isDarkTheme) R.color.lightColor
-//            else R.color.darkColor
-//        ))
-//
-//        binding.subtitleSeparator1.background = ContextCompat.getDrawable(
-//            requireContext(),
-//            if (App.preferences.isDarkTheme) R.drawable.bg_subtitle_separator_dark
-//            else R.drawable.bg_subtitle_separator_light
-//        )
-//
-//        binding.subtitleSeparator2.background = ContextCompat.getDrawable(
-//            requireContext(),
-//            if (App.preferences.isDarkTheme) R.drawable.bg_subtitle_separator_dark
-//            else R.drawable.bg_subtitle_separator_light
-//        )
+    companion object {
+        @Volatile
+        private var instance: BodygraphFragment? = null
+
+        private val LOCK = Any()
+
+        operator fun invoke() = BodygraphFragment.instance ?: synchronized(LOCK) {
+            BodygraphFragment.instance ?: BodygraphFragment.buildBodygraphFragment()
+                .also { BodygraphFragment.instance = it }
+        }
+
+        private fun buildBodygraphFragment() = BodygraphFragment()
     }
 
     @Subscribe

@@ -41,7 +41,7 @@ import ru.get.hd.databinding.FragmentStartBinding
 import ru.get.hd.event.PermissionGrantedEvent
 import ru.get.hd.event.PlaceSelectedEvent
 import ru.get.hd.model.Place
-import ru.get.hd.navigation.Navigator
+import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.start.adapter.PlacesAdapter
 import ru.get.hd.util.Keyboard
@@ -725,7 +725,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 StartPage.BODYGRAPH -> {
                     App.preferences.lastLoginPageId = -1
                     Log.d("keke", App.preferences.lastLoginPageId.toString())
-                    Navigator.startToBodygraph(this@StartFragment)
+                    router.navigateTo(Screens.bodygraphScreen())
+//                    Navigator.startToBodygraph(this@StartFragment)
                 }
             }
         }

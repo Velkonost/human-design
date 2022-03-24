@@ -14,7 +14,7 @@ import ru.get.hd.BuildConfig
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentSettingsBinding
 import ru.get.hd.event.UpdateThemeEvent
-import ru.get.hd.navigation.Navigator
+import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 
 
@@ -343,7 +343,8 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
 
         fun onFaqClicked(v: View) {
-            Navigator.settingsToFaq(this@SettingsFragment)
+            router.navigateTo(Screens.faqScreen())
+//            Navigator.settingsToFaq(this@SettingsFragment)
         }
     }
 }

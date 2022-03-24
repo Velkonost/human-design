@@ -164,6 +164,9 @@ dependencies {
 //   switch button
     compile 'com.github.zcweng:switch-button:0.0.3@aar'
 
+    // Cicerone
+    implementation 'com.github.terrakok:cicerone:7.1'
+
 
 
 //    room

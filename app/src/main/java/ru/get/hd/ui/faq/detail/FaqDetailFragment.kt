@@ -70,7 +70,8 @@ class FaqDetailFragment : BaseFragment<FaqViewModel, FragmentFaqDetailBinding>(
 
     inner class Handler {
         fun onBackClicked(v: View) {
-            ru.get.hd.navigation.Navigator.goBack(this@FaqDetailFragment)
+            pressBack()
+//            ru.get.hd.navigation.Navigator.goBack(this@FaqDetailFragment)
         }
     }
 }

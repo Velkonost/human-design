@@ -36,8 +36,11 @@ class CentersModel(
 //        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
 
         with(view) {
-            channelTitle.setTextAnimation(model.name)
-            channelDesc.setTextAnimation07(model.description)
+//            channelTitle.setTextAnimation(model.name)
+//            channelDesc.setTextAnimation07(model.description)
+
+            channelTitle.text = model.name
+            channelDesc.text = model.description
 
             channelTitle.setTextColor(
                 ContextCompat.getColor(

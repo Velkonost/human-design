@@ -35,9 +35,12 @@ class GateModel(
 //        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
 
         with(view) {
-            channelTitle.setTextAnimation(model.title)
-            channelDesc.setTextAnimation07(model.description)
-            number.setTextAnimation(model.number.toString())
+//            channelTitle.setTextAnimation(model.title)
+//            channelDesc.setTextAnimation07(model.description)
+//            number.setTextAnimation(model.number.toString())
+            channelTitle.text = model.title
+            channelDesc.text = model.description
+            number.text = model.number
 
             channelTitle.setTextColor(
                 ContextCompat.getColor(

@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.item_bodygraph_centers.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_channels.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_gates.view.*
@@ -21,6 +23,8 @@ import ru.get.hd.model.TransitionGate
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.bodygraph.BodygraphViewModel
 import ru.get.hd.ui.bodygraph.adapter.CentersAdapter
+import ru.get.hd.ui.bodygraph.first.BodygraphFirstFragment
+import ru.get.hd.ui.bodygraph.second.adapter.ColumnsAdapter
 import ru.get.hd.ui.transit.adapter.ChannelsAdapter
 import ru.get.hd.ui.transit.adapter.GatesAdapter
 import ru.get.hd.util.ext.setTextAnimation
@@ -37,6 +41,10 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         ViewModelProviders.of(requireActivity()).get(
             BaseViewModel::class.java
         )
+    }
+
+    private val columnsAdapter: ColumnsAdapter by lazy {
+        ColumnsAdapter()
     }
 
     override fun updateThemeAndLocale() {
@@ -83,19 +91,52 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
         selectAbout()
         setupViewPager()
+        isFirstFragmentLaunch = false
     }
 
     private fun setupViewPager() {
-        binding.viewPager.offscreenPageLimit = 3
-        binding.viewPager.adapter = getViewPagerAdapter()
-        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {}
+        binding.viewPager.offscreenPageLimit = 1
+        binding.viewPager.adapter = columnsAdapter
 
+        baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
+
+            val gates: MutableList<TransitionGate> = mutableListOf()
+            val channels: MutableList<TransitionChannel> = mutableListOf()
+
+            it.description.gates.keys.forEach { number ->
+                gates.add(
+                    TransitionGate(
+                        number = number,
+                        title = it.description.gatesTitles[number]!!,
+                        description = it.description.gates[number]!!
+                    )
+                )
+            }
+
+
+//
+            it.description.channels.keys.forEach { number ->
+                channels.add(
+                    TransitionChannel(
+                        number = number,
+                        title = it.description.channelsTitles[number]!!,
+                        description = it.description.channels[number]!!
+                    )
+                )
+            }
+
+            columnsAdapter.createList(
+                activeCenters = it.activeCentres,
+                inactiveCenters = it.inactiveCentres,
+                gates = gates,
+                channels = channels
+            )
+        }
+
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
                 when(position) {
                     0 -> selectAbout()
                     1 -> selectCenters()
@@ -103,9 +144,8 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
                     else -> selectChannels()
                 }
             }
-
-            override fun onPageScrollStateChanged(state: Int) {}
         })
+
     }
 
     private fun selectAbout() {
@@ -236,149 +276,175 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         binding.centersTitle.background = null
     }
 
-    private fun getViewPagerAdapter(): PagerAdapter = object : PagerAdapter() {
-        override fun getCount(): Int {
-            return 4
+//    private fun getViewPagerAdapter(): PagerAdapter = object : PagerAdapter() {
+//        override fun getCount(): Int {
+//            return 4
+//        }
+//
+//        override fun destroyItem(container: View, position: Int, `object`: Any) {
+//            (container as ViewPager).removeView(`object` as View)
+//        }
+//
+//        @SuppressLint("SetTextI18n")
+//        override fun instantiateItem(container: ViewGroup, position: Int) =
+//            when(position) {
+//                0 -> {
+//                    val view = layoutInflater.inflate(R.layout.item_bodygraph_centers, null)
+//                    container.addView(view)
+//                    view
+//                }
+//                1 -> {
+//                    val view = layoutInflater.inflate(R.layout.item_bodygraph_centers, null)
+//
+////                    view.activeCentersTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.active_centers_title))
+////                    view.activeCentersDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.active_centers_text))
+////                    view.inactiveCentersTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.inactive_centers_title))
+////                    view.inactiveCentersDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.inactive_centers_text))
+//                    view.activeCentersTitle.text = App.resourcesProvider.getStringLocale(R.string.active_centers_title)
+//                    view.activeCentersDesc.text = App.resourcesProvider.getStringLocale(R.string.active_centers_text)
+//                    view.inactiveCentersTitle.text = App.resourcesProvider.getStringLocale(R.string.inactive_centers_title)
+//                    view.inactiveCentersDesc.text = App.resourcesProvider.getStringLocale(R.string.inactive_centers_text)
+//
+//
+//                    view.activeCentersTitle.setTextColor(ContextCompat.getColor(
+//                        requireContext(),
+//                        if (App.preferences.isDarkTheme) R.color.lightColor
+//                        else R.color.darkColor
+//                    ))
+//
+//                    view.inactiveCentersTitle.setTextColor(ContextCompat.getColor(
+//                        requireContext(),
+//                        if (App.preferences.isDarkTheme) R.color.lightColor
+//                        else R.color.darkColor
+//                    ))
+//
+//                    view.activeCentersDesc.setTextColor(ContextCompat.getColor(
+//                        requireContext(),
+//                        if (App.preferences.isDarkTheme) R.color.lightColor
+//                        else R.color.darkColor
+//                    ))
+//
+//                    view.inactiveCentersDesc.setTextColor(ContextCompat.getColor(
+//                        requireContext(),
+//                        if (App.preferences.isDarkTheme) R.color.lightColor
+//                        else R.color.darkColor
+//                    ))
+//
+//                    val activeCentersAdapter = CentersAdapter()
+//                    val inactiveCentersAdapter = CentersAdapter()
+//
+//                    view.activeCentersRecycler.adapter = activeCentersAdapter
+//                    view.inactiveCentersRecycler.adapter = inactiveCentersAdapter
+//
+//                    baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
+//                        activeCentersAdapter.createList(it.activeCentres)
+//                        inactiveCentersAdapter.createList(it.inactiveCentres)
+//                    }
+//
+//                    container.addView(view)
+//                    view
+//                }
+//                2 -> {
+//                    val view = layoutInflater.inflate(R.layout.item_bodygraph_gates, null)
+//
+////                    view.activeGatesTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.active_gates_title))
+////                    view.activeGatesDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.active_gates_text))
+//                    view.activeGatesTitle.text = App.resourcesProvider.getStringLocale(R.string.active_gates_title)
+//                    view.activeGatesDesc.text = App.resourcesProvider.getStringLocale(R.string.active_gates_text)
+//
+//                    view.activeGatesTitle.setTextColor(ContextCompat.getColor(
+//                        requireContext(),
+//                        if (App.preferences.isDarkTheme) R.color.lightColor
+//                        else R.color.darkColor
+//                    ))
+//
+//                    view.activeGatesDesc.setTextColor(ContextCompat.getColor(
+//                        requireContext(),
+//                        if (App.preferences.isDarkTheme) R.color.lightColor
+//                        else R.color.darkColor
+//                    ))
+//
+//                    val gatesAdapter = GatesAdapter()
+//                    view.gatesRecycler.adapter = gatesAdapter
+//
+//                    baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
+//                        val gates: MutableList<TransitionGate> = mutableListOf()
+//
+//                        it.description.gates.keys.forEach { number ->
+//                            gates.add(
+//                                TransitionGate(
+//                                    number = number,
+//                                    title = it.description.gatesTitles[number]!!,
+//                                    description = it.description.gates[number]!!
+//                                )
+//                            )
+//                        }
+//                        gatesAdapter.createList(gates)
+//                    }
+//
+//                    container.addView(view)
+//                    view
+//                }
+//                else -> {
+//                    val view = layoutInflater.inflate(R.layout.item_bodygraph_channels, null)
+//
+//                    view.activeChannelTitle.text = App.resourcesProvider.getStringLocale(R.string.active_channels_title)
+//                    view.activeChannelDesc.text = App.resourcesProvider.getStringLocale(R.string.active_channels_text)
+//
+//                    view.activeChannelTitle.setTextColor(ContextCompat.getColor(
+//                        requireContext(),
+//                        if (App.preferences.isDarkTheme) R.color.lightColor
+//                        else R.color.darkColor
+//                    ))
+//
+//                    view.activeChannelDesc.setTextColor(ContextCompat.getColor(
+//                        requireContext(),
+//                        if (App.preferences.isDarkTheme) R.color.lightColor
+//                        else R.color.darkColor
+//                    ))
+//
+//                    val channelsAdapter = ChannelsAdapter()
+//                    view.channelsRecycler.adapter = channelsAdapter
+//
+//                    baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
+//                        val channels: MutableList<TransitionChannel> = mutableListOf()
+//
+//                        it.description.channels.keys.forEach { number ->
+//                            channels.add(
+//                                TransitionChannel(
+//                                    number = number,
+//                                    title = it.description.channelsTitles[number]!!,
+//                                    description = it.description.channels[number]!!
+//                                )
+//                            )
+//                        }
+//                        channelsAdapter.createList(channels)
+//                    }
+//
+//                    container.addView(view)
+//                    view
+//                }
+//            }
+//
+//        override fun isViewFromObject(view: View, `object`: Any): Boolean {
+//            return view == `object`
+//        }
+//    }
+
+
+
+    companion object {
+        @Volatile
+        private var instance: BodygraphSecondFragment? = null
+
+        private val LOCK = Any()
+
+        operator fun invoke() = instance ?: synchronized(LOCK) {
+            instance ?: buildFragment()
+                .also { instance = it }
         }
 
-        @SuppressLint("SetTextI18n")
-        override fun instantiateItem(container: ViewGroup, position: Int) =
-            when(position) {
-                0 -> {
-                    val view = layoutInflater.inflate(R.layout.item_bodygraph_centers, null)
-                    container.addView(view)
-                    view
-                }
-                1 -> {
-                    val view = layoutInflater.inflate(R.layout.item_bodygraph_centers, null)
-
-                    view.activeCentersTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.active_centers_title))
-                    view.activeCentersDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.active_centers_text))
-                    view.inactiveCentersTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.inactive_centers_title))
-                    view.inactiveCentersDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.inactive_centers_text))
-
-
-                    view.activeCentersTitle.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
-
-                    view.inactiveCentersTitle.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
-
-                    view.activeCentersDesc.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
-
-                    view.inactiveCentersDesc.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
-
-                    val activeCentersAdapter = CentersAdapter()
-                    val inactiveCentersAdapter = CentersAdapter()
-
-                    view.activeCentersRecycler.adapter = activeCentersAdapter
-                    view.inactiveCentersRecycler.adapter = inactiveCentersAdapter
-
-                    baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
-                        activeCentersAdapter.createList(it.activeCentres)
-                        inactiveCentersAdapter.createList(it.inactiveCentres)
-                    }
-
-                    container.addView(view)
-                    view
-                }
-                2 -> {
-                    val view = layoutInflater.inflate(R.layout.item_bodygraph_gates, null)
-
-                    view.activeGatesTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.active_gates_title))
-                    view.activeGatesDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.active_gates_text))
-
-                    view.activeGatesTitle.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
-
-                    view.activeGatesDesc.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
-
-                    val gatesAdapter = GatesAdapter()
-                    view.gatesRecycler.adapter = gatesAdapter
-
-                    baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
-                        val gates: MutableList<TransitionGate> = mutableListOf()
-
-                        it.description.gates.keys.forEach { number ->
-                            gates.add(
-                                TransitionGate(
-                                    number = number,
-                                    title = it.description.gatesTitles[number]!!,
-                                    description = it.description.gates[number]!!
-                                )
-                            )
-                        }
-                        gatesAdapter.createList(gates)
-                    }
-
-                    container.addView(view)
-                    view
-                }
-                else -> {
-                    val view = layoutInflater.inflate(R.layout.item_bodygraph_channels, null)
-
-                    view.activeChannelTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.active_channels_title))
-                    view.activeChannelDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.active_channels_text))
-
-                    view.activeChannelTitle.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
-
-                    view.activeChannelDesc.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
-
-                    val channelsAdapter = ChannelsAdapter()
-                    view.channelsRecycler.adapter = channelsAdapter
-
-                    baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
-                        val channels: MutableList<TransitionChannel> = mutableListOf()
-
-                        it.description.channels.keys.forEach { number ->
-                            channels.add(
-                                TransitionChannel(
-                                    number = number,
-                                    title = it.description.channelsTitles[number]!!,
-                                    description = it.description.channels[number]!!
-                                )
-                            )
-                        }
-                        channelsAdapter.createList(channels)
-                    }
-
-                    container.addView(view)
-                    view
-                }
-            }
-
-        override fun isViewFromObject(view: View, `object`: Any): Boolean {
-            return view == `object`
-        }
+        private fun buildFragment() = BodygraphSecondFragment()
     }
 
     inner class Handler {

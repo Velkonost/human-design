@@ -1,6 +1,7 @@
 package ru.get.hd.ui.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
@@ -9,14 +10,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.github.terrakok.cicerone.androidx.FragmentScreen
 import dagger.android.support.DaggerFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.EventBusException
 import org.greenrobot.eventbus.Subscribe
+import ru.get.hd.App
 import ru.get.hd.BR
 import ru.get.hd.event.UpdateThemeEvent
+import ru.get.hd.event.UpdateToBodygraphCardStateEvent
 import ru.get.hd.glide.GlideApp
-import ru.get.hd.navigation.Navigator
 import ru.get.hd.ui.settings.SettingsFragment
 import ru.get.hd.util.ext.getViewModel
 import ru.get.hd.util.lazyErrorDelegate
@@ -55,6 +58,20 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var rootView: View
+
+    var isFirstFragmentLaunch = false
+
+    val router by lazy {
+        App.instance.router
+    }
+
+    fun pressBack() {
+        router.exit()
+    }
+
+    fun navigate(screen: FragmentScreen) {
+        router.navigateTo(screen)
+    }
 
     override fun onStart() {
         registerBackPressedCallback()
@@ -104,13 +121,20 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
         Timber.d("${this@BaseFragment.javaClass.name}::OnStop")
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isFirstFragmentLaunch = true
+        Timber.d("${this@BaseFragment.javaClass.name}::onCreate")
+        Timber.d("${this@BaseFragment.javaClass.name}::${savedInstanceState == null}")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutResourceId, container, false)
-
+        Timber.d("${this@BaseFragment.javaClass.name}::${savedInstanceState == null}")
         if (viewModelClass != null) {
             _viewModel = if (isSharedViewModel) {
                 requireActivity().getViewModel(
@@ -144,15 +168,6 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        exitTransition = MaterialFadeThrough().apply {
-//            duration = 500//resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-//        }
-//
-//
-//        enterTransition = MaterialFadeThrough().apply {
-//            duration = 500//resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-//        }
-
         registerBackPressedCallback()
 
         onLayoutReady(savedInstanceState)
@@ -168,8 +183,13 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     }
 
     protected open fun onLayoutReady(savedInstanceState: Bundle?) {
+        Timber.d("${this@BaseFragment.javaClass.name}::OnLayoutReady")
+        Timber.d("${this@BaseFragment.javaClass.name}::${savedInstanceState == null}")
+
         updateThemeAndLocale()
         updateThemeAndLocale(withAnimation = false, withTextAnimation = false)
+
+        EventBus.getDefault().post(UpdateToBodygraphCardStateEvent(isVisible = false))
         // Empty for optional override
     }
 
@@ -179,9 +199,9 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
 
     // optional override
     protected open fun onBackPressed() {
-        if (!Navigator.goBack(this@BaseFragment)) {
-            requireActivity().finish()
-        }
+//        if (!router..goBack(this@BaseFragment)) {
+//            requireActivity().finish()
+//        }
 /*        else {
             Log.d("TAG", "onBackPressed else: ")
 

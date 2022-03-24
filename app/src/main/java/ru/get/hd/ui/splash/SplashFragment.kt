@@ -14,7 +14,7 @@ import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentSplashBinding
 import ru.get.hd.event.UpdateThemeEvent
-import ru.get.hd.navigation.Navigator
+import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.util.ext.alpha0
 import ru.get.hd.util.ext.alpha1
@@ -259,7 +259,10 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 SplashPage.SPLASH_02 -> setupSplash03()
                 SplashPage.SPLASH_03 -> setupSplash04()
                 SplashPage.SPLASH_04 -> setupSplash05()
-                SplashPage.SPLASH_05 -> Navigator.splashToStart(this@SplashFragment)
+                SplashPage.SPLASH_05 -> {
+                    router.navigateTo(Screens.startScreen())
+//                    Navigator.splashToStart(this@SplashFragment)
+                }
             }
         }
 

@@ -13,6 +13,7 @@ import ru.get.hd.databinding.FragmentBodygraphBinding
 import ru.get.hd.databinding.FragmentBodygraphFirstBinding
 import ru.get.hd.event.ToDecryptionClickEvent
 import ru.get.hd.ui.base.BaseFragment
+import ru.get.hd.ui.bodygraph.BodygraphFragment
 import ru.get.hd.ui.bodygraph.BodygraphViewModel
 import ru.get.hd.util.ext.alpha1
 import ru.get.hd.util.ext.setTextAnimation
@@ -34,11 +35,20 @@ class BodygraphFirstFragment : BaseFragment<BodygraphViewModel, FragmentBodygrap
         super.onLayoutReady(savedInstanceState)
 
         setupZnaks()
+
+        isFirstFragmentLaunch = false
     }
 
     override fun updateThemeAndLocale() {
-        binding.designTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.design_title))
-        binding.transitTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.personality_title))
+        if (isFirstFragmentLaunch) {
+            binding.designTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.design_title))
+            binding.transitTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.personality_title))
+            binding.toDecryptionText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.to_decryption_text))
+        } else {
+            binding.designTitle.text = App.resourcesProvider.getStringLocale(R.string.design_title)
+            binding.transitTitle.text = App.resourcesProvider.getStringLocale(R.string.personality_title)
+            binding.toDecryptionText.text = App.resourcesProvider.getStringLocale(R.string.to_decryption_text)
+        }
 
         binding.doubleArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
             requireContext(),
@@ -46,7 +56,7 @@ class BodygraphFirstFragment : BaseFragment<BodygraphViewModel, FragmentBodygrap
             else R.color.darkColor
         ))
 
-        binding.toDecryptionText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.to_decryption_text))
+
         binding.toDecryptionText.setTextColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor
@@ -220,6 +230,20 @@ class BodygraphFirstFragment : BaseFragment<BodygraphViewModel, FragmentBodygrap
                 }
             }
         }
+    }
+
+    companion object {
+        @Volatile
+        private var instance: BodygraphFirstFragment? = null
+
+        private val LOCK = Any()
+
+        operator fun invoke() = instance ?: synchronized(LOCK) {
+            instance ?: buildFragment()
+                .also { instance = it }
+        }
+
+        private fun buildFragment() = BodygraphFirstFragment()
     }
 
     inner class Handler {

@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -32,6 +33,8 @@ import ru.get.hd.event.PermissionGrantedEvent
 import ru.get.hd.event.SetupNavMenuEvent
 import ru.get.hd.event.ToBodygraphClickEvent
 import ru.get.hd.event.UpdateToBodygraphCardStateEvent
+import ru.get.hd.navigation.Screens
+import ru.get.hd.navigation.SupportAppNavigator
 import ru.get.hd.ui.base.BaseActivity
 import ru.get.hd.ui.splash.SplashPage
 import ru.get.hd.ui.start.StartPage
@@ -42,12 +45,23 @@ import ru.get.hd.util.ext.translationYalpha0
 import ru.get.hd.util.ext.translationYalpha1
 import ru.get.hd.vm.*
 import java.util.*
+import kotlin.reflect.KParameter
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     R.layout.activity_main,
     BaseViewModel::class,
     Handler::class
 ) {
+
+    private lateinit var navigator: SupportAppNavigator
+
+    private val navigationHolder by lazy {
+        App.instance.navigatorHolder
+    }
+
+    private val router by lazy {
+        App.instance.router
+    }
 
     private var navController: NavController? = null
 
@@ -56,22 +70,94 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         super.onLayoutReady(savedInstanceState)
 
 
-        navController = findNavController(R.id.nav_host_fragment)
+        if (savedInstanceState == null) {
+            initStartPage()
+        }
 
-        val navHostFragment = nav_host_fragment as NavHostFragment
-        val graphInflater = navHostFragment.navController.navInflater
-        val navGraph = graphInflater.inflate(R.navigation.mobile_navigation)
-        navController = navHostFragment.navController
+//        navController = findNavController(R.id.nav_host_fragment)
+//
+//        val navHostFragment = nav_host_fragment as NavHostFragment
+//        val graphInflater = navHostFragment.navController.navInflater
+//        val navGraph = graphInflater.inflate(R.navigation.mobile_navigation)
+//        navController = navHostFragment.navController
 
 
-        navGraph.startDestination =
+//        navGraph.startDestination =
+//            when(App.preferences.lastLoginPageId) {
+//                SplashPage.SPLASH_01.pageId,
+//                SplashPage.SPLASH_02.pageId,
+//                SplashPage.SPLASH_03.pageId,
+//                SplashPage.SPLASH_04.pageId,
+//                SplashPage.SPLASH_05.pageId -> {
+//                    R.id.navigation_splash
+//                }
+//                StartPage.RAVE.pageId,
+//                StartPage.NAME.pageId,
+//                StartPage.DATE_BIRTH.pageId,
+//                StartPage.TIME_BIRTH.pageId,
+//                StartPage.PLACE_BIRTH.pageId,
+//                StartPage.BODYGRAPH.pageId, -> {
+//                    R.id.navigation_start
+//                }
+//                else -> {
+//                    setupNavMenu()
+//                    R.id.navigation_bodygraph
+//                }
+//            }
+//
+//        navController!!.graph = navGraph
+//        binding.navView.setupWithNavController(navController!!)
+
+//        binding.navView.setOnNavigationItemReselectedListener {
+//            if (binding.navView.selectedItemId == it.itemId) {
+////                val navGraph =
+//                Navigation.findNavController(this, R.id.nav_host_fragment)
+//                    .popBackStack(it.itemId, false)
+//
+//                return@setOnNavigationItemReselectedListener
+//            }
+//        }
+
+        navigator = SupportAppNavigator(this, R.id.subContainer)
+        navigationHolder.setNavigator(navigator)
+
+        binding.navView.setOnNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.navigation_bodygraph -> {
+                    router.navigateTo(Screens.bodygraphScreen())
+                    true
+                }
+                R.id.navigation_transit -> {
+                    router.navigateTo(Screens.transitScreen())
+                    true
+                }
+                R.id.navigation_compatibility -> {
+                    router.replaceScreen(Screens.compatibilityScreen())
+                    true
+                }
+                R.id.navigation_affirmation -> {
+                    router.replaceScreen(Screens.affirmationScreen())
+                    true
+                }
+                else -> {
+                    router.replaceScreen(Screens.settingsScreen())
+                    true
+                }
+            }
+
+        }
+    }
+
+    private fun initStartPage() {
+        router.replaceScreen(
             when(App.preferences.lastLoginPageId) {
                 SplashPage.SPLASH_01.pageId,
                 SplashPage.SPLASH_02.pageId,
                 SplashPage.SPLASH_03.pageId,
                 SplashPage.SPLASH_04.pageId,
                 SplashPage.SPLASH_05.pageId -> {
-                    R.id.navigation_splash
+                    Screens.splashScreen()
+
                 }
                 StartPage.RAVE.pageId,
                 StartPage.NAME.pageId,
@@ -79,26 +165,25 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 StartPage.TIME_BIRTH.pageId,
                 StartPage.PLACE_BIRTH.pageId,
                 StartPage.BODYGRAPH.pageId, -> {
-                    R.id.navigation_start
+                    Screens.startScreen()
                 }
                 else -> {
                     setupNavMenu()
-                    R.id.navigation_bodygraph
+                    Screens.bodygraphScreen()
                 }
             }
+        )
+    }
 
-        navController!!.graph = navGraph
-        binding.navView.setupWithNavController(navController!!)
 
-        binding.navView.setOnNavigationItemReselectedListener {
-            if (binding.navView.selectedItemId == it.itemId) {
-//                val navGraph =
-                Navigation.findNavController(this, R.id.nav_host_fragment)
-                    .popBackStack(it.itemId, false)
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        navigationHolder.setNavigator(navigator)
+    }
 
-                return@setOnNavigationItemReselectedListener
-            }
-        }
+    override fun onPause() {
+        navigationHolder.removeNavigator()
+        super.onPause()
     }
 
     override fun onViewModelReady(viewModel: BaseViewModel) {

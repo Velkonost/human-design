@@ -10,6 +10,7 @@ import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentFaqBinding
 import ru.get.hd.event.FaqClickedEvent
+import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.faq.adapter.FaqAdapter
 import ru.get.hd.util.ext.setTextAnimation
@@ -67,19 +68,19 @@ class FaqFragment : BaseFragment<FaqViewModel, FragmentFaqBinding>(
 
     @Subscribe
     fun onFaqClickedEvent(e: FaqClickedEvent) {
-        ru.get.hd.navigation.Navigator.faqToFaqDetail(
-            this,
+        router.navigateTo(Screens.faqDetailScreen(
             title = if (App.preferences.locale == "ru") e.faq.titleRu
             else e.faq.titleEn,
             desc = if (App.preferences.locale == "ru") e.faq.textRu
             else e.faq.textEn
-        )
+        ))
     }
 
     inner class Handler {
 
         fun onBackClicked(v: View) {
-            ru.get.hd.navigation.Navigator.goBack(this@FaqFragment)
+            pressBack()
+//            ru.get.hd.navigation.Navigator.goBack(this@FaqFragment)
         }
 
     }

@@ -1,7 +1,9 @@
 package ru.get.hd.ui.transit
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.ColorStateList
+import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -16,6 +18,7 @@ import kotlinx.android.synthetic.main.item_transit_gates.view.*
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentTransitBinding
+import ru.get.hd.repo.AppDatabase
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.transit.adapter.ChannelsAdapter
 import ru.get.hd.ui.transit.adapter.GatesAdapter
@@ -29,10 +32,29 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     Handler::class
 ) {
 
+    companion object {
+        @Volatile
+        private var instance: TransitFragment? = null
+
+        private val LOCK = Any()
+
+        operator fun invoke() = TransitFragment.instance ?: synchronized(LOCK) {
+            TransitFragment.instance ?: TransitFragment.buildTransitFragment()
+                .also { TransitFragment.instance = it }
+        }
+
+        private fun buildTransitFragment() = TransitFragment()
+    }
+
     private val baseViewModel: BaseViewModel by lazy {
         ViewModelProviders.of(requireActivity()).get(
             BaseViewModel::class.java
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.instance.getAppComponent().inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun updateThemeAndLocale() {
