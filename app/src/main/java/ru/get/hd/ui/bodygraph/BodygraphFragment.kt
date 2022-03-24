@@ -61,7 +61,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     fun onToBodygraphClickEvent(e: ToBodygraphClickEvent) {
         if (binding.verticalViewPager.currentItem == 1)
             binding.verticalViewPager.changeCurrentItem(0, 500)
-    }
+    }x
 
     private fun setupViewPager() {
         binding.verticalViewPager.adapter = verticalViewPagerAdapter
