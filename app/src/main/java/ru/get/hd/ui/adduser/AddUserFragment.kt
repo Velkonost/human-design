@@ -1,11 +1,6 @@
-package ru.get.hd.ui.start
+package ru.get.hd.ui.adduser
 
-import android.Manifest
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
-import android.content.Context.LOCATION_SERVICE
-import android.content.pm.PackageManager
+import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.location.LocationListener
@@ -13,19 +8,11 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
-import androidx.appcompat.app.AlertDialog
-import androidx.core.animation.doOnEnd
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.fragment_start.*
 import kotlinx.android.synthetic.main.view_place_select.view.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -33,18 +20,21 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
-import ru.get.hd.App.Companion.LOCATION_REQUEST_CODE
 import ru.get.hd.R
-import ru.get.hd.databinding.FragmentStartBinding
+import ru.get.hd.databinding.FragmentAddUserBinding
+import ru.get.hd.databinding.FragmentDiagramBinding
 import ru.get.hd.event.PermissionGrantedEvent
 import ru.get.hd.event.PlaceSelectedEvent
-import ru.get.hd.event.UpdateLoaderStateEvent
+import ru.get.hd.event.UpdateCurrentUserEvent
 import ru.get.hd.model.Place
 import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
+import ru.get.hd.ui.bodygraph.BodygraphViewModel
+import ru.get.hd.ui.bodygraph.diagram.DiagramFragment
+import ru.get.hd.ui.start.StartPage
+import ru.get.hd.ui.start.StartViewModel
 import ru.get.hd.ui.start.adapter.PlacesAdapter
 import ru.get.hd.util.Keyboard
 import ru.get.hd.util.convertDpToPx
@@ -55,8 +45,8 @@ import ru.get.hd.util.ext.translationY
 import ru.get.hd.vm.BaseViewModel
 import java.util.*
 
-class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
-    R.layout.fragment_start,
+class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
+    R.layout.fragment_add_user,
     StartViewModel::class,
     Handler::class
 ) {
@@ -86,37 +76,11 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         prepareLogic()
         startCirclesRotation(StartPage.RAVE)
 
-        mLocationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
+        mLocationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         setupLocationListener()
 
-        when (App.preferences.lastLoginPageId) {
-            StartPage.RAVE.pageId -> setupRave()
-            StartPage.NAME.pageId -> {
-                animateCirclesBtwPages(1000)
-                setupName()
-            }
-            StartPage.DATE_BIRTH.pageId -> {
-                animateCirclesBtwPages(1000)
-                setupDateBirth()
-            }
-            StartPage.TIME_BIRTH.pageId -> {
-                animateCirclesBtwPages(1000)
-                setupTimeBirth()
-            }
-            StartPage.PLACE_BIRTH.pageId -> {
-                animateCirclesBtwPages(1000)
-                setupPlaceBirth()
-            }
-            StartPage.BODYGRAPH.pageId -> {
-                animateCirclesBtwPages(1000)
-                setupBodygraph()
-            }
-            else -> setupRave()
-        }
-
+        setupRave()
         setupPlacesView()
-
-        EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
     }
 
     @Subscribe
@@ -345,7 +309,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupName() {
         currentStartPage = StartPage.NAME
-        App.preferences.lastLoginPageId = StartPage.NAME.pageId
 
         unselectAllIndicators()
         binding.indicator1.background = ContextCompat.getDrawable(
@@ -369,7 +332,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupDateBirth() {
         currentStartPage = StartPage.DATE_BIRTH
-        App.preferences.lastLoginPageId = StartPage.DATE_BIRTH.pageId
 
         unselectAllIndicators()
         binding.indicator2.background = ContextCompat.getDrawable(
@@ -400,7 +362,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupTimeBirth() {
         currentStartPage = StartPage.TIME_BIRTH
-        App.preferences.lastLoginPageId = StartPage.TIME_BIRTH.pageId
 
         unselectAllIndicators()
         binding.indicator3.background = ContextCompat.getDrawable(
@@ -426,7 +387,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupPlaceBirth() {
         currentStartPage = StartPage.PLACE_BIRTH
-        App.preferences.lastLoginPageId = StartPage.PLACE_BIRTH.pageId
 
         unselectAllIndicators()
         binding.indicator4.background = ContextCompat.getDrawable(
@@ -457,8 +417,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupBodygraph() {
         currentStartPage = StartPage.BODYGRAPH
-        App.preferences.lastLoginPageId = StartPage.BODYGRAPH.pageId
-        Log.d("keke", "3")
     }
 
     private fun unselectAllIndicators() {
@@ -492,6 +450,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             else R.drawable.bg_inactive_indicator_light
         )
     }
+
 
     inner class Handler {
 
@@ -550,7 +509,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 }
                 StartPage.BODYGRAPH -> {
                     App.preferences.lastLoginPageId = -1
-                    Log.d("keke", App.preferences.lastLoginPageId.toString())
                     router.navigateTo(Screens.bodygraphScreen())
 //                    Navigator.startToBodygraph(this@StartFragment)
                 }
@@ -558,14 +516,4 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         }
     }
 
-
-}
-
-enum class StartPage(val pageId: Int) {
-    RAVE(5),
-    NAME(6),
-    DATE_BIRTH(7),
-    TIME_BIRTH(8),
-    PLACE_BIRTH(9),
-    BODYGRAPH(10)
 }

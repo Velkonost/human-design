@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ru.get.hd.ui.bodygraph.BodygraphViewModel" />
+
+        <variable
+            name="handler"
+            type="ru.get.hd.ui.bodygraph.diagram.DiagramFragment.Handler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/diagramContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.activity.main.MainActivity">
+
+        <FrameLayout
+            android:onClick="@{handler::onBackClicked}"
+            android:layout_marginStart="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/diagramTitle"
+            app:layout_constraintBottom_toBottomOf="@id/diagramTitle"
+            android:layout_width="32dp"
+            android:layout_height="32dp">
+
+            <ImageView
+                android:id="@+id/icArrow"
+                android:rotation="180"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_arrow"
+                android:layout_width="16dp"
+                android:layout_height="16dp"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/diagramTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textSize="32sp"
+            android:layout_marginTop="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <FrameLayout
+            android:onClick="@{handler::onAddClicked}"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/diagramTitle"
+            app:layout_constraintBottom_toBottomOf="@id/diagramTitle"
+            android:layout_width="32dp"
+            android:layout_height="32dp">
+
+            <ImageView
+                android:id="@+id/icPlus"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_plus"
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/diagramsRecycler"
+            app:layout_constraintTop_toBottomOf="@id/diagramTitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="150dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+        <TextView
+            android:id="@+id/emptyText"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:alpha="0.7"
+            android:fontFamily="@font/opensans"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginHorizontal="32dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

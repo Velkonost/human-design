@@ -13,6 +13,7 @@ import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentSplashBinding
+import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.event.UpdateThemeEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
@@ -48,6 +49,8 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             SplashPage.SPLASH_05.pageId -> setupSplash05()
             else -> setupSplash01()
         }
+
+        EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
     }
 
     private fun prepareUI() {

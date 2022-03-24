@@ -117,4 +117,10 @@
     <string name="inactive_centers_text">Неопределенные центры открыты для влияния извне, они настроены на прием от людей и жизни. Это места уязвимости, где мир влияет на вас. Здесь вы больше всего учитесь, а значит имеете потенциал обрести мудрость и экспертность.</string>
 
     <string name="to_bodygraph">к бодиграфу</string>
+    <string name="diagram_title">My charts</string>
+    <string name="diagram_empty_text">In this section, you can add bodygraphs of other people (friends, acquaintances) and get to know them from a completely new side</string>
+
+    <string name="partners_title">Partners</string>
+    <string name="children_title">Children</string>
+    <string name="compatibility_title">Relationship</string>
 </resources>

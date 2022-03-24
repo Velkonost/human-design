@@ -5,8 +5,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import ru.get.hd.ui.adduser.AddUserFragment
 import ru.get.hd.ui.affirmation.AffirmationFragment
 import ru.get.hd.ui.bodygraph.BodygraphFragment
+import ru.get.hd.ui.bodygraph.diagram.DiagramFragment
 import ru.get.hd.ui.bodygraph.first.BodygraphFirstFragment
 import ru.get.hd.ui.bodygraph.second.BodygraphSecondFragment
 import ru.get.hd.ui.compatibility.CompatibilityFragment
@@ -72,6 +74,14 @@ object Screens {
         )
 
         faqDetailFragment
+    }
+
+    fun diagramScreen() = FragmentScreen {
+        DiagramFragment()
+    }
+
+    fun addUserScreen() = FragmentScreen {
+        AddUserFragment()
     }
 }
 

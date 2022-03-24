@@ -1,14 +1,12 @@
-package ru.get.hd.ui.bodygraph.first.di
+package ru.get.hd.ui.bodygraph.diagram.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import ru.get.hd.ui.affirmation.AffirmationFragment
+import ru.get.hd.ui.bodygraph.diagram.DiagramFragment
 import ru.get.hd.ui.bodygraph.first.BodygraphFirstFragment
 
 @Module
-interface BodygraphFirstModule {
-
+interface DiagramModule {
     @ContributesAndroidInjector
-    fun inject(): BodygraphFirstFragment
-
+    fun inject(): DiagramFragment
 }

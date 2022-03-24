@@ -4,15 +4,10 @@ import android.animation.Animator
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.view.MotionEvent
-
-import android.opengl.ETC1.getHeight
-
-import android.opengl.ETC1.getWidth
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-
 import androidx.viewpager.widget.ViewPager
 import kotlin.math.abs
 import kotlin.math.max
@@ -89,16 +84,29 @@ class VerticalViewPager : ViewPager {
         val animator = ValueAnimator.ofInt(0, pxToDrag)
         var previousValue = 0
         animator.addUpdateListener { valueAnimator ->
-            val currentValue = valueAnimator.animatedValue as Int
-            val currentPxToDrag = (currentValue - previousValue).toFloat()
-            fakeDragBy(-currentPxToDrag)
-            previousValue = currentValue
+
+            kotlin.runCatching {
+                val currentValue = valueAnimator.animatedValue as Int
+                val currentPxToDrag = (currentValue - previousValue).toFloat()
+                fakeDragBy(-currentPxToDrag)
+                previousValue = currentValue
+            }
         }
         animator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) { beginFakeDrag() }
-            override fun onAnimationEnd(animation: Animator?) { endFakeDrag() }
-            override fun onAnimationCancel(animation: Animator?) { /* Ignored */ }
-            override fun onAnimationRepeat(animation: Animator?) { /* Ignored */ }
+            override fun onAnimationStart(animation: Animator?) {
+                kotlin.runCatching { beginFakeDrag() }
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                kotlin.runCatching { endFakeDrag() }
+
+            }
+
+            override fun onAnimationCancel(animation: Animator?) { /* Ignored */
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) { /* Ignored */
+            }
         })
         animator.interpolator = interpolator
         animator.duration = duration

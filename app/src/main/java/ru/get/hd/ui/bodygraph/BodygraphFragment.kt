@@ -1,9 +1,11 @@
 package ru.get.hd.ui.bodygraph
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -18,6 +20,7 @@ import ru.get.hd.event.SetupNavMenuEvent
 import ru.get.hd.event.ToBodygraphClickEvent
 import ru.get.hd.event.ToDecryptionClickEvent
 import ru.get.hd.event.UpdateToBodygraphCardStateEvent
+import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.bodygraph.adapter.VerticalViewPagerAdapter
 import ru.get.hd.ui.faq.FaqFragment
@@ -61,7 +64,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     fun onToBodygraphClickEvent(e: ToBodygraphClickEvent) {
         if (binding.verticalViewPager.currentItem == 1)
             binding.verticalViewPager.changeCurrentItem(0, 500)
-    }x
+    }
 
     private fun setupViewPager() {
         binding.verticalViewPager.adapter = verticalViewPagerAdapter
@@ -139,6 +142,12 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             if (App.preferences.isDarkTheme) R.color.lightColor
             else R.color.darkColor
         ))
+
+        binding.icAddUser.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
     }
 
     companion object {
@@ -162,6 +171,12 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         else binding.verticalViewPager.changeCurrentItem(0, 500)
     }
 
-    inner class Handler {}
+    inner class Handler {
+
+        fun onAddUserClicked(v: View) {
+            router.navigateTo(Screens.diagramScreen())
+        }
+
+    }
 
 }

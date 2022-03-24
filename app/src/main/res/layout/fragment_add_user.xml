@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ru.get.hd.ui.start.StartViewModel" />
+
+        <variable
+            name="handler"
+            type="ru.get.hd.ui.adduser.AddUserFragment.Handler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/startContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/darkColor"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.activity.main.MainActivity">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_btn_bottom_gradient"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/icSplashBigCircle"
+            android:layout_width="977dp"
+            android:layout_height="977dp"
+            android:layout_marginTop="-120dp"
+            android:adjustViewBounds="true"
+            android:alpha="0.2"
+            android:rotation="90"
+            android:src="@drawable/ic_circle_big_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/startBtn" />
+
+        <ImageView
+            android:id="@+id/icSplashMidCircle"
+            android:layout_width="977dp"
+            android:layout_height="977dp"
+            android:layout_marginTop="-30dp"
+            android:adjustViewBounds="true"
+            android:alpha="0.2"
+            android:src="@drawable/ic_circle_mid_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/startBtn" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/indicatorsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:alpha="0"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:id="@+id/indicator1"
+                android:layout_width="9dp"
+                android:layout_height="9dp"
+                android:background="@drawable/bg_inactive_indicator_dark" />
+
+            <View
+                android:id="@+id/indicator2"
+                android:layout_width="9dp"
+                android:layout_height="9dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/bg_inactive_indicator_dark" />
+
+            <View
+                android:id="@+id/indicator3"
+                android:layout_width="9dp"
+                android:layout_height="9dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/bg_inactive_indicator_dark" />
+
+            <View
+                android:id="@+id/indicator4"
+                android:layout_width="9dp"
+                android:layout_height="9dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/bg_inactive_indicator_dark" />
+
+            <View
+                android:id="@+id/indicator5"
+                android:layout_width="9dp"
+                android:layout_height="9dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/bg_inactive_indicator_dark" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/startBtn"
+            android:layout_width="311dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{handler::onBtnClicked}"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_btn" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:letterSpacing="0.12"
+                android:text="@string/continue_btn"
+                android:textAllCaps="true"
+                android:textColor="@color/lightColor"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/raveContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/startBtn"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/raveTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textSize="28sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/raveDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/opensans"
+                android:gravity="center"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/nameContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="12dp"
+            android:alpha="0"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/startBtn"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/nameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textSize="32sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/nameDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/opensans"
+                android:gravity="center"
+                android:lineSpacingExtra="7sp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nameTitle" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/nameET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginBottom="62dp"
+                android:backgroundTint="@color/darkHintColor"
+                android:fontFamily="@font/opensans"
+                android:gravity="center"
+                android:includeFontPadding="true"
+                android:inputType="textCapWords"
+                android:letterSpacing="0.2"
+                android:paddingBottom="24dp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <ru.get.hd.ui.view.datepicker.view.datePicker.DatePicker
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginBottom="82dp"
+                android:alpha="0"
+                android:calendarTextColor="@color/lightColor"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:hapticFeedbackEnabled="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:offset="3"
+                app:pickerMode="dayFirst" />
+
+            <ru.get.hd.ui.view.datepicker.view.timePicker.TimePicker
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginBottom="20dp"
+                android:alpha="0"
+                android:timePickerMode="spinner"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/skipTime"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/skipTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="62dp"
+                android:alpha="0"
+                android:fontFamily="@font/opensans_bold"
+                android:onClick="@{handler::onBtnClicked}"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/placeET"
+                android:onClick="@{handler::openPlacesView}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginBottom="62dp"
+                android:alpha="0"
+                android:textAllCaps="true"
+                android:backgroundTint="@color/darkHintColor"
+                android:fontFamily="@font/opensans"
+                android:gravity="center"
+                android:focusable="false"
+                android:clickable="true"
+                android:includeFontPadding="true"
+                android:inputType="textCapWords"
+                android:letterSpacing="0.2"
+                android:paddingBottom="24dp"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nameDesc" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:visibility="gone"
+            android:id="@+id/placesView"
+            layout="@layout/view_place_select"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

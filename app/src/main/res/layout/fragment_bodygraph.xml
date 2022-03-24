@@ -27,10 +27,25 @@
             android:fontFamily="@font/montserrat_semibold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/icAddUser"
             android:layout_marginTop="24dp"
             android:layout_marginStart="32dp"
-            android:layout_width="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:gravity="start"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/icAddUser"
+            android:onClick="@{handler::onAddUserClicked}"
+            app:layout_constraintTop_toTopOf="@id/userName"
+            app:layout_constraintBottom_toBottomOf="@id/userName"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="32dp"
+            android:src="@drawable/ic_add_user"
+            android:layout_width="27dp"
+            android:layout_height="27dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/subtitleBlock"
@@ -53,6 +68,8 @@
             android:gravity="start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
+
+
 
 <!--        <View-->
 <!--            android:id="@+id/subtitleSeparator1"-->

@@ -167,6 +167,8 @@ dependencies {
     // Cicerone
     implementation 'com.github.terrakok:cicerone:7.1'
 
+//  GifImageView
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
 
 
 //    room

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -25,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import pl.droidsonroids.gif.GifDrawable
 import ru.get.hd.App
 import ru.get.hd.App.Companion.LOCATION_REQUEST_CODE
 import ru.get.hd.R
@@ -32,6 +34,8 @@ import ru.get.hd.databinding.ActivityMainBinding
 import ru.get.hd.event.PermissionGrantedEvent
 import ru.get.hd.event.SetupNavMenuEvent
 import ru.get.hd.event.ToBodygraphClickEvent
+import ru.get.hd.event.UpdateLoaderStateEvent
+import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.event.UpdateToBodygraphCardStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.navigation.SupportAppNavigator
@@ -132,15 +136,15 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     true
                 }
                 R.id.navigation_compatibility -> {
-                    router.replaceScreen(Screens.compatibilityScreen())
+                    router.navigateTo(Screens.compatibilityScreen())
                     true
                 }
                 R.id.navigation_affirmation -> {
-                    router.replaceScreen(Screens.affirmationScreen())
+                    router.navigateTo(Screens.affirmationScreen())
                     true
                 }
                 else -> {
-                    router.replaceScreen(Screens.settingsScreen())
+                    router.navigateTo(Screens.settingsScreen())
                     true
                 }
             }
@@ -175,7 +179,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         )
     }
 
-
     override fun onResumeFragments() {
         super.onResumeFragments()
         navigationHolder.setNavigator(navigator)
@@ -196,6 +199,32 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     @Subscribe
     fun onSetupNavMenuEvent(e: SetupNavMenuEvent) {
         setupNavMenu()
+        updateNavMenuVisible(true)
+    }
+
+    @Subscribe
+    fun onUpdateNavMenuVisibleStateEvent(e: UpdateNavMenuVisibleStateEvent) {
+        updateNavMenuVisible(e.isVisible)
+    }
+
+    private fun updateNavMenuVisible(isVisible: Boolean) {
+        binding.navViewContainer.isVisible = isVisible
+//        updateToBodygraphCard(isVisible)
+    }
+
+    @Subscribe
+    fun onUpdateLoaderStateEvent(e: UpdateLoaderStateEvent) {
+        updateLoaderState(e.isVisible)
+    }
+
+    private fun updateLoaderState(isVisible: Boolean) {
+        runOnUiThread {
+            binding.progress.isVisible = isVisible
+
+            if (isVisible) (binding.progressBar.drawable as GifDrawable).start()
+            else (binding.progressBar.drawable as GifDrawable).stop()
+        }
+
     }
 
     override fun onRequestPermissionsResult(
@@ -291,7 +320,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     private fun setupNavMenu() {
-        Log.d("keke", "lkele")
         if (binding.navView.menu.size() != 0) return
 
         binding.navView.inflateMenu(R.menu.bottom_nav_menu)

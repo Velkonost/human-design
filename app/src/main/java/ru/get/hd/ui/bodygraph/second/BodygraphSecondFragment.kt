@@ -113,8 +113,6 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
                 )
             }
 
-
-//
             it.description.channels.keys.forEach { number ->
                 channels.add(
                     TransitionChannel(
@@ -145,7 +143,6 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
                 }
             }
         })
-
     }
 
     private fun selectAbout() {

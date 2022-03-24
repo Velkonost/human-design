@@ -4,15 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import ru.get.hd.model.Child
 import ru.get.hd.model.User
+import ru.get.hd.repo.dao.ChildDao
 import ru.get.hd.repo.dao.UserDao
 
 @Database(
-    entities = [User::class],
+    entities = [User::class, Child::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun userDao(): UserDao
+    abstract fun childDao(): ChildDao
 
     companion object {
         @Volatile

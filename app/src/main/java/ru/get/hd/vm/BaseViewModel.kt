@@ -3,11 +3,16 @@ package ru.get.hd.vm
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
+import ru.get.hd.event.CurrentUserLoadedEvent
+import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.Faq
 import ru.get.hd.model.Forecast
@@ -35,6 +40,10 @@ class BaseViewModel @Inject constructor(
 
     fun isCurrentUserInitialized() = ::currentUser.isInitialized
     lateinit var currentUser: User
+
+
+    var allUsers: MutableLiveData<List<User>> = mutableLiveDataOf(emptyList())
+
     var currentBodygraph: MutableLiveData<GetDesignResponse> = mutableLiveDataOf(GetDesignResponse())
     var currentAffirmation: MutableLiveData<Affirmation> = mutableLiveDataOf(Affirmation())
     var currentForecast: MutableLiveData<Forecast> = mutableLiveDataOf(Forecast())
@@ -47,7 +56,34 @@ class BaseViewModel @Inject constructor(
             EventBus.getDefault().register(this)
     }
 
-    fun setupCurrentBodygraph() {
+    private var isUserLoaded = false
+    private var isBodygraphLoaded = false
+    private var isAffirmationLoaded = false
+    private var isForecastLoaded = false
+    private var isTransitLoaded = false
+
+    private fun resetAllUserDataStates() {
+        isUserLoaded = false
+        isBodygraphLoaded = false
+        isAffirmationLoaded = false
+        isForecastLoaded = false
+        isTransitLoaded = false
+    }
+
+    private fun checkIsUserDataLoaded() {
+        if (
+            isUserLoaded
+            && isBodygraphLoaded
+            && isAffirmationLoaded
+            && isForecastLoaded
+            && isTransitLoaded
+        ) {
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            EventBus.getDefault().post(CurrentUserLoadedEvent())
+        }
+    }
+
+    private fun setupCurrentBodygraph() {
         val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
         val calendar: Calendar = Calendar.getInstance()
 
@@ -71,13 +107,14 @@ class BaseViewModel @Inject constructor(
             updateUser()
 
             currentBodygraph.postValue(it)
-        }, {
 
-            Log.d("keke", "keek")
-        }).disposeOnCleared()
+            isBodygraphLoaded = true
+            checkIsUserDataLoaded()
+
+        }, {}).disposeOnCleared()
     }
 
-    fun setupCurrentTransit() {
+    private fun setupCurrentTransit() {
         val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
         val calendar: Calendar = Calendar.getInstance()
 
@@ -95,12 +132,16 @@ class BaseViewModel @Inject constructor(
             currentDate = currentDateStr
         ).subscribe({
             currentTransit.postValue(it)
+
+            isTransitLoaded = true
+            checkIsUserDataLoaded()
+
         }, {
 
         }).disposeOnCleared()
     }
 
-    fun setupCurrentForecast() {
+    private fun setupCurrentForecast() {
         val currentWeek = System.currentTimeMillis() / 604800000
 
         if (currentUser.forecastWeekMills != currentWeek) {
@@ -116,12 +157,14 @@ class BaseViewModel @Inject constructor(
                 it.values.forEach { list-> allForecasts.plusAssign(list) }
 
                 currentForecast.postValue(allForecasts[currentUser.forecastNumber % it.size])
-            }, {
 
-            }).disposeOnCleared()
+                isForecastLoaded = true
+                checkIsUserDataLoaded()
+
+            }, {}).disposeOnCleared()
     }
 
-    fun setupCurrentAffirmation() {
+    private fun setupCurrentAffirmation() {
         val today = System.currentTimeMillis() / 86400000
 
         if (currentUser.affirmationDayMills != today) {
@@ -134,6 +177,10 @@ class BaseViewModel @Inject constructor(
         repo.getAffirmations()
             .subscribe({
                 currentAffirmation.postValue(it[currentUser.affirmationNumber % it.size])
+
+                isAffirmationLoaded = true
+                checkIsUserDataLoaded()
+
             }, {}).disposeOnCleared()
     }
 
@@ -166,15 +213,31 @@ class BaseViewModel @Inject constructor(
                     )
                 )
 
-            Log.d("keke", "1")
             App.preferences.currentUserId = userId
             setupCurrentUser()
         }
 
     }
 
+    suspend fun getAllUsers() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.database.userDao().getAll()
+            }
+        }
+
+    suspend fun getAllChildren() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.database.childDao().getAll()
+            }
+        }
+
     fun setupCurrentUser() {
         GlobalScope.launch {
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
+            resetAllUserDataStates()
+
             currentUser = App.database.userDao()
                 .findById(App.preferences.currentUserId)
 
@@ -184,7 +247,9 @@ class BaseViewModel @Inject constructor(
             setupCurrentTransit()
 
             currentUserSetupEvent.postValue(true)
-            Log.d("keke", "2")
+
+            isUserLoaded = true
+            checkIsUserDataLoaded()
         }
     }
 
@@ -202,7 +267,7 @@ class BaseViewModel @Inject constructor(
         }
     }
 
-    fun updateUser() {
+    private fun updateUser() {
         GlobalScope.launch {
             App.database.userDao().updateUser(currentUser)
         }
