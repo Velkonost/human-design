@@ -267,7 +267,7 @@ class BaseViewModel @Inject constructor(
         }
     }
 
-    private fun updateUser() {
+    fun updateUser() {
         GlobalScope.launch {
             App.database.userDao().updateUser(currentUser)
         }

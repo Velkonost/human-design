@@ -346,5 +346,9 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             router.navigateTo(Screens.faqScreen())
 //            Navigator.settingsToFaq(this@SettingsFragment)
         }
+
+        fun onPersonalInfoClicked(v: View) {
+            router.navigateTo(Screens.personalInfoScreen())
+        }
     }
 }

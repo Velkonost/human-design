@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="darkColor">#000000</color>
+    <color name="darkColor">#0E0E0F</color>
     <color name="lightColor">#FFFFFF</color>
 
     <color name="darkCardColor">#19191A</color>

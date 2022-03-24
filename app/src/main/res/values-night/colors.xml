@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="darkColor">#000000</color>
+    <color name="darkColor">#0E0E0F</color>
     <color name="lightColor">#FFFFFF</color>
 
     <color name="darkCardColor">#19191A</color>
@@ -18,6 +18,8 @@
 
     <color name="darkMenu">#111111</color>
     <color name="lightMenu">#F9F9F9</color>
+
+    <color name="unselectText">#888888</color>
 
     <color name="blue">#2a9df4</color>
     <color name="backgroundColor">#FFFFFF</color>

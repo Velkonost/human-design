@@ -15,6 +15,7 @@ import ru.get.hd.ui.compatibility.CompatibilityFragment
 import ru.get.hd.ui.faq.FaqFragment
 import ru.get.hd.ui.faq.detail.FaqDetailFragment
 import ru.get.hd.ui.settings.SettingsFragment
+import ru.get.hd.ui.settings.personal.PersonalInfoFragment
 import ru.get.hd.ui.splash.SplashFragment
 import ru.get.hd.ui.start.StartFragment
 import ru.get.hd.ui.transit.TransitFragment
@@ -82,6 +83,10 @@ object Screens {
 
     fun addUserScreen() = FragmentScreen {
         AddUserFragment()
+    }
+
+    fun personalInfoScreen() = FragmentScreen {
+        PersonalInfoFragment()
     }
 }
 
