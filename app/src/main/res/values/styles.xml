@@ -19,6 +19,14 @@
 
         <!--        <item name="colorControlNormal">@color/colorLightControlNormalStyles</item>-->
         <!--        <item name="colorControlActivated">@color/colorLightPrimaryStyles</item>-->
+
+        <item name="colorSecondary">@color/darkSettingsArrowTint</item>
+        <item name="colorAccent">@color/darkSettingsArrowTint</item>
+        <item name="colorPrimary">@color/darkSettingsArrowTint</item>
+        <item name="colorPrimaryDark">@color/darkSettingsArrowTint</item>
+        <item name="colorControlNormal">@color/darkSettingsArrowTint</item>
+        <item name="colorControlActivated">@color/darkSettingsArrowTint</item>
+<!--        <item name="colorControlHighlight">@color/mainColor</item>-->
     </style>
 
     <style name="ToBodygraphCard" parent="@style/Widget.MaterialComponents.CardView">

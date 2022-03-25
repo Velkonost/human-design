@@ -133,4 +133,10 @@
     <string name="confirm">Confirm</string>
     <string name="confirm_title">Are you sure?</string>
     <string name="confirm_text">The introduction of new data will lead to the fact that your design will irreversibly change. Are you sure you want to change the data?</string>
+
+    <string name="type_title">Type</string>
+    <string name="profile_title">Profile</string>
+    <string name="authority_title">Authority</string>
+    <string name="strategy_title">Strategy</string>
+    <string name="injury_title">Trauma Suppression</string>
 </resources>

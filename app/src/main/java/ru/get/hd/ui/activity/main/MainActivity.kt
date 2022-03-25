@@ -314,8 +314,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         binding.toBodygraphCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
             this,
-            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-            else R.color.lightSettingsCard
+            if (App.preferences.isDarkTheme) R.color.darkMenu
+            else R.color.lightMenu
         ))
     }
 

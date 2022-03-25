@@ -6,12 +6,14 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
+import kotlinx.android.synthetic.main.item_bodygraph_about.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_centers.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_channels.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_gates.view.*
 import kotlinx.android.synthetic.main.item_center.view.*
 import ru.get.hd.App
 import ru.get.hd.R
+import ru.get.hd.model.AboutItem
 import ru.get.hd.model.Center
 import ru.get.hd.model.TransitionChannel
 import ru.get.hd.model.TransitionGate
@@ -26,21 +28,22 @@ class ColumnsAdapter : EpoxyAdapter() {
         activeCenters: List<Center>,
         inactiveCenters: List<Center>,
         gates: List<TransitionGate>,
-        channels: List<TransitionChannel>
+        channels: List<TransitionChannel>,
+        aboutItems: List<AboutItem>
     ) {
         removeAllModels()
-//        models.map { addModel(CentersModel(it)) }
-        addModel(AboutModel())
-        addModel(ru.get.hd.ui.bodygraph.second.adapter.CentersModel(
-            activeCenters, inactiveCenters
-        ))
+
+        addModel(AboutModel(aboutItems))
+        addModel(CentersModel(activeCenters, inactiveCenters))
         addModel(GatesModel(gates))
         addModel(ChannelsModel(channels))
+
         notifyDataSetChanged()
     }
 }
 
 class AboutModel(
+    private val aboutItems: List<AboutItem>
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -50,7 +53,8 @@ class AboutModel(
         root = view
 
         with(view) {
-//
+            val aboutAdapter = AboutAdapter(context, aboutRecycler, aboutItems)
+            aboutRecycler.adapter = aboutAdapter
 
         }
     }

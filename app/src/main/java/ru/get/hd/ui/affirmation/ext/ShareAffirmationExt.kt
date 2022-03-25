@@ -75,6 +75,7 @@ fun AffirmationFragment.shareAffirmation(affirmationView: View) {
 
     lifecycleScope.launch(Dispatchers.IO) {
         val intent = Intent(Intent.ACTION_SEND)
+        intent.putExtra(Intent.EXTRA_TEXT, "@hdumandesign #humandesign")
         intent.putExtra(
             Intent.EXTRA_STREAM,
             saveAffirmationImg(

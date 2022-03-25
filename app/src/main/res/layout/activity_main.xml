@@ -41,7 +41,7 @@
                 style="@style/ToBodygraphCard"
                 android:layout_width="70dp"
                 android:onClick="@{handler::onToBodygraphClicked}"
-                app:cardElevation="8dp"
+                app:cardElevation="14dp"
                 android:layout_height="40dp"
                 android:backgroundTint="@color/lightSettingsCard"
                 app:cardPreventCornerOverlap="true"

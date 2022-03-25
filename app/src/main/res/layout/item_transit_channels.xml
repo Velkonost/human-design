@@ -6,6 +6,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/channelsRecycler"
+        android:fadingEdge="vertical"
+        android:fadeScrollbars="true"
+        android:fadingEdgeLength="40dp"
+        android:requiresFadingEdge="vertical"
         android:clipToPadding="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"

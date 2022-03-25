@@ -5,6 +5,10 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
+        android:fadingEdge="vertical"
+        android:fadeScrollbars="true"
+        android:fadingEdgeLength="40dp"
+        android:requiresFadingEdge="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
