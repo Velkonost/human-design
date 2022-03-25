@@ -139,4 +139,7 @@
     <string name="authority_title">Authority</string>
     <string name="strategy_title">Strategy</string>
     <string name="injury_title">Trauma Suppression</string>
+
+    <string name="start_bodygraph_ready_title">Бодиграф готов!</string>
+    <string name="start_bodygraph_ready_text">Теперь вы узнаете своё истинное предназначение и найдёте верный жизненный путь.</string>
 </resources>

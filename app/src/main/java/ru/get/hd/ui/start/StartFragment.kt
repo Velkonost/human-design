@@ -4,6 +4,7 @@ import android.Manifest
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.Address
@@ -51,6 +52,7 @@ import ru.get.hd.util.convertDpToPx
 import ru.get.hd.util.ext.alpha0
 import ru.get.hd.util.ext.alpha1
 import ru.get.hd.util.ext.setTextAnimation
+import ru.get.hd.util.ext.setTextAnimation07
 import ru.get.hd.util.ext.translationY
 import ru.get.hd.vm.BaseViewModel
 import java.util.*
@@ -255,6 +257,18 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             )
         )
 
+        binding.bodygraphReadyTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.bodygraphReadyText.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
     }
 
     private fun setupPlacesView() {
@@ -332,15 +346,12 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         stepTranslationYForMidCircle = totalTranslationYForMidCircle / 5
     }
 
-
-
     private fun setupRave() {
         currentStartPage = StartPage.RAVE
 
         binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_title))
-        binding.raveDesc.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_desc)) {
-            binding.raveDesc.alpha = 0.7f
-        }
+        binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_desc))
+
     }
 
     private fun setupName() {
@@ -361,9 +372,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.indicatorsContainer.alpha1(500)
 
         binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_name_title))
-        binding.nameDesc.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_name_desc)) {
-            binding.nameDesc.alpha = 0.7f
-        }
+        binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_name_desc))
         binding.nameET.hint = App.resourcesProvider.getStringLocale(R.string.start_name_hint)
     }
 
@@ -389,13 +398,11 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.date.alpha1(500)
 
         binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_date_title))
-        binding.nameDesc.setTextAnimation(
+        binding.nameDesc.setTextAnimation07(
             binding.nameET.text.toString() + App.resourcesProvider.getStringLocale(
                 R.string.start_date_desc
             )
-        ) {
-            binding.nameDesc.alpha = 0.7f
-        }
+        )
     }
 
     private fun setupTimeBirth() {
@@ -410,9 +417,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         )
 
         binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_title))
-        binding.nameDesc.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_desc)) {
-            binding.nameDesc.alpha = 0.7f
-        }
+        binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_time_desc))
         binding.skipTime.isVisible = true
         binding.skipTime.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_skip))
 
@@ -458,7 +463,18 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     private fun setupBodygraph() {
         currentStartPage = StartPage.BODYGRAPH
         App.preferences.lastLoginPageId = StartPage.BODYGRAPH.pageId
-        Log.d("keke", "3")
+
+        binding.indicatorsContainer.alpha0(500)
+        binding.startBtn.alpha0(500) {
+            binding.startBtn.isVisible = false
+        }
+        binding.nameContainer.alpha0(500)
+
+        binding.bodygraphContainer.isVisible = true
+        binding.bodygraphContainer.alpha1(500)
+
+        binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title))
+        binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_text))
     }
 
     private fun unselectAllIndicators() {
