@@ -6,7 +6,11 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
+import kotlinx.android.synthetic.main.item_diagram.view.*
 import kotlinx.android.synthetic.main.item_partner.view.*
+import kotlinx.android.synthetic.main.item_partner.view.chart
+import kotlinx.android.synthetic.main.item_partner.view.subtitle
+import kotlinx.android.synthetic.main.item_partner.view.userName
 import kotlinx.android.synthetic.main.item_partner_empty.view.*
 import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
@@ -67,6 +71,25 @@ class PartnerModel(
                 if (App.preferences.isDarkTheme) R.color.darkSettingsCard
                 else R.color.lightSettingsCard
             ))
+
+            chart.setImageResource(
+                if (model.subtitle1Ru?.toLowerCase() == "проектор") {
+                    if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
+                    else R.drawable.ic_chart_proektor_light
+                } else if (model.subtitle1Ru?.toLowerCase() == "рефлектор") {
+                    if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_dark
+                    else R.drawable.ic_chart_reflector_light
+                } else if (model.subtitle1Ru?.toLowerCase() == "генератор") {
+                    if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_dark
+                    else R.drawable.ic_chart_generator_light
+                } else if (model.subtitle1Ru?.toLowerCase() == "манифестирующий генератор") {
+                    if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_dark
+                    else R.drawable.ic_chart_mangenerator_light
+                } else {
+                    if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_dark
+                    else R.drawable.ic_chart_manifestor_light
+                }
+            )
 
             partnerCard.setOnClickListener {
 

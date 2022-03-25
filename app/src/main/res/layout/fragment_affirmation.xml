@@ -20,6 +20,11 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
+        <ImageView
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_stars"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/selectionCard"

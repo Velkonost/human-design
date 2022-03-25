@@ -21,7 +21,11 @@
         android:background="@color/darkColor"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
-
+        <ImageView
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_stars"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
         <FrameLayout
             android:layout_width="27dp"
             android:layout_height="27dp"

@@ -24,13 +24,24 @@
             android:id="@+id/partnerContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="32dp">
+            >
             <!--        <View-->
             <!--            android:id="@+id/diagramStroke"-->
             <!--            android:layout_width="match_parent"-->
             <!--            android:layout_height="wrap_content"-->
             <!--            android:alpha="0"-->
             <!--            android:background="@drawable/gradient_variant_card_selected_light" />-->
+
+            <ImageView
+                android:id="@+id/chart"
+                android:layout_marginVertical="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="14dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_height="0dp"/>
 
             <TextView
                 android:id="@+id/userName"
@@ -57,6 +68,7 @@
                 android:letterSpacing="0.12"
                 android:textAllCaps="true"
                 android:textSize="12sp"
+                android:paddingBottom="32dp"
                 app:layout_constraintTop_toBottomOf="@id/userName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
