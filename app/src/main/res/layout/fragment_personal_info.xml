@@ -45,8 +45,10 @@
 
         <TextView
             android:id="@+id/personalInfoTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="64dp"
+            android:gravity="center"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/montserrat_semibold"
             android:textSize="24sp"
@@ -62,6 +64,7 @@
             android:fontFamily="@font/montserrat_semibold"
             android:onClick="@{handler::onDoneClicked}"
             android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="@id/personalInfoTitle"
             app:layout_constraintBottom_toBottomOf="@id/personalInfoTitle"
             app:layout_constraintEnd_toEndOf="parent" />
 

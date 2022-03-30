@@ -6,19 +6,21 @@
     <string name="title_splash_01">Дизайн Человека</string>
     <string name="desc_splash_01">
         <![CDATA[
-        Дизайн Человека - это новейшая система<br/>для познания себя
+        Дизайн Человека - это новейшая<br>система для познания себя
 <br/><br/>
-Это инструмент, позволяющий изучить свою <br/>истинную природу, узнать свои уникальные<br/>особенности и научиться принимать<br/>правильные для себя решения.
+Это инструмент, позволяющий<br>изучить свою истинную природу,<br>узнать свои уникальные<br/>особенности и научиться принимать<br/>правильные для себя решения.
 <br/><br/>
-Дизайна Человека помогает построить<br/>гармоничные отношения с собой и<br/>окружающим миром. Дает рекомендации к<br/>действию для раскрытия своего потенциала
+Дизайна Человека помогает<br>построить гармоничные отношения<br>с собой и окружающим миром. Дает<br>рекомендации к действию для<br>раскрытия своего потенциала
 ]]>
     </string>
 
     <string name="desc_splash_02">
         <![CDATA[
-        Дизайн Человека не религия или<br/>философское учение, а отдельная<br/>современная система знаний на стыке науки<br/>и духовности.
+        Дизайн Человека не религия или<br/>философское учение, а отдельная<br/>современная система знаний на стыке<br/>науки и духовности.
 <br/><br/>
-Дизайн Человека собрал в себе такие<br/>знания как китайская ИЗЦИН, индуистская<br/>чакровая система, кабалла, астрология,<br/>квантовая физика и генетика.
+Дизайн Человека собрал в себе такие<br/>знания как китайская ИЗЦИН,<br>индуистская чакровая система,<br/>кабалла, астрология, квантовая<br/>физика и генетика.
+<br><br>
+С помощью Дизайна Человека вы<br>узнаете как можно проживать свою<br>жизнь и не играть чужие роли.
 ]]>
     </string>
 
@@ -67,40 +69,40 @@
 
     <string name="start_place_hint">ГОРОД, СТРАНА</string>
 
-    <string name="settings_title">Settings</string>
-    <string name="settings_notifications_title">Notifications</string>
-    <string name="settings_theme_title">Theme</string>
-    <string name="settings_dark_theme_title">Night</string>
-    <string name="settings_light_theme_title">Day</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_notifications_title">Уведомления</string>
+    <string name="settings_theme_title">Тема</string>
+    <string name="settings_dark_theme_title">Ночь</string>
+    <string name="settings_light_theme_title">День</string>
 
-    <string name="settings_personal_info_title">Personal info</string>
+    <string name="settings_personal_info_title">Персональная информация</string>
     <string name="settings_faq_title">FAQ</string>
-    <string name="settings_privace_policy_title">Privacy Policy</string>
-    <string name="settings_terms_conditions_title">Terms &amp; Conditions</string>
+    <string name="settings_privace_policy_title">Политика конфиденциальности</string>
+    <string name="settings_terms_conditions_title">Правила использования</string>
     <string name="settings_version_title">Version</string>
-    <string name="settings_write_us_title">Write to us</string>
+    <string name="settings_write_us_title">Напишите нам</string>
 
     <string name="faq_title">FAQ</string>
 
-    <string name="affirmations_title">Affirmations</string>
-    <string name="forecasts_title">Forecasts</string>
-    <string name="next_affirmation_text">The next affirmation will be tomorrow</string>
-    <string name="next_forecast_text">Individual forecast changes every Monday</string>
-    <string name="affirmation_share">Share</string>
+    <string name="affirmations_title">Аффирмации</string>
+    <string name="forecasts_title">Прогнозы</string>
+    <string name="next_affirmation_text">Следующая аффирмация будет завтра</string>
+    <string name="next_forecast_text">Индивидуальный прогноз каждый понедельник</string>
+    <string name="affirmation_share">Поделиться</string>
     
-    <string name="daily_transits_title">Daily transits</string>
-    <string name="gates_title">Gates</string>
-    <string name="channels_title">Channels</string>
-    <string name="next_transit_text">the next transit will be tomorrow</string>
+    <string name="daily_transits_title">Транзиты сегодня</string>
+    <string name="gates_title">Ворота</string>
+    <string name="channels_title">Каналы</string>
+    <string name="next_transit_text">следующий транзит будет завтра</string>
 
     <string name="design_title">Дизайн</string>
     <string name="transit_title">Транзит</string>
-    <string name="personality_title">Personality</string>
+    <string name="personality_title">Личность</string>
 
-    <string name="to_decryption_text">to decryption</string>
+    <string name="to_decryption_text">к расшифровке</string>
 
     <string name="about_title">About</string>
-    <string name="centers_title">Centers</string>
+    <string name="centers_title">Центры</string>
 
     <string name="places_empty_text">Совпадений не найдено</string>
 
@@ -117,28 +119,28 @@
     <string name="inactive_centers_text">Неопределенные центры открыты для влияния извне, они настроены на прием от людей и жизни. Это места уязвимости, где мир влияет на вас. Здесь вы больше всего учитесь, а значит имеете потенциал обрести мудрость и экспертность.</string>
 
     <string name="to_bodygraph">к бодиграфу</string>
-    <string name="diagram_title">My charts</string>
-    <string name="diagram_empty_text">In this section, you can add bodygraphs of other people (friends, acquaintances) and get to know them from a completely new side</string>
+    <string name="diagram_title">Мои диаграммы</string>
+    <string name="diagram_empty_text">Нет перевода на ру(</string>
 
-    <string name="partners_title">Partners</string>
-    <string name="children_title">Children</string>
-    <string name="compatibility_title">Relationship</string>
+    <string name="partners_title">Взрослые</string>
+    <string name="children_title">Дети</string>
+    <string name="compatibility_title">Взаимоотношения</string>
 
-    <string name="name_title">NAME</string>
-    <string name="city_birth_title">CITY OF BIRTH</string>
-    <string name="date_birth_title">DATE OF BIRTH</string>
-    <string name="time_birth_title">TIME OF BIRTH</string>
-    <string name="personal_info_title">Personal info</string>
-    <string name="done_title">Done</string>
-    <string name="confirm">Confirm</string>
-    <string name="confirm_title">Are you sure?</string>
-    <string name="confirm_text">The introduction of new data will lead to the fact that your design will irreversibly change. Are you sure you want to change the data?</string>
+    <string name="name_title">ИМЯ</string>
+    <string name="city_birth_title">ГОРОД, СТРАНА</string>
+    <string name="date_birth_title">ДАТА РОЖДЕНИЯ</string>
+    <string name="time_birth_title">ВРЕМЯ РОЖДЕНИЯ</string>
+    <string name="personal_info_title">Персональная информация</string>
+    <string name="done_title">Готово</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="confirm_title">Вы уверены?</string>
+    <string name="confirm_text">Введение новых данных приведет к тому, что ваш дизайн необратимо изменится. Вы уверены, что хотите изменить данные?</string>
 
-    <string name="type_title">Type</string>
-    <string name="profile_title">Profile</string>
-    <string name="authority_title">Authority</string>
-    <string name="strategy_title">Strategy</string>
-    <string name="injury_title">Trauma Suppression</string>
+    <string name="type_title">Тип</string>
+    <string name="profile_title">Профиль</string>
+    <string name="authority_title">Внутренний авторитет</string>
+    <string name="strategy_title">Внешняя стратегия</string>
+    <string name="injury_title">Травма</string>
 
     <string name="start_bodygraph_ready_title">Бодиграф готов!</string>
     <string name="start_bodygraph_ready_text">Теперь вы узнаете своё истинное предназначение и найдёте верный жизненный путь.</string>
