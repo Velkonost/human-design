@@ -20,7 +20,15 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
-
+        <ru.get.hd.ui.view.bodygraph.BodygraphView
+            android:id="@+id/bodygraphView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@id/toDescryptionContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/generalBlock"
             android:layout_width="match_parent"
@@ -30,14 +38,8 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@id/toDescryptionContainer"
             app:layout_constraintTop_toTopOf="parent">
-            <ru.get.hd.ui.view.BodygraphView
-                android:id="@+id/bodygraphView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
 
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/designBlock" />
+
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/designBlock"
@@ -381,7 +383,6 @@
 
                 <TextView
                     android:id="@+id/transitTitle"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha="0"

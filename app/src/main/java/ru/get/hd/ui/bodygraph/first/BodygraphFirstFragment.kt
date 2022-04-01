@@ -68,6 +68,12 @@ class BodygraphFirstFragment : BaseFragment<BodygraphViewModel, FragmentBodygrap
     @SuppressLint("SetTextI18n")
     private fun setupZnaks() {
         baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
+            binding.bodygraphView.setupData(
+                it.design,
+                it.personality,
+                it.activeCentres
+            )
+
             if (!it.design.planets.isNullOrEmpty()) {
                 binding.rightZnak1.setTextAnimation(
                     "${it.design.planets[0].gate}.${it.design.planets[0].line}"

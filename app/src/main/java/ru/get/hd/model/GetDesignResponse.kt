@@ -28,11 +28,21 @@ data class GetDesignResponse(
 @Parcelize
 data class Design(
     @field:JsonProperty("planets") val planets: List<Planet> = listOf(),
+    @field:JsonProperty("gates") val gates: List<Int> = listOf(),
+    @field:JsonProperty("channels") val channels: HashMap<String, DesignChannel> = hashMapOf(),
 ): Parcelable
 
 @Parcelize
 data class Personality(
     @field:JsonProperty("planets") val planets: List<Planet> = listOf(),
+    @field:JsonProperty("gates") val gates: List<Int> = listOf(),
+    @field:JsonProperty("channels") val channels: HashMap<String, DesignChannel> = hashMapOf(),
+): Parcelable
+
+@Parcelize
+data class DesignChannel(
+    @field:JsonProperty("state") val state: String = "",
+    @field:JsonProperty("gate") val gate: String = "",
 ): Parcelable
 
 @Parcelize
