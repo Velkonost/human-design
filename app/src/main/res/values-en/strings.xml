@@ -88,7 +88,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="affirmations_title">Affirmations</string>
     <string name="forecasts_title">Forecasts</string>
     <string name="next_affirmation_text">The next affirmation will be tomorrow</string>
-    <string name="next_forecast_text">Individual forecast changes every Monday</string>
+    <string name="next_forecast_text">Your individual weekly forecast</string>
     <string name="affirmation_share">Share</string>
 
     <string name="daily_transits_title">Daily transits</string>
@@ -146,5 +146,25 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="start_bodygraph_ready_title">Bodygraph is ready!</string>
     <string name="start_bodygraph_ready_text">Now you can reveal all the secrets of your relationship and learn to live in harmony.</string>
 
+    <string-array name="push_titles">
+        <item>Guide to discover your true Self 👤</item>
+        <item>Your potential at the biochemistry level 🧬</item>
+        <item>Your individual forecast is ready! 🔮</item>
+        <item>Click here to read 🔍</item>
+        <item>Free human design decoding ⚛️️</item>
+    </string-array>
 
+    <string-array name="push_descs">
+        <item>3 Days Free Trial 🔥 Click here to try</item>
+        <item>Try it right now for free 🔬</item>
+        <item>Visit the App to learn more ☝🏽</item>
+        <item>Your compatibility report awaits you 🔥</item>
+        <item>Visit the App to read it ☝🏽</item>
+    </string-array>
+
+    <string name="compatibility_channels_title">Compatibility Channels</string>
+    <string name="compatibility_channels_desc">Compatibility channels demonstrate how people influence each other. When overlaying rave cards of two persons, we can see if you and your partner have completely or partially matching Channels.  Based on this, it is concluded whether your relationship will be harmonious.</string>
+
+    <string name="compatibility_child_title">Child</string>
+    <string name="compatibility_parent_title">Parent</string>
 </resources>

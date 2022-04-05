@@ -9,6 +9,9 @@ data class Child(
     @PrimaryKey(autoGenerate = false)
     var id: Long,
 
+    @ColumnInfo(name = "parentId")
+    var parentId: Long,
+
     @ColumnInfo(name = "name")
     var name: String,
 
@@ -52,5 +55,11 @@ data class Child(
     var subtitle3Ru: String? = null,
 
     @ColumnInfo(name = "subtitle3En")
-    var subtitle3En: String? = null
-        )
+    var subtitle3En: String? = null,
+
+    @ColumnInfo(name = "kidDescriptionRu")
+    var kidDescriptionRu: String? = null,
+
+    @ColumnInfo(name = "kidDescriptionEn")
+    var kidDescriptionEn: String? = null
+)

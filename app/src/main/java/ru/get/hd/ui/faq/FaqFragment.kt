@@ -80,7 +80,6 @@ class FaqFragment : BaseFragment<FaqViewModel, FragmentFaqBinding>(
 
         fun onBackClicked(v: View) {
             pressBack()
-//            ru.get.hd.navigation.Navigator.goBack(this@FaqFragment)
         }
 
     }

@@ -275,6 +275,11 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 )
             )
         }
+
+        binding.notificationsSwitch.isChecked = App.preferences.isPushAvailable
+        binding.notificationsSwitch.setOnCheckedChangeListener { view, isChecked ->
+            App.preferences.isPushAvailable = isChecked
+        }
     }
 
     inner class Handler {

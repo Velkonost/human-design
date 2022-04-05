@@ -5,7 +5,10 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.provider.Settings
 import androidx.core.app.NotificationCompat
+import ru.get.hd.R
 import ru.get.hd.ui.activity.main.MainActivity
 import timber.log.Timber
 
@@ -46,28 +49,22 @@ class NotificationHelper(private val mContext: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-//        mBuilder = NotificationCompat.Builder(mContext)
-//            .setSmallIcon(R.drawable.ic_launcher_notification)
-//            .setColor(
-//                ContextCompat.getColor(
-//                    mContext,
-//                    if (App.preferences.isDarkTheme) R.color.colorDarkNotification
-//                    else R.color.colorLightNotification
-//                )
-//            )
-//            .setContentTitle(title)
-//            .setContentText(message)
-//            .setAutoCancel(true)
-//            .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-//            .setContentIntent(resultPendingIntent)
-//
-//        mNotificationManager =
-//            mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//            mBuilder?.setChannelId(mContext.getString(R.string.default_notification_channel_id))
-//        }
-////        if (App.preferences.userId != 0)
-//        mNotificationManager?.notify(2 /* Request Code */, mBuilder?.build())
+        mBuilder = NotificationCompat.Builder(mContext)
+            .setSmallIcon(R.drawable.ic_logo)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setAutoCancel(true)
+
+            .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+            .setContentIntent(resultPendingIntent)
+
+        mNotificationManager =
+            mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            mBuilder?.setChannelId(mContext.getString(R.string.default_notification_channel_id))
+        }
+//        if (App.preferences.userId != 0)
+        mNotificationManager?.notify(2 /* Request Code */, mBuilder?.build())
     }
 }

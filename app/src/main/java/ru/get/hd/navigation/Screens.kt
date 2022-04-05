@@ -12,6 +12,8 @@ import ru.get.hd.ui.bodygraph.diagram.DiagramFragment
 import ru.get.hd.ui.bodygraph.first.BodygraphFirstFragment
 import ru.get.hd.ui.bodygraph.second.BodygraphSecondFragment
 import ru.get.hd.ui.compatibility.CompatibilityFragment
+import ru.get.hd.ui.compatibility.child.CompatibilityChildFragment
+import ru.get.hd.ui.compatibility.detail.CompatibilityDetailFragment
 import ru.get.hd.ui.faq.FaqFragment
 import ru.get.hd.ui.faq.detail.FaqDetailFragment
 import ru.get.hd.ui.settings.SettingsFragment
@@ -81,12 +83,47 @@ object Screens {
         DiagramFragment()
     }
 
-    fun addUserScreen() = FragmentScreen {
-        AddUserFragment()
+    fun addUserScreen(
+        fromCompatibility: Boolean = false,
+        isChild: Boolean = false
+    ) = FragmentScreen {
+        val addUserFragment = AddUserFragment()
+        addUserFragment.arguments = bundleOf(
+            "fromCompatibility" to fromCompatibility,
+            "isChild" to isChild
+        )
+
+        addUserFragment
     }
 
     fun personalInfoScreen() = FragmentScreen {
         PersonalInfoFragment()
+    }
+
+    fun compatibilityDetailScreen(
+        name: String,
+        title: String,
+        chartResId: Int
+    ) = FragmentScreen {
+        val compatibilityDetailFragment = CompatibilityDetailFragment()
+        compatibilityDetailFragment.arguments = bundleOf(
+            "name" to name,
+            "title" to title,
+            "chartResId" to chartResId
+        )
+
+        compatibilityDetailFragment
+    }
+
+    fun compatibilityChildScreen(
+        childId: Long
+    ) = FragmentScreen {
+        val compatibilityChildFragment = CompatibilityChildFragment()
+        compatibilityChildFragment.arguments = bundleOf(
+            "childId" to childId
+        )
+
+        compatibilityChildFragment
     }
 }
 

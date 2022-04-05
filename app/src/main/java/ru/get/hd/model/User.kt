@@ -52,6 +52,9 @@ data class User(
     var subtitle3Ru: String? = null,
 
     @ColumnInfo(name = "subtitle3En")
-    var subtitle3En: String? = null
+    var subtitle3En: String? = null,
+
+    @ColumnInfo(name = "parentDescription")
+    var parentDescription: String? = null
 
 )

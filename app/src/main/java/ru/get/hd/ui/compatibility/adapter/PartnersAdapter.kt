@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.item_partner_empty.view.*
 import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
 import ru.get.hd.R
+import ru.get.hd.event.AddPartnerClickEvent
+import ru.get.hd.event.CompatibilityStartClickEvent
 import ru.get.hd.event.UpdateCurrentUserEvent
 import ru.get.hd.model.Child
 import ru.get.hd.model.User
@@ -72,7 +74,7 @@ class PartnerModel(
                 else R.color.lightSettingsCard
             ))
 
-            chart.setImageResource(
+            val chartResId =
                 if (model.subtitle1Ru?.toLowerCase() == "проектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
                     else R.drawable.ic_chart_proektor_light
@@ -89,10 +91,16 @@ class PartnerModel(
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_dark
                     else R.drawable.ic_chart_manifestor_light
                 }
-            )
+
+            chart.setImageResource(chartResId)
 
             partnerCard.setOnClickListener {
-
+                EventBus.getDefault().post(
+                    CompatibilityStartClickEvent(
+                        user = model,
+                        chartResId = chartResId
+                    )
+                )
             }
         }
     }
@@ -123,7 +131,7 @@ class EmptyPartnerModel : EpoxyModel<View>() {
             )
 
             emptyPartnerCard.setOnClickListener {
-
+                EventBus.getDefault().post(AddPartnerClickEvent())
             }
         }
     }

@@ -7,14 +7,17 @@ import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Point
+import android.graphics.RectF
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import ru.get.hd.event.BodygraphCenterClickEvent
 import ru.get.hd.model.Center
 import ru.get.hd.model.Design
-import ru.get.hd.model.DesignChannel
 import ru.get.hd.model.Personality
 import ru.get.hd.ui.view.bodygraph.ext.ActiveLineState
 import ru.get.hd.ui.view.bodygraph.ext.BodygraphActiveLine
@@ -31,18 +34,11 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     internal var widthInt: Int = 0
     internal var heightInt: Int = 0
 
-//    private var startX = 0f
-//    private var startY = 0f
-//    private var endX = 0f
-//    private var endY = 0f
-
     internal var cellSize = 0
     internal var squareSideSize = 0
     internal var centerX = 0
 
     private var centerY = 0
-//    private var listOfPoints: ArrayList<Point> = ArrayList()
-//    private var inte = 0
 
     internal lateinit var numbers: ArrayList<BodygraphNumber>
     internal lateinit var lines: ArrayList<BodygraphLine>
@@ -68,10 +64,13 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     internal lateinit var strangeTrianglePath: Path
 
     private lateinit var activeCenters: List<Center>
+    private lateinit var inactiveCenters: List<Center>
     private lateinit var design: Design
     private lateinit var personality: Personality
     private var isViewReadyToSetupGatesAndChannels = false
     private var isGatesAndChannelsSetupFinished = false
+
+    private var isTouchable = false
 
     private val activeGates: HashSet<Int> = hashSetOf()
     private val activeLines: MutableList<BodygraphActiveLine> = mutableListOf()
@@ -154,7 +153,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
         paint.textAlign = Paint.Align.CENTER
 //        paint.alpha = 10
         paint.color = Color.parseColor("#80FFFFFF")
-        paint.textSize = 12f
+        paint.textSize = 16f
 
         paint
     }
@@ -163,7 +162,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
         val paint = Paint()
         paint.textAlign = Paint.Align.CENTER
         paint.color = Color.WHITE
-        paint.textSize = 12f
+        paint.textSize = 16f
 
         paint
     }
@@ -232,6 +231,16 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
             if (::design.isInitialized && ::personality.isInitialized)
                 setupGatesAndChannels()
         }
+
+//        initBase()
+    }
+
+    fun initBase() {
+//        if (widthInt == 0 || heightInt == 0) return
+
+
+
+        invalidate()
     }
 
     private fun Canvas.drawNumbers() {
@@ -322,7 +331,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
         if (::topReverseTrianglePath.isInitialized)
             drawPath(
                 topReverseTrianglePath,
-                if (::activeCenters.isInitialized && activeCenters.any { it.id == 2}) activeTopReverseTrianglePaint
+                if (::activeCenters.isInitialized && activeCenters.any { it.id == 2 }) activeTopReverseTrianglePaint
                 else topReverseTrianglePaint
             )
     }
@@ -340,7 +349,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
         if (::strangeTrianglePath.isInitialized)
             drawPath(
                 strangeTrianglePath,
-                if (::activeCenters.isInitialized && activeCenters.any { it.id == 5}) activeStrangeTrianglePaint
+                if (::activeCenters.isInitialized && activeCenters.any { it.id == 5 }) activeStrangeTrianglePaint
                 else strangeTrianglePaint
             )
     }
@@ -816,7 +825,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     fun setupData(
         design: Design,
         personality: Personality,
-        activeCenters: List<Center>
+        activeCenters: List<Center>,
+        inactiveCenters: List<Center>,
+        isTouchable: Boolean = false
     ) {
         if (design.channels.isNotEmpty()) {
             this.design = design
@@ -825,8 +836,10 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
         if (personality.channels.isNotEmpty())
             this.personality = personality
 
-        if (activeCenters.isNotEmpty())
-            this.activeCenters = activeCenters
+        this.activeCenters = activeCenters
+        this.inactiveCenters = inactiveCenters
+
+        this.isTouchable = isTouchable
 
         if (
             isViewReadyToSetupGatesAndChannels
@@ -2374,6 +2387,8 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
                 }
             }
         }
+
+        invalidate()
     }
 
     private fun divideLineIntoEqualParts(
@@ -2416,6 +2431,151 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
         canvas.drawStrangeTriangle()
 
         canvas.drawNumbers()
+    }
+
+
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        when(event!!.action) {
+            MotionEvent.ACTION_DOWN -> {
+                if (!isTouchable) return true
+
+                val centers = mutableListOf<Center>()
+                centers.addAll(activeCenters)
+                centers.addAll(inactiveCenters)
+
+                val x = event.x
+                val y = event.y
+
+                val bottomSquareBounds = RectF()
+                val scaledBottomSquarePath = Path(bottomSquarePath)
+
+                bottomSquarePath.computeBounds(bottomSquareBounds, true)
+
+                val centerSquareBounds = RectF()
+                centerSquarePath.computeBounds(centerSquareBounds, true)
+
+                val topSquareBounds = RectF()
+                topSquarePath.computeBounds(topSquareBounds, true)
+
+                val leftTriangleBounds = RectF()
+                leftTrianglePath.computeBounds(leftTriangleBounds, true)
+
+                val rightTriangleBounds = RectF()
+                rightTrianglePath.computeBounds(rightTriangleBounds, true)
+
+                val rhombBounds = RectF()
+                rhombPath.computeBounds(rhombBounds, true)
+
+                val topReverseTriangleBounds = RectF()
+                topReverseTrianglePath.computeBounds(topReverseTriangleBounds, true)
+
+                val topTriangleBounds = RectF()
+                topTrianglePath.computeBounds(topTriangleBounds, true)
+
+                val strangeTriangleBounds = RectF()
+                strangeTrianglePath.computeBounds(strangeTriangleBounds, true)
+
+                when {
+                    strangeTriangleBounds.contains(x + 2 * cellSize, y - 8 * cellSize) -> {
+                        EventBus.getDefault().post(BodygraphCenterClickEvent(
+                            title = centers.find { it.id == 5 }!!.name,
+                            desc = centers.find { it.id == 5 }!!.shortDescription,
+                            x = strangeTrianglePoints[StrangeTrianglePoint.Top]!!.x.toFloat() - 4 * cellSize,
+                            y = strangeTrianglePoints[StrangeTrianglePoint.Top]!!.y.toFloat() + 9 * cellSize,
+                            alignTop = true,
+                            xOffset = -20,
+                            arrowPosition = 0.6f
+                        ))
+                    }
+                    bottomSquareBounds.contains(x, y - 3 * cellSize) -> {
+                       EventBus.getDefault().post(BodygraphCenterClickEvent(
+                           title = centers.find { it.id == 9 }!!.name,
+                           desc = centers.find { it.id == 9 }!!.shortDescription,
+                           x = centerX.toFloat(),
+                           y = bottomSquarePoints[SquarePoint.LeftTop]!!.y.toFloat() + 3 * cellSize,
+                           alignTop = true
+                       ))
+                    }
+                    centerSquareBounds.contains(x, y - 6 * cellSize) -> {
+                        EventBus.getDefault().post(BodygraphCenterClickEvent(
+                            title = centers.find { it.id == 8 }!!.name,
+                            desc = centers.find { it.id == 8 }!!.shortDescription,
+                            x = centerX.toFloat(),
+                            y = centerSquarePoints[SquarePoint.LeftTop]!!.y.toFloat() + 6 * cellSize,
+                            alignTop = true
+                        ))
+                    }
+                    topSquareBounds.contains(x, y - 14 * cellSize) -> {
+                        EventBus.getDefault().post(BodygraphCenterClickEvent(
+                            title = centers.find { it.id == 3 }!!.name,
+                            desc = centers.find { it.id == 3 }!!.shortDescription,
+                            x = centerX.toFloat(),
+                            y = topSquarePoints[SquarePoint.LeftBottom]!!.y.toFloat() + 12 * cellSize,
+                            alignTop = false
+                        ))
+                    }
+                    leftTriangleBounds.contains(x - 4 * cellSize, y - 6 * cellSize) -> {
+                        EventBus.getDefault().post(BodygraphCenterClickEvent(
+                            title = centers.find { it.id == 6 }!!.name,
+                            desc = centers.find { it.id == 6 }!!.shortDescription,
+                            x = (
+                                    leftTrianglePoints[SideTrianglePoint.Center]!!.x.toFloat()
+                                    - leftTrianglePoints[SideTrianglePoint.Top]!!.x.toFloat()
+                                    ) / 2 + 6 * cellSize,
+                            y = leftTrianglePoints[SideTrianglePoint.Top]!!.y.toFloat() + 7 * cellSize,
+                            alignTop = true,
+                            arrowPosition = 0.3f,
+                            xOffset = 100
+                        ))
+                    }
+                    rightTriangleBounds.contains(x + 4 * cellSize, y - 6 * cellSize) -> {
+                        EventBus.getDefault().post(BodygraphCenterClickEvent(
+                            title = centers.find { it.id == 7 }!!.name,
+                            desc = centers.find { it.id == 7 }!!.shortDescription,
+                            x = widthInt - (
+                                    rightTrianglePoints[SideTrianglePoint.Center]!!.x.toFloat()
+                                            - leftTrianglePoints[SideTrianglePoint.Top]!!.x.toFloat()
+                                    ) / 2 + 6 * cellSize,
+                            y = leftTrianglePoints[SideTrianglePoint.Top]!!.y.toFloat() + 7 * cellSize,
+                            alignTop = true,
+                            arrowPosition = 0.7f,
+                            xOffset = -120
+                        ))
+                    }
+                    rhombBounds.contains(x, y - 10 * cellSize) -> {
+                        EventBus.getDefault().post(BodygraphCenterClickEvent(
+                            title = centers.find { it.id == 4 }!!.name,
+                            desc = centers.find { it.id == 4 }!!.shortDescription,
+                            x = centerX.toFloat(),
+                            y = rhombPoints[RhombPoint.Top]!!.y.toFloat() + 12 * cellSize,
+                            alignTop = true
+                        ))
+                    }
+                    topReverseTriangleBounds.contains(x, y - 18 * cellSize) -> {
+                        EventBus.getDefault().post(BodygraphCenterClickEvent(
+                            title = centers.find { it.id == 2 }!!.name,
+                            desc = centers.find { it.id == 2 }!!.shortDescription,
+                            x = centerX.toFloat(),
+                            y = topReverseTrianglePoints[TopTrianglePoint.Center]!!.y.toFloat() + 16 * cellSize,
+                            alignTop = false
+                        ))
+                    }
+                    topTriangleBounds.contains(x, y - 22 * cellSize) -> {
+                        EventBus.getDefault().post(BodygraphCenterClickEvent(
+                            title = centers.find { it.id == 1 }!!.name,
+                            desc = centers.find { it.id == 1 }!!.shortDescription,
+                            x = centerX.toFloat(),
+                            y = topTrianglePoints[TopTrianglePoint.Left]!!.y.toFloat() + 19 * cellSize,
+                            alignTop = false
+                        ))
+                    }
+
+                }
+            }
+        }
+
+        return true
     }
 
     enum class SquarePoint {

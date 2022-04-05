@@ -18,5 +18,10 @@ data class DesignChildResponse(
     @field:JsonProperty("authority") val authority: Authority = Authority(),
     @field:JsonProperty("active_centres") val activeCentres: List<Center> = listOf(),
     @field:JsonProperty("inactive_centres") val inactiveCentres: List<Center> = listOf(),
+    @field:JsonProperty("kidDescription") val kidDescription: String = "",
+    @field:JsonProperty("kidDescription_en") val kidDescriptionEn: String = "",
+    @field:JsonProperty("kidDescription_ru") val kidDescriptionRu: String = "",
+    @field:JsonProperty("design") val design: Design = Design(),
+    @field:JsonProperty("personality") val personality: Personality = Personality(),
 
     ) : Parcelable

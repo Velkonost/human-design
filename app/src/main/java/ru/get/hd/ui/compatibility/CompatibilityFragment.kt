@@ -1,17 +1,29 @@
 package ru.get.hd.ui.compatibility
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
+import kotlinx.android.synthetic.main.item_diagram.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentCompatibilityBinding
+import ru.get.hd.event.AddChildClickEvent
+import ru.get.hd.event.AddPartnerClickEvent
+import ru.get.hd.event.CompatibilityChildStartClickEvent
+import ru.get.hd.event.CompatibilityStartClickEvent
+import ru.get.hd.event.UpdateLoaderStateEvent
+import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
+import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.compatibility.adapter.CompatibilityAdapter
 import ru.get.hd.ui.transit.TransitFragment
@@ -31,6 +43,34 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         ViewModelProviders.of(requireActivity()).get(
             BaseViewModel::class.java
         )
+    }
+
+    override fun onLayoutReady(savedInstanceState: Bundle?) {
+        super.onLayoutReady(savedInstanceState)
+
+        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+    }
+
+    @Subscribe
+    fun onCompatibilityStartClickEvent(e: CompatibilityStartClickEvent) {
+        baseViewModel.setupCompatibility(
+            lat1 = e.user.lat,
+            lon1 = e.user.lon,
+            date = e.user.date,
+        ) {
+            router.navigateTo(Screens.compatibilityDetailScreen(
+                name = e.user.name,
+                title =
+                "${if (App.preferences.locale == "ru") e.user.subtitle1Ru
+                else e.user.subtitle1En} • ${e.user.subtitle2}",
+                chartResId = e.chartResId
+            ))
+        }
+    }
+
+    @Subscribe
+    fun onCompatibilityChildStartClickEvent(e: CompatibilityChildStartClickEvent) {
+        router.navigateTo(Screens.compatibilityChildScreen(e.childId))
     }
 
     override fun updateThemeAndLocale() {
@@ -116,7 +156,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                 .toMutableList().filter { it.id != App.preferences.currentUserId }
             val children = baseViewModel.getAllChildren()
 
-            compatibilityAdapter.createList(partners, children)
+            compatibilityAdapter.createList(partners, children.filter { it.parentId == App.preferences.currentUserId })
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -131,7 +171,18 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         })
     }
 
+    @Subscribe
+    fun onAddPartnerClickEvent(e: AddPartnerClickEvent) {
+        router.navigateTo(Screens.addUserScreen(fromCompatibility = true))
+    }
+
+    @Subscribe
+    fun onAddChildClickEvent(e: AddChildClickEvent) {
+        router.navigateTo(Screens.addUserScreen(isChild = true))
+    }
+
     companion object {
+        @SuppressLint("StaticFieldLeak")
         @Volatile
         private var instance: CompatibilityFragment? = null
 

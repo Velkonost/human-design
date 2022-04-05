@@ -120,7 +120,7 @@
 
     <string name="to_bodygraph">к бодиграфу</string>
     <string name="diagram_title">Мои диаграммы</string>
-    <string name="diagram_empty_text">Нет перевода на ру(</string>
+    <string name="diagram_empty_text">В данном разделе вы можете добавить бодиграфы других людей (друзей, знакомых) и узнать их с совершенно новой стороны.</string>
 
     <string name="partners_title">Взрослые</string>
     <string name="children_title">Дети</string>
@@ -144,4 +144,65 @@
 
     <string name="start_bodygraph_ready_title">Бодиграф готов!</string>
     <string name="start_bodygraph_ready_text">Теперь вы узнаете своё истинное предназначение и найдёте верный жизненный путь.</string>
+
+    <string-array name="push_titles">
+        <item>Инструкция для раскрытия истинного Я 👤</item>
+        <item>Ваш потенциал на уровне биохимии 🧬</item>
+        <item>Ваш индивидуальный прогноз готов! 🔮</item>
+        <item>Нажми сюда, чтобы прочитать 🔍</item>
+        <item>Бесплатная расшифровка дизайна ⚛️</item>
+    </string-array>
+
+    <string-array name="push_descs">
+        <item>3 дня бесплатно 🔥 Нажмите, чтобы попробовать</item>
+        <item>Попробуйте бесплатно прямо сейчас 🔬</item>
+        <item>Зайдите,  чтобы узнать ☝🏽</item>
+        <item>Тебя ждет твой отчет о совместимости 🔥</item>
+        <item>Зайдите, чтобы прочитать ☝🏽</item>
+    </string-array>
+
+    <string name="compatibility_detail_title">Совместимость</string>
+    <string name="profiles_title">Профиль</string>
+
+    <string name="add_partner_rave_title"><![CDATA[Let’s calculate\nthe bodygraph!]]></string>
+    <string name="add_child_rave_title"><![CDATA[Let’s calculate\nyour child’s\nbodygraph!]]></string>
+
+    <string name="add_partner_rave_desc"><![CDATA[Enter your partner’s information and\nfind out everything about your\ncompatibility. You will understand where\nou coincide and where you are\ndissimilar.]]></string>
+    <string name="add_child_rave_desc"><![CDATA[Enter the details of your child, this will\nallow you to choose the right approach in\nhis upbringing. The child’s bodygraph\ncannot be used as the main bodygraph.]]></string>
+
+    <string name="add_partner_name_title"><![CDATA[What is your partner’s name?]]></string>
+    <string name="add_child_name_title"><![CDATA[Name of your child]]></string>
+    <string name="add_partner_name_desc"><![CDATA[Introduce your partner to us! ]]></string>
+    <string name="add_child_name_desc"><![CDATA[Please enter the name of the child for\nwhom the bodygraph is calculated.]]></string>
+
+    <string name="add_partner_date_birth_title"><![CDATA[Your partner’s\ndate of birth ]]></string>
+    <string name="add_partner_date_birth_desc"><![CDATA[Enter your partner’s date of birth and we\nwill calculate his bodygraph!]]></string>
+    <string name="add_child_date_birth_title"><![CDATA[Date of Birth]]></string>
+    <string name="add_child_date_birth_desc"><![CDATA[Indicate the date of birth of the child for\nwhom the bodygraph is calculated.]]></string>
+
+    <string name="add_partner_time_birth_title"><![CDATA[Time of your partner’s birth]]></string>
+    <string name="add_partner_time_birth_desc"><![CDATA[It will show the exact location of the\nplanets and stars at the time of your\npartner’s bith, which is important for\ncalculating the card.\nI don’t know for sure]]></string>
+    <string name="add_child_time_birth_title"><![CDATA[Time of Birth]]></string>
+    <string name="add_child_time_birth_desc"><![CDATA[Shows the exact location of planets and\nstars at the time of your child’s birth\nI don’t know for sure]]></string>
+
+    <string name="add_partner_place_birth_title"><![CDATA[Your partner’s\nplace of birth]]></string>
+    <string name="add_partner_place_birth_desc"><![CDATA[The place where your partner was born is\nvery important. We will be able to\naccurately determine the position of the\nheavenly bodies that have left an imprint\non your partner’s destiny.]]></string>
+    <string name="add_child_place_birth_title"><![CDATA[Place of Birth]]></string>
+    <string name="add_child_place_birth_desc"><![CDATA[Very important information for\ncalculating the bodygraph. We will be\nable to accurately determine the position\nof the heavenly bodies that have left an\nimprint on your child’s destiny.]]></string>
+
+    <string name="add_partner_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
+    <string name="add_partner_bodygraph_ready_desc"><![CDATA[Now you can reveal all the secrets of your\nrelationship and learn to live in harmony.]]></string>
+    <string name="add_child_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
+    <string name="add_child_bodygraph_ready_desc"><![CDATA[Now you can will find out the strengths\nand weakness of your child, you can find\nthe most harmonious way of his\ndevelopment and personal becoming.]]></string>
+
+    <string name="compatibility_channels_title">Каналы совместимости</string>
+    <string name="compatibility_channels_desc">Каналы совместимости демонстрируют, как люди влияют друг на друга. При наложении рейв карт двух личностей можно увидеть, есть ли у вас с партнером полностью или частично совпадающие Каналы. На основании этого делается вывод о том, будут ли ваши отношения гармоничными.</string>
+
+    <string name="channel_type_1">Сотрудничество</string>
+    <string name="channel_type_2">Главенство</string>
+    <string name="channel_type_3">Подавление</string>
+    <string name="channel_type_4">Взаимозависимость</string>
+
+    <string name="compatibility_child_title">Ребенок</string>
+    <string name="compatibility_parent_title">Родитель</string>
 </resources>

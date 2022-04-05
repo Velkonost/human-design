@@ -475,6 +475,15 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title))
         binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_text))
+
+        baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
+            binding.bodygraphView.setupData(
+                it.design,
+                it.personality,
+                it.activeCentres,
+                it.inactiveCentres
+            )
+        }
     }
 
     private fun unselectAllIndicators() {

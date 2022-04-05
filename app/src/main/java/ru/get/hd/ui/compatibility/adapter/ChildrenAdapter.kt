@@ -12,8 +12,11 @@ import kotlinx.android.synthetic.main.item_partner.view.chart
 import kotlinx.android.synthetic.main.item_partner.view.subtitle
 import kotlinx.android.synthetic.main.item_partner.view.userName
 import kotlinx.android.synthetic.main.item_partner_empty.view.*
+import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
 import ru.get.hd.R
+import ru.get.hd.event.AddChildClickEvent
+import ru.get.hd.event.CompatibilityChildStartClickEvent
 import ru.get.hd.model.Child
 import ru.get.hd.model.User
 
@@ -89,7 +92,9 @@ class ChildModel(
             )
 
             partnerCard.setOnClickListener {
-
+                EventBus.getDefault().post(
+                    CompatibilityChildStartClickEvent(childId = model.id)
+                )
             }
         }
     }
@@ -121,7 +126,7 @@ class EmptyChildrenModel : EpoxyModel<View>() {
             )
 
             emptyPartnerCard.setOnClickListener {
-
+                EventBus.getDefault().post(AddChildClickEvent())
             }
         }
     }

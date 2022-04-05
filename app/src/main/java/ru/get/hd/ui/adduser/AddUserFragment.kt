@@ -20,6 +20,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.R
@@ -28,6 +29,7 @@ import ru.get.hd.databinding.FragmentDiagramBinding
 import ru.get.hd.event.PermissionGrantedEvent
 import ru.get.hd.event.PlaceSelectedEvent
 import ru.get.hd.event.UpdateCurrentUserEvent
+import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.model.Place
 import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
@@ -66,12 +68,22 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         )
     }
 
+    private val fromCompatibility: Boolean by lazy {
+        arguments?.getBoolean("fromCompatibility", false)?: false
+    }
+
+    private val isChild: Boolean by lazy {
+        arguments?.getBoolean("isChild", false)?: false
+    }
+
     private val placesAdapter: PlacesAdapter by lazy {
         PlacesAdapter()
     }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
+
+        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
 
         geocoder = Geocoder(requireContext(), Locale.getDefault())
         prepareLogic()
@@ -310,13 +322,23 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         stepTranslationYForMidCircle = totalTranslationYForMidCircle / 5
     }
 
-
-
     private fun setupRave() {
         currentStartPage = StartPage.RAVE
 
-        binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_title))
-        binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_desc))
+        when {
+            isChild -> {
+                binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_rave_title))
+                binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_rave_desc))
+            }
+            fromCompatibility -> {
+                binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_title))
+                binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_desc))
+            }
+            else -> {
+                binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_title))
+                binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_desc))
+            }
+        }
     }
 
     private fun setupName() {
@@ -335,8 +357,21 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         binding.startBtn.translationY(requireContext().convertDpToPx(-44f), 500)
         binding.indicatorsContainer.alpha1(500)
 
-        binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_name_title))
-        binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_name_desc))
+        when {
+            isChild -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_name_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_name_desc))
+            }
+            fromCompatibility -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_name_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_name_desc))
+            }
+            else -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_name_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_name_desc))
+            }
+        }
+
         binding.nameET.hint = App.resourcesProvider.getStringLocale(R.string.start_name_hint)
     }
 
@@ -360,12 +395,25 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         binding.date.isVisible = true
         binding.date.alpha1(500)
 
-        binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_date_title))
-        binding.nameDesc.setTextAnimation07(
-            binding.nameET.text.toString() + App.resourcesProvider.getStringLocale(
-                R.string.start_date_desc
-            )
-        )
+        when {
+            isChild -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_date_birth_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_date_birth_desc))
+            }
+            fromCompatibility -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_date_birth_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_date_birth_desc))
+            }
+            else -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_date_title))
+                binding.nameDesc.setTextAnimation07(
+                    binding.nameET.text.toString() + App.resourcesProvider.getStringLocale(
+                        R.string.start_date_desc
+                    )
+                )
+            }
+        }
+
     }
 
     private fun setupTimeBirth() {
@@ -378,8 +426,21 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             else R.drawable.bg_active_indicator_light
         )
 
-        binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_title))
-        binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_time_desc))
+        when {
+            isChild -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_time_birth_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_time_birth_desc))
+            }
+            fromCompatibility -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_time_birth_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_time_birth_desc))
+            }
+            else -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_time_desc))
+            }
+        }
+
         binding.skipTime.isVisible = true
         binding.skipTime.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_skip))
 
@@ -401,8 +462,20 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             else R.drawable.bg_active_indicator_light
         )
 
-        binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_place_title))
-        binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_place_desc))
+        when {
+            isChild -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_place_birth_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_place_birth_desc))
+            }
+            fromCompatibility -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_place_birth_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_place_birth_desc))
+            }
+            else -> {
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_place_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_place_desc))
+            }
+        }
 
         binding.skipTime.alpha0(500) {
             binding.skipTime.isVisible = false
@@ -431,8 +504,53 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         binding.bodygraphContainer.isVisible = true
         binding.bodygraphContainer.alpha1(500)
 
-        binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title))
-        binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_text))
+        when {
+            isChild -> {
+                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_bodygraph_ready_title))
+                binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_bodygraph_ready_desc))
+            }
+            fromCompatibility -> {
+                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_bodygraph_ready_title))
+                binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_bodygraph_ready_desc))
+            }
+            else -> {
+                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title))
+                binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_text))
+            }
+        }
+
+        when {
+            isChild -> {
+                baseViewModel.currentChildBodygraph.observe(viewLifecycleOwner) {
+                    binding.bodygraphView.setupData(
+                        it.design,
+                        it.personality,
+                        it.activeCentres,
+                        it.inactiveCentres
+                    )
+                }
+            }
+            fromCompatibility -> {
+                baseViewModel.currentPartnerBodygraph.observe(viewLifecycleOwner) {
+                    binding.bodygraphView.setupData(
+                        it.design,
+                        it.personality,
+                        it.activeCentres,
+                        it.inactiveCentres
+                    )
+                }
+            }
+            else -> {
+                baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
+                    binding.bodygraphView.setupData(
+                        it.design,
+                        it.personality,
+                        it.activeCentres,
+                        it.inactiveCentres
+                    )
+                }
+            }
+        }
     }
 
     private fun unselectAllIndicators() {
@@ -466,7 +584,6 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             else R.drawable.bg_inactive_indicator_light
         )
     }
-
 
     inner class Handler {
 
@@ -508,25 +625,50 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     animateCirclesBtwPages(1000)
 
                     lifecycleScope.launch {
-                        baseViewModel.createNewUser(
-                            name = binding.nameET.text.toString(),
-                            place = binding.placeET.text.toString(),
-                            date = binding.date.date,
-                            time = String.format(
-                                "%02d",
-                                binding.time.hour
-                            ) + ":" + String.format("%02d", binding.time.minute),
-                            lat = selectedLat,
-                            lon = selectedLon
-                        )
+                        if (isChild) {
+                            baseViewModel.createNewChild(
+                                name = binding.nameET.text.toString(),
+                                place = binding.placeET.text.toString(),
+                                date = binding.date.date,
+                                time = String.format(
+                                    "%02d",
+                                    binding.time.hour
+                                ) + ":" + String.format("%02d", binding.time.minute),
+                                lat = selectedLat,
+                                lon = selectedLon
+                            )
+                        } else {
+                            baseViewModel.createNewUser(
+                                name = binding.nameET.text.toString(),
+                                place = binding.placeET.text.toString(),
+                                date = binding.date.date,
+                                time = String.format(
+                                    "%02d",
+                                    binding.time.hour
+                                ) + ":" + String.format("%02d", binding.time.minute),
+                                lat = selectedLat,
+                                lon = selectedLon,
+                                fromCompatibility = fromCompatibility
+                            )
+                        }
                         setupBodygraph()
                     }
 
                 }
                 StartPage.BODYGRAPH -> {
                     App.preferences.lastLoginPageId = -1
-                    router.navigateTo(Screens.bodygraphScreen())
-//                    Navigator.startToBodygraph(this@StartFragment)
+
+                    when {
+                        isChild -> {
+                            router.navigateTo(Screens.compatibilityScreen())
+                        }
+                        fromCompatibility -> {
+                            router.navigateTo(Screens.compatibilityScreen())
+                        }
+                        else -> {
+                            router.navigateTo(Screens.bodygraphScreen())
+                        }
+                    }
                 }
             }
         }

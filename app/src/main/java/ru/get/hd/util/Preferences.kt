@@ -35,6 +35,10 @@ class Preferences(context: Context) {
             .apply()
         get() = sharedPreferences.getBoolean(IS_PUSH_AVAILABLE, true)
 
+    var pushNumber: Int
+        set(value) = sharedPreferences.edit().putInt(PUSH_NUMBER, value).apply()
+        get() = sharedPreferences.getInt(PUSH_NUMBER, 0)
+
     var currentUserId: Long
         set(value) = sharedPreferences.edit().putLong(USER_ID, value).apply()
         get() = sharedPreferences.getLong(USER_ID, -1)
@@ -76,6 +80,7 @@ class Preferences(context: Context) {
         const val IS_DARK_THEME = "is_dark_theme"
 
         const val IS_PUSH_AVAILABLE = "is_push_available"
+        const val PUSH_NUMBER = "push_number"
 
         const val NEW_USER_NAME = "new_user_name"
         const val NEW_USER_DATE = "new_user_date"

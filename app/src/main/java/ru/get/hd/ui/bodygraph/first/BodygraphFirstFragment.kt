@@ -2,18 +2,27 @@ package ru.get.hd.ui.bodygraph.first
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.R
-import ru.get.hd.databinding.FragmentBodygraphBinding
 import ru.get.hd.databinding.FragmentBodygraphFirstBinding
+import ru.get.hd.event.BodygraphCenterClickEvent
 import ru.get.hd.event.ToDecryptionClickEvent
 import ru.get.hd.ui.base.BaseFragment
-import ru.get.hd.ui.bodygraph.BodygraphFragment
 import ru.get.hd.ui.bodygraph.BodygraphViewModel
 import ru.get.hd.util.ext.alpha1
 import ru.get.hd.util.ext.setTextAnimation
@@ -65,13 +74,29 @@ class BodygraphFirstFragment : BaseFragment<BodygraphViewModel, FragmentBodygrap
 
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+//        binding.bodygraphView.initBase()
+//        binding.bodygraphView.refreshDrawableState()
+//        binding.bodygraphView.refreshDrawableState()
+//        binding.bodygraphView.requestLayout()
+
+    }
+
     @SuppressLint("SetTextI18n")
     private fun setupZnaks() {
         baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
             binding.bodygraphView.setupData(
                 it.design,
                 it.personality,
-                it.activeCentres
+                it.activeCentres,
+                it.inactiveCentres,
+                isTouchable = true
             )
 
             if (!it.design.planets.isNullOrEmpty()) {
@@ -236,6 +261,55 @@ class BodygraphFirstFragment : BaseFragment<BodygraphViewModel, FragmentBodygrap
                 }
             }
         }
+    }
+
+    @Subscribe
+    fun onBodygraphCenterClickEvent(e: BodygraphCenterClickEvent) {
+        val view = View(
+            requireContext()
+        )
+        view.layoutParams = LinearLayout.LayoutParams(
+            1,
+            1
+        )
+        view.x = e.x
+        view.y = e.y
+
+        binding.bodygraphContainer.addView(view)
+
+        val balloon = Balloon.Builder(context!!)
+            .setArrowSize(15)
+            .setArrowOrientation(ArrowOrientation.BOTTOM)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
+            .setArrowPosition(e.arrowPosition)
+            .setTextGravity(Gravity.START)
+            .setPadding(10)
+            .setWidth(BalloonSizeSpec.WRAP)
+            .setMaxWidth(300)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setTextSize(12f)
+            .setCornerRadius(10f)
+            .setText("<small><strong>${e.title}</strong></small><br>${e.desc}")
+            .setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    R.color.lightColor
+                )
+            )
+            .setTextIsHtml(true)
+            .setBackgroundColor(
+                Color.parseColor("#4D494D")
+            )
+            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+            .setOnBalloonDismissListener {
+                binding.balloonBg.isVisible = false
+            }
+            .build()
+
+        if (e.alignTop) balloon.showAlignTop(view, xOff = e.xOffset)
+        else balloon.showAlignBottom(view, xOff = e.xOffset)
+
+        binding.balloonBg.isVisible = true
     }
 
     companion object {

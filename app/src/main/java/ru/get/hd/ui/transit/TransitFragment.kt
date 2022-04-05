@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.item_transit_gates.view.*
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentTransitBinding
+import ru.get.hd.navigation.Screens
 import ru.get.hd.repo.AppDatabase
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.transit.adapter.ChannelsAdapter
@@ -33,6 +34,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 ) {
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         @Volatile
         private var instance: TransitFragment? = null
 
@@ -384,6 +386,16 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
         fun onChannelsClicked(v: View) {
             selectChannels()
             binding.viewPager.setCurrentItem(1, true)
+        }
+
+        fun onFaqClicked(v: View) {
+            router.navigateTo(
+                Screens.faqDetailScreen(
+                title = if (App.preferences.locale == "ru") baseViewModel.faqsList[7].titleRu
+                else baseViewModel.faqsList[7].titleEn,
+                desc = if (App.preferences.locale == "ru") baseViewModel.faqsList[7].textRu
+                else baseViewModel.faqsList[7].textEn
+            ))
         }
 
     }

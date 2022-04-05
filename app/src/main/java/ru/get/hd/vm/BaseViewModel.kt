@@ -14,6 +14,9 @@ import ru.get.hd.App
 import ru.get.hd.event.CurrentUserLoadedEvent
 import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.model.Affirmation
+import ru.get.hd.model.Child
+import ru.get.hd.model.CompatibilityResponse
+import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
 import ru.get.hd.model.Forecast
 import ru.get.hd.model.GetDesignResponse
@@ -44,7 +47,12 @@ class BaseViewModel @Inject constructor(
 
     var allUsers: MutableLiveData<List<User>> = mutableLiveDataOf(emptyList())
 
+    var currentCompatibility: MutableLiveData<CompatibilityResponse> = mutableLiveDataOf(
+        CompatibilityResponse()
+    )
     var currentBodygraph: MutableLiveData<GetDesignResponse> = mutableLiveDataOf(GetDesignResponse())
+    var currentPartnerBodygraph: MutableLiveData<GetDesignResponse> = mutableLiveDataOf(GetDesignResponse())
+    var currentChildBodygraph: MutableLiveData<DesignChildResponse> = mutableLiveDataOf(DesignChildResponse())
     var currentAffirmation: MutableLiveData<Affirmation> = mutableLiveDataOf(Affirmation())
     var currentForecast: MutableLiveData<Forecast> = mutableLiveDataOf(Forecast())
     var currentTransit: MutableLiveData<TransitResponse> = mutableLiveDataOf(TransitResponse())
@@ -83,6 +91,40 @@ class BaseViewModel @Inject constructor(
         }
     }
 
+    fun setupCompatibility(
+        lat1: String,
+        lon1: String,
+        date: Long,
+        onComplete: () -> Unit
+    ) {
+
+        EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
+
+        val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
+        val calendar: Calendar = Calendar.getInstance()
+
+        calendar.timeInMillis = currentUser.date
+        val currentUserDateStr = formatter.format(calendar.time)
+
+        calendar.timeInMillis = date
+        val dateStr = formatter.format(calendar.time)
+
+        repo.getCompatibility(
+            language = App.preferences.locale,
+            lat = currentUser.lat,
+            lon = currentUser.lon,
+            date = currentUserDateStr,
+            lat1, lon1, dateStr
+        ).subscribe({
+            onComplete.invoke()
+
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            currentCompatibility.postValue(it)
+        }, {
+
+        }).disposeOnCleared()
+    }
+
     private fun setupCurrentBodygraph() {
         val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
         val calendar: Calendar = Calendar.getInstance()
@@ -103,6 +145,8 @@ class BaseViewModel @Inject constructor(
 
             currentUser.subtitle3Ru = it.profileRu
             currentUser.subtitle3En = it.profileEn
+
+            currentUser.parentDescription = it.parentDescription
 
             updateUser()
 
@@ -184,7 +228,120 @@ class BaseViewModel @Inject constructor(
             }, {}).disposeOnCleared()
     }
 
+    private fun setupPartnerBodygraph(
+        partner: User
+    ) {
+        EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
+
+        val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
+        val calendar: Calendar = Calendar.getInstance()
+
+        calendar.timeInMillis = partner.date
+        val dateStr = formatter.format(calendar.time)
+
+        repo.getDesign(
+            language = App.preferences.locale,
+            lat = partner.lat,
+            lon = partner.lon,
+            date = dateStr
+        ).subscribe({
+            currentPartnerBodygraph.postValue(it)
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+
+            partner.subtitle1Ru = it.typeRu
+            partner.subtitle1En = it.typeEn
+
+            partner.subtitle2 = it.line
+
+            partner.subtitle3Ru = it.profileRu
+            partner.subtitle3En = it.profileEn
+
+            partner.parentDescription = it.parentDescription
+
+            GlobalScope.launch {
+                App.database.userDao().updateUser(partner)
+            }
+
+        }, {}).disposeOnCleared()
+    }
+
+    private fun setupChildBodygraph(
+        child: Child
+    ) {
+        EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
+
+        val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
+        val calendar: Calendar = Calendar.getInstance()
+
+        calendar.timeInMillis = child.date
+        val dateStr = formatter.format(calendar.time)
+
+        repo.getDesignChild(
+            language = App.preferences.locale,
+            lat = child.lat,
+            lon = child.lon,
+            date = dateStr
+        ).subscribe({
+            currentChildBodygraph.postValue(it)
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+
+            child.subtitle1Ru = it.typeRu
+            child.subtitle1En = it.typeEn
+
+            child.subtitle2 = it.line
+
+            child.subtitle3Ru = it.profileRu
+            child.subtitle3En = it.profileEn
+
+            child.kidDescriptionRu = it.kidDescriptionRu
+            child.kidDescriptionEn = it.kidDescriptionEn
+
+            GlobalScope.launch {
+                App.database.childDao().updateUser(child )
+            }
+        }, {}).disposeOnCleared()
+    }
+
     fun createNewUser(
+        name: String,
+        place: String,
+        date: Long,
+        time: String,
+        lat: String,
+        lon: String,
+        fromCompatibility: Boolean = false
+    ) {
+
+        GlobalScope.launch {
+            val userId = System.currentTimeMillis()
+
+            val partner = User(
+                id = userId,
+                name = name,
+                place = place,
+                date = date,
+                time = time,
+                affirmationNumber = 0,
+                forecastNumber = 0,
+                affirmationDayMills = System.currentTimeMillis() / 86400000,
+                forecastWeekMills = System.currentTimeMillis() / 604800000,
+                lat = lat,
+                lon = lon
+            )
+
+            App.database.userDao().insert(partner)
+
+            if (!fromCompatibility) {
+                App.preferences.currentUserId = userId
+                setupCurrentUser()
+            } else {
+                setupPartnerBodygraph(partner)
+            }
+        }
+
+    }
+
+    fun createNewChild(
         name: String,
         place: String,
         date: Long,
@@ -194,29 +351,26 @@ class BaseViewModel @Inject constructor(
     ) {
 
         GlobalScope.launch {
-            val userId = System.currentTimeMillis()
+            val childId = System.currentTimeMillis()
 
-            App.database.userDao()
-                .insert(
-                    User(
-                        id = userId,
-                        name = name,
-                        place = place,
-                        date = date,
-                        time = time,
-                        affirmationNumber = 0,
-                        forecastNumber = 0,
-                        affirmationDayMills = System.currentTimeMillis() / 86400000,
-                        forecastWeekMills = System.currentTimeMillis() / 604800000,
-                        lat = lat,
-                        lon = lon
-                    )
-                )
+            val child = Child(
+                id = childId,
+                parentId = currentUser.id,
+                name = name,
+                place = place,
+                date = date,
+                time = time,
+                affirmationNumber = 0,
+                forecastNumber = 0,
+                affirmationDayMills = System.currentTimeMillis() / 86400000,
+                forecastWeekMills = System.currentTimeMillis() / 604800000,
+                lat = lat,
+                lon = lon
+            )
 
-            App.preferences.currentUserId = userId
-            setupCurrentUser()
+            App.database.childDao().insert(child)
+            setupChildBodygraph(child)
         }
-
     }
 
     suspend fun getAllUsers() =

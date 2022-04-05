@@ -1,6 +1,9 @@
 package ru.get.hd.ui.activity.main
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -39,6 +42,7 @@ import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.event.UpdateToBodygraphCardStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.navigation.SupportAppNavigator
+import ru.get.hd.push.NotificationReceiver
 import ru.get.hd.ui.base.BaseActivity
 import ru.get.hd.ui.splash.SplashPage
 import ru.get.hd.ui.start.StartPage
@@ -78,50 +82,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             initStartPage()
         }
 
-//        navController = findNavController(R.id.nav_host_fragment)
-//
-//        val navHostFragment = nav_host_fragment as NavHostFragment
-//        val graphInflater = navHostFragment.navController.navInflater
-//        val navGraph = graphInflater.inflate(R.navigation.mobile_navigation)
-//        navController = navHostFragment.navController
-
-
-//        navGraph.startDestination =
-//            when(App.preferences.lastLoginPageId) {
-//                SplashPage.SPLASH_01.pageId,
-//                SplashPage.SPLASH_02.pageId,
-//                SplashPage.SPLASH_03.pageId,
-//                SplashPage.SPLASH_04.pageId,
-//                SplashPage.SPLASH_05.pageId -> {
-//                    R.id.navigation_splash
-//                }
-//                StartPage.RAVE.pageId,
-//                StartPage.NAME.pageId,
-//                StartPage.DATE_BIRTH.pageId,
-//                StartPage.TIME_BIRTH.pageId,
-//                StartPage.PLACE_BIRTH.pageId,
-//                StartPage.BODYGRAPH.pageId, -> {
-//                    R.id.navigation_start
-//                }
-//                else -> {
-//                    setupNavMenu()
-//                    R.id.navigation_bodygraph
-//                }
-//            }
-//
-//        navController!!.graph = navGraph
-//        binding.navView.setupWithNavController(navController!!)
-
-//        binding.navView.setOnNavigationItemReselectedListener {
-//            if (binding.navView.selectedItemId == it.itemId) {
-////                val navGraph =
-//                Navigation.findNavController(this, R.id.nav_host_fragment)
-//                    .popBackStack(it.itemId, false)
-//
-//                return@setOnNavigationItemReselectedListener
-//            }
-//        }
-
         navigator = SupportAppNavigator(this, R.id.subContainer)
         navigationHolder.setNavigator(navigator)
 
@@ -150,6 +110,23 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             }
 
         }
+
+        initNotificationReceiver()
+    }
+
+    private fun initNotificationReceiver() {
+        val notifyIntent = Intent(this, NotificationReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            2,
+            notifyIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 2 , (
+                    1000 * 60 * 60 * 24).toLong(), pendingIntent
+        )
     }
 
     private fun initStartPage() {

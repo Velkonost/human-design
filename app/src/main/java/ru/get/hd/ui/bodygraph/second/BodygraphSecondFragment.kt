@@ -154,16 +154,16 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
             aboutItemsList.add(
                 AboutItem(
-                    name = it.strategy.name,
-                    description = it.strategy.description,
+                    name = it.strategy.name?: "",
+                    description = it.strategy.description?: "",
                     type = AboutType.STRATEGY
                 )
             )
 
             aboutItemsList.add(
                 AboutItem(
-                    name = it.injury.name,
-                    description = it.injury.description,
+                    name = it.injury.name?: "",
+                    description = it.injury.description?: "",
                     type = AboutType.INJURY
                 )
             )
@@ -320,6 +320,7 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         @Volatile
         private var instance: BodygraphSecondFragment? = null
 

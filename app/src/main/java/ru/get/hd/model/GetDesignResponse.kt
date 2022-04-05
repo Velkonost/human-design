@@ -55,15 +55,15 @@ data class Authority(
 @Parcelize
 data class Injury(
     @field:JsonProperty("id") val id: Int = 0,
-    @field:JsonProperty("name") val name: String = "",
-    @field:JsonProperty("description") val description: String = "",
+    @field:JsonProperty("name") val name: String? = "",
+    @field:JsonProperty("description") val description: String? = "",
 ): Parcelable
 
 @Parcelize
 data class Strategy(
     @field:JsonProperty("id") val id: Int = 0,
-    @field:JsonProperty("name") val name: String = "",
-    @field:JsonProperty("description") val description: String = "",
+    @field:JsonProperty("name") val name: String? = "",
+    @field:JsonProperty("description") val description: String? = "",
 ): Parcelable
 
 @Parcelize
