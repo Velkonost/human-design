@@ -282,7 +282,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.placesView.newPlaceET.addTextChangedListener {
             if (!binding.placesView.newPlaceET.text.isNullOrEmpty() && ::geocoder.isInitialized) {
 
-
                 GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
                     val suggestions = getSuggestions()
                     val addresses: MutableList<Place> = mutableListOf()
@@ -388,8 +387,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         )
 
         val c = Calendar.getInstance()
-        binding.date.maxDate = c.timeInMillis
-        binding.date.date = c.timeInMillis
+        binding.date.date = c.timeInMillis - 631139040000
 
         binding.nameET.alpha0(500) {
             binding.nameET.isVisible = false
@@ -424,6 +422,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.date.alpha0(500) {
             binding.date.isVisible = false
         }
+
+        binding.time.hour = 12
+        binding.time.minute = 0
+
         binding.time.isVisible = true
         binding.time.alpha1(500)
 

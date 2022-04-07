@@ -20,6 +20,7 @@ import ru.get.hd.event.CompatibilityStartClickEvent
 import ru.get.hd.event.UpdateCurrentUserEvent
 import ru.get.hd.model.Child
 import ru.get.hd.model.User
+import ru.get.hd.ui.bodygraph.diagram.adapter.DiagramModel
 
 
 class PartnersAdapter : EpoxyAdapter() {
@@ -33,10 +34,18 @@ class PartnersAdapter : EpoxyAdapter() {
 
         notifyDataSetChanged()
     }
+
+    fun getPartnerAtPosition(position: Int): User {
+        return (models[position] as PartnerModel).model
+    }
+
+    fun deletePartner(position: Int) {
+        removeModel(models[position])
+    }
 }
 
 class PartnerModel(
-    private val model: User
+    val model: User
 ) : EpoxyModel<View>() {
 
     private var root: View? = null

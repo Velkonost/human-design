@@ -167,4 +167,25 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
 
     <string name="compatibility_child_title">Child</string>
     <string name="compatibility_parent_title">Parent</string>
+
+    <string name="transit_no_channels">Today no active channels</string>
+
+    <string name="diagram_rave_title">Let’s calculate the bodygraph!</string>
+    <string name="diagram_rave_desc"><![CDATA[Enter the information of the person you want to calculate the bodygraph for. This will help you to know this person better.<br><br>After creation, this bodygraph will become the primary one. You can change the main bodygraph to any of the created ones at any time.]]></string>
+
+    <string name="diagram_name_title">Name</string>
+    <string name="diagram_name_desc">Please enter the name of the person for whom the bodygraph is calculated.</string>
+
+    <string name="diagram_date_title">Date of Birth</string>
+    <string name="diagram_date_desc">Enter the date of birth of the person for whom the bodygraph will be calculated.</string>
+
+    <string name="diagram_time_title">Time of Birth</string>
+    <string name="diagram_time_desc">It shows the exact location of the planets and stars at the time of birth, which is very important for calculating the card.</string>
+
+    <string name="diagram_place_title">Place of Birth</string>
+    <string name="diagram_place_desc">This information is very important. We will be able to accurately determine the position of the celestial bodies that influenced fate.</string>
+
+    <string name="diagram_bodygraph_title">Bodygraph is ready!</string>
+    <string name="diagram_bodygraph_desc">Now all the secrets will be revealed to you, you will find the best ways for harmonious contact and productive interaction.</string>
+
 </resources>

@@ -3,26 +3,39 @@ package ru.get.hd.ui.transit
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
 import kotlinx.android.synthetic.main.item_transit_channels.view.*
 import kotlinx.android.synthetic.main.item_transit_gates.view.*
+import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentTransitBinding
+import ru.get.hd.event.HelpType
+import ru.get.hd.event.ShowHelpEvent
+import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.repo.AppDatabase
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.transit.adapter.ChannelsAdapter
 import ru.get.hd.ui.transit.adapter.GatesAdapter
+import ru.get.hd.util.convertDpToPx
 import ru.get.hd.util.ext.alpha1
 import ru.get.hd.util.ext.setTextAnimation
 import ru.get.hd.vm.BaseViewModel
@@ -40,9 +53,9 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
         private val LOCK = Any()
 
-        operator fun invoke() = TransitFragment.instance ?: synchronized(LOCK) {
-            TransitFragment.instance ?: TransitFragment.buildTransitFragment()
-                .also { TransitFragment.instance = it }
+        operator fun invoke() = instance ?: synchronized(LOCK) {
+            instance ?: buildTransitFragment()
+                .also { instance = it }
         }
 
         private fun buildTransitFragment() = TransitFragment()
@@ -57,6 +70,48 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         App.instance.getAppComponent().inject(this)
         super.onCreate(savedInstanceState)
+
+        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+    }
+
+    private fun showTransitHelp() {
+        val balloon = Balloon.Builder(context!!)
+            .setArrowSize(15)
+            .setArrowOrientation(ArrowOrientation.BOTTOM)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
+            .setArrowPosition(0.9f)
+            .setTextGravity(Gravity.CENTER)
+            .setPadding(10)
+            .setWidth(BalloonSizeSpec.WRAP)
+            .setMaxWidth(300)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setTextSize(12f)
+            .setCornerRadius(10f)
+            .setText(App.resourcesProvider.getStringLocale(R.string.help_transit))
+            .setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    R.color.lightColor
+                )
+            )
+            .setTextIsHtml(true)
+            .setOverlayColorResource(R.color.helpBgColor)
+            .setIsVisibleOverlay(true)
+            .setBackgroundColor(
+                Color.parseColor("#4D494D")
+            )
+            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+            .setOnBalloonDismissListener {
+                App.preferences.transitHelpShown = true
+            }
+            .build()
+
+
+        balloon.showAlignBottom(
+            binding.icInfo,
+            yOff = requireContext().convertDpToPx(10f).toInt(),
+            xOff = -requireContext().convertDpToPx(110f).toInt()
+        )
     }
 
     override fun updateThemeAndLocale() {
@@ -90,6 +145,9 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
         selectGates()
         setupViewPager()
+
+        if (!App.preferences.transitHelpShown)
+            showTransitHelp()
     }
 
     private fun setupViewPager() {
@@ -99,8 +157,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
-            ) {
-            }
+            ) {}
 
             override fun onPageSelected(position: Int) {
                 when (position) {
@@ -363,6 +420,15 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
                     baseViewModel.currentTransit.observe(viewLifecycleOwner) {
                         channelsAdapter.createList(it.onlyCurrentChannels)
+
+                        view.emptyText.isVisible = it.onlyCurrentChannels.isNullOrEmpty()
+                        view.emptyText.setTextColor(ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        ))
+                        view.emptyText.text = App.resourcesProvider.getStringLocale(R.string.transit_no_channels)
+
                     }
 
                     container.addView(view)

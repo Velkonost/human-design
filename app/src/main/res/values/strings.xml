@@ -119,7 +119,7 @@
     <string name="inactive_centers_text">Неопределенные центры открыты для влияния извне, они настроены на прием от людей и жизни. Это места уязвимости, где мир влияет на вас. Здесь вы больше всего учитесь, а значит имеете потенциал обрести мудрость и экспертность.</string>
 
     <string name="to_bodygraph">к бодиграфу</string>
-    <string name="diagram_title">Мои диаграммы</string>
+    <string name="diagram_title">Диаграммы</string>
     <string name="diagram_empty_text">В данном разделе вы можете добавить бодиграфы других людей (друзей, знакомых) и узнать их с совершенно новой стороны.</string>
 
     <string name="partners_title">Взрослые</string>
@@ -205,4 +205,31 @@
 
     <string name="compatibility_child_title">Ребенок</string>
     <string name="compatibility_parent_title">Родитель</string>
+
+    <string name="transit_no_channels">Сегодня нет активных каналов</string>
+
+    <string name="diagram_rave_title">Давайте рассчитаем бодиграф!</string>
+    <string name="diagram_rave_desc"><![CDATA[Введите данные человека, которому хотите рассчитать бодиграф. Это поможет вам лучше узнать его.<br><br>После создания, данный бодиграф станет основным. Вы можете поменять основной бодиграф на любой из созданных в любое время.]]></string>
+
+    <string name="diagram_name_title">Имя</string>
+    <string name="diagram_name_desc">Пожалуйста, введите имя человека, которому рассчитывается бодиграф.</string>
+
+    <string name="diagram_date_title">Дата рождения</string>
+    <string name="diagram_date_desc">Укажите дату рождения человека, для которого будет рассчитан бодиграф.</string>
+
+    <string name="diagram_time_title">Время рождения</string>
+    <string name="diagram_time_desc">Покажет точное расположение планет и звезд в момент рождения, что очень важно для расчета карты.</string>
+
+    <string name="diagram_place_title">Место рождения</string>
+    <string name="diagram_place_desc">Это очень важная информация для расчета бодиграфа. Мы сможем точнее определить положение небесных тел, повлиявших на судьбу.</string>
+
+    <string name="diagram_bodygraph_title">Бодиграф готов!</string>
+    <string name="diagram_bodygraph_desc">Теперь вам раскроются все секреты личности, вы найдете пути для гармоничного контакта и продуктивного взаимодействия.</string>
+
+    <string name="help_bodygraph_add_diagram">Click if you want to add a new user to decrypt his personal rave card.</string>
+    <string name="help_bodygraph_centers">Click on the center to read its description. Your defined centers are colored.</string>
+    <string name="help_bodygraph_to_decryption">Swipe to decode your bodygraph.</string>
+    <string name="help_transit">Тут вы можете узнать подробнее о ежедневных транзитах.</string>
+    <string name="help_compatibility_channel">Связи в отношениях, которые вызывают эмоции между вами.</string>
+    <string name="help_affirmation">Вы можете поделиться аффирмацией в социальных сетях.</string>
 </resources>

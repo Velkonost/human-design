@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.item_diagram.*
 import kotlinx.coroutines.CoroutineStart
@@ -21,6 +22,8 @@ import ru.get.hd.event.AddChildClickEvent
 import ru.get.hd.event.AddPartnerClickEvent
 import ru.get.hd.event.CompatibilityChildStartClickEvent
 import ru.get.hd.event.CompatibilityStartClickEvent
+import ru.get.hd.event.DeleteChildEvent
+import ru.get.hd.event.DeletePartnerEvent
 import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.navigation.Screens
@@ -49,6 +52,16 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         super.onLayoutReady(savedInstanceState)
 
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+    }
+
+    @Subscribe
+    fun onDeletePartnerEvent(e: DeletePartnerEvent) {
+        baseViewModel.deleteUser(e.partnerId)
+    }
+
+    @Subscribe
+    fun onDeleteChildEvent(e: DeleteChildEvent) {
+        baseViewModel.deleteChild(e.childId)
     }
 
     @Subscribe

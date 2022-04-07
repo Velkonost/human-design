@@ -31,10 +31,18 @@ class ChildrenAdapter : EpoxyAdapter() {
 
         notifyDataSetChanged()
     }
+
+    fun getChildAtPosition(position: Int): Child {
+        return (models[position] as ChildModel).model
+    }
+
+    fun deleteChild(position: Int) {
+        removeModel(models[position])
+    }
 }
 
 class ChildModel(
-    private val model: Child
+    val model: Child
 ) : EpoxyModel<View>() {
 
     private var root: View? = null

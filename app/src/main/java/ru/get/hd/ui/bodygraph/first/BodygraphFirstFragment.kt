@@ -4,23 +4,28 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import com.google.rpc.Help
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.balloon
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentBodygraphFirstBinding
 import ru.get.hd.event.BodygraphCenterClickEvent
+import ru.get.hd.event.HelpType
+import ru.get.hd.event.ShowHelpEvent
 import ru.get.hd.event.ToDecryptionClickEvent
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.bodygraph.BodygraphViewModel
@@ -86,6 +91,22 @@ class BodygraphFirstFragment : BaseFragment<BodygraphViewModel, FragmentBodygrap
 //        binding.bodygraphView.refreshDrawableState()
 //        binding.bodygraphView.requestLayout()
 
+    }
+
+    @Subscribe
+    fun onShowHelpEvent(e: ShowHelpEvent) {
+        showHelp(e.type)
+    }
+
+    private fun showHelp(type: HelpType) {
+        if (type == HelpType.BodygraphDecryption) {
+            if (!App.preferences.bodygraphToDecryptionHelpShown)
+                showToDecryptionHelp()
+            else EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphAddDiagram))
+        } else if (type == HelpType.BodygraphCenters) {
+            if (!App.preferences.bodygraphCentersHelpShown)
+                showCentersHelp()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -261,6 +282,91 @@ class BodygraphFirstFragment : BaseFragment<BodygraphViewModel, FragmentBodygrap
                 }
             }
         }
+    }
+
+    private fun showCentersHelp() {
+        val view = View(
+            requireContext()
+        )
+        view.layoutParams = LinearLayout.LayoutParams(
+            1,
+            1
+        )
+        view.x = binding.bodygraphView.getTopPoint().x.toFloat()
+        view.y = binding.bodygraphView.getTopPoint().y.toFloat()
+
+        binding.bodygraphContainer.addView(view)
+
+        val balloon = Balloon.Builder(context!!)
+            .setArrowSize(15)
+            .setArrowOrientation(ArrowOrientation.BOTTOM)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
+            .setArrowPosition(0.5f)
+            .setTextGravity(Gravity.CENTER)
+            .setPadding(10)
+            .setWidth(BalloonSizeSpec.WRAP)
+            .setMaxWidth(300)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setTextSize(12f)
+            .setCornerRadius(10f)
+            .setText(App.resourcesProvider.getStringLocale(R.string.help_bodygraph_centers))
+            .setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    R.color.lightColor
+                )
+            )
+            .setTextIsHtml(true)
+            .setOverlayColorResource(R.color.helpBgColor)
+            .setIsVisibleOverlay(true)
+            .setBackgroundColor(
+                Color.parseColor("#4D494D")
+            )
+            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+            .setOnBalloonDismissListener {
+                App.preferences.bodygraphCentersHelpShown = true
+            }
+            .build()
+
+
+        balloon.showAlignTop(view)
+    }
+
+    private fun showToDecryptionHelp() {
+        val balloon = Balloon.Builder(context!!)
+            .setArrowSize(15)
+            .setArrowOrientation(ArrowOrientation.BOTTOM)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
+            .setArrowPosition(0.5f)
+            .setTextGravity(Gravity.START)
+            .setPadding(10)
+            .setWidth(BalloonSizeSpec.WRAP)
+            .setMaxWidth(300)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setTextSize(12f)
+            .setCornerRadius(10f)
+            .setText(App.resourcesProvider.getStringLocale(R.string.help_bodygraph_to_decryption))
+            .setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    R.color.lightColor
+                )
+            )
+            .setTextIsHtml(true)
+            .setOverlayColorResource(R.color.helpBgColor)
+            .setIsVisibleOverlay(true)
+            .setBackgroundColor(
+                Color.parseColor("#4D494D")
+            )
+            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+            .setOnBalloonDismissListener {
+                App.preferences.bodygraphToDecryptionHelpShown = true
+                EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphAddDiagram))
+            }
+            .build()
+
+
+        balloon.showAlignTop(binding.toDescryptionContainer)
     }
 
     @Subscribe

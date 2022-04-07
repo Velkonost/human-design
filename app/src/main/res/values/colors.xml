@@ -27,4 +27,6 @@
     <color name="color_grey">#999999</color>
     <color name="color_grey1">#bbbbbb</color>
     <color name="color_grey2">#dfdfdf</color>
+
+    <color name="helpBgColor">#CC0E0E0F</color>
 </resources>

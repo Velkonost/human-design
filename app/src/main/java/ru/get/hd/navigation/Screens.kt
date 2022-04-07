@@ -84,11 +84,13 @@ object Screens {
     }
 
     fun addUserScreen(
+        fromDiagram: Boolean = false,
         fromCompatibility: Boolean = false,
         isChild: Boolean = false
     ) = FragmentScreen {
         val addUserFragment = AddUserFragment()
         addUserFragment.arguments = bundleOf(
+            "fromDiagram" to fromDiagram,
             "fromCompatibility" to fromCompatibility,
             "isChild" to isChild
         )

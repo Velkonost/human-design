@@ -12,6 +12,8 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.event.CurrentUserLoadedEvent
+import ru.get.hd.event.HelpType
+import ru.get.hd.event.ShowHelpEvent
 import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.Child
@@ -88,6 +90,8 @@ class BaseViewModel @Inject constructor(
         ) {
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             EventBus.getDefault().post(CurrentUserLoadedEvent())
+
+            EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphDecryption))
         }
     }
 
@@ -416,8 +420,18 @@ class BaseViewModel @Inject constructor(
             App.database.userDao().delete(userToDelete)
 
             if (userIdToDelete == App.preferences.currentUserId) {
-                currentUser = App.database.userDao().getAll().first()
+                App.preferences.currentUserId = App.database.userDao().getAll().first().id
+                setupCurrentUser()
             }
+        }
+    }
+
+    fun deleteChild(
+        childIdToDelete: Long
+    ) {
+        GlobalScope.launch {
+            val childToDelete = App.database.childDao().findById(childIdToDelete)
+            App.database.childDao().delete(childToDelete)
         }
     }
 

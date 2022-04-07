@@ -23,10 +23,18 @@ class DiagramsAdapter : EpoxyAdapter() {
 
         notifyDataSetChanged()
     }
+
+    fun getUserAtPosition(position: Int): User {
+        return (models[position] as DiagramModel).model
+    }
+
+    fun deleteUser(position: Int) {
+        removeModel(models[position])
+    }
 }
 
 class DiagramModel(
-    private val model: User
+    val model: User
 ) : EpoxyModel<View>() {
 
     private var root: View? = null

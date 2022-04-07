@@ -8,11 +8,15 @@ import com.airbnb.epoxy.EpoxyModel
 import kotlinx.android.synthetic.main.item_center.view.*
 import kotlinx.android.synthetic.main.item_compatibility_children.view.*
 import kotlinx.android.synthetic.main.item_compatibility_partners.view.*
+import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
 import ru.get.hd.R
+import ru.get.hd.event.DeleteChildEvent
+import ru.get.hd.event.DeletePartnerEvent
 import ru.get.hd.model.Center
 import ru.get.hd.model.Child
 import ru.get.hd.model.User
+import ru.get.hd.util.ext.setUpRemoveItemTouchHelper
 
 class CompatibilityAdapter : EpoxyAdapter() {
 
@@ -44,6 +48,13 @@ class PartnersModel(
             val partnersAdapter = PartnersAdapter()
             partnersRecycler.adapter = partnersAdapter
 
+            partnersRecycler.setUpRemoveItemTouchHelper { viewHolder, swipeDir ->
+                val swipedPosition = viewHolder.absoluteAdapterPosition
+                EventBus.getDefault().post(DeletePartnerEvent(partnersAdapter.getPartnerAtPosition(swipedPosition).id))
+
+                partnersAdapter.deletePartner(swipedPosition)
+            }
+
             partnersAdapter.createList(partners)
         }
     }
@@ -64,6 +75,13 @@ class ChildrenModel(
         with(view) {
             val childrenAdapter = ChildrenAdapter()
             childrenRecycler.adapter = childrenAdapter
+
+            childrenRecycler.setUpRemoveItemTouchHelper { viewHolder, swipeDir ->
+                val swipedPosition = viewHolder.absoluteAdapterPosition
+                EventBus.getDefault().post(DeleteChildEvent(childrenAdapter.getChildAtPosition(swipedPosition).id))
+
+                childrenAdapter.deleteChild(swipedPosition)
+            }
 
             childrenAdapter.createList(children)
         }

@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentFaqBinding
 import ru.get.hd.event.FaqClickedEvent
+import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.faq.adapter.FaqAdapter
@@ -34,6 +36,9 @@ class FaqFragment : BaseFragment<FaqViewModel, FragmentFaqBinding>(
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
+
+        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+
         binding.faqsRecycler.adapter = faqAdapter
         faqAdapter.createList(baseViewModel.faqsList)
     }

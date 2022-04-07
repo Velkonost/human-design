@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -25,6 +26,7 @@ import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.bodygraph.BodygraphViewModel
 import ru.get.hd.ui.bodygraph.diagram.adapter.DiagramsAdapter
 import ru.get.hd.ui.bodygraph.first.BodygraphFirstFragment
+import ru.get.hd.util.ext.setUpRemoveItemTouchHelper
 import ru.get.hd.vm.BaseViewModel
 
 class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>(
@@ -49,6 +51,18 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         setupData()
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
         EventBus.getDefault().post(UpdateToBodygraphCardStateEvent(isVisible = false))
+
+        binding.diagramsRecycler.setUpRemoveItemTouchHelper(
+            ::onItemSwiped
+        )
+    }
+
+    private fun onItemSwiped(vh: RecyclerView.ViewHolder, swipeDirection: Int) {
+        val swipedPosition = vh.absoluteAdapterPosition
+
+        baseViewModel.deleteUser(diagramsAdapter.getUserAtPosition(swipedPosition).id)
+        diagramsAdapter.deleteUser(swipedPosition)
+
     }
 
     override fun updateThemeAndLocale() {
@@ -115,7 +129,9 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         }
 
         fun onAddClicked(v: View) {
-            router.navigateTo(Screens.addUserScreen())
+            router.navigateTo(Screens.addUserScreen(
+                fromDiagram = true
+            ))
         }
 
     }

@@ -70,6 +70,42 @@ class Preferences(context: Context) {
         newUserPlace = null
     }
 
+//    helps
+    var bodygraphToDecryptionHelpShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(BODYGRAPH_TO_DECRYPTION_HELP_SHOWN, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(BODYGRAPH_TO_DECRYPTION_HELP_SHOWN, false)
+
+    var bodygraphAddDiagramHelpShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(BODYGRAPH_ADD_DIAGRAM_HELP_SHOWN, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(BODYGRAPH_ADD_DIAGRAM_HELP_SHOWN, false)
+
+    var bodygraphCentersHelpShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(BODYGRAPH_CENTERS_HELP_SHOWN, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(BODYGRAPH_CENTERS_HELP_SHOWN, false)
+
+    var transitHelpShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(TRANSIT_HELP_SHOWN, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(TRANSIT_HELP_SHOWN, false)
+
+    var compatibilityChannelsHelpShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(COMPATIBILITY_CHANNELS_HELP_SHOWN, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(COMPATIBILITY_CHANNELS_HELP_SHOWN, false)
+
+    var affirmationHelpShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(AFFIRMATION_HELP_SHOWN, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(AFFIRMATION_HELP_SHOWN, false)
+
+    var isCompatibilityDetailChannelsAddedNow: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(IS_COMPATIBILITY_DETAIL_CHANNELS_IS_ADDED_NOW, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(IS_COMPATIBILITY_DETAIL_CHANNELS_IS_ADDED_NOW, false)
+
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"
 
@@ -88,6 +124,16 @@ class Preferences(context: Context) {
         const val NEW_USER_PLACE = "new_user_place"
 
         const val LAST_LOGIN_PAGE_ID = "last_login_page_id"
+
+        const val BODYGRAPH_TO_DECRYPTION_HELP_SHOWN = "bodygraph_to_decryption_help_shown"
+        const val BODYGRAPH_ADD_DIAGRAM_HELP_SHOWN = "bodygraph_add_diagram_help_shown"
+        const val BODYGRAPH_CENTERS_HELP_SHOWN = "bodygraph_centers_help_shown"
+        const val TRANSIT_HELP_SHOWN = "transit_help_shown"
+        const val COMPATIBILITY_CHANNELS_HELP_SHOWN = "compatibility_channels_help_shown"
+        const val AFFIRMATION_HELP_SHOWN = "affirmation_help_shown"
+
+        const val IS_COMPATIBILITY_DETAIL_CHANNELS_IS_ADDED_NOW =
+            "is_compatibility_detail_channels_is_added_now"
 
     }
 }

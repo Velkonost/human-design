@@ -54,7 +54,7 @@
     <dimen name="icon_size_large">48dp</dimen>
     <dimen name="icon_size_medium">32dp</dimen>
     <dimen name="icon_size_small">16dp</dimen>
-    <dimen name="icon_size_remove">30dp</dimen>
+    <dimen name="icon_size_remove">36dp</dimen>
     <dimen name="icon_home_delivery">41dp</dimen>
 
     <!-- Text size -->

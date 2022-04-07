@@ -45,7 +45,6 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
         CompatibilityDetailsAdapter()
     }
 
-
     override fun updateThemeAndLocale() {
         super.updateThemeAndLocale()
         binding.compatibilityContainer.setBackgroundColor(ContextCompat.getColor(
@@ -106,6 +105,8 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
     }
 
     private fun selectAbout() {
+        App.preferences.isCompatibilityDetailChannelsAddedNow = false
+
         binding.aboutTitle.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -135,6 +136,8 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
     }
 
     private fun selectProfiles() {
+        App.preferences.isCompatibilityDetailChannelsAddedNow = false
+
         binding.profilesTitle.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -164,6 +167,8 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
     }
 
     private fun selectChannels() {
+        App.preferences.isCompatibilityDetailChannelsAddedNow = true
+
         binding.channelsTitle.setTextColor(
             ContextCompat.getColor(
             requireContext(),
@@ -222,7 +227,8 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
                 } else {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_dark
                     else R.drawable.ic_chart_manifestor_light
-                }
+                },
+                context = requireContext()
             )
         }
 

@@ -234,6 +234,7 @@
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginBottom="82dp"
                 android:alpha="0"
+
                 android:calendarTextColor="@color/lightColor"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"

@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/channelsScroll"
         android:fadingEdge="vertical"
         android:fadeScrollbars="true"
         android:fadingEdgeLength="40dp"

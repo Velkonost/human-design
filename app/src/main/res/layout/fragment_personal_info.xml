@@ -14,6 +14,12 @@
             type="ru.get.hd.ui.settings.personal.PersonalInfoFragment.Handler" />
     </data>
 
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/personalInfoContainer"
         android:layout_width="match_parent"
@@ -121,6 +127,9 @@
                 android:backgroundTint="@color/darkHintColor"
                 android:fontFamily="@font/opensans"
                 android:gravity="start"
+                android:focusable="false"
+                android:clickable="true"
+                android:onClick="@{handler::onPlaceClicked}"
                 android:includeFontPadding="true"
                 android:inputType="textCapWords"
                 android:letterSpacing="0.12"
@@ -148,6 +157,9 @@
                 android:backgroundTint="@color/darkHintColor"
                 android:fontFamily="@font/opensans"
                 android:gravity="start"
+                android:focusable="false"
+                android:clickable="true"
+                android:onClick="@{handler::onDateClicked}"
                 android:includeFontPadding="true"
                 android:inputType="textCapWords"
                 android:letterSpacing="0.12"
@@ -172,6 +184,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:onClick="@{handler::onTimeClicked}"
                 android:backgroundTint="@color/darkHintColor"
                 android:fontFamily="@font/opensans"
                 android:gravity="start"
@@ -275,5 +290,20 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <include
+            android:visibility="gone"
+            android:id="@+id/placesView"
+            layout="@layout/view_place_select"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/dateBottomSheet"
+            layout="@layout/view_personal_date"/>
+
+        <include
+            android:id="@+id/timeBottomSheet"
+            layout="@layout/view_personal_time"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

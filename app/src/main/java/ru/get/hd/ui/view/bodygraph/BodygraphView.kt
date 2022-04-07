@@ -230,10 +230,16 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
 
             if (::design.isInitialized && ::personality.isInitialized)
                 setupGatesAndChannels()
+
+            topPoint = topTrianglePoints[TopTrianglePoint.Center]!!
+            topPoint.y += 21 * cellSize
         }
 
 //        initBase()
     }
+
+    private var topPoint = Point()
+    fun getTopPoint() = topPoint
 
     fun initBase() {
 //        if (widthInt == 0 || heightInt == 0) return

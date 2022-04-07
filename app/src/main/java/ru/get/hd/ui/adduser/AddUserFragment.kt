@@ -335,8 +335,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_desc))
             }
             else -> {
-                binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_title))
-                binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.rave_desc))
+                binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.diagram_rave_title))
+                binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.diagram_rave_desc))
             }
         }
     }
@@ -367,8 +367,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_name_desc))
             }
             else -> {
-                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_name_title))
-                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_name_desc))
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_name_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.diagram_name_desc))
             }
         }
 
@@ -386,8 +386,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         )
 
         val c = Calendar.getInstance()
-        binding.date.maxDate = c.timeInMillis
-        binding.date.date = c.timeInMillis
+        binding.date.date = c.timeInMillis - 631139040000
 
         binding.nameET.alpha0(500) {
             binding.nameET.isVisible = false
@@ -405,12 +404,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_date_birth_desc))
             }
             else -> {
-                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_date_title))
-                binding.nameDesc.setTextAnimation07(
-                    binding.nameET.text.toString() + App.resourcesProvider.getStringLocale(
-                        R.string.start_date_desc
-                    )
-                )
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_date_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.diagram_date_desc))
             }
         }
 
@@ -436,8 +431,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_time_birth_desc))
             }
             else -> {
-                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_title))
-                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_time_desc))
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_time_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.diagram_time_desc))
             }
         }
 
@@ -447,6 +442,10 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         binding.date.alpha0(500) {
             binding.date.isVisible = false
         }
+
+        binding.time.hour = 12
+        binding.time.minute = 0
+
         binding.time.isVisible = true
         binding.time.alpha1(500)
 
@@ -472,8 +471,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_place_birth_desc))
             }
             else -> {
-                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_place_title))
-                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_place_desc))
+                binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_place_title))
+                binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.diagram_place_desc))
             }
         }
 
@@ -514,8 +513,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_bodygraph_ready_desc))
             }
             else -> {
-                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title))
-                binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_text))
+                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_bodygraph_title))
+                binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.diagram_bodygraph_desc))
             }
         }
 

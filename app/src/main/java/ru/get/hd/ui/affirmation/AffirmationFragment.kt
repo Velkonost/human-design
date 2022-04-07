@@ -1,7 +1,10 @@
 package ru.get.hd.ui.affirmation
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -10,6 +13,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
 import kotlinx.android.synthetic.main.item_affirmation.view.*
 import kotlinx.android.synthetic.main.item_forecast.view.*
 import kotlinx.coroutines.GlobalScope
@@ -22,6 +30,7 @@ import ru.get.hd.databinding.FragmentTransitBinding
 import ru.get.hd.ui.affirmation.ext.shareAffirmation
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.transit.TransitViewModel
+import ru.get.hd.util.convertDpToPx
 import ru.get.hd.util.ext.setTextAnimation
 import ru.get.hd.vm.BaseViewModel
 import java.util.*
@@ -62,6 +71,13 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
+
+        binding.viewPager.post {
+            android.os.Handler().postDelayed({
+                showAffirmationHelp()
+            }, 1000)
+
+        }
     }
 
     override fun updateThemeAndLocale() {
@@ -130,6 +146,46 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
         binding.affirmationTitle.background = null
     }
 
+    private lateinit var shareBtnView: View
+
+    private fun showAffirmationHelp() {
+        if (!App.preferences.affirmationHelpShown) {
+            val balloon = Balloon.Builder(context!!)
+                .setArrowSize(15)
+                .setArrowOrientation(ArrowOrientation.BOTTOM)
+                .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
+                .setArrowPosition(0.5f)
+                .setTextGravity(Gravity.CENTER)
+                .setPadding(10)
+                .setWidth(BalloonSizeSpec.WRAP)
+                .setMaxWidth(300)
+                .setHeight(BalloonSizeSpec.WRAP)
+                .setTextSize(12f)
+                .setCornerRadius(10f)
+                .setText(App.resourcesProvider.getStringLocale(R.string.help_affirmation))
+                .setTextColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        R.color.lightColor
+                    )
+                )
+                .setTextIsHtml(true)
+                .setOverlayColorResource(R.color.helpBgColor)
+                .setOverlayPadding(10f)
+                .setIsVisibleOverlay(true)
+                .setBackgroundColor(
+                    Color.parseColor("#4D494D")
+                )
+                .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+                .setOnBalloonDismissListener {
+                    App.preferences.affirmationHelpShown = true
+                }
+                .build()
+
+            balloon.showAlignTop(shareBtnView)
+        }
+    }
+
     private fun getViewPagerAdapter(): PagerAdapter = object : PagerAdapter() {
         override fun getCount(): Int {
             return 2
@@ -176,6 +232,8 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
                         }
                     }
+
+                    shareBtnView = view.shareBtn
 
                     container.addView(view)
                     view

@@ -4,9 +4,11 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentFaqDetailBinding
+import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.faq.FaqViewModel
 import ru.get.hd.util.ext.setTextAnimation
@@ -19,6 +21,8 @@ class FaqDetailFragment : BaseFragment<FaqViewModel, FragmentFaqDetailBinding>(
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
+
+        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
 
         binding.title.text = arguments?.getString("title")!!
         binding.desc.text = arguments?.getString("desc")!!

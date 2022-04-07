@@ -83,7 +83,7 @@ class App : DaggerApplication() {
         const val LOCATION_REQUEST_CODE = 99
 
         const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
-        const val DATE_FORMAT_PERSONAL_INFO = "yyyy-MM-dd"
+        const val DATE_FORMAT_PERSONAL_INFO = "dd-MM-yyyy"
 
     }
 }

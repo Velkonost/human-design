@@ -24,11 +24,31 @@ import java.util.*
 import android.animation.AnimatorInflater
 
 import android.animation.AnimatorSet
+import android.location.Address
+import android.location.Geocoder
+import android.view.Menu
 
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.fragment_personal_info.*
+import kotlinx.android.synthetic.main.view_place_select.view.*
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import ru.get.hd.event.PlaceSelectedEvent
+import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
+import ru.get.hd.model.Place
+import ru.get.hd.ui.start.adapter.PlacesAdapter
+import ru.get.hd.util.Keyboard
 import ru.get.hd.util.ext.alpha0
 
 
@@ -44,9 +64,29 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
         )
     }
 
+    private val dateBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.dateBottomSheet.bottomSheetContainer)
+    }
+
+    private val timeBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.timeBottomSheet.bottomSheetContainer)
+    }
+
+    private lateinit var geocoder: Geocoder
+
+    private val placesAdapter: PlacesAdapter by lazy {
+        PlacesAdapter()
+    }
+
+    private var selectedLat = ""
+    private var selectedLon = ""
+    private var selectedTime = ""
+    private var selectedDate = 0L
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
+        geocoder = Geocoder(requireContext(), Locale.getDefault())
         setupData()
     }
 
@@ -61,6 +101,75 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
         binding.placeET.setTextAnimation(baseViewModel.currentUser.place)
         binding.dateET.setTextAnimation(dateStr)
         binding.timeET.setTextAnimation(baseViewModel.currentUser.time)
+
+        setupPlacesView()
+
+        val dateCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+                }
+            }
+        }
+        dateBehavior.addBottomSheetCallback(dateCallback)
+        setupDateSheet()
+
+        val timeCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+                }
+            }
+        }
+        timeBehavior.addBottomSheetCallback(timeCallback)
+        setupTimeSheet()
+
+    }
+
+    private fun setupDateSheet() {
+        with(binding.dateBottomSheet) {
+            this.ok.setOnClickListener {
+                dateBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+                val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO, Locale.getDefault())
+                val calendar: Calendar = Calendar.getInstance()
+
+                calendar.timeInMillis = this.date.date
+                val dateStr = formatter.format(calendar.time)
+                binding.dateET.setTextAnimation(dateStr)
+
+                selectedDate = this.date.date
+            }
+
+            this.date.date = baseViewModel.currentUser.date
+        }
+    }
+
+    private fun setupTimeSheet() {
+        with(binding.timeBottomSheet) {
+            this.ok.setOnClickListener {
+                timeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+                val newTime = String.format(
+                    "%02d",
+                    this.time.hour
+                ) + ":" + String.format("%02d", this.time.minute)
+                binding.timeET.setTextAnimation(newTime)
+
+                selectedTime = newTime
+            }
+
+            this.time.hour = baseViewModel.currentUser.time.split(":")[0].toInt()
+            this.time.minute = baseViewModel.currentUser.time.split(":")[1].toInt()
+        }
     }
 
     private fun setupLocale() {
@@ -78,6 +187,39 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
     override fun updateThemeAndLocale() {
         setupLocale()
+
+        binding.dateBottomSheet.container.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+            else R.color.lightSettingsCard
+        ))
+
+        binding.dateBottomSheet.ok.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.timeBottomSheet.container.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+            else R.color.lightSettingsCard
+        ))
+
+        binding.timeBottomSheet.ok.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+
+        binding.placesView.placesViewContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
         binding.personalInfoContainer.setBackgroundColor(ContextCompat.getColor(
             requireContext(),
@@ -207,6 +349,46 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
     }
 
+    private fun setupPlacesView() {
+        binding.placesView.placeRecycler.adapter = placesAdapter
+
+        binding.placesView.icArrow.setOnClickListener {
+            binding.placesView.isVisible = false
+            placesAdapter.createList(emptyList())
+        }
+
+        binding.placesView.newPlaceET.addTextChangedListener {
+            if (!binding.placesView.newPlaceET.text.isNullOrEmpty() && ::geocoder.isInitialized) {
+
+                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                    val suggestions = getSuggestions()
+                    val addresses: MutableList<Place> = mutableListOf()
+
+                    suggestions.forEach { suggestion ->
+                        if (addresses.none { it.name == "${suggestion.locality}, ${suggestion.countryName}" }) {
+                            addresses.add(
+                                Place(
+                                    name = "${suggestion.locality}, ${suggestion.countryName}",
+                                    lat = suggestion.latitude.toString(),
+                                    lon = suggestion.longitude.toString()
+                                )
+
+                            )
+                        }
+                    }
+                    placesAdapter.createList(addresses.toList())
+                }
+            }
+        }
+    }
+
+    private suspend fun getSuggestions(): List<Address> =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                geocoder.getFromLocationName(binding.placesView.newPlaceET.text.toString(), 300)
+            }
+        }
+
     private fun showConfirmView() {
         binding.confirmCard.animate()
             .alpha(1f)
@@ -231,17 +413,37 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             if (!binding.nameET.text.isNullOrEmpty())
                 baseViewModel.currentUser.name = binding.nameET.text.toString()
 
-            if (!binding.placeET.text.isNullOrEmpty())
+            if (!binding.placeET.text.isNullOrEmpty()) {
+                if (selectedLat.isNotEmpty())
+                    baseViewModel.currentUser.lat = selectedLat
+
+                if (selectedLon.isNotEmpty())
+                    baseViewModel.currentUser.lon = selectedLon
+
                 baseViewModel.currentUser.place = binding.placeET.text.toString()
+            }
 
-//        if (!binding.dateET.text.isNullOrEmpty())
-//            baseViewModel.currentUser.date = binding.dateET.text.toString()
+        if (!binding.dateET.text.isNullOrEmpty() && selectedDate != 0L)
+            baseViewModel.currentUser.date = selectedDate
 
-            if (!binding.timeET.text.isNullOrEmpty())
-                baseViewModel.currentUser.time = binding.timeET.text.toString()
+            if (!binding.timeET.text.isNullOrEmpty() && selectedTime.isNotEmpty())
+                baseViewModel.currentUser.time = selectedTime//binding.timeET.text.toString()
 
             baseViewModel.updateUser()
         }.invokeOnCompletion { baseViewModel.setupCurrentUser() }
+    }
+
+    @Subscribe
+    fun onPlaceSelectedEvent(e: PlaceSelectedEvent) {
+        Keyboard.hide(requireActivity())
+
+        binding.placesView.isVisible = false
+        binding.placesView.newPlaceET.setText("")
+        placesAdapter.createList(emptyList())
+
+        binding.placeET.setText(e.place.name)
+        selectedLat = e.place.lat
+        selectedLon = e.place.lon
     }
 
     inner class Handler {
@@ -259,8 +461,28 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
         }
 
         fun onConfirmClicked(v: View) {
-            hideConfirmView()
-            updateUserData()
+            if (binding.confirmCard.alpha == 1f) {
+                hideConfirmView()
+                updateUserData()
+            }
+        }
+
+        fun onPlaceClicked(v: View) {
+            binding.placesView.isVisible = true
+        }
+
+        fun onDateClicked(v: View) {
+            if (timeBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                timeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+            dateBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+
+        fun onTimeClicked(v: View) {
+            if (dateBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+                dateBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+            timeBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 }
