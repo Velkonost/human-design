@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.rest.UserDiaryFields
+import ru.get.hd.ui.bodygraph.diagram.adapter.DiagramsAdapter
 
 fun RecyclerView.setUpRemoveItemTouchHelper(
     swiped: (viewHolder: RecyclerView.ViewHolder, swipeDir: Int) -> Unit
@@ -55,7 +56,10 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
         ): Int {
-            val canSwipe = true
+
+            val canSwipe = !(recyclerView.adapter is DiagramsAdapter
+                    && (recyclerView.adapter as DiagramsAdapter).itemCount == 1)
+
             return if (canSwipe) super.getSwipeDirs(
                 recyclerView,
                 viewHolder

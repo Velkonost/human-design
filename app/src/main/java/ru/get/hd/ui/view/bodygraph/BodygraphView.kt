@@ -2443,7 +2443,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event!!.action) {
-            MotionEvent.ACTION_DOWN -> {
+            MotionEvent.ACTION_UP -> {
                 if (!isTouchable) return true
 
                 val centers = mutableListOf<Center>()

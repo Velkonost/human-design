@@ -1,6 +1,7 @@
 package ru.get.hd.ui.adduser
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.location.Address
 import android.location.Geocoder
 import android.location.LocationListener
@@ -128,6 +129,13 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
     }
 
     override fun updateThemeAndLocale() {
+
+        binding.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
         binding.startContainer.setBackgroundColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -437,7 +445,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         }
 
         binding.skipTime.isVisible = true
-        binding.skipTime.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_skip))
+        binding.skipTime.alpha = 1f
+        binding.skipTime.text = (App.resourcesProvider.getStringLocale(R.string.start_time_skip))
 
         binding.date.alpha0(500) {
             binding.date.isVisible = false
@@ -493,6 +502,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
     private fun setupBodygraph() {
         currentStartPage = StartPage.BODYGRAPH
+
+        binding.backBtn.isVisible = false
 
         binding.indicatorsContainer.alpha0(500)
         binding.startBtn.alpha0(500) {
@@ -588,6 +599,50 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         fun openPlacesView(v: View) {
             binding.placesView.isVisible = true
+        }
+
+        fun onBackClicked(v: View) {
+            animateBackCirclesBtwPages()
+            when(currentStartPage) {
+                StartPage.RAVE -> {
+                    router.exit()
+                }
+                StartPage.NAME -> {
+
+                    binding.nameContainer.alpha0(500) {
+                        binding.nameContainer.isVisible = false
+                    }
+                    binding.raveContainer.alpha1(500)
+                    binding.startBtn.translationY(requireContext().convertDpToPx(0f), 500)
+                    setupRave()
+                }
+                StartPage.DATE_BIRTH -> {
+                    binding.date.alpha0(500) {
+                        binding.date.isVisible = false
+                    }
+                    binding.nameET.isVisible = true
+                    binding.nameET.alpha1(500)
+
+                    setupName()
+                }
+                StartPage.TIME_BIRTH -> {
+                    binding.skipTime.isVisible = false
+                    binding.time.alpha0(500) {
+                        binding.time.isVisible = false
+                    }
+                    setupDateBirth()
+                }
+                StartPage.PLACE_BIRTH -> {
+                    binding.placeET.alpha0(500) {
+                        binding.placeET.isVisible = false
+                    }
+                    binding.skipTime.alpha = 1f
+                    setupTimeBirth()
+                }
+                StartPage.BODYGRAPH -> {
+                    setupPlaceBirth()
+                }
+            }
         }
 
         fun onBtnClicked(v: View) {

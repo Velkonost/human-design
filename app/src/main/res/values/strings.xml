@@ -164,36 +164,36 @@
     <string name="compatibility_detail_title">Совместимость</string>
     <string name="profiles_title">Профиль</string>
 
-    <string name="add_partner_rave_title"><![CDATA[Let’s calculate\nthe bodygraph!]]></string>
-    <string name="add_child_rave_title"><![CDATA[Let’s calculate\nyour child’s\nbodygraph!]]></string>
+    <string name="add_partner_rave_title"><![CDATA[Вы на пути к расчету бодиграфа! Вперед!]]></string>
+    <string name="add_child_rave_title"><![CDATA[Давайте рассчитаем бодиграф ребенка!]]></string>
 
-    <string name="add_partner_rave_desc"><![CDATA[Enter your partner’s information and\nfind out everything about your\ncompatibility. You will understand where\nou coincide and where you are\ndissimilar.]]></string>
-    <string name="add_child_rave_desc"><![CDATA[Enter the details of your child, this will\nallow you to choose the right approach in\nhis upbringing. The child’s bodygraph\ncannot be used as the main bodygraph.]]></string>
+    <string name="add_partner_rave_desc"><![CDATA[Укажите данные партнера и узнайте все о вашей совместимости. Вы поймете, в чем совпадаете, а в чем не похожи.]]></string>
+    <string name="add_child_rave_desc"><![CDATA[Введите данные вашего ребенка. Бодиграф поможет вам выбрать нужный подход в воспитании.<br>Бодиграф ребенка не может быть использован в качестве основного бодиграфа.]]></string>
 
-    <string name="add_partner_name_title"><![CDATA[What is your partner’s name?]]></string>
-    <string name="add_child_name_title"><![CDATA[Name of your child]]></string>
-    <string name="add_partner_name_desc"><![CDATA[Introduce your partner to us! ]]></string>
-    <string name="add_child_name_desc"><![CDATA[Please enter the name of the child for\nwhom the bodygraph is calculated.]]></string>
+    <string name="add_partner_name_title"><![CDATA[Как зовут вашего партнера?]]></string>
+    <string name="add_child_name_title"><![CDATA[Имя ребенка]]></string>
+    <string name="add_partner_name_desc"><![CDATA[Представьте нам вашего партнера!]]></string>
+    <string name="add_child_name_desc"><![CDATA[Пожалуйста, введите имя ребенка, для которого рассчитывается бодиграф.]]></string>
 
-    <string name="add_partner_date_birth_title"><![CDATA[Your partner’s\ndate of birth ]]></string>
-    <string name="add_partner_date_birth_desc"><![CDATA[Enter your partner’s date of birth and we\nwill calculate his bodygraph!]]></string>
-    <string name="add_child_date_birth_title"><![CDATA[Date of Birth]]></string>
-    <string name="add_child_date_birth_desc"><![CDATA[Indicate the date of birth of the child for\nwhom the bodygraph is calculated.]]></string>
+    <string name="add_partner_date_birth_title"><![CDATA[Дата рождения вашего партнера]]></string>
+    <string name="add_partner_date_birth_desc"><![CDATA[Укажите дату рождения, и мы сможем построить бодиграф!]]></string>
+    <string name="add_child_date_birth_title"><![CDATA[Дата рождения]]></string>
+    <string name="add_child_date_birth_desc"><![CDATA[Укажите дату рождения ребенка, для которого рассчитывается бодиграф.]]></string>
 
-    <string name="add_partner_time_birth_title"><![CDATA[Time of your partner’s birth]]></string>
-    <string name="add_partner_time_birth_desc"><![CDATA[It will show the exact location of the\nplanets and stars at the time of your\npartner’s bith, which is important for\ncalculating the card.\nI don’t know for sure]]></string>
-    <string name="add_child_time_birth_title"><![CDATA[Time of Birth]]></string>
-    <string name="add_child_time_birth_desc"><![CDATA[Shows the exact location of planets and\nstars at the time of your child’s birth\nI don’t know for sure]]></string>
+    <string name="add_partner_time_birth_title"><![CDATA[Время рождения вашего партнера]]></string>
+    <string name="add_partner_time_birth_desc"><![CDATA[Оно покажет точное расположение планет и звезд в момент рождения вашего партнера, что важно для расчета карты.]]></string>
+    <string name="add_child_time_birth_title"><![CDATA[Время рождения]]></string>
+    <string name="add_child_time_birth_desc"><![CDATA[Покажет точное расположение планет и звезд в момент рождения вашего ребенка.]]></string>
 
-    <string name="add_partner_place_birth_title"><![CDATA[Your partner’s\nplace of birth]]></string>
-    <string name="add_partner_place_birth_desc"><![CDATA[The place where your partner was born is\nvery important. We will be able to\naccurately determine the position of the\nheavenly bodies that have left an imprint\non your partner’s destiny.]]></string>
-    <string name="add_child_place_birth_title"><![CDATA[Place of Birth]]></string>
-    <string name="add_child_place_birth_desc"><![CDATA[Very important information for\ncalculating the bodygraph. We will be\nable to accurately determine the position\nof the heavenly bodies that have left an\nimprint on your child’s destiny.]]></string>
+    <string name="add_partner_place_birth_title"><![CDATA[Место рождения вашего партнера]]></string>
+    <string name="add_partner_place_birth_desc"><![CDATA[Место, где ваш партнер появился на свет очень важно. Так мы сможем точнее определить положение небесных тел, которые оставили отпечаток в судьбе вашего партнера.]]></string>
+    <string name="add_child_place_birth_title"><![CDATA[Место рождения]]></string>
+    <string name="add_child_place_birth_desc"><![CDATA[Очень важная информация для расчета бодиграфа. Мы сможем точнее определить положение небесных тел, повлиявших на судьбу вашего ребенка.]]></string>
 
-    <string name="add_partner_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
-    <string name="add_partner_bodygraph_ready_desc"><![CDATA[Now you can reveal all the secrets of your\nrelationship and learn to live in harmony.]]></string>
-    <string name="add_child_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
-    <string name="add_child_bodygraph_ready_desc"><![CDATA[Now you can will find out the strengths\nand weakness of your child, you can find\nthe most harmonious way of his\ndevelopment and personal becoming.]]></string>
+    <string name="add_partner_bodygraph_ready_title"><![CDATA[Бодиграф готов!]]></string>
+    <string name="add_partner_bodygraph_ready_desc"><![CDATA[Теперь вы сможете узнать все тайны ваших взаимоотношений и научиться жить в гармонии]]></string>
+    <string name="add_child_bodygraph_ready_title"><![CDATA[Бодиграф готов!]]></string>
+    <string name="add_child_bodygraph_ready_desc"><![CDATA[Теперь вы узнаете сильные и слабые стороны вашего ребенка, сможете найти самый гармоничный путь его развития и становления как личности.]]></string>
 
     <string name="compatibility_channels_title">Каналы совместимости</string>
     <string name="compatibility_channels_desc">Каналы совместимости демонстрируют, как люди влияют друг на друга. При наложении рейв карт двух личностей можно увидеть, есть ли у вас с партнером полностью или частично совпадающие Каналы. На основании этого делается вывод о том, будут ли ваши отношения гармоничными.</string>
@@ -226,10 +226,12 @@
     <string name="diagram_bodygraph_title">Бодиграф готов!</string>
     <string name="diagram_bodygraph_desc">Теперь вам раскроются все секреты личности, вы найдете пути для гармоничного контакта и продуктивного взаимодействия.</string>
 
-    <string name="help_bodygraph_add_diagram">Click if you want to add a new user to decrypt his personal rave card.</string>
-    <string name="help_bodygraph_centers">Click on the center to read its description. Your defined centers are colored.</string>
-    <string name="help_bodygraph_to_decryption">Swipe to decode your bodygraph.</string>
+    <string name="help_bodygraph_add_diagram">Нажмите, если хотите добавить нового пользователя для расшифровки его персональной рейв карты.</string>
+    <string name="help_bodygraph_centers">Нажмите на центр, чтобы увидеть его описание. Ваши определенные центры окрашены цветом.</string>
+    <string name="help_bodygraph_to_decryption">Свайпните для расшифровки вашего бодиграфа.</string>
     <string name="help_transit">Тут вы можете узнать подробнее о ежедневных транзитах.</string>
     <string name="help_compatibility_channel">Связи в отношениях, которые вызывают эмоции между вами.</string>
     <string name="help_affirmation">Вы можете поделиться аффирмацией в социальных сетях.</string>
+    <string name="help_compatibility_partners">Совместимость с другими людьми</string>
+    <string name="help_compatibility_children">Взаимоотношения с детьми</string>
 </resources>

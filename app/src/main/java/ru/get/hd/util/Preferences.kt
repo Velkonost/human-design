@@ -106,6 +106,18 @@ class Preferences(context: Context) {
             .apply()
         get() = sharedPreferences.getBoolean(IS_COMPATIBILITY_DETAIL_CHANNELS_IS_ADDED_NOW, false)
 
+    var isCompatibilityPartnersHelpShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(COMPATIBILITY_PARTNERS_HELP_SHOWN, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(COMPATIBILITY_PARTNERS_HELP_SHOWN, false)
+
+    var isCompatibilityChildrenHelpShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean(COMPATIBILITY_CHILDREN_HELP_SHOWN, value)
+            .apply()
+        get() = sharedPreferences.getBoolean(COMPATIBILITY_CHILDREN_HELP_SHOWN, false)
+
+
+
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"
 
@@ -129,7 +141,11 @@ class Preferences(context: Context) {
         const val BODYGRAPH_ADD_DIAGRAM_HELP_SHOWN = "bodygraph_add_diagram_help_shown"
         const val BODYGRAPH_CENTERS_HELP_SHOWN = "bodygraph_centers_help_shown"
         const val TRANSIT_HELP_SHOWN = "transit_help_shown"
+
         const val COMPATIBILITY_CHANNELS_HELP_SHOWN = "compatibility_channels_help_shown"
+        const val COMPATIBILITY_PARTNERS_HELP_SHOWN = "compatibility_partners_help_shown"
+        const val COMPATIBILITY_CHILDREN_HELP_SHOWN = "compatibility_children_help_shown"
+
         const val AFFIRMATION_HELP_SHOWN = "affirmation_help_shown"
 
         const val IS_COMPATIBILITY_DETAIL_CHANNELS_IS_ADDED_NOW =

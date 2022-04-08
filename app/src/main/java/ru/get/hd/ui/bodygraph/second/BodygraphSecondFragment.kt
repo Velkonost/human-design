@@ -106,24 +106,28 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
             val gates: MutableList<TransitionGate> = mutableListOf()
             val channels: MutableList<TransitionChannel> = mutableListOf()
 
-            it.description.gates.keys.forEach { number ->
-                gates.add(
-                    TransitionGate(
-                        number = number,
-                        title = it.description.gatesTitles[number]!!,
-                        description = it.description.gates[number]!!
+            if (!it.description.gates.isNullOrEmpty()) {
+                it.description.gates.keys.forEach { number ->
+                    gates.add(
+                        TransitionGate(
+                            number = number,
+                            title = it.description.gatesTitles[number]!!,
+                            description = it.description.gates[number]!!
+                        )
                     )
-                )
+                }
             }
 
-            it.description.channels.keys.forEach { number ->
-                channels.add(
-                    TransitionChannel(
-                        number = number,
-                        title = it.description.channelsTitles[number]!!,
-                        description = it.description.channels[number]!!
+            if (!it.description.channels.isNullOrEmpty()) {
+                it.description.channels.keys.forEach { number ->
+                    channels.add(
+                        TransitionChannel(
+                            number = number,
+                            title = it.description.channelsTitles[number]!!,
+                            description = it.description.channels[number]!!
+                        )
                     )
-                )
+                }
             }
 
             val aboutItemsList: MutableList<AboutItem> = mutableListOf()

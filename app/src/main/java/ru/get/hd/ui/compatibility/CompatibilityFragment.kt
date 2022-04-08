@@ -2,12 +2,22 @@ package ru.get.hd.ui.compatibility
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.view.Gravity
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonCenterAlign
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.overlay.BalloonOverlayRect
 import kotlinx.android.synthetic.main.item_diagram.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -24,12 +34,15 @@ import ru.get.hd.event.CompatibilityChildStartClickEvent
 import ru.get.hd.event.CompatibilityStartClickEvent
 import ru.get.hd.event.DeleteChildEvent
 import ru.get.hd.event.DeletePartnerEvent
+import ru.get.hd.event.HelpType
+import ru.get.hd.event.ShowHelpEvent
 import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.compatibility.adapter.CompatibilityAdapter
 import ru.get.hd.ui.transit.TransitFragment
+import ru.get.hd.util.convertDpToPx
 import ru.get.hd.vm.BaseViewModel
 
 class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompatibilityBinding>(
@@ -37,6 +50,9 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     CompatibilityViewModel::class,
     Handler::class
 ) {
+
+    private var isPartnersHelpShowing = false
+    private var isChildrenHelpShowing = false
 
     private val compatibilityAdapter: CompatibilityAdapter by lazy {
         CompatibilityAdapter()
@@ -120,6 +136,88 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         setupViewPager()
     }
 
+    private fun showPartnersHelp() {
+        val balloon = Balloon.Builder(context!!)
+            .setArrowSize(15)
+            .setArrowOrientation(ArrowOrientation.TOP)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+            .setArrowPosition(0.5f)
+            .setTextGravity(Gravity.CENTER)
+            .setPadding(10)
+            .setWidth(BalloonSizeSpec.WRAP)
+            .setMaxWidth(300)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setTextSize(12f)
+            .setCornerRadius(10f)
+            .setText(App.resourcesProvider.getStringLocale(R.string.help_compatibility_partners))
+            .setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    R.color.lightColor
+                )
+            )
+            .setTextIsHtml(true)
+            .setOverlayColorResource(R.color.helpBgColor)
+            .setIsVisibleOverlay(true)
+            .setOverlayShape(BalloonOverlayRect)
+            .setBackgroundColor(
+                Color.parseColor("#4D494D")
+            )
+            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+            .setOnBalloonDismissListener {
+                isPartnersHelpShowing = false
+                App.preferences.isCompatibilityPartnersHelpShown = true
+            }
+            .build()
+
+        balloon.showAlignBottom(
+            binding.partnersTitle,
+            xOff = requireContext().convertDpToPx(32f).toInt(),
+            yOff = requireContext().convertDpToPx(6f).toInt()
+        )
+    }
+
+    private fun showChildrenHelp() {
+        val balloon = Balloon.Builder(context!!)
+            .setArrowSize(15)
+            .setArrowOrientation(ArrowOrientation.TOP)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+            .setArrowPosition(0.5f)
+            .setTextGravity(Gravity.CENTER)
+            .setPadding(10)
+            .setWidth(BalloonSizeSpec.WRAP)
+            .setMaxWidth(300)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setTextSize(12f)
+            .setCornerRadius(10f)
+            .setText(App.resourcesProvider.getStringLocale(R.string.help_compatibility_children))
+            .setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    R.color.lightColor
+                )
+            )
+            .setTextIsHtml(true)
+            .setOverlayColorResource(R.color.helpBgColor)
+            .setIsVisibleOverlay(true)
+            .setOverlayShape(BalloonOverlayRect)
+            .setBackgroundColor(
+                Color.parseColor("#4D494D")
+            )
+            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+            .setOnBalloonDismissListener {
+                isChildrenHelpShowing = false
+                App.preferences.isCompatibilityChildrenHelpShown = true
+            }
+            .build()
+
+        balloon.showAlignBottom(
+            binding.childrenTitle,
+            xOff = requireContext().convertDpToPx(-32f).toInt(),
+            yOff = requireContext().convertDpToPx(6f).toInt()
+        )
+    }
+
     private fun selectPartners() {
         binding.partnersTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -138,6 +236,15 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         )
 
         binding.childrenTitle.background = null
+
+        if (!App.preferences.isCompatibilityPartnersHelpShown && !isPartnersHelpShowing) {
+            isPartnersHelpShowing = true
+            android.os.Handler().postDelayed({
+                showPartnersHelp()
+            }, 500)
+
+        }
+
     }
 
     private fun selectChildren() {
@@ -158,6 +265,15 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         )
 
         binding.partnersTitle.background = null
+
+        if (!App.preferences.isCompatibilityChildrenHelpShown && !isChildrenHelpShowing) {
+            isChildrenHelpShowing = true
+            android.os.Handler().postDelayed({
+                showChildrenHelp()
+            }, 500)
+
+        }
+
     }
 
     private fun setupViewPager() {

@@ -162,6 +162,45 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
         <item>Visit the App to read it ☝🏽</item>
     </string-array>
 
+    <string name="compatibility_detail_title">Relationship</string>
+    <string name="profiles_title">Profiles</string>
+
+    <string name="add_partner_rave_title"><![CDATA[Let’s calculate\nthe bodygraph!]]></string>
+    <string name="add_child_rave_title"><![CDATA[Let’s calculate\nyour child’s\nbodygraph!]]></string>
+
+    <string name="add_partner_rave_desc"><![CDATA[Enter your partner’s information and\nfind out everything about your\ncompatibility. You will understand where\nou coincide and where you are\ndissimilar.]]></string>
+    <string name="add_child_rave_desc"><![CDATA[Enter the details of your child, this will\nallow you to choose the right approach in\nhis upbringing. The child’s bodygraph\ncannot be used as the main bodygraph.]]></string>
+
+    <string name="add_partner_name_title"><![CDATA[What is your partner’s name?]]></string>
+    <string name="add_child_name_title"><![CDATA[Name of your child]]></string>
+    <string name="add_partner_name_desc"><![CDATA[Introduce your partner to us! ]]></string>
+    <string name="add_child_name_desc"><![CDATA[Please enter the name of the child for\nwhom the bodygraph is calculated.]]></string>
+
+    <string name="add_partner_date_birth_title"><![CDATA[Your partner’s\ndate of birth ]]></string>
+    <string name="add_partner_date_birth_desc"><![CDATA[Enter your partner’s date of birth and we\nwill calculate his bodygraph!]]></string>
+    <string name="add_child_date_birth_title"><![CDATA[Date of Birth]]></string>
+    <string name="add_child_date_birth_desc"><![CDATA[Indicate the date of birth of the child for\nwhom the bodygraph is calculated.]]></string>
+
+    <string name="add_partner_time_birth_title"><![CDATA[Time of your partner’s birth]]></string>
+    <string name="add_partner_time_birth_desc"><![CDATA[It will show the exact location of the\nplanets and stars at the time of your\npartner’s bith, which is important for\ncalculating the card.\nI don’t know for sure]]></string>
+    <string name="add_child_time_birth_title"><![CDATA[Time of Birth]]></string>
+    <string name="add_child_time_birth_desc"><![CDATA[Shows the exact location of planets and\nstars at the time of your child’s birth\nI don’t know for sure]]></string>
+
+    <string name="add_partner_place_birth_title"><![CDATA[Your partner’s\nplace of birth]]></string>
+    <string name="add_partner_place_birth_desc"><![CDATA[The place where your partner was born is\nvery important. We will be able to\naccurately determine the position of the\nheavenly bodies that have left an imprint\non your partner’s destiny.]]></string>
+    <string name="add_child_place_birth_title"><![CDATA[Place of Birth]]></string>
+    <string name="add_child_place_birth_desc"><![CDATA[Very important information for\ncalculating the bodygraph. We will be\nable to accurately determine the position\nof the heavenly bodies that have left an\nimprint on your child’s destiny.]]></string>
+
+    <string name="add_partner_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
+    <string name="add_partner_bodygraph_ready_desc"><![CDATA[Now you can reveal all the secrets of your\nrelationship and learn to live in harmony.]]></string>
+    <string name="add_child_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
+    <string name="add_child_bodygraph_ready_desc"><![CDATA[Now you can will find out the strengths\nand weakness of your child, you can find\nthe most harmonious way of his\ndevelopment and personal becoming.]]></string>
+
+    <string name="channel_type_1">Interdependence</string>
+    <string name="channel_type_2">Dominance</string>
+    <string name="channel_type_3">Suppression</string>
+    <string name="channel_type_4">Cooperation</string>
+
     <string name="compatibility_channels_title">Compatibility Channels</string>
     <string name="compatibility_channels_desc">Compatibility channels demonstrate how people influence each other. When overlaying rave cards of two persons, we can see if you and your partner have completely or partially matching Channels.  Based on this, it is concluded whether your relationship will be harmonious.</string>
 
@@ -188,4 +227,12 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="diagram_bodygraph_title">Bodygraph is ready!</string>
     <string name="diagram_bodygraph_desc">Now all the secrets will be revealed to you, you will find the best ways for harmonious contact and productive interaction.</string>
 
+    <string name="help_bodygraph_add_diagram">Click if you want to add a new user to decrypt his personal rave card.</string>
+    <string name="help_bodygraph_centers">Click on the center to read its description. Your defined centers are colored.</string>
+    <string name="help_bodygraph_to_decryption">Swipe to decode your bodygraph.</string>
+    <string name="help_transit">Here you can find more information about daily transits.</string>
+    <string name="help_compatibility_channel">Связи в отношениях, которые вызывают эмоции между вами.</string>
+    <string name="help_affirmation">You can share the affirmation on social media.</string>
+    <string name="help_compatibility_partners">Compatibility with other people</string>
+    <string name="help_compatibility_children">Relationship with children</string>
 </resources>
