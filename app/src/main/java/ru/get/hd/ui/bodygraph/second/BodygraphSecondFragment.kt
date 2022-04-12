@@ -51,6 +51,19 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     }
 
     override fun updateThemeAndLocale() {
+        binding.bodygraphContainer.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkColor
+            else R.color.lightColor
+        ))
+
+        binding.descriptionTitle.text = App.resourcesProvider.getStringLocale(R.string.menu_second_title)
+        binding.descriptionTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
         binding.aboutTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.about_title))
         binding.centersTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.centers_title))
         binding.gatesTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.gates_title))

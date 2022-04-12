@@ -57,10 +57,15 @@ object Screens {
         key = "bodygraph_first"
     )
 
-    fun bodygraphSecondScreen() = BaseFragmentScreen (
-        fragment = BodygraphSecondFragment.invoke(),
-        key = "bodygraph_second"
-    )
+    fun bodygraphSecondScreen() = FragmentScreen {
+        BodygraphSecondFragment.invoke()
+    }
+
+
+//        BaseFragmentScreen (
+//        fragment = BodygraphSecondFragment.invoke(),
+//        key = "bodygraph_second"
+//    )
 
     fun faqScreen() = FragmentScreen {
         FaqFragment()

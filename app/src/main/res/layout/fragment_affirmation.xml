@@ -20,11 +20,18 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
-        <ImageView
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_stars"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+
+
+        <TextView
+            android:id="@+id/wisdomTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/roboto"
+            android:textSize="32sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/selectionCard"
@@ -34,9 +41,9 @@
             app:cardElevation="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="24dp"
-            android:layout_marginHorizontal="32dp">
+            app:layout_constraintTop_toBottomOf="@id/wisdomTitle"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/selectionLinear"
@@ -52,7 +59,7 @@
                     android:gravity="center"
                     android:layout_margin="2dp"
                     android:background="@drawable/ic_affirmation_bg"
-                    android:fontFamily="@font/montserrat_semibold"
+                    android:fontFamily="@font/roboto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
@@ -64,7 +71,7 @@
                     android:gravity="center"
                     android:layout_margin="2dp"
                     android:background="@drawable/ic_affirmation_bg"
-                    android:fontFamily="@font/montserrat_semibold"
+                    android:fontFamily="@font/roboto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 

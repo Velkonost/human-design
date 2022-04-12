@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/montserrat_bold"
+            android:fontFamily="@font/roboto_bold"
             android:text="FAQ"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"

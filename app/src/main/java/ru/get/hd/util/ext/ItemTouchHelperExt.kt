@@ -33,13 +33,13 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
             color = Color.WHITE
             isAntiAlias = true
 //            textSize = resources.getDimension(backgroundTextSize)
-            typeface = ResourcesCompat.getFont(context, R.font.opensans)
+            typeface = ResourcesCompat.getFont(context, R.font.roboto)
         }
 
         val paint = Paint().apply {
             color = Color.WHITE
             isAntiAlias = true
-            typeface = ResourcesCompat.getFont(context, R.font.opensans)
+            typeface = ResourcesCompat.getFont(context, R.font.roboto)
         }
 
         private fun init() {

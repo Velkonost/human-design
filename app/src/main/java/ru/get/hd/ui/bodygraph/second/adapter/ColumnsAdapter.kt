@@ -75,10 +75,6 @@ class CentersModel(
 
         with(view) {
 
-//            activeCentersTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.active_centers_title))
-//                    view.activeCentersDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.active_centers_text))
-//                    view.inactiveCentersTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.inactive_centers_title))
-//                    view.inactiveCentersDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.inactive_centers_text))
             activeCentersTitle.text = App.resourcesProvider.getStringLocale(R.string.active_centers_title)
             activeCentersDesc.text = App.resourcesProvider.getStringLocale(R.string.active_centers_text)
             inactiveCentersTitle.text = App.resourcesProvider.getStringLocale(R.string.inactive_centers_title)

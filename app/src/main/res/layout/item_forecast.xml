@@ -17,14 +17,13 @@
             android:layout_height="match_parent"
             android:paddingBottom="150dp">
 
-
             <TextView
                 android:id="@+id/forecastNextTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
                 android:alpha="0.5"
-                android:gravity="start"
+                android:gravity="center"
                 android:letterSpacing="0.04"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -275,7 +274,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_semibold"
+                android:fontFamily="@font/roboto"
                 android:gravity="start"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -290,7 +289,7 @@
                 android:gravity="start"
                 android:lineSpacingExtra="7sp"
                 android:layout_marginHorizontal="32dp"
-                android:fontFamily="@font/opensans"
+                android:fontFamily="@font/roboto"
                 android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

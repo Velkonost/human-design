@@ -109,5 +109,5 @@
     <dimen name="diary_viewpager_next_item_visible">24dp</dimen>
     <dimen name="diary_viewpager_current_item_horizontal_margin">10dp</dimen>
 
-    <dimen name="transit_znak_size">10dp</dimen>
+    <dimen name="transit_znak_size">16dp</dimen>
 </resources>

@@ -15,17 +15,14 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.R
-import ru.get.hd.databinding.FragmentBodygraphFirstBinding
 import ru.get.hd.databinding.FragmentDiagramBinding
 import ru.get.hd.event.CurrentUserLoadedEvent
 import ru.get.hd.event.UpdateCurrentUserEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
-import ru.get.hd.event.UpdateToBodygraphCardStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.bodygraph.BodygraphViewModel
 import ru.get.hd.ui.bodygraph.diagram.adapter.DiagramsAdapter
-import ru.get.hd.ui.bodygraph.first.BodygraphFirstFragment
 import ru.get.hd.util.ext.setUpRemoveItemTouchHelper
 import ru.get.hd.vm.BaseViewModel
 
@@ -50,7 +47,6 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
 
         setupData()
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
-        EventBus.getDefault().post(UpdateToBodygraphCardStateEvent(isVisible = false))
 
         binding.diagramsRecycler.setUpRemoveItemTouchHelper(
             ::onItemSwiped

@@ -1,7 +1,6 @@
 package ru.get.hd.ui.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
@@ -18,7 +17,6 @@ import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.BR
 import ru.get.hd.event.UpdateThemeEvent
-import ru.get.hd.event.UpdateToBodygraphCardStateEvent
 import ru.get.hd.glide.GlideApp
 import ru.get.hd.ui.settings.SettingsFragment
 import ru.get.hd.util.ext.getViewModel
@@ -188,9 +186,6 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
 
         updateThemeAndLocale()
         updateThemeAndLocale(withAnimation = false, withTextAnimation = false)
-
-        EventBus.getDefault().post(UpdateToBodygraphCardStateEvent(isVisible = false))
-        // Empty for optional override
     }
 
     protected open fun onViewModelReady(viewModel: T) {

@@ -234,4 +234,10 @@
     <string name="help_affirmation">Вы можете поделиться аффирмацией в социальных сетях.</string>
     <string name="help_compatibility_partners">Совместимость с другими людьми</string>
     <string name="help_compatibility_children">Взаимоотношения с детьми</string>
+
+    <string name="menu_first_title">Bodygraph</string>
+    <string name="menu_second_title">Description</string>
+    <string name="menu_third_title">Transits</string>
+    <string name="menu_forth_title">Compatibility</string>
+    <string name="menu_fifth_title">Wisdom</string>
 </resources>

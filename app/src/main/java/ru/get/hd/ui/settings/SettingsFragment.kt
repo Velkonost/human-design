@@ -55,6 +55,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     ) {
         setupLocale()
 
+        binding.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+
         binding.dayTheme.background = ContextCompat.getDrawable(
             requireContext(),
             if (App.preferences.isDarkTheme) R.drawable.ic_bg_theme_day_inactive
@@ -354,6 +361,10 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
         fun onPersonalInfoClicked(v: View) {
             router.navigateTo(Screens.personalInfoScreen())
+        }
+
+        fun onBackClicked(v: View) {
+            router.exit()
         }
     }
 }

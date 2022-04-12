@@ -11,7 +11,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="32dp"
-        android:fontFamily="@font/opensans"
+        android:fontFamily="@font/roboto"
         android:textSize="14sp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>

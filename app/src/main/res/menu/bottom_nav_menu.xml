@@ -4,26 +4,27 @@
     <item
         android:id="@+id/navigation_bodygraph"
         android:icon="@drawable/item_menu_first"
-        android:title="" />
+        android:title="@string/menu_first_title" />
+
+    <item
+        android:id="@+id/navigation_description"
+        android:icon="@drawable/item_menu_description"
+        android:title="@string/menu_second_title"
+        />
 
     <item
         android:id="@+id/navigation_transit"
         android:icon="@drawable/item_menu_second"
-        android:title="" />
+        android:title="@string/menu_third_title"/>
 
     <item
         android:id="@+id/navigation_compatibility"
         android:icon="@drawable/item_menu_third"
-        android:title="" />
+        android:title="@string/menu_forth_title"/>
 
     <item
         android:id="@+id/navigation_affirmation"
         android:icon="@drawable/item_menu_forth"
-        android:title="" />
-
-    <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/item_menu_fifth"
-        android:title="" />
+        android:title="@string/menu_fifth_title"/>
 
 </menu>

@@ -81,6 +81,13 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
     }
 
     override fun updateThemeAndLocale() {
+        binding.wisdomTitle.text = App.resourcesProvider.getStringLocale(R.string.menu_fifth_title)
+        binding.wisdomTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
         binding.affirmationContainer.setBackgroundColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.darkColor

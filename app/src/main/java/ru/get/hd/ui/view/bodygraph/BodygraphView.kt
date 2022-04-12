@@ -2421,7 +2421,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.scale(0.6f,0.6f, centerX.toFloat(), heightInt.toFloat())
+//        canvas.scale(0.6f,0.6f, centerX.toFloat(), heightInt.toFloat())
 
         canvas.drawLines()
         canvas.drawActiveLines()
@@ -2494,12 +2494,13 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
                             arrowPosition = 0.6f
                         ))
                     }
-                    bottomSquareBounds.contains(x, y - 3 * cellSize) -> {
+                    bottomSquareBounds.contains(x, y) -> {
+
                        EventBus.getDefault().post(BodygraphCenterClickEvent(
                            title = centers.find { it.id == 9 }!!.name,
                            desc = centers.find { it.id == 9 }!!.shortDescription,
                            x = centerX.toFloat(),
-                           y = bottomSquarePoints[SquarePoint.LeftTop]!!.y.toFloat() + 3 * cellSize,
+                           y = bottomSquarePoints[SquarePoint.LeftTop]!!.y.toFloat() + 4 * cellSize,
                            alignTop = true
                        ))
                     }

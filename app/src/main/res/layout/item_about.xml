@@ -31,7 +31,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/icArrow"
                 android:layout_marginEnd="12dp"
-                android:fontFamily="@font/montserrat_semibold"
+                android:fontFamily="@font/roboto"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="16dp" />
@@ -53,14 +53,17 @@
                 android:id="@+id/expandable_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="300"
+                app:el_duration="3000"
+                app:el_parallax="0.5"
+                android:orientation="vertical"
+
                 app:el_expanded="false">
 
                 <TextView
                     android:id="@+id/description"
                     android:textSize="14sp"
                     android:alpha="0.7"
-                    android:fontFamily="@font/opensans"
+                    android:fontFamily="@font/roboto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"

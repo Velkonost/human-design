@@ -10,20 +10,12 @@ import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.View
-import android.widget.MediaController
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.jaeger.library.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -39,21 +31,14 @@ import ru.get.hd.event.SetupNavMenuEvent
 import ru.get.hd.event.ToBodygraphClickEvent
 import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
-import ru.get.hd.event.UpdateToBodygraphCardStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.navigation.SupportAppNavigator
 import ru.get.hd.push.NotificationReceiver
 import ru.get.hd.ui.base.BaseActivity
 import ru.get.hd.ui.splash.SplashPage
 import ru.get.hd.ui.start.StartPage
-import ru.get.hd.util.convertDpToPx
-import ru.get.hd.util.ext.alpha0
-import ru.get.hd.util.ext.alpha1
-import ru.get.hd.util.ext.translationYalpha0
-import ru.get.hd.util.ext.translationYalpha1
 import ru.get.hd.vm.*
 import java.util.*
-import kotlin.reflect.KParameter
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     R.layout.activity_main,
@@ -89,6 +74,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             when(it.itemId) {
                 R.id.navigation_bodygraph -> {
                     router.navigateTo(Screens.bodygraphScreen())
+                    true
+                }
+                R.id.navigation_description -> {
+                    router.navigateTo(Screens.bodygraphSecondScreen())
                     true
                 }
                 R.id.navigation_transit -> {
@@ -186,7 +175,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private fun updateNavMenuVisible(isVisible: Boolean) {
         binding.navViewContainer.isVisible = isVisible
-//        updateToBodygraphCard(isVisible)
     }
 
     @Subscribe
@@ -275,25 +263,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 else R.color.lightMenu
             )
         )
-
-        binding.toBodygraphTitle.text = App.resourcesProvider.getStringLocale(R.string.to_bodygraph)
-        binding.toBodygraphTitle.setTextColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
-
-        binding.icToBodygraphArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
-
-        binding.toBodygraphCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.darkMenu
-            else R.color.lightMenu
-        ))
     }
 
     private fun setupNavMenu() {
@@ -307,27 +276,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navView.itemIconTintList = null
     }
 
-    private fun updateToBodygraphCard(isVisible: Boolean) {
-        if (isVisible) {
-            binding.toBodygraphCard.translationYalpha1(this.convertDpToPx(0f), 500)
-            binding.toBodygraphContainer.translationYalpha1(this.convertDpToPx(0f), 500)
-        } else {
-            binding.toBodygraphCard.translationYalpha0(this.convertDpToPx(20f), 500)
-            binding.toBodygraphContainer.translationYalpha0(this.convertDpToPx(20f), 500)
-        }
-    }
-
-    @Subscribe
-    fun onUpdateToBodygraphCardStateEvent(e: UpdateToBodygraphCardStateEvent) {
-        updateToBodygraphCard(e.isVisible)
-    }
-
-    inner class Handler {
-
-        fun onToBodygraphClicked(v: View) {
-            updateToBodygraphCard(false)
-            EventBus.getDefault().post(ToBodygraphClickEvent())
-        }
-    }
+    inner class Handler
 
 }
