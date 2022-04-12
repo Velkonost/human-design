@@ -50,11 +50,10 @@ class NotificationHelper(private val mContext: Context) {
         )
 
         mBuilder = NotificationCompat.Builder(mContext)
-            .setSmallIcon(R.drawable.ic_logo)
+            .setSmallIcon(R.drawable.ic_affirmation_logo)
             .setContentTitle(title)
             .setContentText(message)
             .setAutoCancel(true)
-
             .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
             .setContentIntent(resultPendingIntent)
 

@@ -124,7 +124,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         )
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 2 , (
+            AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 24 , (
                     1000 * 60 * 60 * 24).toLong(), pendingIntent
         )
     }
