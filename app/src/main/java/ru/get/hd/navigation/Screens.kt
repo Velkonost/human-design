@@ -14,6 +14,7 @@ import ru.get.hd.ui.bodygraph.second.BodygraphSecondFragment
 import ru.get.hd.ui.compatibility.CompatibilityFragment
 import ru.get.hd.ui.compatibility.child.CompatibilityChildFragment
 import ru.get.hd.ui.compatibility.detail.CompatibilityDetailFragment
+import ru.get.hd.ui.compatibility.detail.info.CompatibilityDetailInfoFragment
 import ru.get.hd.ui.faq.FaqFragment
 import ru.get.hd.ui.faq.detail.FaqDetailFragment
 import ru.get.hd.ui.settings.SettingsFragment
@@ -131,6 +132,10 @@ object Screens {
         )
 
         compatibilityChildFragment
+    }
+
+    fun compatibilityDetailInfoScreen() = FragmentScreen {
+        CompatibilityDetailInfoFragment()
     }
 }
 

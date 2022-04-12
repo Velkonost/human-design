@@ -21,16 +21,14 @@ class NestedScrollingView : NestedScrollView {
 
     private var mScrollListener: NestedScrollViewScrollStateListener? = null
 
-    constructor(context: Context?) : super(context!!) {}
+    constructor(context: Context?) : super(context!!)
     constructor(context: Context?, attrs: AttributeSet?) : super(
         context!!, attrs
-    ) {
-    }
+    )
 
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context!!, attrs, defStyleAttr
-    ) {
-    }
+    )
 
     override fun stopNestedScroll() {
         super.stopNestedScroll()

@@ -1,13 +1,19 @@
 package ru.get.hd.util.ext
 
-import android.graphics.*
-import android.graphics.drawable.ColorDrawable
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.text.*
-import androidx.annotation.DimenRes
+import android.text.Layout
+import android.text.StaticLayout
+import android.text.TextDirectionHeuristic
+import android.text.TextDirectionHeuristics
+import android.text.TextPaint
+import android.text.TextUtils
 import androidx.annotation.RequiresApi
-import androidx.annotation.StringRes
 import androidx.collection.lruCache
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -15,10 +21,13 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.withTranslation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.epoxy.EpoxyViewHolder
 import ru.get.hd.App
 import ru.get.hd.R
-import ru.get.hd.rest.UserDiaryFields
+import ru.get.hd.ui.bodygraph.diagram.adapter.DiagramEmptyModel
 import ru.get.hd.ui.bodygraph.diagram.adapter.DiagramsAdapter
+import ru.get.hd.ui.compatibility.adapter.EmptyChildrenModel
+import ru.get.hd.ui.compatibility.adapter.EmptyPartnerModel
 
 fun RecyclerView.setUpRemoveItemTouchHelper(
     swiped: (viewHolder: RecyclerView.ViewHolder, swipeDir: Int) -> Unit
@@ -57,8 +66,23 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
             viewHolder: RecyclerView.ViewHolder
         ): Int {
 
-            val canSwipe = !(recyclerView.adapter is DiagramsAdapter
-                    && (recyclerView.adapter as DiagramsAdapter).itemCount == 1)
+            var canSwipe = //!(recyclerView.adapter is DiagramsAdapter &&
+                (recyclerView.adapter)!!.itemCount > 1
+
+            if (
+                (viewHolder is EpoxyViewHolder)
+                &&
+                (
+                        viewHolder.model is EmptyPartnerModel
+                                || viewHolder.model is EmptyChildrenModel
+                                || viewHolder.model is DiagramEmptyModel
+                        )
+            ) canSwipe = false
+
+            if (
+                recyclerView.adapter is DiagramsAdapter
+                && recyclerView.adapter!!.itemCount <= 2
+            ) canSwipe = false
 
             return if (canSwipe) super.getSwipeDirs(
                 recyclerView,
@@ -91,7 +115,8 @@ fun RecyclerView.setUpRemoveItemTouchHelper(
             val x = itemView.width - bounds.right - 20
             val y = itemView.bottom + bounds.height() - (itemView.height + bounds.height()) / 2
 
-            ContextCompat.getDrawable(context,
+            ContextCompat.getDrawable(
+                context,
                 if (App.preferences.isDarkTheme) R.drawable.ic_dark_close
                 else R.drawable.ic_light_close
             )?.let {

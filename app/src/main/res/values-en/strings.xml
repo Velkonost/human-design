@@ -235,4 +235,24 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="help_affirmation">You can share the affirmation on social media.</string>
     <string name="help_compatibility_partners">Compatibility with other people</string>
     <string name="help_compatibility_children">Relationship with children</string>
+
+    <string name="information_title">Information</string>
+    <string name="compatibility_information_desc">There are four types of connections by compatibility channels:</string>
+
+    <string name="partners_empty_text"><![CDATA[Do you want to have harmonious and peaceful relationship?<br><br>Check your compatibility and find out what to expect from your couple.<br><br>You will find out the strengths and weaknesses of your relationship, learn how to interact harmoniously.]]></string>
+    <string name="children_empty_text"><![CDATA[Discover how to guide your child to his own nature.<br><br>You will be able to find harmonious ways of interaction to allow your child\'s potential to grow freely.]]></string>
+
+    <string name="compatibility_info_title_1">Interdependence</string>
+    <string name="compatibility_info_title_2">Dominance</string>
+    <string name="compatibility_info_title_3">Suppression</string>
+    <string name="compatibility_info_title_4">Cooperation</string>
+
+    <string name="compatibility_info_desc_1">Interdependence defines the bonds in a relationship that cause emotions between you and your partner. These emotions can be both positive and negative. Emotions with a positive sign are passion, admiration for another person. With a negative sign - resentment, a desire to correct your partner. Interdependence occurs when one side of the Channel is activated in your bodygraph, and the other side is activated on your partner\'s bodygraph. The more there are such connections in the imposition of bodygraphs on each other, the more sensitive, brighter, more emotional the relationship will be.</string>
+    <string name="compatibility_info_desc_2">Dominance is a kind of compatibility that shows what qualities are present only in you. This means that a certain Channel on your bodygraph is colored, and your partner has no energy in it at all. These are the characteristics that make you different from each other, this is your uniqueness, something that can really impress, amaze your partner. On the one hand, your uniqueness is a challenge for your partner, because it is difficult to accept what you do not understand at all. On the other hand, this kind of compatibility teaches patience, love, acceptance of other people as they are.</string>
+    <string name="compatibility_info_desc_3">This kind of compatibility arises when one of the partners has an active Channel, and the other only has a Gate. Such a composite shows where we have to play by the partner\'s rules and forget about our desires. Often this type of communication between Channels brings resentment, misunderstanding, claims to each other into relations, it points to difficult places where a conflict can arise.</string>
+    <string name="compatibility_info_desc_4">If you feel attracted to a person and are ready after a little communication to go to the ends of the earth with him/her, then there is such a type of compatibility as Cooperation. This is due to the fact that you have the same Channels activated with the person, and the same Gates are present in your both bodygraphs. With such a composite, one can observe a harmonious, stable, lasting relationship. Cooperation brings empathy and understanding into the lives of two people.</string>
+
+    <string name="transits_title">Transits</string>
+    <string name="cycles_title">Cycles</string>
+    <string name="advice_title">Daily Advice</string>
 </resources>

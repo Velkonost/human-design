@@ -21,15 +21,10 @@
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
 
-        <ImageView
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_stars"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
         <FrameLayout
             android:id="@+id/arrowBlock"
             android:onClick="@{handler::onBackClicked}"
-            android:layout_marginStart="26dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/compatibilityTitle"
             app:layout_constraintBottom_toBottomOf="@id/compatibilityTitle"
@@ -44,6 +39,18 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"/>
         </FrameLayout>
+
+        <ImageView
+            android:id="@+id/icInfo"
+            android:src="@drawable/ic_info"
+            android:onClick="@{handler::onFaqClicked}"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toTopOf="@id/compatibilityTitle"
+            app:layout_constraintBottom_toBottomOf="@id/compatibilityTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="27dp"
+            android:layout_height="27dp"/>
 
         <TextView
             android:id="@+id/compatibilityTitle"
@@ -62,7 +69,7 @@
             android:id="@+id/selectionCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="32dp"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="24dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"

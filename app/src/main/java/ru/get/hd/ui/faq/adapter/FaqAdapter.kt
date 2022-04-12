@@ -31,8 +31,6 @@ class FaqModel(
         super.bind(view)
         root = view
 
-//        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
-
         with(view) {
             faqTitle.text =
                 if (App.preferences.locale == "ru") Html.fromHtml(model.titleRu)

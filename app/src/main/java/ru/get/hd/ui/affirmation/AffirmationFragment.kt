@@ -47,12 +47,6 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
         )
     }
 
-    override fun onLayoutReady(savedInstanceState: Bundle?) {
-        super.onLayoutReady(savedInstanceState)
-
-
-    }
-
     private fun setupViewPager() {
         binding.viewPager.adapter = getViewPagerAdapter()
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

@@ -28,6 +28,7 @@ import ru.get.hd.event.SetupNavMenuEvent
 import ru.get.hd.event.ShowHelpEvent
 import ru.get.hd.event.ToBodygraphClickEvent
 import ru.get.hd.event.ToDecryptionClickEvent
+import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.util.convertDpToPx
@@ -57,6 +58,12 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         EventBus.getDefault().post(SetupNavMenuEvent())
 
         isFirstFragmentLaunch = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
     }
 
     @Subscribe
@@ -178,6 +185,12 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             else R.color.darkColor
         ))
 
+        binding.icSettings.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
 //        first
         if (isFirstFragmentLaunch) {
             binding.designTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.design_title))
@@ -202,15 +215,6 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             else R.color.darkColor
         ))
     }
-
-//    @Subscribe
-//    fun onShowHelpEvent(e: ShowHelpEvent) {
-//        showHelp(e.type)
-//    }
-//
-//    private fun showHelp(type: HelpType) {
-//
-//    }
 
     @SuppressLint("SetTextI18n")
     private fun setupZnaks() {
@@ -480,10 +484,12 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             1,
             1
         )
-        view.x = e.x
+        view.x =
+            if (e.isXCenter) binding.bodygraphContainer2.width / 2f
+            else e.x
         view.y = e.y
 
-        binding.bodygraphContainer.addView(view)
+        binding.bodygraphContainer2.addView(view)
 
         val balloon = Balloon.Builder(context!!)
             .setArrowSize(15)

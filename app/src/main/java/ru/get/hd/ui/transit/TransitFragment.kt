@@ -61,6 +61,12 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
         private fun buildTransitFragment() = TransitFragment()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+    }
+
     private val baseViewModel: BaseViewModel by lazy {
         ViewModelProviders.of(requireActivity()).get(
             BaseViewModel::class.java
@@ -115,6 +121,12 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     override fun updateThemeAndLocale() {
+        binding.icInfo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
         binding.transitContainer.setBackgroundColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.darkColor
@@ -128,8 +140,9 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
             else R.color.darkColor
         ))
 
-        binding.gatesTitle.text = App.resourcesProvider.getStringLocale(R.string.gates_title)
-        binding.channelsTitle.text = App.resourcesProvider.getStringLocale(R.string.channels_title)
+        binding.transitsTitle.text = App.resourcesProvider.getStringLocale(R.string.transits_title)
+        binding.cyclesTitle.text = App.resourcesProvider.getStringLocale(R.string.cycles_title)
+        binding.adviceTitle.text = App.resourcesProvider.getStringLocale(R.string.advice_title)
 
         binding.selectionCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
             requireContext(),
@@ -143,7 +156,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
             else R.color.lightSettingsCard
         ))
 
-        selectGates()
+        selectTransits()
         setupViewPager()
 
         if (!App.preferences.transitHelpShown)
@@ -151,6 +164,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     private fun setupViewPager() {
+        binding.viewPager.offscreenPageLimit = 2
         binding.viewPager.adapter = getViewPagerAdapter()
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
@@ -161,8 +175,9 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
             override fun onPageSelected(position: Int) {
                 when (position) {
-                    0 -> selectGates()
-                    else -> selectChannels()
+                    0 -> selectTransits()
+                    1 -> selectCycles()
+                    else -> selectAdvice()
                 }
             }
 
@@ -170,49 +185,88 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
         })
     }
 
-    private fun selectGates() {
-        binding.gatesTitle.setTextColor(ContextCompat.getColor(
+    private fun selectTransits() {
+        binding.transitsTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor
             else R.color.darkColor
         ))
 
-        binding.channelsTitle.setTextColor(ContextCompat.getColor(
+        binding.cyclesTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             R.color.unselectText
         ))
 
-        binding.gatesTitle.background = ContextCompat.getDrawable(
+        binding.adviceTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.transitsTitle.background = ContextCompat.getDrawable(
             requireContext(),
             R.drawable.ic_affirmation_bg
         )
 
-        binding.channelsTitle.background = null
+        binding.cyclesTitle.background = null
+        binding.adviceTitle.background = null
     }
 
-    private fun selectChannels() {
-        binding.channelsTitle.setTextColor(ContextCompat.getColor(
+    private fun selectCycles() {
+        binding.cyclesTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor
             else R.color.darkColor
         ))
 
-        binding.gatesTitle.setTextColor(ContextCompat.getColor(
+        binding.transitsTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             R.color.unselectText
         ))
 
-        binding.channelsTitle.background = ContextCompat.getDrawable(
+        binding.adviceTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.cyclesTitle.background = ContextCompat.getDrawable(
             requireContext(),
             R.drawable.ic_affirmation_bg
         )
 
-        binding.gatesTitle.background = null
+        binding.transitsTitle.background = null
+        binding.adviceTitle.background = null
+    }
+
+    private fun selectAdvice() {
+        binding.adviceTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.transitsTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.cyclesTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.adviceTitle.background = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.ic_affirmation_bg
+        )
+
+        binding.transitsTitle.background = null
+        binding.cyclesTitle.background = null
     }
 
     private fun getViewPagerAdapter(): PagerAdapter = object : PagerAdapter() {
+
         override fun getCount(): Int {
-            return 2
+            return 3
         }
 
         @SuppressLint("SetTextI18n")
@@ -223,6 +277,24 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
                     val gatesAdapter = GatesAdapter()
                     view.gatesRecycler.adapter = gatesAdapter
+
+                    val channelsAdapter = ChannelsAdapter()
+                    view.channelsRecycler.adapter = channelsAdapter
+
+                    view.gatesTitle.text = App.resourcesProvider.getStringLocale(R.string.gates_title)
+                    view.channelsTitle.text = App.resourcesProvider.getStringLocale(R.string.channels_title)
+
+                    view.gatesTitle.setTextColor(ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    ))
+
+                    view.channelsTitle.setTextColor(ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    ))
 
                     view.transitTitle.text = App.resourcesProvider.getStringLocale(R.string.transit_title)
                     view.designTitle.text = App.resourcesProvider.getStringLocale(R.string.design_title)
@@ -236,7 +308,18 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
                     baseViewModel.currentTransit.observe(viewLifecycleOwner) {
                         gatesAdapter.createList(it.onlyCurrentGates)
+                        channelsAdapter.createList(it.onlyCurrentChannels)
 
+                        view.channelsTitle.isVisible = !it.onlyCurrentChannels.isNullOrEmpty()
+                        view.gatesTitle.isVisible = !it.onlyCurrentGates.isNullOrEmpty()
+
+                        view.emptyText.isVisible = it.onlyCurrentChannels.isNullOrEmpty() && it.onlyCurrentGates.isNullOrEmpty()
+                        view.emptyText.setTextColor(ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        ))
+                        view.emptyText.text = App.resourcesProvider.getStringLocale(R.string.transit_no_channels)
 
                         view.leftZnak1.setTextAnimation("${it.birthDesignPlanets[0].gate}.${it.birthDesignPlanets[0].line}") {
                             view.designTitle.alpha1(500)
@@ -359,7 +442,6 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                         }
                     }
 
-
                     val rotate = RotateAnimation(
                         0f,
                         360f,
@@ -412,25 +494,13 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                     container.addView(view)
                     view
                 }
+                1 -> {
+                    val view = layoutInflater.inflate(R.layout.item_transit_channels, null)
+                    container.addView(view)
+                    view
+                }
                 else -> {
                     val view = layoutInflater.inflate(R.layout.item_transit_channels, null)
-
-                    val channelsAdapter = ChannelsAdapter()
-                    view.channelsRecycler.adapter = channelsAdapter
-
-                    baseViewModel.currentTransit.observe(viewLifecycleOwner) {
-                        channelsAdapter.createList(it.onlyCurrentChannels)
-
-                        view.emptyText.isVisible = it.onlyCurrentChannels.isNullOrEmpty()
-                        view.emptyText.setTextColor(ContextCompat.getColor(
-                            requireContext(),
-                            if (App.preferences.isDarkTheme) R.color.lightColor
-                            else R.color.darkColor
-                        ))
-                        view.emptyText.text = App.resourcesProvider.getStringLocale(R.string.transit_no_channels)
-
-                    }
-
                     container.addView(view)
                     view
                 }
@@ -444,14 +514,19 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
     inner class Handler {
 
-        fun onGatesClicked(v: View) {
-            selectGates()
+        fun onTransitsClicked(v: View) {
+            selectTransits()
             binding.viewPager.setCurrentItem(0, true)
         }
 
-        fun onChannelsClicked(v: View) {
-            selectChannels()
+        fun onCyclesClicked(v: View) {
+            selectCycles()
             binding.viewPager.setCurrentItem(1, true)
+        }
+
+        fun onAdviceClicked(v: View) {
+            selectAdvice()
+            binding.viewPager.setCurrentItem(2, true)
         }
 
         fun onFaqClicked(v: View) {

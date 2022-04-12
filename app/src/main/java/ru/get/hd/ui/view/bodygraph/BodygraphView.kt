@@ -7,14 +7,24 @@ import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Point
+import android.graphics.Rect
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import ru.get.hd.R
 import ru.get.hd.event.BodygraphCenterClickEvent
 import ru.get.hd.model.Center
 import ru.get.hd.model.Design
@@ -2421,7 +2431,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     }
 
     override fun onDraw(canvas: Canvas) {
-//        canvas.scale(0.6f,0.6f, centerX.toFloat(), heightInt.toFloat())
+        if (!isTouchable)
+            canvas.scale(0.6f,0.6f, centerX.toFloat(), heightInt.toFloat())
+        else canvas.scale(1f,1f, centerX.toFloat(), heightInt.toFloat())
 
         canvas.drawLines()
         canvas.drawActiveLines()
@@ -2438,8 +2450,6 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
 
         canvas.drawNumbers()
     }
-
-
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event!!.action) {
@@ -2483,97 +2493,102 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
                 strangeTrianglePath.computeBounds(strangeTriangleBounds, true)
 
                 when {
-                    strangeTriangleBounds.contains(x + 2 * cellSize, y - 8 * cellSize) -> {
+                    strangeTriangleBounds.contains(x, y ) -> {
                         EventBus.getDefault().post(BodygraphCenterClickEvent(
                             title = centers.find { it.id == 5 }!!.name,
                             desc = centers.find { it.id == 5 }!!.shortDescription,
-                            x = strangeTrianglePoints[StrangeTrianglePoint.Top]!!.x.toFloat() - 4 * cellSize,
-                            y = strangeTrianglePoints[StrangeTrianglePoint.Top]!!.y.toFloat() + 9 * cellSize,
+                            x = strangeTrianglePoints[StrangeTrianglePoint.Top]!!.x.toFloat() ,
+                            y = strangeTrianglePoints[StrangeTrianglePoint.Top]!!.y.toFloat(),
                             alignTop = true,
                             xOffset = -20,
                             arrowPosition = 0.6f
                         ))
                     }
                     bottomSquareBounds.contains(x, y) -> {
-
                        EventBus.getDefault().post(BodygraphCenterClickEvent(
                            title = centers.find { it.id == 9 }!!.name,
                            desc = centers.find { it.id == 9 }!!.shortDescription,
+                           isXCenter = true,
                            x = centerX.toFloat(),
-                           y = bottomSquarePoints[SquarePoint.LeftTop]!!.y.toFloat() + 4 * cellSize,
+                           y = bottomSquarePoints[SquarePoint.LeftTop]!!.y.toFloat(),
                            alignTop = true
                        ))
                     }
-                    centerSquareBounds.contains(x, y - 6 * cellSize) -> {
+                    centerSquareBounds.contains(x, y) -> {
                         EventBus.getDefault().post(BodygraphCenterClickEvent(
                             title = centers.find { it.id == 8 }!!.name,
                             desc = centers.find { it.id == 8 }!!.shortDescription,
+                            isXCenter = true,
                             x = centerX.toFloat(),
-                            y = centerSquarePoints[SquarePoint.LeftTop]!!.y.toFloat() + 6 * cellSize,
+                            y = centerSquarePoints[SquarePoint.LeftTop]!!.y.toFloat(),
                             alignTop = true
                         ))
                     }
-                    topSquareBounds.contains(x, y - 14 * cellSize) -> {
+                    topSquareBounds.contains(x, y) -> {
                         EventBus.getDefault().post(BodygraphCenterClickEvent(
                             title = centers.find { it.id == 3 }!!.name,
                             desc = centers.find { it.id == 3 }!!.shortDescription,
+                            isXCenter = true,
                             x = centerX.toFloat(),
-                            y = topSquarePoints[SquarePoint.LeftBottom]!!.y.toFloat() + 12 * cellSize,
+                            y = topSquarePoints[SquarePoint.LeftBottom]!!.y.toFloat(),
                             alignTop = false
                         ))
                     }
-                    leftTriangleBounds.contains(x - 4 * cellSize, y - 6 * cellSize) -> {
+                    leftTriangleBounds.contains(x, y) -> {
                         EventBus.getDefault().post(BodygraphCenterClickEvent(
                             title = centers.find { it.id == 6 }!!.name,
                             desc = centers.find { it.id == 6 }!!.shortDescription,
                             x = (
                                     leftTrianglePoints[SideTrianglePoint.Center]!!.x.toFloat()
                                     - leftTrianglePoints[SideTrianglePoint.Top]!!.x.toFloat()
-                                    ) / 2 + 6 * cellSize,
-                            y = leftTrianglePoints[SideTrianglePoint.Top]!!.y.toFloat() + 7 * cellSize,
+                                    ) / 2,
+                            y = leftTrianglePoints[SideTrianglePoint.Top]!!.y.toFloat(),
                             alignTop = true,
-                            arrowPosition = 0.3f,
-                            xOffset = 100
+                            arrowPosition = 0.2f,
+                            xOffset = 220
                         ))
                     }
-                    rightTriangleBounds.contains(x + 4 * cellSize, y - 6 * cellSize) -> {
+                    rightTriangleBounds.contains(x, y) -> {
                         EventBus.getDefault().post(BodygraphCenterClickEvent(
                             title = centers.find { it.id == 7 }!!.name,
                             desc = centers.find { it.id == 7 }!!.shortDescription,
                             x = widthInt - (
                                     rightTrianglePoints[SideTrianglePoint.Center]!!.x.toFloat()
                                             - leftTrianglePoints[SideTrianglePoint.Top]!!.x.toFloat()
-                                    ) / 2 + 6 * cellSize,
-                            y = leftTrianglePoints[SideTrianglePoint.Top]!!.y.toFloat() + 7 * cellSize,
+                                    ) / 2,
+                            y = leftTrianglePoints[SideTrianglePoint.Top]!!.y.toFloat(),
                             alignTop = true,
-                            arrowPosition = 0.7f,
-                            xOffset = -120
+                            arrowPosition = 0.8f,
+                            xOffset = 80
                         ))
                     }
-                    rhombBounds.contains(x, y - 10 * cellSize) -> {
+                    rhombBounds.contains(x, y) -> {
                         EventBus.getDefault().post(BodygraphCenterClickEvent(
                             title = centers.find { it.id == 4 }!!.name,
                             desc = centers.find { it.id == 4 }!!.shortDescription,
+                            isXCenter = true,
                             x = centerX.toFloat(),
-                            y = rhombPoints[RhombPoint.Top]!!.y.toFloat() + 12 * cellSize,
+                            y = rhombPoints[RhombPoint.Top]!!.y.toFloat(),
                             alignTop = true
                         ))
                     }
-                    topReverseTriangleBounds.contains(x, y - 18 * cellSize) -> {
+                    topReverseTriangleBounds.contains(x, y) -> {
                         EventBus.getDefault().post(BodygraphCenterClickEvent(
                             title = centers.find { it.id == 2 }!!.name,
                             desc = centers.find { it.id == 2 }!!.shortDescription,
+                            isXCenter = true,
                             x = centerX.toFloat(),
-                            y = topReverseTrianglePoints[TopTrianglePoint.Center]!!.y.toFloat() + 16 * cellSize,
+                            y = topReverseTrianglePoints[TopTrianglePoint.Center]!!.y.toFloat(),
                             alignTop = false
                         ))
                     }
-                    topTriangleBounds.contains(x, y - 22 * cellSize) -> {
+                    topTriangleBounds.contains(x, y) -> {
                         EventBus.getDefault().post(BodygraphCenterClickEvent(
                             title = centers.find { it.id == 1 }!!.name,
                             desc = centers.find { it.id == 1 }!!.shortDescription,
+                            isXCenter = true,
                             x = centerX.toFloat(),
-                            y = topTrianglePoints[TopTrianglePoint.Left]!!.y.toFloat() + 19 * cellSize,
+                            y = topTrianglePoints[TopTrianglePoint.Left]!!.y.toFloat(),
                             alignTop = false
                         ))
                     }

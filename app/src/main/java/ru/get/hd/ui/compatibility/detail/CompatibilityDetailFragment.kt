@@ -10,12 +10,14 @@ import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentCompatibilityBinding
 import ru.get.hd.databinding.FragmentCompatibilityDetailBinding
+import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.compatibility.CompatibilityFragment
 import ru.get.hd.ui.compatibility.CompatibilityViewModel
 import ru.get.hd.ui.compatibility.detail.adapter.CompatibilityDetailsAdapter
 import ru.get.hd.util.ext.setTextAnimation
 import ru.get.hd.vm.BaseViewModel
+import java.util.*
 
 class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, FragmentCompatibilityDetailBinding>(
     ru.get.hd.R.layout.fragment_compatibility_detail,
@@ -47,6 +49,13 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
     override fun updateThemeAndLocale() {
         super.updateThemeAndLocale()
+
+        binding.icInfo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
         binding.compatibilityContainer.setBackgroundColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.darkColor
@@ -212,16 +221,16 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
                 compatibility = it,
                 chart2ResId = secondUserChartResId,
                 chart1ResId =
-                if (baseViewModel.currentUser.subtitle1Ru?.toLowerCase() == "проектор") {
+                if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
                     else R.drawable.ic_chart_proektor_light
-                } else if (baseViewModel.currentUser.subtitle1Ru?.toLowerCase() == "рефлектор") {
+                } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_dark
                     else R.drawable.ic_chart_reflector_light
-                } else if (baseViewModel.currentUser.subtitle1Ru?.toLowerCase() == "генератор") {
+                } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_dark
                     else R.drawable.ic_chart_generator_light
-                } else if (baseViewModel.currentUser.subtitle1Ru?.toLowerCase() == "манифестирующий генератор") {
+                } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_dark
                     else R.drawable.ic_chart_mangenerator_light
                 } else {
@@ -263,6 +272,10 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
         fun onChannelsClicked(v: View) {
             binding.viewPager.setCurrentItem(2, true)
             selectChannels()
+        }
+
+        fun onFaqClicked(v: View) {
+            router.navigateTo(Screens.compatibilityDetailInfoScreen())
         }
     }
 }

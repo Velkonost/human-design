@@ -2,8 +2,10 @@ package ru.get.hd.ui.compatibility.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.text.Html
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import kotlinx.android.synthetic.main.item_diagram.view.*
@@ -19,6 +21,7 @@ import ru.get.hd.event.AddChildClickEvent
 import ru.get.hd.event.CompatibilityChildStartClickEvent
 import ru.get.hd.model.Child
 import ru.get.hd.model.User
+import java.util.*
 
 class ChildrenAdapter : EpoxyAdapter() {
 
@@ -27,7 +30,7 @@ class ChildrenAdapter : EpoxyAdapter() {
     ) {
         removeAllModels()
         children.map { addModel(ChildModel(it)) }
-        addModel(EmptyChildrenModel())
+        addModel(EmptyChildrenModel(children.isNullOrEmpty()))
 
         notifyDataSetChanged()
     }
@@ -81,16 +84,16 @@ class ChildModel(
                 ))
 
             chart.setImageResource(
-                if (model.subtitle1Ru?.toLowerCase() == "проектор") {
+                if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_child_dark
                     else R.drawable.ic_chart_proektor_child_light
-                } else if (model.subtitle1Ru?.toLowerCase() == "рефлектор") {
+                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_child_dark
                     else R.drawable.ic_chart_reflector_child_light
-                } else if (model.subtitle1Ru?.toLowerCase() == "генератор") {
+                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_child_dark
                     else R.drawable.ic_chart_generator_child_light
-                } else if (model.subtitle1Ru?.toLowerCase() == "манифестирующий генератор") {
+                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_child_dark
                     else R.drawable.ic_chart_mangenerator_child_light
                 } else {
@@ -110,7 +113,9 @@ class ChildModel(
     override fun getDefaultLayout(): Int = R.layout.item_partner
 }
 
-class EmptyChildrenModel : EpoxyModel<View>() {
+class EmptyChildrenModel(
+    private val showEmptyText: Boolean = false
+) : EpoxyModel<View>() {
 
     private var root: View? = null
 
@@ -136,6 +141,14 @@ class EmptyChildrenModel : EpoxyModel<View>() {
             emptyPartnerCard.setOnClickListener {
                 EventBus.getDefault().post(AddChildClickEvent())
             }
+
+            partnersEmptyText.isVisible = showEmptyText
+            partnersEmptyText.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.children_empty_text))
+            partnersEmptyText.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
         }
     }
 

@@ -152,7 +152,7 @@ class AboutAdapter(
         }
 
         init {
-            expandableLayout.setInterpolator(OvershootInterpolator())
+//            expandableLayout.setInterpolator(OvershootInterpolator())
             expandableLayout.setOnExpansionUpdateListener(this)
 
             expandButton = itemView.findViewById(R.id.expand_button)

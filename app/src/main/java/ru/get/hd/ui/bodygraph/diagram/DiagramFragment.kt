@@ -17,6 +17,7 @@ import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentDiagramBinding
 import ru.get.hd.event.CurrentUserLoadedEvent
+import ru.get.hd.event.DiagramAddUserClickEvent
 import ru.get.hd.event.UpdateCurrentUserEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.navigation.Screens
@@ -106,6 +107,13 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         if (isAdded) router.exit()
     }
 
+    @Subscribe
+    fun onDiagramAddUserClickEvent(e: DiagramAddUserClickEvent) {
+        router.navigateTo(Screens.addUserScreen(
+            fromDiagram = true
+        ))
+    }
+
     private fun setupData() {
         binding.diagramsRecycler.adapter = diagramsAdapter
 
@@ -113,7 +121,7 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
             val users = baseViewModel.getAllUsers()
 
             diagramsAdapter.createList(users)
-            binding.emptyText.isVisible = users.size <= 1
+           // binding.emptyText.isVisible = users.size <= 1
         }
 
     }

@@ -17,6 +17,7 @@ import ru.get.hd.ui.compatibility.child.adapter.CompatibilityChildAdapter
 import ru.get.hd.ui.compatibility.detail.CompatibilityDetailFragment
 import ru.get.hd.util.ext.setTextAnimation
 import ru.get.hd.vm.BaseViewModel
+import java.util.*
 
 class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, FragmentCompatibilityChildBinding>(
     R.layout.fragment_compatibility_child,
@@ -110,16 +111,16 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
                 parentDesc =
                     baseViewModel.currentUser.parentDescription!!,
                 chart1ResId =
-                if (child.subtitle1Ru?.toLowerCase() == "проектор") {
+                if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_child_dark
                     else R.drawable.ic_chart_proektor_child_light
-                } else if (child.subtitle1Ru?.toLowerCase() == "рефлектор") {
+                } else if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_child_dark
                     else R.drawable.ic_chart_reflector_child_light
-                } else if (child.subtitle1Ru?.toLowerCase() == "генератор") {
+                } else if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_child_dark
                     else R.drawable.ic_chart_generator_child_light
-                } else if (child.subtitle1Ru?.toLowerCase() == "манифестирующий генератор") {
+                } else if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_child_dark
                     else R.drawable.ic_chart_mangenerator_child_light
                 } else {
@@ -127,16 +128,16 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
                     else R.drawable.ic_chart_manifestor_child_light
                 },
                 chart2ResId =
-                if (baseViewModel.currentUser.subtitle1Ru?.toLowerCase() == "проектор") {
+                if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
                     else R.drawable.ic_chart_proektor_light
-                } else if (baseViewModel.currentUser.subtitle1Ru?.toLowerCase() == "рефлектор") {
+                } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_dark
                     else R.drawable.ic_chart_reflector_light
-                } else if (baseViewModel.currentUser.subtitle1Ru?.toLowerCase() == "генератор") {
+                } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_dark
                     else R.drawable.ic_chart_generator_light
-                } else if (baseViewModel.currentUser.subtitle1Ru?.toLowerCase() == "манифестирующий генератор") {
+                } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_dark
                     else R.drawable.ic_chart_mangenerator_light
                 } else {

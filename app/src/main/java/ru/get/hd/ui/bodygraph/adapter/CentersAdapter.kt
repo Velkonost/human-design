@@ -33,12 +33,7 @@ class CentersModel(
         super.bind(view)
         root = view
 
-//        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
-
         with(view) {
-//            channelTitle.setTextAnimation(model.name)
-//            channelDesc.setTextAnimation07(model.description)
-
             channelTitle.text = model.name
             channelDesc.text = model.description
 
@@ -62,8 +57,6 @@ class CentersModel(
                     if (App.preferences.isDarkTheme) R.color.darkSettingsCard
                     else R.color.lightSettingsCard
                 ))
-
-
         }
     }
 

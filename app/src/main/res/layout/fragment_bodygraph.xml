@@ -100,7 +100,7 @@
             tools:context=".ui.activity.main.MainActivity">
             <ru.get.hd.ui.view.bodygraph.BodygraphView
                 android:id="@+id/bodygraphView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="80dp"

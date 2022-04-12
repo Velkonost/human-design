@@ -13,6 +13,7 @@ import ru.get.hd.App
 import ru.get.hd.BuildConfig
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentSettingsBinding
+import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.event.UpdateThemeEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
@@ -23,6 +24,12 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     SettingsViewModel::class,
     Handler::class
 ) {
+
+    override fun onLayoutReady(savedInstanceState: Bundle?) {
+        super.onLayoutReady(savedInstanceState)
+
+        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+    }
 
     private fun setupLocale() {
         binding.title.text = App.resourcesProvider.getStringLocale(R.string.settings_title)

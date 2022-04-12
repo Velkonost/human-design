@@ -1,5 +1,6 @@
 package ru.get.hd.ui.transit.adapter
 
+import android.animation.ObjectAnimator
 import android.content.res.ColorStateList
 import android.text.Html
 import android.view.View
@@ -7,6 +8,12 @@ import androidx.core.content.ContextCompat
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import kotlinx.android.synthetic.main.item_channel.view.*
+import kotlinx.android.synthetic.main.item_channel.view.channelArrow
+import kotlinx.android.synthetic.main.item_channel.view.channelCard
+import kotlinx.android.synthetic.main.item_channel.view.channelDesc
+import kotlinx.android.synthetic.main.item_channel.view.channelTitle
+import kotlinx.android.synthetic.main.item_channel.view.number
+import kotlinx.android.synthetic.main.item_compatibility_channel.view.*
 import kotlinx.android.synthetic.main.item_faq.view.*
 import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
@@ -27,7 +34,8 @@ class ChannelsAdapter : EpoxyAdapter() {
 }
 
 class ChannelModel(
-    private val model: TransitionChannel
+    private val model: TransitionChannel,
+    private var isExpanded: Boolean = false
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -36,13 +44,7 @@ class ChannelModel(
         super.bind(view)
         root = view
 
-//        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this)
-
         with(view) {
-//            channelTitle.setTextAnimation(model.title)
-//            channelDesc.setTextAnimation07(model.description)
-//            number.setTextAnimation(model.number)
-
             channelTitle.text = model.title
             channelDesc.text = model.description
             number.text = model.number
@@ -76,6 +78,40 @@ class ChannelModel(
                 if (App.preferences.isDarkTheme) R.drawable.bg_channel_number_dark
                 else R.drawable.bg_channel_number_light
             )
+
+            channelArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
+            channelArrow.setOnClickListener {
+                isExpanded = !isExpanded
+
+                if (isExpanded) {
+                    val animation = ObjectAnimator.ofInt(
+                        channelDesc,
+                        "maxLines",
+                        300
+                    )
+                    animation.duration = 1000
+                    animation.start()
+                    channelArrow
+                        .animate().rotation(-90f).duration = 300
+                    channelArrow.alpha = 0.3f
+                } else {
+                    val animation = ObjectAnimator.ofInt(
+                        channelDesc,
+                        "maxLines",
+                        3
+                    )
+                    animation.duration = 1000
+                    animation.start()
+                    channelArrow
+                        .animate().rotation(90f).duration = 300
+                    channelArrow.alpha = 1f
+                }
+            }
         }
     }
 

@@ -79,20 +79,6 @@ class BodygraphFirstFragment : BaseFragment<BodygraphViewModel, FragmentBodygrap
 
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-//        binding.bodygraphView.initBase()
-//        binding.bodygraphView.refreshDrawableState()
-//        binding.bodygraphView.refreshDrawableState()
-//        binding.bodygraphView.requestLayout()
-
-    }
-
     @Subscribe
     fun onShowHelpEvent(e: ShowHelpEvent) {
         showHelp(e.type)

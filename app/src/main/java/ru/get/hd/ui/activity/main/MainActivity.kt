@@ -263,12 +263,33 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 else R.color.lightMenu
             )
         )
+
+        binding.navView.itemTextColor = ContextCompat.getColorStateList(
+            this,
+            if (App.preferences.isDarkTheme) R.color.nav_button_state_selector
+            else R.color.nav_button_state_selector_light
+        )
+
+        updateNavMenu()
+    }
+
+    private fun updateNavMenu() {
+        if (binding.navView.menu.size() != 0) {
+            binding.navView.menu.clear()
+            binding.navView.inflateMenu(
+                if (App.preferences.isDarkTheme) R.menu.bottom_nav_menu
+                else R.menu.bottom_nav_menu_light
+            )
+        }
     }
 
     private fun setupNavMenu() {
         if (binding.navView.menu.size() != 0) return
 
-        binding.navView.inflateMenu(R.menu.bottom_nav_menu)
+        binding.navView.inflateMenu(
+            if (App.preferences.isDarkTheme) R.menu.bottom_nav_menu
+            else R.menu.bottom_nav_menu_light
+        )
 
         binding.navViewContainer.isVisible = true
         binding.navView.isVisible = true

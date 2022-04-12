@@ -37,7 +37,7 @@ class FaqFragment : BaseFragment<FaqViewModel, FragmentFaqBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+//        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
 
         binding.faqsRecycler.adapter = faqAdapter
         faqAdapter.createList(baseViewModel.faqsList)

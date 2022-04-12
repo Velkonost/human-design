@@ -1,5 +1,6 @@
 package ru.get.hd.ui.compatibility.detail.adapter
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
@@ -35,6 +36,7 @@ import kotlinx.android.synthetic.main.item_compatibility_detail_about.view.*
 import kotlinx.android.synthetic.main.item_compatibility_detail_channels.view.*
 import kotlinx.android.synthetic.main.item_compatibility_detail_channels.view.channelsRecycler
 import kotlinx.android.synthetic.main.item_compatibility_detail_profiles.view.*
+import kotlinx.android.synthetic.main.item_compatibility_info.view.*
 import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
 import ru.get.hd.App
@@ -342,7 +344,8 @@ class CompatibilityChannelsAdapter : EpoxyAdapter() {
 }
 
 class CompatibilityChannelModel(
-    private val model: CompatibilityChannel
+    private val model: CompatibilityChannel,
+    private var isExpanded: Boolean = false
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -402,6 +405,41 @@ class CompatibilityChannelModel(
                     else -> R.drawable.bg_channel_type_4
                 }
             )
+
+            channelArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
+            channelArrow.setOnClickListener {
+                isExpanded = !isExpanded
+
+                if (isExpanded) {
+                    val animation = ObjectAnimator.ofInt(
+                        channelDesc,
+                        "maxLines",
+                        300
+                    )
+                    animation.duration = 1000
+                    animation.start()
+                    channelArrow
+                        .animate().rotation(-90f).duration = 300
+                    channelArrow.alpha = 0.3f
+                } else {
+                    val animation = ObjectAnimator.ofInt(
+                        channelDesc,
+                        "maxLines",
+                        3
+                    )
+                    animation.duration = 1000
+                    animation.start()
+                    channelArrow
+                        .animate().rotation(90f).duration = 300
+                    channelArrow.alpha = 1f
+                }
+            }
+
         }
     }
 

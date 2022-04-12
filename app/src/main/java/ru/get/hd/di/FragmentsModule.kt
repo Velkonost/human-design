@@ -9,6 +9,7 @@ import ru.get.hd.ui.bodygraph.first.di.BodygraphFirstModule
 import ru.get.hd.ui.bodygraph.second.di.BodygraphSecondModule
 import ru.get.hd.ui.compatibility.child.di.CompatibilityChildModule
 import ru.get.hd.ui.compatibility.detail.di.CompatibilityDetailModule
+import ru.get.hd.ui.compatibility.detail.info.di.CompatibilityDetailInfoModule
 import ru.get.hd.ui.compatibility.di.CompatibilityModule
 import ru.get.hd.ui.faq.detail.di.FaqDetailModule
 import ru.get.hd.ui.faq.di.FaqModule
@@ -30,6 +31,7 @@ import ru.get.hd.ui.transit.di.TransitModule
         AffirmationModule::class,
         CompatibilityModule::class,
         CompatibilityDetailModule::class,
+        CompatibilityDetailInfoModule::class,
         CompatibilityChildModule::class,
         BodygraphFirstModule::class,
         BodygraphSecondModule::class,

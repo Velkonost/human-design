@@ -2,8 +2,10 @@ package ru.get.hd.ui.compatibility.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.text.Html
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import kotlinx.android.synthetic.main.item_diagram.view.*
@@ -21,6 +23,7 @@ import ru.get.hd.event.UpdateCurrentUserEvent
 import ru.get.hd.model.Child
 import ru.get.hd.model.User
 import ru.get.hd.ui.bodygraph.diagram.adapter.DiagramModel
+import java.util.*
 
 
 class PartnersAdapter : EpoxyAdapter() {
@@ -30,7 +33,7 @@ class PartnersAdapter : EpoxyAdapter() {
     ) {
         removeAllModels()
         partners.map { addModel(PartnerModel(it)) }
-        addModel(EmptyPartnerModel())
+        addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
 
         notifyDataSetChanged()
     }
@@ -84,16 +87,16 @@ class PartnerModel(
             ))
 
             val chartResId =
-                if (model.subtitle1Ru?.toLowerCase() == "проектор") {
+                if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
                     else R.drawable.ic_chart_proektor_light
-                } else if (model.subtitle1Ru?.toLowerCase() == "рефлектор") {
+                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_dark
                     else R.drawable.ic_chart_reflector_light
-                } else if (model.subtitle1Ru?.toLowerCase() == "генератор") {
+                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_dark
                     else R.drawable.ic_chart_generator_light
-                } else if (model.subtitle1Ru?.toLowerCase() == "манифестирующий генератор") {
+                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_dark
                     else R.drawable.ic_chart_mangenerator_light
                 } else {
@@ -117,7 +120,9 @@ class PartnerModel(
     override fun getDefaultLayout(): Int = R.layout.item_partner
 }
 
-class EmptyPartnerModel : EpoxyModel<View>() {
+class EmptyPartnerModel(
+    private val showEmptyText: Boolean = false
+) : EpoxyModel<View>() {
 
     private var root: View? = null
 
@@ -142,6 +147,14 @@ class EmptyPartnerModel : EpoxyModel<View>() {
             emptyPartnerCard.setOnClickListener {
                 EventBus.getDefault().post(AddPartnerClickEvent())
             }
+
+            partnersEmptyText.isVisible = showEmptyText
+            partnersEmptyText.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.partners_empty_text))
+            partnersEmptyText.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
         }
     }
 
