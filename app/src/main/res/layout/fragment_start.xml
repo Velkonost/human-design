@@ -23,6 +23,14 @@
         tools:context=".ui.activity.main.MainActivity">
 
         <FrameLayout
+            android:id="@+id/snackbarContainer"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/backBtn"
             android:onClick="@{handler::onBackClicked}"
             app:layout_constraintTop_toTopOf="parent"
@@ -128,8 +136,9 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/startBtn"
-            android:layout_width="311dp"
-            android:layout_height="64dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
@@ -231,7 +240,7 @@
                 android:id="@+id/nameET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="32dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="62dp"
                 android:backgroundTint="@color/darkHintColor"
                 android:fontFamily="@font/roboto"
@@ -243,28 +252,50 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
-            <ru.get.hd.ui.view.datepicker.view.datePicker.DatePicker
+            <ru.get.hd.ui.view.daytimepicker.SingleDateAndTimePicker
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
-                android:layout_marginBottom="82dp"
+                android:layout_marginBottom="62dp"
                 android:alpha="0"
+                app:picker_textSize="20sp"
+                app:picker_curved="true"
+                app:picker_cyclic="true"
+                app:picker_displayDays="false"
+                app:picker_displayDaysOfMonth="true"
+                app:picker_displayHours="false"
+                app:picker_displayMinutes="false"
+                app:picker_displayMonth="true"
+                app:picker_displayYears="true"
+                app:picker_displayMonthNumbers="false"
+                app:picker_monthFormat="MMMM"
                 android:calendarTextColor="@color/lightColor"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
+                app:pickerMode="dayFirst"
                 android:hapticFeedbackEnabled="true"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:offset="3"
-                app:pickerMode="dayFirst" />
+                />
 
-            <ru.get.hd.ui.view.datepicker.view.timePicker.TimePicker
+            <ru.get.hd.ui.view.daytimepicker.SingleDateAndTimePicker
                 android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginBottom="20dp"
+                app:picker_textSize="20sp"
+                app:picker_curved="true"
+                app:picker_cyclic="true"
+                app:picker_displayDays="false"
+                app:picker_displayMonthNumbers="false"
+                app:picker_displayYears="false"
+                app:picker_displayMonth="false"
+                app:picker_displayMinutes="true"
+                app:picker_displayHours="true"
+                app:picker_displayDaysOfMonth="false"
                 android:alpha="0"
                 android:timePickerMode="spinner"
                 android:visibility="gone"
@@ -273,13 +304,17 @@
 
             <TextView
                 android:id="@+id/skipTime"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="62dp"
+                android:gravity="center"
+                android:paddingVertical="12dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="52dp"
                 android:alpha="0"
+                android:visibility="gone"
                 android:fontFamily="@font/roboto_bold"
                 android:onClick="@{handler::onBtnClicked}"
-                android:visibility="gone"
+                android:background="@drawable/bg_skip_time"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -289,7 +324,7 @@
                 android:onClick="@{handler::openPlacesView}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="32dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="62dp"
                 android:alpha="0"
                 android:textAllCaps="true"
@@ -316,10 +351,9 @@
             android:focusable="true"
             android:visibility="gone"
             android:alpha="0"
-            android:onClick="@{handler::onBtnClicked}"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/startBtn">
+            app:layout_constraintBottom_toTopOf="@id/startBtn">
 
             <TextView
                 android:id="@+id/bodygraphReadyTitle"
@@ -337,7 +371,6 @@
             <ru.get.hd.ui.view.bodygraph.BodygraphView
                 android:id="@+id/bodygraphView"
                 android:layout_marginBottom="20dp"
-                android:onClick="@{handler::onBtnClicked}"
                 app:layout_constraintTop_toBottomOf="@id/bodygraphReadyTitle"
                 app:layout_constraintBottom_toTopOf="@id/bodygraphReadyText"
                 android:layout_width="match_parent"
@@ -347,7 +380,7 @@
                 android:id="@+id/bodygraphReadyText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginBottom="56dp"
+                android:layout_marginBottom="24dp"
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
                 android:textSize="16sp"

@@ -255,4 +255,8 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="transits_title">Transits</string>
     <string name="cycles_title">Cycles</string>
     <string name="advice_title">Daily Advice</string>
+
+    <string name="snackbar_title">Error</string>
+    <string name="snackbar_name">The name field cannot be empty.</string>
+    <string name="snackbar_address">We could not find your address.</string>
 </resources>

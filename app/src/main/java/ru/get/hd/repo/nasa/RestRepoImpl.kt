@@ -67,5 +67,8 @@ class RestRepoImpl @Inject constructor(
     override fun getFaq(): Single<List<Faq>> =
         restService.getFaq().subscribeIoObserveMain()
 
+    override fun geocoding(url: String) =
+        restService.geocoding(url).subscribeIoObserveMain()
+
 
 }

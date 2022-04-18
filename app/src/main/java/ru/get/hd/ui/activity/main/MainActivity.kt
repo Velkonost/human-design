@@ -7,18 +7,26 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.location.Geocoder
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.location.LocationManagerCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
 import com.jaeger.library.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import pl.droidsonroids.gif.GifDrawable
@@ -26,6 +34,7 @@ import ru.get.hd.App
 import ru.get.hd.App.Companion.LOCATION_REQUEST_CODE
 import ru.get.hd.R
 import ru.get.hd.databinding.ActivityMainBinding
+import ru.get.hd.event.LastKnownLocationUpdateEvent
 import ru.get.hd.event.PermissionGrantedEvent
 import ru.get.hd.event.SetupNavMenuEvent
 import ru.get.hd.event.ToBodygraphClickEvent
@@ -34,6 +43,7 @@ import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.navigation.SupportAppNavigator
 import ru.get.hd.push.NotificationReceiver
+import ru.get.hd.ui.adduser.awaitCurrentLocation
 import ru.get.hd.ui.base.BaseActivity
 import ru.get.hd.ui.splash.SplashPage
 import ru.get.hd.ui.start.StartPage
@@ -45,6 +55,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     BaseViewModel::class,
     Handler::class
 ) {
+
+    lateinit var geocoder: Geocoder
 
     private lateinit var navigator: SupportAppNavigator
 
@@ -101,7 +113,113 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         initNotificationReceiver()
+
+        geocoder = Geocoder(this, Locale.getDefault())
+        setupLocationListener()
     }
+
+    fun checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this@MainActivity,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
+                AlertDialog.Builder(this)
+                    .setTitle("Location Permission Needed")
+                    .setMessage("This app needs the Location permission, please accept to use location functionality")
+                    .setPositiveButton(
+                        "OK"
+                    ) { _, _ ->
+                        requestLocationPermission()
+                    }
+                    .create()
+                    .show()
+            } else {
+                requestLocationPermission()
+            }
+        }
+    }
+
+    fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ),
+            App.LOCATION_REQUEST_CODE
+        )
+    }
+
+    fun setupLocationListener() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            checkLocationPermission()
+            return
+        }
+
+        val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if(LocationManagerCompat.isLocationEnabled(lm)) {
+            // you can do this your own way, eg. from a viewModel
+            // but here is where you wanna start the coroutine.
+            // Choose your priority based on the permission you required
+            val priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            GlobalScope.launch {
+                val location = LocationServices
+                    .getFusedLocationProviderClient(this@MainActivity)
+                    .awaitCurrentLocation(priority)
+                // do whatever with this location, notice that it's nullable
+
+//            if (::geocoder.isInitialized) {
+                kotlin.runCatching {
+                    val currentLocationVariants =
+                        geocoder.getFromLocation(location!!.latitude, location.longitude, 10)
+
+                    if (
+                        currentLocationVariants.isNotEmpty()
+                        && currentLocationVariants.any { variant ->
+                            !variant.locality.isNullOrEmpty() && !variant.countryName.isNullOrEmpty()
+                        }
+                    ) {
+
+                        val location1 = currentLocationVariants.first { variant ->
+                            !variant.locality.isNullOrEmpty() && !variant.countryName.isNullOrEmpty()
+                        }
+//                        isCurrentLocationVariantSet = true
+//
+                        App.preferences.lastKnownLocationLat = location1.latitude.toString()
+                        App.preferences.lastKnownLocationLon = location1.longitude.toString()
+                        App.preferences.lastKnownLocation = "${location1.locality}, ${location1.countryName}"
+                        EventBus.getDefault().post(LastKnownLocationUpdateEvent())
+//                        selectedLat = currentLocationVariants[0].latitude.toString()
+//                        selectedLon = currentLocationVariants[0].longitude.toString()
+//                        binding.viewModel!!.reverseGeocoding(currentLocationVariants[0].latitude.toFloat(), currentLocationVariants[0].longitude.toFloat())
+//                        binding.placeET.setText("${currentLocationVariants[0].locality}, ${currentLocationVariants[0].countryName}")
+                    }
+                }
+//            }
+            }
+        } else {
+            // prompt user to enable location or launch location settings check
+        }
+
+//    mLocationManager.requestLocationUpdates(
+//        LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+//        LOCATION_REFRESH_DISTANCE, mLocationListener
+//    )
+    }
+
 
     private fun initNotificationReceiver() {
         val notifyIntent = Intent(this, NotificationReceiver::class.java)
@@ -206,7 +324,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                             Manifest.permission.ACCESS_FINE_LOCATION
                         ) == PackageManager.PERMISSION_GRANTED
                     ) {
-                        EventBus.getDefault().post(PermissionGrantedEvent(LOCATION_REQUEST_CODE))
+//                        EventBus.getDefault().post(PermissionGrantedEvent(LOCATION_REQUEST_CODE))
+                        setupLocationListener()
                     }
 
                 } else {

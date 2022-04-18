@@ -1,5 +1,6 @@
 package ru.get.hd
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -14,14 +15,7 @@ import ru.get.hd.rest.di.RetrofitModule
 import ru.get.hd.util.Preferences
 import ru.get.hd.util.ResourcesProvider
 import timber.log.Timber
-import dagger.android.DispatchingAndroidInjector
-
-import javax.inject.Inject
-
-import android.app.Activity
-import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.Cicerone
-
 
 class App : DaggerApplication() {
 
@@ -42,6 +36,7 @@ class App : DaggerApplication() {
         preferences = Preferences(this)
         resourcesProvider = ResourcesProvider(this)
         database = AppDatabase(this)
+
 
 
         if (BuildConfig.DEBUG) {
@@ -75,6 +70,7 @@ class App : DaggerApplication() {
         lateinit var instance: App
         lateinit var preferences: Preferences
         lateinit var database: AppDatabase
+
 
         @SuppressLint("StaticFieldLeak")
         lateinit var resourcesProvider: ResourcesProvider

@@ -91,7 +91,7 @@ class BaseViewModel @Inject constructor(
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             EventBus.getDefault().post(CurrentUserLoadedEvent())
 
-            EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphDecryption))
+            EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphCenters))
         }
     }
 

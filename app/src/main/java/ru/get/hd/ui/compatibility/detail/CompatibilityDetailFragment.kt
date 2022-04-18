@@ -3,6 +3,7 @@ package ru.get.hd.ui.compatibility.detail
 import android.content.res.ColorStateList
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.selects.select
@@ -15,6 +16,7 @@ import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.compatibility.CompatibilityFragment
 import ru.get.hd.ui.compatibility.CompatibilityViewModel
 import ru.get.hd.ui.compatibility.detail.adapter.CompatibilityDetailsAdapter
+import ru.get.hd.ui.compatibility.detail.adapter.isVisible
 import ru.get.hd.util.ext.setTextAnimation
 import ru.get.hd.vm.BaseViewModel
 import java.util.*
@@ -116,6 +118,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
     private fun selectAbout() {
         App.preferences.isCompatibilityDetailChannelsAddedNow = false
 
+        binding.icInfo.isVisible = false
         binding.aboutTitle.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -146,7 +149,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
     private fun selectProfiles() {
         App.preferences.isCompatibilityDetailChannelsAddedNow = false
-
+        binding.icInfo.isVisible = false
         binding.profilesTitle.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -177,7 +180,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
     private fun selectChannels() {
         App.preferences.isCompatibilityDetailChannelsAddedNow = true
-
+        binding.icInfo.isVisible = true
         binding.channelsTitle.setTextColor(
             ContextCompat.getColor(
             requireContext(),

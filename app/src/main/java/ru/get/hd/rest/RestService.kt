@@ -3,11 +3,13 @@ package ru.get.hd.rest
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Url
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.CompatibilityResponse
 import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
 import ru.get.hd.model.Forecast
+import ru.get.hd.model.GeocodingResponse
 import ru.get.hd.model.GetDesignResponse
 import ru.get.hd.model.TransitResponse
 
@@ -64,6 +66,11 @@ interface RestService {
     //  Метод получения FAQ вопросов
     @GET("/getfaq.php")
     fun getFaq(): Single<List<Faq>>
+
+    @GET
+    fun geocoding(
+        @Url url: String
+    ): Single<GeocodingResponse>
 
 //  Метод получения способа загрузки адрессов
 //    @GET("/getapple.php")

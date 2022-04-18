@@ -63,6 +63,18 @@ class Preferences(context: Context) {
         set(value) = sharedPreferences.edit().putInt(LAST_LOGIN_PAGE_ID, value).apply()
         get() = sharedPreferences.getInt(LAST_LOGIN_PAGE_ID, 0)
 
+    var lastKnownLocation: String?
+        set(value) = sharedPreferences.edit().putString("last_known_location", value).apply()
+        get() = sharedPreferences.getString("last_known_location", null)
+
+    var lastKnownLocationLat: String?
+        set(value) = sharedPreferences.edit().putString("last_known_location_lat", value).apply()
+        get() = sharedPreferences.getString("last_known_location_lat", null)
+
+    var lastKnownLocationLon: String?
+        set(value) = sharedPreferences.edit().putString("last_known_location_lon", value).apply()
+        get() = sharedPreferences.getString("last_known_location_lon", null)
+
     fun clearNewUserTemps() {
         newUserName = null
         newUserDate = null

@@ -54,7 +54,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/splashBtn"
             android:layout_width="311dp"
-            android:layout_height="64dp"
+            android:layout_height="48dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"

@@ -33,8 +33,15 @@ object Screens {
         StartFragment()
     }
 
-    fun bodygraphScreen() = FragmentScreen {
-        BodygraphFragment.invoke()
+    fun bodygraphScreen(
+        fromStart: Boolean = false
+    ) = FragmentScreen {
+        val bodygraphFragment = BodygraphFragment.invoke()
+        bodygraphFragment.arguments = bundleOf(
+            "fromStart" to fromStart
+        )
+
+        bodygraphFragment
     }
 
     fun transitScreen() = FragmentScreen {
@@ -61,7 +68,6 @@ object Screens {
     fun bodygraphSecondScreen() = FragmentScreen {
         BodygraphSecondFragment.invoke()
     }
-
 
 //        BaseFragmentScreen (
 //        fragment = BodygraphSecondFragment.invoke(),

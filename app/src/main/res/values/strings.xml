@@ -260,4 +260,23 @@
     <string name="transits_title">Транзиты</string>
     <string name="cycles_title">Циклы</string>
     <string name="advice_title">Daily Advice</string>
+
+    <string name="snackbar_title">Ошибка</string>
+    <string name="snackbar_name">Поле имени не может быть пустым.</string>
+    <string name="snackbar_address">Мы не смогли распознать ваш адрес.</string>
+
+    <string-array name="months_array">
+        <item>Farvardin</item>
+        <item>Ordibehesht</item>
+        <item>Khordad</item>
+        <item>Tir</item>
+        <item>Mordad</item>
+        <item>Shahrivar</item>
+        <item>Meher</item>
+        <item>Aban</item>
+        <item>Azar</item>
+        <item>Dey</item>
+        <item>Bahman</item>
+        <item>Esfand</item>
+    </string-array>
 </resources>

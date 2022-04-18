@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
@@ -50,6 +51,10 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         )
     }
 
+    private val fromStart: Boolean by lazy {
+        arguments?.getBoolean("fromStart")?: false
+    }
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
@@ -58,6 +63,12 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         EventBus.getDefault().post(SetupNavMenuEvent())
 
         isFirstFragmentLaunch = false
+
+        if (fromStart)
+            android.os.Handler().postDelayed({
+                showHelp(HelpType.BodygraphCenters)
+            }, 1500)
+
     }
 
     override fun onResume() {
@@ -72,18 +83,19 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     private fun showHelp(type: HelpType) {
-        if (type == HelpType.BodygraphDecryption) {
-            if (!App.preferences.bodygraphToDecryptionHelpShown)
-                showToDecryptionHelp()
-            else EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphAddDiagram))
-        } else if (type == HelpType.BodygraphCenters) {
+//        if (type == HelpType.BodygraphDecryption) {
+//            if (!App.preferences.bodygraphToDecryptionHelpShown)
+//                showToDecryptionHelp()
+//            else EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphAddDiagram))
+//        } else
+        if (type == HelpType.BodygraphCenters) {
             if (!App.preferences.bodygraphCentersHelpShown)
                 showCentersHelp()
-        }
-        else if (type == HelpType.BodygraphAddDiagram) {
+            else showHelp(HelpType.BodygraphAddDiagram)//EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphAddDiagram))
+        } else if (type == HelpType.BodygraphAddDiagram) {
             if (!App.preferences.bodygraphAddDiagramHelpShown)
                 showAddDiagramHelp()
-            else EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphCenters))
+//            else EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphCenters))
         }
     }
 
@@ -399,7 +411,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             1,
             1
         )
-        view.x = binding.bodygraphView.getTopPoint().x.toFloat()
+        view.x = binding.bodygraphContainer2.width / 2f//binding.bodygraphView.getTopPoint().x.toFloat()
         view.y = binding.bodygraphView.getTopPoint().y.toFloat()
 
         binding.bodygraphContainer.addView(view)
@@ -432,6 +444,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
             .setOnBalloonDismissListener {
                 App.preferences.bodygraphCentersHelpShown = true
+                showHelp(HelpType.BodygraphAddDiagram)
             }
             .build()
 

@@ -47,6 +47,7 @@ import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.event.PlaceSelectedEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.model.Place
+import ru.get.hd.ui.start.StartViewModel
 import ru.get.hd.ui.start.adapter.PlacesAdapter
 import ru.get.hd.util.Keyboard
 import ru.get.hd.util.ext.alpha0
@@ -212,6 +213,13 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             else R.color.darkColor
         ))
 
+        binding.placesView.newPlaceET.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
 
         binding.placesView.placesViewContainer.setBackgroundColor(
             ContextCompat.getColor(
@@ -349,6 +357,28 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
     }
 
+    override fun onViewModelReady(viewModel: SettingsViewModel) {
+        super.onViewModelReady(viewModel)
+
+        viewModel.suggestions.observe(this) {
+            val addresses: MutableList<Place> = mutableListOf()
+
+            it.features.forEach { feature ->
+                if (addresses.none { it.name == feature.placeName }) {
+                    addresses.add(
+                        Place(
+                            name = feature.placeName,
+                            lat = feature.center[0].toString(),
+                            lon = feature.center[1].toString()
+                        )
+
+                    )
+                }
+            }
+            placesAdapter.createList(addresses.toList())
+        }
+    }
+
     private fun setupPlacesView() {
         binding.placesView.placeRecycler.adapter = placesAdapter
 
@@ -359,27 +389,33 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
         binding.placesView.newPlaceET.addTextChangedListener {
             if (!binding.placesView.newPlaceET.text.isNullOrEmpty() && ::geocoder.isInitialized) {
-
-                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-                    val suggestions = getSuggestions()
-                    val addresses: MutableList<Place> = mutableListOf()
-
-                    suggestions.forEach { suggestion ->
-                        if (addresses.none { it.name == "${suggestion.locality}, ${suggestion.countryName}" }) {
-                            addresses.add(
-                                Place(
-                                    name = "${suggestion.locality}, ${suggestion.countryName}",
-                                    lat = suggestion.latitude.toString(),
-                                    lon = suggestion.longitude.toString()
-                                )
-
-                            )
-                        }
-                    }
-                    placesAdapter.createList(addresses.toList())
-                }
+                binding.viewModel!!.geocoding(binding.placesView.newPlaceET.text.toString())
             }
         }
+
+//        binding.placesView.newPlaceET.addTextChangedListener {
+//            if (!binding.placesView.newPlaceET.text.isNullOrEmpty() && ::geocoder.isInitialized) {
+//
+//                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//                    val suggestions = getSuggestions()
+//                    val addresses: MutableList<Place> = mutableListOf()
+//
+//                    suggestions.forEach { suggestion ->
+//                        if (addresses.none { it.name == "${suggestion.locality}, ${suggestion.countryName}" }) {
+//                            addresses.add(
+//                                Place(
+//                                    name = "${suggestion.locality}, ${suggestion.countryName}",
+//                                    lat = suggestion.latitude.toString(),
+//                                    lon = suggestion.longitude.toString()
+//                                )
+//
+//                            )
+//                        }
+//                    }
+//                    placesAdapter.createList(addresses.toList())
+//                }
+//            }
+//        }
     }
 
     private suspend fun getSuggestions(): List<Address> =

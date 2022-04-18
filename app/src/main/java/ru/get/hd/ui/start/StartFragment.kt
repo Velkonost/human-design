@@ -8,18 +8,22 @@ import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -27,7 +31,10 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_start.*
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
 import kotlinx.android.synthetic.main.view_place_select.view.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +48,7 @@ import ru.get.hd.App
 import ru.get.hd.App.Companion.LOCATION_REQUEST_CODE
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentStartBinding
+import ru.get.hd.event.LastKnownLocationUpdateEvent
 import ru.get.hd.event.PermissionGrantedEvent
 import ru.get.hd.event.PlaceSelectedEvent
 import ru.get.hd.event.UpdateLoaderStateEvent
@@ -66,7 +74,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     var currentStartPage: StartPage = StartPage.RAVE
 
-    private lateinit var geocoder: Geocoder
+//    private lateinit var geocoder: Geocoder
     private var isCurrentLocationVariantSet = false
 
     private var selectedLat = ""
@@ -85,73 +93,89 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        geocoder = Geocoder(requireContext(), Locale.getDefault())
+//        geocoder = Geocoder(requireContext(), Locale.getDefault())
         prepareLogic()
         startCirclesRotation(StartPage.RAVE)
 
-        mLocationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
-        setupLocationListener()
+//        mLocationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
+//        setupLocationListener()
 
         when (App.preferences.lastLoginPageId) {
             StartPage.RAVE.pageId -> setupRave()
-            StartPage.NAME.pageId -> {
-                animateCirclesBtwPages(1000)
-                setupName()
-            }
-            StartPage.DATE_BIRTH.pageId -> {
-                animateCirclesBtwPages(1000)
-                setupDateBirth()
-            }
-            StartPage.TIME_BIRTH.pageId -> {
-                animateCirclesBtwPages(1000)
-                setupTimeBirth()
-            }
-            StartPage.PLACE_BIRTH.pageId -> {
-                animateCirclesBtwPages(1000)
-                setupPlaceBirth()
-            }
-            StartPage.BODYGRAPH.pageId -> {
-                animateCirclesBtwPages(1000)
-                setupBodygraph()
-            }
+//            StartPage.NAME.pageId -> {
+//                animateCirclesBtwPages(1000)
+//                setupName()
+//            }
+//            StartPage.DATE_BIRTH.pageId -> {
+//                animateCirclesBtwPages(1000)
+//                setupDateBirth()
+//            }
+//            StartPage.TIME_BIRTH.pageId -> {
+//                animateCirclesBtwPages(1000)
+//                setupTimeBirth()
+//            }
+//            StartPage.PLACE_BIRTH.pageId -> {
+//                animateCirclesBtwPages(1000)
+//                setupPlaceBirth()
+//            }
+//            StartPage.BODYGRAPH.pageId -> {
+//                animateCirclesBtwPages(1000)
+//                setupBodygraph()
+//            }
             else -> setupRave()
         }
 
         setupPlacesView()
 
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+
+        if (!App.preferences.lastKnownLocation.isNullOrEmpty()) {
+            binding.placeET.setText(App.preferences.lastKnownLocation)
+            selectedLat = App.preferences.lastKnownLocationLat!!
+            selectedLon = App.preferences.lastKnownLocationLon!!
+        }
     }
 
     @Subscribe
     fun onPermissionGrantedEvent(e: PermissionGrantedEvent) {
-        setupLocationListener()
+//        setupLocationListener()
     }
 
-    lateinit var mLocationManager: LocationManager
-    var LOCATION_REFRESH_TIME = 5000L
-    var LOCATION_REFRESH_DISTANCE = 500f
-
-    val mLocationListener: LocationListener = LocationListener {
-        if (::geocoder.isInitialized) {
-            kotlin.runCatching {
-                val currentLocationVariants =
-                    geocoder.getFromLocation(it.latitude, it.longitude, 10)
-
-                if (
-                    currentLocationVariants.isNotEmpty()
-                    && currentLocationVariants.any { variant ->
-                        !variant.locality.isNullOrEmpty() && !variant.countryName.isNullOrEmpty()
-                    }
-                ) {
-                    isCurrentLocationVariantSet = true
-
-                    selectedLat = currentLocationVariants[0].latitude.toString()
-                    selectedLon = currentLocationVariants[0].longitude.toString()
-                    binding.placeET.setText("${currentLocationVariants[0].locality}, ${currentLocationVariants[0].countryName}")
-                }
-            }
+    @Subscribe
+    fun onLastKnownLocationUpdateEvent(e: LastKnownLocationUpdateEvent) {
+        if (!App.preferences.lastKnownLocation.isNullOrEmpty()) {
+            binding.placeET.setText(App.preferences.lastKnownLocation)
+            selectedLat = App.preferences.lastKnownLocationLat!!
+            selectedLon = App.preferences.lastKnownLocationLon!!
         }
     }
+
+
+//    lateinit var mLocationManager: LocationManager
+//    var LOCATION_REFRESH_TIME = 5000L
+//    var LOCATION_REFRESH_DISTANCE = 500f
+
+//    val mLocationListener: LocationListener = LocationListener {
+//        if (::geocoder.isInitialized) {
+//            kotlin.runCatching {
+//                val currentLocationVariants =
+//                    geocoder.getFromLocation(it.latitude, it.longitude, 10)
+//
+//                if (
+//                    currentLocationVariants.isNotEmpty()
+//                    && currentLocationVariants.any { variant ->
+//                        !variant.locality.isNullOrEmpty() && !variant.countryName.isNullOrEmpty()
+//                    }
+//                ) {
+//                    isCurrentLocationVariantSet = true
+//
+//                    selectedLat = currentLocationVariants[0].latitude.toString()
+//                    selectedLon = currentLocationVariants[0].longitude.toString()
+//                    binding.placeET.setText("${currentLocationVariants[0].locality}, ${currentLocationVariants[0].countryName}")
+//                }
+//            }
+//        }
+//    }
 
     override fun updateThemeAndLocale() {
         binding.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
@@ -256,6 +280,12 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             )
         )
 
+        binding.placesView.newPlaceET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkHintColor
+            else R.color.lightHintColor
+        ))
+
         binding.placesView.placesViewContainer.setBackgroundColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -278,6 +308,28 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     }
 
+    override fun onViewModelReady(viewModel: StartViewModel) {
+        super.onViewModelReady(viewModel)
+
+        viewModel.suggestions.observe(this) {
+            val addresses: MutableList<Place> = mutableListOf()
+
+            it.features.forEach { feature ->
+                if (addresses.none { it.name == feature.placeName }) {
+                    addresses.add(
+                        Place(
+                            name = feature.placeName,
+                            lat = feature.center[0].toString(),
+                            lon = feature.center[1].toString()
+                        )
+
+                    )
+                }
+            }
+            placesAdapter.createList(addresses.toList())
+        }
+    }
+
     private fun setupPlacesView() {
         binding.placesView.placeRecycler.adapter = placesAdapter
 
@@ -287,36 +339,18 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         }
 
         binding.placesView.newPlaceET.addTextChangedListener {
-            if (!binding.placesView.newPlaceET.text.isNullOrEmpty() && ::geocoder.isInitialized) {
-
-                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-                    val suggestions = getSuggestions()
-                    val addresses: MutableList<Place> = mutableListOf()
-
-                    suggestions.forEach { suggestion ->
-                        if (addresses.none { it.name == "${suggestion.locality}, ${suggestion.countryName}" }) {
-                            addresses.add(
-                                Place(
-                                    name = "${suggestion.locality}, ${suggestion.countryName}",
-                                    lat = suggestion.latitude.toString(),
-                                    lon = suggestion.longitude.toString()
-                                )
-
-                            )
-                        }
-                    }
-                    placesAdapter.createList(addresses.toList())
-                }
+            if (!binding.placesView.newPlaceET.text.isNullOrEmpty()) {
+                binding.viewModel!!.geocoding(binding.placesView.newPlaceET.text.toString())
             }
         }
     }
 
-    private suspend fun getSuggestions(): List<Address> =
-        coroutineScope {
-            withContext(Dispatchers.IO) {
-                geocoder.getFromLocationName(binding.placesView.newPlaceET.text.toString(), 300)
-            }
-        }
+//    private suspend fun getSuggestions(): List<Address> =
+//        coroutineScope {
+//            withContext(Dispatchers.IO) {
+//                geocoder.getFromLocationName(binding.placesView.newPlaceET.text.toString(), 300)
+//            }
+//        }
 
     @Subscribe
     fun onPlaceSelectedEvent(e: PlaceSelectedEvent) {
@@ -394,7 +428,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         )
 
         val c = Calendar.getInstance()
-        binding.date.date = c.timeInMillis - 631139040000
+        c.add(Calendar.YEAR, -20)
+        binding.date.setDefaultDate(c.time)
 
         binding.nameET.alpha0(500) {
             binding.nameET.isVisible = false
@@ -423,15 +458,23 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_title))
         binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_time_desc))
+
         binding.skipTime.isVisible = true
+        binding.skipTime.alpha = 1f
         binding.skipTime.text = (App.resourcesProvider.getStringLocale(R.string.start_time_skip))
 
         binding.date.alpha0(500) {
             binding.date.isVisible = false
         }
 
-        binding.time.hour = 12
-        binding.time.minute = 0
+        val c = Calendar.getInstance()
+        c.set(Calendar.HOUR_OF_DAY, 12)
+        c.set(Calendar.MINUTE, 0)
+
+        if (App.preferences.locale == "en")
+            binding.time.setIsAmPm(true)
+
+        binding.time.selectDate(c)
 
         binding.time.isVisible = true
         binding.time.alpha1(500)
@@ -476,9 +519,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.backBtn.isVisible = false
 
         binding.indicatorsContainer.alpha0(500)
-        binding.startBtn.alpha0(500) {
-            binding.startBtn.isVisible = false
-        }
+
+        binding.startBtn.translationY(requireContext().convertDpToPx(0f), 500)
         binding.nameContainer.alpha0(500)
 
         binding.bodygraphContainer.isVisible = true
@@ -527,6 +569,44 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             if (App.preferences.isDarkTheme) R.drawable.bg_inactive_indicator_dark
             else R.drawable.bg_inactive_indicator_light
         )
+    }
+
+    private val snackbarName: Snackbar by lazy {
+        val snackView = View.inflate(requireContext(), R.layout.view_snackbar, null)
+        val snackbar = Snackbar.make(binding.snackbarContainer, "", Snackbar.LENGTH_LONG)
+        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        val view = snackbar.view
+        val params = view.layoutParams as CoordinatorLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+
+        (snackbar.view as ViewGroup).removeAllViews()
+        (snackbar.view as ViewGroup).addView(snackView)
+
+        snackView.findViewById<TextView>(R.id.title).text = App.resourcesProvider.getStringLocale(R.string.snackbar_title)
+        snackView.findViewById<TextView>(R.id.desc).text = App.resourcesProvider.getStringLocale(R.string.snackbar_name)
+        snackbar.setBackgroundTint(Color.parseColor("#F7C52B"))
+
+        snackbar
+    }
+
+    private val snackbarAddress: Snackbar by lazy {
+        val snackView = View.inflate(requireContext(), R.layout.view_snackbar, null)
+        val snackbar = Snackbar.make(binding.snackbarContainer, "", Snackbar.LENGTH_LONG)
+        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        val view = snackbar.view
+        val params = view.layoutParams as CoordinatorLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+
+        (snackbar.view as ViewGroup).removeAllViews()
+        (snackbar.view as ViewGroup).addView(snackView)
+
+        snackView.findViewById<TextView>(R.id.title).text = App.resourcesProvider.getStringLocale(R.string.snackbar_title)
+        snackView.findViewById<TextView>(R.id.desc).text = App.resourcesProvider.getStringLocale(R.string.snackbar_address)
+        snackbar.setBackgroundTint(Color.parseColor("#F7C52B"))
+
+        snackbar
     }
 
     inner class Handler {
@@ -588,7 +668,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 }
                 StartPage.NAME -> {
                     if (binding.nameET.text.toString().replace(" ", "").isNullOrEmpty()) {
-
+                        snackbarName.show()
                     } else {
                         lifecycleScope.launch(Dispatchers.Main) {
                             Keyboard.hide(binding.nameET)
@@ -610,28 +690,32 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     setupPlaceBirth()
                 }
                 StartPage.PLACE_BIRTH -> {
-                    animateCirclesBtwPages(1000)
+                    if (binding.placeET.text.toString().replace(" ", "").isNullOrEmpty()) {
+                        snackbarAddress.show()
+                    } else {
+                        animateCirclesBtwPages(1000)
 
-                    lifecycleScope.launch {
-                        baseViewModel.createNewUser(
-                            name = binding.nameET.text.toString(),
-                            place = binding.placeET.text.toString(),
-                            date = binding.date.date,
-                            time = String.format(
-                                "%02d",
-                                binding.time.hour
-                            ) + ":" + String.format("%02d", binding.time.minute),
-                            lat = selectedLat,
-                            lon = selectedLon
-                        )
-                        setupBodygraph()
+                        lifecycleScope.launch {
+                            baseViewModel.createNewUser(
+                                name = binding.nameET.text.toString(),
+                                place = binding.placeET.text.toString(),
+                                date = binding.date.date.time,
+                                time = String.format(
+                                    "%02d",
+                                    binding.time.hoursPicker.currentHour
+                                ) + ":" + String.format("%02d", binding.time.minutesPicker.currentMinute),
+                                lat = selectedLat,
+                                lon = selectedLon
+                            )
+                            setupBodygraph()
+                        }
                     }
 
                 }
                 StartPage.BODYGRAPH -> {
                     App.preferences.lastLoginPageId = -1
                     Log.d("keke", App.preferences.lastLoginPageId.toString())
-                    router.navigateTo(Screens.bodygraphScreen())
+                    router.navigateTo(Screens.bodygraphScreen(fromStart = true))
 //                    Navigator.startToBodygraph(this@StartFragment)
                 }
             }

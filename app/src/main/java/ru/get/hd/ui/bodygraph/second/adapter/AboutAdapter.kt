@@ -10,6 +10,7 @@ import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -20,6 +21,13 @@ import ru.get.hd.model.AboutType
 import ru.get.hd.ui.faq.adapter.FaqAdapter
 import ru.get.hd.util.ext.setTextAnimation
 import kotlin.math.exp
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView.SmoothScroller
+import android.util.DisplayMetrics
+
+
+
+
 
 class AboutAdapter(
     private val context: Context,
@@ -132,32 +140,52 @@ class AboutAdapter(
             }
 
             if (state == ExpandableLayout.State.COLLAPSED) {
-                expandButton.setTextAnimation(
-                    when(items[position].type) {
-                        AboutType.TYPE -> App.resourcesProvider.getStringLocale(R.string.type_title)
-                        AboutType.PROFILE -> App.resourcesProvider.getStringLocale(R.string.profile_title)
-                        AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)
-                        AboutType.STRATEGY -> App.resourcesProvider.getStringLocale(R.string.strategy_title)
-                        AboutType.INJURY -> App.resourcesProvider.getStringLocale(R.string.injury_title)
-                    }
-                )
+                kotlin.runCatching {
+                    expandButton.setTextAnimation(
+                        when (items[adapterPosition].type) {
+                            AboutType.TYPE -> App.resourcesProvider.getStringLocale(R.string.type_title)
+                            AboutType.PROFILE -> App.resourcesProvider.getStringLocale(R.string.profile_title)
+                            AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)
+                            AboutType.STRATEGY -> App.resourcesProvider.getStringLocale(R.string.strategy_title)
+                            AboutType.INJURY -> App.resourcesProvider.getStringLocale(R.string.injury_title)
+                        }
+                    )
+                    icArrow.animate()
+                        .rotation(90f)
+                        .duration = 300
+                }
 
-                icArrow.animate()
-                    .rotation(90f)
-                    .duration = 300
+
             }
-//            if (state == ExpandableLayout.State.EXPANDING) {
+            if (state == ExpandableLayout.State.EXPANDING) {
+                val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
+                    override fun getVerticalSnapPreference(): Int {
+                        return SNAP_TO_START
+                    }
+
+                    override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                        return 1000f / recyclerView.computeVerticalScrollRange()
+                    }
+
+                }
+                smoothScroller.targetPosition = adapterPosition
+
+
+                (recyclerView.layoutManager as LinearLayoutManager)
+                    .startSmoothScroll(smoothScroller)
 //                recyclerView.smoothScrollToPosition(adapterPosition)
-//            }
+            }
         }
 
         init {
 //            expandableLayout.setInterpolator(OvershootInterpolator())
             expandableLayout.setOnExpansionUpdateListener(this)
 
+
             expandButton = itemView.findViewById(R.id.expand_button)
             expandButton.setOnClickListener(this)
             icArrow.setOnClickListener(this)
+            container.setOnClickListener(this)
 
             text = itemView.findViewById(R.id.description)
         }
