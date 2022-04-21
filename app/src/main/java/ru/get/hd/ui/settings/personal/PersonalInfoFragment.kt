@@ -35,6 +35,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.fragment_personal_info.*
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
 import kotlinx.android.synthetic.main.view_place_select.view.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -110,9 +111,9 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
                 }
             }
         }
@@ -124,9 +125,9 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
                 }
             }
         }
@@ -143,33 +144,40 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
                 val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO, Locale.getDefault())
                 val calendar: Calendar = Calendar.getInstance()
 
-                calendar.timeInMillis = this.date.date
+                calendar.timeInMillis = this.date.date.time
                 val dateStr = formatter.format(calendar.time)
                 binding.dateET.setTextAnimation(dateStr)
 
-                selectedDate = this.date.date
+                selectedDate = this.date.date.time
             }
 
-            this.date.date = baseViewModel.currentUser.date
+            val c = Calendar.getInstance()
+            c.timeInMillis = baseViewModel.currentUser.date
+            this.date.setDefaultDate(c.time)
         }
     }
 
     private fun setupTimeSheet() {
         with(binding.timeBottomSheet) {
+            if (App.preferences.locale == "en")
+                time.setIsAmPm(true)
+
             this.ok.setOnClickListener {
                 timeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
                 val newTime = String.format(
                     "%02d",
-                    this.time.hour
-                ) + ":" + String.format("%02d", this.time.minute)
+                    this.time.hoursPicker.currentHour
+                ) + ":" + String.format("%02d", this.time.minutesPicker.currentMinute)
                 binding.timeET.setTextAnimation(newTime)
 
                 selectedTime = newTime
             }
 
-            this.time.hour = baseViewModel.currentUser.time.split(":")[0].toInt()
-            this.time.minute = baseViewModel.currentUser.time.split(":")[1].toInt()
+            val c = Calendar.getInstance()
+            c.set(Calendar.HOUR_OF_DAY, baseViewModel.currentUser.time.split(":")[0].toInt())
+            c.set(Calendar.MINUTE, baseViewModel.currentUser.time.split(":")[1].toInt())
+            this.time.selectDate(c)
         }
     }
 

@@ -70,7 +70,7 @@ class CentersModel(
                 else R.color.darkColor
             ))
 
-            centersArrow.setOnClickListener {
+            channelCard.setOnClickListener {
                 isExpanded = !isExpanded
 
                 if (isExpanded) {

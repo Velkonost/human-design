@@ -177,12 +177,19 @@
             app:layout_constraintBottom_toTopOf="@id/startBtn"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/raveLogo"
+                android:src="@drawable/ic_affirmation_logo"
+                android:layout_width="98dp"
+                android:layout_height="102dp"/>
+
             <TextView
                 android:id="@+id/raveTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:textSize="28sp"
+                android:layout_marginTop="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

@@ -71,6 +71,8 @@ class App : DaggerApplication() {
         lateinit var preferences: Preferences
         lateinit var database: AppDatabase
 
+        var isBodygraphWithAnimationShown = false
+        var isBodygraphAnimationEnded = false
 
         @SuppressLint("StaticFieldLeak")
         lateinit var resourcesProvider: ResourcesProvider

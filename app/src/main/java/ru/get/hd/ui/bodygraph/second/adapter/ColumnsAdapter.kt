@@ -17,6 +17,7 @@ import ru.get.hd.model.AboutItem
 import ru.get.hd.model.Center
 import ru.get.hd.model.TransitionChannel
 import ru.get.hd.model.TransitionGate
+import ru.get.hd.model.User
 import ru.get.hd.ui.bodygraph.adapter.CentersAdapter
 import ru.get.hd.ui.bodygraph.adapter.CentersModel
 import ru.get.hd.ui.transit.adapter.ChannelsAdapter
@@ -29,11 +30,12 @@ class ColumnsAdapter : EpoxyAdapter() {
         inactiveCenters: List<Center>,
         gates: List<TransitionGate>,
         channels: List<TransitionChannel>,
-        aboutItems: List<AboutItem>
+        aboutItems: List<AboutItem>,
+        currentUser: User
     ) {
         removeAllModels()
 
-        addModel(AboutModel(aboutItems))
+        addModel(AboutModel(aboutItems, currentUser))
         addModel(CentersModel(activeCenters, inactiveCenters))
         addModel(GatesModel(gates))
         addModel(ChannelsModel(channels))
@@ -43,7 +45,8 @@ class ColumnsAdapter : EpoxyAdapter() {
 }
 
 class AboutModel(
-    private val aboutItems: List<AboutItem>
+    private val aboutItems: List<AboutItem>,
+    private val currentUser: User
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -53,7 +56,12 @@ class AboutModel(
         root = view
 
         with(view) {
-            val aboutAdapter = AboutAdapter(context, aboutRecycler, aboutItems)
+            val aboutAdapter = AboutAdapter(
+                context,
+                aboutRecycler,
+                aboutItems,
+                currentUser
+            )
             aboutRecycler.adapter = aboutAdapter
 
         }

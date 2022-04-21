@@ -41,6 +41,12 @@ With the help of Human Design, you will<br>learn how you can live your life with
     <string name="variant_4_splash_04"><![CDATA[Build relationships<br>with loved ones]]></string>
     <string name="variant_5_splash_04"><![CDATA[For general development]]></string>
 
+    <string name="splash_05_title">Please allow us to track application usage</string>
+    <string name="splash_05_desc">It is important for us, so that we can:</string>
+    <string name="splash_05_text_1">Personalize your experience of using the App</string>
+    <string name="splash_05_text_2">Send individual offers especially for you</string>
+    <string name="splash_05_text_3">Invite users similar to you to the App</string>
+
     <string name="text_1_splash_05"><![CDATA[Please allow us to track application usage. It is<br>important for us, so that we can:]]></string>
     <string name="text_2_splash_05"><![CDATA[- Personalize your experience of using the App<br>- Invite users similar to you to the App<br>- Send individual offers especially for you]]></string>
     <string name="text_3_splash_05"><![CDATA[These parameters can always be changed in the<br>"settings" of your device.]]></string>
@@ -259,4 +265,21 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="snackbar_title">Error</string>
     <string name="snackbar_name">The name field cannot be empty.</string>
     <string name="snackbar_address">We could not find your address.</string>
+
+    <string name="injury_push_title">, check your account!</string>
+    <string name="injury_push_desc">Your personal genetic trauma tips are ready!</string>
+    <string name="injury_desc_before"><![CDATA[Genetic trauma lies deep in the subconscious. Trauma is individual, so we will need time to collect information for you personally.<br><br>Your recommendations will appear in this block in 24 hours, you will have constant and free access to them at any time.<br><br>If you are ready to work through your genetic trauma, please press the button below.]]></string>
+    <string name="injury_desc_progress"><![CDATA[We are working hard to prepare all the information about the nature of your genetic trauma.<br><br>You will receive your personal recommendations in the next 24 hours!]]></string>
+
+    <string name="about_authority_subtitle">How to make the right decisions</string>
+    <string name="about_strategy_subtitle">How to live without resistance</string>
+    <string name="about_injury_subtitle">How to take control over your trauma</string>
+    <string name="about_nutrition_subtitle">The way you are designed to eat</string>
+    <string name="about_environment_subtitle">The most nourishing surrounding</string>
+
+    <string name="menu_first_title">Bodygraph</string>
+    <string name="menu_second_title">Description</string>
+    <string name="menu_third_title">Transits</string>
+    <string name="menu_forth_title">Compatibility</string>
+    <string name="menu_fifth_title">Insights</string>
 </resources>

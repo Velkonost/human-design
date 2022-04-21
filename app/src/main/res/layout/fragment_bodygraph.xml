@@ -102,6 +102,8 @@
                 android:id="@+id/bodygraphView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="80dp"
                 app:layout_constraintBottom_toTopOf="@id/toDescryptionContainer"

@@ -107,7 +107,7 @@
                 android:layout_marginTop="60dp"
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/darkColor"
-                android:textSize="24sp"
+                android:textSize="28sp"
                 app:layout_constraintBottom_toTopOf="@id/icSplash0102Header"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +121,7 @@
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
                 android:textColor="@color/darkColor"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleSplash0102" />
@@ -152,11 +152,11 @@
                         android:id="@+id/titleSplash0304"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginTop="32dp"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="start"
-                        android:textSize="24sp"
+                        android:textSize="28sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -167,13 +167,14 @@
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/roboto"
                         android:gravity="start"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="@id/titleSplash0304"
                         app:layout_constraintTop_toBottomOf="@id/titleSplash0304" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="32dp"
+                        android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="8dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -350,57 +351,157 @@
             app:layout_constraintBottom_toTopOf="@id/splashBtn"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/icSplash05Header"
-                android:layout_width="235dp"
-                android:layout_height="235dp"
-                android:layout_marginTop="24dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_splash_05_header_dark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="32dp"
+                android:layout_marginHorizontal="20dp"
                 android:gravity="center_vertical|start"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/icSplash05Header">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/text1Splash05"
+                    android:id="@+id/titleSplash05"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/roboto_bold"
                     android:gravity="start"
-                    android:textSize="12sp" />
+                    android:textSize="28sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/text2Splash05"
+                    android:id="@+id/descSplash05"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="1"
+                    android:layout_marginTop="12dp"
                     android:fontFamily="@font/roboto"
                     android:gravity="start"
-                    android:textSize="12sp" />
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@id/titleSplash05"
+                    app:layout_constraintTop_toBottomOf="@id/titleSplash05" />
 
-                <TextView
-                    android:id="@+id/text3Splash05"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container1Splash05"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="start"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="20dp">
+
+                    <ImageView
+                        android:id="@+id/ic01Splash05"
+                        android:src="@drawable/ic_splash_5_1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginVertical="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"/>
+
+                    <TextView
+                        android:id="@+id/text01Splash05"
+                        app:layout_constraintTop_toTopOf="@id/ic01Splash05"
+                        app:layout_constraintBottom_toBottomOf="@id/ic01Splash05"
+                        app:layout_constraintStart_toEndOf="@id/ic01Splash05"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:textSize="16sp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container2Splash05"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <ImageView
+                        android:id="@+id/ic02Splash05"
+                        android:src="@drawable/ic_splash_5_2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginVertical="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"/>
+
+                    <TextView
+                        android:id="@+id/text02Splash05"
+                        app:layout_constraintTop_toTopOf="@id/ic02Splash05"
+                        app:layout_constraintBottom_toBottomOf="@id/ic02Splash05"
+                        app:layout_constraintStart_toEndOf="@id/ic02Splash05"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:textSize="16sp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container3Splash05"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <ImageView
+                        android:id="@+id/ic03Splash05"
+                        android:src="@drawable/ic_splash_5_3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginVertical="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"/>
+
+                    <TextView
+                        android:id="@+id/text03Splash05"
+                        app:layout_constraintTop_toTopOf="@id/ic03Splash05"
+                        app:layout_constraintBottom_toBottomOf="@id/ic03Splash05"
+                        app:layout_constraintStart_toEndOf="@id/ic03Splash05"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:textSize="16sp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--                <TextView-->
+<!--                    android:id="@+id/text1Splash05"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="start"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:fontFamily="@font/roboto"-->
+<!--                    android:gravity="start"-->
+<!--                    android:textSize="12sp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/text2Splash05"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="start"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:fontFamily="@font/roboto"-->
+<!--                    android:gravity="start"-->
+<!--                    android:textSize="12sp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/text3Splash05"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="start"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:fontFamily="@font/roboto"-->
+<!--                    android:gravity="start"-->
+<!--                    android:textSize="12sp" />-->
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

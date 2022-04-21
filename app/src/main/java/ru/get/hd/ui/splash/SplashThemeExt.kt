@@ -161,34 +161,29 @@ fun SplashFragment.updateTheme() {
         else R.drawable.gradient_variant_card_selected_light
     )
 
-    binding.icSplash05Header.setImageResource(
-        if (App.preferences.isDarkTheme) R.drawable.ic_splash_05_header_dark
-        else R.drawable.ic_splash_05_header_light
-    )
-
-    binding.text1Splash05.setTextColor(
-        ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        )
-    )
-
-    binding.text2Splash05.setTextColor(
-        ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        )
-    )
-
-    binding.text3Splash05.setTextColor(
-        ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        )
-    )
+//    binding.text1Splash05.setTextColor(
+//        ContextCompat.getColor(
+//            requireContext(),
+//            if (App.preferences.isDarkTheme) R.color.lightColor
+//            else R.color.darkColor
+//        )
+//    )
+//
+//    binding.text2Splash05.setTextColor(
+//        ContextCompat.getColor(
+//            requireContext(),
+//            if (App.preferences.isDarkTheme) R.color.lightColor
+//            else R.color.darkColor
+//        )
+//    )
+//
+//    binding.text3Splash05.setTextColor(
+//        ContextCompat.getColor(
+//            requireContext(),
+//            if (App.preferences.isDarkTheme) R.color.lightColor
+//            else R.color.darkColor
+//        )
+//    )
 
     binding.icSplashBigCircle.setImageResource(
         if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
@@ -199,4 +194,71 @@ fun SplashFragment.updateTheme() {
         if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
         else R.drawable.ic_circle_mid_light
     )
+
+    binding.titleSplash05.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.descSplash05.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.ic01Splash05.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.ic02Splash05.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.ic03Splash05.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.text01Splash05.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.text02Splash05.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.text03Splash05.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.container1Splash05.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_splash_05_dark
+        else R.drawable.bg_splash_05_light
+    )
+
+    binding.container2Splash05.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_splash_05_dark
+        else R.drawable.bg_splash_05_light
+    )
+
+    binding.container3Splash05.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_splash_05_dark
+        else R.drawable.bg_splash_05_light
+    )
+
 }

@@ -17,6 +17,9 @@ class NotificationReceiver : BroadcastReceiver() {
         kotlin.runCatching {
             val intent1 = Intent(context, NotificationService::class.java)
 
+            if (intent != null && !intent.getStringExtra("userName").isNullOrEmpty())
+                intent1.putExtra("userName", intent.getStringExtra("userName"))
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(intent1)
             } else {

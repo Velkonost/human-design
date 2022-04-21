@@ -35,6 +35,7 @@ import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.util.convertDpToPx
 import ru.get.hd.util.ext.alpha07
 import ru.get.hd.util.ext.alpha1
+import ru.get.hd.util.ext.scaleXY
 import ru.get.hd.util.ext.setTextAnimation
 import ru.get.hd.util.ext.setTextAnimation07
 import ru.get.hd.vm.BaseViewModel
@@ -69,6 +70,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 showHelp(HelpType.BodygraphCenters)
             }, 1500)
 
+
     }
 
     override fun onResume() {
@@ -82,20 +84,20 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         showHelp(e.type)
     }
 
+    private fun startBodygraphZoomAnimation() {
+        binding.bodygraphView.scaleXY(1f, 1f, 1500) {
+            App.isBodygraphAnimationEnded = true
+        }
+    }
+
     private fun showHelp(type: HelpType) {
-//        if (type == HelpType.BodygraphDecryption) {
-//            if (!App.preferences.bodygraphToDecryptionHelpShown)
-//                showToDecryptionHelp()
-//            else EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphAddDiagram))
-//        } else
         if (type == HelpType.BodygraphCenters) {
             if (!App.preferences.bodygraphCentersHelpShown)
                 showCentersHelp()
-            else showHelp(HelpType.BodygraphAddDiagram)//EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphAddDiagram))
+            else showHelp(HelpType.BodygraphAddDiagram)
         } else if (type == HelpType.BodygraphAddDiagram) {
             if (!App.preferences.bodygraphAddDiagramHelpShown)
                 showAddDiagramHelp()
-//            else EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphCenters))
         }
     }
 
@@ -238,6 +240,18 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 it.inactiveCentres,
                 isTouchable = true
             )
+
+            if (!App.isBodygraphWithAnimationShown) {
+                android.os.Handler().postDelayed({
+                    App.isBodygraphWithAnimationShown = true
+                    startBodygraphZoomAnimation()
+                }, 1000)
+            } else {
+                if (App.isBodygraphAnimationEnded) {
+                    binding.bodygraphView.scaleX = 1f
+                    binding.bodygraphView.scaleY = 1f
+                }
+            }
 
             if (!it.design.planets.isNullOrEmpty()) {
                 binding.rightZnak1.setTextAnimation07(

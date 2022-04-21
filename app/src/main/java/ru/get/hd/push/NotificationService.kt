@@ -65,21 +65,36 @@ class NotificationService(name: String?) : IntentService(name) {
         if (!App.preferences.isPushAvailable)
             return
 
-        if (App.preferences.pushNumber > 4)
-            return
+        if (intent != null && !intent.getStringExtra("userName").isNullOrEmpty()) {
+            val title = intent.getStringExtra("userName") + App.resourcesProvider.getStringLocale(R.string.injury_push_title)
+            val desc =  App.resourcesProvider.getStringLocale(R.string.injury_push_desc)
 
-        val title = resources.getStringArray(R.array.push_titles)[App.preferences.pushNumber]
-        val desc = resources.getStringArray(R.array.push_descs)[App.preferences.pushNumber]
+            notificationHelper.createNotification(
+                title = title,
+                message = desc,
+                link = "google.com",
+                pageTitle = "pageTitle",
+                filter = "filter",
+                section = "section"
+            )
+        } else {
 
-        App.preferences.pushNumber ++
+            if (App.preferences.pushNumber > 4)
+                return
 
-        notificationHelper.createNotification(
-            title = title,
-            message = desc,
-            link = "google.com",
-            pageTitle = "pageTitle",
-            filter = "filter",
-            section = "section"
-        )
+            val title = resources.getStringArray(R.array.push_titles)[App.preferences.pushNumber]
+            val desc = resources.getStringArray(R.array.push_descs)[App.preferences.pushNumber]
+
+            App.preferences.pushNumber++
+
+            notificationHelper.createNotification(
+                title = title,
+                message = desc,
+                link = "google.com",
+                pageTitle = "pageTitle",
+                filter = "filter",
+                section = "section"
+            )
+        }
     }
 }

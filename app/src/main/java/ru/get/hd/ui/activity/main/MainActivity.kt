@@ -225,7 +225,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         val notifyIntent = Intent(this, NotificationReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
             this,
-            2,
+            3,
             notifyIntent,
             PendingIntent.FLAG_CANCEL_CURRENT
         )

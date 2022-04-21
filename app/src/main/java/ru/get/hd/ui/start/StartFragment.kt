@@ -178,6 +178,12 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 //    }
 
     override fun updateThemeAndLocale() {
+        binding.raveLogo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
         binding.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor

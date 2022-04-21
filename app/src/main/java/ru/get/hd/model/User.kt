@@ -55,6 +55,15 @@ data class User(
     var subtitle3En: String? = null,
 
     @ColumnInfo(name = "parentDescription")
-    var parentDescription: String? = null
+    var parentDescription: String? = null,
+
+    @ColumnInfo(name = "injuryDateStart")
+    var injuryDateStart: Long? = null,
+
+    @ColumnInfo(name = "injuryGenerationDuration")
+    var injuryGenerationDuration: Long? = null,
+
+    @ColumnInfo(name = "isInjuryGenerated")
+    var isInjuryGenerated: Boolean = false
 
 )

@@ -186,6 +186,8 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     private fun selectTransits() {
+        binding.icInfo.isVisible = true
+
         binding.transitsTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor
@@ -212,6 +214,8 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     private fun selectCycles() {
+        binding.icInfo.isVisible = false
+
         binding.cyclesTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor
@@ -238,6 +242,8 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     private fun selectAdvice() {
+        binding.icInfo.isVisible = false
+
         binding.adviceTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor

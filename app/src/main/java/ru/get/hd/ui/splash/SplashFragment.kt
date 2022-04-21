@@ -21,6 +21,7 @@ import ru.get.hd.util.ext.alpha0
 import ru.get.hd.util.ext.alpha1
 import ru.get.hd.util.ext.setImageAnimation
 import ru.get.hd.util.ext.setTextAnimation
+import ru.get.hd.util.ext.setTextAnimation07
 import java.util.*
 
 
@@ -115,7 +116,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         )
 
         binding.titleSplash0102.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.title_splash_01))
-        binding.descSplash0102.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.desc_splash_01))
+        binding.descSplash0102.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.desc_splash_01))
     }
 
     private fun setupSplash02() {
@@ -128,7 +129,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
             )
         }
 
-        binding.descSplash0102.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.desc_splash_02))
+        binding.descSplash0102.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.desc_splash_02))
     }
 
     private fun setupSplash03() {
@@ -148,7 +149,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         }
 
         binding.titleSplash0304.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.title_splash_03))
-        binding.descSplash0304.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.desc_splash_03))
+        binding.descSplash0304.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.desc_splash_03))
 
         binding.cardVariant1.isVisible = true
         binding.cardVariant2.isVisible = true
@@ -180,7 +181,7 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         unselectAllVariants()
 
         binding.titleSplash0304.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.title_splash_04))
-        binding.descSplash0304.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.desc_splash_04))
+        binding.descSplash0304.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.desc_splash_04))
 
         binding.textVariant1.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.variant_1_splash_04))
         binding.textVariant2.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.variant_2_splash_04))
@@ -199,11 +200,18 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
         binding.splash0304Container.alpha0(500)
         binding.splash05Container.alpha1(500)
 
-        binding.text1Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_1_splash_05))
-        binding.text2Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_2_splash_05))
-        binding.text3Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_3_splash_05))
+        binding.titleSplash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.splash_05_title))
+        binding.descSplash05.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.splash_05_desc))
 
-        binding.splashBtnText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.understand))
+        binding.text01Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_1)
+        binding.text02Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_2)
+        binding.text03Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_3)
+
+//        binding.text1Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_1_splash_05))
+//        binding.text2Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_2_splash_05))
+//        binding.text3Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_3_splash_05))
+
+//        binding.splashBtnText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.understand))
     }
 
     override fun updateThemeAndLocale() {

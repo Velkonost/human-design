@@ -49,19 +49,46 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ru.get.hd.ui.view.datepicker.view.datePicker.DatePicker
+<!--            <ru.get.hd.ui.view.datepicker.view.datePicker.DatePicker-->
+<!--                android:id="@+id/date"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/okContainer"-->
+<!--                android:layout_marginHorizontal="32dp"-->
+<!--                android:calendarTextColor="@color/lightColor"-->
+<!--                android:calendarViewShown="false"-->
+<!--                android:datePickerMode="spinner"-->
+<!--                android:hapticFeedbackEnabled="true"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:offset="3"-->
+<!--                app:pickerMode="dayFirst" />-->
+
+            <ru.get.hd.ui.view.daytimepicker.SingleDateAndTimePicker
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@id/okContainer"
                 android:layout_marginHorizontal="32dp"
+                app:picker_textSize="20sp"
+                app:picker_curved="true"
+                app:picker_cyclic="true"
+                app:picker_displayDays="false"
+                app:picker_displayDaysOfMonth="true"
+                app:picker_displayHours="false"
+                app:picker_displayMinutes="false"
+                app:picker_displayMonth="true"
+                app:picker_displayYears="true"
+                app:picker_displayMonthNumbers="false"
+                app:picker_monthFormat="MMMM"
                 android:calendarTextColor="@color/lightColor"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
+                app:pickerMode="dayFirst"
                 android:hapticFeedbackEnabled="true"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:offset="3"
-                app:pickerMode="dayFirst" />
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

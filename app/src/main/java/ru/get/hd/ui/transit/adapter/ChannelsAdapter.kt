@@ -85,7 +85,7 @@ class ChannelModel(
                 else R.color.darkColor
             ))
 
-            channelArrow.setOnClickListener {
+            channelCard.setOnClickListener {
                 isExpanded = !isExpanded
 
                 if (isExpanded) {

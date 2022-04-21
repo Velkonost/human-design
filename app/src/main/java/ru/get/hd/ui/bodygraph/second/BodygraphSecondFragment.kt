@@ -15,10 +15,12 @@ import kotlinx.android.synthetic.main.fragment_faq_detail.*
 import kotlinx.android.synthetic.main.item_bodygraph_centers.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_channels.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_gates.view.*
+import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentBodygraphFirstBinding
 import ru.get.hd.databinding.FragmentBodygraphSecondBinding
+import ru.get.hd.event.UpdateCurrentUserInjurySettingsEvent
 import ru.get.hd.model.AboutItem
 import ru.get.hd.model.AboutType
 import ru.get.hd.model.TransitionChannel
@@ -48,6 +50,11 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
     private val columnsAdapter: ColumnsAdapter by lazy {
         ColumnsAdapter()
+    }
+
+    @Subscribe
+    fun onUpdateCurrentUserInjurySettingsEvent(e: UpdateCurrentUserInjurySettingsEvent) {
+        baseViewModel.updateUser()
     }
 
     override fun updateThemeAndLocale() {
@@ -190,7 +197,8 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
                 inactiveCenters = it.inactiveCentres,
                 gates = gates,
                 channels = channels,
-                aboutItems = aboutItemsList
+                aboutItems = aboutItemsList,
+                currentUser = baseViewModel.currentUser
             )
         }
 
