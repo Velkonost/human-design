@@ -3,6 +3,7 @@ package ru.get.hd.ui.start
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import ru.get.hd.App
+import ru.get.hd.model.GeocodingNominatimFeature
 import ru.get.hd.model.GeocodingResponse
 import ru.get.hd.model.GetDesignResponse
 import ru.get.hd.repo.base.RestRepo
@@ -19,6 +20,8 @@ class StartViewModel @Inject constructor(
 
     var suggestions: MutableLiveData<GeocodingResponse> = mutableLiveDataOf(GeocodingResponse())
     var reverseSuggestions: MutableLiveData<GeocodingResponse> = mutableLiveDataOf(GeocodingResponse())
+
+    var nominatimSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> = mutableLiveDataOf(emptyList())
 
     fun geocoding(query: String?) {
         if (query.isNullOrEmpty()) {
@@ -37,6 +40,26 @@ class StartViewModel @Inject constructor(
             }).disposeOnCleared()
         }
     }
+
+    fun geocodingNominatim(query: String?) {
+        if (query.isNullOrEmpty()) {
+//https://nominatim.openstreetmap.org/search?q=%D0%BE%D0%BC%D1%81%D0%BA&format=json&accept-language=ru
+        } else {
+            repo.geocodingNominatim(
+                "https://nominatim.openstreetmap.org/search?q="
+                        + query
+                        + "&format=json&accept-language="
+                        + App.preferences.locale
+            ).subscribe({
+//                suggestions.postValue(it)
+                        nominatimSuggestions.postValue(it)
+            }, {
+
+            }).disposeOnCleared()
+        }
+    }
+
+
 
     fun reverseGeocoding(lat: Float, lon: Float) {
         Log.d("keke", "keke")

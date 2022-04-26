@@ -77,7 +77,7 @@ class CentersModel(
                     val animation = ObjectAnimator.ofInt(
                         channelDesc,
                         "maxLines",
-                        300
+                        50
                     )
                     animation.duration = 1000
                     animation.start()

@@ -70,5 +70,10 @@ class RestRepoImpl @Inject constructor(
     override fun geocoding(url: String) =
         restService.geocoding(url).subscribeIoObserveMain()
 
+    override fun geocodingNominatim(url: String) =
+        restService.geocodingNominatim(url).subscribeIoObserveMain()
+
+
+
 
 }

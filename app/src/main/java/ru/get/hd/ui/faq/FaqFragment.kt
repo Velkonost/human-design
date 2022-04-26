@@ -44,7 +44,7 @@ class FaqFragment : BaseFragment<FaqViewModel, FragmentFaqBinding>(
     }
 
     override fun updateThemeAndLocale() {
-        binding.faqsTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.faq_title))
+        binding.faqsTitle.text = App.resourcesProvider.getStringLocale(R.string.faq_title)
 
         binding.faqsContainer.setBackgroundColor(
             ContextCompat.getColor(

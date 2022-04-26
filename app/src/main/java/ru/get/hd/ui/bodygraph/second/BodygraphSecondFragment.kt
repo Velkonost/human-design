@@ -71,10 +71,10 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
             else R.color.darkColor
         ))
 
-        binding.aboutTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.about_title))
-        binding.centersTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.centers_title))
-        binding.gatesTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.gates_title))
-        binding.channelsTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.channels_title))
+        binding.aboutTitle.text = App.resourcesProvider.getStringLocale(R.string.about_title)
+        binding.centersTitle.text = App.resourcesProvider.getStringLocale(R.string.centers_title)
+        binding.gatesTitle.text = App.resourcesProvider.getStringLocale(R.string.gates_title)
+        binding.channelsTitle.text = App.resourcesProvider.getStringLocale(R.string.channels_title)
 
         binding.aboutTitle.setTextColor(ContextCompat.getColor(
             requireContext(),

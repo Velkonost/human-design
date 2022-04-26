@@ -25,6 +25,7 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:wheel_item_text_size="20sp"
             app:wheel_atmospheric="true"
             app:wheel_item_align="right" />
 
@@ -33,6 +34,7 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:wheel_item_text_size="20sp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             app:wheel_atmospheric="true"
@@ -43,6 +45,7 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:wheel_item_text_size="20sp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             app:wheel_selected_item_text_color="@color/lightColor"
@@ -58,12 +61,14 @@
             app:wheel_atmospheric="true"
             app:wheel_item_align="right"
             android:layout_marginLeft="5dp"
+            app:wheel_item_text_size="20sp"
             android:layout_marginRight="5dp"/>
 
         <ru.get.hd.ui.view.daytimepicker.widget.WheelHourPicker
             android:id="@+id/hoursPicker"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:wheel_item_text_size="20sp"
             android:layout_marginRight="30dp"
             app:wheel_atmospheric="true"
             app:wheel_item_align="center" />
@@ -71,6 +76,7 @@
         <ru.get.hd.ui.view.daytimepicker.widget.WheelMinutePicker
             android:id="@+id/minutesPicker"
             android:layout_width="wrap_content"
+            app:wheel_item_text_size="20sp"
             android:layout_height="match_parent"
             app:wheel_atmospheric="true"
             app:wheel_item_align="center" />
@@ -78,6 +84,7 @@
         <ru.get.hd.ui.view.daytimepicker.widget.WheelAmPmPicker
             android:id="@+id/amPmPicker"
             android:visibility="gone"
+            app:wheel_item_text_size="20sp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingLeft="30dp"
@@ -91,7 +98,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/wheelSelectorHeight"
+        android:layout_height="36dp"
         android:layout_gravity="center_vertical"
         android:orientation="vertical">
 

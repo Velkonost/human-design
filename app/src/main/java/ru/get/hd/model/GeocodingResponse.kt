@@ -17,3 +17,15 @@ data class GeocodingFeature(
     @field:JsonProperty("place_type") val placeType: List<String> = emptyList(),
 
 ): Parcelable
+
+@Parcelize
+data class GeocodingNominatimResponse(
+    @field:JsonProperty("lon") val lon: String = "",
+): Parcelable
+
+@Parcelize
+data class GeocodingNominatimFeature(
+    @field:JsonProperty("display_name") val placeName: String = "",
+    @field:JsonProperty("lat") val lat: String = "",
+    @field:JsonProperty("lon") val lon: String = "",
+): Parcelable

@@ -243,12 +243,6 @@ class AboutAdapter(
                 else R.color.darkColor
             ))
 
-            generateBtnText.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-
             generateProgressText.setTextColor(ContextCompat.getColor(
                 context,
                 if (App.preferences.isDarkTheme) R.color.lightColor

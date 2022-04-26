@@ -271,7 +271,10 @@ class SplashFragment : BaseFragment<SplashViewModel, FragmentSplashBinding>(
                 SplashPage.SPLASH_03 -> setupSplash04()
                 SplashPage.SPLASH_04 -> setupSplash05()
                 SplashPage.SPLASH_05 -> {
-                    router.navigateTo(Screens.startScreen())
+                    binding.splash05Container.alpha0(100) {
+                        router.navigateTo(Screens.startScreen())
+                    }
+
 //                    Navigator.splashToStart(this@SplashFragment)
                 }
             }

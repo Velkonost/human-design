@@ -14,13 +14,15 @@
             type="ru.get.hd.ui.start.StartFragment.Handler" />
     </data>
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/startContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/darkColor"
-        android:fitsSystemWindows="true"
-        tools:context=".ui.activity.main.MainActivity">
+        android:fitsSystemWindows="false">
 
         <FrameLayout
             android:id="@+id/snackbarContainer"
@@ -32,6 +34,7 @@
 
         <FrameLayout
             android:id="@+id/backBtn"
+            android:visibility="gone"
             android:onClick="@{handler::onBackClicked}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,11 +54,8 @@
         </FrameLayout>
 
         <ImageView
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_stars"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <ImageView
+            android:alpha="0"
+            android:id="@+id/bottomGradient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
@@ -87,12 +87,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/startBtn" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <FrameLayout
             android:id="@+id/indicatorsContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:alpha="0"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,40 +106,47 @@
 
             <View
                 android:id="@+id/indicator1"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
                 android:background="@drawable/bg_inactive_indicator_dark" />
 
             <View
                 android:id="@+id/indicator2"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginStart="12dp"
                 android:background="@drawable/bg_inactive_indicator_dark" />
 
             <View
                 android:id="@+id/indicator3"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginStart="12dp"
                 android:background="@drawable/bg_inactive_indicator_dark" />
 
             <View
                 android:id="@+id/indicator4"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginStart="12dp"
                 android:background="@drawable/bg_inactive_indicator_dark" />
 
             <View
                 android:id="@+id/indicator5"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/bg_inactive_indicator_dark" />
+
+            <View
+                android:id="@+id/indicator6"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
+                android:layout_marginStart="12dp"
                 android:background="@drawable/bg_inactive_indicator_dark" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
+        </FrameLayout>
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/startBtn"
             android:layout_width="match_parent"
@@ -146,7 +159,7 @@
             android:onClick="@{handler::onBtnClicked}"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/indicatorsContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -156,6 +169,7 @@
                 android:background="@drawable/bg_btn" />
 
             <TextView
+                android:id="@+id/startBtnText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -166,6 +180,397 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </com.google.android.material.card.MaterialCardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/splash0102Container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toTopOf="@id/startBtn"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/icSplash0102Header"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/titleSplash0102"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/darkColor"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toTopOf="@id/icSplash0102Header"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/icSplash0102Header" />
+
+            <TextView
+                android:id="@+id/descSplash0102"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:textColor="@color/darkColor"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleSplash0102" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/splash0304Container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/startBtn"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="12dp">
+
+                    <TextView
+                        android:id="@+id/titleSplash0304"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="32dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="start"
+                        android:textSize="28sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/descSplash0304"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/roboto"
+                        android:gravity="start"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@id/titleSplash0304"
+                        app:layout_constraintTop_toBottomOf="@id/titleSplash0304" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/descSplash0304">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardVariant1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:clickable="true"
+                            android:elevation="4dp"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{handler::onVariantClicked}"
+                            app:cardCornerRadius="10dp">
+
+                            <View
+                                android:id="@+id/strokeVariant1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0"
+                                android:background="@drawable/gradient_variant_card_selected_light" />
+
+                            <TextView
+                                android:id="@+id/textVariant1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="20dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:gravity="start|center_vertical"
+                                android:paddingVertical="16dp"
+                                android:textSize="18sp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardVariant2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:clickable="true"
+                            android:elevation="4dp"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{handler::onVariantClicked}"
+                            app:cardCornerRadius="10dp">
+
+                            <View
+                                android:id="@+id/strokeVariant2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0"
+                                android:background="@drawable/gradient_variant_card_selected_light" />
+
+                            <TextView
+                                android:id="@+id/textVariant2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="20dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:gravity="start|center_vertical"
+                                android:paddingVertical="16dp"
+                                android:textSize="18sp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardVariant3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:clickable="true"
+                            android:elevation="4dp"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{handler::onVariantClicked}"
+                            app:cardCornerRadius="10dp">
+
+                            <View
+                                android:id="@+id/strokeVariant3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0"
+                                android:background="@drawable/gradient_variant_card_selected_light" />
+
+                            <TextView
+                                android:id="@+id/textVariant3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="20dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:gravity="start|center_vertical"
+                                android:paddingVertical="16dp"
+                                android:textSize="18sp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardVariant4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:clickable="true"
+                            android:elevation="4dp"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{handler::onVariantClicked}"
+                            app:cardCornerRadius="10dp">
+
+                            <View
+                                android:id="@+id/strokeVariant4"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0"
+                                android:background="@drawable/gradient_variant_card_selected_light" />
+
+                            <TextView
+                                android:id="@+id/textVariant4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="20dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:gravity="start|center_vertical"
+                                android:paddingVertical="16dp"
+                                android:textSize="18sp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardVariant5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:clickable="true"
+                            android:elevation="4dp"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:onClick="@{handler::onVariantClicked}"
+                            app:cardCornerRadius="10dp">
+
+                            <View
+                                android:id="@+id/strokeVariant5"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0"
+                                android:background="@drawable/gradient_variant_card_selected_light" />
+
+                            <TextView
+                                android:id="@+id/textVariant5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="20dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:gravity="start|center_vertical"
+                                android:paddingVertical="16dp"
+                                android:textSize="18sp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/splash05Container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toTopOf="@id/startBtn"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:gravity="center_vertical|start"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/titleSplash05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="start"
+                    android:textSize="28sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/descSplash05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="start"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@id/titleSplash05"
+                    app:layout_constraintTop_toBottomOf="@id/titleSplash05" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container1Splash05"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <ImageView
+                        android:id="@+id/ic01Splash05"
+                        android:src="@drawable/ic_splash_5_1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginVertical="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"/>
+
+                    <TextView
+                        android:id="@+id/text01Splash05"
+                        app:layout_constraintTop_toTopOf="@id/ic01Splash05"
+                        app:layout_constraintBottom_toBottomOf="@id/ic01Splash05"
+                        app:layout_constraintStart_toEndOf="@id/ic01Splash05"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:textSize="16sp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container2Splash05"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <ImageView
+                        android:id="@+id/ic02Splash05"
+                        android:src="@drawable/ic_splash_5_2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginVertical="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"/>
+
+                    <TextView
+                        android:id="@+id/text02Splash05"
+                        app:layout_constraintTop_toTopOf="@id/ic02Splash05"
+                        app:layout_constraintBottom_toBottomOf="@id/ic02Splash05"
+                        app:layout_constraintStart_toEndOf="@id/ic02Splash05"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:textSize="16sp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container3Splash05"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <ImageView
+                        android:id="@+id/ic03Splash05"
+                        android:src="@drawable/ic_splash_5_3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginVertical="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"/>
+
+                    <TextView
+                        android:id="@+id/text03Splash05"
+                        app:layout_constraintTop_toTopOf="@id/ic03Splash05"
+                        app:layout_constraintBottom_toBottomOf="@id/ic03Splash05"
+                        app:layout_constraintStart_toEndOf="@id/ic03Splash05"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:textSize="16sp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/raveContainer"
@@ -179,7 +584,9 @@
 
             <ImageView
                 android:id="@+id/raveLogo"
-                android:src="@drawable/ic_affirmation_logo"
+                android:alpha="0"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_start_logo"
                 android:layout_width="98dp"
                 android:layout_height="102dp"/>
 
@@ -187,7 +594,7 @@
                 android:id="@+id/raveTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/roboto_bold"
                 android:textSize="28sp"
                 android:layout_marginTop="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -202,7 +609,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -216,14 +623,18 @@
             android:alpha="0"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/startBtn"
-            app:layout_constraintTop_toTopOf="parent">
+
+            app:layout_constraintTop_toBottomOf="@id/backBtn">
 
             <TextView
                 android:id="@+id/nameTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="14dp"
+                android:gravity="center|bottom"
                 android:fontFamily="@font/roboto"
+                android:lines="2"
+                android:textStyle="bold"
                 android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -234,11 +645,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
-                android:lineSpacingExtra="7sp"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/nameTitle" />
@@ -248,13 +658,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="62dp"
+                android:layout_marginBottom="46dp"
                 android:backgroundTint="@color/darkHintColor"
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
                 android:includeFontPadding="true"
-                android:inputType="textCapWords"
-                android:letterSpacing="0.2"
+                android:inputType="textVisiblePassword|textNoSuggestions"
+                android:letterSpacing="0.12"
                 android:paddingBottom="24dp"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent" />
@@ -263,7 +673,7 @@
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="32dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="62dp"
                 android:alpha="0"
                 app:picker_textSize="20sp"
@@ -291,7 +701,7 @@
                 android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="32dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="20dp"
                 app:picker_textSize="20sp"
                 app:picker_curved="true"
@@ -316,8 +726,10 @@
                 android:gravity="center"
                 android:paddingVertical="12dp"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="52dp"
+                android:layout_marginBottom="25dp"
                 android:alpha="0"
+                android:textSize="16sp"
+                android:letterSpacing="0.12"
                 android:visibility="gone"
                 android:fontFamily="@font/roboto_bold"
                 android:onClick="@{handler::onBtnClicked}"
@@ -370,6 +782,7 @@
                 android:layout_marginTop="48dp"
                 android:gravity="center"
                 android:fontFamily="@font/roboto"
+                android:textStyle="bold"
                 android:textSize="32sp"
                 android:layout_marginHorizontal="32dp"
                 android:layout_width="match_parent"
@@ -405,4 +818,5 @@
             layout="@layout/view_place_select"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

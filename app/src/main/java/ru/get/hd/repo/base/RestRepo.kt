@@ -6,6 +6,7 @@ import ru.get.hd.model.CompatibilityResponse
 import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
 import ru.get.hd.model.Forecast
+import ru.get.hd.model.GeocodingNominatimFeature
 import ru.get.hd.model.GeocodingResponse
 import ru.get.hd.model.GetDesignResponse
 import ru.get.hd.model.TransitResponse
@@ -51,4 +52,5 @@ interface RestRepo {
     fun getFaq(): Single<List<Faq>>
 
     fun geocoding(url: String): Single<GeocodingResponse>
+    fun geocodingNominatim(url: String): Single<List<GeocodingNominatimFeature>>
 }

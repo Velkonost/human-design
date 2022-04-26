@@ -47,7 +47,7 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         super.onLayoutReady(savedInstanceState)
 
         setupData()
-        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+//        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
 
         binding.diagramsRecycler.setUpRemoveItemTouchHelper(
             ::onItemSwiped

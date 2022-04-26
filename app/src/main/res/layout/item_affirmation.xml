@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
+        android:gravity="start"
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
 
@@ -55,6 +55,7 @@
 
             <TextView
                 android:id="@+id/affirmationText"
+                android:textStyle="italic"
                 android:textColor="@color/lightColor"
                 app:layout_constraintTop_toBottomOf="@id/affirmationLogo"
                 app:layout_constraintBottom_toTopOf="@id/shareBtnGuideline"
@@ -63,7 +64,7 @@
                 android:paddingVertical="12dp"
                 android:paddingHorizontal="16dp"
                 android:background="@drawable/bg_affirmation_text"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/vollkorn_extrabold"
                 android:layout_marginBottom="32dp"
                 android:layout_marginHorizontal="22dp"
                 android:layout_width="match_parent"

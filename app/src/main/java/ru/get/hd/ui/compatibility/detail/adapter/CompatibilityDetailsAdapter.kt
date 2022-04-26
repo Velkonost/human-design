@@ -171,7 +171,7 @@ class ProfilesModel(
         root = view
 
         with(view) {
-            profileTitle.text = "$profileTitleValue • ${App.resourcesProvider.getStringLocale(R.string.profile_title)} $line"
+            profileTitle.text = "$profileTitleValue ${App.resourcesProvider.getStringLocale(R.string.profile_title)} $line"
             profileDesc.text = profileDescriptionValue
 
             profileTitle.setTextColor(ContextCompat.getColor(

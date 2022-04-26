@@ -55,7 +55,7 @@ class DiagramModel(
             userName.text = model.name
             subtitle.text =
                 "${if (App.preferences.locale == "ru") model.subtitle1Ru else model.subtitle1En} • " +
-                        "${model.subtitle2} • " +
+                        "${model.subtitle2} •\n" +
                         "${if (App.preferences.locale == "ru") model.subtitle3Ru else model.subtitle3En}"
 
             userName.setTextColor(

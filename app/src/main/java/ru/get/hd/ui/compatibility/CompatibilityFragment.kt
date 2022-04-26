@@ -38,6 +38,7 @@ import ru.get.hd.event.HelpType
 import ru.get.hd.event.ShowHelpEvent
 import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
+import ru.get.hd.model.getDateStr
 import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.compatibility.adapter.CompatibilityAdapter
@@ -85,7 +86,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         baseViewModel.setupCompatibility(
             lat1 = e.user.lat,
             lon1 = e.user.lon,
-            date = e.user.date,
+            date = e.user.getDateStr(),
         ) {
             router.navigateTo(Screens.compatibilityDetailScreen(
                 name = e.user.name,

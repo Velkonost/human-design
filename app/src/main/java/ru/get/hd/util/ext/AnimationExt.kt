@@ -5,6 +5,8 @@ import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import ru.get.hd.App
+import ru.get.hd.ui.start.makeGradientAppName
 
 fun TextView.setTextAnimation(
     text: String,
@@ -13,6 +15,31 @@ fun TextView.setTextAnimation(
 ) {
     fadOutAnimation(duration) {
         this.text = Html.fromHtml(text)
+        fadInAnimation(duration) {
+            completion?.let {
+                it()
+            }
+        }
+    }
+}
+
+fun TextView.setTextAnimationWithGradientAppName(
+    text: String,
+    duration: Long = 300,
+    completion: (() -> Unit)? = null
+) {
+    fadOutAnimation(duration) {
+        this.text = Html.fromHtml(text)
+        this.makeGradientAppName(
+            Pair(
+                when {
+                    text.contains("Human Design") -> "Human Design"
+                    text.contains("Дизайна Человека") -> "Дизайна Человека"
+                    else -> "Дизайне Человека"
+                }
+            , View.OnClickListener {}
+            )
+        )
         fadInAnimation(duration) {
             completion?.let {
                 it()

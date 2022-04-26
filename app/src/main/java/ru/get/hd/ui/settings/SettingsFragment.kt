@@ -28,7 +28,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+//        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
     }
 
     private fun setupLocale() {
@@ -63,6 +63,19 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         setupLocale()
 
         binding.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+
+        binding.personalInfoArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.faqArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor
             else R.color.darkColor

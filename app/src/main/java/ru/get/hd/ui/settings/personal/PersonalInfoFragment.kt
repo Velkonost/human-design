@@ -99,10 +99,10 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
         calendar.timeInMillis = baseViewModel.currentUser.date
         val dateStr = formatter.format(calendar.time)
 
-        binding.nameET.setTextAnimation(baseViewModel.currentUser.name)
-        binding.placeET.setTextAnimation(baseViewModel.currentUser.place)
-        binding.dateET.setTextAnimation(dateStr)
-        binding.timeET.setTextAnimation(baseViewModel.currentUser.time)
+        binding.nameET.setText(baseViewModel.currentUser.name)
+        binding.placeET.setText(baseViewModel.currentUser.place)
+        binding.dateET.setText(dateStr)
+        binding.timeET.setText(baseViewModel.currentUser.time)
 
         setupPlacesView()
 
@@ -146,7 +146,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
                 calendar.timeInMillis = this.date.date.time
                 val dateStr = formatter.format(calendar.time)
-                binding.dateET.setTextAnimation(dateStr)
+                binding.dateET.setText(dateStr)
 
                 selectedDate = this.date.date.time
             }
@@ -169,7 +169,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
                     "%02d",
                     this.time.hoursPicker.currentHour
                 ) + ":" + String.format("%02d", this.time.minutesPicker.currentMinute)
-                binding.timeET.setTextAnimation(newTime)
+                binding.timeET.setText(newTime)
 
                 selectedTime = newTime
             }
@@ -182,16 +182,16 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
     }
 
     private fun setupLocale() {
-        binding.done.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.done_title))
-        binding.personalInfoTitle.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.personal_info_title))
-        binding.nameTitle.setTextAnimation07(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.name_title))
-        binding.placeTitle.setTextAnimation07(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.city_birth_title))
-        binding.dateTitle.setTextAnimation07(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.date_birth_title))
-        binding.timeTitle.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.time_birth_title))
+        binding.done.text = App.resourcesProvider.getStringLocale(ru.get.hd.R.string.done_title)
+        binding.personalInfoTitle.text = App.resourcesProvider.getStringLocale(ru.get.hd.R.string.personal_info_title)
+        binding.nameTitle.text = App.resourcesProvider.getStringLocale(ru.get.hd.R.string.name_title)
+        binding.placeTitle.text = App.resourcesProvider.getStringLocale(ru.get.hd.R.string.city_birth_title)
+        binding.dateTitle.text = App.resourcesProvider.getStringLocale(ru.get.hd.R.string.date_birth_title)
+        binding.timeTitle.text = App.resourcesProvider.getStringLocale(R.string.time_birth_title)
 
         binding.confirmTitle.text = App.resourcesProvider.getStringLocale(R.string.confirm_title)
         binding.confirmText.text = App.resourcesProvider.getStringLocale(R.string.confirm_text)
-        binding.confirmBtn.text = App.resourcesProvider.getStringLocale(R.string.confirm)
+        binding.confirmBtnText.text = App.resourcesProvider.getStringLocale(R.string.confirm)
     }
 
     override fun updateThemeAndLocale() {
@@ -229,6 +229,30 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             )
         )
 
+        binding.placesView.newPlaceET.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+
+        binding.placesView.newPlaceET.setHintTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
+
+        binding.placesView.newPlaceET.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
+
         binding.placesView.placesViewContainer.setBackgroundColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -244,12 +268,6 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
         ))
 
         binding.personalInfoTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
-
-        binding.done.setTextColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor
             else R.color.darkColor
@@ -345,12 +363,6 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             else R.color.darkColor
         ))
 
-        binding.confirmBtn.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
-
         binding.confirmCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.darkSettingsCard
@@ -362,6 +374,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             if (App.preferences.isDarkTheme) R.color.darkColor
             else R.color.lightColor
         ))
+
 
     }
 
@@ -392,6 +405,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
         binding.placesView.icArrow.setOnClickListener {
             binding.placesView.isVisible = false
+            binding.doneBtn.isVisible = true
             placesAdapter.createList(emptyList())
         }
 
@@ -425,13 +439,6 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 //            }
 //        }
     }
-
-    private suspend fun getSuggestions(): List<Address> =
-        coroutineScope {
-            withContext(Dispatchers.IO) {
-                geocoder.getFromLocationName(binding.placesView.newPlaceET.text.toString(), 300)
-            }
-        }
 
     private fun showConfirmView() {
         binding.confirmCard.animate()
@@ -483,6 +490,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
         binding.placesView.isVisible = false
         binding.placesView.newPlaceET.setText("")
+        binding.doneBtn.isVisible = true
         placesAdapter.createList(emptyList())
 
         binding.placeET.setText(e.place.name)
@@ -513,6 +521,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
         fun onPlaceClicked(v: View) {
             binding.placesView.isVisible = true
+            binding.doneBtn.isVisible = false
         }
 
         fun onDateClicked(v: View) {

@@ -79,6 +79,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             initStartPage()
         }
 
+        (binding.progressBar.drawable as GifDrawable).setSpeed(3f)
+
         navigator = SupportAppNavigator(this, R.id.subContainer)
         navigationHolder.setNavigator(navigator)
 
@@ -243,10 +245,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 SplashPage.SPLASH_02.pageId,
                 SplashPage.SPLASH_03.pageId,
                 SplashPage.SPLASH_04.pageId,
-                SplashPage.SPLASH_05.pageId -> {
-                    Screens.splashScreen()
-
-                }
+                SplashPage.SPLASH_05.pageId,
                 StartPage.RAVE.pageId,
                 StartPage.NAME.pageId,
                 StartPage.DATE_BIRTH.pageId,
@@ -293,6 +292,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private fun updateNavMenuVisible(isVisible: Boolean) {
         binding.navViewContainer.isVisible = isVisible
+        binding.navViewBreakline.isVisible = isVisible
     }
 
     @Subscribe
@@ -375,6 +375,12 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             )
         )
 
+        binding.navViewBreakline.setBackgroundColor(ContextCompat.getColor(
+            this,
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
         binding.navView.setBackgroundColor(
             ContextCompat.getColor(
                 this,
@@ -411,6 +417,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         )
 
         binding.navViewContainer.isVisible = true
+        binding.navViewBreakline.isVisible = true
         binding.navView.isVisible = true
 
         binding.navView.itemIconTintList = null

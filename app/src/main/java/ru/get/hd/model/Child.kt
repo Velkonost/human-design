@@ -3,6 +3,10 @@ package ru.get.hd.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ru.get.hd.App
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Entity(tableName = "children")
 data class Child(
@@ -63,3 +67,18 @@ data class Child(
     @ColumnInfo(name = "kidDescriptionEn")
     var kidDescriptionEn: String? = null
 )
+
+fun Child.getDateStr(): String {
+    val hours = time.split(":")[0].toInt()
+    val minutes = time.split(":")[1].toInt()
+
+    val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
+    formatter.timeZone = TimeZone.getTimeZone("GMT")
+
+    val cal = GregorianCalendar(TimeZone.getTimeZone("GMT"))
+
+    cal.timeInMillis =
+        (date / 86400000).toInt() * 86400000L + hours * 3600000L + minutes * 60000L
+
+    return formatter.format(cal.time)
+}

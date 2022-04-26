@@ -157,7 +157,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 if (isFirstFragmentLaunch) {
                     binding.subtitle1.setTextAnimation07(
                         "${if (App.preferences.locale == "ru") it.typeRu else it.typeEn} • " +
-                                "${it.line} • " +
+                                "${it.line} •<br>" +
                                 "${if (App.preferences.locale == "ru") it.profileRu else it.profileEn}"
                     ) {
                         binding.subtitle1.alpha = 0.5f
@@ -165,7 +165,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 } else {
                     binding.subtitle1.text =
                         "${if (App.preferences.locale == "ru") it.typeRu else it.typeEn} • " +
-                            "${it.line} • " +
+                            "${it.line} •\n" +
                             "${if (App.preferences.locale == "ru") it.profileRu else it.profileEn}"
                 }
             }

@@ -300,16 +300,34 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
     override fun onViewModelReady(viewModel: StartViewModel) {
         super.onViewModelReady(viewModel)
 
-        viewModel.suggestions.observe(this) {
+//        viewModel.suggestions.observe(this) {
+//            val addresses: MutableList<Place> = mutableListOf()
+//
+//            it.features.forEach { feature ->
+//                if (addresses.none { it.name == feature.placeName }) {
+//                    addresses.add(
+//                        Place(
+//                            name = feature.placeName,
+//                            lat = feature.center[0].toString(),
+//                            lon = feature.center[1].toString()
+//                        )
+//
+//                    )
+//                }
+//            }
+//            placesAdapter.createList(addresses.toList())
+//        }
+
+        viewModel.nominatimSuggestions.observe(this) { list ->
             val addresses: MutableList<Place> = mutableListOf()
 
-            it.features.forEach { feature ->
+            list.forEach { feature ->
                 if (addresses.none { it.name == feature.placeName }) {
                     addresses.add(
                         Place(
                             name = feature.placeName,
-                            lat = feature.center[0].toString(),
-                            lon = feature.center[1].toString()
+                            lat = feature.lat,
+                            lon = feature.lon
                         )
 
                     )
@@ -317,6 +335,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             }
             placesAdapter.createList(addresses.toList())
         }
+
 
         viewModel.reverseSuggestions.observe(this) { geo ->
             if (!geo.features.isNullOrEmpty()) {
@@ -335,7 +354,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         binding.placesView.newPlaceET.addTextChangedListener {
             if (!binding.placesView.newPlaceET.text.isNullOrEmpty()) {
-                binding.viewModel!!.geocoding(binding.placesView.newPlaceET.text.toString())
+                binding.viewModel!!.geocodingNominatim(binding.placesView.newPlaceET.text.toString())
             }
         }
     }

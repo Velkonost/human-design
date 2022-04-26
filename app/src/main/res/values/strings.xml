@@ -59,10 +59,11 @@
 ]]></string>
     <string name="understand">Понятно</string>
     <string name="continue_btn">Продолжить</string>
+    <string name="start_rave_btn_text">Создать</string>
 
     <string name="start_name_title">Ваше имя?</string>
     <string name="start_name_desc"><![CDATA[Давайте знакомиться! Представьтесь,<br>пожалуйста, чтобы мы знали, как<br>лучше к вам обращаться!]]></string>
-    <string name="start_name_hint">ИМЯ</string>
+    <string name="start_name_hint">Имя</string>
 
     <string name="start_date_title">Дата рождения</string>
     <string name="start_date_desc"><![CDATA[ , укажите дату рождения,<br>и мы сможем построить ваш личный<br>бодиграф!]]></string>
@@ -100,7 +101,7 @@
     <string name="daily_transits_title">Транзиты сегодня</string>
     <string name="gates_title">Ворота</string>
     <string name="channels_title">Каналы</string>
-    <string name="next_transit_text">следующий транзит будет завтра</string>
+    <string name="next_transit_text">Следующий транзит будет завтра</string>
 
     <string name="design_title">Дизайн</string>
     <string name="transit_title">Транзит</string>
@@ -133,10 +134,10 @@
     <string name="children_title">Дети</string>
     <string name="compatibility_title">Взаимоотношения</string>
 
-    <string name="name_title">ИМЯ</string>
-    <string name="city_birth_title">ГОРОД, СТРАНА</string>
-    <string name="date_birth_title">ДАТА РОЖДЕНИЯ</string>
-    <string name="time_birth_title">ВРЕМЯ РОЖДЕНИЯ</string>
+    <string name="name_title">Имя</string>
+    <string name="city_birth_title">Город, страна</string>
+    <string name="date_birth_title">Дата рождения</string>
+    <string name="time_birth_title">Время рождения</string>
     <string name="personal_info_title">Персональная информация</string>
     <string name="done_title">Готово</string>
     <string name="confirm">Подтвердить</string>

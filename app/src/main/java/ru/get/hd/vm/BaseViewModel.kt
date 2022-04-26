@@ -24,6 +24,7 @@ import ru.get.hd.model.Forecast
 import ru.get.hd.model.GetDesignResponse
 import ru.get.hd.model.TransitResponse
 import ru.get.hd.model.User
+import ru.get.hd.model.getDateStr
 import ru.get.hd.repo.base.RestRepo
 import ru.get.hd.util.RxViewModel
 import ru.get.hd.util.SingleLiveEvent
@@ -107,9 +108,6 @@ class BaseViewModel @Inject constructor(
         val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
         val calendar: Calendar = Calendar.getInstance()
 
-        calendar.timeInMillis = currentUser.date
-        val currentUserDateStr = formatter.format(calendar.time)
-
         calendar.timeInMillis = date
         val dateStr = formatter.format(calendar.time)
 
@@ -117,7 +115,7 @@ class BaseViewModel @Inject constructor(
             language = App.preferences.locale,
             lat = currentUser.lat,
             lon = currentUser.lon,
-            date = currentUserDateStr,
+            date = currentUser.getDateStr(),
             lat1, lon1, dateStr
         ).subscribe({
             onComplete.invoke()
@@ -130,17 +128,11 @@ class BaseViewModel @Inject constructor(
     }
 
     private fun setupCurrentBodygraph() {
-        val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
-        val calendar: Calendar = Calendar.getInstance()
-
-        calendar.timeInMillis = currentUser.date
-        val dateStr = formatter.format(calendar.time)
-
         repo.getDesign(
             language = App.preferences.locale,
             lat = currentUser.lat,
             lon = currentUser.lon,
-            date = dateStr
+            date = currentUser.getDateStr()
         ).subscribe({
             currentUser.subtitle1Ru = it.typeRu
             currentUser.subtitle1En = it.typeEn
@@ -166,9 +158,6 @@ class BaseViewModel @Inject constructor(
         val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
         val calendar: Calendar = Calendar.getInstance()
 
-        calendar.timeInMillis = currentUser.date
-        val dateStr = formatter.format(calendar.time)
-
         calendar.timeInMillis = System.currentTimeMillis()
         val currentDateStr = formatter.format(calendar.time)
 
@@ -176,7 +165,7 @@ class BaseViewModel @Inject constructor(
             language = App.preferences.locale,
             lat = currentUser.lat,
             lon = currentUser.lon,
-            date = dateStr,
+            date = currentUser.getDateStr(),
             currentDate = currentDateStr
         ).subscribe({
             currentTransit.postValue(it)
@@ -237,17 +226,11 @@ class BaseViewModel @Inject constructor(
     ) {
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
 
-        val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
-        val calendar: Calendar = Calendar.getInstance()
-
-        calendar.timeInMillis = partner.date
-        val dateStr = formatter.format(calendar.time)
-
         repo.getDesign(
             language = App.preferences.locale,
             lat = partner.lat,
             lon = partner.lon,
-            date = dateStr
+            date = partner.getDateStr()
         ).subscribe({
             currentPartnerBodygraph.postValue(it)
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
@@ -274,17 +257,11 @@ class BaseViewModel @Inject constructor(
     ) {
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
 
-        val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
-        val calendar: Calendar = Calendar.getInstance()
-
-        calendar.timeInMillis = child.date
-        val dateStr = formatter.format(calendar.time)
-
         repo.getDesignChild(
             language = App.preferences.locale,
             lat = child.lat,
             lon = child.lon,
-            date = dateStr
+            date = child.getDateStr()
         ).subscribe({
             currentChildBodygraph.postValue(it)
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))

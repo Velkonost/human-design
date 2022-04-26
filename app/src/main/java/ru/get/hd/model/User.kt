@@ -3,6 +3,12 @@ package ru.get.hd.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.skydoves.balloon.iconForm
+import okhttp3.internal.http.toHttpDateString
+import ru.get.hd.App
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Entity(tableName = "users")
 data class User(
@@ -67,3 +73,18 @@ data class User(
     var isInjuryGenerated: Boolean = false
 
 )
+
+fun User.getDateStr(): String {
+    val hours = time.split(":")[0].toInt()
+    val minutes = time.split(":")[1].toInt()
+
+    val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
+    formatter.timeZone = TimeZone.getTimeZone("GMT")
+
+    val cal = GregorianCalendar(TimeZone.getTimeZone("GMT"))
+
+    cal.timeInMillis =
+        (date / 86400000).toInt() * 86400000L + hours * 3600000L + minutes * 60000L
+
+    return formatter.format(cal.time)
+}

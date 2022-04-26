@@ -21,11 +21,12 @@
 
             <TextView
                 android:id="@+id/channelsTitle"
+                android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="24dp"
-                android:paddingHorizontal="24dp"
+                android:paddingHorizontal="20dp"
                 android:fontFamily="@font/roboto"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -34,11 +35,10 @@
                 android:id="@+id/channelsDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="12dp"
                 android:alpha="0.7"
                 android:fontFamily="@font/roboto"
-                android:lineSpacingExtra="7sp"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/channelsTitle" />
 

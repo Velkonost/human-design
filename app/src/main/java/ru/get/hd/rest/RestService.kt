@@ -9,6 +9,7 @@ import ru.get.hd.model.CompatibilityResponse
 import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
 import ru.get.hd.model.Forecast
+import ru.get.hd.model.GeocodingNominatimFeature
 import ru.get.hd.model.GeocodingResponse
 import ru.get.hd.model.GetDesignResponse
 import ru.get.hd.model.TransitResponse
@@ -71,6 +72,11 @@ interface RestService {
     fun geocoding(
         @Url url: String
     ): Single<GeocodingResponse>
+
+    @GET
+    fun geocodingNominatim(
+        @Url url: String
+    ): Single<List<GeocodingNominatimFeature>>
 
 //  Метод получения способа загрузки адрессов
 //    @GET("/getapple.php")

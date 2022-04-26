@@ -27,12 +27,12 @@ With the help of Human Design, you will<br>learn how you can live your life with
     <string name="title_splash_03"><![CDATA[Did you know<br>something about<br>Human Design?]]></string>
     <string name="title_splash_04"><![CDATA[What would you like<br>to get using<br>Human Design?]]></string>
 
-    <string name="desc_splash_03"><![CDATA[Your answers will help us find a more<br>personalized approach for you.]]></string>
-    <string name="desc_splash_04"><![CDATA[Your answers will help us choose a<br>personal approach.]]></string>
+    <string name="desc_splash_03"><![CDATA[Your answers will help us find<br>a more personalized approach for you.]]></string>
+    <string name="desc_splash_04"><![CDATA[Your answers will help us choose<br>a personal approach.]]></string>
 
     <string name="variant_1_splash_03"><![CDATA[I didn\'t know anything<br>about Human Design]]></string>
-    <string name="variant_2_splash_03"><![CDATA[I knew something,<br>but superficially]]></string>
-    <string name="variant_3_splash_03"><![CDATA[I understand a little<br>about this system]]></string>
+    <string name="variant_2_splash_03"><![CDATA[I knew something, but<br>superficially]]></string>
+    <string name="variant_3_splash_03"><![CDATA[I understand a little about<br>this system]]></string>
     <string name="variant_4_splash_03"><![CDATA[I study Human Design<br>professionally]]></string>
 
     <string name="variant_1_splash_04"><![CDATA[Know yourself better]]></string>
@@ -61,20 +61,21 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
 ]]></string>
     <string name="understand">Continue</string>
     <string name="continue_btn">Continue</string>
+    <string name="start_rave_btn_text">Create</string>
 
-    <string name="start_name_title">What is your name?</string>
+    <string name="start_name_title"><![CDATA[What is<br>your name?]]></string>
     <string name="start_name_desc"><![CDATA[Let’s get acquainted! Please introduce<br>yourself so that we know how best to<br>address you!]]></string>
-    <string name="start_name_hint">NAME</string>
+    <string name="start_name_hint">Name</string>
 
     <string name="start_date_title">Date of birth</string>
-    <string name="start_date_desc"><![CDATA[ , enter the date of birth,<br>and we will calculate your personal<br>bodygraph!]]></string>
+    <string name="start_date_desc"><![CDATA[ , enter the date of birth, and<br>we will calculate your personal bodygraph!]]></string>
 
     <string name="start_time_title">Time of birth</string>
-    <string name="start_time_desc"><![CDATA[Нет перевода на англ(]]></string>
-    <string name="start_time_skip">I DON’T KNOW THE TIME</string>
+    <string name="start_time_desc"><![CDATA[It will show the exact location of the planets<br>and stars at the time of your birth, which is<br>important for calculating the card.]]></string>
+    <string name="start_time_skip">I DON\'T KNOW FOR SURE</string>
 
     <string name="start_place_title">Place of birth</string>
-    <string name="start_place_desc"><![CDATA[The place where you were born is very<br>important. We will be able to accurately<br>determine the position of the heavenly<br>bodies that have left an imprint on your<br>destiny.]]></string>
+    <string name="start_place_desc"><![CDATA[The place where you were born is very<br>important. We will be able to accurately<br>determine the position of the heavenly<br>bodies that have left an imprint<br>on your destiny.]]></string>
     <string name="start_place_hint">CITY, COUNTRY</string>
 
     <string name="settings_title">Settings</string>
@@ -97,10 +98,10 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="next_forecast_text">Your individual weekly forecast</string>
     <string name="affirmation_share">Share</string>
 
-    <string name="daily_transits_title">Daily transits</string>
+    <string name="daily_transits_title">Planet transits</string>
     <string name="gates_title">Gates</string>
     <string name="channels_title">Channels</string>
-    <string name="next_transit_text">the next transit will be tomorrow</string>
+    <string name="next_transit_text">The next transit will be tomorrow</string>
 
     <string name="design_title">Design</string>
     <string name="transit_title">Transit</string>
@@ -133,15 +134,15 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="children_title">Children</string>
     <string name="compatibility_title">Relationship</string>
 
-    <string name="name_title">NAME</string>
-    <string name="city_birth_title">CITY OF BIRTH</string>
-    <string name="date_birth_title">DATE OF BIRTH</string>
-    <string name="time_birth_title">TIME OF BIRTH</string>
+    <string name="name_title">Name</string>
+    <string name="city_birth_title">City of birth</string>
+    <string name="date_birth_title">Date of birth</string>
+    <string name="time_birth_title">Time of birth</string>
     <string name="personal_info_title">Personal info</string>
     <string name="done_title">Done</string>
     <string name="confirm">Confirm</string>
     <string name="confirm_title">Are you sure?</string>
-    <string name="confirm_text">The introduction of new data will lead to the fact that your design will irreversibly change. Are you sure you want to change the data?</string>
+    <string name="confirm_text">The introduction of new data will lead\nto the fact that your design will\nirreversibly change. Are you sure you\nwant to change the data?</string>
 
     <string name="type_title">Type</string>
     <string name="profile_title">Profile</string>
@@ -150,7 +151,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="injury_title">Trauma Suppression</string>
 
     <string name="start_bodygraph_ready_title">Bodygraph is ready!</string>
-    <string name="start_bodygraph_ready_text">Now you can reveal all the secrets of your relationship and learn to live in harmony.</string>
+    <string name="start_bodygraph_ready_text"><![CDATA[Now all the personality secrets will be<br>revealed to you, you will find the best ways<br>for harmonious contact and productive<br>interaction.]]></string>
 
     <string-array name="push_titles">
         <item>Guide to discover your true Self 👤</item>

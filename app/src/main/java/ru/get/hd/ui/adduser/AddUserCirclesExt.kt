@@ -25,6 +25,7 @@ fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
         StartPage.TIME_BIRTH -> 4
         StartPage.PLACE_BIRTH -> 5
         StartPage.BODYGRAPH -> 6
+        else -> 1
     }
 
     val newSizeBigCircle = when (currentStartPage) {
@@ -34,6 +35,7 @@ fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
         StartPage.TIME_BIRTH -> requireContext().convertDpToPx(461f)
         StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(332f)
         StartPage.BODYGRAPH -> requireContext().convertDpToPx(332f)
+        else -> requireContext().convertDpToPx(848f)
     }
 
     val newSizeMidCircle = when (currentStartPage) {
@@ -43,6 +45,7 @@ fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
         StartPage.TIME_BIRTH -> requireContext().convertDpToPx(380f)
         StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(270f)
         StartPage.BODYGRAPH -> requireContext().convertDpToPx(270f)
+        else -> requireContext().convertDpToPx(790f)
     }
 
     val oldSizeBigCircle = when (currentStartPage) {
@@ -52,6 +55,7 @@ fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
         StartPage.TIME_BIRTH -> requireContext().convertDpToPx(590f)
         StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(461f)
         StartPage.BODYGRAPH -> requireContext().convertDpToPx(461f)
+        else -> requireContext().convertDpToPx(977f)
     }
 
     val oldSizeMidCircle = when (currentStartPage) {
@@ -61,6 +65,7 @@ fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
         StartPage.TIME_BIRTH -> requireContext().convertDpToPx(530f)
         StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(400f)
         StartPage.BODYGRAPH -> requireContext().convertDpToPx(400f)
+        else -> requireContext().convertDpToPx(977f)
     }
 
     val animSizeBigCircle =
@@ -130,6 +135,7 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
         StartPage.TIME_BIRTH -> StartPage.DATE_BIRTH
         StartPage.PLACE_BIRTH -> StartPage.TIME_BIRTH
         StartPage.BODYGRAPH -> StartPage.BODYGRAPH
+        else -> StartPage.RAVE
     }
 
     val step = when (prevStartPage) {
@@ -139,6 +145,7 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
         StartPage.TIME_BIRTH -> 3
         StartPage.PLACE_BIRTH -> 4
         StartPage.BODYGRAPH -> 5
+        else -> 0
     }
 
 
@@ -149,6 +156,7 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
         StartPage.TIME_BIRTH -> requireContext().convertDpToPx(461f)
         StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(332f)
         StartPage.BODYGRAPH -> requireContext().convertDpToPx(332f)
+        else -> requireContext().convertDpToPx(848f)
     }
 
     val oldSizeMidCircle = when (prevStartPage) {
@@ -158,6 +166,7 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
         StartPage.TIME_BIRTH -> requireContext().convertDpToPx(380f)
         StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(270f)
         StartPage.BODYGRAPH -> requireContext().convertDpToPx(270f)
+        else -> requireContext().convertDpToPx(790f)
     }
 
     val newSizeBigCircle = when (prevStartPage) {
@@ -167,6 +176,7 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
         StartPage.TIME_BIRTH -> requireContext().convertDpToPx(590f)
         StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(461f)
         StartPage.BODYGRAPH -> requireContext().convertDpToPx(461f)
+        else -> requireContext().convertDpToPx(977f)
     }
 
     val newSizeMidCircle = when (prevStartPage) {
@@ -176,6 +186,7 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
         StartPage.TIME_BIRTH -> requireContext().convertDpToPx(480f)
         StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(400f)
         StartPage.BODYGRAPH -> requireContext().convertDpToPx(400f)
+        else -> requireContext().convertDpToPx(977f)
     }
 
     val animSizeBigCircle =
@@ -254,6 +265,7 @@ fun AddUserFragment.startCirclesRotation(
         StartPage.TIME_BIRTH -> 0.5f
         StartPage.PLACE_BIRTH -> 0.5f
         StartPage.BODYGRAPH -> 0.5f
+        else -> 0.5f
     }
 
     val pivotXMidCircle = when (page) {
@@ -263,6 +275,7 @@ fun AddUserFragment.startCirclesRotation(
         StartPage.TIME_BIRTH -> 0.51f
         StartPage.PLACE_BIRTH -> 0.5f
         StartPage.BODYGRAPH -> 0.5f
+        else -> 0.5f
     }
 
     val pivotYBigCircle = when (page) {
@@ -272,6 +285,7 @@ fun AddUserFragment.startCirclesRotation(
         StartPage.TIME_BIRTH -> 0.165f
         StartPage.PLACE_BIRTH -> -0.08f
         StartPage.BODYGRAPH -> -0.5f
+        else -> 0.5f
     }
 
     val pivotYMidCircle = when (page) {
@@ -281,6 +295,7 @@ fun AddUserFragment.startCirclesRotation(
         StartPage.TIME_BIRTH -> 0.01f
         StartPage.PLACE_BIRTH -> -0.33f
         StartPage.BODYGRAPH -> -0.95f
+        else -> 0.5f
     }
 
     val rotate = RotateAnimation(

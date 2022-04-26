@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -627,7 +628,17 @@ public class SingleDateAndTimePicker extends LinearLayout {
 //        setTextColor(a.getColor(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_textColor, ContextCompat.getColor(context, com.github.florent37.singledateandtimepicker.R.color.picker_default_text_color)));
 //        setSelectedTextColor(a.getColor(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_selectedTextColor, ContextCompat.getColor(context, com.github.florent37.singledateandtimepicker.R.color.picker_default_selected_text_color)));
 //        setSelectorColor(a.getColor(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_selectorColor, ContextCompat.getColor(context, com.github.florent37.singledateandtimepicker.R.color.picker_default_selector_color)));
-        setItemSpacing(a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_itemSpacing, resources.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.dimen.wheelSelectorHeight)));
+
+        float dip = 14f;
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dip,
+                r.getDisplayMetrics()
+        );
+        setItemSpacing(Math.round(px)
+//                a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_itemSpacing, resources.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.dimen.wheelSelectorHeight))
+        );
         setCurvedMaxAngle(a.getInteger(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_curvedMaxAngle, WheelPicker.MAX_ANGLE));
         setSelectorHeight(a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_selectorHeight, resources.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.dimen.wheelSelectorHeight)));
         setTextSize(a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_textSize, resources.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.dimen.WheelItemTextSize)));
