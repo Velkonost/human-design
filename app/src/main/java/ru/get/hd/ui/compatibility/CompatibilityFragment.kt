@@ -3,10 +3,12 @@ package ru.get.hd.ui.compatibility
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.icu.text.Transliterator
 import android.os.Bundle
 import android.os.Handler
 import android.view.Gravity
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,7 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonCenterAlign
 import com.skydoves.balloon.BalloonSizeSpec
 import com.skydoves.balloon.overlay.BalloonOverlayRect
+import com.skydoves.balloon.overlay.BalloonOverlayRoundRect
 import kotlinx.android.synthetic.main.item_diagram.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +58,12 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     private var isPartnersHelpShowing = false
     private var isChildrenHelpShowing = false
 
+    private val fromAddChild: Boolean by lazy {
+        arguments?.getBoolean("fromAddChild")?: false
+    }
+
+    private var fromAddChildUser = false
+
     private val compatibilityAdapter: CompatibilityAdapter by lazy {
         CompatibilityAdapter()
     }
@@ -86,7 +95,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         baseViewModel.setupCompatibility(
             lat1 = e.user.lat,
             lon1 = e.user.lon,
-            date = e.user.getDateStr(),
+            date = e.user.date,
         ) {
             router.navigateTo(Screens.compatibilityDetailScreen(
                 name = e.user.name,
@@ -133,7 +142,9 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             else R.color.lightSettingsCard
         ))
 
-        selectPartners()
+        if (fromAddChild) selectChildren()
+        else selectPartners()
+
         setupViewPager()
     }
 
@@ -159,8 +170,8 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             )
             .setTextIsHtml(true)
             .setOverlayColorResource(R.color.helpBgColor)
+            .setOverlayShape(BalloonOverlayRoundRect(20f, 20f))
             .setIsVisibleOverlay(true)
-            .setOverlayShape(BalloonOverlayRect)
             .setBackgroundColor(
                 Color.parseColor("#4D494D")
             )
@@ -201,7 +212,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             .setTextIsHtml(true)
             .setOverlayColorResource(R.color.helpBgColor)
             .setIsVisibleOverlay(true)
-            .setOverlayShape(BalloonOverlayRect)
+            .setOverlayShape(BalloonOverlayRoundRect(20f, 20f))
             .setBackgroundColor(
                 Color.parseColor("#4D494D")
             )
@@ -233,7 +244,8 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
         binding.partnersTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.childrenTitle.background = null
@@ -262,7 +274,8 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
         binding.childrenTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.partnersTitle.background = null
@@ -271,14 +284,14 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             isChildrenHelpShowing = true
             android.os.Handler().postDelayed({
                 showChildrenHelp()
-            }, 500)
-
+            }, 100)
         }
-
     }
 
     private fun setupViewPager() {
         binding.viewPager.offscreenPageLimit = 1
+        binding.viewPager.isUserInputEnabled = false
+
         binding.viewPager.adapter = compatibilityAdapter
 
         GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
@@ -286,19 +299,35 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                 .toMutableList().filter { it.id != App.preferences.currentUserId }
             val children = baseViewModel.getAllChildren()
 
-            compatibilityAdapter.createList(partners, children.filter { it.parentId == App.preferences.currentUserId })
+            if (!compatibilityAdapter.isCreated)
+                compatibilityAdapter.createList(partners, children.filter { it.parentId == App.preferences.currentUserId })
+            else compatibilityAdapter.updateList(partners, children.filter { it.parentId == App.preferences.currentUserId })
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
-                when(position) {
-                    0 -> selectPartners()
-                    1 -> selectChildren()
-                }
+//                if (fromAddChild && !fromAddChildUser) {
+//                    binding.viewPager.setCurrentItem(1, false)
+//                    selectChildren()
+//                    fromAddChildUser = true
+//                }
+//                else
+//                    when(position) {
+//                    0 -> selectPartners()
+//                    1 -> selectChildren()
+//                }
             }
         })
+
+        binding.viewPager.postDelayed ({
+            if (fromAddChild) {
+                binding.viewPager.setCurrentItem(1, false)
+                selectChildren()
+            }
+        }, 300)
+
     }
 
     @Subscribe

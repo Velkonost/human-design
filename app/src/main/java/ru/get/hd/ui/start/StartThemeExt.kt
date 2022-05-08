@@ -2,6 +2,7 @@ package ru.get.hd.ui.start
 
 import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.fragment_add_user.view.*
 import kotlinx.android.synthetic.main.view_place_select.view.*
 import ru.get.hd.App
 import ru.get.hd.R
@@ -403,5 +404,35 @@ fun StartFragment.updateTheme() {
         if (App.preferences.isDarkTheme) R.drawable.bg_splash_05_dark
         else R.drawable.bg_splash_05_light
     )
+
+    binding.nameET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.darkHintColor
+        else R.color.lightHintColor
+    ))
+
+    binding.placeET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.darkHintColor
+        else R.color.lightHintColor
+    ))
+
+    binding.placesView.newPlaceET.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_search_dark
+        else R.drawable.bg_search_light
+    )
+
+    binding.placesView.icArrowPlace.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.placesView.icSearch.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.searchTintDark
+        else R.color.searchTintLight
+    ))
 
 }

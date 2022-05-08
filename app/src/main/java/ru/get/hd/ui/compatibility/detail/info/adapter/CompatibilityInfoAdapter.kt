@@ -97,7 +97,7 @@ class CompatibilityInfoModel(
                 }
             )
 
-            compatibilityInfoArrow.setOnClickListener {
+            compatibilityInfoCard.setOnClickListener {
                 isExpanded = !isExpanded
 
                 if (isExpanded) {

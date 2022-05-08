@@ -21,7 +21,6 @@
         android:id="@+id/startContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/darkColor"
         android:fitsSystemWindows="false">
 
         <FrameLayout
@@ -86,6 +85,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/startBtn" />
+        
+        <ImageView
+            android:id="@+id/icSplashBigCirclePlaceOfBirth"
+            android:adjustViewBounds="true"
+            android:visibility="invisible"
+            android:alpha="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_circle_big_dark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="461dp"
+            android:layout_height="461dp"/>
+
+        <ImageView
+            android:id="@+id/icSplashMidCirclePlaceOfBirth"
+            android:adjustViewBounds="true"
+            android:visibility="invisible"
+            android:alpha="0.2"
+            android:src="@drawable/ic_circle_mid_dark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="380dp"
+            android:layout_height="380dp"/>
 
         <FrameLayout
             android:id="@+id/indicatorsContainer"
@@ -139,6 +164,7 @@
                 android:background="@drawable/bg_inactive_indicator_dark" />
 
             <View
+                android:visibility="gone"
                 android:id="@+id/indicator6"
                 android:layout_width="7dp"
                 android:layout_height="7dp"
@@ -595,7 +621,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
-                android:textSize="28sp"
+                android:textSize="32sp"
                 android:layout_marginTop="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -630,7 +656,6 @@
                 android:id="@+id/nameTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
                 android:gravity="center|bottom"
                 android:fontFamily="@font/roboto"
                 android:lines="2"
@@ -744,7 +769,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="62dp"
                 android:alpha="0"
                 android:textAllCaps="true"
                 android:backgroundTint="@color/darkHintColor"
@@ -759,7 +783,7 @@
                 android:textSize="16sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nameDesc" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -779,21 +803,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="66dp"
                 android:gravity="center"
                 android:fontFamily="@font/roboto"
                 android:textStyle="bold"
                 android:textSize="32sp"
-                android:layout_marginHorizontal="32dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <ru.get.hd.ui.view.bodygraph.BodygraphView
                 android:id="@+id/bodygraphView"
-                android:layout_marginBottom="20dp"
+                android:visibility="invisible"
+                android:scaleY="0.5"
+                android:scaleX="0.5"
                 app:layout_constraintTop_toBottomOf="@id/bodygraphReadyTitle"
                 app:layout_constraintBottom_toTopOf="@id/bodygraphReadyText"
-                android:layout_width="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintDimensionRatio="720:852"
+                android:layout_width="0dp"
                 android:layout_height="0dp"/>
 
             <TextView
@@ -804,7 +833,8 @@
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
                 android:textSize="16sp"
-                android:layout_marginHorizontal="32dp"
+                android:layout_marginHorizontal="20dp"
+                app:layout_constraintTop_toBottomOf="@id/bodygraphView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

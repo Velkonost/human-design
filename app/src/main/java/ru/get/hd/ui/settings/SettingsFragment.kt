@@ -25,12 +25,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     Handler::class
 ) {
 
-    override fun onLayoutReady(savedInstanceState: Bundle?) {
-        super.onLayoutReady(savedInstanceState)
-
-//        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
-    }
-
     private fun setupLocale() {
         binding.title.text = App.resourcesProvider.getStringLocale(R.string.settings_title)
         binding.notificationsTitle.text =
@@ -306,6 +300,44 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         binding.notificationsSwitch.isChecked = App.preferences.isPushAvailable
         binding.notificationsSwitch.setOnCheckedChangeListener { view, isChecked ->
             App.preferences.isPushAvailable = isChecked
+
+            if (!App.preferences.isPushAvailable) {
+                binding.notificationBlockActive.background = null
+                binding.notificationBlockActive.setBackgroundColor(ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                    else R.color.lightSettingsCard
+                ))
+
+                binding.notificationsTitle.setTextColor(ContextCompat.getColor(
+                    requireContext(),
+                    R.color.darkSettingsArrowTint
+                ))
+            } else {
+                binding.notificationBlockActive.background = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_settings_notification_bg
+                )
+
+                binding.notificationsTitle.setTextColor(ContextCompat.getColor(
+                    requireContext(),
+                    R.color.lightColor
+                ))
+            }
+        }
+
+        if (!App.preferences.isPushAvailable) {
+            binding.notificationBlockActive.background = null
+            binding.notificationBlockActive.setBackgroundColor(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                else R.color.lightSettingsCard
+            ))
+        } else {
+            binding.notificationBlockActive.background = ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.ic_settings_notification_bg
+            )
         }
     }
 
@@ -352,31 +384,19 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
 
         fun onWriteUsClicked(v: View) {
-            val email = "humdesignhd@gmail.com"
-            val uri = Uri.parse("mailto:$email")
-                .buildUpon()
-                .appendQueryParameter(
-                    "subject",
-                    App.resourcesProvider.getStringLocale(R.string.app_name)
-                )
-                .appendQueryParameter(
-                    "body",
-                    App.resourcesProvider.getStringLocale(R.string.app_name)
-                )
-                .build()
-
-            val emailIntent = Intent(Intent.ACTION_SENDTO, uri)
-            startActivity(
-                Intent.createChooser(
-                    emailIntent,
-                    App.resourcesProvider.getStringLocale(R.string.app_name)
-                )
-            )
+            val email: Array<String> = arrayOf("humdesignhd@gmail.com")
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:")
+                putExtra(Intent.EXTRA_EMAIL, email)
+                putExtra(Intent.EXTRA_SUBJECT,   App.resourcesProvider.getStringLocale(R.string.app_name))
+            }
+            if (intent.resolveActivity(requireContext().packageManager) != null) {
+                startActivity(intent)
+            }
         }
 
         fun onFaqClicked(v: View) {
             router.navigateTo(Screens.faqScreen())
-//            Navigator.settingsToFaq(this@SettingsFragment)
         }
 
         fun onPersonalInfoClicked(v: View) {

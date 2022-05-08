@@ -129,6 +129,28 @@ class AboutAdapter(
                     generateProgress.isVisible = false
                     generateProgressText.isVisible = false
                 }
+                AboutType.NUTRITION -> {
+                    expandButton.text = App.resourcesProvider.getStringLocale(R.string.nutrition_title)
+                    text.text = items[position].description
+
+                    subtitle.isVisible = true
+                    subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_nutrition_subtitle)
+
+                    generateBtn.isVisible = false
+                    generateProgress.isVisible = false
+                    generateProgressText.isVisible = false
+                }
+                AboutType.ENVIRONMENT -> {
+                    expandButton.text = App.resourcesProvider.getStringLocale(R.string.environment_title)
+                    text.text = items[position].description
+
+                    subtitle.isVisible = true
+                    subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_environment_subtitle)
+
+                    generateBtn.isVisible = false
+                    generateProgress.isVisible = false
+                    generateProgressText.isVisible = false
+                }
                 AboutType.INJURY -> {
                     expandButton.text = App.resourcesProvider.getStringLocale(R.string.injury_title)
 
@@ -317,6 +339,8 @@ class AboutAdapter(
                             AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)
                             AboutType.STRATEGY -> App.resourcesProvider.getStringLocale(R.string.strategy_title)
                             AboutType.INJURY -> App.resourcesProvider.getStringLocale(R.string.injury_title)
+                            AboutType.NUTRITION -> App.resourcesProvider.getStringLocale(R.string.nutrition_title)
+                            AboutType.ENVIRONMENT -> App.resourcesProvider.getStringLocale(R.string.environment_title)
                         }
                     )
                     subtitle.isVisible = true

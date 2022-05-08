@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/icArrow"
+            android:id="@+id/icArrowPlace"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="24dp"
@@ -23,28 +23,45 @@
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/newPlaceET"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:textAllCaps="true"
-        android:layout_marginTop="24dp"
         android:backgroundTint="@color/darkHintColor"
         android:fontFamily="@font/roboto"
-        android:gravity="center"
+        android:gravity="start"
+        android:singleLine="true"
         android:includeFontPadding="true"
         android:inputType="textCapWords"
         android:letterSpacing="0.2"
-        android:paddingBottom="24dp"
+        android:paddingVertical="6dp"
+        android:background="@drawable/bg_search_dark"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/icArrow"
+        android:paddingStart="30dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintStart_toEndOf="@id/icArrowPlace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/icArrowPlace"
+        app:layout_constraintBottom_toBottomOf="@id/icArrowPlace"
         />
+
+        <ImageView
+            android:id="@+id/icSearch"
+            app:layout_constraintTop_toTopOf="@id/newPlaceET"
+            app:layout_constraintBottom_toBottomOf="@id/newPlaceET"
+            app:layout_constraintStart_toStartOf="@id/newPlaceET"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_search"
+            android:layout_width="15dp"
+            android:layout_height="15dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/placeRecycler"
+
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         android:paddingTop="16dp"
-
+        android:paddingBottom="66dp"
         app:layout_constraintTop_toBottomOf="@id/newPlaceET"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package ru.get.hd.util
 
 import android.content.Context
 import android.content.res.Configuration
+import androidx.annotation.DimenRes
 import androidx.annotation.StringRes
 import ru.get.hd.App
 import java.util.*
@@ -18,10 +19,16 @@ class ResourcesProvider @Inject constructor(
 
     fun getStringLocale(
         @StringRes stringResId: Int,
-        locale: String = App.preferences.locale
+//        locale: String = App.preferences.locale
     ): String {
         val config = Configuration(context.resources.configuration)
-        config.setLocale(Locale(locale))
+        config.setLocale(Locale.getDefault())
         return context.createConfigurationContext(config).getText(stringResId).toString()
+    }
+
+    fun getDimen(
+        @DimenRes dimenResId: Int
+    ): Float {
+        return context.resources.getDimension(dimenResId)
     }
 }

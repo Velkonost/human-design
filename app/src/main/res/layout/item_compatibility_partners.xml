@@ -17,6 +17,6 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingBottom="76dp"/>
+        android:paddingBottom="66dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

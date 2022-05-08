@@ -6,6 +6,7 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.CompatibilityResponse
+import ru.get.hd.model.DailyAdvice
 import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
 import ru.get.hd.model.Forecast
@@ -77,6 +78,9 @@ interface RestService {
     fun geocodingNominatim(
         @Url url: String
     ): Single<List<GeocodingNominatimFeature>>
+
+    @GET("/dailyadvice/dailyadvice.json")
+    fun getDailyAdvice(): Single<HashMap<String, List<DailyAdvice>>>
 
 //  Метод получения способа загрузки адрессов
 //    @GET("/getapple.php")

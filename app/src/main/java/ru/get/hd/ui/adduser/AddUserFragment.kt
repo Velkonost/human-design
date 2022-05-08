@@ -7,12 +7,16 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -20,8 +24,16 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
+import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.android.synthetic.main.fragment_add_user.view.*
 import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
 import kotlinx.android.synthetic.main.view_place_select.view.*
 import kotlinx.coroutines.Dispatchers
@@ -33,9 +45,13 @@ import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentAddUserBinding
+import ru.get.hd.event.BodygraphCenterClickEvent
 import ru.get.hd.event.LastKnownLocationUpdateEvent
+import ru.get.hd.event.NoInetEvent
 import ru.get.hd.event.PermissionGrantedEvent
 import ru.get.hd.event.PlaceSelectedEvent
+import ru.get.hd.event.UpdateBalloonBgStateEvent
+import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.model.Place
 import ru.get.hd.navigation.Screens
@@ -47,6 +63,7 @@ import ru.get.hd.util.Keyboard
 import ru.get.hd.util.convertDpToPx
 import ru.get.hd.util.ext.alpha0
 import ru.get.hd.util.ext.alpha1
+import ru.get.hd.util.ext.scaleXY
 import ru.get.hd.util.ext.setTextAnimation
 import ru.get.hd.util.ext.setTextAnimation07
 import ru.get.hd.util.ext.translationY
@@ -114,6 +131,51 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
     }
 
+    private fun addKeyboardDetectListener(){
+        binding.startContainer.viewTreeObserver.addOnGlobalLayoutListener {
+            if (isAdded) {
+                val heightDifference =
+                    binding.startContainer.rootView.height - binding.startContainer.height
+                if (heightDifference > dpToPx(requireContext(), 200F)) {
+                    binding.indicatorsContainer.visibility = View.GONE
+                    binding.startBtn.visibility = View.GONE
+
+                    (binding.nameET.layoutParams as ViewGroup.MarginLayoutParams)
+                        .setMargins(
+                            dpToPx(requireContext(), 20f).toInt(),
+                            0,
+                            dpToPx(requireContext(), 20f).toInt(),
+                            0
+                        )
+                    binding.nameET.requestLayout()
+
+                } else {
+                    android.os.Handler().postDelayed({
+                        if (isAdded) {
+                            binding.indicatorsContainer.isVisible = true
+
+                            if (!binding.placesView.isVisible)
+                                binding.startBtn.isVisible = true
+
+                            (binding.nameET.layoutParams as ViewGroup.MarginLayoutParams)
+                                .setMargins(
+                                    dpToPx(requireContext(), 20f).toInt(),
+                                    0,
+                                    dpToPx(requireContext(), 20f).toInt(),
+                                    dpToPx(requireContext(), 46f).toInt()
+                                )
+                        }
+                    }, 10)
+                }
+            }
+        }
+    }
+
+    private fun dpToPx(context: Context, valueInDp: Float) : Float{
+        val displayMetrics = context.resources.displayMetrics
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, displayMetrics)
+    }
+
     @Subscribe
     fun onLastKnownLocationUpdateEvent(e: LastKnownLocationUpdateEvent) {
         lifecycleScope.launch(Dispatchers.Main) {
@@ -157,6 +219,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 //    }
 
     override fun updateThemeAndLocale() {
+
+        binding.bottomGradient.isVisible = App.preferences.isDarkTheme
 
         binding.icArrow.imageTintList = ColorStateList.valueOf(
             ContextCompat.getColor(
@@ -295,6 +359,36 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             )
         )
 
+        binding.nameET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkHintColor
+            else R.color.lightHintColor
+        ))
+
+        binding.placeET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkHintColor
+            else R.color.lightHintColor
+        ))
+
+        binding.placesView.newPlaceET.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_search_dark
+            else R.drawable.bg_search_light
+        )
+
+        binding.placesView.icArrowPlace.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.placesView.icSearch.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.searchTintDark
+            else R.color.searchTintLight
+        ))
+
     }
 
     override fun onViewModelReady(viewModel: StartViewModel) {
@@ -319,37 +413,44 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 //        }
 
         viewModel.nominatimSuggestions.observe(this) { list ->
-            val addresses: MutableList<Place> = mutableListOf()
+            if (binding.placesView.isVisible) {
+                val addresses: MutableList<Place> = mutableListOf()
 
-            list.forEach { feature ->
-                if (addresses.none { it.name == feature.placeName }) {
-                    addresses.add(
-                        Place(
-                            name = feature.placeName,
-                            lat = feature.lat,
-                            lon = feature.lon
+                list.forEach { feature ->
+                    if (addresses.none { it.name == feature.placeName }) {
+                        addresses.add(
+                            Place(
+                                name = feature.placeName,
+                                lat = feature.lat,
+                                lon = feature.lon
+                            )
+
                         )
-
-                    )
+                    }
                 }
+                placesAdapter.createList(addresses.toList())
             }
-            placesAdapter.createList(addresses.toList())
         }
 
 
-        viewModel.reverseSuggestions.observe(this) { geo ->
-            if (!geo.features.isNullOrEmpty()) {
-                binding.placeET.setText(geo.features.find { it.placeType[0] == "region" }!!.placeName)
-            }
-        }
+//        viewModel.reverseSuggestions.observe(this) { geo ->
+//            if (!geo.features.isNullOrEmpty()) {
+//                binding.placeET.setText(geo.features.find { it.placeType[0] == "region" }!!.placeName)
+//            }
+//        }
     }
 
     private fun setupPlacesView() {
+        (binding.placesView.placeRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.placesView.placeRecycler.itemAnimator = null
         binding.placesView.placeRecycler.adapter = placesAdapter
+//        placesAdapter.setHasStableIds(true)
 
-        binding.placesView.icArrow.setOnClickListener {
+        binding.placesView.icArrowPlace.setOnClickListener {
+            Keyboard.hide(requireActivity())
             binding.placesView.isVisible = false
-            placesAdapter.createList(emptyList())
+            binding.startBtn.isVisible = true
+            placesAdapter.createList(emptyList(), false)
         }
 
         binding.placesView.newPlaceET.addTextChangedListener {
@@ -364,8 +465,9 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         Keyboard.hide(requireActivity())
 
         binding.placesView.isVisible = false
+        binding.startBtn.isVisible = true
         binding.placesView.newPlaceET.setText("")
-        placesAdapter.createList(emptyList())
+        placesAdapter.createList(emptyList(), false)
 
         binding.placeET.setText(e.place.name)
         selectedLat = e.place.lat
@@ -396,18 +498,25 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
     private fun setupRave() {
         currentStartPage = StartPage.RAVE
 
+        unselectAllIndicators()
+        binding.indicator1.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_active_indicator_dark
+            else R.drawable.bg_active_indicator_light
+        )
+
         when {
             isChild -> {
-                binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_rave_title))
-                binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_rave_desc))
+                binding.raveTitle.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_child_rave_title))
+                binding.raveDesc.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_child_rave_desc))
             }
             fromCompatibility -> {
-                binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_title))
-                binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_desc))
+                binding.raveTitle.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_title))
+                binding.raveDesc.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_desc))
             }
             else -> {
-                binding.raveTitle.setTextAnimation(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.diagram_rave_title))
-                binding.raveDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.diagram_rave_desc))
+                binding.raveTitle.text = Html.fromHtml(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.diagram_rave_title))
+                binding.raveDesc.text = Html.fromHtml(App.resourcesProvider.getStringLocale(ru.get.hd.R.string.diagram_rave_desc))
             }
         }
     }
@@ -416,16 +525,20 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         currentStartPage = StartPage.NAME
 
         unselectAllIndicators()
-        binding.indicator1.background = ContextCompat.getDrawable(
+        binding.indicator2.background = ContextCompat.getDrawable(
             requireContext(),
             if (App.preferences.isDarkTheme) R.drawable.bg_active_indicator_dark
             else R.drawable.bg_active_indicator_light
         )
 
+        addKeyboardDetectListener()
+
+//        if (App.preferences.isDarkTheme)
+//            binding.bottomGradient.alpha1(200)
+
         binding.nameContainer.isVisible = true
         binding.raveContainer.alpha0(500)
         binding.nameContainer.alpha1(500)
-        binding.startBtn.translationY(requireContext().convertDpToPx(-44f), 500)
         binding.indicatorsContainer.alpha1(500)
 
         when {
@@ -450,7 +563,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         currentStartPage = StartPage.DATE_BIRTH
 
         unselectAllIndicators()
-        binding.indicator2.background = ContextCompat.getDrawable(
+        binding.indicator3.background = ContextCompat.getDrawable(
             requireContext(),
             if (App.preferences.isDarkTheme) R.drawable.bg_active_indicator_dark
             else R.drawable.bg_active_indicator_light
@@ -487,7 +600,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         currentStartPage = StartPage.TIME_BIRTH
 
         unselectAllIndicators()
-        binding.indicator3.background = ContextCompat.getDrawable(
+        binding.indicator4.background = ContextCompat.getDrawable(
             requireContext(),
             if (App.preferences.isDarkTheme) R.drawable.bg_active_indicator_dark
             else R.drawable.bg_active_indicator_light
@@ -512,7 +625,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         binding.skipTime.alpha = 1f
         binding.skipTime.text = (App.resourcesProvider.getStringLocale(R.string.start_time_skip))
 
-        binding.date.alpha0(500) {
+        binding.date.alpha0(300) {
             binding.date.isVisible = false
         }
 
@@ -535,7 +648,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         currentStartPage = StartPage.PLACE_BIRTH
 
         unselectAllIndicators()
-        binding.indicator4.background = ContextCompat.getDrawable(
+        binding.indicator5.background = ContextCompat.getDrawable(
             requireContext(),
             if (App.preferences.isDarkTheme) R.drawable.bg_active_indicator_dark
             else R.drawable.bg_active_indicator_light
@@ -556,15 +669,18 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             }
         }
 
-        binding.skipTime.alpha0(500) {
+        binding.skipTime.alpha0(300) {
             binding.skipTime.isVisible = false
         }
-        binding.time.alpha0(500) {
+        binding.time.alpha0(300) {
             binding.time.isVisible = false
         }
 
         if (!isCurrentLocationVariantSet)
             binding.placeET.hint = App.resourcesProvider.getStringLocale(R.string.start_place_hint)
+
+        if (!App.preferences.lastKnownLocation.isNullOrEmpty())
+            binding.placeET.setText(App.preferences.lastKnownLocation)
 
         binding.placeET.isVisible = true
         binding.placeET.alpha1(500)
@@ -576,10 +692,9 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         binding.backBtn.isVisible = false
 
-        binding.indicatorsContainer.alpha0(500)
+        binding.indicatorsContainer.alpha0(300)
 
-        binding.startBtn.translationY(requireContext().convertDpToPx(0f), 500)
-        binding.nameContainer.alpha0(500)
+        binding.nameContainer.alpha0(300)
 
         binding.bodygraphContainer.isVisible = true
         binding.bodygraphContainer.alpha1(500)
@@ -614,6 +729,19 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         when {
             isChild -> {
                 baseViewModel.currentChildBodygraph.observe(viewLifecycleOwner) {
+                    if (
+                        !it.design.channels.isNullOrEmpty()
+                        && !it.personality.channels.isNullOrEmpty()
+                        && !it.activeCentres.isNullOrEmpty()
+                        && !it.inactiveCentres.isNullOrEmpty()
+                    ) {
+                        android.os.Handler().postDelayed({
+                            binding.bodygraphView.isVisible = true
+                            binding.bodygraphView.scaleXY(1f, 1f, 1500) {}
+                        }, 200)
+
+                    }
+
                     binding.bodygraphView.setupData(
                         it.design,
                         it.personality,
@@ -624,6 +752,19 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             }
             fromCompatibility -> {
                 baseViewModel.currentPartnerBodygraph.observe(viewLifecycleOwner) {
+                    if (
+                        !it.design.channels.isNullOrEmpty()
+                        && !it.personality.channels.isNullOrEmpty()
+                        && !it.activeCentres.isNullOrEmpty()
+                        && !it.inactiveCentres.isNullOrEmpty()
+                    ) {
+                        android.os.Handler().postDelayed({
+                            binding.bodygraphView.isVisible = true
+                            binding.bodygraphView.scaleXY(1f, 1f, 1500) {}
+                        }, 200)
+
+                    }
+
                     binding.bodygraphView.setupData(
                         it.design,
                         it.personality,
@@ -634,6 +775,19 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             }
             else -> {
                 baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
+                    if (
+                        !it.design.channels.isNullOrEmpty()
+                        && !it.personality.channels.isNullOrEmpty()
+                        && !it.activeCentres.isNullOrEmpty()
+                        && !it.inactiveCentres.isNullOrEmpty()
+                    ) {
+                        android.os.Handler().postDelayed({
+                            binding.bodygraphView.isVisible = true
+                            binding.bodygraphView.scaleXY(1f, 1f, 1500) {}
+                        }, 200)
+
+                    }
+
                     binding.bodygraphView.setupData(
                         it.design,
                         it.personality,
@@ -715,16 +869,78 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         snackbar
     }
 
+    private fun isNetworkConnected(): Boolean {
+        val cm = requireContext().getSystemService(DaggerAppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnected
+    }
+
+    @Subscribe
+    fun onBodygraphCenterClickEvent(e: BodygraphCenterClickEvent) {
+        val view = View(
+            requireContext()
+        )
+        view.layoutParams = LinearLayout.LayoutParams(
+            1,
+            1
+        )
+        view.x =
+            if (e.isXCenter) binding.bodygraphContainer.width / 2f
+            else e.x
+        view.y = e.y
+
+        binding.bodygraphContainer.addView(view)
+
+        val balloon = Balloon.Builder(context!!)
+            .setArrowSize(15)
+            .setArrowOrientation(ArrowOrientation.BOTTOM)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
+            .setArrowPosition(e.arrowPosition)
+            .setTextGravity(Gravity.START)
+            .setPadding(10)
+            .setWidth(BalloonSizeSpec.WRAP)
+            .setMaxWidth(300)
+            .setHeight(BalloonSizeSpec.WRAP)
+            .setTextSize(12f)
+            .setCornerRadius(10f)
+            .setText("<small><strong>${e.title}</strong></small><br>${e.desc}")
+            .setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    R.color.lightColor
+                )
+            )
+            .setTextIsHtml(true)
+            .setBackgroundColor(
+                Color.parseColor("#4D494D")
+            )
+            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+            .setOnBalloonDismissListener {
+                EventBus.getDefault().post(UpdateBalloonBgStateEvent(false))
+//                binding.balloonBg.isVisible = false
+            }
+            .build()
+
+        if (e.alignTop) balloon.showAlignTop(view, xOff = e.xOffset)
+        else balloon.showAlignBottom(view, xOff = e.xOffset)
+
+        EventBus.getDefault().post(UpdateBalloonBgStateEvent(true))
+//        binding.balloonBg.isVisible = true
+    }
+
     inner class Handler {
 
         fun openPlacesView(v: View) {
             binding.placesView.isVisible = true
+            binding.startBtn.isVisible = false
         }
 
         fun onBackClicked(v: View) {
+            if (binding.placesView.isVisible) return
+
             animateBackCirclesBtwPages()
             when (currentStartPage) {
                 StartPage.RAVE -> {
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
                     router.exit()
                 }
                 StartPage.NAME -> {
@@ -733,7 +949,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                         binding.nameContainer.isVisible = false
                     }
                     binding.raveContainer.alpha1(500)
-                    binding.startBtn.translationY(requireContext().convertDpToPx(0f), 500)
+//                    binding.startBtn.translationY(requireContext().convertDpToPx(0f), 500)
                     setupRave()
                 }
                 StartPage.DATE_BIRTH -> {
@@ -796,6 +1012,13 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     setupPlaceBirth()
                 }
                 StartPage.PLACE_BIRTH -> {
+                    if (!isNetworkConnected()) {
+                        EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                        EventBus.getDefault().post(NoInetEvent())
+
+                        return
+                    }
+
                     if (binding.placeET.text.toString().replace(" ", "").isNullOrEmpty()) {
                         snackbarAddress.show()
                     } else {
@@ -837,7 +1060,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
                     when {
                         isChild -> {
-                            router.navigateTo(Screens.compatibilityScreen())
+                            router.navigateTo(Screens.compatibilityScreen(true))
                         }
                         fromCompatibility -> {
                             router.navigateTo(Screens.compatibilityScreen())

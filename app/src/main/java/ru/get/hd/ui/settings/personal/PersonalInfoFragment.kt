@@ -111,9 +111,9 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
                 }
             }
         }
@@ -125,9 +125,9 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
                 }
             }
         }
@@ -375,43 +375,62 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             else R.color.lightColor
         ))
 
+        binding.placesView.newPlaceET.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_search_dark
+            else R.drawable.bg_search_light
+        )
+
+        binding.placesView.icArrowPlace.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.placesView.icSearch.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.searchTintDark
+            else R.color.searchTintLight
+        ))
 
     }
 
     override fun onViewModelReady(viewModel: SettingsViewModel) {
         super.onViewModelReady(viewModel)
 
-        viewModel.suggestions.observe(this) {
-            val addresses: MutableList<Place> = mutableListOf()
+        viewModel.nominatimSuggestions.observe(this) {
+            if (binding.placesView.isVisible) {
+                val addresses: MutableList<Place> = mutableListOf()
 
-            it.features.forEach { feature ->
-                if (addresses.none { it.name == feature.placeName }) {
-                    addresses.add(
-                        Place(
-                            name = feature.placeName,
-                            lat = feature.center[0].toString(),
-                            lon = feature.center[1].toString()
+                it.forEach { feature ->
+                    if (addresses.none { it.name == feature.placeName }) {
+                        addresses.add(
+                            Place(
+                                name = feature.placeName,
+                                lat = feature.lat.toString(),
+                                lon = feature.lon.toString()
+                            )
+
                         )
-
-                    )
+                    }
                 }
+                placesAdapter.createList(addresses.toList())
             }
-            placesAdapter.createList(addresses.toList())
         }
     }
 
     private fun setupPlacesView() {
         binding.placesView.placeRecycler.adapter = placesAdapter
 
-        binding.placesView.icArrow.setOnClickListener {
+        binding.placesView.icArrowPlace.setOnClickListener {
             binding.placesView.isVisible = false
             binding.doneBtn.isVisible = true
-            placesAdapter.createList(emptyList())
+            placesAdapter.createList(emptyList(), false)
         }
 
         binding.placesView.newPlaceET.addTextChangedListener {
             if (!binding.placesView.newPlaceET.text.isNullOrEmpty() && ::geocoder.isInitialized) {
-                binding.viewModel!!.geocoding(binding.placesView.newPlaceET.text.toString())
+                binding.viewModel!!.geocodingNominatim(binding.placesView.newPlaceET.text.toString())
             }
         }
 
@@ -460,9 +479,9 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
     }
 
     private fun updateUserData() {
-        GlobalScope.launch {
-            if (!binding.nameET.text.isNullOrEmpty())
-                baseViewModel.currentUser.name = binding.nameET.text.toString()
+        GlobalScope.launch(Dispatchers.Main) {
+            if (binding.nameET.text.toString().replace(" ", "").isNotEmpty())
+                baseViewModel.currentUser.name = binding.nameET.text.toString().replace(" ", "")
 
             if (!binding.placeET.text.isNullOrEmpty()) {
                 if (selectedLat.isNotEmpty())
@@ -480,8 +499,12 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             if (!binding.timeET.text.isNullOrEmpty() && selectedTime.isNotEmpty())
                 baseViewModel.currentUser.time = selectedTime//binding.timeET.text.toString()
 
+
+        }.invokeOnCompletion {
             baseViewModel.updateUser()
-        }.invokeOnCompletion { baseViewModel.setupCurrentUser() }
+            baseViewModel.setupCurrentUser()
+            router.exit()
+        }
     }
 
     @Subscribe
@@ -491,7 +514,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
         binding.placesView.isVisible = false
         binding.placesView.newPlaceET.setText("")
         binding.doneBtn.isVisible = true
-        placesAdapter.createList(emptyList())
+        placesAdapter.createList(emptyList(), false)
 
         binding.placeET.setText(e.place.name)
         selectedLat = e.place.lat

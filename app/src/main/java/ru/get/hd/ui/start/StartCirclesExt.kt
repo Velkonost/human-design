@@ -9,13 +9,22 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.core.animation.doOnEnd
+import androidx.core.view.isVisible
 import ru.get.hd.ui.adduser.AddUserFragment
 import ru.get.hd.ui.adduser.startCirclesRotation
+import ru.get.hd.ui.compatibility.detail.adapter.isVisible
 import ru.get.hd.util.convertDpToPx
 
 fun StartFragment.animateCirclesBtwPages(duration: Long) {
     binding.icSplashBigCircle.clearAnimation()
+    binding.icSplashBigCircle.rotation = 0f
     binding.icSplashMidCircle.clearAnimation()
+    binding.icSplashMidCircle.rotation = 0f
+
+    binding.icSplashBigCirclePlaceOfBirth.clearAnimation()
+    binding.icSplashMidCirclePlaceOfBirth.clearAnimation()
+    binding.icSplashBigCirclePlaceOfBirth.rotation = 0f
+    binding.icSplashMidCirclePlaceOfBirth.rotation = 0f
 
     val step = when (currentStartPage) {
         StartPage.RAVE -> 1
@@ -32,8 +41,8 @@ fun StartFragment.animateCirclesBtwPages(duration: Long) {
         StartPage.NAME -> requireContext().convertDpToPx(719f)
         StartPage.DATE_BIRTH -> requireContext().convertDpToPx(590f)
         StartPage.TIME_BIRTH -> requireContext().convertDpToPx(461f)
-        StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(332f)
-        StartPage.BODYGRAPH -> requireContext().convertDpToPx(332f)
+        StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(290f)
+        StartPage.BODYGRAPH -> requireContext().convertDpToPx(290f)
         else -> requireContext().convertDpToPx(848f)
     }
 
@@ -42,8 +51,8 @@ fun StartFragment.animateCirclesBtwPages(duration: Long) {
         StartPage.NAME -> requireContext().convertDpToPx(640f)
         StartPage.DATE_BIRTH -> requireContext().convertDpToPx(480f)
         StartPage.TIME_BIRTH -> requireContext().convertDpToPx(380f)
-        StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(270f)
-        StartPage.BODYGRAPH -> requireContext().convertDpToPx(270f)
+        StartPage.PLACE_BIRTH -> requireContext().convertDpToPx(236f)
+        StartPage.BODYGRAPH -> requireContext().convertDpToPx(236f)
         else -> requireContext().convertDpToPx(790f)
     }
 
@@ -71,28 +80,7 @@ fun StartFragment.animateCirclesBtwPages(duration: Long) {
         ValueAnimator.ofInt(oldSizeBigCircle.toInt(), newSizeBigCircle.toInt())
     val animSizeMidCircle =
         ValueAnimator.ofInt(oldSizeMidCircle.toInt(), newSizeMidCircle.toInt())
-    animSizeBigCircle.addUpdateListener { valueAnimator ->
-        val `val` = valueAnimator.animatedValue as Int
-
-        val layoutParamsBigCircle: ViewGroup.LayoutParams =
-            binding.icSplashBigCircle.layoutParams
-        layoutParamsBigCircle.height = `val`
-        layoutParamsBigCircle.width = `val`
-        binding.icSplashBigCircle.layoutParams = layoutParamsBigCircle
-        binding.icSplashBigCircle.requestLayout()
-    }
     animSizeBigCircle.duration = 1000
-
-    animSizeMidCircle.addUpdateListener { valueAnimator ->
-        val `val` = valueAnimator.animatedValue as Int
-
-        val layoutParamsMidCircle: ViewGroup.LayoutParams =
-            binding.icSplashMidCircle.layoutParams
-        layoutParamsMidCircle.height = `val`
-        layoutParamsMidCircle.width = `val`
-        binding.icSplashMidCircle.layoutParams = layoutParamsMidCircle
-        binding.icSplashMidCircle.requestLayout()
-    }
     animSizeMidCircle.duration = 1000
 
     val yAnimatorBigCircle = ObjectAnimator.ofFloat(
@@ -107,17 +95,138 @@ fun StartFragment.animateCirclesBtwPages(duration: Long) {
     yAnimatorBigCircle.duration = duration
     yAnimatorMidCircle.duration = duration
 
-    val animatorSet = AnimatorSet()
-    animatorSet.playTogether(
-        yAnimatorMidCircle,
-        yAnimatorBigCircle,
-        animSizeBigCircle,
-        animSizeMidCircle
-    )
+    var animatorSet = AnimatorSet()
+
+
+    when (currentStartPage) {
+        StartPage.TIME_BIRTH -> {
+            animSizeBigCircle.addUpdateListener { valueAnimator ->
+                val `val` = valueAnimator.animatedValue as Int
+
+                val layoutParamsBigCircle: ViewGroup.LayoutParams =
+                    binding.icSplashBigCircle.layoutParams
+                layoutParamsBigCircle.height = `val`
+                layoutParamsBigCircle.width = `val`
+                binding.icSplashBigCircle.layoutParams = layoutParamsBigCircle
+                binding.icSplashBigCircle.requestLayout()
+            }
+
+            animSizeMidCircle.addUpdateListener { valueAnimator ->
+                val `val` = valueAnimator.animatedValue as Int
+
+                val layoutParamsMidCircle: ViewGroup.LayoutParams =
+                    binding.icSplashMidCircle.layoutParams
+                layoutParamsMidCircle.height = `val`
+                layoutParamsMidCircle.width = `val`
+                binding.icSplashMidCircle.layoutParams = layoutParamsMidCircle
+                binding.icSplashMidCircle.requestLayout()
+            }
+
+            binding.icSplashBigCircle
+                .animate()
+//            .x(binding.icSplashBigCirclePlaceOfBirth.x - binding.icSplashBigCirclePlaceOfBirth.width / 2)
+                .y(binding.icSplashBigCirclePlaceOfBirth.y )
+                .setDuration(1000)
+                .start()
+
+            binding.icSplashMidCircle
+                .animate()
+//            .x(binding.icSplashMidCirclePlaceOfBirth.x)
+                .y(binding.icSplashMidCirclePlaceOfBirth.y)
+                .setDuration(1000)
+                .start()
+
+            animatorSet.playTogether(
+                animSizeBigCircle,
+                animSizeMidCircle
+            )
+        }
+        StartPage.PLACE_BIRTH -> {
+            val bigX = binding.icSplashBigCirclePlaceOfBirth.x
+            val bigY = binding.icSplashBigCirclePlaceOfBirth.y
+
+
+            animSizeBigCircle.addUpdateListener { valueAnimator ->
+                val `val` = valueAnimator.animatedValue as Int
+
+                val layoutParamsBigCircle: ViewGroup.LayoutParams =
+                    binding.icSplashBigCirclePlaceOfBirth.layoutParams
+                layoutParamsBigCircle.height = `val`
+                layoutParamsBigCircle.width = `val`
+                binding.icSplashBigCirclePlaceOfBirth.layoutParams = layoutParamsBigCircle
+                binding.icSplashBigCirclePlaceOfBirth.requestLayout()
+            }
+
+            animSizeMidCircle.addUpdateListener { valueAnimator ->
+                val `val` = valueAnimator.animatedValue as Int
+
+                val layoutParamsMidCircle: ViewGroup.LayoutParams =
+                    binding.icSplashMidCirclePlaceOfBirth.layoutParams
+                layoutParamsMidCircle.height = `val`
+                layoutParamsMidCircle.width = `val`
+                binding.icSplashMidCirclePlaceOfBirth.layoutParams = layoutParamsMidCircle
+                binding.icSplashMidCirclePlaceOfBirth.requestLayout()
+            }
+
+//        binding.icSplashBigCirclePlaceOfBirth
+//            .animate()
+//            .x(bigX)
+//            .y(bigY)
+//            .setDuration(1200)
+//            .start()
+
+            animatorSet.playTogether(
+                animSizeBigCircle,
+                animSizeMidCircle
+            )
+        }
+        else -> {
+            animSizeBigCircle.addUpdateListener { valueAnimator ->
+                val `val` = valueAnimator.animatedValue as Int
+
+                val layoutParamsBigCircle: ViewGroup.LayoutParams =
+                    binding.icSplashBigCircle.layoutParams
+                layoutParamsBigCircle.height = `val`
+                layoutParamsBigCircle.width = `val`
+                binding.icSplashBigCircle.layoutParams = layoutParamsBigCircle
+                binding.icSplashBigCircle.requestLayout()
+            }
+
+            animSizeMidCircle.addUpdateListener { valueAnimator ->
+                val `val` = valueAnimator.animatedValue as Int
+
+                val layoutParamsMidCircle: ViewGroup.LayoutParams =
+                    binding.icSplashMidCircle.layoutParams
+                layoutParamsMidCircle.height = `val`
+                layoutParamsMidCircle.width = `val`
+                binding.icSplashMidCircle.layoutParams = layoutParamsMidCircle
+                binding.icSplashMidCircle.requestLayout()
+            }
+
+            animatorSet.playTogether(
+                yAnimatorMidCircle,
+                yAnimatorBigCircle,
+                animSizeBigCircle,
+                animSizeMidCircle
+            )
+        }
+    }
+
+
 
     animatorSet.start()
 
     animatorSet.doOnEnd {
+        if (
+            currentStartPage == StartPage.PLACE_BIRTH
+            || currentStartPage == StartPage.BODYGRAPH
+        ) {
+            binding.icSplashMidCircle.isVisible = false
+            binding.icSplashBigCircle.isVisible = false
+
+            binding.icSplashBigCirclePlaceOfBirth.isVisible = true
+            binding.icSplashMidCirclePlaceOfBirth.isVisible = true
+        }
         startCirclesRotation(currentStartPage)
     }
 }
@@ -125,6 +234,9 @@ fun StartFragment.animateCirclesBtwPages(duration: Long) {
 fun StartFragment.animateBackCirclesBtwPages() {
     binding.icSplashBigCircle.clearAnimation()
     binding.icSplashMidCircle.clearAnimation()
+
+    binding.icSplashMidCirclePlaceOfBirth.clearAnimation()
+    binding.icSplashBigCirclePlaceOfBirth.clearAnimation()
 
     val prevStartPage = when (currentStartPage) {
         StartPage.RAVE -> StartPage.RAVE
@@ -228,6 +340,14 @@ fun StartFragment.animateBackCirclesBtwPages() {
     yAnimatorMidCircle.duration = 1000
 
     val animatorSet = AnimatorSet()
+    if (currentStartPage == StartPage.PLACE_BIRTH) {
+        binding.icSplashMidCircle.isVisible = true
+        binding.icSplashBigCircle.isVisible = true
+
+        binding.icSplashBigCirclePlaceOfBirth.isVisible = false
+        binding.icSplashMidCirclePlaceOfBirth.isVisible = false
+    }
+
     animatorSet.playTogether(
         yAnimatorMidCircle,
         yAnimatorBigCircle,
@@ -298,34 +418,67 @@ fun StartFragment.startCirclesRotation(
         else -> 0.5f
     }
 
-    val rotate = RotateAnimation(
-        0f,
-        360f,
-        Animation.RELATIVE_TO_SELF,
-        pivotXBigCircle,
-        Animation.RELATIVE_TO_SELF,
-        pivotYBigCircle
-    )
+    if (currentStartPage == StartPage.PLACE_BIRTH || currentStartPage == StartPage.BODYGRAPH) {
+        val rotate = RotateAnimation(
+            0f,
+            360f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f
+        )
 
-    rotate.repeatCount = Animation.INFINITE
-    rotate.fillAfter = true
-    rotate.duration = 100000
-    rotate.interpolator = LinearInterpolator()
+        rotate.repeatCount = Animation.INFINITE
+        rotate.fillAfter = true
+        rotate.duration = 100000
+        rotate.interpolator = LinearInterpolator()
 
-    val rotateNegative = RotateAnimation(
-        0f,
-        -360f,
-        Animation.RELATIVE_TO_SELF,
-        pivotXMidCircle,
-        Animation.RELATIVE_TO_SELF,
-        pivotYMidCircle
-    )
-    rotateNegative.repeatCount = Animation.INFINITE
-    rotateNegative.fillAfter = true
-    rotateNegative.duration = 100000
+        val rotateNegative = RotateAnimation(
+            0f,
+            -360f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f
+        )
+        rotateNegative.repeatCount = Animation.INFINITE
+        rotateNegative.fillAfter = true
+        rotateNegative.duration = 100000
 //        rotateNegative.interpolator = LinearInterpolator()
 
-    binding.icSplashBigCircle.startAnimation(rotate)
-    binding.icSplashMidCircle.startAnimation(rotateNegative)
+        binding.icSplashBigCirclePlaceOfBirth.startAnimation(rotate)
+        binding.icSplashMidCirclePlaceOfBirth.startAnimation(rotateNegative)
+    } else {
+        val rotate = RotateAnimation(
+            0f,
+            360f,
+            Animation.RELATIVE_TO_SELF,
+            pivotXBigCircle,
+            Animation.RELATIVE_TO_SELF,
+            pivotYBigCircle
+        )
+
+        rotate.repeatCount = Animation.INFINITE
+        rotate.fillAfter = true
+        rotate.duration = 100000
+        rotate.interpolator = LinearInterpolator()
+
+        val rotateNegative = RotateAnimation(
+            0f,
+            -360f,
+            Animation.RELATIVE_TO_SELF,
+            pivotXMidCircle,
+            Animation.RELATIVE_TO_SELF,
+            pivotYMidCircle
+        )
+        rotateNegative.repeatCount = Animation.INFINITE
+        rotateNegative.fillAfter = true
+        rotateNegative.duration = 100000
+//        rotateNegative.interpolator = LinearInterpolator()
+
+        binding.icSplashBigCircle.startAnimation(rotate)
+        binding.icSplashMidCircle.startAnimation(rotateNegative)
+    }
+
 
 }

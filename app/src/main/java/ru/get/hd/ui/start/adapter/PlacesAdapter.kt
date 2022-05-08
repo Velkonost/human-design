@@ -19,11 +19,11 @@ import ru.get.hd.ui.faq.adapter.FaqModel
 
 class PlacesAdapter : EpoxyAdapter() {
 
-    fun createList(models: List<Place>) {
+    fun createList(models: List<Place>, showEmptyModel: Boolean = true) {
         removeAllModels()
         models.map { addModel(PlacesModel(it)) }
 
-        if (models.isEmpty()) {
+        if (models.isEmpty() && showEmptyModel) {
             addModel(EmptyPlaceModel())
         }
 

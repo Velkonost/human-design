@@ -75,7 +75,7 @@
     <string name="start_place_title">Место рождения</string>
     <string name="start_place_desc"><![CDATA[Место, где вы появились на свет очень<br>важно. Так мы сможем точнее<br>определить положение небесных тел,<br>которые оставили отпечаток в вашей<br>судьбе.]]></string>
 
-    <string name="start_place_hint">ГОРОД, СТРАНА</string>
+    <string name="start_place_hint">Город, Страна</string>
 
     <string name="settings_title">Настройки</string>
     <string name="settings_notifications_title">Уведомления</string>
@@ -148,7 +148,9 @@
     <string name="profile_title">Профиль</string>
     <string name="authority_title">Внутренний авторитет</string>
     <string name="strategy_title">Внешняя стратегия</string>
-    <string name="injury_title">Травма</string>
+    <string name="injury_title">Генетическая Травма</string>
+    <string name="nutrition_title">Питание</string>
+    <string name="environment_title">Среда Обитания</string>
 
     <string name="start_bodygraph_ready_title">Бодиграф готов!</string>
     <string name="start_bodygraph_ready_text">Теперь вы узнаете своё истинное предназначение и найдёте верный жизненный путь.</string>
@@ -270,6 +272,8 @@
     <string name="advice_title">Daily Advice</string>
 
     <string name="snackbar_title">Ошибка</string>
+    <string name="snackbar_inet_title">Нет соединения с интернетом</string>
+    <string name="snackbar_inet">Ваше сетевое соединение нестабильно или отключено</string>
     <string name="snackbar_name">Поле имени не может быть пустым.</string>
     <string name="snackbar_address">Мы не смогли распознать ваш адрес.</string>
 
@@ -301,4 +305,6 @@
     <string name="about_injury_subtitle">Как взять свою травму под контроль</string>
     <string name="about_nutrition_subtitle">Как выбрать корректный режим питания</string>
     <string name="about_environment_subtitle">Как создать правильное окружение</string>
+
+    <string name="daily_advice_subtitle">Получи свой ежедневный совет</string>
 </resources>

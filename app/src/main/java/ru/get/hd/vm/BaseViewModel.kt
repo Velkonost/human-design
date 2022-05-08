@@ -1,6 +1,9 @@
 package ru.get.hd.vm
 
+import android.content.Context.CONNECTIVITY_SERVICE
+import android.net.ConnectivityManager
 import android.util.Log
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
@@ -13,14 +16,17 @@ import org.greenrobot.eventbus.Subscribe
 import ru.get.hd.App
 import ru.get.hd.event.CurrentUserLoadedEvent
 import ru.get.hd.event.HelpType
+import ru.get.hd.event.NoInetEvent
 import ru.get.hd.event.ShowHelpEvent
 import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.Child
 import ru.get.hd.model.CompatibilityResponse
+import ru.get.hd.model.DailyAdvice
 import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
 import ru.get.hd.model.Forecast
+import ru.get.hd.model.GeocodingNominatimFeature
 import ru.get.hd.model.GetDesignResponse
 import ru.get.hd.model.TransitResponse
 import ru.get.hd.model.User
@@ -33,6 +39,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 class BaseViewModel @Inject constructor(
     private val repo: RestRepo
@@ -57,7 +64,10 @@ class BaseViewModel @Inject constructor(
     var currentPartnerBodygraph: MutableLiveData<GetDesignResponse> = mutableLiveDataOf(GetDesignResponse())
     var currentChildBodygraph: MutableLiveData<DesignChildResponse> = mutableLiveDataOf(DesignChildResponse())
     var currentAffirmation: MutableLiveData<Affirmation> = mutableLiveDataOf(Affirmation())
+
     var currentForecast: MutableLiveData<Forecast> = mutableLiveDataOf(Forecast())
+    var currentDailyAdvice: MutableLiveData<DailyAdvice> = mutableLiveDataOf(DailyAdvice())
+
     var currentTransit: MutableLiveData<TransitResponse> = mutableLiveDataOf(TransitResponse())
 
     val faqsList: MutableList<Faq> = mutableListOf()
@@ -72,6 +82,7 @@ class BaseViewModel @Inject constructor(
     private var isAffirmationLoaded = false
     private var isForecastLoaded = false
     private var isTransitLoaded = false
+    private var isDailyAdviceLoaded = false
 
     private fun resetAllUserDataStates() {
         isUserLoaded = false
@@ -79,6 +90,7 @@ class BaseViewModel @Inject constructor(
         isAffirmationLoaded = false
         isForecastLoaded = false
         isTransitLoaded = false
+        isDailyAdviceLoaded = false
     }
 
     private fun checkIsUserDataLoaded() {
@@ -88,6 +100,7 @@ class BaseViewModel @Inject constructor(
             && isAffirmationLoaded
             && isForecastLoaded
             && isTransitLoaded
+            && isDailyAdviceLoaded
         ) {
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             EventBus.getDefault().post(CurrentUserLoadedEvent())
@@ -123,7 +136,8 @@ class BaseViewModel @Inject constructor(
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             currentCompatibility.postValue(it)
         }, {
-
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            EventBus.getDefault().post(NoInetEvent())
         }).disposeOnCleared()
     }
 
@@ -151,7 +165,12 @@ class BaseViewModel @Inject constructor(
             isBodygraphLoaded = true
             checkIsUserDataLoaded()
 
-        }, {}).disposeOnCleared()
+            setupCurrentDailyAdvice()
+
+        }, {
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            EventBus.getDefault().post(NoInetEvent())
+        }).disposeOnCleared()
     }
 
     private fun setupCurrentTransit() {
@@ -174,7 +193,8 @@ class BaseViewModel @Inject constructor(
             checkIsUserDataLoaded()
 
         }, {
-
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            EventBus.getDefault().post(NoInetEvent())
         }).disposeOnCleared()
     }
 
@@ -198,7 +218,35 @@ class BaseViewModel @Inject constructor(
                 isForecastLoaded = true
                 checkIsUserDataLoaded()
 
-            }, {}).disposeOnCleared()
+            }, {
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                EventBus.getDefault().post(NoInetEvent())
+            }).disposeOnCleared()
+    }
+
+    private fun setupCurrentDailyAdvice() {
+        repo.getDailyAdvice()
+            .subscribe({
+                       Log.d("keke", "keke")
+                isDailyAdviceLoaded = true
+                checkIsUserDataLoaded()
+                val currentUserProfileId = when (currentUser.subtitle1Ru!!.lowercase(Locale.getDefault())) {
+                    "манифестор" -> 0
+                    "генератор" -> 1
+                    "манифестирующий генератор" -> 2
+                    "проектор" -> 3
+                    else -> 4
+                }
+
+                val cal = Calendar.getInstance()
+                val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH) - 1
+
+                currentDailyAdvice.postValue(it[currentUserProfileId.toString()]!![dayOfMonth])
+            }, {
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                EventBus.getDefault().post(NoInetEvent())
+            }).disposeOnCleared()
+
     }
 
     private fun setupCurrentAffirmation() {
@@ -249,7 +297,10 @@ class BaseViewModel @Inject constructor(
                 App.database.userDao().updateUser(partner)
             }
 
-        }, {}).disposeOnCleared()
+        }, {
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            EventBus.getDefault().post(NoInetEvent())
+        }).disposeOnCleared()
     }
 
     private fun setupChildBodygraph(
@@ -280,7 +331,10 @@ class BaseViewModel @Inject constructor(
             GlobalScope.launch {
                 App.database.childDao().updateUser(child )
             }
-        }, {}).disposeOnCleared()
+        }, {
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            EventBus.getDefault().post(NoInetEvent())
+        }).disposeOnCleared()
     }
 
     fun createNewUser(
@@ -298,7 +352,7 @@ class BaseViewModel @Inject constructor(
 
             val partner = User(
                 id = userId,
-                name = name,
+                name = name.replace(" ", ""),
                 place = place,
                 date = date,
                 time = time,
@@ -333,11 +387,11 @@ class BaseViewModel @Inject constructor(
 
         GlobalScope.launch {
             val childId = System.currentTimeMillis()
-
+//            getSystemService(App.instance.applicationContext, ConnectivityManager::class.java) as ConnectivityManager
             val child = Child(
                 id = childId,
                 parentId = currentUser.id,
-                name = name,
+                name = name.replace(" ", ""),
                 place = place,
                 date = date,
                 time = time,
@@ -378,6 +432,7 @@ class BaseViewModel @Inject constructor(
 
             setupCurrentBodygraph()
             setupCurrentForecast()
+
             setupCurrentAffirmation()
             setupCurrentTransit()
 
@@ -425,6 +480,27 @@ class BaseViewModel @Inject constructor(
             }, {
 
             }).disposeOnCleared()
+    }
+
+    var reverseSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> = mutableLiveDataOf(emptyList())
+    fun reverseNominatim(
+        lat: String,
+        lon: String
+    ) {
+
+        repo.geocodingNominatim(
+            "https://nominatim.openstreetmap.org/reverse?lat="
+                    + lat + "&lon=" + lon
+                    + "&format=json&accept-language="
+                    + App.preferences.locale
+                    + "&limit=50"
+        ).subscribe({
+//                suggestions.postValue(it)
+            reverseSuggestions.postValue(it)
+        }, {
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            EventBus.getDefault().post(NoInetEvent())
+        }).disposeOnCleared()
     }
 
     override fun onCleared() {

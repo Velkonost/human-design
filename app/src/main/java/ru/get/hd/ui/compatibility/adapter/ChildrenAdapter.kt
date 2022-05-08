@@ -8,10 +8,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
+import io.sulek.ssml.OnSwipeListener
 import kotlinx.android.synthetic.main.item_diagram.view.*
 import kotlinx.android.synthetic.main.item_partner.view.*
 import kotlinx.android.synthetic.main.item_partner.view.chart
+import kotlinx.android.synthetic.main.item_partner.view.deleteBtn
+import kotlinx.android.synthetic.main.item_partner.view.icDelete
 import kotlinx.android.synthetic.main.item_partner.view.subtitle
+import kotlinx.android.synthetic.main.item_partner.view.swipeContainer
 import kotlinx.android.synthetic.main.item_partner.view.userName
 import kotlinx.android.synthetic.main.item_partner_empty.view.*
 import org.greenrobot.eventbus.EventBus
@@ -19,6 +23,8 @@ import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.event.AddChildClickEvent
 import ru.get.hd.event.CompatibilityChildStartClickEvent
+import ru.get.hd.event.DeleteChildItemEvent
+import ru.get.hd.event.DeletePartnerItemEvent
 import ru.get.hd.model.Child
 import ru.get.hd.model.User
 import java.util.*
@@ -42,10 +48,24 @@ class ChildrenAdapter : EpoxyAdapter() {
     fun deleteChild(position: Int) {
         removeModel(models[position])
     }
+
+    fun deleteChildById(childId: Long) {
+        models.forEach { model ->
+            if (
+                model is ChildModel
+                && model.model.id == childId
+            ) {
+                hideModel(model)
+                return@forEach
+            }
+        }
+    }
 }
 
 class ChildModel(
-    val model: Child
+    val model: Child,
+    private var isExpanded: Boolean = false,
+    private val isSwipeEnabled: Boolean = true
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -56,6 +76,13 @@ class ChildModel(
         root = view
 
         with(view) {
+            swipeContainer.setOnSwipeListener(object : OnSwipeListener {
+                override fun onSwipe(isExpanded: Boolean) {
+                    this@ChildModel.isExpanded = isExpanded
+                }
+            })
+            swipeContainer.isEnabled = isSwipeEnabled
+
             userName.text = model.name
             subtitle.text =
                 "${if (App.preferences.locale == "ru") model.subtitle1Ru else model.subtitle1En} • " +
@@ -102,11 +129,22 @@ class ChildModel(
                 }
             )
 
-            partnerCard.setOnClickListener {
+            icDelete.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_dark_close
+                else R.drawable.ic_light_close
+            )
+
+            deleteBtn.setOnClickListener {
+                EventBus.getDefault().post(DeleteChildItemEvent(model.id))
+            }
+
+            swipeContainer.setOnClickListener {
                 EventBus.getDefault().post(
                     CompatibilityChildStartClickEvent(childId = model.id)
                 )
             }
+
+            swipeContainer.apply(isExpanded)
         }
     }
 

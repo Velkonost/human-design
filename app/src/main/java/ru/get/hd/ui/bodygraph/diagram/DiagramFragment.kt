@@ -2,11 +2,15 @@ package ru.get.hd.ui.bodygraph.diagram
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
+import io.sulek.ssml.SSMLLinearLayoutManager
+import kotlinx.android.synthetic.main.view_place_select.view.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -17,6 +21,7 @@ import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.databinding.FragmentDiagramBinding
 import ru.get.hd.event.CurrentUserLoadedEvent
+import ru.get.hd.event.DeleteDiagramItemEvent
 import ru.get.hd.event.DiagramAddUserClickEvent
 import ru.get.hd.event.UpdateCurrentUserEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
@@ -47,18 +52,28 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         super.onLayoutReady(savedInstanceState)
 
         setupData()
-//        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
 
-        binding.diagramsRecycler.setUpRemoveItemTouchHelper(
-            ::onItemSwiped
-        )
+        (binding.diagramsRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.diagramsRecycler.itemAnimator = null
+        binding.diagramsRecycler.layoutManager = SSMLLinearLayoutManager(requireContext())
+//        binding.diagramsRecycler.setUpRemoveItemTouchHelper { viewHolder, swipeDir ->
+
+//        }
+    }
+
+    @Subscribe
+    fun onDeleteDiagramItemEvent(e: DeleteDiagramItemEvent) {
+
+        baseViewModel.deleteUser(e.userId)
+        diagramsAdapter.deleteUserById(e.userId)
+
     }
 
     private fun onItemSwiped(vh: RecyclerView.ViewHolder, swipeDirection: Int) {
         val swipedPosition = vh.absoluteAdapterPosition
 
-        baseViewModel.deleteUser(diagramsAdapter.getUserAtPosition(swipedPosition).id)
-        diagramsAdapter.deleteUser(swipedPosition)
+//        baseViewModel.deleteUser(diagramsAdapter.getUserAtPosition(swipedPosition).id)
+//        diagramsAdapter.deleteUser(swipedPosition)
 
     }
 

@@ -76,7 +76,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
 
     <string name="start_place_title">Place of birth</string>
     <string name="start_place_desc"><![CDATA[The place where you were born is very<br>important. We will be able to accurately<br>determine the position of the heavenly<br>bodies that have left an imprint<br>on your destiny.]]></string>
-    <string name="start_place_hint">CITY, COUNTRY</string>
+    <string name="start_place_hint">City, Country</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_notifications_title">Notifications</string>
@@ -148,7 +148,9 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="profile_title">Profile</string>
     <string name="authority_title">Authority</string>
     <string name="strategy_title">Strategy</string>
-    <string name="injury_title">Trauma Suppression</string>
+    <string name="injury_title">Genetic Trauma</string>
+    <string name="nutrition_title">Nutrition</string>
+    <string name="environment_title">Environment</string>
 
     <string name="start_bodygraph_ready_title">Bodygraph is ready!</string>
     <string name="start_bodygraph_ready_text"><![CDATA[Now all the personality secrets will be<br>revealed to you, you will find the best ways<br>for harmonious contact and productive<br>interaction.]]></string>
@@ -264,6 +266,8 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="advice_title">Daily Advice</string>
 
     <string name="snackbar_title">Error</string>
+    <string name="snackbar_inet_title">No internet connection</string>
+    <string name="snackbar_inet">Your network connection is unstable or disconnected</string>
     <string name="snackbar_name">The name field cannot be empty.</string>
     <string name="snackbar_address">We could not find your address.</string>
 
@@ -283,4 +287,6 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="menu_third_title">Transits</string>
     <string name="menu_forth_title">Compatibility</string>
     <string name="menu_fifth_title">Insights</string>
+
+    <string name="daily_advice_subtitle">Get your daily advice</string>
 </resources>

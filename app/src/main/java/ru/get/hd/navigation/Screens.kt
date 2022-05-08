@@ -36,7 +36,7 @@ object Screens {
     fun bodygraphScreen(
         fromStart: Boolean = false
     ) = FragmentScreen {
-        val bodygraphFragment = BodygraphFragment.invoke()
+        val bodygraphFragment = BodygraphFragment()//.invoke()
         bodygraphFragment.arguments = bundleOf(
             "fromStart" to fromStart
         )
@@ -52,8 +52,15 @@ object Screens {
         SettingsFragment()
     }
 
-    fun compatibilityScreen() = FragmentScreen {
-        CompatibilityFragment()
+    fun compatibilityScreen(
+        fromAddChild: Boolean = false
+    ) = FragmentScreen {
+        val compatibilityScreen = CompatibilityFragment()
+        compatibilityScreen.arguments = bundleOf(
+            "fromAddChild" to fromAddChild
+        )
+
+        compatibilityScreen
     }
 
     fun affirmationScreen() = FragmentScreen {

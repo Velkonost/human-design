@@ -620,6 +620,48 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
     }
 
+    public void updateTheme() {
+        if (App.preferences.isDarkTheme()) {
+            monthPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.lightColor
+            ));
+            daysOfMonthPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.lightColor
+            ));
+            yearsPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.lightColor
+            ));
+            hoursPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.lightColor
+            ));
+            minutesPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.lightColor
+            ));
+            amPmPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.lightColor
+            ));
+        } else {
+            monthPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.darkColor
+            ));
+            daysOfMonthPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.darkColor
+            ));
+            yearsPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.darkColor
+            ));
+            hoursPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.darkColor
+            ));
+            minutesPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.darkColor
+            ));
+            amPmPicker.setItemTextColor(ContextCompat.getColor(
+                    getContext(), R.color.darkColor
+            ));
+        }
+    }
+
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker);
 

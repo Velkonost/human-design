@@ -192,6 +192,22 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
                 )
             )
 
+            aboutItemsList.add(
+                AboutItem(
+                    name = it.nutrition.name?: "",
+                    description = it.nutrition.description?: "",
+                    type = AboutType.NUTRITION
+                )
+            )
+
+            aboutItemsList.add(
+                AboutItem(
+                    name = it.environment.name?: "",
+                    description = it.environment.description?: "",
+                    type = AboutType.ENVIRONMENT
+                )
+            )
+
             columnsAdapter.createList(
                 activeCenters = it.activeCentres,
                 inactiveCenters = it.inactiveCentres,
@@ -240,7 +256,8 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
         binding.aboutTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.centersTitle.background = null
@@ -272,7 +289,8 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
         binding.centersTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.aboutTitle.background = null
@@ -304,7 +322,8 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
         binding.gatesTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.aboutTitle.background = null
@@ -336,7 +355,8 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
         binding.channelsTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.aboutTitle.background = null

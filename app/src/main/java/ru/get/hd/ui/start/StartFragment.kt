@@ -76,6 +76,7 @@ import android.graphics.Shader
 
 import android.graphics.LinearGradient
 import android.graphics.Typeface
+import android.net.ConnectivityManager
 import android.text.Selection
 import android.text.Spannable
 import android.text.SpannableString
@@ -88,7 +89,11 @@ import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
+import dagger.android.support.DaggerAppCompatActivity
+import ru.get.hd.event.NoInetEvent
+import ru.get.hd.util.ext.scaleXY
 import ru.get.hd.util.ext.setTextAnimationWithGradientAppName
 
 
@@ -192,7 +197,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             } else {
                 android.os.Handler().postDelayed({
                     binding.indicatorsContainer.isVisible = true
-                    binding.startBtn.isVisible = true
+
+                    if (!binding.placesView.isVisible)
+                        binding.startBtn.isVisible = true
 
                     (binding.nameET.layoutParams as ViewGroup.MarginLayoutParams)
                         .setMargins(
@@ -227,6 +234,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupInitTheme() {
         if (App.preferences.isFirstLaunch) {
+            App.preferences.isDarkTheme =
+                resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+
             EventBus.getDefault().post(
                 UpdateThemeEvent(
                     when (resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
@@ -237,6 +247,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     }
                 )
             )
+            updateTheme()
+            binding.date.updateTheme()
+            binding.time.updateTheme()
         } else {
 //            EventBus.getDefault().post(
 //                UpdateThemeEvent(
@@ -322,30 +335,37 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 //        }
 
         viewModel.nominatimSuggestions.observe(this) { list ->
-            val addresses: MutableList<Place> = mutableListOf()
+            if (binding.placesView.isVisible) {
+                val addresses: MutableList<Place> = mutableListOf()
 
-            list.forEach { feature ->
-                if (addresses.none { it.name == feature.placeName }) {
-                    addresses.add(
-                        Place(
-                            name = feature.placeName,
-                            lat = feature.lat,
-                            lon = feature.lon
+                list.forEach { feature ->
+                    if (addresses.none { it.name == feature.placeName }) {
+                        addresses.add(
+                            Place(
+                                name = feature.placeName,
+                                lat = feature.lat,
+                                lon = feature.lon
+                            )
+
                         )
-
-                    )
+                    }
                 }
+                placesAdapter.createList(addresses.toList())
             }
-            placesAdapter.createList(addresses.toList())
         }
     }
 
     private fun setupPlacesView() {
+        (binding.placesView.placeRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        binding.placesView.placeRecycler.itemAnimator = null
         binding.placesView.placeRecycler.adapter = placesAdapter
+//        placesAdapter.setHasStableIds(true)
 
-        binding.placesView.icArrow.setOnClickListener {
+        binding.placesView.icArrowPlace.setOnClickListener {
+            Keyboard.hide(requireActivity())
             binding.placesView.isVisible = false
-            placesAdapter.createList(emptyList())
+            binding.startBtn.isVisible = true
+            placesAdapter.createList(emptyList(), false)
         }
 
         binding.placesView.newPlaceET.addTextChangedListener {
@@ -367,8 +387,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         Keyboard.hide(requireActivity())
 
         binding.placesView.isVisible = false
+        binding.startBtn.isVisible = true
         binding.placesView.newPlaceET.setText("")
-        placesAdapter.createList(emptyList())
+        placesAdapter.createList(emptyList(), false)
 
         binding.placeET.setText(e.place.name)
         selectedLat = e.place.lat
@@ -418,7 +439,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         currentStartPage = StartPage.RAVE
 
         unselectAllIndicators()
-        binding.indicator6.background = ContextCompat.getDrawable(
+        binding.indicator5.background = ContextCompat.getDrawable(
             requireContext(),
             if (App.preferences.isDarkTheme) R.drawable.bg_active_indicator_dark
             else R.drawable.bg_active_indicator_light
@@ -447,7 +468,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         addKeyboardDetectListener()
 
-        binding.bottomGradient.alpha1(200)
+        if (App.preferences.isDarkTheme)
+            binding.bottomGradient.alpha1(200)
+
         binding.indicator6.alpha0(500) {
             binding.indicator6.isVisible = false
         }
@@ -486,7 +509,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         c.add(Calendar.YEAR, -20)
         binding.date.setDefaultDate(c.time)
 
-        binding.nameET.alpha0(500) {
+        binding.nameET.alpha0(300) {
             binding.nameET.isVisible = false
         }
         binding.date.isVisible = true
@@ -518,7 +541,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.skipTime.alpha = 1f
         binding.skipTime.text = (App.resourcesProvider.getStringLocale(R.string.start_time_skip))
 
-        binding.date.alpha0(500) {
+        binding.date.alpha0(300) {
             binding.date.isVisible = false
         }
 
@@ -552,10 +575,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             binding.nameDesc.alpha = 0.7f
         }
 
-        binding.skipTime.alpha0(500) {
+        binding.skipTime.alpha0(300) {
             binding.skipTime.isVisible = false
         }
-        binding.time.alpha0(500) {
+        binding.time.alpha0(300) {
             binding.time.isVisible = false
         }
 
@@ -576,10 +599,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         binding.backBtn.isVisible = false
 
-        binding.indicatorsContainer.alpha0(500)
+        binding.indicatorsContainer.alpha0(300)
 
 //        binding.startBtn.translationY(requireContext().convertDpToPx(0f), 500)
-        binding.nameContainer.alpha0(500)
+        binding.nameContainer.alpha0(300)
 
         binding.bodygraphContainer.isVisible = true
         binding.bodygraphContainer.alpha1(500)
@@ -588,6 +611,19 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_text))
 
         baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
+            if (
+                !it.design.channels.isNullOrEmpty()
+                && !it.personality.channels.isNullOrEmpty()
+                && !it.activeCentres.isNullOrEmpty()
+                && !it.inactiveCentres.isNullOrEmpty()
+            ) {
+              android.os.Handler().postDelayed({
+                  binding.bodygraphView.isVisible = true
+                  binding.bodygraphView.scaleXY(1f, 1f, 1500) {}
+              }, 200)
+
+            }
+
             binding.bodygraphView.setupData(
                 it.design,
                 it.personality,
@@ -793,38 +829,45 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     private fun setupSplash05() {
         currentStartPage = StartPage.SPLASH_05
         App.preferences.lastLoginPageId = SplashPage.SPLASH_05.pageId
+        setupRave()
 
-        unselectAllIndicators()
-        binding.indicator5.background = ContextCompat.getDrawable(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.drawable.bg_active_indicator_dark
-            else R.drawable.bg_active_indicator_light
-        )
-
-
+//        unselectAllIndicators()
+//        binding.indicator5.background = ContextCompat.getDrawable(
+//            requireContext(),
+//            if (App.preferences.isDarkTheme) R.drawable.bg_active_indicator_dark
+//            else R.drawable.bg_active_indicator_light
+//        )
+//
+//
         binding.splash0304Container.alpha0(500) {
             binding.splash0304Container.isVisible = false
         }
-        binding.splash05Container.alpha1(500)
+//        binding.splash05Container.alpha1(500)
+//
+//        binding.titleSplash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.splash_05_title))
+//        binding.descSplash05.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.splash_05_desc))
+//
+//        binding.text01Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_1)
+//        binding.text02Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_2)
+//        binding.text03Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_3)
+//
+////        binding.text1Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_1_splash_05))
+////        binding.text2Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_2_splash_05))
+////        binding.text3Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_3_splash_05))
+//
+//        binding.startBtnText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.understand))
+    }
 
-        binding.titleSplash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.splash_05_title))
-        binding.descSplash05.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.splash_05_desc))
-
-        binding.text01Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_1)
-        binding.text02Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_2)
-        binding.text03Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_3)
-
-//        binding.text1Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_1_splash_05))
-//        binding.text2Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_2_splash_05))
-//        binding.text3Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_3_splash_05))
-
-        binding.startBtnText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.understand))
+    private fun isNetworkConnected(): Boolean {
+        val cm = requireContext().getSystemService(DaggerAppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnected
     }
 
     inner class Handler {
 
         fun openPlacesView(v: View) {
             binding.placesView.isVisible = true
+            binding.startBtn.isVisible = false
         }
 
         fun onBackClicked(v: View) {
@@ -904,6 +947,13 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     setupPlaceBirth()
                 }
                 StartPage.PLACE_BIRTH -> {
+                    if (!isNetworkConnected()) {
+                        EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                        EventBus.getDefault().post(NoInetEvent())
+
+                        return
+                    }
+
                     if (binding.placeET.text.toString().replace(" ", "").isNullOrEmpty()) {
                         snackbarAddress.show()
                     } else {
@@ -946,16 +996,15 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             }
 
             if (selectedStroke.alpha == 0f) {
-                unselectAllVariants()
+//                unselectAllVariants()
                 selectedStroke.alpha1(500)
             } else {
-                unselectAllVariants()
+                selectedStroke.alpha0(500)
+//                unselectAllVariants()
             }
 
         }
     }
-
-
 }
 
 

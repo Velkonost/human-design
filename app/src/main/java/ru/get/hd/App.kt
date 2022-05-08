@@ -16,6 +16,7 @@ import ru.get.hd.util.Preferences
 import ru.get.hd.util.ResourcesProvider
 import timber.log.Timber
 import com.github.terrakok.cicerone.Cicerone
+import java.util.*
 
 class App : DaggerApplication() {
 
@@ -23,6 +24,11 @@ class App : DaggerApplication() {
 
     val router get() = cicerone.router
     val navigatorHolder get() = cicerone.getNavigatorHolder()
+
+    private var mActivityTransitionTimer: Timer? = null
+    private var mActivityTransitionTimerTask: TimerTask? = null
+    var wasInBackground = false
+    private val MAX_ACTIVITY_TRANSITION_TIME_MS: Long = 60000
 
     private val appComponent = DaggerAppComponent.builder()
         .appModule(AppModule(this))
@@ -64,6 +70,25 @@ class App : DaggerApplication() {
             notificationManager.createNotificationChannel(notificationChannel)
             Timber.d("isNotificationChannelCreated")
         }
+    }
+
+    fun startActivityTransitionTimer() {
+        mActivityTransitionTimer = Timer()
+        mActivityTransitionTimerTask = object : TimerTask() {
+            override fun run() {
+                this@App.wasInBackground = true
+            }
+        }
+        mActivityTransitionTimer!!.schedule(
+            mActivityTransitionTimerTask,
+            MAX_ACTIVITY_TRANSITION_TIME_MS
+        )
+    }
+
+    fun stopActivityTransitionTimer() {
+        mActivityTransitionTimerTask?.cancel()
+        mActivityTransitionTimer?.cancel()
+        wasInBackground = false
     }
 
     companion object {

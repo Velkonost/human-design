@@ -16,8 +16,8 @@
     <color name="darkSettingsArrowTint">#888888</color>
     <color name="lightSettingsArrowTint">#888888</color>
 
-    <color name="darkMenu">#111111</color>
-    <color name="lightMenu">#F9F9F9</color>
+    <color name="darkMenu">#CC111111</color>
+    <color name="lightMenu">#CCF9F9F9</color>
     
     <color name="unselectText">#888888</color>
 
@@ -29,4 +29,7 @@
     <color name="color_grey2">#dfdfdf</color>
 
     <color name="helpBgColor">#CC0E0E0F</color>
+
+    <color name="searchTintLight">#993C3C43</color>
+    <color name="searchTintDark">#99EBEBF5</color>
 </resources>

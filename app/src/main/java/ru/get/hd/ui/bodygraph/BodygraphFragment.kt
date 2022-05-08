@@ -3,6 +3,7 @@ package ru.get.hd.ui.bodygraph
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.media.metrics.Event
 import android.os.Bundle
 import android.os.Handler
 import android.view.Gravity
@@ -29,6 +30,7 @@ import ru.get.hd.event.SetupNavMenuEvent
 import ru.get.hd.event.ShowHelpEvent
 import ru.get.hd.event.ToBodygraphClickEvent
 import ru.get.hd.event.ToDecryptionClickEvent
+import ru.get.hd.event.UpdateBalloonBgStateEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.ui.base.BaseFragment
@@ -68,7 +70,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         if (fromStart)
             android.os.Handler().postDelayed({
                 showHelp(HelpType.BodygraphCenters)
-            }, 1500)
+            }, 2000)
 
 
     }
@@ -139,9 +141,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
     private fun setupUserData() {
         if (baseViewModel.isCurrentUserInitialized()) {
-            if (isFirstFragmentLaunch)
-                binding.userName.setTextAnimation(baseViewModel.currentUser.name)
-            else binding.userName.text = baseViewModel.currentUser.name
+            binding.userName.text = baseViewModel.currentUser.name
         }
 
         baseViewModel.currentUserSetupEvent.observe(viewLifecycleOwner) {
@@ -169,8 +169,6 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                             "${if (App.preferences.locale == "ru") it.profileRu else it.profileEn}"
                 }
             }
-
-
         }
     }
 
@@ -543,29 +541,31 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             )
             .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
             .setOnBalloonDismissListener {
-                binding.balloonBg.isVisible = false
+                EventBus.getDefault().post(UpdateBalloonBgStateEvent(false))
+//                binding.balloonBg.isVisible = false
             }
             .build()
 
         if (e.alignTop) balloon.showAlignTop(view, xOff = e.xOffset)
         else balloon.showAlignBottom(view, xOff = e.xOffset)
 
-        binding.balloonBg.isVisible = true
+        EventBus.getDefault().post(UpdateBalloonBgStateEvent(true))
+//        binding.balloonBg.isVisible = true
     }
 
-    companion object {
-        @Volatile
-        private var instance: BodygraphFragment? = null
-
-        private val LOCK = Any()
-
-        operator fun invoke() = BodygraphFragment.instance ?: synchronized(LOCK) {
-            BodygraphFragment.instance ?: BodygraphFragment.buildBodygraphFragment()
-                .also { BodygraphFragment.instance = it }
-        }
-
-        private fun buildBodygraphFragment() = BodygraphFragment()
-    }
+//    companion object {
+//        @Volatile
+//        private var instance: BodygraphFragment? = null
+//
+//        private val LOCK = Any()
+//
+//        operator fun invoke() = BodygraphFragment.instance ?: synchronized(LOCK) {
+//            BodygraphFragment.instance ?: BodygraphFragment.buildBodygraphFragment()
+//                .also { BodygraphFragment.instance = it }
+//        }
+//
+//        private fun buildBodygraphFragment() = BodygraphFragment()
+//    }
 
     inner class Handler {
 

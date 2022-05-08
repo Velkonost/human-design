@@ -3,6 +3,7 @@ package ru.get.hd.repo.nasa
 import io.reactivex.Single
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.CompatibilityResponse
+import ru.get.hd.model.DailyAdvice
 import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
 import ru.get.hd.model.Forecast
@@ -73,6 +74,8 @@ class RestRepoImpl @Inject constructor(
     override fun geocodingNominatim(url: String) =
         restService.geocodingNominatim(url).subscribeIoObserveMain()
 
+    override fun getDailyAdvice(): Single<HashMap<String, List<DailyAdvice>>> =
+        restService.getDailyAdvice().subscribeIoObserveMain()
 
 
 

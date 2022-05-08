@@ -110,4 +110,6 @@
     <dimen name="diary_viewpager_current_item_horizontal_margin">10dp</dimen>
 
     <dimen name="transit_znak_size">16dp</dimen>
+
+    <dimen name="bodygraph_text_size">12px</dimen>
 </resources>

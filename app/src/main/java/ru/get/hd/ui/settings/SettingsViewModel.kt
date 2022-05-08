@@ -1,7 +1,11 @@
 package ru.get.hd.ui.settings
 
 import androidx.lifecycle.MutableLiveData
+import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
+import ru.get.hd.event.NoInetEvent
+import ru.get.hd.event.UpdateLoaderStateEvent
+import ru.get.hd.model.GeocodingNominatimFeature
 import ru.get.hd.model.GeocodingResponse
 import ru.get.hd.repo.base.RestRepo
 import ru.get.hd.util.RxViewModel
@@ -16,6 +20,7 @@ class SettingsViewModel @Inject constructor(
     val errorEvent = SingleLiveEvent<Error>()
 
     var suggestions: MutableLiveData<GeocodingResponse> = mutableLiveDataOf(GeocodingResponse())
+    var nominatimSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> = mutableLiveDataOf(emptyList())
 
     fun geocoding(query: String?) {
         if (query.isNullOrEmpty()) {
@@ -34,4 +39,25 @@ class SettingsViewModel @Inject constructor(
             }).disposeOnCleared()
         }
     }
+
+    fun geocodingNominatim(query: String?) {
+        if (query.isNullOrEmpty()) {
+//https://nominatim.openstreetmap.org/search?q=%D0%BE%D0%BC%D1%81%D0%BA&format=json&accept-language=ru
+        } else {
+            repo.geocodingNominatim(
+                "https://nominatim.openstreetmap.org/search?q="
+                        + query
+                        + "&format=json&accept-language="
+                        + App.preferences.locale
+                        + "&limit=50"
+            ).subscribe({
+//                suggestions.postValue(it)
+                nominatimSuggestions.postValue(it)
+            }, {
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                EventBus.getDefault().post(NoInetEvent())
+            }).disposeOnCleared()
+        }
+    }
+
 }

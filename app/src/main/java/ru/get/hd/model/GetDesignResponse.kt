@@ -23,6 +23,8 @@ data class GetDesignResponse(
     @field:JsonProperty("description") val description: GetDesignDescription = GetDesignDescription(),
     @field:JsonProperty("injury") val injury: Injury = Injury(),
     @field:JsonProperty("strategy") val strategy: Strategy = Strategy(),
+    @field:JsonProperty("nutriton") val nutrition: Nutrition = Nutrition(),
+    @field:JsonProperty("environment") val environment: Environment = Environment(),
     ) : Parcelable
 
 @Parcelize
@@ -67,6 +69,20 @@ data class Strategy(
 ): Parcelable
 
 @Parcelize
+data class Nutrition(
+    @field:JsonProperty("id") val id: Int = 0,
+    @field:JsonProperty("name") val name: String? = "",
+    @field:JsonProperty("description") val description: String? = "",
+): Parcelable
+
+@Parcelize
+data class Environment(
+    @field:JsonProperty("id") val id: Int = 0,
+    @field:JsonProperty("name") val name: String? = "",
+    @field:JsonProperty("description") val description: String? = "",
+): Parcelable
+
+@Parcelize
 data class Planet(
     @field:JsonProperty("gate") val gate: Int = 0,
     @field:JsonProperty("line") val line: Int = 0,
@@ -103,6 +119,8 @@ enum class AboutType {
     PROFILE,
     AUTHORITY,
     STRATEGY,
-    INJURY
+    INJURY,
+    NUTRITION,
+    ENVIRONMENT
 }
 

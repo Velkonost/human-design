@@ -21,6 +21,7 @@ import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
+import kotlinx.android.synthetic.main.item_transit_advice.view.*
 import kotlinx.android.synthetic.main.item_transit_channels.view.*
 import kotlinx.android.synthetic.main.item_transit_gates.view.*
 import org.greenrobot.eventbus.EventBus
@@ -206,7 +207,8 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
         binding.transitsTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.cyclesTitle.background = null
@@ -234,7 +236,8 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
         binding.cyclesTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.transitsTitle.background = null
@@ -262,7 +265,8 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
         binding.adviceTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.transitsTitle.background = null
@@ -313,7 +317,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                     ))
 
                     baseViewModel.currentTransit.observe(viewLifecycleOwner) {
-                        gatesAdapter.createList(it.onlyCurrentGates)
+                        gatesAdapter.createList(it.onlyCurrentGates.sortedBy { it.number })
                         channelsAdapter.createList(it.onlyCurrentChannels)
 
                         view.channelsTitle.isVisible = !it.onlyCurrentChannels.isNullOrEmpty()
@@ -458,6 +462,209 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                     )
                     rotate.repeatCount = Animation.INFINITE
                     rotate.fillAfter = true
+                    rotate.duration = 50000
+                    rotate.interpolator = LinearInterpolator()
+
+                    val rotateNegative = RotateAnimation(
+                        0f,
+                        -360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    rotateNegative.repeatCount = Animation.INFINITE
+                    rotateNegative.fillAfter = true
+                    rotateNegative.duration = 50000
+                    rotateNegative.interpolator = LinearInterpolator()
+
+                    val rotate1 = RotateAnimation(
+                        0f,
+                        360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    rotate1.repeatCount = Animation.INFINITE
+                    rotate1.fillAfter = true
+                    rotate1.duration = 50000
+                    rotate1.interpolator = LinearInterpolator()
+                    view.circle1.startAnimation(rotate1)
+
+                    val rotate2 = RotateAnimation(
+                        0f,
+                        -360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    rotate2.repeatCount = Animation.INFINITE
+                    rotate2.fillAfter = true
+                    rotate2.duration = 50000
+                    rotate2.interpolator = LinearInterpolator()
+                    view.circle2.startAnimation(rotate2)
+
+                    val rotate3 = RotateAnimation(
+                        0f,
+                        360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    rotate3.repeatCount = Animation.INFINITE
+                    rotate3.fillAfter = true
+                    rotate3.duration = 50000
+                    rotate3.interpolator = LinearInterpolator()
+                    view.circle3.startAnimation(rotate3)
+
+                    val rotate4 = RotateAnimation(
+                        0f,
+                        -360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    rotate4.repeatCount = Animation.INFINITE
+                    rotate4.fillAfter = true
+                    rotate4.duration = 50000
+                    rotate4.interpolator = LinearInterpolator()
+                    view.circle4.startAnimation(rotate4)
+
+                    val rotate5 = RotateAnimation(
+                        0f,
+                        360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    rotate5.repeatCount = Animation.INFINITE
+                    rotate5.fillAfter = true
+                    rotate5.duration = 50000
+                    rotate5.interpolator = LinearInterpolator()
+                    view.circle5.startAnimation(rotate5)
+
+                    val rotate6 = RotateAnimation(
+                        0f,
+                        360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    rotate6.repeatCount = Animation.INFINITE
+                    rotate6.fillAfter = true
+                    rotate6.duration = 50000
+                    rotate6.interpolator = LinearInterpolator()
+                    view.circle6.startAnimation(rotate6)
+
+                    val rotate7 = RotateAnimation(
+                        0f,
+                        -360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    rotate7.repeatCount = Animation.INFINITE
+                    rotate7.fillAfter = true
+                    rotate7.duration = 50000
+                    rotate7.interpolator = LinearInterpolator()
+                    view.circle7.startAnimation(rotate7)
+
+                    val rotate8 = RotateAnimation(
+                        0f,
+                        360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    rotate8.repeatCount = Animation.INFINITE
+                    rotate8.fillAfter = true
+                    rotate8.duration = 50000
+                    rotate8.interpolator = LinearInterpolator()
+                    view.circle8.startAnimation(rotate8)
+//                    view.circle8.startAnimation(rotate)
+
+
+                    container.addView(view)
+                    view
+                }
+                1 -> {
+                    val view = layoutInflater.inflate(R.layout.item_transit_channels, null)
+                    container.addView(view)
+                    view
+                }
+                else -> {
+                    val view = layoutInflater.inflate(R.layout.item_transit_advice, null)
+
+                    baseViewModel.currentDailyAdvice.observe(viewLifecycleOwner) {
+                        view.adviceTitle.text =
+                            if (App.preferences.locale == "ru") it.titleRu
+                            else it.titleEn
+
+                        view.adviceText.text =
+                            if (App.preferences.locale == "ru") it.textRu
+                            else it.textEn
+                    }
+
+                    view.adviceSubtitle.text = App.resourcesProvider.getStringLocale(R.string.daily_advice_subtitle)
+
+                    view.adviceBlock.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_daily_advice_dark
+                        else R.drawable.bg_daily_advice_light
+                    )
+
+                    view.adviceTitle.setTextColor(ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    ))
+
+                    view.adviceText.setTextColor(ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    ))
+
+                    view.adviceSubtitle.setTextColor(ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    ))
+
+                    view.adviceIcon.setImageResource(
+                        if (App.preferences.isDarkTheme) R.drawable.ic_advice_icon_dark
+                        else R.drawable.ic_advice_icon_light
+                    )
+
+                    view.bigCircle.setImageResource(
+                        if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
+                        else R.drawable.ic_circle_big_light
+                    )
+
+                    view.midCircle.setImageResource(
+                        if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
+                        else R.drawable.ic_circle_mid_light
+                    )
+
+                    val rotate = RotateAnimation(
+                        0f,
+                        360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+
+                    rotate.repeatCount = Animation.INFINITE
+                    rotate.fillAfter = true
                     rotate.duration = 100000
                     rotate.interpolator = LinearInterpolator()
 
@@ -474,39 +681,9 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                     rotateNegative.duration = 100000
                     rotateNegative.interpolator = LinearInterpolator()
 
-                    val rotate3 = RotateAnimation(
-                        0f,
-                        360f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f
-                    )
-                    rotate3.repeatCount = Animation.INFINITE
-                    rotate3.fillAfter = true
-                    rotate3.duration = 100000
-                    rotate3.interpolator = LinearInterpolator()
+                    view.bigCircle.startAnimation(rotate)
+                    view.midCircle.startAnimation(rotateNegative)
 
-//                    view.circle1.startAnimation(rotate)
-//                    view.circle2.startAnimation(rotateNegative)
-                    view.circle3.startAnimation(rotate3)
-//                    view.circle4.startAnimation(rotateNegative)
-//                    view.circle5.startAnimation(rotate)
-//                    view.circle6.startAnimation(rotate)
-//                    view.circle7.startAnimation(rotateNegative)
-//                    view.circle8.startAnimation(rotate)
-
-
-                    container.addView(view)
-                    view
-                }
-                1 -> {
-                    val view = layoutInflater.inflate(R.layout.item_transit_channels, null)
-                    container.addView(view)
-                    view
-                }
-                else -> {
-                    val view = layoutInflater.inflate(R.layout.item_transit_channels, null)
                     container.addView(view)
                     view
                 }

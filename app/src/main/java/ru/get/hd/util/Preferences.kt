@@ -3,6 +3,7 @@ package ru.get.hd.util
 import android.content.Context
 import android.content.SharedPreferences
 import ru.get.hd.App
+import java.util.*
 
 class Preferences(context: Context) {
 
@@ -18,7 +19,7 @@ class Preferences(context: Context) {
 
     var locale: String
         set(value) = sharedPreferences.edit().putString(LOCALE, value).apply()
-        get() = sharedPreferences.getString(LOCALE, "ru") ?: "ru"
+        get() = Locale.getDefault().language//sharedPreferences.getString(LOCALE, "ru") ?: "ru"
 
     var isDarkTheme: Boolean
         set(value) = sharedPreferences.edit().putBoolean(IS_DARK_THEME, value)

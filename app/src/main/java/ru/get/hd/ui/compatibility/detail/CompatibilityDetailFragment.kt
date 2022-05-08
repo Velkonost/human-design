@@ -140,7 +140,8 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
         binding.aboutTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.channelsTitle.background = null
@@ -171,7 +172,8 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
         binding.profilesTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.aboutTitle.background = null
@@ -202,7 +204,8 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
         binding.channelsTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.aboutTitle.background = null

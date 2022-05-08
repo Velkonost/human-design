@@ -793,12 +793,11 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     app:layout_constraintTop_toTopOf="@id/transitBlock"
                     app:layout_constraintBottom_toBottomOf="@id/transitBlock"
-                    app:layout_constraintStart_toEndOf="@id/designBlock"
-                    app:layout_constraintEnd_toStartOf="@id/transitBlock"
-
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="20dp"
+                    android:padding="10dp"
                     android:layout_width="wrap_content"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
                     android:layout_height="wrap_content">
 
                     <ImageView
@@ -825,14 +824,13 @@
 
                     <ImageView
                         android:id="@+id/circle3"
-                        android:paddingTop="5dp"
                         android:adjustViewBounds="true"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:src="@drawable/ic_transit_circle_3"
-                        android:layout_width="135dp"
+                        android:layout_width="129dp"
                         android:layout_height="135dp"/>
 
                     <ImageView

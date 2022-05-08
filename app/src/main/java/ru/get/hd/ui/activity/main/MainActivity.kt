@@ -7,14 +7,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.location.Geocoder
+import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat
@@ -22,6 +29,8 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.jaeger.library.StatusBarUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -38,6 +47,7 @@ import ru.get.hd.event.LastKnownLocationUpdateEvent
 import ru.get.hd.event.PermissionGrantedEvent
 import ru.get.hd.event.SetupNavMenuEvent
 import ru.get.hd.event.ToBodygraphClickEvent
+import ru.get.hd.event.UpdateBalloonBgStateEvent
 import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.navigation.Screens
@@ -49,6 +59,14 @@ import ru.get.hd.ui.splash.SplashPage
 import ru.get.hd.ui.start.StartPage
 import ru.get.hd.vm.*
 import java.util.*
+import android.net.ConnectivityManager
+import android.widget.ImageView
+import ru.get.hd.event.NoInetEvent
+import android.location.Criteria
+
+
+
+
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     R.layout.activity_main,
@@ -70,9 +88,20 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private var navController: NavController? = null
 
-
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
+
+        if (!isNetworkConnected()) {
+            snackbarInet.show()
+            android.os.Handler().postDelayed({
+                finish()
+                overridePendingTransition(0, 0)
+                startActivity(intent)
+                overridePendingTransition(0, 0)
+            }, 4000)
+
+            return
+        }
 
 
         if (savedInstanceState == null) {
@@ -116,8 +145,38 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         initNotificationReceiver()
 
-        geocoder = Geocoder(this, Locale.getDefault())
-        setupLocationListener()
+//        geocoder = Geocoder(this, Locale.getDefault())
+
+    }
+
+    @Subscribe
+    fun onNoInetEvent(e: NoInetEvent) {
+        snackbarInet.show()
+    }
+
+    private fun isNetworkConnected(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnected
+    }
+
+    private val snackbarInet: Snackbar by lazy {
+        val snackView = View.inflate(this, R.layout.view_snackbar, null)
+        val snackbar = Snackbar.make(binding.snackbarContainer, "", Snackbar.LENGTH_LONG)
+        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        val view = snackbar.view
+        val params = view.layoutParams as CoordinatorLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+
+        (snackbar.view as ViewGroup).removeAllViews()
+        (snackbar.view as ViewGroup).addView(snackView)
+
+        snackView.findViewById<ImageView>(R.id.icon).setImageResource(R.drawable.ic_snackbar_close)
+        snackView.findViewById<TextView>(R.id.title).text = App.resourcesProvider.getStringLocale(R.string.snackbar_inet_title)
+        snackView.findViewById<TextView>(R.id.desc).text = App.resourcesProvider.getStringLocale(R.string.snackbar_inet)
+        snackbar.setBackgroundTint(Color.parseColor("#CE7559"))
+
+        snackbar
     }
 
     fun checkLocationPermission() {
@@ -171,57 +230,25 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             return
         }
 
-        val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if(LocationManagerCompat.isLocationEnabled(lm)) {
-            // you can do this your own way, eg. from a viewModel
-            // but here is where you wanna start the coroutine.
-            // Choose your priority based on the permission you required
-            val priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            GlobalScope.launch {
-                val location = LocationServices
-                    .getFusedLocationProviderClient(this@MainActivity)
-                    .awaitCurrentLocation(priority)
-                // do whatever with this location, notice that it's nullable
 
-//            if (::geocoder.isInitialized) {
-                kotlin.runCatching {
-                    val currentLocationVariants =
-                        geocoder.getFromLocation(location!!.latitude, location.longitude, 10)
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-                    if (
-                        currentLocationVariants.isNotEmpty()
-                        && currentLocationVariants.any { variant ->
-                            !variant.locality.isNullOrEmpty() && !variant.countryName.isNullOrEmpty()
-                        }
-                    ) {
+        val criteria = Criteria()
+        criteria.accuracy = Criteria.ACCURACY_FINE
+        criteria.isAltitudeRequired = false
+        criteria.isBearingRequired = false
+        criteria.isCostAllowed = true
+        criteria.powerRequirement = Criteria.POWER_MEDIUM
+        val provider = locationManager.getBestProvider(criteria, true)
 
-                        val location1 = currentLocationVariants.first { variant ->
-                            !variant.locality.isNullOrEmpty() && !variant.countryName.isNullOrEmpty()
-                        }
-//                        isCurrentLocationVariantSet = true
-//
-                        App.preferences.lastKnownLocationLat = location1.latitude.toString()
-                        App.preferences.lastKnownLocationLon = location1.longitude.toString()
-                        App.preferences.lastKnownLocation = "${location1.locality}, ${location1.countryName}"
-                        EventBus.getDefault().post(LastKnownLocationUpdateEvent())
-//                        selectedLat = currentLocationVariants[0].latitude.toString()
-//                        selectedLon = currentLocationVariants[0].longitude.toString()
-//                        binding.viewModel!!.reverseGeocoding(currentLocationVariants[0].latitude.toFloat(), currentLocationVariants[0].longitude.toFloat())
-//                        binding.placeET.setText("${currentLocationVariants[0].locality}, ${currentLocationVariants[0].countryName}")
-                    }
-                }
-//            }
-            }
-        } else {
-            // prompt user to enable location or launch location settings check
+        var location = locationManager.getLastKnownLocation(provider!!)
+
+        while (location == null) {
+            location = locationManager.getLastKnownLocation(provider!!)
         }
+        binding.viewModel!!.reverseNominatim(location!!.latitude.toString(), location.longitude.toString())
 
-//    mLocationManager.requestLocationUpdates(
-//        LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-//        LOCATION_REFRESH_DISTANCE, mLocationListener
-//    )
     }
-
 
     private fun initNotificationReceiver() {
         val notifyIntent = Intent(this, NotificationReceiver::class.java)
@@ -251,7 +278,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 StartPage.DATE_BIRTH.pageId,
                 StartPage.TIME_BIRTH.pageId,
                 StartPage.PLACE_BIRTH.pageId,
-                StartPage.BODYGRAPH.pageId, -> {
+                StartPage.BODYGRAPH.pageId,
+                -> {
                     Screens.startScreen()
                 }
                 else -> {
@@ -264,19 +292,36 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     override fun onResumeFragments() {
         super.onResumeFragments()
-        navigationHolder.setNavigator(navigator)
+
+        if (::navigator.isInitialized)
+            navigationHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
         navigationHolder.removeNavigator()
+        (this.application as App).startActivityTransitionTimer()
         super.onPause()
     }
 
     override fun onViewModelReady(viewModel: BaseViewModel) {
+        setupLocationListener()
+
         viewModel.loadFaqs()
 
-        if (App.preferences.currentUserId != -1L)
+        if (App.preferences.currentUserId != -1L && isNetworkConnected()) {
             viewModel.setupCurrentUser()
+            onUpdateLoaderStateEvent(UpdateLoaderStateEvent(true))
+        }
+
+        viewModel.reverseSuggestions.observe(this) {
+            if (!it.isNullOrEmpty()) {
+                App.preferences.lastKnownLocationLat = it[0].lat.toString()
+                App.preferences.lastKnownLocationLon = it[0].lon.toString()
+                App.preferences.lastKnownLocation = "${it[0].address.city}, ${it[0].address.country}"
+                EventBus.getDefault().post(LastKnownLocationUpdateEvent())
+            }
+
+        }
     }
 
     @Subscribe
@@ -288,6 +333,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     @Subscribe
     fun onUpdateNavMenuVisibleStateEvent(e: UpdateNavMenuVisibleStateEvent) {
         updateNavMenuVisible(e.isVisible)
+    }
+
+    @Subscribe
+    fun onUpdateBalloonBgStateEvent(e: UpdateBalloonBgStateEvent) {
+        binding.balloonBg.isVisible = e.isVisible
     }
 
     private fun updateNavMenuVisible(isVisible: Boolean) {
@@ -303,11 +353,30 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     private fun updateLoaderState(isVisible: Boolean) {
         runOnUiThread {
             binding.progress.isVisible = isVisible
+            (binding.progressBar.drawable as GifDrawable).setSpeed(3f)
+
 
             if (isVisible) (binding.progressBar.drawable as GifDrawable).start()
-            else (binding.progressBar.drawable as GifDrawable).stop()
+            else {
+                    android.os.Handler().postDelayed({
+                        (binding.progressBar.drawable as GifDrawable).stop()
+                    }, 1500)
+            }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        val myApp: App = this.application as App
+        if (myApp.wasInBackground) {
+
+            finish()
+            overridePendingTransition(0, 0)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
+            //Do specific came-here-from-background code
+        }
+        myApp.stopActivityTransitionTimer()
     }
 
     override fun onRequestPermissionsResult(

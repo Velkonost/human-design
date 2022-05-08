@@ -15,7 +15,9 @@ import dagger.android.support.DaggerAppCompatActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.EventBusException
 import org.greenrobot.eventbus.Subscribe
+import ru.get.hd.App
 import ru.get.hd.BR
+import ru.get.hd.R
 import ru.get.hd.event.UpdateThemeEvent
 import ru.get.hd.glide.GlideApp
 import ru.get.hd.util.ext.getViewModel
@@ -63,6 +65,11 @@ abstract class BaseActivity<V : ViewModel, B : ViewDataBinding>(
      * Overriding classes should use onLayoutReady or onViewModelReady instead of onCreate to ensure app is fully initialized
      */
     final override fun onCreate(savedInstanceState: Bundle?) {
+//        getWindow().setBackgroundDrawableResource(
+//            if (App.preferences.isDarkTheme) R.drawable.ic_splash_dark
+//            else R.drawable.ic_splash_light
+//        );
+
         Timber.e("onCreate")
 
         savedInstanceState?.clear()

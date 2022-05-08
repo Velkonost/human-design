@@ -8,10 +8,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
+import io.sulek.ssml.OnSwipeListener
 import kotlinx.android.synthetic.main.item_diagram.view.*
 import kotlinx.android.synthetic.main.item_partner.view.*
 import kotlinx.android.synthetic.main.item_partner.view.chart
+import kotlinx.android.synthetic.main.item_partner.view.deleteBtn
+import kotlinx.android.synthetic.main.item_partner.view.icDelete
 import kotlinx.android.synthetic.main.item_partner.view.subtitle
+import kotlinx.android.synthetic.main.item_partner.view.swipeContainer
 import kotlinx.android.synthetic.main.item_partner.view.userName
 import kotlinx.android.synthetic.main.item_partner_empty.view.*
 import org.greenrobot.eventbus.EventBus
@@ -19,10 +23,10 @@ import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.event.AddPartnerClickEvent
 import ru.get.hd.event.CompatibilityStartClickEvent
+import ru.get.hd.event.DeletePartnerItemEvent
 import ru.get.hd.event.UpdateCurrentUserEvent
 import ru.get.hd.model.Child
 import ru.get.hd.model.User
-import ru.get.hd.ui.bodygraph.diagram.adapter.DiagramModel
 import java.util.*
 
 
@@ -45,10 +49,24 @@ class PartnersAdapter : EpoxyAdapter() {
     fun deletePartner(position: Int) {
         removeModel(models[position])
     }
+
+    fun deletePartnerById(partnerId: Long) {
+        models.forEach { model ->
+            if (
+                model is PartnerModel
+                && model.model.id == partnerId
+            ) {
+                hideModel(model)
+                return@forEach
+            }
+        }
+    }
 }
 
 class PartnerModel(
-    val model: User
+    val model: User,
+    private var isExpanded: Boolean = false,
+    private val isSwipeEnabled: Boolean = true
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -59,6 +77,13 @@ class PartnerModel(
         root = view
 
         with(view) {
+            swipeContainer.setOnSwipeListener(object : OnSwipeListener {
+                override fun onSwipe(isExpanded: Boolean) {
+                    this@PartnerModel.isExpanded = isExpanded
+                }
+            })
+            swipeContainer.isEnabled = isSwipeEnabled
+
             userName.text = model.name
             subtitle.text =
                 "${if (App.preferences.locale == "ru") model.subtitle1Ru else model.subtitle1En} • " +
@@ -106,7 +131,16 @@ class PartnerModel(
 
             chart.setImageResource(chartResId)
 
-            partnerCard.setOnClickListener {
+            icDelete.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_dark_close
+                else R.drawable.ic_light_close
+            )
+
+            deleteBtn.setOnClickListener {
+                EventBus.getDefault().post(DeletePartnerItemEvent(model.id))
+            }
+
+            swipeContainer.setOnClickListener {
                 EventBus.getDefault().post(
                     CompatibilityStartClickEvent(
                         user = model,
@@ -114,6 +148,7 @@ class PartnerModel(
                     )
                 )
             }
+            swipeContainer.apply(isExpanded)
         }
     }
 

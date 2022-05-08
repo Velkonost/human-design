@@ -48,6 +48,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
     }
 
     private fun setupViewPager() {
+        binding.viewPager.offscreenPageLimit = 2
         binding.viewPager.adapter = getViewPagerAdapter()
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
@@ -59,7 +60,8 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
             override fun onPageSelected(position: Int) {
                 when(position) {
                     0 -> selectAffirmations()
-                    else -> selectForecasts()
+                    1 -> selectForecasts()
+                    else -> selectInsights()
                 }
             }
 
@@ -90,6 +92,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
         binding.affirmationTitle.text = App.resourcesProvider.getStringLocale(R.string.affirmations_title)
         binding.forecastTitle.text = App.resourcesProvider.getStringLocale(R.string.forecasts_title)
+        binding.insightsTitle.text = App.resourcesProvider.getStringLocale(R.string.menu_fifth_title)
 
         binding.selectionCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
             requireContext(),
@@ -119,12 +122,19 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
             R.color.unselectText
         ))
 
+        binding.insightsTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
         binding.affirmationTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.forecastTitle.background = null
+        binding.insightsTitle.background = null
     }
 
     private fun selectForecasts() {
@@ -139,12 +149,46 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
             R.color.unselectText
         ))
 
+        binding.insightsTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
         binding.forecastTitle.background = ContextCompat.getDrawable(
             requireContext(),
-            R.drawable.ic_affirmation_bg
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.affirmationTitle.background = null
+        binding.insightsTitle.background = null
+    }
+
+    private fun selectInsights() {
+        binding.insightsTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.affirmationTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.forecastTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.insightsTitle.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
+        )
+
+        binding.affirmationTitle.background = null
+        binding.forecastTitle.background = null
     }
 
     private lateinit var shareBtnView: View
@@ -318,6 +362,14 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     container.addView(view)
                     view
                 }
+
+//                else -> {
+//                    val view = layoutInflater.inflate(R.layout.item_forecast, null)
+//
+//
+//                    container.addView(view)
+//                    view
+//                }
             }
         }
 
@@ -336,6 +388,11 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
         fun onForecastsClicked(v: View) {
             selectForecasts()
             binding.viewPager.setCurrentItem(1, true)
+        }
+
+        fun onInsightsClicked(v: View) {
+            selectInsights()
+            binding.viewPager.setCurrentItem(2, true)
         }
 
     }

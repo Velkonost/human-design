@@ -28,4 +28,11 @@ data class GeocodingNominatimFeature(
     @field:JsonProperty("display_name") val placeName: String = "",
     @field:JsonProperty("lat") val lat: String = "",
     @field:JsonProperty("lon") val lon: String = "",
+    @field:JsonProperty("address") val address: GeocodingNominatimAddress = GeocodingNominatimAddress(),
+): Parcelable
+
+@Parcelize
+data class GeocodingNominatimAddress(
+    @field:JsonProperty("city") val city: String = "",
+    @field:JsonProperty("country") val country: String = "",
 ): Parcelable
