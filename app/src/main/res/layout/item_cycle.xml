@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cycleCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginHorizontal="20dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp">
+
+            <ImageView
+                android:id="@+id/cycleArrow"
+                android:src="@drawable/ic_arrow"
+                android:rotation="90"
+                app:layout_constraintTop_toTopOf="@id/cycleTitle"
+                app:layout_constraintBottom_toBottomOf="@id/cycleTitle"
+                android:layout_marginEnd="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="16dp"
+                android:layout_height="16dp"/>
+
+            <TextView
+                android:id="@+id/cycleTitle"
+                android:textStyle="bold"
+                android:fontFamily="@font/roboto"
+                android:textSize="18sp"
+                android:letterSpacing="0.04"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cycleArrow"
+                android:gravity="start"
+                android:layout_marginEnd="12dp"
+                android:layout_width="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:id="@+id/cycleAgeTitle"
+                android:alpha="0.7"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/cycleTitle"
+                app:layout_constraintTop_toBottomOf="@id/cycleTitle"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/cycleAge"
+                app:layout_constraintTop_toTopOf="@id/cycleAgeTitle"
+                app:layout_constraintBottom_toBottomOf="@id/cycleAgeTitle"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/cycleAgeTitle"
+                android:layout_marginStart="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:id="@+id/cycleDesc"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/cycleAgeTitle"
+                android:layout_marginTop="16dp"
+                android:alpha="0.7"
+                android:maxLines="0"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto"
+                android:textSize="14sp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -94,12 +94,13 @@
             android:focusable="true"
             >
 
-            <pl.droidsonroids.gif.GifImageView
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/progressBar"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:elevation="6dp"
-                android:src="@drawable/loader"
+                app:lottie_rawRes="@raw/logo_transition_black"
+                app:lottie_loop="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

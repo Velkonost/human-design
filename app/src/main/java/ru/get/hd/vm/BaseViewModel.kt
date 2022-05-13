@@ -22,6 +22,7 @@ import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.Child
 import ru.get.hd.model.CompatibilityResponse
+import ru.get.hd.model.Cycle
 import ru.get.hd.model.DailyAdvice
 import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
@@ -67,6 +68,7 @@ class BaseViewModel @Inject constructor(
 
     var currentForecast: MutableLiveData<Forecast> = mutableLiveDataOf(Forecast())
     var currentDailyAdvice: MutableLiveData<DailyAdvice> = mutableLiveDataOf(DailyAdvice())
+    var currentCycles: MutableLiveData<List<Cycle>> = mutableLiveDataOf(emptyList())
 
     var currentTransit: MutableLiveData<TransitResponse> = mutableLiveDataOf(TransitResponse())
 
@@ -83,6 +85,7 @@ class BaseViewModel @Inject constructor(
     private var isForecastLoaded = false
     private var isTransitLoaded = false
     private var isDailyAdviceLoaded = false
+    private var isCyclesLoaded = false
 
     private fun resetAllUserDataStates() {
         isUserLoaded = false
@@ -91,6 +94,7 @@ class BaseViewModel @Inject constructor(
         isForecastLoaded = false
         isTransitLoaded = false
         isDailyAdviceLoaded = false
+        isCyclesLoaded = false
     }
 
     private fun checkIsUserDataLoaded() {
@@ -101,6 +105,7 @@ class BaseViewModel @Inject constructor(
             && isForecastLoaded
             && isTransitLoaded
             && isDailyAdviceLoaded
+            && isCyclesLoaded
         ) {
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             EventBus.getDefault().post(CurrentUserLoadedEvent())
@@ -166,6 +171,7 @@ class BaseViewModel @Inject constructor(
             checkIsUserDataLoaded()
 
             setupCurrentDailyAdvice()
+            setupCurrentCycles()
 
         }, {
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
@@ -224,6 +230,27 @@ class BaseViewModel @Inject constructor(
             }).disposeOnCleared()
     }
 
+    private fun setupCurrentCycles() {
+        repo.getCycles()
+            .subscribe({
+                val currentUserProfileId = when (currentUser.subtitle1Ru!!.lowercase(Locale.getDefault())) {
+                    "манифестор" -> 0
+                    "генератор" -> 1
+                    "манифестирующий генератор" -> 2
+                    "проектор" -> 3
+                    else -> 4
+                }
+
+                currentCycles.postValue(it[currentUserProfileId.toString()])
+
+                isCyclesLoaded = true
+                checkIsUserDataLoaded()
+            }, {
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                EventBus.getDefault().post(NoInetEvent())
+            }).disposeOnCleared()
+    }
+
     private fun setupCurrentDailyAdvice() {
         repo.getDailyAdvice()
             .subscribe({
@@ -241,7 +268,7 @@ class BaseViewModel @Inject constructor(
                 val cal = Calendar.getInstance()
                 val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH) - 1
 
-                currentDailyAdvice.postValue(it[currentUserProfileId.toString()]!![dayOfMonth])
+                currentDailyAdvice.postValue(it[currentUserProfileId.toString()]!![dayOfMonth % it[currentUserProfileId.toString()]!!.size])
             }, {
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
                 EventBus.getDefault().post(NoInetEvent())

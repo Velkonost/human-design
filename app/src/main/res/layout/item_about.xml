@@ -15,6 +15,7 @@
         android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp">
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,41 +26,62 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp">
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/pointViewContainer"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    app:cardCornerRadius="40dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/bg_injury_point_view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/expand_button">
+
+                    <View
+                        android:id="@+id/pointView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_injury_point_view"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.cardview.widget.CardView>
+
                 <TextView
                     android:id="@+id/expand_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:fontFamily="@font/roboto"
-                    android:textSize="16sp"
                     android:paddingHorizontal="16dp"
                     android:paddingTop="18dp"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toStartOf="@id/icArrow"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/pointViewContainer"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/subtitle"
-                    android:alpha="0.7"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/roboto"
-                    app:layout_constraintStart_toStartOf="@id/expand_button"
-                    app:layout_constraintEnd_toStartOf="@id/icArrow"
-                    app:layout_constraintTop_toBottomOf="@id/expand_button"
-                    android:layout_marginTop="8dp"
-                    android:paddingHorizontal="16dp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:alpha="0.7"
+                    android:fontFamily="@font/roboto"
+                    android:paddingHorizontal="16dp"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toStartOf="@id/icArrow"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/expand_button" />
 
                 <ImageView
                     android:id="@+id/icArrow"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
+                    android:layout_marginTop="18dp"
                     android:layout_marginEnd="16dp"
                     android:alpha="0.5"
                     android:rotation="90"
                     android:src="@drawable/ic_arrow"
-                    android:layout_marginTop="18dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -93,7 +115,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/generateBtn"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
@@ -102,6 +123,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
+                        android:visibility="gone"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="4dp"
                         app:layout_constraintTop_toBottomOf="@id/description">
@@ -126,30 +148,29 @@
 
                     <ProgressBar
                         android:id="@+id/generateProgress"
-                        android:layout_marginTop="20dp"
-                        android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@id/description"
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:indeterminateOnly="false"
-                        android:progressDrawable="@drawable/injury_generate_progress_light"
-                        android:progress="30"
-                        android:max="100"
                         android:layout_marginHorizontal="20dp"
-                        />
+                        android:layout_marginTop="20dp"
+                        android:indeterminateOnly="false"
+                        android:max="100"
+                        android:progress="30"
+                        android:progressDrawable="@drawable/injury_generate_progress_light"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/description" />
 
                     <TextView
                         android:id="@+id/generateProgressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:textSize="12sp"
                         android:visibility="gone"
-                        android:fontFamily="@font/roboto_bold"
-                        app:layout_constraintTop_toTopOf="@id/generateProgress"
                         app:layout_constraintBottom_toBottomOf="@id/generateProgress"
-                        app:layout_constraintStart_toStartOf="@id/generateProgress"
                         app:layout_constraintEnd_toEndOf="@id/generateProgress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        app:layout_constraintStart_toStartOf="@id/generateProgress"
+                        app:layout_constraintTop_toTopOf="@id/generateProgress" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

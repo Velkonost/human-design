@@ -287,6 +287,12 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     val view = layoutInflater.inflate(R.layout.item_forecast, null)
 
                     view.forecastNextTitle.text = App.resourcesProvider.getStringLocale(R.string.next_forecast_text)
+
+                    view.forecastTitle.setTextColor(ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    ))
                     view.forecastNextTitle.setTextColor(ContextCompat.getColor(
                         requireContext(),
                         if (App.preferences.isDarkTheme) R.color.lightColor
@@ -294,6 +300,10 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     ))
 
                     baseViewModel.currentForecast.observe(viewLifecycleOwner) {
+                        view.forecastTitle.text =
+                            if (App.preferences.locale == "ru") it.titleRu
+                            else it.titleEn
+
                         view.forecastText.text =
                             if (App.preferences.locale == "ru") it.ru
                             else it.en
@@ -306,56 +316,149 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                         else R.color.darkColor
                     ))
 
+                    view.line1.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_forecast_line_inactive_dark
+                        else R.drawable.bg_forecast_line_inactive_light
+                    )
+
+                    view.line2.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_forecast_line_inactive_dark
+                        else R.drawable.bg_forecast_line_inactive_light
+                    )
+
+                    view.line3.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_forecast_line_inactive_dark
+                        else R.drawable.bg_forecast_line_inactive_light
+                    )
+
+                    view.line4.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_forecast_line_inactive_dark
+                        else R.drawable.bg_forecast_line_inactive_light
+                    )
+
+                    view.line5.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_forecast_line_inactive_dark
+                        else R.drawable.bg_forecast_line_inactive_light
+                    )
+
+                    view.line6.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_forecast_line_inactive_dark
+                        else R.drawable.bg_forecast_line_inactive_light
+                    )
+
+                    view.line7.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_forecast_line_inactive_dark
+                        else R.drawable.bg_forecast_line_inactive_light
+                    )
+
                     val calendar: Calendar = Calendar.getInstance()
 
                     when (calendar.get(Calendar.DAY_OF_WEEK)) {
                         Calendar.MONDAY -> {
-                            view.sun1.isVisible = true
+                            view.line1.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_first
+                            )
                         }
                         Calendar.TUESDAY -> {
-                            view.sun2.isVisible = true
-
-                            view.line1.isVisible = true
+                            view.line1.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_first
+                            )
+                            view.line2.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_second
+                            )
                         }
                         Calendar.WEDNESDAY -> {
-                            view.sun3.isVisible = true
+                            view.line1.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_first
+                            )
+                            view.line2.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_second
+                            )
+                            view.line3.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_third
+                            )
 
-                            view.line1.isVisible = true
-                            view.line2.isVisible = true
                         }
                         Calendar.THURSDAY -> {
-                            view.sun4.isVisible = true
-
-                            view.line1.isVisible = true
-                            view.line2.isVisible = true
-                            view.line3.isVisible = true
+                            view.line1.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_first
+                            )
+                            view.line2.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_second
+                            )
+                            view.line3.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_third
+                            )
+                            view.line4.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_forth
+                            )
                         }
                         Calendar.FRIDAY -> {
-                            view.sun5.isVisible = true
-
-                            view.line1.isVisible = true
-                            view.line2.isVisible = true
-                            view.line3.isVisible = true
-                            view.line4.isVisible = true
+                            view.line1.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_first
+                            )
+                            view.line2.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_second
+                            )
+                            view.line3.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_third
+                            )
+                            view.line4.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_forth
+                            )
+                            view.line5.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_fifth
+                            )
                         }
                         Calendar.SATURDAY -> {
-                            view.sun6.isVisible = true
-
-                            view.line1.isVisible = true
-                            view.line2.isVisible = true
-                            view.line3.isVisible = true
-                            view.line4.isVisible = true
-                            view.line5.isVisible = true
+                            view.line1.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_first
+                            )
+                            view.line2.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_second
+                            )
+                            view.line3.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_third
+                            )
+                            view.line4.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_forth
+                            )
+                            view.line5.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_fifth
+                            )
+                            view.line6.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_sixth
+                            )
                         }
                         Calendar.SUNDAY -> {
-                            view.sun7.isVisible = true
-
-                            view.line1.isVisible = true
-                            view.line2.isVisible = true
-                            view.line3.isVisible = true
-                            view.line4.isVisible = true
-                            view.line5.isVisible = true
-                            view.line6.isVisible = true
+                            view.line1.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_first
+                            )
+                            view.line2.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_second
+                            )
+                            view.line3.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_third
+                            )
+                            view.line4.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_forth
+                            )
+                            view.line5.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_fifth
+                            )
+                            view.line6.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_sixth
+                            )
+                            view.line7.background = ContextCompat.getDrawable(
+                                requireContext(), R.drawable.bg_forecast_line_seventh
+                            )
                         }
                     }
 

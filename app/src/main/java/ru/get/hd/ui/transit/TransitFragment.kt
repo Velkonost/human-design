@@ -23,6 +23,7 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import kotlinx.android.synthetic.main.item_transit_advice.view.*
 import kotlinx.android.synthetic.main.item_transit_channels.view.*
+import kotlinx.android.synthetic.main.item_transit_cycles.view.*
 import kotlinx.android.synthetic.main.item_transit_gates.view.*
 import org.greenrobot.eventbus.EventBus
 import ru.get.hd.App
@@ -35,6 +36,7 @@ import ru.get.hd.navigation.Screens
 import ru.get.hd.repo.AppDatabase
 import ru.get.hd.ui.base.BaseFragment
 import ru.get.hd.ui.transit.adapter.ChannelsAdapter
+import ru.get.hd.ui.transit.adapter.CyclesAdapter
 import ru.get.hd.ui.transit.adapter.GatesAdapter
 import ru.get.hd.util.convertDpToPx
 import ru.get.hd.util.ext.alpha1
@@ -596,7 +598,30 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                     view
                 }
                 1 -> {
-                    val view = layoutInflater.inflate(R.layout.item_transit_channels, null)
+                    val view = layoutInflater.inflate(R.layout.item_transit_cycles, null)
+
+                    view.cyclesTitle.setTextColor(ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    ))
+
+                    view.cyclesSubtitle.setTextColor(ContextCompat.getColor(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    ))
+
+                    view.cyclesTitle.text = App.resourcesProvider.getStringLocale(R.string.transit_cycles_title)
+                    view.cyclesSubtitle.text = App.resourcesProvider.getStringLocale(R.string.transit_cycles_desc)
+
+                    val cyclesAdapter = CyclesAdapter()
+                    view.cyclesRecycler.adapter = cyclesAdapter
+
+                    baseViewModel.currentCycles.observe(viewLifecycleOwner) {
+                        cyclesAdapter.createList(it)
+                    }
+
                     container.addView(view)
                     view
                 }

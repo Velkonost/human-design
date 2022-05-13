@@ -6,6 +6,7 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.CompatibilityResponse
+import ru.get.hd.model.Cycle
 import ru.get.hd.model.DailyAdvice
 import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
@@ -82,6 +83,8 @@ interface RestService {
     @GET("/dailyadvice/dailyadvice.json")
     fun getDailyAdvice(): Single<HashMap<String, List<DailyAdvice>>>
 
+    @GET("/info/cycles.json")
+    fun getCycles(): Single<HashMap<String, List<Cycle>>>
 //  Метод получения способа загрузки адрессов
 //    @GET("/getapple.php")
 //    fun getApple(): Single<>

@@ -178,17 +178,17 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
             aboutItemsList.add(
                 AboutItem(
-                    name = it.strategy.name?: "",
-                    description = it.strategy.description?: "",
-                    type = AboutType.STRATEGY
+                    name = it.injury.name?: "",
+                    description = it.injury.description?: "",
+                    type = AboutType.INJURY
                 )
             )
 
             aboutItemsList.add(
                 AboutItem(
-                    name = it.injury.name?: "",
-                    description = it.injury.description?: "",
-                    type = AboutType.INJURY
+                    name = it.strategy.name?: "",
+                    description = it.strategy.description?: "",
+                    type = AboutType.STRATEGY
                 )
             )
 

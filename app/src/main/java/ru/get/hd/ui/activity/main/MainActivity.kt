@@ -108,7 +108,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             initStartPage()
         }
 
-        (binding.progressBar.drawable as GifDrawable).setSpeed(3f)
+//        (binding.progressBar.drawable as GifDrawable).setSpeed(3f)
 
         navigator = SupportAppNavigator(this, R.id.subContainer)
         navigationHolder.setNavigator(navigator)
@@ -350,16 +350,34 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         updateLoaderState(e.isVisible)
     }
 
+    private var isFirstAnimationPlayed = false
     private fun updateLoaderState(isVisible: Boolean) {
         runOnUiThread {
             binding.progress.isVisible = isVisible
-            (binding.progressBar.drawable as GifDrawable).setSpeed(3f)
+//            (binding.progressBar.drawable as GifDrawable).setSpeed(3f)
 
 
-            if (isVisible) (binding.progressBar.drawable as GifDrawable).start()
+            if (isVisible) {
+                if (!isFirstAnimationPlayed) {
+                    binding.progressBar.setAnimation(
+                        if (App.preferences.isDarkTheme) R.raw.logo_transition_black
+                        else R.raw.logo_transition_white
+                    )
+                } else {
+                    binding.progressBar.setAnimation(
+                        if (App.preferences.isDarkTheme) R.raw.loader_black
+                        else R.raw.loader_white
+                    )
+                }
+                binding.progressBar.playAnimation()
+            }
+
+//                    (binding.progressBar.drawable as GifDrawable).start()
             else {
                     android.os.Handler().postDelayed({
-                        (binding.progressBar.drawable as GifDrawable).stop()
+                        binding.progressBar.pauseAnimation()
+                        isFirstAnimationPlayed = true
+//                        (binding.progressBar.drawable as GifDrawable).stop()
                     }, 1500)
             }
         }

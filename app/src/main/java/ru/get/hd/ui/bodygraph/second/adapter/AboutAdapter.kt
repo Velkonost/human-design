@@ -1,10 +1,15 @@
 package ru.get.hd.ui.bodygraph.second.adapter
 
+import android.animation.ArgbEvaluator
+import android.animation.TimeAnimator
+import android.animation.ValueAnimator
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import android.util.DisplayMetrics
 import android.util.EventLog
 import android.widget.ProgressBar
+import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import org.greenrobot.eventbus.EventBus
 import ru.get.hd.event.UpdateCurrentUserInjurySettingsEvent
@@ -80,6 +86,9 @@ class AboutAdapter(
 
         private val icArrow: ImageView = itemView.findViewById(R.id.icArrow)
 
+        private val pointView: View = itemView.findViewById(R.id.pointView)
+        private val pointViewContainer: CardView = itemView.findViewById(R.id.pointViewContainer)
+
         fun bind() {
             val position = adapterPosition
             val isSelected = position == selectedItem
@@ -95,6 +104,8 @@ class AboutAdapter(
                     generateBtn.isVisible = false
                     generateProgress.isVisible = false
                     generateProgressText.isVisible = false
+
+                    pointViewContainer.isVisible = false
                 }
                 AboutType.PROFILE -> {
                     expandButton.text = App.resourcesProvider.getStringLocale(R.string.profile_title)
@@ -106,6 +117,8 @@ class AboutAdapter(
                     generateBtn.isVisible = false
                     generateProgress.isVisible = false
                     generateProgressText.isVisible = false
+
+                    pointViewContainer.isVisible = false
                 }
                 AboutType.AUTHORITY -> {
                     expandButton.text = App.resourcesProvider.getStringLocale(R.string.authority_title)
@@ -117,6 +130,8 @@ class AboutAdapter(
                     generateBtn.isVisible = false
                     generateProgress.isVisible = false
                     generateProgressText.isVisible = false
+
+                    pointViewContainer.isVisible = false
                 }
                 AboutType.STRATEGY -> {
                     expandButton.text = App.resourcesProvider.getStringLocale(R.string.strategy_title)
@@ -128,6 +143,8 @@ class AboutAdapter(
                     generateBtn.isVisible = false
                     generateProgress.isVisible = false
                     generateProgressText.isVisible = false
+
+                    pointViewContainer.isVisible = false
                 }
                 AboutType.NUTRITION -> {
                     expandButton.text = App.resourcesProvider.getStringLocale(R.string.nutrition_title)
@@ -139,6 +156,8 @@ class AboutAdapter(
                     generateBtn.isVisible = false
                     generateProgress.isVisible = false
                     generateProgressText.isVisible = false
+
+                    pointViewContainer.isVisible = false
                 }
                 AboutType.ENVIRONMENT -> {
                     expandButton.text = App.resourcesProvider.getStringLocale(R.string.environment_title)
@@ -150,8 +169,51 @@ class AboutAdapter(
                     generateBtn.isVisible = false
                     generateProgress.isVisible = false
                     generateProgressText.isVisible = false
+
+                    pointViewContainer.isVisible = false
                 }
                 AboutType.INJURY -> {
+                    val gd = GradientDrawable(
+                        GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(-0x9e9d9f, -0xececed)
+                    )
+                    gd.cornerRadius = 0f
+
+
+                    pointView.setBackgroundDrawable(gd)
+
+                    pointViewContainer.isVisible = true
+
+                    val start = Color.parseColor("#4D8DBC")
+//                    val mid = Color.parseColor("#5352BD")
+                    val end = Color.parseColor("#5352BD")
+
+//content.background is set as a GradientDrawable in layout xml file
+                    val gradient = pointView.background as GradientDrawable
+
+                    val evaluator = ArgbEvaluator()
+                    val animator = TimeAnimator.ofFloat(0.0f, 1.0f)
+                    animator.duration = 1500
+                    animator.repeatCount = ValueAnimator.INFINITE
+                    animator.repeatMode = ValueAnimator.REVERSE
+                    animator.addUpdateListener {
+                        val fraction = it.animatedFraction
+                        val newStart = evaluator.evaluate(fraction, start, end) as Int
+//                        val newMid = evaluator.evaluate(fraction, mid, start) as Int
+                        val newEnd = evaluator.evaluate(fraction, end, start) as Int
+
+                        gradient.colors = intArrayOf(newStart, newStart)
+                    }
+
+                    animator.start()
+
+                    val paddingDp = 6f
+                    val paddingTopDp = 18
+                    val density = context.resources.displayMetrics.density
+                    val paddingPixel = (paddingDp * density).toInt()
+                    val paddingTopPixel = (paddingTopDp * density).toInt()
+
+                    expandButton.setPadding(paddingPixel,paddingTopPixel, paddingPixel, 0)
+
                     expandButton.text = App.resourcesProvider.getStringLocale(R.string.injury_title)
 
                     subtitle.isVisible = true
@@ -318,6 +380,15 @@ class AboutAdapter(
                             }
                         }
 
+                        pointViewContainer.isVisible = false
+
+                        val paddingDp = 16f
+                        val paddingTopDp = 18
+                        val density = context.resources.displayMetrics.density
+                        val paddingPixel = (paddingDp * density).toInt()
+                        val paddingTopPixel = (paddingTopDp * density).toInt()
+
+                        expandButton.setPadding(paddingPixel,paddingTopPixel, paddingPixel, 0)
                     } else {
                         expandButton.setTextAnimation(items[adapterPosition].name)
                     }
@@ -348,6 +419,18 @@ class AboutAdapter(
                     icArrow.animate()
                         .rotation(90f)
                         .duration = 300
+
+                    if (items[adapterPosition].type == AboutType.INJURY) {
+                        pointViewContainer.isVisible = true
+
+                        val paddingDp = 6f
+                        val paddingTopDp = 18
+                        val density = context.resources.displayMetrics.density
+                        val paddingPixel = (paddingDp * density).toInt()
+                        val paddingTopPixel = (paddingTopDp * density).toInt()
+
+                        expandButton.setPadding(paddingPixel,paddingTopPixel, paddingPixel, 0)
+                    }
                 }
             }
 

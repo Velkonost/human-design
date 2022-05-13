@@ -3,6 +3,7 @@ package ru.get.hd.repo.nasa
 import io.reactivex.Single
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.CompatibilityResponse
+import ru.get.hd.model.Cycle
 import ru.get.hd.model.DailyAdvice
 import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
@@ -77,6 +78,7 @@ class RestRepoImpl @Inject constructor(
     override fun getDailyAdvice(): Single<HashMap<String, List<DailyAdvice>>> =
         restService.getDailyAdvice().subscribeIoObserveMain()
 
-
+    override fun getCycles(): Single<HashMap<String, List<Cycle>>> =
+        restService.getCycles().subscribeIoObserveMain()
 
 }

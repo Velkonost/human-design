@@ -6,23 +6,17 @@
     <string name="next">Next</string>
     <string name="desc_splash_01">
         <![CDATA[
-
-Human Design is the newest system for<br>self-discovery
+Human Design is the newest system for self-discovery.
 <br><br>
-This is a tool that allows to explore your<br>true nature, discover your unique<br>characteristics and learn how to make<br>the right decisions.
+This is a tool that brings together principles of the Chinese I Ching, the Hindu chakra system, Kaballah, astrology, quantum physics and genetics.
 <br><br>
-Human Design helps to build a<br>harmonious relationship with yourself<br>and the world around you. It gives<br>recommendations how to unlock your<br>potential and self-realization.
-]]></string>
+Human Design helps living in sync with your true nature. It guides you in building harmonious relationships with yourself and the world around you. ]]></string>
 
     <string name="desc_splash_02">
     <![CDATA[
-
-Human design is not a religion or<br>philosophical doctrine, but a separate<br>modern system of knowledge at the<br>intersection of science and spirituality.
+Human Design offers a personality analysis based on the bodygraph, the so-called Rave Card.
 <br><br>
-Human Design has collected such<br>knowledge as the Chinese I Ching, the<br>Hindu chakra system, Kaballah, astrology,<br>quantum physics and genetics.
-<br><br>
-With the help of Human Design, you will<br>learn how you can live your life without<br>playing other people\'s roles.
-]]></string>
+The individual Rave Card contains a schematic image of energy centers, channels and gates that reflect the energy flow of each person.]]></string>
 
     <string name="title_splash_03"><![CDATA[Did you know<br>something about<br>Human Design?]]></string>
     <string name="title_splash_04"><![CDATA[What would you like<br>to get using<br>Human Design?]]></string>
@@ -64,7 +58,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="start_rave_btn_text">Create</string>
 
     <string name="start_name_title"><![CDATA[What is<br>your name?]]></string>
-    <string name="start_name_desc"><![CDATA[Let’s get acquainted! Please introduce<br>yourself so that we know how best to<br>address you!]]></string>
+    <string name="start_name_desc"><![CDATA[Please introduce yourself so that we know how best to address you!]]></string>
     <string name="start_name_hint">Name</string>
 
     <string name="start_date_title">Date of birth</string>
@@ -75,7 +69,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="start_time_skip">I DON\'T KNOW FOR SURE</string>
 
     <string name="start_place_title">Place of birth</string>
-    <string name="start_place_desc"><![CDATA[The place where you were born is very<br>important. We will be able to accurately<br>determine the position of the heavenly<br>bodies that have left an imprint<br>on your destiny.]]></string>
+    <string name="start_place_desc"><![CDATA[The place where you were born is very important. We will be able to accurately determine the position of planets and stars that left an imprint on your destiny.]]></string>
     <string name="start_place_hint">City, Country</string>
 
     <string name="settings_title">Settings</string>
@@ -153,7 +147,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="environment_title">Environment</string>
 
     <string name="start_bodygraph_ready_title">Bodygraph is ready!</string>
-    <string name="start_bodygraph_ready_text"><![CDATA[Now all the personality secrets will be<br>revealed to you, you will find the best ways<br>for harmonious contact and productive<br>interaction.]]></string>
+    <string name="start_bodygraph_ready_text"><![CDATA[Find out your true self and start your experiment!]]></string>
 
     <string-array name="push_titles">
         <item>Guide to discover your true Self 👤</item>
@@ -289,4 +283,8 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="menu_fifth_title">Insights</string>
 
     <string name="daily_advice_subtitle">Get your daily advice</string>
+
+    <string name="transit_cycles_title">Planet Returns</string>
+    <string name="transit_cycles_desc">In Human Design, the cycles of life are reflected in the Returns of the planets, which have a special effect on us. There are many planets, but only the Return of Saturn, Chiron and the Opposition of Uranus divide our life into main cycles. Each cycle reflects its own individual moments that bring a special expression to your personal Design. Understanding the mechanics of cycles, you can figure out what stage you are right now, or what you still have to go through in the future, understand why your life looks different at different periods.</string>
+    <string name="cycle_age_title">Approximate age:</string>
 </resources>

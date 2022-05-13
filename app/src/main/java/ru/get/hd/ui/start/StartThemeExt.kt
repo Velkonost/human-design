@@ -435,4 +435,14 @@ fun StartFragment.updateTheme() {
         else R.color.searchTintLight
     ))
 
+    binding.bgSplashHeader.setImageResource(
+        if (App.preferences.isDarkTheme) R.drawable.bg_start_header_dark
+        else R.drawable.bg_start_header_light
+    )
+
+    binding.startHeaderAnim.setAnimation(
+        if (!App.preferences.isDarkTheme) R.raw.start_header_dark
+        else R.raw.start_header_light
+    )
+
 }

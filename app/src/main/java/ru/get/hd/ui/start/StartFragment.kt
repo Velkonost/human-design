@@ -468,8 +468,16 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         addKeyboardDetectListener()
 
+        binding.splash0102Container.alpha0(500) {
+            binding.splash0102Container.isVisible = false
+        }
+
         if (App.preferences.isDarkTheme)
             binding.bottomGradient.alpha1(200)
+
+        binding.indicator3.isVisible = true
+        binding.indicator4.isVisible = true
+        binding.indicator5.isVisible = true
 
         binding.indicator6.alpha0(500) {
             binding.indicator6.isVisible = false
@@ -723,15 +731,16 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         currentStartPage = StartPage.SPLASH_01
         App.preferences.lastLoginPageId = StartPage.SPLASH_01.pageId
 
-        binding.icSplash0102Header.setImageAnimation(
-            resId =
-            if (App.preferences.isDarkTheme) R.drawable.ic_splash_01_header_dark
-            else R.drawable.ic_splash_01_header_light
-        )
+//        binding.icSplash0102Header.setImageAnimation(
+//            resId =
+//            if (App.preferences.isDarkTheme) R.drawable.ic_splash_01_header_dark
+//            else R.drawable.ic_splash_01_header_light
+//        )
 
         binding.titleSplash0102.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.title_splash_01))
         binding.descSplash0102.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.desc_splash_01))
     }
+
 
     private fun setupSplash02() {
         unselectAllIndicators()
@@ -745,14 +754,16 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         currentStartPage = StartPage.SPLASH_02
         App.preferences.lastLoginPageId = StartPage.SPLASH_02.pageId
 
-        if (!App.preferences.isDarkTheme) {
-            binding.icSplash0102Header.setImageAnimation(
-                resId = R.drawable.ic_splash_02_header_light
-            )
-        }
+//        if (!App.preferences.isDarkTheme) {
+//            binding.icSplash0102Header.setImageAnimation(
+//                resId = R.drawable.ic_splash_02_header_light
+//            )
+//        }
 
         binding.titleSplash0102.alpha = 1f
         binding.descSplash0102.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.desc_splash_02))
+
+        binding.startBtnText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_rave_btn_text))
     }
 
     private fun setupSplash03() {
@@ -831,31 +842,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         App.preferences.lastLoginPageId = SplashPage.SPLASH_05.pageId
         setupRave()
 
-//        unselectAllIndicators()
-//        binding.indicator5.background = ContextCompat.getDrawable(
-//            requireContext(),
-//            if (App.preferences.isDarkTheme) R.drawable.bg_active_indicator_dark
-//            else R.drawable.bg_active_indicator_light
-//        )
-//
-//
         binding.splash0304Container.alpha0(500) {
             binding.splash0304Container.isVisible = false
         }
-//        binding.splash05Container.alpha1(500)
-//
-//        binding.titleSplash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.splash_05_title))
-//        binding.descSplash05.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.splash_05_desc))
-//
-//        binding.text01Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_1)
-//        binding.text02Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_2)
-//        binding.text03Splash05.text = App.resourcesProvider.getStringLocale(R.string.splash_05_text_3)
-//
-////        binding.text1Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_1_splash_05))
-////        binding.text2Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_2_splash_05))
-////        binding.text3Splash05.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.text_3_splash_05))
-//
-//        binding.startBtnText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.understand))
     }
 
     private fun isNetworkConnected(): Boolean {
@@ -878,9 +867,14 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     binding.nameContainer.alpha0(500) {
                         binding.nameContainer.isVisible = false
                     }
-                    binding.raveContainer.alpha1(500)
+                    binding.indicator5.isVisible = false
+                    binding.indicator4.isVisible = false
+                    binding.indicator3.isVisible = false
+
+                    binding.splash0102Container.isVisible = true
+                    binding.splash0102Container.alpha1(500)
 //                    binding.startBtn.translationY(requireContext().convertDpToPx(0f), 500)
-                    setupRave()
+                    setupSplash02()
                 }
                 StartPage.DATE_BIRTH -> {
                     binding.date.alpha0(500) {
@@ -914,8 +908,11 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         fun onBtnClicked(v: View) {
 
             when (currentStartPage) {
-                StartPage.SPLASH_01 -> setupSplash02()
-                StartPage.SPLASH_02 -> setupSplash03()
+                StartPage.SPLASH_01 -> {
+                    binding.startHeaderAnim.playAnimation()
+                    setupSplash02()
+                }
+                StartPage.SPLASH_02 -> setupName()
                 StartPage.SPLASH_03 -> setupSplash04()
                 StartPage.SPLASH_04 -> setupSplash05()
                 StartPage.SPLASH_05 -> setupRave()

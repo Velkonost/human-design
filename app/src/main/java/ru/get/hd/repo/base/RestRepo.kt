@@ -3,6 +3,7 @@ package ru.get.hd.repo.base
 import io.reactivex.Single
 import ru.get.hd.model.Affirmation
 import ru.get.hd.model.CompatibilityResponse
+import ru.get.hd.model.Cycle
 import ru.get.hd.model.DailyAdvice
 import ru.get.hd.model.DesignChildResponse
 import ru.get.hd.model.Faq
@@ -56,4 +57,5 @@ interface RestRepo {
     fun geocodingNominatim(url: String): Single<List<GeocodingNominatimFeature>>
 
     fun getDailyAdvice(): Single<HashMap<String, List<DailyAdvice>>>
+    fun getCycles(): Single<HashMap<String, List<Cycle>>>
 }
