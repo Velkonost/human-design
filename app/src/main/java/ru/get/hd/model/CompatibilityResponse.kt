@@ -9,6 +9,8 @@ data class CompatibilityResponse(
     @field:JsonProperty("description") val description: String = "",
     @field:JsonProperty("line") val line: String = "",
     @field:JsonProperty("profileTitle") val profileTitle: String = "",
+    @field:JsonProperty("descrTitle") val descrTitle: String = "",
+    @field:JsonProperty("descrnext") val descrNext: String = "",
     @field:JsonProperty("profileDescription") val profileDescription: String = "",
     @field:JsonProperty("channels") val channels: ArrayList<CompatibilityChannel> = arrayListOf(),
 ) : Parcelable

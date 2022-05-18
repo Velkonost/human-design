@@ -143,7 +143,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             SplashPage.SPLASH_03.pageId -> setupSplash03()
             SplashPage.SPLASH_04.pageId -> setupSplash04()
             SplashPage.SPLASH_05.pageId -> setupSplash05()
-            StartPage.RAVE.pageId -> setupRave()
+            StartPage.RAVE.pageId -> setupSplash01()
 //            StartPage.NAME.pageId -> {
 //                animateCirclesBtwPages(1000)
 //                setupName()
@@ -164,7 +164,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 //                animateCirclesBtwPages(1000)
 //                setupBodygraph()
 //            }
-            else -> setupRave()
+            else -> setupSplash01()
         }
 
         setupPlacesView()
@@ -840,7 +840,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     private fun setupSplash05() {
         currentStartPage = StartPage.SPLASH_05
         App.preferences.lastLoginPageId = SplashPage.SPLASH_05.pageId
-        setupRave()
+        setupName()
 
         binding.splash0304Container.alpha0(500) {
             binding.splash0304Container.isVisible = false
@@ -915,7 +915,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 StartPage.SPLASH_02 -> setupName()
                 StartPage.SPLASH_03 -> setupSplash04()
                 StartPage.SPLASH_04 -> setupSplash05()
-                StartPage.SPLASH_05 -> setupRave()
+                StartPage.SPLASH_05 -> setupName()
                 StartPage.RAVE -> {
                     animateCirclesBtwPages(1000)
                     setupName()

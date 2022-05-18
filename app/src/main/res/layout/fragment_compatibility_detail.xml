@@ -24,7 +24,7 @@
         <FrameLayout
             android:id="@+id/arrowBlock"
             android:onClick="@{handler::onBackClicked}"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="14dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/compatibilityTitle"
             app:layout_constraintBottom_toBottomOf="@id/compatibilityTitle"
@@ -68,7 +68,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/selectionCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="24dp"
             app:cardCornerRadius="10dp"
@@ -80,7 +80,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/selectionLinear"
                 android:layout_width="match_parent"
-                android:layout_height="34dp"
+                android:layout_height="42dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -89,7 +89,9 @@
                     android:onClick="@{handler::onAboutClicked}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="2dp"
+                    android:layout_marginVertical="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
@@ -102,7 +104,8 @@
                     android:onClick="@{handler::onProfilesClicked}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="2dp"
+                    android:layout_marginVertical="4dp"
+                    android:layout_marginHorizontal="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
@@ -115,7 +118,9 @@
                     android:onClick="@{handler::onChannelsClicked}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="2dp"
+                    android:layout_marginVertical="4dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"

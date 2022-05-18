@@ -4,14 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import ru.get.hd.model.Child
+import ru.get.hd.model.Converters
 import ru.get.hd.model.User
 import ru.get.hd.repo.dao.ChildDao
 import ru.get.hd.repo.dao.UserDao
 
 @Database(
     entities = [User::class, Child::class],
-    version = 1
+    version = 2
+)
+@TypeConverters(
+    Converters::class
 )
 abstract class AppDatabase : RoomDatabase() {
 

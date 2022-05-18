@@ -3,6 +3,10 @@ package ru.get.hd.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import ru.get.hd.App
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -65,7 +69,15 @@ data class Child(
     var kidDescriptionRu: String? = null,
 
     @ColumnInfo(name = "kidDescriptionEn")
-    var kidDescriptionEn: String? = null
+    var kidDescriptionEn: String? = null,
+
+    @ColumnInfo(name = "titles")
+    @TypeConverters(Converters::class)
+    var titles: List<String>? = null,
+
+    @ColumnInfo(name = "descriptions")
+    @TypeConverters(Converters::class)
+    var descriptions: List<String>? = null
 )
 
 fun Child.getDateStr(): String {
@@ -81,4 +93,17 @@ fun Child.getDateStr(): String {
         (date / 86400000).toInt() * 86400000L + hours * 3600000L + minutes * 60000L
 
     return formatter.format(cal.time)
+}
+
+class Converters {
+    @TypeConverter
+    fun fromListToJson(media: List<String>?): String? =
+        Gson().toJson(media)
+
+    @TypeConverter
+    fun fromJsonToList(json: String?): List<String>? {
+        if (json.isNullOrEmpty())
+            return emptyList()
+        return Gson().fromJson(json, object : TypeToken<List<String>>() {}.type)
+    }
 }

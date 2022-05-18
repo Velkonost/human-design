@@ -23,5 +23,12 @@ data class DesignChildResponse(
     @field:JsonProperty("kidDescription_ru") val kidDescriptionRu: String = "",
     @field:JsonProperty("design") val design: Design = Design(),
     @field:JsonProperty("personality") val personality: Personality = Personality(),
+    @field:JsonProperty("children_descriptions") val childrenDescription: ChildrenDescription = ChildrenDescription(),
 
     ) : Parcelable
+
+@Parcelize
+data class ChildrenDescription(
+    @field:JsonProperty("titles") val titles: List<String> = emptyList(),
+    @field:JsonProperty("descriptions") val descriptions: List<String> = emptyList(),
+): Parcelable

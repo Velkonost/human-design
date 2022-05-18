@@ -21,12 +21,6 @@
         android:fitsSystemWindows="true"
         tools:context=".ui.activity.main.MainActivity">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_stars" />
-
         <TextView
             android:id="@+id/userName"
             android:layout_width="0dp"

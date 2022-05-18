@@ -78,7 +78,9 @@ class CompatibilityDetailsAdapter : EpoxyAdapter() {
         addModel(ProfilesModel(
             compatibility.line,
             compatibility.profileTitle,
-            compatibility.profileDescription
+            compatibility.profileDescription,
+            compatibility.descrTitle,
+            compatibility.descrNext
         ))
         addModel(ChannelsModel(
             compatibility.channels,
@@ -96,7 +98,7 @@ class AboutModel(
     private val secondNameValue: String,
     private val description: String,
     private val chart1ResId: Int,
-    private val chart2ResId: Int
+    private val chart2ResId: Int,
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -161,7 +163,9 @@ class AboutModel(
 class ProfilesModel(
     private val line: String,
     private val profileTitleValue: String,
-    private val profileDescriptionValue: String
+    private val profileDescriptionValue: String,
+    private val descrTitle: String,
+    private val descNext: String
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -173,6 +177,8 @@ class ProfilesModel(
         with(view) {
             profileTitle.text = "$profileTitleValue ${App.resourcesProvider.getStringLocale(R.string.profile_title)} $line"
             profileDesc.text = profileDescriptionValue
+            descrTitle.text = this@ProfilesModel.descrTitle
+            descNext.text = this@ProfilesModel.descNext
 
             profileTitle.setTextColor(ContextCompat.getColor(
                 context,
@@ -185,6 +191,20 @@ class ProfilesModel(
                 if (App.preferences.isDarkTheme) R.color.lightColor
                 else R.color.darkColor
             ))
+
+            descrTitle.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
+            descNext.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
+
         }
     }
 

@@ -111,5 +111,5 @@
 
     <dimen name="transit_znak_size">16dp</dimen>
 
-    <dimen name="bodygraph_text_size">12px</dimen>
+    <dimen name="bodygraph_text_size">14px</dimen>
 </resources>

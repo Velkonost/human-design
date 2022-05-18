@@ -24,7 +24,7 @@
         <FrameLayout
             android:id="@+id/arrowBlock"
             android:onClick="@{handler::onBackClicked}"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="14dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/compatibilityTitle"
             app:layout_constraintBottom_toBottomOf="@id/compatibilityTitle"

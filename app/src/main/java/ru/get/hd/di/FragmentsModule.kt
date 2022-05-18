@@ -13,6 +13,7 @@ import ru.get.hd.ui.compatibility.detail.info.di.CompatibilityDetailInfoModule
 import ru.get.hd.ui.compatibility.di.CompatibilityModule
 import ru.get.hd.ui.faq.detail.di.FaqDetailModule
 import ru.get.hd.ui.faq.di.FaqModule
+import ru.get.hd.ui.loader.di.LoaderModule
 import ru.get.hd.ui.settings.di.SettingsModule
 import ru.get.hd.ui.settings.personal.di.PersonalInfoModule
 import ru.get.hd.ui.splash.di.SplashModule
@@ -37,7 +38,8 @@ import ru.get.hd.ui.transit.di.TransitModule
         BodygraphSecondModule::class,
         DiagramModule::class,
         AddUserModule::class,
-        PersonalInfoModule::class
+        PersonalInfoModule::class,
+        LoaderModule::class
     ]
 )
 class FragmentsModule

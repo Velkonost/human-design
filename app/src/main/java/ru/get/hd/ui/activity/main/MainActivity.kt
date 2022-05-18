@@ -8,64 +8,52 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.location.Criteria
 import android.location.Geocoder
-import android.location.Location
 import android.location.LocationManager
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.location.LocationManagerCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.jaeger.library.StatusBarUtil
+import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import pl.droidsonroids.gif.GifDrawable
 import ru.get.hd.App
 import ru.get.hd.App.Companion.LOCATION_REQUEST_CODE
 import ru.get.hd.R
 import ru.get.hd.databinding.ActivityMainBinding
+import ru.get.hd.event.FinishFirstLoaderEvent
 import ru.get.hd.event.LastKnownLocationUpdateEvent
-import ru.get.hd.event.PermissionGrantedEvent
+import ru.get.hd.event.NoInetEvent
 import ru.get.hd.event.SetupNavMenuEvent
-import ru.get.hd.event.ToBodygraphClickEvent
 import ru.get.hd.event.UpdateBalloonBgStateEvent
 import ru.get.hd.event.UpdateLoaderStateEvent
 import ru.get.hd.event.UpdateNavMenuVisibleStateEvent
 import ru.get.hd.navigation.Screens
 import ru.get.hd.navigation.SupportAppNavigator
 import ru.get.hd.push.NotificationReceiver
-import ru.get.hd.ui.adduser.awaitCurrentLocation
 import ru.get.hd.ui.base.BaseActivity
 import ru.get.hd.ui.splash.SplashPage
 import ru.get.hd.ui.start.StartPage
 import ru.get.hd.vm.*
 import java.util.*
-import android.net.ConnectivityManager
-import android.widget.ImageView
-import ru.get.hd.event.NoInetEvent
-import android.location.Criteria
-
-
-
 
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
@@ -114,7 +102,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         navigationHolder.setNavigator(navigator)
 
         binding.navView.setOnNavigationItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.navigation_bodygraph -> {
                     router.navigateTo(Screens.bodygraphScreen())
                     true
@@ -144,9 +132,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         initNotificationReceiver()
-
-//        geocoder = Geocoder(this, Locale.getDefault())
-
     }
 
     @Subscribe
@@ -172,8 +157,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         (snackbar.view as ViewGroup).addView(snackView)
 
         snackView.findViewById<ImageView>(R.id.icon).setImageResource(R.drawable.ic_snackbar_close)
-        snackView.findViewById<TextView>(R.id.title).text = App.resourcesProvider.getStringLocale(R.string.snackbar_inet_title)
-        snackView.findViewById<TextView>(R.id.desc).text = App.resourcesProvider.getStringLocale(R.string.snackbar_inet)
+        snackView.findViewById<TextView>(R.id.title).text =
+            App.resourcesProvider.getStringLocale(R.string.snackbar_inet_title)
+        snackView.findViewById<TextView>(R.id.desc).text =
+            App.resourcesProvider.getStringLocale(R.string.snackbar_inet)
         snackbar.setBackgroundTint(Color.parseColor("#CE7559"))
 
         snackbar
@@ -231,22 +218,27 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
 
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        kotlin.runCatching {
+            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        val criteria = Criteria()
-        criteria.accuracy = Criteria.ACCURACY_FINE
-        criteria.isAltitudeRequired = false
-        criteria.isBearingRequired = false
-        criteria.isCostAllowed = true
-        criteria.powerRequirement = Criteria.POWER_MEDIUM
-        val provider = locationManager.getBestProvider(criteria, true)
+            val criteria = Criteria()
+            criteria.accuracy = Criteria.ACCURACY_FINE
+            criteria.isAltitudeRequired = false
+            criteria.isBearingRequired = false
+            criteria.isCostAllowed = true
+            criteria.powerRequirement = Criteria.POWER_MEDIUM
+            val provider = locationManager.getBestProvider(criteria, true)
 
-        var location = locationManager.getLastKnownLocation(provider!!)
+            var location = locationManager.getLastKnownLocation(provider!!)
 
-        while (location == null) {
-            location = locationManager.getLastKnownLocation(provider!!)
+//        while (location == null) {
+//            location = locationManager.getLastKnownLocation(provider!!)
+//        }
+            binding.viewModel!!.reverseNominatim(
+                location!!.latitude.toString(),
+                location.longitude.toString()
+            )
         }
-        binding.viewModel!!.reverseNominatim(location!!.latitude.toString(), location.longitude.toString())
 
     }
 
@@ -260,34 +252,41 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         )
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 24 , (
+            AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 24, (
                     1000 * 60 * 60 * 24).toLong(), pendingIntent
         )
     }
 
     private fun initStartPage() {
-        router.replaceScreen(
-            when(App.preferences.lastLoginPageId) {
-                SplashPage.SPLASH_01.pageId,
-                SplashPage.SPLASH_02.pageId,
-                SplashPage.SPLASH_03.pageId,
-                SplashPage.SPLASH_04.pageId,
-                SplashPage.SPLASH_05.pageId,
-                StartPage.RAVE.pageId,
-                StartPage.NAME.pageId,
-                StartPage.DATE_BIRTH.pageId,
-                StartPage.TIME_BIRTH.pageId,
-                StartPage.PLACE_BIRTH.pageId,
-                StartPage.BODYGRAPH.pageId,
-                -> {
-                    Screens.startScreen()
+        if (isStartPageInitialized) return
+
+        if (!isFirstAnimationPlayed)
+            router.replaceScreen(Screens.loaderScreen())
+        else {
+            isStartPageInitialized = true
+            router.replaceScreen(
+                when (App.preferences.lastLoginPageId) {
+                    SplashPage.SPLASH_01.pageId,
+                    SplashPage.SPLASH_02.pageId,
+                    SplashPage.SPLASH_03.pageId,
+                    SplashPage.SPLASH_04.pageId,
+                    SplashPage.SPLASH_05.pageId,
+                    StartPage.RAVE.pageId,
+                    StartPage.NAME.pageId,
+                    StartPage.DATE_BIRTH.pageId,
+                    StartPage.TIME_BIRTH.pageId,
+                    StartPage.PLACE_BIRTH.pageId,
+                    StartPage.BODYGRAPH.pageId,
+                    -> {
+                        Screens.startScreen()
+                    }
+                    else -> {
+//                        setupNavMenu()
+                        Screens.bodygraphScreen()
+                    }
                 }
-                else -> {
-                    setupNavMenu()
-                    Screens.bodygraphScreen()
-                }
-            }
-        )
+            )
+        }
     }
 
     override fun onResumeFragments() {
@@ -299,6 +298,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     override fun onPause() {
         navigationHolder.removeNavigator()
+        YandexMetrica.pauseSession(this)
+
         (this.application as App).startActivityTransitionTimer()
         super.onPause()
     }
@@ -317,7 +318,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             if (!it.isNullOrEmpty()) {
                 App.preferences.lastKnownLocationLat = it[0].lat.toString()
                 App.preferences.lastKnownLocationLon = it[0].lon.toString()
-                App.preferences.lastKnownLocation = "${it[0].address.city}, ${it[0].address.country}"
+                App.preferences.lastKnownLocation =
+                    "${it[0].address.city}, ${it[0].address.country}"
                 EventBus.getDefault().post(LastKnownLocationUpdateEvent())
             }
 
@@ -351,40 +353,62 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     private var isFirstAnimationPlayed = false
+    private var isLoaderEnded = false
+    private var isStartPageInitialized = false
+
     private fun updateLoaderState(isVisible: Boolean) {
         runOnUiThread {
-            binding.progress.isVisible = isVisible
+
 //            (binding.progressBar.drawable as GifDrawable).setSpeed(3f)
 
 
             if (isVisible) {
                 if (!isFirstAnimationPlayed) {
-                    binding.progressBar.setAnimation(
-                        if (App.preferences.isDarkTheme) R.raw.logo_transition_black
-                        else R.raw.logo_transition_white
-                    )
+                    return@runOnUiThread
+//                    binding.progressBar.setAnimation(
+//                        if (App.preferences.isDarkTheme) R.raw.logo_transition_black
+//                        else R.raw.logo_transition_white
+//                    )
                 } else {
+                    binding.progress.isVisible = isVisible
                     binding.progressBar.setAnimation(
                         if (App.preferences.isDarkTheme) R.raw.loader_black
                         else R.raw.loader_white
                     )
+                    binding.progressBar.playAnimation()
                 }
-                binding.progressBar.playAnimation()
-            }
+            } else {
+                binding.progress.isVisible = isVisible
+                android.os.Handler().postDelayed({
 
-//                    (binding.progressBar.drawable as GifDrawable).start()
-            else {
-                    android.os.Handler().postDelayed({
-                        binding.progressBar.pauseAnimation()
+                    if (!isFirstAnimationPlayed) {
+//                        EventBus.getDefault().post(FinishFirstLoaderEvent())
                         isFirstAnimationPlayed = true
+
+                        if (isLoaderEnded)
+                            initStartPage()
+
+                    } else binding.progressBar.pauseAnimation()
+
+
 //                        (binding.progressBar.drawable as GifDrawable).stop()
-                    }, 1500)
+                }, 1500)
             }
+        }
+    }
+
+    @Subscribe
+    fun onFinishFirstLoaderEvent(e: FinishFirstLoaderEvent) {
+        isLoaderEnded = true
+        if (isFirstAnimationPlayed) {
+            initStartPage()
         }
     }
 
     override fun onResume() {
         super.onResume()
+        YandexMetrica.resumeSession(this)
+
         val myApp: App = this.application as App
         if (myApp.wasInBackground) {
 
@@ -462,11 +486,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             )
         )
 
-        binding.navViewBreakline.setBackgroundColor(ContextCompat.getColor(
-            this,
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.navViewBreakline.setBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         binding.navView.setBackgroundColor(
             ContextCompat.getColor(

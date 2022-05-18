@@ -9,6 +9,7 @@ import ru.get.hd.ui.affirmation.AffirmationViewModel
 import ru.get.hd.ui.bodygraph.BodygraphViewModel
 import ru.get.hd.ui.compatibility.CompatibilityViewModel
 import ru.get.hd.ui.faq.FaqViewModel
+import ru.get.hd.ui.loader.LoaderViewModel
 import ru.get.hd.ui.settings.SettingsViewModel
 import ru.get.hd.ui.splash.SplashViewModel
 import ru.get.hd.ui.start.StartViewModel
@@ -62,5 +63,10 @@ interface CommonViewModelModule {
     @IntoMap
     @ViewModelKey(CompatibilityViewModel::class)
     fun compatibilityViewModel(m: CompatibilityViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoaderViewModel::class)
+    fun loaderViewModel(m: LoaderViewModel): ViewModel
 
 }

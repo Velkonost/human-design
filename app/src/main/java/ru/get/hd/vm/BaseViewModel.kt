@@ -41,6 +41,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
+import com.yandex.metrica.YandexMetrica
+
+
+
 
 class BaseViewModel @Inject constructor(
     private val repo: RestRepo
@@ -355,8 +359,11 @@ class BaseViewModel @Inject constructor(
             child.kidDescriptionRu = it.kidDescriptionRu
             child.kidDescriptionEn = it.kidDescriptionEn
 
+            child.titles = it.childrenDescription.titles
+            child.descriptions = it.childrenDescription.descriptions
+
             GlobalScope.launch {
-                App.database.childDao().updateUser(child )
+                App.database.childDao().updateUser(child)
             }
         }, {
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
@@ -373,6 +380,15 @@ class BaseViewModel @Inject constructor(
         lon: String,
         fromCompatibility: Boolean = false
     ) {
+        val eventParameters: MutableMap<String, Any> = HashMap()
+        eventParameters["name"] = name
+        eventParameters["lat"] = lat
+        eventParameters["lon"] = lon
+        eventParameters["time"] = time
+        eventParameters["date"] = date
+        eventParameters["place"] = place
+
+        YandexMetrica.reportEvent("New user", eventParameters)
 
         GlobalScope.launch {
             val userId = System.currentTimeMillis()
@@ -411,6 +427,16 @@ class BaseViewModel @Inject constructor(
         lat: String,
         lon: String
     ) {
+
+        val eventParameters: MutableMap<String, Any> = HashMap()
+        eventParameters["name"] = name
+        eventParameters["lat"] = lat
+        eventParameters["lon"] = lon
+        eventParameters["time"] = time
+        eventParameters["date"] = date
+        eventParameters["place"] = place
+
+        YandexMetrica.reportEvent("New child", eventParameters)
 
         GlobalScope.launch {
             val childId = System.currentTimeMillis()

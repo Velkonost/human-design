@@ -1,7 +1,5 @@
 package ru.get.hd.ui.bodygraph.second.adapter
 
-import android.content.res.ColorStateList
-import android.telecom.GatewayInfo
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.airbnb.epoxy.EpoxyAdapter
@@ -10,7 +8,6 @@ import kotlinx.android.synthetic.main.item_bodygraph_about.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_centers.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_channels.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_gates.view.*
-import kotlinx.android.synthetic.main.item_center.view.*
 import ru.get.hd.App
 import ru.get.hd.R
 import ru.get.hd.model.AboutItem
@@ -19,7 +16,6 @@ import ru.get.hd.model.TransitionChannel
 import ru.get.hd.model.TransitionGate
 import ru.get.hd.model.User
 import ru.get.hd.ui.bodygraph.adapter.CentersAdapter
-import ru.get.hd.ui.bodygraph.adapter.CentersModel
 import ru.get.hd.ui.transit.adapter.ChannelsAdapter
 import ru.get.hd.ui.transit.adapter.GatesAdapter
 
@@ -83,35 +79,47 @@ class CentersModel(
 
         with(view) {
 
-            activeCentersTitle.text = App.resourcesProvider.getStringLocale(R.string.active_centers_title)
-            activeCentersDesc.text = App.resourcesProvider.getStringLocale(R.string.active_centers_text)
-            inactiveCentersTitle.text = App.resourcesProvider.getStringLocale(R.string.inactive_centers_title)
-            inactiveCentersDesc.text = App.resourcesProvider.getStringLocale(R.string.inactive_centers_text)
+            activeCentersTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.active_centers_title)
+            activeCentersDesc.text =
+                App.resourcesProvider.getStringLocale(R.string.active_centers_text)
+            inactiveCentersTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.inactive_centers_title)
+            inactiveCentersDesc.text =
+                App.resourcesProvider.getStringLocale(R.string.inactive_centers_text)
 
 
-            activeCentersTitle.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            activeCentersTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            inactiveCentersTitle.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            inactiveCentersTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            activeCentersDesc.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            activeCentersDesc.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            inactiveCentersDesc.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            inactiveCentersDesc.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             val activeCentersAdapter = CentersAdapter()
             val inactiveCentersAdapter = CentersAdapter()
@@ -142,20 +150,25 @@ class GatesModel(
 
 //                                view.activeGatesTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.active_gates_title))
 //                    view.activeGatesDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.active_gates_text))
-                    activeGatesTitle.text = App.resourcesProvider.getStringLocale(R.string.active_gates_title)
-                    activeGatesDesc.text = App.resourcesProvider.getStringLocale(R.string.active_gates_text)
+            activeGatesTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.active_gates_title)
+            activeGatesDesc.text = App.resourcesProvider.getStringLocale(R.string.active_gates_text)
 
-                    activeGatesTitle.setTextColor(ContextCompat.getColor(
-                        context,
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
+            activeGatesTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-                    activeGatesDesc.setTextColor(ContextCompat.getColor(
-                        context,
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
+            activeGatesDesc.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             val gatesAdapter = GatesAdapter()
             view.gatesRecycler.adapter = gatesAdapter
@@ -179,20 +192,26 @@ class ChannelsModel(
         root = view
 
         with(view) {
-            activeChannelTitle.text = App.resourcesProvider.getStringLocale(R.string.active_channels_title)
-            activeChannelDesc.text = App.resourcesProvider.getStringLocale(R.string.active_channels_text)
+            activeChannelTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.active_channels_title)
+            activeChannelDesc.text =
+                App.resourcesProvider.getStringLocale(R.string.active_channels_text)
 
-            activeChannelTitle.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            activeChannelTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            activeChannelDesc.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            activeChannelDesc.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             val channelsAdapter = ChannelsAdapter()
             view.channelsRecycler.adapter = channelsAdapter

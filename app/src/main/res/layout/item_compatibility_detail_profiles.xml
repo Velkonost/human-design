@@ -20,7 +20,7 @@
                 android:id="@+id/profileTitle"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:paddingHorizontal="20dp"
                 android:fontFamily="@font/roboto"
                 android:textSize="24sp"
@@ -32,7 +32,30 @@
                 android:id="@+id/profileDesc"
                 app:layout_constraintTop_toBottomOf="@id/profileTitle"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
+                android:alpha="0.7"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/descrTitle"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/profileDesc"
+                android:layout_marginTop="32dp"
+                android:paddingHorizontal="20dp"
+                android:fontFamily="@font/roboto"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/descNext"
+                app:layout_constraintTop_toBottomOf="@id/descrTitle"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
                 android:alpha="0.7"
                 android:fontFamily="@font/roboto"
                 android:textSize="16sp"

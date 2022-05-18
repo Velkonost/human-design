@@ -112,6 +112,8 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
                     else baseViewModel.currentUser.subtitle1En!!,
                     parentDesc =
                     baseViewModel.currentUser.parentDescription!!,
+                    childrenTitles = child.titles,
+                    childrenDescriptions = child.descriptions,
                     chart1ResId =
                     if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
                         if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_child_dark
