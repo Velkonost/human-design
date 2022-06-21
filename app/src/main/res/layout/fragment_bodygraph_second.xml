@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="ru.get.hd.ui.bodygraph.BodygraphViewModel" />
+            type="com.myhumandesignhd.ui.bodygraph.BodygraphViewModel" />
 
         <variable
             name="handler"
-            type="ru.get.hd.ui.bodygraph.second.BodygraphSecondFragment.Handler" />
+            type="com.myhumandesignhd.ui.bodygraph.second.BodygraphSecondFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".ui.activity.main.MainActivity">
+        tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
 
         <TextView
             android:id="@+id/descriptionTitle"

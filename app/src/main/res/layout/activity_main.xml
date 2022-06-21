@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
-            type="ru.get.hd.vm.BaseViewModel" />
+            type="com.myhumandesignhd.vm.BaseViewModel" />
 
         <variable
             name="handler"
-            type="ru.get.hd.ui.activity.main.MainActivity.Handler" />
+            type="com.myhumandesignhd.ui.activity.main.MainActivity.Handler" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -55,9 +54,6 @@
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
                 app:layout_constraintBottom_toBottomOf="parent">
-
-
-
                 <com.google.android.material.bottomnavigation.BottomNavigationView
                     android:id="@+id/nav_view"
                     android:layout_width="match_parent"
@@ -91,13 +87,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:focusable="true"
-            >
-
+            android:focusable="true">
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/progressBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="206dp"
+                android:layout_height="206dp"
                 android:elevation="6dp"
                 app:lottie_rawRes="@raw/logo_transition_black"
                 app:lottie_loop="true"
@@ -105,8 +99,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <!--            android:background="@drawable/bg_progress_light"-->
-            <!--            android:indeterminateTint="@color/colorProgressBarIndeterminateTint"-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View

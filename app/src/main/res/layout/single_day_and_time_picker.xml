@@ -20,7 +20,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <ru.get.hd.ui.view.daytimepicker.widget.WheelDayPicker
+        <com.myhumandesignhd.ui.view.daytimepicker.widget.WheelDayPicker
             android:id="@+id/daysPicker"
             android:visibility="gone"
             android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
             app:wheel_atmospheric="true"
             app:wheel_item_align="right" />
 
-        <ru.get.hd.ui.view.daytimepicker.widget.WheelDayOfMonthPicker
+        <com.myhumandesignhd.ui.view.daytimepicker.widget.WheelDayOfMonthPicker
             android:id="@+id/daysOfMonthPicker"
             android:visibility="gone"
             android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
             app:wheel_atmospheric="true"
             app:wheel_item_align="right" />
 
-        <ru.get.hd.ui.view.daytimepicker.widget.WheelMonthPicker
+        <com.myhumandesignhd.ui.view.daytimepicker.widget.WheelMonthPicker
             android:id="@+id/monthPicker"
             android:visibility="gone"
             android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
             app:wheel_atmospheric="true"
             app:wheel_item_align="right" />
 
-        <ru.get.hd.ui.view.daytimepicker.widget.WheelYearPicker
+        <com.myhumandesignhd.ui.view.daytimepicker.widget.WheelYearPicker
             android:id="@+id/yearPicker"
             android:visibility="gone"
             android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
             app:wheel_item_text_size="20sp"
             android:layout_marginRight="5dp"/>
 
-        <ru.get.hd.ui.view.daytimepicker.widget.WheelHourPicker
+        <com.myhumandesignhd.ui.view.daytimepicker.widget.WheelHourPicker
             android:id="@+id/hoursPicker"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -73,7 +73,7 @@
             app:wheel_atmospheric="true"
             app:wheel_item_align="center" />
 
-        <ru.get.hd.ui.view.daytimepicker.widget.WheelMinutePicker
+        <com.myhumandesignhd.ui.view.daytimepicker.widget.WheelMinutePicker
             android:id="@+id/minutesPicker"
             android:layout_width="wrap_content"
             app:wheel_item_text_size="20sp"
@@ -81,7 +81,7 @@
             app:wheel_atmospheric="true"
             app:wheel_item_align="center" />
 
-        <ru.get.hd.ui.view.daytimepicker.widget.WheelAmPmPicker
+        <com.myhumandesignhd.ui.view.daytimepicker.widget.WheelAmPmPicker
             android:id="@+id/amPmPicker"
             android:visibility="gone"
             app:wheel_item_text_size="20sp"

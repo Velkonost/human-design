@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="ru.get.hd.ui.compatibility.CompatibilityViewModel" />
+            type="com.myhumandesignhd.ui.compatibility.CompatibilityViewModel" />
 
         <variable
             name="handler"
-            type="ru.get.hd.ui.compatibility.CompatibilityFragment.Handler" />
+            type="com.myhumandesignhd.ui.compatibility.CompatibilityFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".ui.activity.main.MainActivity">
+        tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
         <ImageView
             android:adjustViewBounds="true"
             android:src="@drawable/ic_stars"

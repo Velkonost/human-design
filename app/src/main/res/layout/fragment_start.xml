@@ -6,11 +6,11 @@
 
         <variable
             name="viewModel"
-            type="ru.get.hd.ui.start.StartViewModel" />
+            type="com.myhumandesignhd.ui.start.StartViewModel" />
 
         <variable
             name="handler"
-            type="ru.get.hd.ui.start.StartFragment.Handler" />
+            type="com.myhumandesignhd.ui.start.StartFragment.Handler" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -54,6 +54,7 @@
 
             <ImageView
                 android:id="@+id/bottomGradient"
+                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
@@ -67,7 +68,7 @@
                 android:layout_height="977dp"
                 android:layout_marginTop="-120dp"
                 android:adjustViewBounds="true"
-                android:alpha="0.2"
+                android:alpha="0.4"
                 android:rotation="90"
                 android:src="@drawable/ic_circle_big_dark"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +81,7 @@
                 android:layout_height="977dp"
                 android:layout_marginTop="-30dp"
                 android:adjustViewBounds="true"
-                android:alpha="0.2"
+                android:alpha="0.4"
                 android:src="@drawable/ic_circle_mid_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +92,7 @@
                 android:layout_width="461dp"
                 android:layout_height="461dp"
                 android:adjustViewBounds="true"
-                android:alpha="0.2"
+                android:alpha="0.4"
                 android:src="@drawable/ic_circle_big_dark"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -104,7 +105,7 @@
                 android:layout_width="380dp"
                 android:layout_height="380dp"
                 android:adjustViewBounds="true"
-                android:alpha="0.2"
+                android:alpha="0.4"
                 android:src="@drawable/ic_circle_mid_dark"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -255,556 +256,30 @@
 
                 <TextView
                     android:id="@+id/descSplash0102"
+                    android:scrollbars="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto"
-                    android:gravity="center"
+                    android:gravity="center|top"
                     android:textColor="@color/darkColor"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/titleSplash0102" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/splash0304Container"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="12dp"
-                android:visibility="gone"
+            <ViewStub
+                android:id="@+id/nameContainerStub"
+                android:layout="@layout/container_start_name"
+                android:inflatedId="@+id/inflatedNameContainer"
+                app:layout_constraintTop_toBottomOf="@id/backBtn"
                 app:layout_constraintBottom_toTopOf="@id/startBtn"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.core.widget.NestedScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingBottom="12dp">
-
-                        <TextView
-                            android:id="@+id/titleSplash0304"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="32dp"
-                            android:fontFamily="@font/roboto_bold"
-                            android:gravity="start"
-                            android:textSize="28sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/descSplash0304"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:fontFamily="@font/roboto"
-                            android:gravity="start"
-                            android:textSize="16sp"
-                            app:layout_constraintStart_toStartOf="@id/titleSplash0304"
-                            app:layout_constraintTop_toBottomOf="@id/titleSplash0304" />
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginTop="8dp"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/descSplash0304">
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/cardVariant1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:clickable="true"
-                                android:elevation="4dp"
-                                android:focusable="true"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:onClick="@{handler::onVariantClicked}"
-                                app:cardCornerRadius="10dp">
-
-                                <View
-                                    android:id="@+id/strokeVariant1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0"
-                                    android:background="@drawable/gradient_variant_card_selected_light" />
-
-                                <TextView
-                                    android:id="@+id/textVariant1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="20dp"
-                                    android:fontFamily="@font/roboto_bold"
-                                    android:gravity="start|center_vertical"
-                                    android:paddingVertical="16dp"
-                                    android:textSize="18sp" />
-
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/cardVariant2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:clickable="true"
-                                android:elevation="4dp"
-                                android:focusable="true"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:onClick="@{handler::onVariantClicked}"
-                                app:cardCornerRadius="10dp">
-
-                                <View
-                                    android:id="@+id/strokeVariant2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0"
-                                    android:background="@drawable/gradient_variant_card_selected_light" />
-
-                                <TextView
-                                    android:id="@+id/textVariant2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="20dp"
-                                    android:fontFamily="@font/roboto_bold"
-                                    android:gravity="start|center_vertical"
-                                    android:paddingVertical="16dp"
-                                    android:textSize="18sp" />
-
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/cardVariant3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:clickable="true"
-                                android:elevation="4dp"
-                                android:focusable="true"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:onClick="@{handler::onVariantClicked}"
-                                app:cardCornerRadius="10dp">
-
-                                <View
-                                    android:id="@+id/strokeVariant3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0"
-                                    android:background="@drawable/gradient_variant_card_selected_light" />
-
-                                <TextView
-                                    android:id="@+id/textVariant3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="20dp"
-                                    android:fontFamily="@font/roboto_bold"
-                                    android:gravity="start|center_vertical"
-                                    android:paddingVertical="16dp"
-                                    android:textSize="18sp" />
-
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/cardVariant4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:clickable="true"
-                                android:elevation="4dp"
-                                android:focusable="true"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:onClick="@{handler::onVariantClicked}"
-                                app:cardCornerRadius="10dp">
-
-                                <View
-                                    android:id="@+id/strokeVariant4"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0"
-                                    android:background="@drawable/gradient_variant_card_selected_light" />
-
-                                <TextView
-                                    android:id="@+id/textVariant4"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="20dp"
-                                    android:fontFamily="@font/roboto_bold"
-                                    android:gravity="start|center_vertical"
-                                    android:paddingVertical="16dp"
-                                    android:textSize="18sp" />
-
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/cardVariant5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:clickable="true"
-                                android:elevation="4dp"
-                                android:focusable="true"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:onClick="@{handler::onVariantClicked}"
-                                app:cardCornerRadius="10dp">
-
-                                <View
-                                    android:id="@+id/strokeVariant5"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0"
-                                    android:background="@drawable/gradient_variant_card_selected_light" />
-
-                                <TextView
-                                    android:id="@+id/textVariant5"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="20dp"
-                                    android:fontFamily="@font/roboto_bold"
-                                    android:gravity="start|center_vertical"
-                                    android:paddingVertical="16dp"
-                                    android:textSize="18sp" />
-
-                            </com.google.android.material.card.MaterialCardView>
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.core.widget.NestedScrollView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/splash05Container"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="12dp"
-                app:layout_constraintBottom_toTopOf="@id/startBtn"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:gravity="center_vertical|start"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/titleSplash05"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:gravity="start"
-                        android:textSize="28sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/descSplash05"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="@font/roboto"
-                        android:gravity="start"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="@id/titleSplash05"
-                        app:layout_constraintTop_toBottomOf="@id/titleSplash05" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/container1Splash05"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp">
-
-                        <ImageView
-                            android:id="@+id/ic01Splash05"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_marginVertical="16dp"
-                            android:layout_marginStart="16dp"
-                            android:src="@drawable/ic_splash_5_1"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/text01Splash05"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:textSize="16sp"
-                            app:layout_constraintBottom_toBottomOf="@id/ic01Splash05"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/ic01Splash05"
-                            app:layout_constraintTop_toTopOf="@id/ic01Splash05" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/container2Splash05"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp">
-
-                        <ImageView
-                            android:id="@+id/ic02Splash05"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_marginVertical="16dp"
-                            android:layout_marginStart="16dp"
-                            android:src="@drawable/ic_splash_5_2"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/text02Splash05"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:textSize="16sp"
-                            app:layout_constraintBottom_toBottomOf="@id/ic02Splash05"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/ic02Splash05"
-                            app:layout_constraintTop_toTopOf="@id/ic02Splash05" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/container3Splash05"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp">
-
-                        <ImageView
-                            android:id="@+id/ic03Splash05"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_marginVertical="16dp"
-                            android:layout_marginStart="16dp"
-                            android:src="@drawable/ic_splash_5_3"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/text03Splash05"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:textSize="16sp"
-                            app:layout_constraintBottom_toBottomOf="@id/ic03Splash05"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/ic03Splash05"
-                            app:layout_constraintTop_toTopOf="@id/ic03Splash05" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/raveContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/startBtn"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/raveLogo"
-                    android:layout_width="98dp"
-                    android:layout_height="102dp"
-                    android:adjustViewBounds="true"
-                    android:alpha="0"
-                    android:src="@drawable/ic_start_logo" />
-
-                <TextView
-                    android:id="@+id/raveTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textSize="32sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/raveDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nameContainer"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="12dp"
-                android:alpha="0"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/startBtn"
-
-                app:layout_constraintTop_toBottomOf="@id/backBtn">
-
-                <TextView
-                    android:id="@+id/nameTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center|bottom"
-                    android:lines="2"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/nameDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nameTitle" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/nameET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginBottom="46dp"
-                    android:backgroundTint="@color/darkHintColor"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center"
-                    android:includeFontPadding="true"
-                    android:inputType="textVisiblePassword|textNoSuggestions"
-                    android:letterSpacing="0.12"
-                    android:paddingBottom="24dp"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
-                <ru.get.hd.ui.view.daytimepicker.SingleDateAndTimePicker
-                    android:id="@+id/date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="62dp"
-                    android:alpha="0"
-                    android:calendarTextColor="@color/lightColor"
-                    android:calendarViewShown="false"
-                    android:datePickerMode="spinner"
-                    android:hapticFeedbackEnabled="true"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:offset="3"
-                    app:pickerMode="dayFirst"
-                    app:picker_curved="true"
-                    app:picker_cyclic="true"
-                    app:picker_displayDays="false"
-                    app:picker_displayDaysOfMonth="true"
-                    app:picker_displayHours="false"
-                    app:picker_displayMinutes="false"
-                    app:picker_displayMonth="true"
-                    app:picker_displayMonthNumbers="false"
-                    app:picker_displayYears="true"
-                    app:picker_monthFormat="MMMM"
-                    app:picker_textSize="20sp" />
-
-                <ru.get.hd.ui.view.daytimepicker.SingleDateAndTimePicker
-                    android:id="@+id/time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="38dp"
-                    android:alpha="0"
-                    android:timePickerMode="spinner"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@id/skipTime"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:picker_curved="true"
-                    app:picker_cyclic="true"
-                    app:picker_displayDays="false"
-                    app:picker_displayDaysOfMonth="false"
-                    app:picker_displayHours="true"
-                    app:picker_displayMinutes="true"
-                    app:picker_displayMonth="false"
-                    app:picker_displayMonthNumbers="false"
-                    app:picker_displayYears="false"
-                    app:picker_textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/skipTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginBottom="25dp"
-                    android:alpha="0"
-                    android:background="@drawable/bg_skip_time"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center"
-                    android:letterSpacing="0.12"
-                    android:onClick="@{handler::onBtnClicked}"
-                    android:paddingVertical="12dp"
-                    android:textSize="16sp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/placeET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:alpha="0"
-                    android:backgroundTint="@color/darkHintColor"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center"
-                    android:includeFontPadding="true"
-                    android:inputType="textCapWords"
-                    android:letterSpacing="0.2"
-                    android:onClick="@{handler::openPlacesView}"
-                    android:paddingBottom="24dp"
-                    android:textAllCaps="true"
-                    android:textSize="16sp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+                android:layout_height="0dp"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bodygraphContainer"
                 android:layout_width="match_parent"
@@ -830,7 +305,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ru.get.hd.ui.view.bodygraph.BodygraphView
+                <com.myhumandesignhd.ui.view.bodygraph.BodygraphView
                     android:id="@+id/bodygraphView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"

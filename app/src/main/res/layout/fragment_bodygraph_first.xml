@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="ru.get.hd.ui.bodygraph.BodygraphViewModel" />
+            type="com.myhumandesignhd.ui.bodygraph.BodygraphViewModel" />
 
         <variable
             name="handler"
-            type="ru.get.hd.ui.bodygraph.first.BodygraphFirstFragment.Handler" />
+            type="com.myhumandesignhd.ui.bodygraph.first.BodygraphFirstFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".ui.activity.main.MainActivity">
-        <ru.get.hd.ui.view.bodygraph.BodygraphView
+        tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
+        <com.myhumandesignhd.ui.view.bodygraph.BodygraphView
             android:id="@+id/bodygraphView"
             android:layout_width="0dp"
             android:layout_height="0dp"

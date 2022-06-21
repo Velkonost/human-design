@@ -6,11 +6,11 @@
     <data>
         <variable
             name="viewModel"
-            type="ru.get.hd.ui.transit.TransitViewModel" />
+            type="com.myhumandesignhd.ui.transit.TransitViewModel" />
 
         <variable
             name="handler"
-            type="ru.get.hd.ui.transit.TransitFragment.Handler" />
+            type="com.myhumandesignhd.ui.transit.TransitFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".ui.activity.main.MainActivity">
+        tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
         <TextView
             android:id="@+id/transitTitle"
             android:textStyle="bold"

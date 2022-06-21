@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="ru.get.hd.ui.affirmation.AffirmationViewModel" />
+            type="com.myhumandesignhd.ui.affirmation.AffirmationViewModel" />
 
         <variable
             name="handler"
-            type="ru.get.hd.ui.affirmation.AffirmationFragment.Handler" />
+            type="com.myhumandesignhd.ui.affirmation.AffirmationFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".ui.activity.main.MainActivity">
+        tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
 
 
         <TextView

@@ -166,7 +166,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     </string-array>
 
     <string name="compatibility_detail_title">Relationship</string>
-    <string name="profiles_title">Profiles</string>
+    <string name="profiles_title">Profile</string>
 
     <string name="add_partner_rave_title"><![CDATA[Let’s calculate\nthe bodygraph!]]></string>
     <string name="add_child_rave_title"><![CDATA[Let’s calculate\nyour child’s\nbodygraph!]]></string>
@@ -287,4 +287,52 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="transit_cycles_title">Planet Returns</string>
     <string name="transit_cycles_desc">In Human Design, the cycles of life are reflected in the Returns of the planets, which have a special effect on us. There are many planets, but only the Return of Saturn, Chiron and the Opposition of Uranus divide our life into main cycles. Each cycle reflects its own individual moments that bring a special expression to your personal Design. Understanding the mechanics of cycles, you can figure out what stage you are right now, or what you still have to go through in the future, understand why your life looks different at different periods.</string>
     <string name="cycle_age_title">Approximate age:</string>
+
+    <string name="paywall_restore">Restore</string>
+    <string name="paywall_terms_of_use">Terms of Use</string>
+    <string name="paywall_privacy_policy">Privacy Policy</string>
+
+    <string name="forecast_push_title">Ready for a new week?</string>
+    <string name="forecast_push_desc">Your personal forecast is already available. Hurry up to read it!</string>
+
+    <string name="paywall_open_full_access">Open full access</string>
+    <string name="paywall_text_1">Personal bodygraph decoding</string>
+    <string name="paywall_text_2">Planetary movements and their impact on you</string>
+    <string name="paywall_text_3">Calculation of compatibility with others</string>
+    <string name="paywall_text_4">Check what the Universe has in store for you</string>
+
+    <string name="paywall_1_month">3 Month</string>
+    <string name="paywall_1_week">Week</string>
+    <string name="paywall_1_year">Year</string>
+    <string name="paywall_1_autorenewable">auto-renewable</string>
+    <string name="paywall_1_trial">3 дня бесплатно\nauto-renewable</string>
+
+    <string name="injury_generate_text">GENERATE</string>
+    <string name="injury_generating_text">GENERATING</string>
+
+    <string-array name="forecast_push_titles">
+        <item>⚡️Ready for a new week?</item>
+        <item>New week - new start💥</item>
+        <item>☀️Имя, happy new week!</item>
+        <item>It\’s new forecast time💥</item>
+        <item>We wish you a productive week!</item>
+        <item>🌟New week for new goals!</item>
+        <item>⏰Your forecast is here👉🏽</item>
+        <item>✨New week is a new beginning</item>
+        <item>New week! Bring it on🔥</item>
+        <item>💥Имя, let’s do this!</item>
+    </string-array>
+
+    <string-array name="forecast_push_desc">
+        <item>Your personal forecast is already available. Hurry up to read it!</item>
+        <item>Personal forecast for the new week is ready!</item>
+        <item>💫Get ready for future events💫</item>
+        <item>Start the new week on a positive note!🤩</item>
+        <item>Имя, your forecast is already available!🤩</item>
+        <item>Choose the right direction with your personal forecast!</item>
+        <item>You can handle whatever this week throws at you🌟</item>
+        <item>Let nothing get in your way!</item>
+        <item>Hurry up to ready your new personal forecast👉🏽    </item>
+        <item>Start a new week with your personal forecast🔥</item>
+    </string-array>
 </resources>

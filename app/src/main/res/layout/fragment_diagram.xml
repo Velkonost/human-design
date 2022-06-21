@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="ru.get.hd.ui.bodygraph.BodygraphViewModel" />
+            type="com.myhumandesignhd.ui.bodygraph.BodygraphViewModel" />
 
         <variable
             name="handler"
-            type="ru.get.hd.ui.bodygraph.diagram.DiagramFragment.Handler" />
+            type="com.myhumandesignhd.ui.bodygraph.diagram.DiagramFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".ui.activity.main.MainActivity">
+        tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
         <ImageView
             android:adjustViewBounds="true"
             android:src="@drawable/ic_stars"

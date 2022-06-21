@@ -14,15 +14,15 @@ android {
     defaultConfig {
 
         buildConfigField "String", "BASE_URL", "\"http://5.45.79.21/\""
-        buildConfigField "String", "FILE_PROVIDER_PATH", "\"ru.get.hd.fileprovider\""
+        buildConfigField "String", "FILE_PROVIDER_PATH", "\"com.myhumandesignhd.fileprovider\""
         buildConfigField "String", "APPSFLYER_KEY", "\"FVNQ5k6ARz9gfd8sEjR3sS\""
         buildConfigField "String", "APPMETRICA_API_KEY", "\"da3a31cb-6fde-4d13-a4ea-c93f51213e48\""
 
-        applicationId "ru.get.hd"
+        applicationId "com.myhumandesignhd"
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 1
-        versionName "0.0.4-prototype"
+        versionName "0.0.5-prototype"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -194,6 +194,9 @@ dependencies {
 
 //    Adapty
     implementation 'com.github.adaptyteam:AdaptySDK-Android:1.2.0'
+
+    implementation 'com.intuit.sdp:sdp-android:1.0.5'
+    implementation 'at.wirecube:additive_animations:1.9.3'
 
 
 //    room

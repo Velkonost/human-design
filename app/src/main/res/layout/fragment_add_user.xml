@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="ru.get.hd.ui.start.StartViewModel" />
+            type="com.myhumandesignhd.ui.start.StartViewModel" />
 
         <variable
             name="handler"
-            type="ru.get.hd.ui.adduser.AddUserFragment.Handler" />
+            type="com.myhumandesignhd.ui.adduser.AddUserFragment.Handler" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:background="@color/darkColor"
             android:fitsSystemWindows="true"
-            tools:context=".ui.activity.main.MainActivity">
+            tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
 
             <FrameLayout
                 android:id="@+id/snackbarContainer"
@@ -59,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:alpha="1"
                 android:src="@drawable/ic_btn_bottom_gradient"
                 app:layout_constraintBottom_toBottomOf="parent" />
@@ -69,7 +70,7 @@
                 android:layout_height="977dp"
                 android:layout_marginTop="-120dp"
                 android:adjustViewBounds="true"
-                android:alpha="0.2"
+                android:alpha="0.4"
                 android:rotation="90"
                 android:src="@drawable/ic_circle_big_dark"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +83,7 @@
                 android:layout_height="977dp"
                 android:layout_marginTop="-30dp"
                 android:adjustViewBounds="true"
-                android:alpha="0.2"
+                android:alpha="0.4"
                 android:src="@drawable/ic_circle_mid_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +94,7 @@
                 android:layout_width="461dp"
                 android:layout_height="461dp"
                 android:adjustViewBounds="true"
-                android:alpha="0.2"
+                android:alpha="0.4"
                 android:src="@drawable/ic_circle_big_dark"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -106,7 +107,7 @@
                 android:layout_width="380dp"
                 android:layout_height="380dp"
                 android:adjustViewBounds="true"
-                android:alpha="0.2"
+                android:alpha="0.4"
                 android:src="@drawable/ic_circle_mid_dark"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -255,13 +256,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
                 <TextView
                     android:id="@+id/nameDesc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="6dp"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
                     android:textSize="16sp"
@@ -285,7 +285,7 @@
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
-                <ru.get.hd.ui.view.daytimepicker.SingleDateAndTimePicker
+                <com.myhumandesignhd.ui.view.daytimepicker.SingleDateAndTimePicker
                     android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -312,12 +312,12 @@
                     app:picker_monthFormat="MMMM"
                     app:picker_textSize="20sp" />
 
-                <ru.get.hd.ui.view.daytimepicker.SingleDateAndTimePicker
+                <com.myhumandesignhd.ui.view.daytimepicker.SingleDateAndTimePicker
                     android:id="@+id/time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="38dp"
+                    android:layout_marginBottom="28dp"
                     android:alpha="0"
                     android:timePickerMode="spinner"
                     android:visibility="gone"
@@ -355,6 +355,7 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/placeET"
+                    android:inputType="textVisiblePassword|textNoSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
@@ -365,7 +366,6 @@
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
                     android:includeFontPadding="true"
-                    android:inputType="textCapWords"
                     android:letterSpacing="0.2"
                     android:onClick="@{handler::openPlacesView}"
                     android:paddingBottom="24dp"
@@ -403,7 +403,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ru.get.hd.ui.view.bodygraph.BodygraphView
+                <com.myhumandesignhd.ui.view.bodygraph.BodygraphView
                     android:id="@+id/bodygraphView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"

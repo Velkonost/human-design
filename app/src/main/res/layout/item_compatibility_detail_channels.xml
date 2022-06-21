@@ -4,53 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/channelsScroll"
-        android:fadingEdge="vertical"
-        android:fadeScrollbars="true"
-        android:fadingEdgeLength="40dp"
-        android:requiresFadingEdge="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="150dp">
-
-
-            <TextView
-                android:id="@+id/channelsTitle"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="16dp"
-                android:paddingHorizontal="20dp"
-                android:fontFamily="@font/roboto"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/channelsDesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                android:alpha="0.7"
-                android:fontFamily="@font/roboto"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/channelsTitle" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/channelsRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
+                android:clipChildren="true"
+                android:clipToPadding="false"
+                android:paddingBottom="450dp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/channelsDesc" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-
+                />
 </androidx.constraintlayout.widget.ConstraintLayout>

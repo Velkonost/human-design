@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="ru.get.hd">
+    package="com.myhumandesignhd">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -19,7 +19,7 @@
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
 
     <application
-        android:name="ru.get.hd.App"
+        android:name="com.myhumandesignhd.App"
         android:allowBackup="true"
         tools:replace="android:fullBackupContent"
         android:fullBackupContent="false"
@@ -37,7 +37,7 @@
 <!--        android:roundIcon="@drawable/logo"-->
         <activity
             android:screenOrientation="portrait"
-            android:name="ru.get.hd.ui.activity.main.MainActivity"
+            android:name="com.myhumandesignhd.ui.activity.main.MainActivity"
             android:configChanges="uiMode"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" />
@@ -51,7 +51,7 @@
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:label="@string/app_name"
-            android:targetActivity="ru.get.hd.ui.activity.main.MainActivity">
+            android:targetActivity="com.myhumandesignhd.ui.activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,7 +69,7 @@
             android:value="${crashlyticsCollectionEnabled}" />
 
         <service
-            android:name="ru.get.hd.push.FirebaseMessagingService"
+            android:name="com.myhumandesignhd.push.FirebaseMessagingService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -79,7 +79,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="ru.get.hd.fileprovider"
+            android:authorities="com.myhumandesignhd.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
 
@@ -89,7 +89,7 @@
         </provider>
 
         <receiver
-            android:name="ru.get.hd.push.NotificationReceiver"
+            android:name="com.myhumandesignhd.push.NotificationReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -98,7 +98,7 @@
         </receiver>
 
         <service
-            android:name="ru.get.hd.push.NotificationService"
+            android:name="com.myhumandesignhd.push.NotificationService"
             android:exported="false"
             tools:ignore="Instantiatable"/>
 

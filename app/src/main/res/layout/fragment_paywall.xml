@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="handler"
+            type="com.myhumandesignhd.ui.paywall.PaywallFragment.Handler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:visibility="gone"
+            android:id="@+id/paywall1"
+            layout="@layout/view_paywall_1"/>
+
+        <include
+            android:visibility="gone"
+            android:id="@+id/paywall2"
+            layout="@layout/view_paywall_2"/>
+
+        <include
+            android:visibility="gone"
+            android:id="@+id/paywall3"
+            layout="@layout/view_paywall_3"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

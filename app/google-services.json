@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "740588431855",
-    "project_id": "hdesign-aab91",
-    "storage_bucket": "hdesign-aab91.appspot.com"
+    "project_number": "782291192410",
+    "project_id": "human-98566",
+    "storage_bucket": "human-98566.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:740588431855:android:5fe171a5ddceb560aa2e1a",
+        "mobilesdk_app_id": "1:782291192410:android:cb3e98c78d0ac50993e663",
         "android_client_info": {
-          "package_name": "ru.get.hd"
+          "package_name": "com.myhumandesignhd"
         }
       },
       "oauth_client": [
         {
-          "client_id": "740588431855-gbv146349psdotfhtrilpe8jo511fvj9.apps.googleusercontent.com",
+          "client_id": "782291192410-itua6hno6r8kbh4khv5mpekqpttkjac7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBpqzDOKfV3juri4D-lVcyUwn_FDFjmSac"
+          "current_key": "AIzaSyCHrXnudx-RWN0r5piy99QC3z0u0iUlJTs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "740588431855-gbv146349psdotfhtrilpe8jo511fvj9.apps.googleusercontent.com",
+              "client_id": "782291192410-itua6hno6r8kbh4khv5mpekqpttkjac7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    >
+    android:id="@+id/mobile_navigation">
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_splash"-->
-<!--        android:name="ru.get.hd.ui.splash.SplashFragment"-->
+<!--        android:name="com.myhumandesignhd.SplashFragment"-->
 <!--        android:label="SplashFragment"-->
 <!--        app:enterAnim="@animator/right_in"-->
 <!--        app:exitAnim="@animator/right_out"-->
@@ -22,7 +19,7 @@
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_start"-->
-<!--        android:name="ru.get.hd.ui.start.StartFragment"-->
+<!--        android:name="com.myhumandesignhd.StartFragment"-->
 <!--        android:label="StartFragment"-->
 <!--        tools:layout="@layout/fragment_start"-->
 <!--        >-->
@@ -33,7 +30,7 @@
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_settings"-->
-<!--        android:name="ru.get.hd.ui.settings.SettingsFragment"-->
+<!--        android:name="com.myhumandesignhd.SettingsFragment"-->
 <!--        android:label="SettingsFragment"-->
 <!--        tools:layout="@layout/fragment_settings"-->
 <!--        >-->
@@ -44,7 +41,7 @@
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_faq"-->
-<!--        android:name="ru.get.hd.ui.faq.FaqFragment"-->
+<!--        android:name="com.myhumandesignhd.FaqFragment"-->
 <!--        android:label="FaqFragment"-->
 <!--        tools:layout="@layout/fragment_faq"-->
 <!--        >-->
@@ -55,7 +52,7 @@
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_faq_detail"-->
-<!--        android:name="ru.get.hd.ui.faq.detail.FaqDetailFragment"-->
+<!--        android:name="com.myhumandesignhd.FaqDetailFragment"-->
 <!--        android:label="FaqDetailFragment"-->
 <!--        tools:layout="@layout/fragment_faq_detail"-->
 <!--        />-->
@@ -63,28 +60,28 @@
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_bodygraph"-->
-<!--        android:name="ru.get.hd.ui.bodygraph.BodygraphFragment"-->
+<!--        android:name="com.myhumandesignhd.BodygraphFragment"-->
 <!--        android:label="BodygraphFragment"-->
 <!--        tools:layout="@layout/fragment_bodygraph"-->
 <!--        />-->
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_transit"-->
-<!--        android:name="ru.get.hd.ui.transit.TransitFragment"-->
+<!--        android:name="com.myhumandesignhd.TransitFragment"-->
 <!--        android:label="TransitFragment"-->
 <!--        tools:layout="@layout/fragment_transit"-->
 <!--        />-->
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_compatibility"-->
-<!--        android:name="ru.get.hd.ui.compatibility.CompatibilityFragment"-->
+<!--        android:name="com.myhumandesignhd.CompatibilityFragment"-->
 <!--        android:label="CompatibilityFragment"-->
 <!--        tools:layout="@layout/fragment_compatibility"-->
 <!--        />-->
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_affirmation"-->
-<!--        android:name="ru.get.hd.ui.affirmation.AffirmationFragment"-->
+<!--        android:name="com.myhumandesignhd.AffirmationFragment"-->
 <!--        android:label="AffirmationFragment"-->
 <!--        tools:layout="@layout/fragment_affirmation"-->
 <!--        />-->

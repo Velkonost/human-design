@@ -112,4 +112,6 @@
     <dimen name="transit_znak_size">16dp</dimen>
 
     <dimen name="bodygraph_text_size">14px</dimen>
+
+<!--    <dimen name="review_pw3_padding">200dp</dimen>-->
 </resources>

@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="ru.get.hd.ui.settings.SettingsViewModel" />
+            type="com.myhumandesignhd.ui.settings.SettingsViewModel" />
 
         <variable
             name="handler"
-            type="ru.get.hd.ui.settings.SettingsFragment.Handler" />
+            type="com.myhumandesignhd.ui.settings.SettingsFragment.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
         android:background="@color/darkColor"
         android:fitsSystemWindows="true"
         android:paddingHorizontal="20dp"
-        tools:context=".ui.activity.main.MainActivity">
+        tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
         <ImageView
             android:adjustViewBounds="true"
             android:src="@drawable/ic_stars"
@@ -384,6 +384,7 @@
             android:layout_marginBottom="76dp"
             android:alpha="0.3"
             android:textSize="11sp"
+            android:onClick="@{handler::onVersionClicked}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
