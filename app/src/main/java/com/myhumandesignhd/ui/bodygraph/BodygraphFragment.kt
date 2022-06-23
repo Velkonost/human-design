@@ -69,7 +69,13 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         isFirstFragmentLaunch = false
 
-        if (!App.preferences.isDarkTheme) {
+        if (
+            !App.preferences.isDarkTheme
+            && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M
+        ) {
+            binding.bigCircle.setImageResource(R.drawable.ic_circle_big_light)
+            binding.midCircle.setImageResource(R.drawable.ic_circle_mid_light)
+
             binding.bigCircle.isVisible = true
             binding.midCircle.isVisible = true
 
@@ -430,9 +436,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         YandexMetrica.reportEvent("UserClickedBodygraphCenter")
 
-        val view = View(
-            requireContext()
-        )
+        val view = View(requireContext())
         view.layoutParams = LinearLayout.LayoutParams(
             1,
             1

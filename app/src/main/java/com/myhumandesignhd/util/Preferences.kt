@@ -19,7 +19,10 @@ class Preferences(context: Context) {
 
     var locale: String
         set(value) = sharedPreferences.edit().putString(LOCALE, value).apply()
-        get() = Locale.getDefault().language//sharedPreferences.getString(LOCALE, "ru") ?: "ru"
+        get() =
+            if (Locale.getDefault().language == "en" || Locale.getDefault().language == "ru")
+                Locale.getDefault().language
+            else "en"
 
     var isDarkTheme: Boolean
         set(value) = sharedPreferences.edit().putBoolean(IS_DARK_THEME, value)
@@ -78,7 +81,7 @@ class Preferences(context: Context) {
 
     var isPremiun: Boolean
         set(value) = sharedPreferences.edit().putBoolean("is_premium", value).apply()
-        get() = sharedPreferences.getBoolean("is_premium", true)
+        get() = sharedPreferences.getBoolean("is_premium", false)
 
     fun clearNewUserTemps() {
         newUserName = null

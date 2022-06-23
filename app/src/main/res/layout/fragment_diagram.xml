@@ -20,89 +20,85 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
-        <ImageView
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_stars"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+
         <FrameLayout
             android:id="@+id/arrowBlock"
-            android:onClick="@{handler::onBackClicked}"
-            android:layout_marginStart="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/diagramTitle"
-            app:layout_constraintBottom_toBottomOf="@id/diagramTitle"
             android:layout_width="32dp"
-            android:layout_height="32dp">
+            android:layout_height="32dp"
+            android:layout_marginStart="20dp"
+            android:onClick="@{handler::onBackClicked}"
+            app:layout_constraintBottom_toBottomOf="@id/diagramTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/diagramTitle">
 
             <ImageView
                 android:id="@+id/icArrow"
-                android:rotation="180"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_arrow"
                 android:layout_width="16dp"
-                android:layout_height="16dp"/>
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:rotation="180"
+                android:src="@drawable/ic_arrow" />
         </FrameLayout>
 
         <TextView
             android:id="@+id/diagramTitle"
-            android:gravity="center"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginHorizontal="64dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:fontFamily="@font/roboto"
-            android:textSize="32sp"
-            android:layout_marginTop="24dp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="64dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
-            android:visibility="gone"
-            android:onClick="@{handler::onAddClicked}"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/diagramTitle"
-            app:layout_constraintBottom_toBottomOf="@id/diagramTitle"
             android:layout_width="32dp"
-            android:layout_height="32dp">
+            android:layout_height="32dp"
+            android:layout_marginEnd="20dp"
+            android:onClick="@{handler::onAddClicked}"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/diagramTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/diagramTitle">
 
             <ImageView
                 android:id="@+id/icPlus"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_plus"
                 android:layout_width="20dp"
-                android:layout_height="20dp"/>
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_plus" />
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/diagramsRecycler"
-            android:fadingEdge="vertical"
-            android:fadeScrollbars="true"
-            android:fadingEdgeLength="40dp"
-            android:requiresFadingEdge="vertical"
-            app:layout_constraintTop_toBottomOf="@id/diagramTitle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:nestedScrollingEnabled="false"
-            android:layout_marginTop="4dp"
-            android:paddingBottom="66dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:fadeScrollbars="true"
+            android:fadingEdge="vertical"
+            android:fadingEdgeLength="40dp"
+            android:nestedScrollingEnabled="false"
+            android:orientation="vertical"
+            android:paddingBottom="66dp"
+            android:requiresFadingEdge="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/diagramTitle" />
 
         <TextView
             android:id="@+id/emptyText"
-            android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:alpha="0.7"
             android:fontFamily="@font/roboto"
-            android:textSize="16sp"
             android:gravity="center"
-            android:layout_marginHorizontal="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

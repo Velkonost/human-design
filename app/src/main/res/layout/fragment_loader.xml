@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="handler"
             type="com.myhumandesignhd.ui.loader.LoaderFragment.Handler" />
@@ -11,28 +12,30 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:elevation="40dp">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/anim"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="206dp"
             android:layout_height="206dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:lottie_loop="false" />
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/anim2"
-            android:visibility="gone"
             android:layout_width="206dp"
             android:layout_height="206dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:lottie_loop="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

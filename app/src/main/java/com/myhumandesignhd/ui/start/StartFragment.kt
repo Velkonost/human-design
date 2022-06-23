@@ -1,5 +1,6 @@
 package com.myhumandesignhd.ui.start
 
+import android.animation.Animator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -36,6 +37,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentStartBinding
+import com.myhumandesignhd.event.FinishFirstLoaderEvent
 import com.myhumandesignhd.event.LastKnownLocationUpdateEvent
 import com.myhumandesignhd.event.NoInetEvent
 import com.myhumandesignhd.event.PermissionGrantedEvent
@@ -93,7 +95,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         super.onLayoutReady(savedInstanceState)
 
         setupInitTheme()
-        setupSplash01()
+//        setupSplash01()
+        setupLoader()
         setupLocale()
 
         prepareLogic()
@@ -188,7 +191,32 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             inflated.date.updateTheme()
             inflated.time.updateTheme()
         }
+    }
 
+    private fun setupLoader() {
+
+        binding.loaderView.anim.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+                super.onAnimationStart(animation, isReverse)
+            }
+
+            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+                super.onAnimationEnd(animation, isReverse)
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                binding.loaderView.container.isVisible = false
+                setupSplash01()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator?) {}
+        })
+
+        android.os.Handler().postDelayed({
+            binding.loaderView.anim.playAnimation()
+        }, 1000)
     }
 
     private var prevHeightDiff = -1
@@ -398,11 +426,14 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     lateinit var inflatedNameContainer: View
     private fun setupName() {
 
-        inflatedNameContainer = binding.nameContainerStub.viewStub!!.inflate()
+        if (!::inflatedNameContainer.isInitialized) {
+            inflatedNameContainer = binding.nameContainerStub.viewStub!!.inflate()
+            setupPlacesView()
+        }
 
         YandexMetrica.reportEvent("StartScreenNameShowen")
 
-        setupPlacesView()
+
 
         binding.backBtn.isVisible = true
 
@@ -818,7 +849,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                                 date = inflatedNameContainer.date.date.time,
                                 time = String.format(
                                     "%02d",
-                                    inflatedNameContainer.time.hoursPicker.currentHour
+                                    inflatedNameContainer.time.date.hours
                                 ) + ":" + String.format("%02d", inflatedNameContainer.time.minutesPicker.currentMinute),
                                 lat = selectedLat,
                                 lon = selectedLon

@@ -54,11 +54,11 @@
 
             <ImageView
                 android:id="@+id/bottomGradient"
-                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:alpha="0"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_btn_bottom_gradient"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -146,27 +146,27 @@
 
                     <View
                         android:id="@+id/indicator3"
-                        android:visibility="gone"
                         android:layout_width="7dp"
                         android:layout_height="7dp"
                         android:layout_marginStart="12dp"
-                        android:background="@drawable/bg_inactive_indicator_dark" />
+                        android:background="@drawable/bg_inactive_indicator_dark"
+                        android:visibility="gone" />
 
                     <View
                         android:id="@+id/indicator4"
-                        android:visibility="gone"
                         android:layout_width="7dp"
                         android:layout_height="7dp"
                         android:layout_marginStart="12dp"
-                        android:background="@drawable/bg_inactive_indicator_dark" />
+                        android:background="@drawable/bg_inactive_indicator_dark"
+                        android:visibility="gone" />
 
                     <View
                         android:id="@+id/indicator5"
-                        android:visibility="gone"
                         android:layout_width="7dp"
                         android:layout_height="7dp"
                         android:layout_marginStart="12dp"
-                        android:background="@drawable/bg_inactive_indicator_dark" />
+                        android:background="@drawable/bg_inactive_indicator_dark"
+                        android:visibility="gone" />
 
                     <View
                         android:id="@+id/indicator6"
@@ -223,24 +223,24 @@
 
                 <ImageView
                     android:id="@+id/bgSplashHeader"
-                    android:src="@drawable/bg_start_header_dark"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="107dp"
+                    android:layout_height="107dp"
                     android:layout_marginTop="40dp"
                     android:adjustViewBounds="true"
-                    android:layout_width="107dp"
-                    android:layout_height="107dp"/>
+                    android:src="@drawable/bg_start_header_dark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/startHeaderAnim"
-                    app:lottie_autoPlay="false"
-                    app:layout_constraintTop_toTopOf="@id/bgSplashHeader"
-                    app:layout_constraintBottom_toBottomOf="@id/bgSplashHeader"
-                    app:layout_constraintStart_toStartOf="@id/bgSplashHeader"
-                    app:layout_constraintEnd_toEndOf="@id/bgSplashHeader"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"/>
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/bgSplashHeader"
+                    app:layout_constraintEnd_toEndOf="@id/bgSplashHeader"
+                    app:layout_constraintStart_toStartOf="@id/bgSplashHeader"
+                    app:layout_constraintTop_toTopOf="@id/bgSplashHeader"
+                    app:lottie_autoPlay="false" />
 
                 <TextView
                     android:id="@+id/titleSplash0102"
@@ -256,30 +256,31 @@
 
                 <TextView
                     android:id="@+id/descSplash0102"
-                    android:scrollbars="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto"
                     android:gravity="center|top"
+                    android:scrollbars="vertical"
                     android:textColor="@color/darkColor"
                     android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/titleSplash0102" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ViewStub
                 android:id="@+id/nameContainerStub"
-                android:layout="@layout/container_start_name"
-                android:inflatedId="@+id/inflatedNameContainer"
-                app:layout_constraintTop_toBottomOf="@id/backBtn"
-                app:layout_constraintBottom_toTopOf="@id/startBtn"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp"
+                android:inflatedId="@+id/inflatedNameContainer"
+                android:layout="@layout/container_start_name"
+                app:layout_constraintBottom_toTopOf="@id/startBtn"
+                app:layout_constraintTop_toBottomOf="@id/backBtn" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bodygraphContainer"
                 android:layout_width="match_parent"
@@ -339,6 +340,10 @@
                 android:id="@+id/placesView"
                 layout="@layout/view_place_select"
                 android:visibility="gone" />
+
+            <include
+                android:id="@+id/loaderView"
+                layout="@layout/fragment_loader" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

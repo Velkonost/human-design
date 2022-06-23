@@ -218,117 +218,119 @@ class TransitModel(
                 znak13Blue.alpha1(500)
             }
 
-            val rotate1 = RotateAnimation(
-                0f,
-                360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f
-            )
-            rotate1.repeatCount = Animation.INFINITE
-            rotate1.fillAfter = true
-            rotate1.duration = 50000
-            rotate1.interpolator = LinearInterpolator()
-            circle1.startAnimation(rotate1)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                val rotate1 = RotateAnimation(
+                    0f,
+                    360f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
+                rotate1.repeatCount = Animation.INFINITE
+                rotate1.fillAfter = true
+                rotate1.duration = 50000
+                rotate1.interpolator = LinearInterpolator()
+                circle1.startAnimation(rotate1)
 
-            val rotate2 = RotateAnimation(
-                0f,
-                -360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f
-            )
-            rotate2.repeatCount = Animation.INFINITE
-            rotate2.fillAfter = true
-            rotate2.duration = 50000
-            rotate2.interpolator = LinearInterpolator()
-            circle2.startAnimation(rotate2)
+                val rotate2 = RotateAnimation(
+                    0f,
+                    -360f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
+                rotate2.repeatCount = Animation.INFINITE
+                rotate2.fillAfter = true
+                rotate2.duration = 50000
+                rotate2.interpolator = LinearInterpolator()
+                circle2.startAnimation(rotate2)
 
-            val rotate3 = RotateAnimation(
-                0f,
-                360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f
-            )
-            rotate3.repeatCount = Animation.INFINITE
-            rotate3.fillAfter = true
-            rotate3.duration = 50000
-            rotate3.interpolator = LinearInterpolator()
-            circle3.startAnimation(rotate3)
+                val rotate3 = RotateAnimation(
+                    0f,
+                    360f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
+                rotate3.repeatCount = Animation.INFINITE
+                rotate3.fillAfter = true
+                rotate3.duration = 50000
+                rotate3.interpolator = LinearInterpolator()
+                circle3.startAnimation(rotate3)
 
-            val rotate4 = RotateAnimation(
-                0f,
-                -360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f
-            )
-            rotate4.repeatCount = Animation.INFINITE
-            rotate4.fillAfter = true
-            rotate4.duration = 50000
-            rotate4.interpolator = LinearInterpolator()
-            circle4.startAnimation(rotate4)
+                val rotate4 = RotateAnimation(
+                    0f,
+                    -360f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
+                rotate4.repeatCount = Animation.INFINITE
+                rotate4.fillAfter = true
+                rotate4.duration = 50000
+                rotate4.interpolator = LinearInterpolator()
+                circle4.startAnimation(rotate4)
 
-            val rotate5 = RotateAnimation(
-                0f,
-                360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f
-            )
-            rotate5.repeatCount = Animation.INFINITE
-            rotate5.fillAfter = true
-            rotate5.duration = 50000
-            rotate5.interpolator = LinearInterpolator()
-            circle5.startAnimation(rotate5)
+                val rotate5 = RotateAnimation(
+                    0f,
+                    360f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
+                rotate5.repeatCount = Animation.INFINITE
+                rotate5.fillAfter = true
+                rotate5.duration = 50000
+                rotate5.interpolator = LinearInterpolator()
+                circle5.startAnimation(rotate5)
 
-            val rotate6 = RotateAnimation(
-                0f,
-                360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f
-            )
-            rotate6.repeatCount = Animation.INFINITE
-            rotate6.fillAfter = true
-            rotate6.duration = 50000
-            rotate6.interpolator = LinearInterpolator()
-            circle6.startAnimation(rotate6)
+                val rotate6 = RotateAnimation(
+                    0f,
+                    360f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
+                rotate6.repeatCount = Animation.INFINITE
+                rotate6.fillAfter = true
+                rotate6.duration = 50000
+                rotate6.interpolator = LinearInterpolator()
+                circle6.startAnimation(rotate6)
 
-            val rotate7 = RotateAnimation(
-                0f,
-                -360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f
-            )
-            rotate7.repeatCount = Animation.INFINITE
-            rotate7.fillAfter = true
-            rotate7.duration = 50000
-            rotate7.interpolator = LinearInterpolator()
-            circle7.startAnimation(rotate7)
+                val rotate7 = RotateAnimation(
+                    0f,
+                    -360f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
+                rotate7.repeatCount = Animation.INFINITE
+                rotate7.fillAfter = true
+                rotate7.duration = 50000
+                rotate7.interpolator = LinearInterpolator()
+                circle7.startAnimation(rotate7)
 
-            val rotate8 = RotateAnimation(
-                0f,
-                360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f
-            )
-            rotate8.repeatCount = Animation.INFINITE
-            rotate8.fillAfter = true
-            rotate8.duration = 50000
-            rotate8.interpolator = LinearInterpolator()
-            circle8.startAnimation(rotate8)
+                val rotate8 = RotateAnimation(
+                    0f,
+                    360f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
+                rotate8.repeatCount = Animation.INFINITE
+                rotate8.fillAfter = true
+                rotate8.duration = 50000
+                rotate8.interpolator = LinearInterpolator()
+                circle8.startAnimation(rotate8)
+            }
         }
     }
 

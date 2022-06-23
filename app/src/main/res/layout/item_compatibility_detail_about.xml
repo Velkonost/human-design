@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fadingEdge="vertical"
         android:fadeScrollbars="true"
+        android:fadingEdge="vertical"
         android:fadingEdgeLength="40dp"
         android:requiresFadingEdge="vertical">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -18,96 +19,98 @@
 
             <ImageView
                 android:id="@+id/chart1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/firstName"
-                app:layout_constraintBottom_toBottomOf="@id/secondName"
-                android:layout_marginStart="-80dp"
                 android:layout_width="160dp"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp"
+                android:layout_marginStart="-80dp"
+                app:layout_constraintBottom_toBottomOf="@id/secondName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/firstName" />
 
             <ImageView
                 android:id="@+id/chart2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/firstName"
-                app:layout_constraintBottom_toBottomOf="@id/secondName"
-                android:layout_marginEnd="-80dp"
                 android:layout_width="160dp"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp"
+                android:layout_marginEnd="-80dp"
+                app:layout_constraintBottom_toBottomOf="@id/secondName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/firstName" />
 
             <TextView
                 android:id="@+id/firstName"
-                android:fontFamily="@font/roboto"
-                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:alpha="0.5"
+                android:fontFamily="@font/roboto"
                 android:gravity="center"
                 android:paddingHorizontal="20dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/firstTitle"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:gravity="center"
-                android:paddingHorizontal="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/firstName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/roboto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:gravity="center"
+                android:paddingHorizontal="20dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/firstName" />
 
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/gif"
-                android:src="@drawable/gif_compatibility"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:scaleType="centerCrop"
-                app:layout_constraintTop_toBottomOf="@id/firstTitle"
-
                 android:layout_width="60dp"
-                android:layout_height="60dp"/>
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/gif_compatibility"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/firstTitle" />
 
             <TextView
                 android:id="@+id/secondName"
-                android:gravity="center"
-                android:fontFamily="@font/roboto"
-                android:textSize="16sp"
-                android:alpha="0.5"
-                android:paddingHorizontal="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/secondTitle"
-                android:layout_marginTop="2dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:alpha="0.5"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:paddingHorizontal="20dp"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secondTitle" />
+
             <TextView
                 android:id="@+id/secondTitle"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:paddingHorizontal="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gif"
-                android:fontFamily="@font/roboto"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:paddingHorizontal="20dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/gif" />
 
             <TextView
                 android:id="@+id/aboutDesc"
-                android:layout_marginTop="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="54dp"
+                android:alpha="0.7"
                 android:fontFamily="@font/roboto"
                 android:textSize="16sp"
-                android:alpha="0.7"
-                app:layout_constraintTop_toBottomOf="@id/secondTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintTop_toBottomOf="@id/secondTitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

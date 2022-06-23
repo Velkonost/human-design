@@ -7,7 +7,21 @@ import com.myhumandesignhd.R
 import kotlinx.android.synthetic.main.view_place_select.view.*
 
 fun StartFragment.updateTheme() {
+    binding.loaderView.container.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_splash_dark
+        else R.drawable.bg_splash_light
+    )
 
+    binding.loaderView.anim.setAnimation(
+        if (App.preferences.isDarkTheme) R.raw.logo_transition_black
+        else R.raw.logo_transition_white
+    )
+
+    binding.loaderView.anim2.setAnimation(
+        if (App.preferences.isDarkTheme) R.raw.loader_white
+        else R.raw.loader_black
+    )
 
     binding.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
         requireContext(),

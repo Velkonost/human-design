@@ -26,21 +26,6 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
 ) {
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
-//        binding.container.background = ContextCompat.getDrawable(
-//            requireContext(),
-//            if (App.preferences.isDarkTheme) R.drawable.bg_splash_dark
-//            else R.drawable.bg_splash_light
-//        )
-//
-//        binding.anim.setAnimation(
-//            if (App.preferences.isDarkTheme) R.raw.logo_transition_black
-//            else R.raw.logo_transition_white
-//        )
-//
-//        binding.anim2.setAnimation(
-//            if (App.preferences.isDarkTheme) R.raw.loader_white
-//            else R.raw.loader_black
-//        )
         setupInitTheme()
 
         binding.anim.addAnimatorListener(object : Animator.AnimatorListener {
@@ -84,7 +69,13 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
                     }
 
                     override fun onAnimationCancel(animation: Animator?) {}
-                    override fun onAnimationRepeat(animation: Animator?) {}
+                    override fun onAnimationRepeat(animation: Animator?) {
+                        android.os.Handler().postDelayed({
+//                            binding.anim2.clearAnimation()
+//                            binding.anim2.cancelAnimation()
+                            EventBus.getDefault().post(FinishFirstLoaderEvent())
+                        }, 350)
+                    }
                 })
             }
 
@@ -94,8 +85,6 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
 
         android.os.Handler().postDelayed({
             binding.anim.playAnimation()
-
-
         }, 1000)
     }
 

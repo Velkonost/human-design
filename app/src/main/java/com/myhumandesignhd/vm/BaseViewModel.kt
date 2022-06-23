@@ -518,7 +518,7 @@ class BaseViewModel @Inject constructor(
             resetAllUserDataStates()
 
             currentUser = App.database.userDao()
-                .findById(App.preferences.currentUserId)
+                .findById(App.preferences.currentUserId)!!
 
             setupCurrentBodygraph()
             setupCurrentForecast()
@@ -540,16 +540,20 @@ class BaseViewModel @Inject constructor(
 
         GlobalScope.launch {
             val userToDelete = App.database.userDao().findById(userIdToDelete)
-            App.database.userDao().delete(userToDelete)
 
-            if (userIdToDelete == App.preferences.currentUserId) {
-                if (userIdNext != null) {
-                    App.preferences.currentUserId = userIdNext
-                } else {
-                    App.preferences.currentUserId = App.database.userDao().getAll().first().id
+            if (userToDelete != null) {
+
+                App.database.userDao().delete(userToDelete)
+
+                if (userIdToDelete == App.preferences.currentUserId) {
+                    if (userIdNext != null) {
+                        App.preferences.currentUserId = userIdNext
+                    } else {
+                        App.preferences.currentUserId = App.database.userDao().getAll().first().id
+                    }
+
+                    setupCurrentUser()
                 }
-
-                setupCurrentUser()
             }
         }
     }

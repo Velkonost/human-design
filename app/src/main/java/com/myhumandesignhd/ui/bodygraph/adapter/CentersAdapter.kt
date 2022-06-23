@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.util.DisplayMetrics
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -151,45 +152,53 @@ class CentersModel(
                 centersArrow.alpha = 1f
             }
 
+            if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) {
+                channelDesc.maxLines = 70
+                centersArrow.isVisible = false
+            }
+
             channelCard.setOnClickListener {
-                isExpanded = !isExpanded
+                if (android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK) {
+                    isExpanded = !isExpanded
 
-                if (isExpanded) {
-                    val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(context) {
-                        override fun getVerticalSnapPreference(): Int {
-                            return SNAP_TO_START
-                        }
+                    if (isExpanded) {
+                        val smoothScroller: RecyclerView.SmoothScroller =
+                            object : LinearSmoothScroller(context) {
+                                override fun getVerticalSnapPreference(): Int {
+                                    return SNAP_TO_START
+                                }
 
-                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-                            return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
-                        }
+                                override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                                    return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
+                                }
 
+                            }
+                        smoothScroller.targetPosition = position
+                        (recyclerView.layoutManager as LinearLayoutManager)
+                            .startSmoothScroll(smoothScroller)
+
+                        val animation = ObjectAnimator.ofInt(
+                            channelDesc,
+                            "maxLines",
+                            70
+                        )
+                        animation.duration = 1000
+                        animation.start()
+                        centersArrow
+                            .animate().rotation(-90f).duration = 300
+                        centersArrow.alpha = 0.3f
+                    } else {
+                        val animation = ObjectAnimator.ofInt(
+                            channelDesc,
+                            "maxLines",
+                            3
+                        )
+                        animation.duration = 500
+                        animation.start()
+                        centersArrow
+                            .animate().rotation(90f).duration = 300
+                        centersArrow.alpha = 1f
                     }
-                    smoothScroller.targetPosition = position
-                    (recyclerView.layoutManager as LinearLayoutManager)
-                        .startSmoothScroll(smoothScroller)
-
-                    val animation = ObjectAnimator.ofInt(
-                        channelDesc,
-                        "maxLines",
-                        70
-                    )
-                    animation.duration = 1000
-                    animation.start()
-                    centersArrow
-                        .animate().rotation(-90f).duration = 300
-                    centersArrow.alpha = 0.3f
-                } else {
-                    val animation = ObjectAnimator.ofInt(
-                        channelDesc,
-                        "maxLines",
-                        3
-                    )
-                    animation.duration = 500
-                    animation.start()
-                    centersArrow
-                        .animate().rotation(90f).duration = 300
-                    centersArrow.alpha = 1f
                 }
             }
         }

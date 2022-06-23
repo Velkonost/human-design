@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/channelCard"
-        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginHorizontal="20dp"
-        app:cardCornerRadius="10dp">
+        android:layout_marginTop="16dp"
+        android:animateLayoutChanges="true"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,71 +22,71 @@
 
             <ImageView
                 android:id="@+id/channelArrow"
-                android:src="@drawable/ic_arrow"
-                android:rotation="90"
-
-                app:layout_constraintTop_toTopOf="@id/number"
-                app:layout_constraintBottom_toBottomOf="@id/number"
-                android:layout_marginEnd="18dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="16dp"
-                android:layout_height="16dp"/>
+                android:layout_height="16dp"
+
+                android:layout_marginEnd="18dp"
+                android:rotation="90"
+                android:src="@drawable/ic_arrow"
+                app:layout_constraintBottom_toBottomOf="@id/number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/number" />
 
             <TextView
                 android:id="@+id/channelTitle"
-                android:textStyle="bold"
-                android:fontFamily="@font/roboto"
-                android:textSize="16sp"
-                android:letterSpacing="0.04"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/number"
-                android:gravity="start"
-                android:layout_marginEnd="12dp"
                 android:layout_width="0dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_height="wrap_content"/>
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="start"
+                android:letterSpacing="0.04"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/number"
-                android:textSize="14sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/channelArrow"
-                android:layout_marginEnd="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/roboto"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="6dp"
-                android:fontFamily="@font/roboto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@id/channelArrow"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/channelDesc"
-                app:layout_constraintTop_toBottomOf="@id/channelTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="12dp"
                 android:alpha="0.7"
-                android:maxLines="3"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto"
+                android:maxLines="3"
                 android:textSize="14sp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintTop_toBottomOf="@id/channelTitle" />
 
             <TextView
                 android:id="@+id/typeTitle"
-                android:textColor="@color/lightColor"
-                app:layout_constraintStart_toStartOf="@id/channelDesc"
-                app:layout_constraintTop_toBottomOf="@id/channelDesc"
-                android:layout_marginTop="12dp"
-                android:paddingVertical="6dp"
-                android:paddingHorizontal="12dp"
-                android:fontFamily="@font/roboto"
-                android:textSize="14sp"
-                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:textColor="@color/lightColor"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/channelDesc"
+                app:layout_constraintTop_toBottomOf="@id/channelDesc" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

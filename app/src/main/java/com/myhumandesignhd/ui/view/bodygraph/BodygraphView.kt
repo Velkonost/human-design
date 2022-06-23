@@ -86,7 +86,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
 
     private var isAllowDrawLines = false
     private var isAllowDrawText = true
-    private var drawLinesWithAnimation = true
+    private var drawLinesWithAnimation = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M
     private var speedAnimationFactor = 1f
 
     private val bottomSquarePaint: Paint by lazy {
@@ -254,9 +254,8 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     internal val textPaint: Paint by lazy {
         val paint = Paint()
         paint.textAlign = Paint.Align.CENTER
-//        paint.alpha = 10
         paint.color = Color.parseColor("#80FFFFFF")
-        paint.textSize = context.spToPx(6f).toFloat()//App.resourcesProvider.getDimen(R.dimen.bodygraph_text_size)
+        paint.textSize = context.spToPx(5f).toFloat()//App.resourcesProvider.getDimen(R.dimen.bodygraph_text_size)
 
         paint
     }
@@ -265,7 +264,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
         val paint = Paint()
         paint.textAlign = Paint.Align.CENTER
         paint.color = Color.WHITE
-        paint.textSize = context.spToPx(6f).toFloat()//App.resourcesProvider.getDimen(R.dimen.bodygraph_text_size)
+        paint.textSize = context.spToPx(5f).toFloat()//App.resourcesProvider.getDimen(R.dimen.bodygraph_text_size)
 
         paint
     }
@@ -273,7 +272,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val linePaint: Paint by lazy {
         val paint = Paint()
         paint.color = Color.parseColor("#4D494D")
-        paint.strokeWidth = 4f
+        paint.strokeWidth = 2f//4f
         paint.style = Paint.Style.FILL_AND_STROKE
         paint.isAntiAlias = true
 
@@ -283,7 +282,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val designLinePaint: Paint by lazy {
         val paint = Paint()
         paint.color = Color.parseColor("#BC4D68")
-        paint.strokeWidth = 5f
+        paint.strokeWidth = 3f//5f
         paint.style = Paint.Style.FILL_AND_STROKE
         paint.isAntiAlias = true
 
@@ -293,7 +292,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val personalityLinePaint: Paint by lazy {
         val paint = Paint()
         paint.color = Color.parseColor("#5352BD")
-        paint.strokeWidth = 5f
+        paint.strokeWidth = 3f//5f
         paint.style = Paint.Style.FILL_AND_STROKE
         paint.isAntiAlias = true
 
@@ -303,7 +302,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val mixLinePaint: Paint by lazy {
         val paint = Paint()
         paint.color = Color.parseColor("#5352BD")
-        paint.strokeWidth = 5f
+        paint.strokeWidth = 3f//5f
         paint.style = Paint.Style.FILL_AND_STROKE
         paint.isAntiAlias = true
         paint.pathEffect = DashPathEffect(floatArrayOf(5f, 5f), 0f)
@@ -954,7 +953,8 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
             }
         }
 
-        if (callPostInvalidate) postInvalidateDelayed((15 / speedAnimationFactor).toLong())
+        if (callPostInvalidate)
+            postInvalidateDelayed((15 / speedAnimationFactor).toLong())
     }
 
     private fun initPaint(color: Int): Paint {
@@ -1006,7 +1006,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     }
 
     fun changeIsDrawLinesWithAnimation(withAnimation: Boolean) {
-        drawLinesWithAnimation = withAnimation
+        drawLinesWithAnimation = withAnimation && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M
     }
 
     fun changeSpeedAnimationFactor(factor: Float) {
@@ -2557,18 +2557,21 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
         startX: Float,
         startY: Float,
         endX: Float,
-        endY: Float
+        endY: Float,
     ): ArrayList<Point> {
         val list = arrayListOf<Point>()
 
+        val mult =
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) 150
+        else 15 // FIXME
         /*
          * (x,y) = (x1 + k(x2 - x1),y1 + k(y2 - y1))
          * */
-        for (k in 1..150) {
+        for (k in 1..mult) {
             list.add(
                 Point(
-                    (startX + k * (endX - startX) / 150).toInt(),
-                    (startY + k * (endY - startY) / 150).toInt()
+                    (startX + k * (endX - startX) / mult).toInt(),
+                    (startY + k * (endY - startY) / mult).toInt()
                 )
             )
         }
@@ -2703,10 +2706,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
                         BodygraphCenterClickEvent(
                             title = centers.find { it.id == 6 }!!.name,
                             desc = centers.find { it.id == 6 }!!.shortDescription,
-                            x = (
-                                    leftTrianglePoints[SideTrianglePoint.Center]!!.x.toFloat()
-
-                                    ),
+                            x = (leftTrianglePoints[SideTrianglePoint.Center]!!.x.toFloat()),
                             y = leftTrianglePoints[SideTrianglePoint.Top]!!.y.toFloat(),
                             alignTop = true,
                             arrowPosition = 0.35f,
@@ -2720,13 +2720,10 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
                         BodygraphCenterClickEvent(
                             title = centers.find { it.id == 7 }!!.name,
                             desc = centers.find { it.id == 7 }!!.shortDescription,
-                            x =  (
-                                    rightTrianglePoints[SideTrianglePoint.Center]!!.x.toFloat()
-
-                                    ),
-                            y = leftTrianglePoints[SideTrianglePoint.Top]!!.y.toFloat(),
+                            x =  (rightTrianglePoints[SideTrianglePoint.Center]!!.x.toFloat()),
+                            y = rightTrianglePoints[SideTrianglePoint.Center]!!.y.toFloat(),
                             alignTop = true,
-                            arrowPosition = 0.65f,
+                            arrowPosition = 0.6f,
                             xOffset = 0,
                             isRightTriangle = true
                         )

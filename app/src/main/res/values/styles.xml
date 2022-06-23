@@ -26,7 +26,7 @@
         <item name="colorPrimaryDark">@color/darkSettingsArrowTint</item>
         <item name="colorControlNormal">@color/darkSettingsArrowTint</item>
         <item name="colorControlActivated">@color/darkSettingsArrowTint</item>
-<!--        <item name="colorControlHighlight">@color/mainColor</item>-->
+        <!--        <item name="colorControlHighlight">@color/mainColor</item>-->
         <item name="android:windowBackground">@drawable/bg_splash_dark</item>
     </style>
 

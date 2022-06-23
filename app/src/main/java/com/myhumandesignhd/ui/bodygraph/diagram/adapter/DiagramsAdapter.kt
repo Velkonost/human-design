@@ -67,10 +67,10 @@ class DiagramsAdapter : EpoxyAdapter() {
     }
 
     fun getNextPosition(position: Int): Int  {
-        var nextPosition = 0
+        var nextPosition = position + 1//position - 1
 
-        if (models.size - 2 > position) {
-            nextPosition = position + 1
+        if (models.size - 2 >= position && position > 0) {
+            nextPosition = position - 1
         }
         return nextPosition
     }
@@ -155,24 +155,26 @@ class DiagramModel(
                 )
             } else diagramContainer.background = null
 
-            chart.setImageResource(
-                if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
-                    if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
-                    else R.drawable.ic_chart_proektor_light
-                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
-                    if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_dark
-                    else R.drawable.ic_chart_reflector_light
-                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
-                    if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_dark
-                    else R.drawable.ic_chart_generator_light
-                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
-                    if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_dark
-                    else R.drawable.ic_chart_mangenerator_light
-                } else {
-                    if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_dark
-                    else R.drawable.ic_chart_manifestor_light
-                }
-            )
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                chart.setImageResource(
+                    if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
+                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
+                        else R.drawable.ic_chart_proektor_light
+                    } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
+                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_dark
+                        else R.drawable.ic_chart_reflector_light
+                    } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
+                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_dark
+                        else R.drawable.ic_chart_generator_light
+                    } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
+                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_dark
+                        else R.drawable.ic_chart_mangenerator_light
+                    } else {
+                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_dark
+                        else R.drawable.ic_chart_manifestor_light
+                    }
+                )
+            }
 
             icDelete.setImageResource(
                 if (App.preferences.isDarkTheme) R.drawable.ic_dark_close

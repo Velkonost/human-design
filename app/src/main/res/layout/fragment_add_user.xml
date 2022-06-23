@@ -59,8 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
                 android:alpha="1"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_btn_bottom_gradient"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -355,7 +355,6 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/placeET"
-                    android:inputType="textVisiblePassword|textNoSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
@@ -366,6 +365,7 @@
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
                     android:includeFontPadding="true"
+                    android:inputType="textVisiblePassword|textNoSuggestions"
                     android:letterSpacing="0.2"
                     android:onClick="@{handler::openPlacesView}"
                     android:paddingBottom="24dp"

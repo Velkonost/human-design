@@ -100,32 +100,31 @@
 
             <ImageView
                 android:id="@+id/bigCircle"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:alpha="0.2"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
                 android:visibility="gone"
-                android:src="@drawable/ic_circle_big_light"
-                app:layout_constraintTop_toTopOf="@id/bodygraphView"
                 app:layout_constraintBottom_toBottomOf="@id/bodygraphView"
                 app:layout_constraintDimensionRatio="1046:1046"
-                android:scaleY="1.2"
-                android:scaleX="1.2"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="0dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/bodygraphView" />
+
             <ImageView
                 android:id="@+id/midCircle"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="35dp"
                 android:alpha="0.2"
-                android:visibility="gone"
                 android:scaleX="1.2"
                 android:scaleY="1.2"
-                android:src="@drawable/ic_circle_mid_light"
-                app:layout_constraintTop_toTopOf="@id/bigCircle"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/bigCircle"
-                app:layout_constraintStart_toStartOf="@id/bigCircle"
                 app:layout_constraintEnd_toEndOf="@id/bigCircle"
-                android:layout_margin="35dp"
-                android:layout_width="0dp"
-                android:layout_height="0dp"/>
+                app:layout_constraintStart_toStartOf="@id/bigCircle"
+                app:layout_constraintTop_toTopOf="@id/bigCircle" />
 
             <com.myhumandesignhd.ui.view.bodygraph.BodygraphView
                 android:id="@+id/bodygraphView"

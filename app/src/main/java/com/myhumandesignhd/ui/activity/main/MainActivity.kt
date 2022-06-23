@@ -368,8 +368,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             val pendingIntentForecasts = PendingIntent.getBroadcast(
                 this, 948,
                 notifyIntentForecasts,
-//            PendingIntent.FLAG_CANCEL_CURRENT
-                PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_CANCEL_CURRENT
+//                PendingIntent.FLAG_UPDATE_CURRENT
             )
 
             val mult =
@@ -378,22 +378,22 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
             val alarmManagerForecasts = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-//        alarmManagerForecasts.setRepeating(
-//            AlarmManager.RTC_WAKEUP, cal.timeInMillis, AlarmManager.INTERVAL_DAY * 7, pendingIntentForecasts
-//        )
-            alarmManagerForecasts.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis(),
-                AlarmManager.INTERVAL_DAY * 7,
-                pendingIntentForecasts
-            )
+        alarmManagerForecasts.setRepeating(
+            AlarmManager.RTC_WAKEUP, cal.timeInMillis, AlarmManager.INTERVAL_DAY * 7, pendingIntentForecasts
+        )
+//            alarmManagerForecasts.setRepeating(
+//                AlarmManager.RTC_WAKEUP,
+//                System.currentTimeMillis(),
+//                AlarmManager.INTERVAL_DAY * 7,
+//                pendingIntentForecasts
+//            )
         }
     }
 
     private fun initStartPage() {
         if (isStartPageInitialized) return
 
-        if (!isFirstAnimationPlayed) {
+        if (!isFirstAnimationPlayed && App.preferences.currentUserId != -1L) {
             router.replaceScreen(Screens.loaderScreen())
         } else {
             isStartPageInitialized = true
@@ -531,16 +531,16 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         super.onResume()
         YandexMetrica.resumeSession(this)
 
-//        val myApp: App = this.application as App
-//        if (myApp.wasInBackground) {
-//
-//            finish()
-//            overridePendingTransition(0, 0)
-//            startActivity(intent)
-//            overridePendingTransition(0, 0)
-//            //Do specific came-here-from-background code
-//        }
-//        myApp.stopActivityTransitionTimer()
+        val myApp: App = this.application as App
+        if (myApp.wasInBackground) {
+
+            finish()
+            overridePendingTransition(0, 0)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
+            //Do specific came-here-from-background code
+        }
+        myApp.stopActivityTransitionTimer()
     }
 
     override fun onRequestPermissionsResult(

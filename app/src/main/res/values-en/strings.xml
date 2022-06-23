@@ -301,11 +301,12 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="paywall_text_3">Calculation of compatibility with others</string>
     <string name="paywall_text_4">Check what the Universe has in store for you</string>
 
-    <string name="paywall_1_month">3 Month</string>
+    <string name="paywall_1_month">1 Month</string>
     <string name="paywall_1_week">Week</string>
     <string name="paywall_1_year">Year</string>
     <string name="paywall_1_autorenewable">auto-renewable</string>
-    <string name="paywall_1_trial">3 дня бесплатно\nauto-renewable</string>
+    <string name="paywall_1_trial">3 days trial\nauto-renewable</string>
+    <string name="paywall_1_trial_year">week trial\nauto-renewable</string>
 
     <string name="injury_generate_text">GENERATE</string>
     <string name="injury_generating_text">GENERATING</string>
@@ -335,4 +336,8 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
         <item>Hurry up to ready your new personal forecast👉🏽    </item>
         <item>Start a new week with your personal forecast🔥</item>
     </string-array>
+
+    <string name="pw_price_1">$7.49</string>
+    <string name="pw_price_2">$18.99</string>
+    <string name="pw_price_3">$45.99</string>
 </resources>

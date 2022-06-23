@@ -33,7 +33,7 @@ class App : DaggerApplication() {
     private var mActivityTransitionTimer: Timer? = null
     private var mActivityTransitionTimerTask: TimerTask? = null
     var wasInBackground = false
-    private val MAX_ACTIVITY_TRANSITION_TIME_MS: Long = 360000
+    private val MAX_ACTIVITY_TRANSITION_TIME_MS: Long = 1200000
 
     private val appComponent = DaggerAppComponent.builder()
         .appModule(AppModule(this))
@@ -160,6 +160,8 @@ class App : DaggerApplication() {
 
         const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
         const val DATE_FORMAT_PERSONAL_INFO = "dd.MM.yyyy"
+
+        const val TARGET_SDK = android.os.Build.VERSION_CODES.M
 
     }
 }

@@ -23,27 +23,27 @@
 
         <TextView
             android:id="@+id/descriptionTitle"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/roboto"
             android:textSize="32sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/selectionCard"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_marginHorizontal="20dp"
-            app:layout_constraintTop_toBottomOf="@id/descriptionTitle"
             android:layout_marginTop="20dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionTitle">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/selectionLinear"
@@ -53,7 +53,6 @@
 
                 <TextView
                     android:id="@+id/aboutTitle"
-                    android:onClick="@{handler::onAboutClicked}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="4dp"
@@ -63,46 +62,47 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:onClick="@{handler::onAboutClicked}"
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/centersTitle"
-                    android:onClick="@{handler::onCentersClicked}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="4dp"
                     android:layout_marginHorizontal="2dp"
+                    android:layout_marginVertical="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:onClick="@{handler::onCentersClicked}"
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/gatesTitle"
-                    android:onClick="@{handler::onGatesClicked}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="4dp"
                     android:layout_marginHorizontal="2dp"
+                    android:layout_marginVertical="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:onClick="@{handler::onGatesClicked}"
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/channelsTitle"
-                    android:onClick="@{handler::onChannelsClicked}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="4dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="2dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:onClick="@{handler::onChannelsClicked}"
                     android:textSize="14sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -110,11 +110,11 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
-            app:layout_constraintTop_toBottomOf="@id/selectionCard"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectionCard" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

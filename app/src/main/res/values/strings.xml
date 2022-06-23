@@ -3,326 +3,340 @@
     <string name="facebook_app_id" translatable="false">1024507441786747</string>
     <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
 
-    <string name="next">Далее</string>
-    <string name="title_splash_01">Дизайн Человека</string>
+    <string name="title_splash_01">Human Design</string>
+    <string name="next">Next</string>
     <string name="desc_splash_01">
         <![CDATA[
-Дизайн Человека – это новейшая система для самопознания.
+Human Design is the newest system for self-discovery.
 <br><br>
-Это инструмент, который собрал в себе такие знания как китайский ИЗЦИН, индуистская чакровая система, кабалла, астрология, квантовая физика и генетика.
+This is a tool that brings together principles of the Chinese I Ching, the Hindu chakra system, Kaballah, astrology, quantum physics and genetics.
 <br><br>
-Дизайн Человека помогает изучить свою истинную природу, узнать уникальные особенности и построить гармоничные отношения с окружающим миром. ]]>
-    </string>
+Human Design helps living in sync with your true nature. It guides you in building harmonious relationships with yourself and the world around you. ]]></string>
 
     <string name="desc_splash_02">
-        <![CDATA[
-        Дизайн Человека не религия или<br/>философское учение, а отдельная<br/>современная система знаний на стыке<br/>науки и духовности.
-<br/><br/>
-Дизайн Человека собрал в себе такие<br/>знания как китайская ИЗЦИН,<br>индуистская чакровая система,<br/>кабалла, астрология, квантовая<br/>физика и генетика.
+    <![CDATA[
+Human Design offers a personality analysis based on the bodygraph, the so-called Rave Card.
 <br><br>
-С помощью Дизайна Человека вы<br>узнаете как можно проживать свою<br>жизнь и не играть чужие роли.
-]]>
-    </string>
+The individual Rave Card contains a schematic image of energy centers, channels and gates that reflect the energy flow of each person.]]></string>
 
-    <string name="title_splash_03"><![CDATA[Знали ли вы что-то о<br/>Дизайне Человека?]]></string>
-    <string name="title_splash_04"><![CDATA[Что бы вы хотели<br>получить с помощью<br>Дизайна Человека?]]></string>
+    <string name="title_splash_03"><![CDATA[Did you know<br>something about<br>Human Design?]]></string>
+    <string name="title_splash_04"><![CDATA[What would you like<br>to get using<br>Human Design?]]></string>
 
-    <string name="desc_splash_03"><![CDATA[Ваши ответы помогут<br>подобрать для вас более<br>персонализированный подход]]></string>
-    <string name="desc_splash_04"><![CDATA[Ваши ответы помогут выбрать более<br>персональный подход ]]></string>
+    <string name="desc_splash_03"><![CDATA[Your answers will help us find<br>a more personalized approach for you.]]></string>
+    <string name="desc_splash_04"><![CDATA[Your answers will help us choose<br>a personal approach.]]></string>
 
-    <string name="variant_1_splash_03"><![CDATA[Я ничего не знал<br>о Дизайне Человека]]></string>
-    <string name="variant_2_splash_03"><![CDATA[Что-то знал, но<br>поверхностно]]></string>
-    <string name="variant_3_splash_03"><![CDATA[Я немного разбираюсь<br>в системе ]]></string>
-    <string name="variant_4_splash_03"><![CDATA[Профессионально<br>изучаю Дизайн<br>Человека]]></string>
+    <string name="variant_1_splash_03"><![CDATA[I didn\'t know anything<br>about Human Design]]></string>
+    <string name="variant_2_splash_03"><![CDATA[I knew something, but<br>superficially]]></string>
+    <string name="variant_3_splash_03"><![CDATA[I understand a little about<br>this system]]></string>
+    <string name="variant_4_splash_03"><![CDATA[I study Human Design<br>professionally]]></string>
 
-    <string name="variant_1_splash_04"><![CDATA[Лучше познать себя]]></string>
-    <string name="variant_2_splash_04"><![CDATA[Повысить качество жизни]]></string>
-    <string name="variant_3_splash_04"><![CDATA[Найти своё<br>предназначение]]></string>
-    <string name="variant_4_splash_04"><![CDATA[Наладить отношения<br>с близкими]]></string>
-    <string name="variant_5_splash_04"><![CDATA[Для общего развития]]></string>
+    <string name="variant_1_splash_04"><![CDATA[Know yourself better]]></string>
+    <string name="variant_2_splash_04"><![CDATA[Improve the quality of life]]></string>
+    <string name="variant_3_splash_04"><![CDATA[Find your destination]]></string>
+    <string name="variant_4_splash_04"><![CDATA[Build relationships<br>with loved ones]]></string>
+    <string name="variant_5_splash_04"><![CDATA[For general development]]></string>
 
-    <string name="splash_05_title">Разрешите нам отслеживать использование приложения</string>
-    <string name="splash_05_desc">Это важно, чтобы мы смогли:</string>
+    <string name="splash_05_title">Please allow us to track application usage</string>
+    <string name="splash_05_desc">It is important for us, so that we can:</string>
+    <string name="splash_05_text_1">Personalize your experience of using the App</string>
+    <string name="splash_05_text_2">Send individual offers especially for you</string>
+    <string name="splash_05_text_3">Invite users similar to you to the App</string>
 
-    <string name="splash_05_text_1">Персонализировать ваш опыт использования приложения</string>
-    <string name="splash_05_text_2">Присылать индивидуальные предложения специально для вас</string>
-    <string name="splash_05_text_3">Приглашать в приложение пользователей похожих на вас</string>
+    <string name="text_1_splash_05"><![CDATA[Please allow us to track application usage. It is<br>important for us, so that we can:]]></string>
+    <string name="text_2_splash_05"><![CDATA[- Personalize your experience of using the App<br>- Invite users similar to you to the App<br>- Send individual offers especially for you]]></string>
+    <string name="text_3_splash_05"><![CDATA[These parameters can always be changed in the<br>"settings" of your device.]]></string>
 
-    <string name="text_1_splash_05"><![CDATA[Разрешите нам отслеживать использование<br>приложения. Это важно, чтобы мы смогли:]]></string>
-    <string name="text_2_splash_05"><![CDATA[- персонализировать ваш опыт<br>использования приложения<br>- приглашать в приложение пользователей<br>похожих на вас<br>- присылать индивидуальные предложения<br>специально для вас]]></string>
-    <string name="text_3_splash_05"><![CDATA[Эти параметры всегда могут быть изменены<br>в "настройках" вашего устройства]]></string>
-
-    <string name="rave_title">Рейв-карта</string>
-    <string name="rave_desc"><![CDATA[В Дизайне Человека анализ личности<br>осуществляется на основе бодиграфа,<br>так называемой карты человека,<br>которая содержит в себе схематичное<br>изображение энергетических центров,<br>каналов и ворот, которые отражают<br>персональную энергетическую<br>механику каждого человека, а так же<br>алгоритм её работы.
+    <string name="rave_title">Rave Card</string>
+    <string name="rave_desc"><![CDATA[
+    In Human Design, personality analysis is<br>carried out on the basis of a bodygraph,<br>the so-called Rave Card.
 <br><br>
-Чтобы рассчитать персональную Рейв-<br>карту (бодиграф), вам нужно заполнить данные и ответить на несколько вопросов</string>
+An individual Rave Card (bodygraph)<br>contains a schematic image of energy<br>centers, channels and gates that reflect<br>the personal energy mechanics of each<br>person, as well as the algorithm of its<br>work.
+<br><br>
+To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<br>and answer a few questions.
 ]]></string>
-    <string name="understand">Понятно</string>
-    <string name="continue_btn">Продолжить</string>
-    <string name="start_rave_btn_text">Создать</string>
+    <string name="understand">Continue</string>
+    <string name="continue_btn">Continue</string>
+    <string name="start_rave_btn_text">Create</string>
 
-    <string name="start_name_title">Ваше имя?</string>
-    <string name="start_name_desc"><![CDATA[Давайте знакомиться! Представьтесь,<br>пожалуйста, чтобы мы знали, как<br>лучше к вам обращаться!]]></string>
-    <string name="start_name_hint">Имя</string>
+    <string name="start_name_title"><![CDATA[What is<br>your name?]]></string>
+    <string name="start_name_desc"><![CDATA[Please introduce yourself so that we know how best to address you!]]></string>
+    <string name="start_name_hint">Name</string>
 
-    <string name="start_date_title">Дата рождения</string>
-    <string name="start_date_desc"><![CDATA[ , укажите дату рождения,<br>и мы сможем построить ваш личный<br>бодиграф!]]></string>
+    <string name="start_date_title">Date of birth</string>
+    <string name="start_date_desc"><![CDATA[ , enter the date of birth, and<br>we will calculate your personal bodygraph!]]></string>
 
-    <string name="start_time_title">Время рождения</string>
-    <string name="start_time_desc"><![CDATA[Покажет точное расположение планет и звезд в момент вашего рождения, что важно для расчета карты.]]></string>
-    <string name="start_time_skip">Я НЕ ЗНАЮ ТОЧНОЕ ВРЕМЯ</string>
+    <string name="start_time_title">Time of birth</string>
+    <string name="start_time_desc"><![CDATA[It will show the exact location of the planets<br>and stars at the time of your birth, which is<br>important for calculating the card.]]></string>
+    <string name="start_time_skip">I DON\'T KNOW FOR SURE</string>
 
-    <string name="start_place_title">Место рождения</string>
-    <string name="start_place_desc"><![CDATA[Место, где вы появились на свет очень важно. Мы сможем точнее определить положение небесных тел, которые оставили отпечаток в вашей судьбе.]]></string>
+    <string name="start_place_title">Place of birth</string>
+    <string name="start_place_desc"><![CDATA[The place where you were born is very important. We will be able to accurately determine the position of planets and stars that left an imprint on your destiny.]]></string>
+    <string name="start_place_hint">City, Country</string>
 
-    <string name="start_place_hint">Город, Страна</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_dark_theme_title">Night</string>
+    <string name="settings_light_theme_title">Day</string>
 
-    <string name="settings_title">Настройки</string>
-    <string name="settings_notifications_title">Уведомления</string>
-    <string name="settings_theme_title">Тема</string>
-    <string name="settings_dark_theme_title">Ночь</string>
-    <string name="settings_light_theme_title">День</string>
-
-    <string name="settings_personal_info_title">Персональная информация</string>
+    <string name="settings_personal_info_title">Personal info</string>
     <string name="settings_faq_title">FAQ</string>
-    <string name="settings_privace_policy_title">Политика конфиденциальности</string>
-    <string name="settings_terms_conditions_title">Правила использования</string>
+    <string name="settings_privace_policy_title">Privacy Policy</string>
+    <string name="settings_terms_conditions_title">Terms &amp; Conditions</string>
     <string name="settings_version_title">Version</string>
-    <string name="settings_write_us_title">Напишите нам</string>
+    <string name="settings_write_us_title">Write to us</string>
 
     <string name="faq_title">FAQ</string>
+    <string name="affirmations_title">Affirmations</string>
+    <string name="forecasts_title">Forecasts</string>
+    <string name="next_affirmation_text">The next affirmation will be tomorrow</string>
+    <string name="next_forecast_text">Your individual weekly forecast</string>
+    <string name="affirmation_share">Share</string>
 
-    <string name="affirmations_title">Аффирмации</string>
-    <string name="forecasts_title">Прогнозы</string>
-    <string name="next_affirmation_text">Следующая аффирмация будет завтра</string>
-    <string name="next_forecast_text">Индивидуальный прогноз каждый понедельник</string>
-    <string name="affirmation_share">Поделиться</string>
-    
-    <string name="daily_transits_title">Транзиты сегодня</string>
-    <string name="gates_title">Ворота</string>
-    <string name="channels_title">Каналы</string>
-    <string name="next_transit_text">Следующий транзит будет завтра</string>
+    <string name="daily_transits_title">Planet transits</string>
+    <string name="gates_title">Gates</string>
+    <string name="channels_title">Channels</string>
+    <string name="next_transit_text">The next transit will be tomorrow</string>
 
-    <string name="design_title">Дизайн</string>
-    <string name="transit_title">Транзит</string>
-    <string name="personality_title">Личность</string>
+    <string name="design_title">Design</string>
+    <string name="transit_title">Transit</string>
+    <string name="personality_title">Personality</string>
 
-    <string name="to_decryption_text">к расшифровке</string>
+    <string name="to_decryption_text">to decryption</string>
 
-    <string name="about_title">Общее</string>
-    <string name="centers_title">Центры</string>
+    <string name="about_title">About</string>
+    <string name="centers_title">Centers</string>
 
-    <string name="places_empty_text">Совпадений не найдено</string>
+    <string name="places_empty_text">No results</string>
 
-    <string name="active_channels_title">Активные каналы</string>
-    <string name="active_channels_text">Каналы - это мосты, которые связывают все активные энергетические центры внутри вашего дизайна. В них вы найдете описания самых важных и тонких аспектов бытия.</string>
+    <string name="active_channels_title">Active Channels</string>
+    <string name="active_channels_text">Channels are bridges that connect all the active centers within your design. Here you will find the descriptions of the most important aspects of your life.</string>
 
-    <string name="active_gates_title">Активные ворота</string>
-    <string name="active_gates_text">Ворота - это персональные особенности вашего характера, показывающие тот потенциал, который вы можете в себе открыть, принимая каждый день те или иные решения.</string>
+    <string name="active_gates_title">Active Gates</string>
+    <string name="active_gates_text">The gates are a personal feature of your character, showing the potential that you can discover in yourself, making certain decisions every day.</string>
 
-    <string name="active_centers_title">Определенные центры</string>
-    <string name="active_centers_text">Определенные центры выполняют возложенные на них функции. Это то, что заложено в человеке с самого рождения. Энергия в этих центрах постоянна, по ней вас узнают. Именно отсюда вы влияете на мир и вдохновляете остальных.</string>
+    <string name="active_centers_title">Defined Centers</string>
+    <string name="active_centers_text">Defined centers perform the functions assigned to them. This is what is determined in you from the birth, this is consistent energy by which you are recognized. From here you are broadcasting your energy out into the world, influencing and inspiring others. It is what is fixed and reliable within you.</string>
 
-    <string name="inactive_centers_title">Неопределенные центры</string>
-    <string name="inactive_centers_text">Неопределенные центры открыты для влияния извне, они настроены на прием от людей и жизни. Это места уязвимости, где мир влияет на вас. Здесь вы больше всего учитесь, а значит имеете потенциал обрести мудрость и экспертность.</string>
+    <string name="inactive_centers_title">Undefined Centers</string>
+    <string name="inactive_centers_text">Undefined centers are open to influence from the outside, these are places where you are designed to be receptive from people and life. These are places of vulnerability and sensitivity where the world affects you.</string>
 
-    <string name="to_bodygraph">к бодиграфу</string>
-    <string name="diagram_title">Диаграммы</string>
-    <string name="diagram_empty_text">В данном разделе вы можете добавить бодиграфы других людей (друзей, знакомых) и узнать их с совершенно новой стороны.</string>
+    <string name="to_bodygraph">to bodygraph</string>
+    <string name="diagram_title">My charts</string>
+    <string name="diagram_empty_text">In this section, you can add bodygraphs of other people (friends, acquaintances) and get to know them from a completely new side</string>
 
-    <string name="partners_title">Взрослые</string>
-    <string name="children_title">Дети</string>
-    <string name="compatibility_title">Взаимоотношения</string>
+    <string name="partners_title">Partners</string>
+    <string name="children_title">Children</string>
+    <string name="compatibility_title">Relationship</string>
 
-    <string name="name_title">Имя</string>
-    <string name="city_birth_title">Город, страна</string>
-    <string name="date_birth_title">Дата рождения</string>
-    <string name="time_birth_title">Время рождения</string>
-    <string name="personal_info_title">Персональная информация</string>
-    <string name="done_title">Готово</string>
-    <string name="confirm">Подтвердить</string>
-    <string name="confirm_title">Вы уверены?</string>
-    <string name="confirm_text">Введение новых данных приведет к тому, что ваш дизайн необратимо изменится. Вы уверены, что хотите изменить данные?</string>
+    <string name="name_title">Name</string>
+    <string name="city_birth_title">City of birth</string>
+    <string name="date_birth_title">Date of birth</string>
+    <string name="time_birth_title">Time of birth</string>
+    <string name="personal_info_title">Personal info</string>
+    <string name="done_title">Done</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_title">Are you sure?</string>
+    <string name="confirm_text">The introduction of new data will lead\nto the fact that your design will\nirreversibly change. Are you sure you\nwant to change the data?</string>
 
-    <string name="type_title">Тип</string>
-    <string name="profile_title">Профиль</string>
-    <string name="authority_title">Внутренний авторитет</string>
-    <string name="strategy_title">Внешняя стратегия</string>
-    <string name="injury_title">Генетическая Травма</string>
-    <string name="nutrition_title">Питание</string>
-    <string name="environment_title">Среда Обитания</string>
+    <string name="type_title">Type</string>
+    <string name="profile_title">Profile</string>
+    <string name="authority_title">Authority</string>
+    <string name="strategy_title">Strategy</string>
+    <string name="injury_title">Genetic Trauma</string>
+    <string name="nutrition_title">Nutrition</string>
+    <string name="environment_title">Environment</string>
 
-    <string name="start_bodygraph_ready_title">Бодиграф готов!</string>
-    <string name="start_bodygraph_ready_text">Узнайте своё истинное предназначение и начните свой эксперимент!</string>
+    <string name="start_bodygraph_ready_title">Bodygraph is ready!</string>
+    <string name="start_bodygraph_ready_text"><![CDATA[Find out your true self and start your experiment!]]></string>
 
     <string-array name="push_titles">
-        <item>Инструкция для раскрытия истинного Я 👤</item>
-        <item>Ваш потенциал на уровне биохимии 🧬</item>
-        <item>Ваш индивидуальный прогноз готов! 🔮</item>
-        <item>Нажми сюда, чтобы прочитать 🔍</item>
-        <item>Бесплатная расшифровка дизайна ⚛️</item>
+        <item>Guide to discover your true Self 👤</item>
+        <item>Your potential at the biochemistry level 🧬</item>
+        <item>Your individual forecast is ready! 🔮</item>
+        <item>Click here to read 🔍</item>
+        <item>Free human design decoding ⚛️️</item>
     </string-array>
 
     <string-array name="push_descs">
-        <item>3 дня бесплатно 🔥 Нажмите, чтобы попробовать</item>
-        <item>Попробуйте бесплатно прямо сейчас 🔬</item>
-        <item>Зайдите,  чтобы узнать ☝🏽</item>
-        <item>Тебя ждет твой отчет о совместимости 🔥</item>
-        <item>Зайдите, чтобы прочитать ☝🏽</item>
+        <item>3 Days Free Trial 🔥 Click here to try</item>
+        <item>Try it right now for free 🔬</item>
+        <item>Visit the App to learn more ☝🏽</item>
+        <item>Your compatibility report awaits you 🔥</item>
+        <item>Visit the App to read it ☝🏽</item>
     </string-array>
 
-    <string name="compatibility_detail_title">Отношения</string>
-    <string name="profiles_title">Профиль</string>
+    <string name="compatibility_detail_title">Relationship</string>
+    <string name="profiles_title">Profile</string>
 
-    <string name="add_partner_rave_title"><![CDATA[Вы на пути к расчету бодиграфа! Вперед!]]></string>
-    <string name="add_child_rave_title"><![CDATA[Давайте рассчитаем бодиграф ребенка!]]></string>
+    <string name="add_partner_rave_title"><![CDATA[Let’s calculate\nthe bodygraph!]]></string>
+    <string name="add_child_rave_title"><![CDATA[Let’s calculate\nyour child’s\nbodygraph!]]></string>
 
-    <string name="add_partner_rave_desc"><![CDATA[Укажите данные партнера и узнайте все о вашей совместимости. Вы поймете, в чем совпадаете, а в чем не похожи.]]></string>
-    <string name="add_child_rave_desc"><![CDATA[Введите данные вашего ребенка. Бодиграф поможет вам выбрать нужный подход в воспитании.<br>Бодиграф ребенка не может быть использован в качестве основного бодиграфа.]]></string>
+    <string name="add_partner_rave_desc"><![CDATA[Enter your partner’s information and\nfind out everything about your\ncompatibility. You will understand where\nou coincide and where you are\ndissimilar.]]></string>
+    <string name="add_child_rave_desc"><![CDATA[Enter the details of your child, this will\nallow you to choose the right approach in\nhis upbringing. The child’s bodygraph\ncannot be used as the main bodygraph.]]></string>
 
-    <string name="add_partner_name_title"><![CDATA[Как зовут вашего партнера?]]></string>
-    <string name="add_child_name_title"><![CDATA[Имя ребенка]]></string>
-    <string name="add_partner_name_desc"><![CDATA[Представьте нам вашего партнера!]]></string>
-    <string name="add_child_name_desc"><![CDATA[Пожалуйста, введите имя ребенка, для которого рассчитывается бодиграф.]]></string>
+    <string name="add_partner_name_title"><![CDATA[What is your partner’s name?]]></string>
+    <string name="add_child_name_title"><![CDATA[Name of your child]]></string>
+    <string name="add_partner_name_desc"><![CDATA[Introduce your partner to us! ]]></string>
+    <string name="add_child_name_desc"><![CDATA[Please enter the name of the child for\nwhom the bodygraph is calculated.]]></string>
 
-    <string name="add_partner_date_birth_title"><![CDATA[Дата рождения вашего партнера]]></string>
-    <string name="add_partner_date_birth_desc"><![CDATA[Укажите дату рождения, и мы сможем построить бодиграф!]]></string>
-    <string name="add_child_date_birth_title"><![CDATA[Дата рождения]]></string>
-    <string name="add_child_date_birth_desc"><![CDATA[Укажите дату рождения ребенка, для которого рассчитывается бодиграф.]]></string>
+    <string name="add_partner_date_birth_title"><![CDATA[Your partner’s\ndate of birth ]]></string>
+    <string name="add_partner_date_birth_desc"><![CDATA[Enter your partner’s date of birth and we\nwill calculate his bodygraph!]]></string>
+    <string name="add_child_date_birth_title"><![CDATA[Date of Birth]]></string>
+    <string name="add_child_date_birth_desc"><![CDATA[Indicate the date of birth of the child for\nwhom the bodygraph is calculated.]]></string>
 
-    <string name="add_partner_time_birth_title"><![CDATA[Время рождения вашего партнера]]></string>
-    <string name="add_partner_time_birth_desc"><![CDATA[Оно покажет точное расположение планет и звезд в момент рождения вашего партнера, что важно для расчета карты.]]></string>
-    <string name="add_child_time_birth_title"><![CDATA[Время рождения]]></string>
-    <string name="add_child_time_birth_desc"><![CDATA[Покажет точное расположение планет и звезд в момент рождения вашего ребенка.]]></string>
+    <string name="add_partner_time_birth_title"><![CDATA[Time of your partner’s birth]]></string>
+    <string name="add_partner_time_birth_desc"><![CDATA[It will show the exact location of the\nplanets and stars at the time of your\npartner’s bith, which is important for\ncalculating the card.\nI don’t know for sure]]></string>
+    <string name="add_child_time_birth_title"><![CDATA[Time of Birth]]></string>
+    <string name="add_child_time_birth_desc"><![CDATA[Shows the exact location of planets and\nstars at the time of your child’s birth\nI don’t know for sure]]></string>
 
-    <string name="add_partner_place_birth_title"><![CDATA[Место рождения вашего партнера]]></string>
-    <string name="add_partner_place_birth_desc"><![CDATA[Место, где ваш партнер появился на свет очень важно. Так мы сможем точнее определить положение небесных тел, которые оставили отпечаток в судьбе вашего партнера.]]></string>
-    <string name="add_child_place_birth_title"><![CDATA[Место рождения]]></string>
-    <string name="add_child_place_birth_desc"><![CDATA[Очень важная информация для расчета бодиграфа. Мы сможем точнее определить положение небесных тел, повлиявших на судьбу вашего ребенка.]]></string>
+    <string name="add_partner_place_birth_title"><![CDATA[Your partner’s\nplace of birth]]></string>
+    <string name="add_partner_place_birth_desc"><![CDATA[The place where your partner was born is\nvery important. We will be able to\naccurately determine the position of the\nheavenly bodies that have left an imprint\non your partner’s destiny.]]></string>
+    <string name="add_child_place_birth_title"><![CDATA[Place of Birth]]></string>
+    <string name="add_child_place_birth_desc"><![CDATA[Very important information for\ncalculating the bodygraph. We will be\nable to accurately determine the position\nof the heavenly bodies that have left an\nimprint on your child’s destiny.]]></string>
 
-    <string name="add_partner_bodygraph_ready_title"><![CDATA[Бодиграф готов!]]></string>
-    <string name="add_partner_bodygraph_ready_desc"><![CDATA[Теперь вы сможете узнать все тайны ваших взаимоотношений и научиться жить в гармонии]]></string>
-    <string name="add_child_bodygraph_ready_title"><![CDATA[Бодиграф готов!]]></string>
-    <string name="add_child_bodygraph_ready_desc"><![CDATA[Теперь вы узнаете сильные и слабые стороны вашего ребенка, сможете найти самый гармоничный путь его развития и становления как личности.]]></string>
+    <string name="add_partner_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
+    <string name="add_partner_bodygraph_ready_desc"><![CDATA[Now you can reveal all the secrets of your\nrelationship and learn to live in harmony.]]></string>
+    <string name="add_child_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
+    <string name="add_child_bodygraph_ready_desc"><![CDATA[Now you can will find out the strengths\nand weakness of your child, you can find\nthe most harmonious way of his\ndevelopment and personal becoming.]]></string>
 
-    <string name="compatibility_channels_title">Каналы совместимости</string>
-    <string name="compatibility_channels_desc">Каналы совместимости демонстрируют, как люди влияют друг на друга. При наложении рейв карт двух личностей можно увидеть, есть ли у вас с партнером полностью или частично совпадающие Каналы. На основании этого делается вывод о том, будут ли ваши отношения гармоничными.</string>
+    <string name="channel_type_1">Interdependence</string>
+    <string name="channel_type_2">Dominance</string>
+    <string name="channel_type_3">Suppression</string>
+    <string name="channel_type_4">Cooperation</string>
 
-    <string name="channel_type_1">Сотрудничество</string>
-    <string name="channel_type_2">Главенство</string>
-    <string name="channel_type_3">Подавление</string>
-    <string name="channel_type_4">Взаимозависимость</string>
+    <string name="compatibility_channels_title">Compatibility Channels</string>
+    <string name="compatibility_channels_desc">Compatibility channels demonstrate how people influence each other. When overlaying rave cards of two persons, we can see if you and your partner have completely or partially matching Channels.  Based on this, it is concluded whether your relationship will be harmonious.</string>
 
-    <string name="compatibility_child_title">Ребенок</string>
-    <string name="compatibility_parent_title">Родитель</string>
+    <string name="compatibility_child_title">Child</string>
+    <string name="compatibility_parent_title">Parent</string>
 
-    <string name="transit_no_channels">Сегодня нет активных каналов</string>
+    <string name="transit_no_channels">Today no active channels</string>
 
-    <string name="diagram_rave_title">Давайте рассчитаем бодиграф!</string>
-    <string name="diagram_rave_desc"><![CDATA[Введите данные человека, которому хотите рассчитать бодиграф. Это поможет вам лучше узнать его.<br><br>После создания, данный бодиграф станет основным. Вы можете поменять основной бодиграф на любой из созданных в любое время.]]></string>
+    <string name="diagram_rave_title">Let’s calculate the bodygraph!</string>
+    <string name="diagram_rave_desc"><![CDATA[Enter the information of the person you want to calculate the bodygraph for. This will help you to know this person better.<br><br>After creation, this bodygraph will become the primary one. You can change the main bodygraph to any of the created ones at any time.]]></string>
 
-    <string name="diagram_name_title">Имя</string>
-    <string name="diagram_name_desc">Пожалуйста, введите имя человека, которому рассчитывается бодиграф.</string>
+    <string name="diagram_name_title">Name</string>
+    <string name="diagram_name_desc">Please enter the name of the person for whom the bodygraph is calculated.</string>
 
-    <string name="diagram_date_title">Дата рождения</string>
-    <string name="diagram_date_desc">Укажите дату рождения человека, для которого будет рассчитан бодиграф.</string>
+    <string name="diagram_date_title">Date of Birth</string>
+    <string name="diagram_date_desc">Enter the date of birth of the person for whom the bodygraph will be calculated.</string>
 
-    <string name="diagram_time_title">Время рождения</string>
-    <string name="diagram_time_desc">Покажет точное расположение планет и звезд в момент рождения, что очень важно для расчета карты.</string>
+    <string name="diagram_time_title">Time of Birth</string>
+    <string name="diagram_time_desc">It shows the exact location of the planets and stars at the time of birth, which is very important for calculating the card.</string>
 
-    <string name="diagram_place_title">Место рождения</string>
-    <string name="diagram_place_desc">Это очень важная информация для расчета бодиграфа. Мы сможем точнее определить положение небесных тел, повлиявших на судьбу.</string>
+    <string name="diagram_place_title">Place of Birth</string>
+    <string name="diagram_place_desc">This information is very important. We will be able to accurately determine the position of the celestial bodies that influenced fate.</string>
 
-    <string name="diagram_bodygraph_title">Бодиграф готов!</string>
-    <string name="diagram_bodygraph_desc">Теперь вам раскроются все секреты личности, вы найдете пути для гармоничного контакта и продуктивного взаимодействия.</string>
+    <string name="diagram_bodygraph_title">Bodygraph is ready!</string>
+    <string name="diagram_bodygraph_desc">Now all the secrets will be revealed to you, you will find the best ways for harmonious contact and productive interaction.</string>
 
-    <string name="help_bodygraph_add_diagram">Нажмите, если хотите добавить нового пользователя для расшифровки его персональной рейв карты.</string>
-    <string name="help_bodygraph_centers">Нажмите на центр, чтобы увидеть его описание. Ваши определенные центры окрашены цветом.</string>
-    <string name="help_bodygraph_to_decryption">Свайпните для расшифровки вашего бодиграфа.</string>
-    <string name="help_transit">Тут вы можете узнать подробнее о ежедневных транзитах.</string>
+    <string name="help_bodygraph_add_diagram">Click if you want to add a new user to decrypt his personal rave card.</string>
+    <string name="help_bodygraph_centers">Click on the center to read its description. Your defined centers are colored.</string>
+    <string name="help_bodygraph_to_decryption">Swipe to decode your bodygraph.</string>
+    <string name="help_transit">Here you can find more information about daily transits.</string>
     <string name="help_compatibility_channel">Связи в отношениях, которые вызывают эмоции между вами.</string>
-    <string name="help_affirmation">Вы можете поделиться аффирмацией в социальных сетях.</string>
-    <string name="help_compatibility_partners">Совместимость с другими людьми</string>
-    <string name="help_compatibility_children">Взаимоотношения с детьми</string>
+    <string name="help_affirmation">You can share the affirmation on social media.</string>
+    <string name="help_compatibility_partners">Compatibility with other people</string>
+    <string name="help_compatibility_children">Relationship with children</string>
 
-    <string name="menu_first_title">Бодиграф</string>
-    <string name="menu_second_title">Описание</string>
-    <string name="menu_third_title">Транзиты</string>
-    <string name="menu_forth_title">Отношения</string>
-    <string name="menu_fifth_title">Гармония</string>
+    <string name="information_title">Information</string>
+    <string name="compatibility_information_desc">There are four types of connections by compatibility channels:</string>
 
-    <string name="information_title">Информация</string>
-    <string name="compatibility_information_desc">Выделяют четыре вида соединений по каналам совместимости:</string>
+    <string name="partners_empty_text"><![CDATA[Do you want to have harmonious and peaceful relationship?<br><br>Check your compatibility and find out what to expect from your couple.<br><br>You will find out the strengths and weaknesses of your relationship, learn how to interact harmoniously.]]></string>
+    <string name="children_empty_text"><![CDATA[Discover how to guide your child to his own nature.<br><br>You will be able to find harmonious ways of interaction to allow your child\'s potential to grow freely.]]></string>
 
-    <string name="partners_empty_text"><![CDATA[С кем у вас возможны гармоничные отношения, а с кем ждут разногласия?<br><br>Проверьте вашу совместимость и узнайте, чего ожидать от вашей пары.<br><br> Вы увидите сильные и слабые стороны вашего союза, научитесь гармоничному взаимодействию.]]></string>
-    <string name="children_empty_text"><![CDATA[Научитесь направлять ребенка к его собственной природе.<br><br>Вы сможете найти гармоничные пути взаимодействия, чтобы дать потенциалу вашего ребенка свободно расти.]]></string>
+    <string name="compatibility_info_title_1">Interdependence</string>
+    <string name="compatibility_info_title_2">Dominance</string>
+    <string name="compatibility_info_title_3">Suppression</string>
+    <string name="compatibility_info_title_4">Cooperation</string>
 
-    <string name="compatibility_info_title_1">Взаимозависимость</string>
-    <string name="compatibility_info_title_2">Главенство</string>
-    <string name="compatibility_info_title_3">Подавление</string>
-    <string name="compatibility_info_title_4">Сотрудничество</string>
+    <string name="compatibility_info_desc_1">Interdependence defines the bonds in a relationship that cause emotions between you and your partner. These emotions can be both positive and negative. Emotions with a positive sign are passion, admiration for another person. With a negative sign - resentment, a desire to correct your partner. Interdependence occurs when one side of the Channel is activated in your bodygraph, and the other side is activated on your partner\'s bodygraph. The more there are such connections in the imposition of bodygraphs on each other, the more sensitive, brighter, more emotional the relationship will be.</string>
+    <string name="compatibility_info_desc_2">Dominance is a kind of compatibility that shows what qualities are present only in you. This means that a certain Channel on your bodygraph is colored, and your partner has no energy in it at all. These are the characteristics that make you different from each other, this is your uniqueness, something that can really impress, amaze your partner. On the one hand, your uniqueness is a challenge for your partner, because it is difficult to accept what you do not understand at all. On the other hand, this kind of compatibility teaches patience, love, acceptance of other people as they are.</string>
+    <string name="compatibility_info_desc_3">This kind of compatibility arises when one of the partners has an active Channel, and the other only has a Gate. Such a composite shows where we have to play by the partner\'s rules and forget about our desires. Often this type of communication between Channels brings resentment, misunderstanding, claims to each other into relations, it points to difficult places where a conflict can arise.</string>
+    <string name="compatibility_info_desc_4">If you feel attracted to a person and are ready after a little communication to go to the ends of the earth with him/her, then there is such a type of compatibility as Cooperation. This is due to the fact that you have the same Channels activated with the person, and the same Gates are present in your both bodygraphs. With such a composite, one can observe a harmonious, stable, lasting relationship. Cooperation brings empathy and understanding into the lives of two people.</string>
 
-    <string name="compatibility_info_desc_1">Взаимозависимость определяет связи в отношениях, вызывающие эмоции между вами. Они могут быть как положительными, так и отрицательными. Эмоции со знаком "плюс" - это страсть, восхищение другим человеком. Со знаком "минус" - обиды, желание исправить партнера. Взаимозависимость возникает тогда, когда в вашем бодиграфе активирована одна сторона канала, а у партнера - другая. Чем больше таких связей в наложении бодиграфов друг на друга, тем чувствительнее, ярче, эмоциональнее будут отношения.</string>
-    <string name="compatibility_info_desc_2">Главенство - вид совместимости, который показывает, какие качества присутствуют только в вас. Это значит, что определенный канал на вашем бодиграфе окрашен, а у партнера в нем нет энергии вообще. Это те характеристики, которыми вы отличаетесь друг от друга, это ваша уникальность, то, что может впечатлить, поразить партнера. С одной стороны, ваше своеобразие - это вызов для второй половинки, ведь трудно принять то, чего совсем не понимаешь. С другой стороны, этот вид совместимости учит терпению, любви, принятию других людей такими, какие они есть.</string>
-    <string name="compatibility_info_desc_3">Данный вид совместимости возникает тогда, когда один из партнеров имеет активный  анал, а другой - лишь ворота. Такой композит показывает, где нам придется играть по правилам партнера и забыть о своих желаниях. Часто, этот вид связи каналов приносит в отношения обиды, недопонимания, претензии друг к другу, он указывает на трудные места, где может возникнуть конфликт.</string>
-    <string name="compatibility_info_desc_4">Если вы чувствуете притяжение к незнакомому человеку и готовы после недолгого общения идти с ним хоть на край света, значит, в ваших дизайнах присутствует такой тип совместимости, как сотрудничество. Это происходит из-за того, что у вас с этим человеком активированы одни и те же каналы, присутствуют одинаковые ворота. При таком композите можно наблюдать гармоничные, стабильные, прочные отношения. Сотрудничество вносит в жизнь двух людей эмпатию и взаимопонимание.</string>
+    <string name="transits_title">Transits</string>
+    <string name="cycles_title">Cycles</string>
+    <string name="advice_title">Daily Advice</string>
 
-    <string name="transits_title">Транзиты</string>
-    <string name="cycles_title">Циклы</string>
-    <string name="advice_title">Совет Дня</string>
+    <string name="snackbar_title">Error</string>
+    <string name="snackbar_inet_title">No internet connection</string>
+    <string name="snackbar_inet">Your network connection is unstable or disconnected</string>
+    <string name="snackbar_name">The name field cannot be empty.</string>
+    <string name="snackbar_address">We could not find your address.</string>
 
-    <string name="snackbar_title">Ошибка</string>
-    <string name="snackbar_inet_title">Нет соединения с интернетом</string>
-    <string name="snackbar_inet">Ваше сетевое соединение нестабильно или отключено</string>
-    <string name="snackbar_name">Поле имени не может быть пустым.</string>
-    <string name="snackbar_address">Мы не смогли распознать ваш адрес.</string>
+    <string name="injury_push_title">, check your account!</string>
+    <string name="injury_push_desc">Your personal genetic trauma tips are ready!</string>
+    <string name="injury_desc_before"><![CDATA[Genetic trauma lies deep in the subconscious. Trauma is individual, so we will need time to collect information for you personally.<br><br>Your recommendations will appear in this block in 24 hours, you will have constant and free access to them at any time.<br><br>If you are ready to work through your genetic trauma, please press the button below.]]></string>
+    <string name="injury_desc_progress"><![CDATA[We are working hard to prepare all the information about the nature of your genetic trauma.<br><br>You will receive your personal recommendations in the next 24 hours!]]></string>
 
-    <string-array name="months_array">
-        <item>Farvardin</item>
-        <item>Ordibehesht</item>
-        <item>Khordad</item>
-        <item>Tir</item>
-        <item>Mordad</item>
-        <item>Shahrivar</item>
-        <item>Meher</item>
-        <item>Aban</item>
-        <item>Azar</item>
-        <item>Dey</item>
-        <item>Bahman</item>
-        <item>Esfand</item>
-    </string-array>
+    <string name="about_authority_subtitle">How to make the right decisions</string>
+    <string name="about_strategy_subtitle">How to live without resistance</string>
+    <string name="about_injury_subtitle">How to take control over your trauma</string>
+    <string name="about_nutrition_subtitle">The way you are designed to eat</string>
+    <string name="about_environment_subtitle">The most nourishing surrounding</string>
 
-    <string name="injury_push_title">, загляните в приложение!</string>
-    <string name="injury_push_desc">Рекомендации по вашей травме уже ждут вас!</string>
-    <string name="injury_desc_before"><![CDATA[Генетическая травма находится глубоко в вашем подсознании. Нам потребуется время, чтобы собрать информацию персонально для вас.<br><br>Ваши рекомендации появятся в данном блоке через 24 часа, вы будете иметь к ним постоянный доступ в любое время.<br><br>Если вы готовы изучить и проработать вашу травму, пожалуйста, нажмите кнопку.]]></string>
-    <string name="injury_desc_progress"><![CDATA[Мы собираем необходимую информацию о природе вашей генетической травмы.<br><br>Вы получите рекомендации в ближайшие 24 часа!]]></string>
+    <string name="menu_first_title">Bodygraph</string>
+    <string name="menu_second_title">Description</string>
+    <string name="menu_third_title">Transits</string>
+    <string name="menu_forth_title">Compatibility</string>
+    <string name="menu_fifth_title">Insights</string>
 
-    <string name="injury_generate_text">СГЕНЕРИРОВАТЬ</string>
-    <string name="injury_generating_text">ГЕНЕРИРУЕТСЯ</string>
+    <string name="daily_advice_subtitle">Get your daily advice</string>
 
-    <string name="about_authority_subtitle">Как принимать правильные решения</string>
-    <string name="about_strategy_subtitle">Как двигаться по жизни без сопротивления</string>
-    <string name="about_injury_subtitle">Как взять свою травму под контроль</string>
-    <string name="about_nutrition_subtitle">Как выбрать корректный режим питания</string>
-    <string name="about_environment_subtitle">Как создать правильное окружение</string>
+    <string name="transit_cycles_title">Planet Returns</string>
+    <string name="transit_cycles_desc">In Human Design, the cycles of life are reflected in the Returns of the planets, which have a special effect on us. There are many planets, but only the Return of Saturn, Chiron and the Opposition of Uranus divide our life into main cycles. Each cycle reflects its own individual moments that bring a special expression to your personal Design. Understanding the mechanics of cycles, you can figure out what stage you are right now, or what you still have to go through in the future, understand why your life looks different at different periods.</string>
+    <string name="cycle_age_title">Approximate age:</string>
 
-    <string name="daily_advice_subtitle">Получи свой ежедневный совет</string>
-
-    <string name="transit_cycles_title">Возврат планет</string>
-    <string name="transit_cycles_desc">В Дизайне Человека жизненные циклы отражены в возвратах планет, которые оказывают на нас особое влияние. Планет много, но лишь возврат Сатурна, Хирона и Оппозиция Урана делят нашу жизнь на основные этапы. Каждый цикл отражает свои индивидуальные нюансы, которые вносят особое выражение в конкретно вашем Дизайне. Понимая механику циклов, вы можете разобраться в каком из них вы находитесь прямо сейчас, либо что вам еще предстоит, поймете почему в разные периоды ваша жизнь выглядит по-разному.</string>
-    <string name="cycle_age_title">Приблизительный возраст:</string>
     <string name="paywall_restore">Restore</string>
     <string name="paywall_terms_of_use">Terms of Use</string>
     <string name="paywall_privacy_policy">Privacy Policy</string>
-    <string name="paywall_open_full_access">Откройте полный доступ</string>
-    <string name="paywall_2_open_full_access">Open full access\nto Human Design</string>
-    <string name="paywall_text_1">Расшифровка персонального бодиграфа</string>
-    <string name="paywall_text_2">Движение планет и их влияние на вас</string>
-    <string name="paywall_text_3">Расчёт совместимости с другими людьми</string>
-    <string name="paywall_text_4">Узнайте, что приготовила для вас Вселенная</string>
 
-    <string name="forecast_push_title">Готовы к новой неделе?</string>
-    <string name="forecast_push_desc">Ваш персональный прогноз уже доступен!</string>
+    <string name="forecast_push_title">Ready for a new week?</string>
+    <string name="forecast_push_desc">Your personal forecast is already available. Hurry up to read it!</string>
+
+    <string name="paywall_open_full_access">Open full access</string>
+    <string name="paywall_text_1">Personal bodygraph decoding</string>
+    <string name="paywall_text_2">Planetary movements and their impact on you</string>
+    <string name="paywall_text_3">Calculation of compatibility with others</string>
+    <string name="paywall_text_4">Check what the Universe has in store for you</string>
+
+    <string name="paywall_1_month">1 Month</string>
+    <string name="paywall_1_week">Week</string>
+    <string name="paywall_1_year">Year</string>
+    <string name="paywall_1_autorenewable">auto-renewable</string>
+    <string name="paywall_1_trial">3 days trial\nauto-renewable</string>
+    <string name="paywall_1_trial_year">week trial\nauto-renewable</string>
+
+    <string name="injury_generate_text">GENERATE</string>
+    <string name="injury_generating_text">GENERATING</string>
+
+    <string-array name="forecast_push_titles">
+        <item>⚡️Ready for a new week?</item>
+        <item>New week - new start💥</item>
+        <item>☀️Имя, happy new week!</item>
+        <item>It\’s new forecast time💥</item>
+        <item>We wish you a productive week!</item>
+        <item>🌟New week for new goals!</item>
+        <item>⏰Your forecast is here👉🏽</item>
+        <item>✨New week is a new beginning</item>
+        <item>New week! Bring it on🔥</item>
+        <item>💥Имя, let’s do this!</item>
+    </string-array>
+
+    <string-array name="forecast_push_desc">
+        <item>Your personal forecast is already available. Hurry up to read it!</item>
+        <item>Personal forecast for the new week is ready!</item>
+        <item>💫Get ready for future events💫</item>
+        <item>Start the new week on a positive note!🤩</item>
+        <item>Имя, your forecast is already available!🤩</item>
+        <item>Choose the right direction with your personal forecast!</item>
+        <item>You can handle whatever this week throws at you🌟</item>
+        <item>Let nothing get in your way!</item>
+        <item>Hurry up to ready your new personal forecast👉🏽    </item>
+        <item>Start a new week with your personal forecast🔥</item>
+    </string-array>
 
     <string name="paywall_3_review_1_title">Abigail, 46 y.o.</string>
     <string name="paywall_3_review_2_title">Liam, 38 y.o.</string>
@@ -337,35 +351,9 @@
     <string name="paywall_3_review_4_text">This is a brilliant app! It has my ears perked up &amp; eyes wide open. Thank you!</string>
     <string name="paywall_3_review_5_text">I’m enjoying the app so far! Thank you for creating such a unique experience for me!</string>
 
-    <string name="paywall_1_month">3 Месяца</string>
-    <string name="paywall_1_week">Неделя</string>
-    <string name="paywall_1_year">Год</string>
-    <string name="paywall_1_autorenewable">авто-продление</string>
-    <string name="paywall_1_trial">3 дня бесплатно\nавто-продление</string>
+    <string name="paywall_2_open_full_access">Open full access\nto Human Design</string>
 
-    <string-array name="forecast_push_titles">
-        <item>⚡️Готовы к новой неделе?</item>
-        <item>Новая неделя - новое начало💥</item>
-        <item>☀️Имя, с новой неделей!</item>
-        <item>Время нового прогноза💥</item>
-        <item>Желаем продуктивной недели!</item>
-        <item>🌟Новая неделя и новые цели!</item>
-        <item>⏰Прогноз уже ждет вас👉🏽</item>
-        <item>✨Будьте готовы к новоей неделе</item>
-        <item>Началась новая неделя🔥</item>
-        <item>🔔Начало новой недели!</item>
-    </string-array>
-
-    <string-array name="forecast_push_desc">
-        <item>Ваш персональный прогноз уже доступен!</item>
-        <item>Прогноз на неделю уже доступен!</item>
-        <item>💫Будьте готовы к будущим событиям💫</item>
-        <item>Начните новую неделю позитивно🤩</item>
-        <item>Имя, ваш прогноз уже готов🤩</item>
-        <item>Прогноз подскажет верное направление!</item>
-        <item>Будьте готовы к тому, что преподнесет эта неделя🌟</item>
-        <item>Пусть ничто не сможет вам помешать!</item>
-        <item>Мы уже приготовили ваш персональный прогноз👉🏽</item>
-        <item>Имя, скорее открывайте персональный прогноз🔥</item>
-    </string-array>
+    <string name="pw_price_1">$7.49</string>
+    <string name="pw_price_2">$18.99</string>
+    <string name="pw_price_3">$45.99</string>
 </resources>

@@ -21,11 +21,7 @@
         android:background="@color/darkColor"
         android:fitsSystemWindows="true"
         tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
-        <ImageView
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_stars"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+
         <TextView
             android:id="@+id/faqsTitle"
             android:layout_width="wrap_content"
@@ -63,10 +59,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
-            android:orientation="vertical"
-            android:paddingBottom="160dp"
             android:clipChildren="true"
             android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingBottom="160dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/faqsTitle" />

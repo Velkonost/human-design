@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
+
         <com.myhumandesignhd.ui.view.bodygraph.BodygraphView
             android:id="@+id/bodygraphView"
             android:layout_width="0dp"
@@ -29,6 +30,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/generalBlock"
             android:layout_width="match_parent"
@@ -38,7 +40,6 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@id/toDescryptionContainer"
             app:layout_constraintTop_toTopOf="parent">
-
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -715,7 +716,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:visibility="gone"
             android:id="@+id/toDescryptionContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -723,6 +723,7 @@
             android:onClick="@{handler::onToDecryptionClicked}"
             android:paddingHorizontal="12dp"
             android:paddingVertical="6dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -753,11 +754,11 @@
 
         <View
             android:id="@+id/balloonBg"
-            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:alpha="0.4"
             android:background="#0E0E0F"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -150,7 +150,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             .setMaxWidth(300)
             .setHeight(BalloonSizeSpec.WRAP)
             .setTextSize(12f)
-            .setCornerRadius(10f)
+            .setCornerRadius(20f)
             .setText(App.resourcesProvider.getStringLocale(R.string.help_compatibility_partners))
             .setTextColor(
                 ContextCompat.getColor(
@@ -160,7 +160,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             )
             .setTextIsHtml(true)
             .setOverlayColorResource(R.color.helpBgColor)
-            .setOverlayShape(BalloonOverlayRoundRect(20f, 20f))
+            .setOverlayShape(BalloonOverlayRoundRect(40f, 40f))
             .setIsVisibleOverlay(true)
             .setBackgroundColor(
                 Color.parseColor("#4D494D")
@@ -191,7 +191,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             .setMaxWidth(300)
             .setHeight(BalloonSizeSpec.WRAP)
             .setTextSize(12f)
-            .setCornerRadius(10f)
+            .setCornerRadius(20f)
             .setText(App.resourcesProvider.getStringLocale(R.string.help_compatibility_children))
             .setTextColor(
                 ContextCompat.getColor(
@@ -201,7 +201,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             )
             .setTextIsHtml(true)
             .setOverlayColorResource(R.color.helpBgColor)
-            .setOverlayShape(BalloonOverlayRoundRect(20f, 20f))
+            .setOverlayShape(BalloonOverlayRoundRect(40f, 40f))
             .setIsVisibleOverlay(true)
             .setBackgroundColor(
                 Color.parseColor("#4D494D")
@@ -283,8 +283,6 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.isUserInputEnabled = false
 
-        binding.viewPager.adapter = compatibilityAdapter
-
         GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
             val partners = baseViewModel.getAllUsers()
                 .toMutableList().filter { it.id != App.preferences.currentUserId }
@@ -302,12 +300,13 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         })
 
         binding.viewPager.postDelayed ({
+            binding.viewPager.adapter = compatibilityAdapter
             if (App.preferences.isCompatibilityFromChild) {
                 App.preferences.isCompatibilityFromChild = false
                 binding.viewPager.setCurrentItem(1, false)
                 selectChildren()
             }
-        }, 200)
+        }, 150)
 
     }
 

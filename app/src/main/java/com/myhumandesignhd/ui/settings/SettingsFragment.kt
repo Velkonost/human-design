@@ -363,7 +363,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     inner class Handler {
 
         fun onVersionClicked(v: View) {
-            router.navigateTo(Screens.paywallScreen())
+//            router.navigateTo(Screens.paywallScreen())
         }
 
         fun onNightClicked(v: View) {

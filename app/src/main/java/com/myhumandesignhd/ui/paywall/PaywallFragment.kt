@@ -88,7 +88,9 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 //            }
 //            else -> setupThirdPaywall()
 //        }
+
         setupFirstPaywall()
+
         App.preferences.lastPaywall ++
     }
 
@@ -296,7 +298,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     it.inactiveCentres
                 )
             }
-            selectSecondOffer()
+            selectThirdOffer()
 
         }
     }
@@ -646,21 +648,9 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     super.onScrolled(recyclerView, dx, dy)
 
                     recyclerView.layoutManager?.apply {
-                        val visibleItemCount: Int = childCount
-                        val totalItemCount: Int = itemCount
                         this as LinearLayoutManager
                         val firstVisibleItemPosition: Int = findFirstVisibleItemPosition()
                         updatePw3IndicatorsState(firstVisibleItemPosition)
-//                        binding.viewModel?.apply {
-//                            if (!bannerLoadingState.isLoading && !bannerLoadingState.isLastPage()) {
-//                                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
-//                                    && firstVisibleItemPosition >= 0
-//                                    && totalItemCount >= PAGE_SIZE
-//                                ) {
-//                                    loadBanners()
-//                                }
-//                            }
-//                        }
                     }
                 }
             })

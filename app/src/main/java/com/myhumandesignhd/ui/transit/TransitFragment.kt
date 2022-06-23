@@ -168,7 +168,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     private fun setupViewPager() {
-        binding.viewPager.offscreenPageLimit = 2
+        binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.adapter = getViewPagerAdapter()
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
@@ -288,6 +288,14 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
             return 3
         }
 
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+            (container as ViewPager).removeView(`object` as View)
+        }
+
+        override fun destroyItem(container: View, position: Int, `object`: Any) {
+            (container as ViewPager).removeView(`object` as View)
+        }
+
         @SuppressLint("SetTextI18n")
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             return when (position) {
@@ -364,50 +372,52 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                         else R.color.darkColor
                     ))
 
-                    view.adviceIcon.setImageResource(
-                        if (App.preferences.isDarkTheme) R.drawable.ic_advice_icon_dark
-                        else R.drawable.ic_advice_icon_light
-                    )
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                        view.adviceIcon.setImageResource(
+                            if (App.preferences.isDarkTheme) R.drawable.ic_advice_icon_dark
+                            else R.drawable.ic_advice_icon_light
+                        )
 
-                    view.bigCircle.setImageResource(
-                        if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
-                        else R.drawable.ic_circle_big_light
-                    )
+                        view.bigCircle.setImageResource(
+                            if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
+                            else R.drawable.ic_circle_big_light
+                        )
 
-                    view.midCircle.setImageResource(
-                        if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
-                        else R.drawable.ic_circle_mid_light
-                    )
+                        view.midCircle.setImageResource(
+                            if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
+                            else R.drawable.ic_circle_mid_light
+                        )
 
-                    val rotate = RotateAnimation(
-                        0f,
-                        360f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f
-                    )
+                        val rotate = RotateAnimation(
+                            0f,
+                            360f,
+                            Animation.RELATIVE_TO_SELF,
+                            0.5f,
+                            Animation.RELATIVE_TO_SELF,
+                            0.5f
+                        )
 
-                    rotate.repeatCount = Animation.INFINITE
-                    rotate.fillAfter = true
-                    rotate.duration = 100000
-                    rotate.interpolator = LinearInterpolator()
+                        rotate.repeatCount = Animation.INFINITE
+                        rotate.fillAfter = true
+                        rotate.duration = 100000
+                        rotate.interpolator = LinearInterpolator()
 
-                    val rotateNegative = RotateAnimation(
-                        0f,
-                        -360f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f
-                    )
-                    rotateNegative.repeatCount = Animation.INFINITE
-                    rotateNegative.fillAfter = true
-                    rotateNegative.duration = 100000
-                    rotateNegative.interpolator = LinearInterpolator()
+                        val rotateNegative = RotateAnimation(
+                            0f,
+                            -360f,
+                            Animation.RELATIVE_TO_SELF,
+                            0.5f,
+                            Animation.RELATIVE_TO_SELF,
+                            0.5f
+                        )
+                        rotateNegative.repeatCount = Animation.INFINITE
+                        rotateNegative.fillAfter = true
+                        rotateNegative.duration = 100000
+                        rotateNegative.interpolator = LinearInterpolator()
 
-                    view.bigCircle.startAnimation(rotate)
-                    view.midCircle.startAnimation(rotateNegative)
+                        view.bigCircle.startAnimation(rotate)
+                        view.midCircle.startAnimation(rotateNegative)
+                    }
 
                     container.addView(view)
                     view

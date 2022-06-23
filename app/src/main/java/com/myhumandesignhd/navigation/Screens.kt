@@ -54,7 +54,8 @@ object Screens {
             TransitFragment.reset()
             App.preferences.isInvokeNewTransits = false
         }
-        TransitFragment.invoke()
+//        TransitFragment.invoke()
+        TransitFragment()
     }
 
     fun settingsScreen() = FragmentScreen {
@@ -84,13 +85,9 @@ object Screens {
 
             App.preferences.isInvokeNewDescription = false
         }
-        BodygraphSecondFragment.invoke()
+//        BodygraphSecondFragment.invoke()
+        BodygraphSecondFragment()
     }
-
-//        BaseFragmentScreen (
-//        fragment = BodygraphSecondFragment.invoke(),
-//        key = "bodygraph_second"
-//    )
 
     fun faqScreen() = FragmentScreen {
         FaqFragment()

@@ -4,52 +4,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:id="@+id/channelsScroll"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:fadeScrollbars="true"-->
-<!--        android:fadingEdge="vertical"-->
-<!--        android:fadingEdgeLength="40dp"-->
-<!--        android:requiresFadingEdge="vertical">-->
+    <!--    <androidx.core.widget.NestedScrollView-->
+    <!--        android:id="@+id/channelsScroll"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:fadeScrollbars="true"-->
+    <!--        android:fadingEdge="vertical"-->
+    <!--        android:fadingEdgeLength="40dp"-->
+    <!--        android:requiresFadingEdge="vertical">-->
 
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:paddingBottom="150dp">-->
+    <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:paddingBottom="150dp">-->
 
-<!--            <TextView-->
-<!--                android:id="@+id/cyclesTitle"-->
-<!--                android:textStyle="bold"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:textSize="24sp"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/cyclesTitle"-->
+    <!--                android:textStyle="bold"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginStart="20dp"-->
+    <!--                android:layout_marginTop="16dp"-->
+    <!--                android:textSize="24sp"-->
+    <!--                app:layout_constraintStart_toStartOf="parent"-->
+    <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--            <TextView-->
-<!--                android:id="@+id/cyclesSubtitle"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginHorizontal="20dp"-->
-<!--                android:layout_marginTop="12dp"-->
-<!--                android:alpha="0.7"-->
-<!--                android:gravity="start"-->
-<!--                android:textSize="16sp"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/cyclesTitle" />-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/cyclesSubtitle"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginHorizontal="20dp"-->
+    <!--                android:layout_marginTop="12dp"-->
+    <!--                android:alpha="0.7"-->
+    <!--                android:gravity="start"-->
+    <!--                android:textSize="16sp"-->
+    <!--                app:layout_constraintTop_toBottomOf="@id/cyclesTitle" />-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cyclesRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipChildren="true"
-                android:clipToPadding="false"
-                android:paddingBottom="150dp"
-                android:layout_marginTop="4dp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--    </androidx.core.widget.NestedScrollView>-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cyclesRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        android:clipChildren="true"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="150dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    </androidx.core.widget.NestedScrollView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

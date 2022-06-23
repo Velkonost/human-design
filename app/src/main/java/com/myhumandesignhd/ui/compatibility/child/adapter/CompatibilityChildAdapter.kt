@@ -66,8 +66,8 @@ class ChildModel(
         root = view
 
         with(view) {
-            childChart1.setImageResource(chart1ResId)
-            childChart2.setImageResource(chart2ResId)
+//            childChart1.setImageResource(chart1ResId)
+//            childChart2.setImageResource(chart2ResId)
 
             if (isChild) {
                 childTitle.isVisible = false

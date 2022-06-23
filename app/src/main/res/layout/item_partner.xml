@@ -11,21 +11,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            app:draggedItem="@id/foregroundContainer"
             app:dynamicMenuWidth="false"
+            app:isContinuousSwipe="true"
+            app:isFreeDragAfterOpen="true"
+            app:isTogether="true"
             app:layout_constraintTop_toTopOf="parent"
             app:menuSide="Right"
-            app:draggedItem="@id/foregroundContainer"
             app:rightItem="@id/backgroundContainer"
-            app:isContinuousSwipe="true"
-            app:isTogether="true"
-            app:isFreeDragAfterOpen="true"
             app:swipeDirection="left">
+
             <LinearLayout
-                android:layout_gravity="end"
                 android:id="@+id/backgroundContainer"
-                android:layout_marginHorizontal="20dp"
                 android:layout_width="66dp"
                 android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginHorizontal="20dp"
                 android:orientation="horizontal">
 
                 <FrameLayout
@@ -54,8 +55,8 @@
                     android:id="@+id/partnerCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="10dp"
                     android:layout_marginHorizontal="20dp"
+                    app:cardCornerRadius="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 

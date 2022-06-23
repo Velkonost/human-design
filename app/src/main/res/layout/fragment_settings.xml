@@ -22,38 +22,33 @@
         android:fitsSystemWindows="true"
         android:paddingHorizontal="20dp"
         tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
-        <ImageView
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_stars"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
         <FrameLayout
             android:id="@+id/arrowBlock"
-            android:onClick="@{handler::onBackClicked}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/title"
-            app:layout_constraintBottom_toBottomOf="@id/title"
             android:layout_width="32dp"
-            android:layout_height="32dp">
+            android:layout_height="32dp"
+            android:onClick="@{handler::onBackClicked}"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title">
 
             <ImageView
                 android:id="@+id/icArrow"
-                android:rotation="180"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_arrow"
                 android:layout_width="16dp"
-                android:layout_height="16dp"/>
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:rotation="180"
+                android:src="@drawable/ic_arrow" />
         </FrameLayout>
 
         <TextView
             android:id="@+id/title"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto"
             android:textSize="32sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -79,13 +74,13 @@
 
                 <TextView
                     android:id="@+id/notificationsTitle"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/lightColor"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -126,12 +121,12 @@
 
                 <TextView
                     android:id="@+id/themeTitle"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:fontFamily="@font/roboto"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -141,8 +136,8 @@
                     android:layout_height="34dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="10dp"
-                    android:orientation="horizontal"
                     android:gravity="end"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/themeTitle"
@@ -150,25 +145,25 @@
 
                     <TextView
                         android:id="@+id/nightTheme"
-                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_bg_theme_night"
                         android:fontFamily="@font/roboto"
                         android:gravity="center"
                         android:onClick="@{handler::onNightClicked}"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/dayTheme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:textStyle="bold"
                         android:gravity="center"
                         android:onClick="@{handler::onDayClicked}"
                         android:textColor="@color/lightColor"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -192,23 +187,23 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/personalInfoBlock"
-                    android:onClick="@{handler::onPersonalInfoClicked}"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:onClick="@{handler::onPersonalInfoClicked}"
                     app:layout_constraintHeight_percent="0.5"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/personalInfoTitle"
-                        android:textStyle="bold"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
+                        android:layout_marginEnd="6dp"
                         android:fontFamily="@font/roboto"
                         android:textSize="16sp"
-                        android:layout_marginEnd="6dp"
-                        app:layout_constraintEnd_toStartOf="@id/personalInfoArrow"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/personalInfoArrow"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -244,12 +239,12 @@
 
                     <TextView
                         android:id="@+id/faqTitle"
-                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:fontFamily="@font/roboto"
                         android:textSize="16sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -368,10 +363,10 @@
             android:focusable="true"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
+            android:letterSpacing="0.12"
             android:onClick="@{handler::onWriteUsClicked}"
             android:textAllCaps="true"
             android:textSize="16sp"
-            android:letterSpacing="0.12"
             app:layout_constraintBottom_toTopOf="@id/version"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -383,8 +378,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="76dp"
             android:alpha="0.3"
-            android:textSize="11sp"
             android:onClick="@{handler::onVersionClicked}"
+            android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

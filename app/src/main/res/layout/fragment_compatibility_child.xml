@@ -21,43 +21,38 @@
         android:fitsSystemWindows="true"
         tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
 
-        <ImageView
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_stars"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
         <FrameLayout
             android:id="@+id/arrowBlock"
-            android:onClick="@{handler::onBackClicked}"
-            android:layout_marginStart="14dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/compatibilityTitle"
-            app:layout_constraintBottom_toBottomOf="@id/compatibilityTitle"
             android:layout_width="32dp"
-            android:layout_height="32dp">
+            android:layout_height="32dp"
+            android:layout_marginStart="14dp"
+            android:onClick="@{handler::onBackClicked}"
+            app:layout_constraintBottom_toBottomOf="@id/compatibilityTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/compatibilityTitle">
 
             <ImageView
                 android:id="@+id/icArrow"
-                android:rotation="180"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_arrow"
                 android:layout_width="16dp"
-                android:layout_height="16dp"/>
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:rotation="180"
+                android:src="@drawable/ic_arrow" />
         </FrameLayout>
 
         <TextView
             android:id="@+id/compatibilityTitle"
-            android:gravity="center"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginHorizontal="64dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:fontFamily="@font/roboto"
-            android:textSize="24sp"
-            android:layout_marginTop="24dp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="64dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/selectionCard"
@@ -76,10 +71,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/childTitle"
-                    android:textStyle="bold"
-                    android:onClick="@{handler::onChildClicked}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="4dp"
@@ -89,32 +83,35 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
-                    android:textSize="12sp" />
+                    android:onClick="@{handler::onChildClicked}"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/parentTitle"
-                    android:textStyle="bold"
-                    android:onClick="@{handler::onParentClicked}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="4dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="2dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
-                    android:textSize="12sp" />
+                    android:onClick="@{handler::onParentClicked}"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
-            app:layout_constraintTop_toBottomOf="@id/selectionCard"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectionCard" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

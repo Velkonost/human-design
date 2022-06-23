@@ -90,12 +90,16 @@ class AboutAdapter(
             val position = adapterPosition
             val isSelected = position == selectedItem
 
+            icArrow.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
+
             when(items[position].type) {
                 AboutType.TYPE -> {
-                    expandButton.text = App.resourcesProvider.getStringLocale(R.string.type_title)
+                    expandButton.text =
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        else App.resourcesProvider.getStringLocale(R.string.type_title)
                     text.text = items[position].description
 
-                    subtitle.isVisible = true
+                    subtitle.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
                     subtitle.text = items[position].name
 
                     generateBtn.isVisible = false
@@ -105,10 +109,12 @@ class AboutAdapter(
                     pointViewContainer.isVisible = false
                 }
                 AboutType.PROFILE -> {
-                    expandButton.text = App.resourcesProvider.getStringLocale(R.string.profile_title)
+                    expandButton.text =
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        else App.resourcesProvider.getStringLocale(R.string.profile_title)
                     text.text = items[position].description
 
-                    subtitle.isVisible = true
+                    subtitle.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
                     subtitle.text = items[position].name
 
                     generateBtn.isVisible = false
@@ -118,10 +124,12 @@ class AboutAdapter(
                     pointViewContainer.isVisible = false
                 }
                 AboutType.AUTHORITY -> {
-                    expandButton.text = App.resourcesProvider.getStringLocale(R.string.authority_title)
+                    expandButton.text =
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        else App.resourcesProvider.getStringLocale(R.string.authority_title)
                     text.text = items[position].description
 
-                    subtitle.isVisible = true
+                    subtitle.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
                     subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_authority_subtitle)
 
                     generateBtn.isVisible = false
@@ -131,10 +139,13 @@ class AboutAdapter(
                     pointViewContainer.isVisible = false
                 }
                 AboutType.STRATEGY -> {
-                    expandButton.text = App.resourcesProvider.getStringLocale(R.string.strategy_title)
+                    expandButton.text =
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        else App.resourcesProvider.getStringLocale(R.string.strategy_title)
                     text.text = items[position].description
 
-                    subtitle.isVisible = true
+                    subtitle.isVisible =
+                        android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
                     subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_strategy_subtitle)
 
                     generateBtn.isVisible = false
@@ -144,10 +155,13 @@ class AboutAdapter(
                     pointViewContainer.isVisible = false
                 }
                 AboutType.NUTRITION -> {
-                    expandButton.text = App.resourcesProvider.getStringLocale(R.string.nutrition_title)
+                    expandButton.text =
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        else App.resourcesProvider.getStringLocale(R.string.nutrition_title)
                     text.text = items[position].description
 
-                    subtitle.isVisible = true
+                    subtitle.isVisible =
+                        android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
                     subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_nutrition_subtitle)
 
                     generateBtn.isVisible = false
@@ -157,10 +171,13 @@ class AboutAdapter(
                     pointViewContainer.isVisible = false
                 }
                 AboutType.ENVIRONMENT -> {
-                    expandButton.text = App.resourcesProvider.getStringLocale(R.string.environment_title)
+                    expandButton.text =
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        else App.resourcesProvider.getStringLocale(R.string.environment_title)
                     text.text = items[position].description
 
-                    subtitle.isVisible = true
+                    subtitle.isVisible =
+                        android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
                     subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_environment_subtitle)
 
                     generateBtn.isVisible = false
@@ -170,45 +187,51 @@ class AboutAdapter(
                     pointViewContainer.isVisible = false
                 }
                 AboutType.INJURY -> {
-                    val gd = GradientDrawable(
-                        GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(Color.parseColor("#4D8DBC"), Color.parseColor("#5352BD"))
-                    )
-                    gd.cornerRadius = 0f
+                    pointViewContainer.isVisible = false
+                    if (currentUser.injuryDateStart == null) {
 
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                            val gd = GradientDrawable(
+                                GradientDrawable.Orientation.TOP_BOTTOM,
+                                intArrayOf(Color.parseColor("#4D8DBC"), Color.parseColor("#5352BD"))
+                            )
+                            gd.cornerRadius = 0f
 
-                    pointView.setBackgroundDrawable(gd)
+                            pointView.setBackgroundDrawable(gd)
 
-                    pointViewContainer.isVisible = true
+                            pointViewContainer.isVisible = true
 
-                    val start = Color.parseColor("#4D8DBC")
+                            val start = Color.parseColor("#4D8DBC")
 //                    val mid = Color.parseColor("#5352BD")
-                    val end = Color.parseColor("#5352BD")
+                            val end = Color.parseColor("#5352BD")
 
-                    val gradient = pointView.background as GradientDrawable
+                            val gradient = pointView.background as GradientDrawable
 
-                    val evaluator = ArgbEvaluator()
-                    val animator = TimeAnimator.ofFloat(0.0f, 1.0f)
-                    animator.duration = 1500
-                    animator.repeatCount = ValueAnimator.INFINITE
-                    animator.repeatMode = ValueAnimator.REVERSE
-                    animator.addUpdateListener {
-                        val fraction = it.animatedFraction
-                        val newStart = evaluator.evaluate(fraction, start, end) as Int
+                            val evaluator = ArgbEvaluator()
+                            val animator = TimeAnimator.ofFloat(0.0f, 1.0f)
+                            animator.duration = 1500
+                            animator.repeatCount = ValueAnimator.INFINITE
+                            animator.repeatMode = ValueAnimator.REVERSE
+                            animator.addUpdateListener {
+                                val fraction = it.animatedFraction
+                                val newStart = evaluator.evaluate(fraction, start, end) as Int
 //                        val newMid = evaluator.evaluate(fraction, mid, start) as Int
-                        val newEnd = evaluator.evaluate(fraction, end, start) as Int
+                                val newEnd = evaluator.evaluate(fraction, end, start) as Int
 
-                        gradient.colors = intArrayOf(newStart, newStart)
+                                gradient.colors = intArrayOf(newStart, newStart)
+                            }
+
+                            animator.start()
+                        }
+
+                        val paddingDp = 6f
+                        val paddingTopDp = 18
+                        val density = context.resources.displayMetrics.density
+                        val paddingPixel = (paddingDp * density).toInt()
+                        val paddingTopPixel = (paddingTopDp * density).toInt()
+
+                        expandButton.setPadding(paddingPixel, paddingTopPixel, paddingPixel, 0)
                     }
-
-                    animator.start()
-
-                    val paddingDp = 6f
-                    val paddingTopDp = 18
-                    val density = context.resources.displayMetrics.density
-                    val paddingPixel = (paddingDp * density).toInt()
-                    val paddingTopPixel = (paddingTopDp * density).toInt()
-
-                    expandButton.setPadding(paddingPixel,paddingTopPixel, paddingPixel, 0)
 
                     expandButton.text = App.resourcesProvider.getStringLocale(R.string.injury_title)
 
@@ -299,7 +322,11 @@ class AboutAdapter(
             }
 
             expandButton.isSelected = isSelected
-            expandableLayout.setExpanded(isSelected, false)
+            expandableLayout.setExpanded(
+                if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) true
+                else isSelected,
+                false
+            )
 
             container.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
                 context,
@@ -338,44 +365,51 @@ class AboutAdapter(
         }
 
         override fun onClick(view: View?) {
-            val holder = recyclerView.findViewHolderForAdapterPosition(selectedItem) as ViewHolder?
-            if (holder != null) {
-                holder.expandButton.isSelected = false
-                holder.expandableLayout.collapse()
-            }
-            val position = adapterPosition
-            if (position == selectedItem) {
-                selectedItem = UNSELECTED
-            } else {
-                expandButton.isSelected = true
-                expandableLayout.expand()
-                selectedItem = position
+            if (android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK) {
 
-                val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
-                    override fun getVerticalSnapPreference(): Int {
-                        return SNAP_TO_START
-                    }
-
-                    override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-                        return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
-                    }
-
+                val holder =
+                    recyclerView.findViewHolderForAdapterPosition(selectedItem) as ViewHolder?
+                if (holder != null) {
+                    holder.expandButton.isSelected = false
+                    holder.expandableLayout.collapse()
                 }
-                smoothScroller.targetPosition = adapterPosition
+                val position = adapterPosition
+                if (position == selectedItem) {
+                    selectedItem = UNSELECTED
+                } else {
+                    expandButton.isSelected = true
+                    expandableLayout.expand()
+                    selectedItem = position
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                        val smoothScroller: SmoothScroller =
+                            object : LinearSmoothScroller(context) {
+                                override fun getVerticalSnapPreference(): Int {
+                                    return SNAP_TO_START
+                                }
+
+                                override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                                    return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
+                                }
+
+                            }
+                        smoothScroller.targetPosition = adapterPosition
 
 
-                (recyclerView.layoutManager as LinearLayoutManager)
-                    .startSmoothScroll(smoothScroller)
-            }
+                        (recyclerView.layoutManager as LinearLayoutManager)
+                            .startSmoothScroll(smoothScroller)
+                    }
+                }
 
-            when(items[adapterPosition].type) {
-                AboutType.TYPE -> YandexMetrica.reportEvent("Tab2AboutTypeTapped")
-                AboutType.PROFILE -> YandexMetrica.reportEvent("Tab2AboutProfileTapped")
-                AboutType.AUTHORITY -> YandexMetrica.reportEvent("Tab2AboutAuthorityTapped")
-                AboutType.STRATEGY -> YandexMetrica.reportEvent("Tab2AboutStrategyTapped")
-                AboutType.INJURY -> YandexMetrica.reportEvent("Tab2AboutTraumaTapped")
-                AboutType.NUTRITION -> YandexMetrica.reportEvent("Tab2AboutNutrition")
-                AboutType.ENVIRONMENT -> YandexMetrica.reportEvent("Tab2AboutEnvironment")
+                when (items[adapterPosition].type) {
+                    AboutType.TYPE -> YandexMetrica.reportEvent("Tab2AboutTypeTapped")
+                    AboutType.PROFILE -> YandexMetrica.reportEvent("Tab2AboutProfileTapped")
+                    AboutType.AUTHORITY -> YandexMetrica.reportEvent("Tab2AboutAuthorityTapped")
+                    AboutType.STRATEGY -> YandexMetrica.reportEvent("Tab2AboutStrategyTapped")
+                    AboutType.INJURY -> YandexMetrica.reportEvent("Tab2AboutTraumaTapped")
+                    AboutType.NUTRITION -> YandexMetrica.reportEvent("Tab2AboutNutrition")
+                    AboutType.ENVIRONMENT -> YandexMetrica.reportEvent("Tab2AboutEnvironment")
+                }
             }
         }
 
@@ -383,15 +417,7 @@ class AboutAdapter(
             Log.d("ExpandableLayout", "State: $state")
 
             if (state == ExpandableLayout.State.EXPANDED) {
-//                if (
-//                    items[adapterPosition].type != AboutType.TYPE
-//                    && items[adapterPosition].type != AboutType.PROFILE
-//                ) {
-
-
-                    if (
-                        items[adapterPosition].type == AboutType.INJURY
-                    ) {
+                    if (items[adapterPosition].type == AboutType.INJURY) {
 
                         if (currentUser.injuryDateStart != null) {
                             var currentProgress =
@@ -443,7 +469,7 @@ class AboutAdapter(
                         .rotation(90f)
                         .duration = 300
 
-                    if (items[adapterPosition].type == AboutType.INJURY) {
+                    if (items[adapterPosition].type == AboutType.INJURY && currentUser.injuryDateStart == null) {
                         pointViewContainer.isVisible = true
 
                         val paddingDp = 6f
@@ -458,21 +484,23 @@ class AboutAdapter(
             }
 
             if (state == ExpandableLayout.State.EXPANDING) {
-                val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
-                    override fun getVerticalSnapPreference(): Int {
-                        return SNAP_TO_START
-                    }
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
+                        override fun getVerticalSnapPreference(): Int {
+                            return SNAP_TO_START
+                        }
 
-                    override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-                        return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
-                    }
+                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                            return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
+                        }
 
+                    }
+                    smoothScroller.targetPosition = adapterPosition
+
+
+                    (recyclerView.layoutManager as LinearLayoutManager)
+                        .startSmoothScroll(smoothScroller)
                 }
-                smoothScroller.targetPosition = adapterPosition
-
-
-                (recyclerView.layoutManager as LinearLayoutManager)
-                    .startSmoothScroll(smoothScroller)
             }
         }
 

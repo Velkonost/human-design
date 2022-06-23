@@ -5,15 +5,14 @@
     android:layout_height="match_parent">
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/channelsRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4dp"
-                android:clipChildren="true"
-                android:clipToPadding="false"
-                android:paddingBottom="450dp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/channelsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        android:clipChildren="true"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="450dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 </androidx.constraintlayout.widget.ConstraintLayout>
