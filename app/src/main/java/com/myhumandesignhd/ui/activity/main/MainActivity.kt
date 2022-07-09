@@ -29,6 +29,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import com.adapty.Adapty
+import com.adapty.listeners.OnPurchaserInfoUpdatedListener
+import com.adapty.models.PaywallModel
+import com.adapty.models.PurchaserInfoModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.jaeger.library.StatusBarUtil
@@ -58,23 +62,17 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.time.LocalDate
 import java.util.*
-import kotlin.time.milliseconds
 import com.myhumandesignhd.util.SingleShotLocationProvider.GPSCoordinates
 
 import com.myhumandesignhd.util.SingleShotLocationProvider
 
-import com.myhumandesignhd.di.AppModule_ContextFactory.context
 import com.myhumandesignhd.event.SetupNotificationsEvent
 import com.myhumandesignhd.util.SingleShotLocationProvider.requestSingleUpdate
 import com.myhumandesignhd.util.MyLocation
-import com.google.android.gms.common.api.ApiException
-
-import com.myhumandesignhd.di.AppModule_ContextFactory.context
 
 import com.google.android.gms.location.LocationServices
-
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.tasks.Task
+import com.myhumandesignhd.event.AdaptyLogShowEvent
+import com.myhumandesignhd.event.AdaptyMakePurchaseEvent
 import java.lang.Exception
 
 
@@ -115,6 +113,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         if (savedInstanceState == null) {
+            setupAdapty()
             initStartPage()
         }
 
@@ -316,7 +315,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 })
 
             val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-            val task = fusedLocationProviderClient.getLastLocation ()
+            val task = fusedLocationProviderClient.lastLocation
 
             task.addOnSuccessListener {
                 if (location != null)
@@ -347,7 +346,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     1000 * 60 * 60 * 24).toLong(), pendingIntent
         )
         val cal = Calendar.getInstance()
-//        val cal = GregorianCalendar(TimeZone.getTimeZone("GMT"))
+
         cal.add(Calendar.DAY_OF_WEEK, -(cal[Calendar.DAY_OF_WEEK]) - 1)
         cal.set(Calendar.MINUTE, 0)
         cal.set(Calendar.HOUR_OF_DAY, 14)
@@ -379,14 +378,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             val alarmManagerForecasts = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         alarmManagerForecasts.setRepeating(
-            AlarmManager.RTC_WAKEUP, cal.timeInMillis, AlarmManager.INTERVAL_DAY * 7, pendingIntentForecasts
+            AlarmManager.RTC_WAKEUP, cal.timeInMillis + mult * 86400000, AlarmManager.INTERVAL_DAY * 7, pendingIntentForecasts
         )
-//            alarmManagerForecasts.setRepeating(
-//                AlarmManager.RTC_WAKEUP,
-//                System.currentTimeMillis(),
-//                AlarmManager.INTERVAL_DAY * 7,
-//                pendingIntentForecasts
-//            )
         }
     }
 
@@ -411,7 +404,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     StartPage.PLACE_BIRTH.pageId,
                     StartPage.BODYGRAPH.pageId,
                     -> {
-                        Log.d("keke", "initStartPage")
                         Screens.startScreen()
                     }
                     else -> {
@@ -458,6 +450,16 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 App.preferences.lastKnownLocation =
                     "${it[0].address.city}, ${it[0].address.country}"
                 EventBus.getDefault().post(LastKnownLocationUpdateEvent())
+            }
+        }
+        receiveNotificationData()
+    }
+
+    private fun receiveNotificationData() {
+        intent?.let { intent ->
+            intent.extras?.let {
+                val title = intent.extras?.getString("title")
+                YandexMetrica.reportEvent("Push Clicked: $title")
             }
         }
     }
@@ -657,6 +659,36 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navView.isVisible = true
 
         binding.navView.itemIconTintList = null
+    }
+
+
+    private fun setupAdapty() {
+        Adapty.getPaywalls { paywalls, products, error ->
+            if (error == null && !paywalls.isNullOrEmpty()) {
+                App.adaptyPaywallModel = paywalls[0]
+                App.adaptyProducts = products
+            }
+        }
+
+        Adapty.getPurchaserInfo { purchaserInfo, error ->
+            if (error == null) {
+                // check the accesss
+                App.preferences.isPremiun = purchaserInfo?.accessLevels?.get("premium")?.isActive == true
+            } else App.preferences.isPremiun = false
+        }
+
+        Adapty.setOnPurchaserInfoUpdatedListener(object : OnPurchaserInfoUpdatedListener {
+            override fun onPurchaserInfoReceived(purchaserInfo: PurchaserInfoModel) {
+                App.preferences.isPremiun = purchaserInfo.accessLevels["premium"]?.isActive == true
+            }
+        })
+
+    }
+
+    @Subscribe
+    fun onAdaptyLogShowEvent(e: AdaptyLogShowEvent) {
+        if (App.adaptyPaywallModel != null)
+            Adapty.logShowPaywall(App.adaptyPaywallModel!!)
     }
 
     inner class Handler

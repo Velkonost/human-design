@@ -242,14 +242,6 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             )
         )
 
-        binding.placesView.newPlaceET.backgroundTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.darkHintColor
-                else R.color.lightHintColor
-            )
-        )
-
         binding.placesView.placesViewContainer.setBackgroundColor(
             ContextCompat.getColor(
                 requireContext(),

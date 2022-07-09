@@ -16,11 +16,9 @@
 
     <string name="desc_splash_02">
         <![CDATA[
-        Дизайн Человека не религия или<br/>философское учение, а отдельная<br/>современная система знаний на стыке<br/>науки и духовности.
-<br/><br/>
-Дизайн Человека собрал в себе такие<br/>знания как китайская ИЗЦИН,<br>индуистская чакровая система,<br/>кабалла, астрология, квантовая<br/>физика и генетика.
+       В Дизайне Человека анализ личности осуществляется на основе бодиграфа, так называемой Рейв Карты, которая содержит в себе схематичное изображение энергетических центров, каналов и ворот, которые отражают энергетическую механику каждого человека.
 <br><br>
-С помощью Дизайна Человека вы<br>узнаете как можно проживать свою<br>жизнь и не играть чужие роли.
+Чтобы рассчитать персональную Рейв Карту, вам нужно заполнить данные и ответить на несколько вопросов.
 ]]>
     </string>
 
@@ -322,12 +320,12 @@
     <string name="paywall_3_review_4_text">This is a brilliant app! It has my ears perked up &amp; eyes wide open. Thank you!</string>
     <string name="paywall_3_review_5_text">I’m enjoying the app so far! Thank you for creating such a unique experience for me!</string>
 
-    <string name="paywall_1_month">1 Месяц</string>
+    <string name="paywall_1_month">Месяц</string>
     <string name="paywall_1_week">Неделя</string>
     <string name="paywall_1_year">Год</string>
     <string name="paywall_1_autorenewable">авто-продление</string>
     <string name="paywall_1_trial">3 дня бесплатно\nавто-продление</string>
-    <string name="paywall_1_trial_year">неделя бесплатно\nавто-продление</string>
+    <string name="paywall_1_trial_year">авто-продление</string>
 
     <string-array name="forecast_push_titles">
         <item>⚡️Готовы к новой неделе?</item>
@@ -358,4 +356,10 @@
     <string name="pw_price_1">399 руб</string>
     <string name="pw_price_2">899 руб</string>
     <string name="pw_price_3">2699 руб</string>
+
+    <string name="promocode">Promo Code</string>
+    <string name="promocode_ok">OK</string>
+    <string name="promocode_cancel">Отмена</string>
+    <string name="promocode_subtitle">Введите промокод</string>
+    <string name="promocode_error">Неправильный промокод</string>
 </resources>

@@ -536,6 +536,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         if (App.preferences.locale == "en")
             inflatedNameContainer.time.setIsAmPm(true)
+        else inflatedNameContainer.time.setIsAmPm(false)
 
         inflatedNameContainer.time.selectDate(c)
 
@@ -727,6 +728,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         App.preferences.lastLoginPageId = StartPage.SPLASH_02.pageId
 
         binding.titleSplash0102.alpha = 1f
+        binding.titleSplash0102.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.rave_title))
         binding.descSplash0102.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.desc_splash_02))
 
         val smm = ScrollingMovementMethod.getInstance()

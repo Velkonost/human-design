@@ -6,13 +6,15 @@
 
     <TextView
         android:id="@+id/nextTransitTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:alpha="0.5"
         android:fontFamily="@font/roboto"
+        android:gravity="start"
         android:letterSpacing="0.04"
         android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

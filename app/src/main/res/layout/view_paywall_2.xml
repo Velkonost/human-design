@@ -194,7 +194,7 @@
                         android:id="@+id/offer1DurationPw2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3 Months"
+                        android:text="@string/paywall_1_week"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -203,7 +203,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.7"
-                        android:text="$2.80 per week"
+                        android:text="3 days free"
                         android:textSize="12sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -213,7 +213,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
-                    android:text="$33.99"
+                    android:text="@string/pw_price_1"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -263,7 +263,7 @@
                         android:id="@+id/offer2DurationPw2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3 Months"
+                        android:text="@string/paywall_1_month"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -272,7 +272,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.7"
-                        android:text="$2.80 per week"
+                        android:text="$4.75 per week"
                         android:textSize="12sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -282,7 +282,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
-                    android:text="$33.99"
+                    android:text="@string/pw_price_2"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -331,7 +331,7 @@
                         android:id="@+id/offer3DurationPw2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3 Months"
+                        android:text="@string/paywall_1_year"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -340,7 +340,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.7"
-                        android:text="$2.80 per week"
+                        android:text="$0.90 per week"
                         android:textSize="12sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -350,7 +350,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
-                    android:text="$33.99"
+                    android:text="@string/pw_price_3"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -428,7 +428,7 @@
             android:gravity="center"
             android:text="@string/paywall_terms_of_use"
             android:textColor="@color/lightColor"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/breakline1Pw2"
@@ -440,7 +440,7 @@
             android:gravity="center"
             android:text="|"
             android:textColor="@color/lightColor"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/policyPw2"
@@ -452,7 +452,7 @@
             android:gravity="center"
             android:text="@string/paywall_privacy_policy"
             android:textColor="@color/lightColor"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/breakline2Pw2"
@@ -464,7 +464,7 @@
             android:gravity="center"
             android:text="|"
             android:textColor="@color/lightColor"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/restorePw2"
@@ -476,6 +476,30 @@
             android:gravity="center"
             android:text="@string/paywall_restore"
             android:textColor="@color/lightColor"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/breakline3Pw2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="6dp"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:text="|"
+            android:textColor="@color/lightColor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/paywall1PromoPw2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="6dp"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:text="@string/promocode"
+            android:textColor="@color/lightColor"
+            android:textSize="12sp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

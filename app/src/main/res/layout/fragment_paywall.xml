@@ -8,6 +8,11 @@
             type="com.myhumandesignhd.ui.paywall.PaywallFragment.Handler" />
     </data>
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -29,4 +34,18 @@
             android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        android:background="@color/darkColor"
+        android:onClick="@{handler::onBlurClicked}"
+        android:visibility="gone" />
+    <include
+        android:id="@+id/promoBottomSheet"
+        layout="@layout/view_promocode" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

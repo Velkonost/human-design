@@ -374,7 +374,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
-
             android:id="@+id/dateBottomSheet"
             layout="@layout/view_personal_date" />
 

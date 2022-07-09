@@ -22,7 +22,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 1
-        versionName "0.0.6-prototype"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -197,6 +197,8 @@ dependencies {
 
     implementation 'com.intuit.sdp:sdp-android:1.0.5'
     implementation 'at.wirecube:additive_animations:1.9.3'
+
+    implementation 'com.android.billingclient:billing:4.0.0'
 
 
 //    room

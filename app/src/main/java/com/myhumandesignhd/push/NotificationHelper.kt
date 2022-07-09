@@ -32,7 +32,7 @@ class NotificationHelper(private val mContext: Context) {
         val resultIntent = Intent(mContext, MainActivity::class.java)
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         resultIntent.putExtra("link", link)
-        resultIntent.putExtra("pageTitle", pageTitle)
+        resultIntent.putExtra("title", title)
         resultIntent.putExtra("filter", filter)
         resultIntent.putExtra("section", section)
 

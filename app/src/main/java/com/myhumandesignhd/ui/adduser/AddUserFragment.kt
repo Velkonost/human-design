@@ -604,6 +604,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         if (App.preferences.locale == "en")
             binding.time.setIsAmPm(true)
+        else binding.time.setIsAmPm(false)
 
         binding.time.selectDate(c)
 

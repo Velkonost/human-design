@@ -17,7 +17,9 @@ Human Design helps living in sync with your true nature. It guides you in buildi
     <![CDATA[
 Human Design offers a personality analysis based on the bodygraph, the so-called Rave Card.
 <br><br>
-The individual Rave Card contains a schematic image of energy centers, channels and gates that reflect the energy flow of each person.]]></string>
+The individual Rave Card contains a schematic image of energy centers, channels and gates that reflect the energy flow of each person.
+<br><br>
+ To calculate your personal Rave Card, you only need to fill in the data and answer a few questions.]]></string>
 
     <string name="title_splash_03"><![CDATA[Did you know<br>something about<br>Human Design?]]></string>
     <string name="title_splash_04"><![CDATA[What would you like<br>to get using<br>Human Design?]]></string>
@@ -302,12 +304,12 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="paywall_text_3">Calculation of compatibility with others</string>
     <string name="paywall_text_4">Check what the Universe has in store for you</string>
 
-    <string name="paywall_1_month">1 Month</string>
+    <string name="paywall_1_month">Month</string>
     <string name="paywall_1_week">Week</string>
     <string name="paywall_1_year">Year</string>
     <string name="paywall_1_autorenewable">auto-renewable</string>
     <string name="paywall_1_trial">3 days trial\nauto-renewable</string>
-    <string name="paywall_1_trial_year">week trial\nauto-renewable</string>
+    <string name="paywall_1_trial_year">auto-renewable</string>
 
     <string name="injury_generate_text">GENERATE</string>
     <string name="injury_generating_text">GENERATING</string>
@@ -356,4 +358,10 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="pw_price_1">$7.49</string>
     <string name="pw_price_2">$18.99</string>
     <string name="pw_price_3">$45.99</string>
+
+    <string name="promocode">Promo Code</string>
+    <string name="promocode_ok">OK</string>
+    <string name="promocode_cancel">Cancel</string>
+    <string name="promocode_subtitle">Enter a promo code</string>
+    <string name="promocode_error">Invalid promo code</string>
 </resources>

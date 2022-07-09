@@ -6,6 +6,9 @@ import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
 import com.adapty.Adapty
+import com.adapty.models.PaywallModel
+import com.adapty.models.ProductModel
+import com.adapty.utils.AdaptyLogLevel
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.attribution.AppsFlyerRequestListener
 import dagger.android.AndroidInjector
@@ -22,6 +25,7 @@ import com.yandex.metrica.ReporterConfig
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
 import java.util.*
+import java.util.logging.Level.ALL
 
 class App : DaggerApplication() {
 
@@ -48,7 +52,8 @@ class App : DaggerApplication() {
         resourcesProvider = ResourcesProvider(this)
         database = AppDatabase(this)
 
-        Adapty.activate(applicationContext, "public_live_EStaaR0t.W8x7TMaBNUbgkrXjrFS7")
+        Adapty.activate(applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy")
+        Adapty.setLogLevel(AdaptyLogLevel.VERBOSE)
 
         setupAppsFlyer()
         activateAppMetrica()
@@ -162,6 +167,11 @@ class App : DaggerApplication() {
         const val DATE_FORMAT_PERSONAL_INFO = "dd.MM.yyyy"
 
         const val TARGET_SDK = android.os.Build.VERSION_CODES.M
+
+        const val PROMOCODE = "HDFREETEST"
+
+        var adaptyPaywallModel: PaywallModel? = null
+        var adaptyProducts: List<ProductModel>? = null
 
     }
 }
