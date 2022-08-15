@@ -97,7 +97,7 @@
                     android:gravity="center"
                     android:onClick="@{handler::onAboutClicked}"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                     />
 
                 <TextView
                     android:id="@+id/profilesTitle"
@@ -111,7 +111,7 @@
                     android:gravity="center"
                     android:onClick="@{handler::onProfilesClicked}"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    />
 
                 <TextView
                     android:id="@+id/channelsTitle"
@@ -126,7 +126,7 @@
                     android:gravity="center"
                     android:onClick="@{handler::onChannelsClicked}"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>

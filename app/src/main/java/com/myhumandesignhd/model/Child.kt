@@ -89,8 +89,13 @@ fun Child.getDateStr(): String {
 
     val cal = GregorianCalendar(TimeZone.getTimeZone("GMT"))
 
+    val days =
+        if (date < 0) (date / 86400000).toInt() - 1
+        else (date / 86400000).toInt()
+
     cal.timeInMillis =
-        (date / 86400000).toInt() * 86400000L + hours * 3600000L + minutes * 60000L
+        days * 86400000L + hours * 3600000L + minutes * 60000L
+//        (date / 86400000).toInt() * 86400000L + hours * 3600000L + minutes * 60000L
 
     return formatter.format(cal.time)
 }

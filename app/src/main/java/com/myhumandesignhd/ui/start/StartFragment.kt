@@ -2,6 +2,7 @@ package com.myhumandesignhd.ui.start
 
 import android.animation.Animator
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
@@ -20,8 +21,10 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.ViewStub
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -66,6 +69,14 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.util.*
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
+
+
+
 
 
 class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
@@ -246,9 +257,11 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
                 android.os.Handler().postDelayed({
                     requireActivity().runOnUiThread {
-                        inflatedNameContainer.nameET.isVisible = true
-                        inflatedNameContainer.nameET.requestLayout()
-                        inflatedNameContainer.nameET.requestFocus()
+                        if (!binding.placesView.isVisible) {
+                            inflatedNameContainer.nameET.isVisible = true
+                            inflatedNameContainer.nameET.requestLayout()
+                            inflatedNameContainer.nameET.requestFocus()
+                        }
                     }
 
                 }, 50)
@@ -274,11 +287,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     private fun dpToPx(context: Context, valueInDp: Float) : Float{
         val displayMetrics = context.resources.displayMetrics
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, displayMetrics)
-    }
-
-    @Subscribe
-    fun onPermissionGrantedEvent(e: PermissionGrantedEvent) {
-//        setupLocationListener()
     }
 
     @Subscribe
@@ -384,6 +392,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 binding.viewModel!!.geocodingNominatim(binding.placesView.newPlaceET.text.toString())
             }
         }
+
     }
 
     @Subscribe
@@ -394,7 +403,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.startBtn.isVisible = true
         binding.placesView.newPlaceET.setText("")
         placesAdapter.createList(emptyList(), false)
-
 
         inflatedNameContainer.placeET.setText(e.place.name)
         selectedLat = e.place.lat
@@ -407,7 +415,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     private var stepTranslationYForMidCircle = 0f
 
     private fun prepareLogic() {
-
         val pos = IntArray(2)
         binding.icSplashBigCircle.getLocationOnScreen(pos)
 
@@ -601,8 +608,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             if (
                 !it.design.channels.isNullOrEmpty()
                 && !it.personality.channels.isNullOrEmpty()
-                && !it.activeCentres.isNullOrEmpty()
-                && !it.inactiveCentres.isNullOrEmpty()
             ) {
               android.os.Handler().postDelayed({
                   binding.bodygraphView.isVisible = true

@@ -58,6 +58,14 @@ class PartnersAdapter : EpoxyAdapter() {
                 && model.model.id == partnerId
             ) {
                 hideModel(model)
+
+                if (models.count { it.isShown } == 1) {
+                    val emptyModel = (models.findLast { it is EmptyPartnerModel } as EmptyPartnerModel)
+                    emptyModel.showEmptyText = true
+
+                    notifyModelChanged(emptyModel)
+                }
+
                 return@forEach
             }
         }
@@ -163,7 +171,7 @@ class PartnerModel(
 }
 
 class EmptyPartnerModel(
-    private val showEmptyText: Boolean = false
+    var showEmptyText: Boolean = false
 ) : EpoxyModel<View>() {
 
     private var root: View? = null

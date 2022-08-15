@@ -4,13 +4,18 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import com.adapty.Adapty
 import com.adapty.models.PaywallModel
 import com.adapty.models.ProductModel
 import com.adapty.utils.AdaptyLogLevel
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.attribution.AppsFlyerRequestListener
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import com.myhumandesignhd.di.AppModule
@@ -20,7 +25,11 @@ import com.myhumandesignhd.util.Preferences
 import com.myhumandesignhd.util.ResourcesProvider
 import timber.log.Timber
 import com.github.terrakok.cicerone.Cicerone
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.myhumandesignhd.di.DaggerAppComponent
+import com.onesignal.OneSignal
 import com.yandex.metrica.ReporterConfig
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
@@ -52,8 +61,12 @@ class App : DaggerApplication() {
         resourcesProvider = ResourcesProvider(this)
         database = AppDatabase(this)
 
-        Adapty.activate(applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy")
-        Adapty.setLogLevel(AdaptyLogLevel.VERBOSE)
+        // Enable verbose OneSignal logging to debug issues if needed.
+        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
+
+        // OneSignal Initialization
+        OneSignal.initWithContext(this);
+        OneSignal.setAppId(BuildConfig.ONESIGNAL_APP_ID)
 
         setupAppsFlyer()
         activateAppMetrica()
@@ -153,6 +166,7 @@ class App : DaggerApplication() {
         lateinit var instance: App
         lateinit var preferences: Preferences
         lateinit var database: AppDatabase
+        lateinit var firebaseAnalytics: FirebaseAnalytics
 
         var isBodygraphWithAnimationShown = false
         var isBodygraphAnimationEnded = false
@@ -172,7 +186,6 @@ class App : DaggerApplication() {
 
         var adaptyPaywallModel: PaywallModel? = null
         var adaptyProducts: List<ProductModel>? = null
-
     }
 }
 

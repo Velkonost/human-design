@@ -539,12 +539,22 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             if (timeBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
                 timeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
+            Keyboard.hide(binding.nameET)
+            if (binding.nameET.hasFocus()) {
+                binding.nameET.clearFocus()
+            }
+
             dateBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
         fun onTimeClicked(v: View) {
             if (dateBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
                 dateBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+            Keyboard.hide(binding.nameET)
+            if (binding.nameET.hasFocus()) {
+                binding.nameET.clearFocus()
+            }
 
             timeBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }

@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 
 
 android {
@@ -17,6 +18,7 @@ android {
         buildConfigField "String", "FILE_PROVIDER_PATH", "\"com.myhumandesignhd.fileprovider\""
         buildConfigField "String", "APPSFLYER_KEY", "\"FVNQ5k6ARz9gfd8sEjR3sS\""
         buildConfigField "String", "APPMETRICA_API_KEY", "\"da3a31cb-6fde-4d13-a4ea-c93f51213e48\""
+        buildConfigField "String", "ONESIGNAL_APP_ID", "\"3b521f43-e8a7-4269-b1f0-5a96f5e4c866\""
 
         applicationId "com.myhumandesignhd"
         minSdkVersion 21
@@ -121,11 +123,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx:22.0.0'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-database-ktx'
-    implementation 'com.google.firebase:firebase-firestore-ktx'
-    implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.google.firebase:firebase-storage'
-    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
 
     implementation "com.squareup.picasso:picasso:2.5.2"
 
@@ -187,7 +184,9 @@ dependencies {
     implementation "com.android.installreferrer:installreferrer:2.2"
 
     //    Facebook SDK
-    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+//    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
+//    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     //  AppMetrica
     implementation ('com.yandex.android:mobmetricalib:4.2.0')
@@ -199,6 +198,9 @@ dependencies {
     implementation 'at.wirecube:additive_animations:1.9.3'
 
     implementation 'com.android.billingclient:billing:4.0.0'
+
+//    OneSignal
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
 
 //    room

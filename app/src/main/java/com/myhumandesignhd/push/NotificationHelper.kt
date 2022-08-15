@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import com.myhumandesignhd.R
@@ -45,7 +46,9 @@ class NotificationHelper(private val mContext: Context) {
         val resultPendingIntent = PendingIntent.getActivity(
             mContext,
             2 /* Request code */, resultIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         mBuilder = NotificationCompat.Builder(mContext)

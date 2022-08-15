@@ -1,10 +1,13 @@
 package com.myhumandesignhd.ui.compatibility.adapter
 
+import android.view.MotionEvent
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.R
+import com.myhumandesignhd.event.ChangeCompatibilityViewPagerUserInputEvent
 import com.myhumandesignhd.event.DeleteChildEvent
 import com.myhumandesignhd.event.DeleteChildItemEvent
 import com.myhumandesignhd.event.DeletePartnerEvent
@@ -76,18 +79,33 @@ class PartnersModel(
             EventBus.getDefault().register(this)
 
         with(view) {
-//            val partnersAdapter = PartnersAdapter()
+
             partnersRecycler.adapter = partnersAdapter
 
             (partnersRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
             partnersRecycler.itemAnimator = null
             partnersRecycler.layoutManager = SSMLLinearLayoutManager(context)
-//            partnersRecycler.setUpRemoveItemTouchHelper { viewHolder, swipeDir ->
-//                val swipedPosition = viewHolder.absoluteAdapterPosition
-//                EventBus.getDefault().post(DeletePartnerEvent(partnersAdapter.getPartnerAtPosition(swipedPosition).id))
-//
-//                partnersAdapter.deletePartner(swipedPosition)
-//            }
+
+            partnersRecycler.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                    return false
+                }
+
+                override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+                    when (e.action) {
+                        MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                            ChangeCompatibilityViewPagerUserInputEvent(true)
+                        )
+                        else -> EventBus.getDefault().post(
+                            ChangeCompatibilityViewPagerUserInputEvent(false)
+                        )
+                    }
+                }
+
+                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+
+                }
+            })
 
             partnersAdapter.createList(partners)
         }
@@ -147,12 +165,6 @@ class ChildrenModel(
 
 
             childrenRecycler.adapter = childrenAdapter
-//            childrenRecycler.setUpRemoveItemTouchHelper { viewHolder, swipeDir ->
-//                val swipedPosition = viewHolder.absoluteAdapterPosition
-//                EventBus.getDefault().post(DeleteChildEvent(childrenAdapter.getChildAtPosition(swipedPosition).id))
-//
-//                childrenAdapter.deleteChild(swipedPosition)
-//            }
 
             childrenAdapter.createList(children)
         }

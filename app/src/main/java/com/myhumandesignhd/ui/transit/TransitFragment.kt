@@ -453,9 +453,9 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
             router.navigateTo(
                 Screens.faqDetailScreen(
                 title = if (App.preferences.locale == "ru") baseViewModel.faqsList[7].titleRu
-                else baseViewModel.faqsList[7].titleEn,
+                else baseViewModel.faqsList[8].titleEn,
                 desc = if (App.preferences.locale == "ru") baseViewModel.faqsList[7].textRu
-                else baseViewModel.faqsList[7].textEn
+                else baseViewModel.faqsList[8].textEn
             ))
         }
 

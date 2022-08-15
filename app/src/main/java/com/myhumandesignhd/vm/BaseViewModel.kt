@@ -465,16 +465,6 @@ class BaseViewModel @Inject constructor(
         lon: String
     ) {
 
-        val eventParameters: MutableMap<String, Any> = HashMap()
-        eventParameters["name"] = name
-        eventParameters["lat"] = lat
-        eventParameters["lon"] = lon
-        eventParameters["time"] = time
-        eventParameters["date"] = date
-        eventParameters["place"] = place
-
-        YandexMetrica.reportEvent("New child", eventParameters)
-
         GlobalScope.launch {
             val childId = System.currentTimeMillis()
 

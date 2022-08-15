@@ -109,8 +109,8 @@ data class GetDesignDescription(
 ) : Parcelable
 
 data class AboutItem(
-    val name: String = "",
-    val description: String = "",
+    val name: String? = "",
+    val description: String? = "",
     val type: AboutType
 )
 

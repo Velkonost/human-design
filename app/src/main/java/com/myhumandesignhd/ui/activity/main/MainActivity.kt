@@ -14,6 +14,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -31,8 +32,14 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import com.adapty.Adapty
 import com.adapty.listeners.OnPurchaserInfoUpdatedListener
+import com.adapty.models.AttributionType
 import com.adapty.models.PaywallModel
 import com.adapty.models.PurchaserInfoModel
+import com.adapty.utils.AdaptyLogLevel
+import com.adapty.utils.ProfileParameterBuilder
+import com.appsflyer.AppsFlyerConversionListener
+import com.appsflyer.AppsFlyerLib
+import com.facebook.appevents.AppEventsLogger
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.jaeger.library.StatusBarUtil
@@ -71,6 +78,7 @@ import com.myhumandesignhd.util.SingleShotLocationProvider.requestSingleUpdate
 import com.myhumandesignhd.util.MyLocation
 
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.myhumandesignhd.event.AdaptyLogShowEvent
 import com.myhumandesignhd.event.AdaptyMakePurchaseEvent
 import java.lang.Exception
@@ -113,7 +121,24 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         if (savedInstanceState == null) {
-            setupAdapty()
+
+            FirebaseAnalytics.getInstance(this).appInstanceId.addOnCompleteListener {
+                if (!it.isSuccessful) {
+                    Adapty.activate(applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy")
+                    Adapty.setLogLevel(AdaptyLogLevel.VERBOSE)
+                    setupAdapty()
+
+                    return@addOnCompleteListener
+                }
+                if (it.isSuccessful) {
+                    val appInstanceId = it.result.toString()
+
+                    Adapty.activate(applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy", appInstanceId)
+                    Adapty.setLogLevel(AdaptyLogLevel.VERBOSE)
+                    setupAdapty()
+                }
+            }
+
             initStartPage()
         }
 
@@ -338,7 +363,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             this,
             3,
             notifyIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_CANCEL_CURRENT
         )
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.setRepeating(
@@ -367,7 +394,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             val pendingIntentForecasts = PendingIntent.getBroadcast(
                 this, 948,
                 notifyIntentForecasts,
-            PendingIntent.FLAG_CANCEL_CURRENT
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
+                else PendingIntent.FLAG_CANCEL_CURRENT
 //                PendingIntent.FLAG_UPDATE_CURRENT
             )
 
@@ -501,9 +530,14 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     return@runOnUiThread
                 } else {
                     binding.progress.isVisible = isVisible
+                    binding.progress.setBackgroundColor(ContextCompat.getColor(
+                        this,
+                        if (App.preferences.isDarkTheme) R.color.darkColor
+                        else R.color.lightColor
+                    ))
                     binding.progressBar.setAnimation(
-                        if (App.preferences.isDarkTheme) R.raw.loader_black
-                        else R.raw.loader_white
+                        if (App.preferences.isDarkTheme) R.raw.loader_white
+                        else R.raw.loader_black
                     )
                     binding.progressBar.playAnimation()
                 }
@@ -663,6 +697,39 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
 
     private fun setupAdapty() {
+
+        val conversionListener: AppsFlyerConversionListener = object : AppsFlyerConversionListener {
+            override fun onConversionDataSuccess(conversionData: Map<String, Any>) {
+                // It's important to include the network user ID
+                Adapty.updateAttribution(
+                    conversionData,
+                    AttributionType.APPSFLYER,
+                    AppsFlyerLib.getInstance().getAppsFlyerUID(this@MainActivity)
+                ) {
+
+                }
+
+//                App.firebaseAnalytics.logEvent("purchase")
+            }
+
+            override fun onConversionDataFail(p0: String?) {}
+
+            override fun onAppOpenAttribution(p0: MutableMap<String, String>?) {
+            }
+
+            override fun onAttributionFailure(p0: String?) {
+
+            }
+        }
+        AppsFlyerLib.getInstance().registerConversionListener(this, conversionListener)
+
+        val params = ProfileParameterBuilder().withFacebookAnonymousId(AppEventsLogger.getAnonymousAppDeviceGUID(this))
+        Adapty.updateProfile(params) { error ->
+            if (error == null) {
+                // successful update
+            }
+        }
+
         Adapty.getPaywalls { paywalls, products, error ->
             if (error == null && !paywalls.isNullOrEmpty()) {
                 App.adaptyPaywallModel = paywalls[0]
@@ -672,7 +739,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         Adapty.getPurchaserInfo { purchaserInfo, error ->
             if (error == null) {
-                // check the accesss
                 App.preferences.isPremiun = purchaserInfo?.accessLevels?.get("premium")?.isActive == true
             } else App.preferences.isPremiun = false
         }

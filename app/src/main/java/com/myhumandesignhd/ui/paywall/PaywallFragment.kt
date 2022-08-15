@@ -33,6 +33,8 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentPaywallBinding
@@ -139,11 +141,11 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         }
         promoBehavior.addBottomSheetCallback(promoCallback)
 
-
         if (
             App.adaptyPaywallModel != null
             && !App.adaptyPaywallModel!!.customPayload.isNullOrEmpty()
             && App.adaptyPaywallModel!!.customPayload!!.containsKey("id")
+            && App.preferences.locale != "ru"
         ) {
             when (App.adaptyPaywallModel!!.customPayload?.get("id")!!) {
                 "pw_1" -> setupFirstPaywall()
@@ -151,12 +153,9 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 "pw_3" -> setupThirdPaywall()
                 else -> setupFirstPaywall()
             }
+            EventBus.getDefault().post(AdaptyLogShowEvent(selectedPaywall))
         } else setupFirstPaywall()
 
-        EventBus.getDefault().post(AdaptyMakePurchaseEvent("P1W"))
-        App.preferences.lastPaywall++
-
-        EventBus.getDefault().post(AdaptyLogShowEvent(selectedPaywall))
     }
 
     override fun onViewModelReady(viewModel: LoaderViewModel) {
@@ -189,11 +188,26 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         if (!App.adaptyProducts.isNullOrEmpty()) {
             Adapty.makePurchase(
                 requireActivity(),
-                App.adaptyPaywallModel!!.products.first { productModel ->
-                    productModel.vendorProductId == vendorProductId
+                if (App.preferences.locale == "ru") {
+                    App.adaptyProducts!!.first { productModel ->
+                        productModel.vendorProductId == vendorProductId
+                    }
+                } else {
+                    App.adaptyPaywallModel!!.products.first { productModel ->
+                        productModel.vendorProductId == vendorProductId
+                    }
                 }
             ) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
                 if (error == null) {
+                    val firebaseAnalytics = Firebase.analytics
+
+                    if (product.freeTrialPeriod != null) {
+                        firebaseAnalytics.logEvent("start_trial", null)
+                    } else {
+                        firebaseAnalytics.logEvent("subscription", null)
+                        firebaseAnalytics.logEvent(vendorProductId, null)
+                    }
+
                     if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
                         App.preferences.isPremiun = true
                         close()
@@ -464,15 +478,12 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     && !it.inactiveCentres.isNullOrEmpty()
                 ) {
                     android.os.Handler().postDelayed({
-
                         bodygraphView.isVisible = true
                         bodygraphView.scaleXY(1.1f, 1.1f, 1500) {
                             bodygraphView.changeSpeedAnimationFactor(3f)
                             bodygraphView.changeIsAllowDrawLinesState(true)
-
                         }
                     }, 200)
-
                 }
 
                 bodygraphView.setupData(
@@ -483,11 +494,19 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             }
 
-            when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
-                "1" -> selectFirstOffer()
-                "2" -> selectSecondOffer()
-                "3" -> selectThirdOffer()
-                else -> selectSecondOffer()
+            if (
+                App.adaptyPaywallModel != null
+                && App.adaptyPaywallModel!!.customPayload != null
+                && App.adaptyPaywallModel!!.customPayload?.keys?.contains("autoselect") == true
+            ) {
+                when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
+                    "1" -> selectFirstOffer()
+                    "2" -> selectSecondOffer()
+                    "3" -> selectThirdOffer()
+                    else -> selectSecondOffer()
+                }
+            } else {
+                selectSecondOffer()
             }
         }
     }
@@ -731,12 +750,18 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             paywall1PromoPw2.setOnClickListener { promocodeClicked() }
             startBtnPw2.setOnClickListener { launchBilling() }
 
-            when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
-                "1" -> selectFirstOffer()
-                "2" -> selectSecondOffer()
-                "3" -> selectThirdOffer()
-                else -> selectSecondOffer()
-            }
+            if (
+                App.adaptyPaywallModel != null
+                && App.adaptyPaywallModel!!.customPayload != null
+                && App.adaptyPaywallModel!!.customPayload?.keys?.contains("autoselect") == true
+            ) {
+                when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
+                    "1" -> selectFirstOffer()
+                    "2" -> selectSecondOffer()
+                    "3" -> selectThirdOffer()
+                    else -> selectSecondOffer()
+                }
+            } else selectSecondOffer()
         }
     }
 
@@ -977,12 +1002,18 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             kotlin.runCatching { timer.purge() }
             timer.schedule(Pw3ReviewsChangeTimer(timer, random), 5000)
 
-            when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
-                "1" -> selectFirstOffer()
-                "2" -> selectSecondOffer()
-                "3" -> selectThirdOffer()
-                else -> selectSecondOffer()
-            }
+            if (
+                App.adaptyPaywallModel != null
+                && App.adaptyPaywallModel!!.customPayload != null
+                && App.adaptyPaywallModel!!.customPayload?.keys?.contains("autoselect") == true
+            ) {
+                when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
+                    "1" -> selectFirstOffer()
+                    "2" -> selectSecondOffer()
+                    "3" -> selectThirdOffer()
+                    else -> selectSecondOffer()
+                }
+            } else selectSecondOffer()
         }
     }
 
@@ -1338,18 +1369,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         snackbar
     }
 
-    fun nextLong(rng: Random, n: Long): Long {
-        var bits: Long
-        var `val`: Long
-        do {
-            bits = rng.nextLong() shl 1 ushr 1
-            `val` = bits % n
-        } while (bits - `val` + (n - 1) < 0L)
-        return `val`
-    }
-
-    inner class Pw3ReviewsChangeTimer(private val timer: Timer, private val random: Random) :
-        TimerTask() {
+    inner class Pw3ReviewsChangeTimer(private val timer: Timer, private val random: Random) : TimerTask() {
         override fun run() {
             binding.paywall3.recycler.apply {
                 val totalItemCount: Int = layoutManager!!.itemCount
@@ -1380,7 +1400,6 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(true))
 
         router.exit()
-//        exit()
     }
 
     fun exit(): Single<Boolean> {

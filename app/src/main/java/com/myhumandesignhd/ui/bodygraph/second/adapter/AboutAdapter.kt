@@ -368,15 +368,20 @@ class AboutAdapter(
             if (android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK) {
 
                 val holder =
-                    recyclerView.findViewHolderForAdapterPosition(selectedItem) as ViewHolder?
-                if (holder != null) {
+//                    recyclerView.findViewHolderForAdapterPosition(selectedItem) as ViewHolder?
+                    recyclerView.findViewHolderForAdapterPosition(adapterPosition) as ViewHolder?
+                val position = adapterPosition
+                if (holder != null && holder.expandableLayout.isExpanded) {
+
                     holder.expandButton.isSelected = false
                     holder.expandableLayout.collapse()
                 }
-                val position = adapterPosition
-                if (position == selectedItem) {
-                    selectedItem = UNSELECTED
-                } else {
+
+//                if (position == selectedItem) {
+//                    selectedItem = UNSELECTED
+//                } else {
+
+                else if (holder != null && !holder.expandableLayout.isExpanded) {
                     expandButton.isSelected = true
                     expandableLayout.expand()
                     selectedItem = position
@@ -425,7 +430,7 @@ class AboutAdapter(
                             if (currentProgress > 100) currentProgress = 100
 
                             if (currentProgress == 100) {
-                                expandButton.setTextAnimation(items[adapterPosition].name)
+                                expandButton.setTextAnimation(items[adapterPosition].name?: "")
                             }
                         }
 
@@ -439,7 +444,7 @@ class AboutAdapter(
 
                         expandButton.setPadding(paddingPixel,paddingTopPixel, paddingPixel, 0)
                     } else {
-                        expandButton.setTextAnimation(items[adapterPosition].name)
+                        expandButton.setTextAnimation(items[adapterPosition].name?: "")
                     }
 
                     subtitle.isVisible = false

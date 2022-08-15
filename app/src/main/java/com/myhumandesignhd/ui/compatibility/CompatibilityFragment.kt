@@ -14,6 +14,7 @@ import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentCompatibilityBinding
 import com.myhumandesignhd.event.AddChildClickEvent
 import com.myhumandesignhd.event.AddPartnerClickEvent
+import com.myhumandesignhd.event.ChangeCompatibilityViewPagerUserInputEvent
 import com.myhumandesignhd.event.CompatibilityChildStartClickEvent
 import com.myhumandesignhd.event.CompatibilityStartClickEvent
 import com.myhumandesignhd.event.DeleteChildEvent
@@ -279,9 +280,14 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         }
     }
 
+    @Subscribe
+    fun onChangeCompatibilityViewPagerUserInputEvent(e: ChangeCompatibilityViewPagerUserInputEvent) {
+//        binding.viewPager.isUserInputEnabled = e.isEnableUserInput
+    }
+
     private fun setupViewPager() {
         binding.viewPager.offscreenPageLimit = 1
-        binding.viewPager.isUserInputEnabled = false
+        binding.viewPager.isUserInputEnabled = true
 
         GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
             val partners = baseViewModel.getAllUsers()
@@ -296,6 +302,13 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+
+                if (!App.preferences.isCompatibilityFromChild) {
+                    when(position) {
+                        0 -> selectPartners()
+                        else -> selectChildren()
+                    }
+                }
             }
         })
 

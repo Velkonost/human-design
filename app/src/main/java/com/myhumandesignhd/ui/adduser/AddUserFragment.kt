@@ -126,6 +126,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 if (heightDifference > dpToPx(requireContext(), 200F) && !binding.placesView.isVisible) {
                     binding.nameET.isVisible = false
                     binding.nameET.requestLayout()
+
                     binding.indicatorsContainer.visibility = View.GONE
                     binding.startBtn.visibility = View.INVISIBLE
 
@@ -140,9 +141,11 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
                     android.os.Handler().postDelayed({
                         requireActivity().runOnUiThread {
-                            binding.nameET.isVisible = true
-                            binding.nameET.requestLayout()
-                            binding.nameET.requestFocus()
+                            if (!binding.placesView.isVisible) {
+                                binding.nameET.isVisible = true
+                                binding.nameET.requestLayout()
+                                binding.nameET.requestFocus()
+                            }
                         }
 
                     }, 50)
@@ -556,7 +559,6 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.diagram_date_desc))
             }
         }
-
     }
 
     private fun setupTimeBirth() {
@@ -712,8 +714,6 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     if (
                         !it.design.channels.isNullOrEmpty()
                         && !it.personality.channels.isNullOrEmpty()
-                        && !it.activeCentres.isNullOrEmpty()
-                        && !it.inactiveCentres.isNullOrEmpty()
                     ) {
                         android.os.Handler().postDelayed({
                             binding.startBtn.isEnabled = true
@@ -740,8 +740,6 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     if (
                         !it.design.channels.isNullOrEmpty()
                         && !it.personality.channels.isNullOrEmpty()
-                        && !it.activeCentres.isNullOrEmpty()
-                        && !it.inactiveCentres.isNullOrEmpty()
                     ) {
                         android.os.Handler().postDelayed({
                             binding.startBtn.isEnabled = true
@@ -768,8 +766,6 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     if (
                         !it.design.channels.isNullOrEmpty()
                         && !it.personality.channels.isNullOrEmpty()
-                        && !it.activeCentres.isNullOrEmpty()
-                        && !it.inactiveCentres.isNullOrEmpty()
                     ) {
                         android.os.Handler().postDelayed({
                             binding.startBtn.isEnabled = true

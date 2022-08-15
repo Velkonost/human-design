@@ -56,6 +56,13 @@ class ChildrenAdapter : EpoxyAdapter() {
                 && model.model.id == childId
             ) {
                 hideModel(model)
+
+                if (models.count { it.isShown } == 1) {
+                    val emptyModel = (models.findLast { it is EmptyChildrenModel } as EmptyChildrenModel)
+                    emptyModel.showEmptyText = true
+
+                    notifyModelChanged(emptyModel)
+                }
                 return@forEach
             }
         }
@@ -156,7 +163,7 @@ class ChildModel(
 }
 
 class EmptyChildrenModel(
-    private val showEmptyText: Boolean = false
+    var showEmptyText: Boolean = false
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
