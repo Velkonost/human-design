@@ -49,14 +49,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="12dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -81,14 +82,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -97,6 +99,7 @@
                     android:id="@+id/znak2Red"
                     android:layout_width="@dimen/transit_znak_size"
                     android:layout_height="@dimen/transit_znak_size"
+                    android:adjustViewBounds="true"
                     android:layout_marginStart="6dp"
                     android:alpha="0"
                     android:src="@drawable/ic_znak_2_red" />
@@ -113,14 +116,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -145,14 +149,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -177,14 +182,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak5"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -209,14 +215,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak6"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -241,14 +248,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak7"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -273,14 +281,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak8"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -305,14 +314,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak9"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -337,14 +347,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak10"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -369,14 +380,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak11"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -401,14 +413,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak12"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -433,14 +446,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/leftZnak13"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:textColor="#BC4D68"
                     android:textSize="8sp" />
@@ -806,6 +820,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layerType="none"
             android:layout_marginStart="20dp"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="@id/transitBlock"
@@ -815,6 +830,7 @@
 
             <ImageView
                 android:id="@+id/circle1"
+                android:layerType="none"
                 android:layout_width="183dp"
                 android:layout_height="183dp"
                 android:adjustViewBounds="true"
@@ -826,6 +842,7 @@
 
             <ImageView
                 android:id="@+id/circle2"
+                android:layerType="none"
                 android:layout_width="159dp"
                 android:layout_height="159dp"
                 android:adjustViewBounds="true"
@@ -837,6 +854,7 @@
 
             <ImageView
                 android:id="@+id/circle3"
+                android:layerType="none"
                 android:layout_width="129dp"
                 android:layout_height="135dp"
                 android:adjustViewBounds="true"
@@ -848,6 +866,7 @@
 
             <ImageView
                 android:id="@+id/circle4"
+                android:layerType="none"
                 android:layout_width="101dp"
                 android:layout_height="101dp"
                 android:adjustViewBounds="true"
@@ -859,6 +878,7 @@
 
             <ImageView
                 android:id="@+id/circle5"
+                android:layerType="none"
                 android:layout_width="73dp"
                 android:layout_height="73dp"
                 android:adjustViewBounds="true"
@@ -870,6 +890,7 @@
 
             <ImageView
                 android:id="@+id/circle6"
+                android:layerType="none"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:adjustViewBounds="true"
@@ -881,6 +902,7 @@
 
             <ImageView
                 android:id="@+id/circle7"
+                android:layerType="none"
                 android:layout_width="41dp"
                 android:layout_height="41dp"
                 android:adjustViewBounds="true"
@@ -893,6 +915,7 @@
 
             <ImageView
                 android:id="@+id/circle8"
+                android:layerType="none"
                 android:layout_width="29dp"
                 android:layout_height="29dp"
                 android:adjustViewBounds="true"

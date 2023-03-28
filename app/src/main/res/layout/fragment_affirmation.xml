@@ -63,6 +63,7 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:onClick="@{handler::onAffirmationsClicked}"
                     android:textSize="14sp" />
 
@@ -77,6 +78,7 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:onClick="@{handler::onForecastsClicked}"
                     android:textSize="14sp" />
 

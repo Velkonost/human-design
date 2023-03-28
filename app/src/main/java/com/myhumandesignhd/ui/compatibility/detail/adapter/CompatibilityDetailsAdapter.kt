@@ -150,7 +150,7 @@ class AboutModel(
 
             Handler().postDelayed({
                 (gif.drawable as GifDrawable).start()
-            }, 2500)
+            }, 1000)
 
 
         }

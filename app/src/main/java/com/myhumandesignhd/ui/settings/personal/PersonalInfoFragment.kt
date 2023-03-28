@@ -3,7 +3,6 @@ package com.myhumandesignhd.ui.settings.personal
 import android.content.res.ColorStateList
 import android.location.Geocoder
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -22,9 +21,7 @@ import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.settings.SettingsViewModel
 import com.myhumandesignhd.ui.start.adapter.PlacesAdapter
 import com.myhumandesignhd.util.Keyboard
-import com.myhumandesignhd.util.ext.alpha0
 import com.myhumandesignhd.vm.BaseViewModel
-import kotlinx.android.synthetic.main.fragment_start.*
 import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
 import kotlinx.android.synthetic.main.view_place_select.view.*
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +32,7 @@ import org.greenrobot.eventbus.Subscribe
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInfoBinding>(
     R.layout.fragment_personal_info,
@@ -78,13 +76,23 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
         val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO, Locale.getDefault())
         val calendar: Calendar = Calendar.getInstance()
 
-        calendar.timeInMillis = baseViewModel.currentUser.date
-        val dateStr = formatter.format(calendar.time)
+        if (baseViewModel.isCurrentUserInitialized()) {
+            calendar.timeInMillis = baseViewModel.currentUser.date
+            val dateStr = formatter.format(calendar.time)
 
-        binding.nameET.setText(baseViewModel.currentUser.name)
-        binding.placeET.setText(baseViewModel.currentUser.place)
-        binding.dateET.setText(dateStr)
-        binding.timeET.setText(baseViewModel.currentUser.time)
+            binding.nameET.setText(baseViewModel.currentUser.name)
+            binding.placeET.setText(baseViewModel.currentUser.place)
+            binding.dateET.setText(dateStr)
+            binding.timeET.setText(baseViewModel.currentUser.time)
+
+            if (App.preferences.locale == "en") {
+                val sdf = SimpleDateFormat("hh:mm")
+                val sdfs = SimpleDateFormat("hh:mm a")
+
+                val dt = sdf.parse(baseViewModel.currentUser.time)
+                binding.timeET.setText(dt?.let { sdfs.format(it) })
+            }
+        }
 
         setupPlacesView()
 
@@ -123,13 +131,11 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
     override fun onStart() {
         super.onStart()
-
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
     override fun onStop() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-
         super.onStop()
     }
 
@@ -149,8 +155,14 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             }
 
             val c = Calendar.getInstance()
-            c.timeInMillis = baseViewModel.currentUser.date
+
+            if (baseViewModel.isCurrentUserInitialized()) {
+                c.timeInMillis = baseViewModel.currentUser.date
+            }
+
+            this.date.maxDate = Calendar.getInstance().time
             this.date.setDefaultDate(c.time)
+
         }
     }
 
@@ -158,22 +170,41 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
         with(binding.timeBottomSheet) {
             if (com.myhumandesignhd.App.preferences.locale == "en")
                 time.setIsAmPm(true)
+            else time.setIsAmPm(false)
 
             this.ok.setOnClickListener {
                 timeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-                val newTime = String.format(
+                var newTime = String.format(
                     "%02d",
                     this.time.hoursPicker.currentHour
                 ) + ":" + String.format("%02d", this.time.minutesPicker.currentMinute)
                 binding.timeET.setText(newTime)
 
+                if (App.preferences.locale == "en") {
+                    newTime =
+                        String.format(
+                            "%02d",
+                            this.time.hoursPicker.currentHour +
+                                    if (this.time.amPmPicker.isPm) 12 else 0
+                        ) + ":" + String.format("%02d", this.time.minutesPicker.currentMinute)
+
+                    val sdf = SimpleDateFormat("hh:mm")
+                    val sdfs = SimpleDateFormat("hh:mm a")
+
+                    val dt = sdf.parse(newTime)
+                    binding.timeET.setText(dt?.let { sdfs.format(it) })
+                }
                 selectedTime = newTime
             }
 
             val c = Calendar.getInstance()
-            c.set(Calendar.HOUR_OF_DAY, baseViewModel.currentUser.time.split(":")[0].toInt())
-            c.set(Calendar.MINUTE, baseViewModel.currentUser.time.split(":")[1].toInt())
+
+            if (baseViewModel.isCurrentUserInitialized()) {
+                c.set(Calendar.HOUR_OF_DAY, baseViewModel.currentUser.time.split(":")[0].toInt())
+                c.set(Calendar.MINUTE, baseViewModel.currentUser.time.split(":")[1].toInt())
+            }
+
             this.time.selectDate(c)
         }
     }
@@ -361,7 +392,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
         binding.confirmBackground.setBackgroundColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
+            else R.color.darkColor
         ))
 
         binding.blur.setBackgroundColor(ContextCompat.getColor(
@@ -425,6 +456,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(true))
         }
 
+        binding.placesView.newPlaceET.hint = App.resourcesProvider.getStringLocale(R.string.search)
         binding.placesView.newPlaceET.addTextChangedListener {
             if (!binding.placesView.newPlaceET.text.isNullOrEmpty() && ::geocoder.isInitialized) {
                 binding.viewModel!!.geocodingNominatim(binding.placesView.newPlaceET.text.toString())
@@ -433,11 +465,14 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
     }
 
     private fun showConfirmView() {
+        binding.confirmBlock.isVisible = true
         binding.confirmCard.animate()
             .alpha(1f)
             .scaleY(1f)
             .scaleX(1f)
-            .duration = 600
+            .setDuration(600)
+            .withEndAction { binding.confirmCard.alpha = 1f }
+
         binding.confirmBackground.animate()
             .alpha(0.5f).duration = 600
     }
@@ -448,7 +483,10 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             .scaleY(0f)
             .scaleX(0f)
             .duration = 600
-        binding.confirmBackground.alpha0(600)
+
+        binding.confirmBackground.animate()
+            .alpha(0f).setDuration(600)
+            .withEndAction { binding.confirmBlock.isVisible = false }
     }
 
     private fun updateUserData() {
@@ -521,11 +559,11 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
         }
 
         fun onBlurClicked(v: View) {
-            if (dateBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-                dateBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-
-            if (timeBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-                timeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//            if (dateBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+//                dateBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//
+//            if (timeBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+//                timeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
         fun onPlaceClicked(v: View) {

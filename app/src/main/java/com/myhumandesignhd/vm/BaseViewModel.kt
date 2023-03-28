@@ -54,7 +54,6 @@ class BaseViewModel @Inject constructor(
     fun isCurrentUserInitialized() = ::currentUser.isInitialized
     lateinit var currentUser: User
 
-
     var allUsers: MutableLiveData<List<User>> = mutableLiveDataOf(emptyList())
 
     var currentCompatibility: MutableLiveData<CompatibilityResponse> = mutableLiveDataOf(
@@ -78,6 +77,8 @@ class BaseViewModel @Inject constructor(
 
     val faqsList: MutableList<Faq> = mutableListOf()
 
+    val updateUsersEvent = SingleLiveEvent<Boolean>()
+
     init {
         if (EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this)
@@ -90,6 +91,18 @@ class BaseViewModel @Inject constructor(
     private var isTransitLoaded = false
     private var isDailyAdviceLoaded = false
     private var isCyclesLoaded = false
+
+    fun setUserInfo(
+        gclid: String,
+        appInstanceId: String
+    ) {
+        repo.setUserInfo(
+            "http://5.45.79.21/setuserinfo.php",
+            gclid,
+            appInstanceId
+        )
+            .subscribe({}, {}).disposeOnCleared()
+    }
 
     private fun resetAllUserDataStates() {
         isUserLoaded = false
@@ -128,24 +141,18 @@ class BaseViewModel @Inject constructor(
     fun setupCompatibility(
         lat1: String,
         lon1: String,
-        date: Long,
+        date: String,
         onComplete: () -> Unit
     ) {
 
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
-
-        val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
-        val calendar: Calendar = Calendar.getInstance()
-
-        calendar.timeInMillis = date
-        val dateStr = formatter.format(calendar.time)
 
         repo.getCompatibility(
             language = App.preferences.locale,
             lat = currentUser.lat,
             lon = currentUser.lon,
             date = currentUser.getDateStr(),
-            lat1, lon1, dateStr
+            lat1, lon1, date
         ).subscribe({
             onComplete.invoke()
 
@@ -157,6 +164,54 @@ class BaseViewModel @Inject constructor(
         }).disposeOnCleared()
     }
 
+    suspend fun updateBodygraphs() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
+                var updatedAmount = 0
+                val users = getAllUsers()
+
+                if (users.isEmpty()) {
+                    updateUsersEvent.postValue(true)
+                }
+
+                for (user in users) {
+                    repo.getDesign(
+                        language = App.preferences.locale,
+                        lat = user.lat,
+                        lon = user.lon,
+                        date = user.getDateStr()
+                    ).subscribe({
+                        user.subtitle1Ru = it.typeRu
+                        user.subtitle1En = it.typeEn
+
+                        if (App.preferences.locale == "es")
+                            user.subtitle1En = it.typeEs
+
+                        user.subtitle2 = it.line
+
+                        user.subtitle3Ru = it.profileRu
+                        user.subtitle3En = it.profileEn
+
+                        if (App.preferences.locale == "es")
+                            user.subtitle3En = it.profileEs
+
+                        updateUser(user)
+                        updatedAmount ++
+
+                        if (updatedAmount == users.size) {
+                            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                            updateUsersEvent.postValue(true)
+                        }
+                    }, {
+                        EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                        EventBus.getDefault().post(NoInetEvent())
+                    })
+                }
+            }
+        }
+
+
     private fun setupCurrentBodygraph() {
         repo.getDesign(
             language = App.preferences.locale,
@@ -167,10 +222,16 @@ class BaseViewModel @Inject constructor(
             currentUser.subtitle1Ru = it.typeRu
             currentUser.subtitle1En = it.typeEn
 
+            if (App.preferences.locale == "es")
+                currentUser.subtitle1En = it.typeEs
+
             currentUser.subtitle2 = it.line
 
             currentUser.subtitle3Ru = it.profileRu
             currentUser.subtitle3En = it.profileEn
+
+            if (App.preferences.locale == "es")
+                currentUser.subtitle3En = it.profileEs
 
             currentUser.parentDescription = it.parentDescription
 
@@ -227,7 +288,6 @@ class BaseViewModel @Inject constructor(
 
         repo.getForecasts()
             .subscribe({
-
                 var currentUserProfileId = 0
 
                 if (!currentUser.subtitle1Ru.isNullOrEmpty()) {
@@ -252,7 +312,6 @@ class BaseViewModel @Inject constructor(
 
                 val position = currentUser.forecastNumber % it.size
                 val forecast = it[currentUserProfileId.toString()]!![position]
-//                currentForecast.postValue(allForecasts[currentUser.forecastNumber % it.size])
                 currentForecast.postValue(forecast)
 
                 isForecastLoaded = true
@@ -288,7 +347,6 @@ class BaseViewModel @Inject constructor(
     private fun setupCurrentDailyAdvice() {
         repo.getDailyAdvice()
             .subscribe({
-                       Log.d("keke", "keke")
                 isDailyAdviceLoaded = true
                 checkIsUserDataLoaded()
                 val currentUserProfileId = when (currentUser.subtitle1Ru!!.lowercase(Locale.getDefault())) {
@@ -389,13 +447,22 @@ class BaseViewModel @Inject constructor(
             child.subtitle1Ru = it.typeRu
             child.subtitle1En = it.typeEn
 
+            if (App.preferences.locale == "es")
+                child.subtitle1En = it.typeEs
+
             child.subtitle2 = it.line
 
             child.subtitle3Ru = it.profileRu
             child.subtitle3En = it.profileEn
 
+            if (App.preferences.locale == "es")
+                child.subtitle3En = it.profileEs
+
             child.kidDescriptionRu = it.kidDescriptionRu
             child.kidDescriptionEn = it.kidDescriptionEn
+
+            if (App.preferences.locale == "es")
+                child.kidDescriptionEn = it.kidDescriptionEs
 
             child.titles = it.childrenDescription.titles
             child.descriptions = it.childrenDescription.descriptions
@@ -553,7 +620,9 @@ class BaseViewModel @Inject constructor(
     ) {
         GlobalScope.launch {
             val childToDelete = App.database.childDao().findById(childIdToDelete)
-            App.database.childDao().delete(childToDelete)
+            if (childToDelete != null) {
+                App.database.childDao().delete(childToDelete)
+            }
         }
     }
 
@@ -564,6 +633,12 @@ class BaseViewModel @Inject constructor(
             App.database.userDao().updateUser(currentUser)
         }.invokeOnCompletion {
             if (setupUser) setupCurrentUser()
+        }
+    }
+
+    private fun updateUser(user: User) {
+        GlobalScope.launch {
+            App.database.userDao().updateUser(user)
         }
     }
 
@@ -581,12 +656,12 @@ class BaseViewModel @Inject constructor(
         lat: String,
         lon: String
     ) {
-
+        val acceptLang = if (App.preferences.locale == "es") "en" else App.preferences.locale
         repo.geocodingNominatim(
             "https://nominatim.openstreetmap.org/reverse?lat="
                     + lat + "&lon=" + lon
                     + "&format=json&accept-language="
-                    + App.preferences.locale
+                    + acceptLang
                     + "&limit=50"
         ).subscribe({
 //                suggestions.postValue(it)

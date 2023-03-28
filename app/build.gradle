@@ -9,7 +9,7 @@ apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     buildToolsVersion "29.0.3"
 
     defaultConfig {
@@ -22,7 +22,7 @@ android {
 
         applicationId "com.myhumandesignhd"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0.0"
 
@@ -184,15 +184,14 @@ dependencies {
     implementation "com.android.installreferrer:installreferrer:2.2"
 
     //    Facebook SDK
-//    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+
     implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
-//    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     //  AppMetrica
     implementation ('com.yandex.android:mobmetricalib:4.2.0')
 
 //    Adapty
-    implementation 'com.github.adaptyteam:AdaptySDK-Android:1.2.0'
+    implementation 'com.github.adaptyteam:AdaptySDK-Android:2.4.1'
 
     implementation 'com.intuit.sdp:sdp-android:1.0.5'
     implementation 'at.wirecube:additive_animations:1.9.3'
@@ -202,6 +201,9 @@ dependencies {
 //    OneSignal
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
+    implementation 'com.amplitude:android-sdk:2.23.2'
+
+    compile group: 'org.threeten', name: 'threetenbp', version: '1.5.2', classifier: 'no-tzdb'
 
 //    room
     def roomVersion = "2.3.0"

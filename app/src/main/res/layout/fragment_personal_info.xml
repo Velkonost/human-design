@@ -154,7 +154,7 @@
                         android:fontFamily="@font/roboto"
                         android:gravity="start"
                         android:includeFontPadding="true"
-                        android:inputType="textCapWords"
+                        android:inputType="none"
                         android:letterSpacing="0.12"
                         android:onClick="@{handler::onDateClicked}"
                         android:paddingBottom="24dp"
@@ -184,7 +184,7 @@
                         android:fontFamily="@font/roboto"
                         android:gravity="start"
                         android:includeFontPadding="true"
-                        android:inputType="textCapWords"
+                        android:inputType="none"
                         android:letterSpacing="0.12"
                         android:onClick="@{handler::onTimeClicked}"
                         android:paddingBottom="24dp"
@@ -205,6 +205,8 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:onClick="@{handler::onDoneClicked}"
                 app:cardCornerRadius="20dp"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@android:color/transparent"
                 app:cardElevation="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -239,6 +241,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/confirmBlock"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -247,6 +250,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:alpha="0"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:background="@color/darkColor" />
 
                 <com.google.android.material.card.MaterialCardView
@@ -317,6 +322,8 @@
                             android:foreground="?attr/selectableItemBackground"
                             android:onClick="@{handler::onConfirmClicked}"
                             app:cardCornerRadius="20dp"
+                            android:background="@android:color/transparent"
+                            android:backgroundTint="@android:color/transparent"
                             app:cardElevation="4dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"

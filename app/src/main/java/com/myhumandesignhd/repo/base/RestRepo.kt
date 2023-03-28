@@ -58,4 +58,10 @@ interface RestRepo {
 
     fun getDailyAdvice(): Single<HashMap<String, List<DailyAdvice>>>
     fun getCycles(): Single<HashMap<String, List<Cycle>>>
+
+    fun setUserInfo(
+        url: String,
+        gclid: String,
+        appInstanceId: String
+    ): Single<String>
 }

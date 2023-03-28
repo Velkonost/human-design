@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
+import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentCompatibilityChildBinding
@@ -165,6 +166,7 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
 
     private fun selectParent() {
         YandexMetrica.reportEvent("Tab4ChildrenParent")
+        Amplitude.getInstance().logEvent("tab4TappedFamilyParent");
 
         binding.parentTitle.setTextColor(
             ContextCompat.getColor(
@@ -190,6 +192,7 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
 
     private fun selectChild() {
         YandexMetrica.reportEvent("Tab4ChildrenChild")
+        Amplitude.getInstance().logEvent("tab4TappedFamilyChild");
 
         binding.childTitle.setTextColor(
             ContextCompat.getColor(

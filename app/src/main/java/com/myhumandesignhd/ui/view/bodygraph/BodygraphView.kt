@@ -255,7 +255,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
         val paint = Paint()
         paint.textAlign = Paint.Align.CENTER
         paint.color = Color.parseColor("#80FFFFFF")
-        paint.textSize = context.spToPx(5f).toFloat()//App.resourcesProvider.getDimen(R.dimen.bodygraph_text_size)
+        paint.textSize = context.spToPx(6f).toFloat()//App.resourcesProvider.getDimen(R.dimen.bodygraph_text_size)
 
         paint
     }
@@ -264,7 +264,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
         val paint = Paint()
         paint.textAlign = Paint.Align.CENTER
         paint.color = Color.WHITE
-        paint.textSize = context.spToPx(5f).toFloat()//App.resourcesProvider.getDimen(R.dimen.bodygraph_text_size)
+        paint.textSize = context.spToPx(6f).toFloat()//App.resourcesProvider.getDimen(R.dimen.bodygraph_text_size)
 
         paint
     }
@@ -272,7 +272,7 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val linePaint: Paint by lazy {
         val paint = Paint()
         paint.color = Color.parseColor("#4D494D")
-        paint.strokeWidth = 2f//4f
+        paint.strokeWidth = 3f//4f
         paint.style = Paint.Style.FILL_AND_STROKE
         paint.isAntiAlias = true
 

@@ -2,6 +2,7 @@ package com.myhumandesignhd.ui.affirmation
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.BuildConfig
 import com.myhumandesignhd.R
@@ -40,6 +42,12 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
         ViewModelProviders.of(requireActivity()).get(
             BaseViewModel::class.java
         )
+    }
+
+    override fun onLayoutReady(savedInstanceState: Bundle?) {
+        super.onLayoutReady(savedInstanceState)
+
+        Amplitude.getInstance().logEvent("tab5_screen_shown");
     }
 
     private fun setupViewPager() {
@@ -107,6 +115,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
     private fun selectAffirmations() {
         YandexMetrica.reportEvent("Tap5AffirmationsTapped")
+        Amplitude.getInstance().logEvent("tab5TappedAffirmations");
 
         binding.affirmationTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -136,6 +145,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
     private fun selectForecasts() {
         YandexMetrica.reportEvent("Tap5ForecastsTapped")
+        Amplitude.getInstance().logEvent("tab5TappedForecasts");
 
         binding.forecastTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -250,12 +260,12 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     baseViewModel.currentAffirmation.observe(viewLifecycleOwner) {
                         view.affirmationText.setTextAnimation(
                             if (App.preferences.locale == "ru") it.ru
+                            else if (App.preferences.locale == "es") it.es
                             else it.en
                         )
 
                         view.affirmationText.background =
-                            if (App.preferences.isDarkTheme) null
-                            else ContextCompat.getDrawable(requireContext(), R.drawable.bg_affirmation_text)
+                            ContextCompat.getDrawable(requireContext(), R.drawable.bg_affirmation_text)
 
                         glideRequestManager
                             .load(
@@ -268,6 +278,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     view.shareBtn.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.affirmation_share))
                     view.shareBtn.setOnClickListener {
                         YandexMetrica.reportEvent("Tab5TappedShareTapped")
+                        Amplitude.getInstance().logEvent("tab5TappedShare");
 
 //                        view.shareBtn.isVisible = false
                         GlobalScope.launch {
@@ -304,10 +315,12 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     baseViewModel.currentForecast.observe(viewLifecycleOwner) {
                         view.forecastTitle.text =
                             if (App.preferences.locale == "ru") it.titleRu
+                            else if (App.preferences.locale == "es") it.titleEs
                             else it.titleEn
 
                         view.forecastText.text =
                             if (App.preferences.locale == "ru") it.ru
+                            else if (App.preferences.locale == "es") it.es
                             else it.en
                     }
 

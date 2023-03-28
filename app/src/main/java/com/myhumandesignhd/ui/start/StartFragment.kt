@@ -1,8 +1,8 @@
 package com.myhumandesignhd.ui.start
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
@@ -10,23 +10,17 @@ import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.method.ScrollingMovementMethod
 import android.text.style.ClickableSpan
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
-import android.view.ViewStub
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.os.ConfigurationCompat
@@ -35,15 +29,16 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieCompositionFactory
+import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentStartBinding
-import com.myhumandesignhd.event.FinishFirstLoaderEvent
 import com.myhumandesignhd.event.LastKnownLocationUpdateEvent
 import com.myhumandesignhd.event.NoInetEvent
-import com.myhumandesignhd.event.PermissionGrantedEvent
 import com.myhumandesignhd.event.PlaceSelectedEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
 import com.myhumandesignhd.event.UpdateThemeEvent
@@ -57,7 +52,6 @@ import com.myhumandesignhd.util.ext.alpha1
 import com.myhumandesignhd.util.ext.scaleXY
 import com.myhumandesignhd.util.ext.setTextAnimation
 import com.myhumandesignhd.util.ext.setTextAnimation07
-import com.myhumandesignhd.util.ext.setTextAnimationWithGradientAppName
 import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
 import dagger.android.support.DaggerAppCompatActivity
@@ -69,15 +63,10 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.util.*
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.ContextCompat.getSystemService
-
-
-
-
-
-
-
+import com.amplitude.api.Amplitude
+import com.amplitude.api.Identify
+import com.myhumandesignhd.event.SetupLocationEvent
+import org.json.JSONObject
 
 class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     R.layout.fragment_start,
@@ -122,7 +111,11 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 selectedLon = App.preferences.lastKnownLocationLon!!
             }
 
-            inflated.skipTime.setOnClickListener { Handler().onBtnClicked(inflated.skipTime) }
+            inflated.skipTime.setOnClickListener {
+                Amplitude.getInstance().logEvent("userTappedStart3_dontnow");
+
+                Handler().onBtnClicked(inflated.skipTime)
+            }
             inflated.placeET.setOnClickListener { Handler().openPlacesView(inflated.placeET) }
 
             inflated.nameTitle.setTextColor(
@@ -205,24 +198,23 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     }
 
     private fun setupLoader() {
-
         binding.loaderView.anim.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                 super.onAnimationStart(animation, isReverse)
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                 super.onAnimationEnd(animation, isReverse)
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 binding.loaderView.container.isVisible = false
                 setupSplash01()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {}
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 
         android.os.Handler().postDelayed({
@@ -233,6 +225,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     private var prevHeightDiff = -1
     private fun addKeyboardDetectListener(){
         binding.startContainer.viewTreeObserver.addOnGlobalLayoutListener {
+            if (!isAdded) return@addOnGlobalLayoutListener
+
             val heightDifference = binding.startContainer.rootView.height - binding.startContainer.height
 
             if (heightDifference == prevHeightDiff) {
@@ -322,10 +316,15 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 //                )
 //            )
         }
+
+        val identify = Identify()
+        identify.set("mode", if (App.preferences.isDarkTheme) "dark" else "light")
+        Amplitude.getInstance().identify(identify)
     }
 
     private fun setupLocale() {
         if (App.preferences.isFirstLaunch || App.preferences.locale.isNullOrEmpty()) {
+            Amplitude.getInstance().logEvent("first_launch");
             App.preferences.isFirstLaunch = false
 
             val locale = ConfigurationCompat.getLocales(resources.configuration)[0].language
@@ -337,6 +336,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     || locale == "be"
                     || locale == "uk"
                 ) "ru"
+                else if (locale == "es") "es"
                 else "en"
         }
 
@@ -387,6 +387,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             placesAdapter.createList(emptyList(), false)
         }
 
+        binding.placesView.newPlaceET.hint = App.resourcesProvider.getStringLocale(R.string.search)
         binding.placesView.newPlaceET.addTextChangedListener {
             if (!binding.placesView.newPlaceET.text.isNullOrEmpty()) {
                 binding.viewModel!!.geocodingNominatim(binding.placesView.newPlaceET.text.toString())
@@ -456,7 +457,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         if (App.preferences.isDarkTheme)
             binding.bottomGradient.alpha1(200)
 
-        binding.indicator3.isVisible = true
         binding.indicator4.isVisible = true
         binding.indicator5.isVisible = true
 
@@ -497,6 +497,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         val c = Calendar.getInstance()
         c.add(Calendar.YEAR, -20)
+        inflatedNameContainer.date.maxDate = Calendar.getInstance().time
         inflatedNameContainer.date.setDefaultDate(c.time)
 
         inflatedNameContainer.nameET.alpha0(300) {
@@ -506,11 +507,17 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         inflatedNameContainer.date.alpha1(500)
 
         inflatedNameContainer.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_date_title))
-        inflatedNameContainer.nameDesc.setTextAnimation07(
-            inflatedNameContainer.nameET.text.toString() + App.resourcesProvider.getStringLocale(
-                R.string.start_date_desc
+        if (App.preferences.locale != "en") {
+            inflatedNameContainer.nameDesc.setTextAnimation07(
+                inflatedNameContainer.nameET.text.toString() + App.resourcesProvider.getStringLocale(
+                    R.string.start_date_desc
+                )
             )
-        )
+        } else {
+            inflatedNameContainer.nameDesc.setTextAnimation07(
+                    App.resourcesProvider.getStringLocale(R.string.start_date_desc)
+            )
+        }
     }
 
     private fun setupTimeBirth() {
@@ -527,7 +534,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         )
 
         inflatedNameContainer.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_title))
-        inflatedNameContainer.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_time_desc))
+
+        val desc = App.resourcesProvider.getStringLocale(R.string.start_time_desc)
+        inflatedNameContainer.nameDesc.setTextAnimation07(desc.replace("name", inflatedNameContainer.nameET.text.toString()))
 
         inflatedNameContainer.skipTime.isVisible = true
         inflatedNameContainer.skipTime.alpha = 1f
@@ -552,6 +561,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     }
 
     private fun setupPlaceBirth() {
+        EventBus.getDefault().post(SetupLocationEvent())
         YandexMetrica.reportEvent("StartScreenPlaceShowen")
 
         currentStartPage = StartPage.PLACE_BIRTH
@@ -586,6 +596,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         inflatedNameContainer.placeET.alpha1(500)
     }
 
+    private var isPaywallOpened = false
     private fun setupBodygraph() {
         YandexMetrica.reportEvent("StartScreenBodygraphShowen")
 
@@ -601,8 +612,12 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.bodygraphContainer.isVisible = true
         binding.bodygraphContainer.alpha1(500)
 
-        binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title))
-        binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_text))
+        binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.creating_your_bodygraph))
+//        binding.bodygraphReadyText.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_text))
+
+        if (!App.preferences.isPremiun) {
+            binding.startBtn.visibility = View.INVISIBLE
+        }
 
         baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
             if (
@@ -612,9 +627,41 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
               android.os.Handler().postDelayed({
                   binding.bodygraphView.isVisible = true
                   binding.bodygraphView.scaleXY(1f, 1f, 1500) {
-                      binding.bodygraphView.changeSpeedAnimationFactor(3f)
+                      binding.bodygraphView.changeSpeedAnimationFactor(10f)
                       binding.bodygraphView.changeIsAllowDrawLinesState(true)
                   }
+
+                  binding.bodygraphReadyMark1.isVisible = true
+                  binding.bodygraphReadyMark1.playAnimation()
+                  android.os.Handler().postDelayed({
+                      binding.bodygraphReadyMark2.isVisible = true
+                      binding.bodygraphReadyMark2.playAnimation()
+                  }, 1500)
+                  android.os.Handler().postDelayed({
+                      binding.bodygraphReadyMark3.isVisible = true
+                      binding.bodygraphReadyMark3.playAnimation()
+                  }, 3000)
+
+                  android.os.Handler().postDelayed({
+                      binding.bodygraphReadyMark4.isVisible = true
+                      binding.bodygraphReadyMark4.playAnimation()
+                  }, 4500)
+                  android.os.Handler().postDelayed({
+                      binding.bodygraphReadyMark5.isVisible = true
+                      binding.bodygraphReadyMark5.playAnimation()
+                  }, 6000)
+                  android.os.Handler().postDelayed({
+                      binding.bodygraphReadyTitle.text = App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title)
+
+                      if (!App.preferences.isPremiun && !isPaywallOpened) {
+                          isPaywallOpened = true
+                          android.os.Handler().postDelayed({
+                              App.preferences.lastLoginPageId = -1
+                              App.preferences.userNameFromStart = inflatedNameContainer.nameET.text.toString()
+                              router.replaceScreen(Screens.paywallScreen(true, source = "start"))
+                          }, 1000)
+                      }
+                  }, 7500)
               }, 700)
 
             }
@@ -625,6 +672,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 it.activeCentres,
                 it.inactiveCentres
             )
+
+
         }
     }
 
@@ -700,6 +749,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupSplash01() {
         YandexMetrica.reportEvent("Onboarding1Showen")
+        Amplitude.getInstance().logEvent("welcome1ScreenShowen");
 
         binding.indicatorsContainer.alpha1(500)
         unselectAllIndicators()
@@ -719,8 +769,13 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.descSplash0102.movementMethod = smm
     }
 
+    private var selectedVariant = -1
     private fun setupSplash02() {
+        selectedVariant = -1
+        unselectAllVariants()
+
         YandexMetrica.reportEvent("Onboarding2Showen")
+        Amplitude.getInstance().logEvent("welcome2ScreenShowen")
 
         unselectAllIndicators()
         binding.indicator2.background = ContextCompat.getDrawable(
@@ -731,6 +786,120 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         currentStartPage = StartPage.SPLASH_02
         App.preferences.lastLoginPageId = StartPage.SPLASH_02.pageId
+
+        binding.titleSplash0102.alpha = 1f
+        binding.titleSplash0102.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_quiz_title))
+        binding.descSplash0102.setTextAnimation07("")
+
+        binding.variant1Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_1)
+        binding.variant2Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_2)
+        binding.variant3Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_3)
+        binding.variant4Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_4)
+        binding.variant5Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_5)
+        binding.variant6Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_6)
+        binding.variantsBlock.isVisible = true
+
+        binding.variant1Block.setOnClickListener {
+            unselectAllVariants()
+            binding.variant1Check.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant
+                else R.drawable.ic_quiz_variant_dark
+            )
+            selectedVariant = 1
+        }
+
+        binding.variant2Block.setOnClickListener {
+            unselectAllVariants()
+            binding.variant2Check.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant
+                else R.drawable.ic_quiz_variant_dark
+            )
+            selectedVariant = 2
+        }
+
+        binding.variant3Block.setOnClickListener {
+            unselectAllVariants()
+            binding.variant3Check.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant
+                else R.drawable.ic_quiz_variant_dark
+            )
+            selectedVariant = 3
+        }
+
+        binding.variant4Block.setOnClickListener {
+            unselectAllVariants()
+            binding.variant4Check.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant
+                else R.drawable.ic_quiz_variant_dark
+            )
+            selectedVariant = 4
+        }
+
+        binding.variant5Block.setOnClickListener {
+            unselectAllVariants()
+            binding.variant5Check.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant
+                else R.drawable.ic_quiz_variant_dark
+            )
+            selectedVariant = 5
+        }
+
+        binding.variant6Block.setOnClickListener {
+            unselectAllVariants()
+            binding.variant6Check.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant
+                else R.drawable.ic_quiz_variant_dark
+            )
+            selectedVariant = 6
+        }
+    }
+
+    private fun unselectAllVariants() {
+        binding.variant1Check.setImageResource(
+            if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_empty
+            else R.drawable.ic_quiz_variant_empty_dark
+        )
+
+        binding.variant2Check.setImageResource(
+            if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_empty
+            else R.drawable.ic_quiz_variant_empty_dark
+        )
+
+        binding.variant3Check.setImageResource(
+            if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_empty
+            else R.drawable.ic_quiz_variant_empty_dark
+        )
+
+        binding.variant4Check.setImageResource(
+            if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_empty
+            else R.drawable.ic_quiz_variant_empty_dark
+        )
+
+        binding.variant5Check.setImageResource(
+            if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_empty
+            else R.drawable.ic_quiz_variant_empty_dark
+        )
+
+        binding.variant6Check.setImageResource(
+            if (!App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_empty
+            else R.drawable.ic_quiz_variant_empty_dark
+        )
+    }
+
+    private fun setupSplash03() {
+        binding.variantsBlock.isVisible = false
+        YandexMetrica.reportEvent("Onboarding2Showen")
+        Amplitude.getInstance().logEvent("welcome2ScreenShowen")
+
+        unselectAllIndicators()
+        binding.indicator2.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_active_indicator_dark
+            else R.drawable.bg_active_indicator_light
+        )
+
+        currentStartPage = StartPage.SPLASH_03
+        App.preferences.lastLoginPageId = StartPage.SPLASH_03.pageId
 
         binding.titleSplash0102.alpha = 1f
         binding.titleSplash0102.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.rave_title))
@@ -764,12 +933,12 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     }
                     binding.indicator5.isVisible = false
                     binding.indicator4.isVisible = false
-                    binding.indicator3.isVisible = false
+//                    binding.indicator3.isVisible = false
 
                     binding.splash0102Container.isVisible = true
                     binding.splash0102Container.alpha1(500)
 //                    binding.startBtn.translationY(requireContext().convertDpToPx(0f), 500)
-                    setupSplash02()
+                    setupSplash03()
                 }
                 StartPage.DATE_BIRTH -> {
                     inflatedNameContainer.date.alpha0(500) {
@@ -801,19 +970,47 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         }
 
         fun onBtnClicked(v: View) {
-
             when (currentStartPage) {
                 StartPage.SPLASH_01 -> {
+                    Amplitude.getInstance().logEvent("welcome1screen_next_clicked");
                     binding.startHeaderAnim.playAnimation()
-                    setupSplash02()
+//                    android.os.Handler().postDelayed({
+//                        LottieCompositionFactory.fromRawResSync(
+//                            requireContext(),
+//                            if (App.preferences.isDarkTheme) R.raw.start_header_2_dark
+//                            else R.raw.start_header_2_light
+//                        )?.let { result ->
+//                            result.value?.let { composition -> binding.startHeaderAnim.setComposition(composition) }
+//                        }
+//                    }, 4000)
+                    setupSplash03()
                 }
-                StartPage.SPLASH_02 -> setupName()
+                StartPage.SPLASH_02 -> {
+                    if (selectedVariant != -1) {
+                        binding.startHeaderAnim.playAnimation()
+
+                        Amplitude.getInstance().logEvent("welcome2screen_next_clicked")
+
+                        val identify = Identify()
+                        identify.set("answer", selectedVariant.toString())
+                        Amplitude.getInstance().identify(identify)
+
+                        setupSplash03()
+                    }
+                }
+                StartPage.SPLASH_03 -> {
+                    animateCirclesBtwPages(1000)
+                    Amplitude.getInstance().logEvent("welcome2screen_next_clicked");
+                    setupName()
+                }
                 StartPage.SPLASH_05 -> setupName()
                 StartPage.RAVE -> {
                     animateCirclesBtwPages(1000)
                     setupName()
                 }
                 StartPage.NAME -> {
+                    Amplitude.getInstance().logEvent("userTappedStart1");
+
                     if (inflatedNameContainer.nameET.text.toString().replace(" ", "").isNullOrEmpty()) {
                         snackbarName.show()
                     } else {
@@ -825,18 +1022,28 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                                 setupDateBirth()
                             }
                         }
-
                     }
                 }
                 StartPage.DATE_BIRTH -> {
+                    Amplitude.getInstance().logEvent("userTappedStart2");
+
                     animateCirclesBtwPages(1000)
                     setupTimeBirth()
                 }
                 StartPage.TIME_BIRTH -> {
+                    Amplitude.getInstance().logEvent(
+                        "userTappedStart3",
+                        JSONObject(mutableMapOf(
+                            "source" to "fromFirstBodygraphCreating"
+                        ).toMap())
+                    );
+
                     animateCirclesBtwPages(1000)
                     setupPlaceBirth()
                 }
                 StartPage.PLACE_BIRTH -> {
+                    Amplitude.getInstance().logEvent("userTappedStart4");
+
                     if (!isNetworkConnected()) {
                         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
                         EventBus.getDefault().post(NoInetEvent())

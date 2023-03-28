@@ -9,6 +9,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
+import com.amplitude.api.Amplitude
+import com.amplitude.api.Identify
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentCompatibilityBinding
@@ -20,6 +22,7 @@ import com.myhumandesignhd.event.CompatibilityStartClickEvent
 import com.myhumandesignhd.event.DeleteChildEvent
 import com.myhumandesignhd.event.DeletePartnerEvent
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
+import com.myhumandesignhd.model.getDateStr
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.compatibility.adapter.CompatibilityAdapter
@@ -62,6 +65,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         super.onLayoutReady(savedInstanceState)
 
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+        Amplitude.getInstance().logEvent("tab4_screen_shown");
     }
 
     @Subscribe
@@ -81,7 +85,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         baseViewModel.setupCompatibility(
             lat1 = e.user.lat,
             lon1 = e.user.lon,
-            date = e.user.date,
+            date = e.user.getDateStr(),
         ) {
             router.navigateTo(
                 Screens.compatibilityDetailScreen(
@@ -97,6 +101,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     @Subscribe
     fun onCompatibilityChildStartClickEvent(e: CompatibilityChildStartClickEvent) {
         YandexMetrica.reportEvent("Tab4ChildrenCreatedProfileTapped")
+        Amplitude.getInstance().logEvent("tab4CheckedFamilyRelationship");
 
         router.navigateTo(Screens.compatibilityChildScreen(e.childId))
     }
@@ -222,6 +227,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     }
 
     private fun selectPartners() {
+        Amplitude.getInstance().logEvent("tab4TappedLove");
 
         binding.partnersTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -253,6 +259,8 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     }
 
     private fun selectChildren() {
+        Amplitude.getInstance().logEvent("tab4TappedFamily");
+
         binding.childrenTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor
@@ -297,6 +305,11 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             if (!compatibilityAdapter.isCreated)
                 compatibilityAdapter.createList(partners, children.filter { it.parentId == App.preferences.currentUserId })
             else compatibilityAdapter.updateList(partners, children.filter { it.parentId == App.preferences.currentUserId })
+
+            val identify = Identify()
+            identify.set("partnersadded", partners.size.toString())
+            identify.set("kidsadded", children.size.toString())
+            Amplitude.getInstance().identify(identify)
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -326,15 +339,25 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     @Subscribe
     fun onAddPartnerClickEvent(e: AddPartnerClickEvent) {
         YandexMetrica.reportEvent("Tab4AddAdultsTapped")
+        Amplitude.getInstance().logEvent("tab4TappedAddUser");
 
-        router.navigateTo(Screens.addUserScreen(fromCompatibility = true))
+        if (App.preferences.isPremiun) {
+            router.navigateTo(Screens.addUserScreen(fromCompatibility = true))
+        } else {
+            router.navigateTo(Screens.paywallScreen(source = "compatibility"))
+        }
     }
 
     @Subscribe
     fun onAddChildClickEvent(e: AddChildClickEvent) {
         YandexMetrica.reportEvent("Tab4AddChildrenTapped")
+        Amplitude.getInstance().logEvent("tab4TappedAddKid");
 
-        router.navigateTo(Screens.addUserScreen(isChild = true))
+        if (App.preferences.isPremiun) {
+            router.navigateTo(Screens.addUserScreen(isChild = true))
+        } else {
+            router.navigateTo(Screens.paywallScreen(source = "compatibility"))
+        }
     }
 
     companion object {

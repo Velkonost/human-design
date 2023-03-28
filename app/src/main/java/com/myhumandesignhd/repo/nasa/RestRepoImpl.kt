@@ -81,4 +81,10 @@ class RestRepoImpl @Inject constructor(
     override fun getCycles(): Single<HashMap<String, List<Cycle>>> =
         restService.getCycles().subscribeIoObserveMain()
 
+    override fun setUserInfo(
+        url: String,
+        gclid: String,
+        appInstanceId: String
+    ): Single<String> =
+        restService.setUserInfo(url, gclid, appInstanceId).subscribeIoObserveMain()
 }

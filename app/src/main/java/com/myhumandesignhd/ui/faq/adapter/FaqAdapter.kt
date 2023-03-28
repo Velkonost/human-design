@@ -42,6 +42,7 @@ class FaqModel(
         with(view) {
             faqTitle.text =
                 if (App.preferences.locale == "ru") Html.fromHtml(model.titleRu)
+                else if (App.preferences.locale == "es") Html.fromHtml(model.titleEs)
                 else Html.fromHtml(model.titleEn)
 
             faqTitle.highlightKeys(
@@ -85,7 +86,7 @@ class FaqModel(
                 else R.color.darkColor
             ))
 
-            faqBlock.setOnClickListener {
+            faqClick.setOnClickListener {
                 EventBus.getDefault().post(FaqClickedEvent(model))
             }
         }

@@ -26,9 +26,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
+import com.amplitude.api.Amplitude
 import com.google.android.material.card.MaterialCardView
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
+import com.myhumandesignhd.event.OpenPaywallEvent
 import com.myhumandesignhd.event.UpdateCurrentUserInjurySettingsEvent
 import com.myhumandesignhd.model.AboutItem
 import com.myhumandesignhd.model.AboutType
@@ -92,14 +94,27 @@ class AboutAdapter(
 
             icArrow.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
 
+            if (!App.preferences.isPremiun) {
+                icArrow.setImageResource(
+                    if (App.preferences.isDarkTheme) R.drawable.ic_lock_dark
+                    else R.drawable.ic_lock_light
+                )
+                icArrow.rotation = 0f
+                icArrow.isVisible = true
+            }
+
             when(items[position].type) {
                 AboutType.TYPE -> {
                     expandButton.text =
-                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun)
+                            items[adapterPosition].name
                         else App.resourcesProvider.getStringLocale(R.string.type_title)
                     text.text = items[position].description
 
                     subtitle.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
+                    if (!App.preferences.isPremiun)
+                        subtitle.isVisible = true
+
                     subtitle.text = items[position].name
 
                     generateBtn.isVisible = false
@@ -110,11 +125,15 @@ class AboutAdapter(
                 }
                 AboutType.PROFILE -> {
                     expandButton.text =
-                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun)
+                            items[adapterPosition].name
                         else App.resourcesProvider.getStringLocale(R.string.profile_title)
                     text.text = items[position].description
 
                     subtitle.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
+                    if (!App.preferences.isPremiun)
+                        subtitle.isVisible = true
+
                     subtitle.text = items[position].name
 
                     generateBtn.isVisible = false
@@ -125,11 +144,15 @@ class AboutAdapter(
                 }
                 AboutType.AUTHORITY -> {
                     expandButton.text =
-                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun)
+                            items[adapterPosition].name
                         else App.resourcesProvider.getStringLocale(R.string.authority_title)
                     text.text = items[position].description
 
                     subtitle.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
+                    if (!App.preferences.isPremiun)
+                        subtitle.isVisible = true
+
                     subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_authority_subtitle)
 
                     generateBtn.isVisible = false
@@ -140,12 +163,16 @@ class AboutAdapter(
                 }
                 AboutType.STRATEGY -> {
                     expandButton.text =
-                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun)
+                            items[adapterPosition].name
                         else App.resourcesProvider.getStringLocale(R.string.strategy_title)
                     text.text = items[position].description
 
                     subtitle.isVisible =
                         android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
+                    if (!App.preferences.isPremiun)
+                        subtitle.isVisible = true
+
                     subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_strategy_subtitle)
 
                     generateBtn.isVisible = false
@@ -156,12 +183,16 @@ class AboutAdapter(
                 }
                 AboutType.NUTRITION -> {
                     expandButton.text =
-                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun)
+                            items[adapterPosition].name
                         else App.resourcesProvider.getStringLocale(R.string.nutrition_title)
                     text.text = items[position].description
 
                     subtitle.isVisible =
                         android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
+                    if (!App.preferences.isPremiun)
+                        subtitle.isVisible = true
+
                     subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_nutrition_subtitle)
 
                     generateBtn.isVisible = false
@@ -172,12 +203,16 @@ class AboutAdapter(
                 }
                 AboutType.ENVIRONMENT -> {
                     expandButton.text =
-                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) items[adapterPosition].name
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun)
+                            items[adapterPosition].name
                         else App.resourcesProvider.getStringLocale(R.string.environment_title)
                     text.text = items[position].description
 
                     subtitle.isVisible =
                         android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
+                    if (!App.preferences.isPremiun)
+                        subtitle.isVisible = true
+
                     subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_environment_subtitle)
 
                     generateBtn.isVisible = false
@@ -258,6 +293,7 @@ class AboutAdapter(
 
                             generateBtn.setOnClickListener {
                                 YandexMetrica.reportEvent("Tab2AboutTraumaGenerateTapped")
+                                Amplitude.getInstance().logEvent("tab2AboutTraumaGenerateTapped");
 
                                 val injuryGenerationDuration = (12..24).random() * 3600000L
                                 currentUser.injuryDateStart = System.currentTimeMillis()
@@ -293,6 +329,7 @@ class AboutAdapter(
                                 EventBus.getDefault().post(UpdateCurrentUserInjurySettingsEvent())
                             }
                         } else {
+                            Amplitude.getInstance().logEvent("tab2AboutTraumaGeneratedTapped");
                             generateProgress.isVisible = true
                             generateProgressText.isVisible = true
                             generateBtn.isVisible = false
@@ -323,7 +360,7 @@ class AboutAdapter(
 
             expandButton.isSelected = isSelected
             expandableLayout.setExpanded(
-                if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) true
+                if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun) true
                 else isSelected,
                 false
             )
@@ -365,6 +402,10 @@ class AboutAdapter(
         }
 
         override fun onClick(view: View?) {
+            if (!App.preferences.isPremiun) {
+                EventBus.getDefault().post(OpenPaywallEvent())
+            }
+
             if (android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK) {
 
                 val holder =
@@ -407,13 +448,34 @@ class AboutAdapter(
                 }
 
                 when (items[adapterPosition].type) {
-                    AboutType.TYPE -> YandexMetrica.reportEvent("Tab2AboutTypeTapped")
-                    AboutType.PROFILE -> YandexMetrica.reportEvent("Tab2AboutProfileTapped")
-                    AboutType.AUTHORITY -> YandexMetrica.reportEvent("Tab2AboutAuthorityTapped")
-                    AboutType.STRATEGY -> YandexMetrica.reportEvent("Tab2AboutStrategyTapped")
-                    AboutType.INJURY -> YandexMetrica.reportEvent("Tab2AboutTraumaTapped")
-                    AboutType.NUTRITION -> YandexMetrica.reportEvent("Tab2AboutNutrition")
-                    AboutType.ENVIRONMENT -> YandexMetrica.reportEvent("Tab2AboutEnvironment")
+                    AboutType.TYPE -> {
+                        YandexMetrica.reportEvent("Tab2AboutTypeTapped")
+                        Amplitude.getInstance().logEvent("tab2AboutTypeTapped");
+                    }
+                    AboutType.PROFILE -> {
+                        YandexMetrica.reportEvent("Tab2AboutProfileTapped")
+                        Amplitude.getInstance().logEvent("tab2AboutProfileTapped");
+                    }
+                    AboutType.AUTHORITY -> {
+                        YandexMetrica.reportEvent("Tab2AboutAuthorityTapped")
+                        Amplitude.getInstance().logEvent("tab2AboutAuthorityTapped");
+                    }
+                    AboutType.STRATEGY -> {
+                        YandexMetrica.reportEvent("Tab2AboutStrategyTapped")
+                        Amplitude.getInstance().logEvent("tab2AboutStategyTapped");
+                    }
+                    AboutType.INJURY -> {
+                        YandexMetrica.reportEvent("Tab2AboutTraumaTapped")
+                        Amplitude.getInstance().logEvent("tab2AboutTraumaTapped");
+                    }
+                    AboutType.NUTRITION -> {
+                        YandexMetrica.reportEvent("Tab2AboutNutrition")
+                        Amplitude.getInstance().logEvent("tab2AboutNutritionTapped");
+                    }
+                    AboutType.ENVIRONMENT -> {
+                        YandexMetrica.reportEvent("Tab2AboutEnvironment")
+                        Amplitude.getInstance().logEvent("tab2AboutEnvironmentTapped");
+                    }
                 }
             }
         }
@@ -489,23 +551,23 @@ class AboutAdapter(
             }
 
             if (state == ExpandableLayout.State.EXPANDING) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                    val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
-                        override fun getVerticalSnapPreference(): Int {
-                            return SNAP_TO_START
-                        }
-
-                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-                            return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
-                        }
-
-                    }
-                    smoothScroller.targetPosition = adapterPosition
-
-
-                    (recyclerView.layoutManager as LinearLayoutManager)
-                        .startSmoothScroll(smoothScroller)
-                }
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                    val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
+//                        override fun getVerticalSnapPreference(): Int {
+//                            return SNAP_TO_START
+//                        }
+//
+//                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+//                            return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
+//                        }
+//
+//                    }
+//                    smoothScroller.targetPosition = adapterPosition
+//
+//
+//                    (recyclerView.layoutManager as LinearLayoutManager)
+//                        .startSmoothScroll(smoothScroller)
+//                }
             }
         }
 

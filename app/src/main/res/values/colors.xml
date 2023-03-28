@@ -20,6 +20,8 @@
     <color name="lightMenu">#CCF9F9F9</color>
 
     <color name="unselectText">#888888</color>
+    <color name="unselectTextLock">#33FFFFFF</color>
+    <color name="unselectTextLockDark">#33000000</color>
 
     <color name="blue">#2a9df4</color>
     <color name="backgroundColor">#FFFFFF</color>

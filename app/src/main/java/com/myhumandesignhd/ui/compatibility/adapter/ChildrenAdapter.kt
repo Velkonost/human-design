@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
+import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.AddChildClickEvent
@@ -139,6 +140,7 @@ class ChildModel(
             }
 
             partnerCard.setOnClickListener {
+
                 EventBus.getDefault().post(
                     CompatibilityChildStartClickEvent(childId = model.id)
                 )

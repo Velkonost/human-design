@@ -102,6 +102,14 @@ class CompatibilityInfoModel(
                 TileMode.CLAMP
             )
 
+            compatibilityInfoTitle.setTextColor(
+                when(position) {
+                    1 -> Color.parseColor("#C66456")
+                    2 -> Color.parseColor("#5D77C5")
+                    3 -> Color.parseColor("#278E68")
+                    else -> Color.parseColor("#278E68")
+                }
+            )
             compatibilityInfoTitle.paint.shader = textShader
             compatibilityInfoTitle.text = App.resourcesProvider.getStringLocale(
                 when (position) {

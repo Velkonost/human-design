@@ -56,6 +56,7 @@
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="6dp"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/channelArrow"
                 app:layout_constraintTop_toTopOf="parent" />
 

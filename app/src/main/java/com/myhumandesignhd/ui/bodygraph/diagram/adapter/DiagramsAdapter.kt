@@ -26,12 +26,14 @@ class DiagramsAdapter : EpoxyAdapter() {
         users: List<User>
     ) {
         removeAllModels()
-        users.map { addModel(
-            DiagramModel(
-            it,
-            isSwipeEnabled = users.size > 1
-        )
-        ) }
+        users.map {
+            addModel(
+                DiagramModel(
+                    it,
+                    isSwipeEnabled = users.size > 1
+                )
+            )
+        }
 
         addModel(DiagramEmptyModel(users.size <= 1))
         notifyDataSetChanged()
@@ -44,7 +46,7 @@ class DiagramsAdapter : EpoxyAdapter() {
                 model is DiagramModel
                 && model.model.id == id
             ) {
-               user = model.model
+                user = model.model
             }
         }
         return user
@@ -66,7 +68,7 @@ class DiagramsAdapter : EpoxyAdapter() {
         return position
     }
 
-    fun getNextPosition(position: Int): Int  {
+    fun getNextPosition(position: Int): Int {
         var nextPosition = position + 1//position - 1
 
         if (models.size - 2 >= position && position > 0) {
@@ -216,7 +218,6 @@ class DiagramModel(
     }
 
 
-
     override fun getDefaultLayout(): Int = R.layout.item_diagram
 }
 
@@ -233,11 +234,13 @@ class DiagramEmptyModel(
 
         with(view) {
 
-            icPlus.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            icPlus.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             emptyPartnerCard.background = ContextCompat.getDrawable(
                 context,
@@ -250,12 +253,15 @@ class DiagramEmptyModel(
             }
 
             partnersEmptyText.isVisible = showEmptyText
-            partnersEmptyText.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_empty_text))
-            partnersEmptyText.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            partnersEmptyText.text =
+                Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_empty_text))
+            partnersEmptyText.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
 
         }

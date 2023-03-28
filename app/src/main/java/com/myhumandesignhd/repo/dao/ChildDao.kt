@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.myhumandesignhd.model.Child
 
@@ -11,6 +12,7 @@ import com.myhumandesignhd.model.Child
 interface ChildDao {
 
     @Query("SELECT * FROM children")
+    @Transaction
     fun getAll(): List<Child>
 
     @Query("SELECT * FROM children WHERE id LIKE :id")

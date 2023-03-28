@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
+import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentCompatibilityDetailBinding
@@ -114,6 +115,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
     private fun selectAbout() {
         YandexMetrica.reportEvent("Tab4AdultsAbout")
+        Amplitude.getInstance().logEvent("tab4PartnerGeneral");
 
         App.preferences.isCompatibilityDetailChannelsAddedNow = false
 
@@ -149,6 +151,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
     private fun selectProfiles() {
         YandexMetrica.reportEvent("Tab4AdultsProfile")
+        Amplitude.getInstance().logEvent("tab4PartnerProfile");
 
         App.preferences.isCompatibilityDetailChannelsAddedNow = false
         binding.icInfo.isVisible = false
@@ -183,6 +186,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
     private fun selectChannels() {
         YandexMetrica.reportEvent("Tab4AdultsChannels")
+        Amplitude.getInstance().logEvent("tab4PartnerChannels");
 
         App.preferences.isCompatibilityDetailChannelsAddedNow = true
         binding.icInfo.isVisible = true

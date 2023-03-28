@@ -23,6 +23,7 @@
 
         <FrameLayout
             android:id="@+id/arrowBlock"
+            android:layerType="none"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="20dp"
@@ -33,6 +34,7 @@
 
             <ImageView
                 android:id="@+id/icArrow"
+                android:layerType="none"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center"
@@ -57,6 +59,7 @@
         <FrameLayout
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layerType="none"
             android:layout_marginEnd="20dp"
             android:onClick="@{handler::onAddClicked}"
             android:visibility="gone"
@@ -66,6 +69,7 @@
 
             <ImageView
                 android:id="@+id/icPlus"
+                android:layerType="none"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"

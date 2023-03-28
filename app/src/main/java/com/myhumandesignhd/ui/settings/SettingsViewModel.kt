@@ -44,11 +44,12 @@ class SettingsViewModel @Inject constructor(
         if (query.isNullOrEmpty()) {
 //https://nominatim.openstreetmap.org/search?q=%D0%BE%D0%BC%D1%81%D0%BA&format=json&accept-language=ru
         } else {
+            val acceptLang = if (App.preferences.locale == "es") "en" else App.preferences.locale
             repo.geocodingNominatim(
                 "https://nominatim.openstreetmap.org/search?q="
                         + query
                         + "&format=json&accept-language="
-                        + App.preferences.locale
+                        + acceptLang
                         + "&limit=50"
             ).subscribe({
 //                suggestions.postValue(it)

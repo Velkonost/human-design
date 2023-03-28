@@ -11,7 +11,7 @@ import kotlin.math.abs
 
 open class OnSwipeTouchListener(ctx: Context?) : OnTouchListener {
     private val gestureDetector: GestureDetector
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+    override fun onTouch(v: View?, event: MotionEvent): Boolean {
         return gestureDetector.onTouchEvent(event)
     }
 

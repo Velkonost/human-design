@@ -5,9 +5,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.myhumandesignhd.App
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.floor
 
 @Entity(tableName = "users")
 data class User(
@@ -85,20 +89,23 @@ data class User(
 )
 
 fun User.getDateStr(): String {
-    val hours = time.split(":")[0].toInt()
-    val minutes = time.split(":")[1].toInt()
+    val hours = time.split(":")[0]//.toInt()
+    val minutes = time.split(":")[1]//.toInt()
 
-    val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT, Locale.getDefault())
-    formatter.timeZone = TimeZone.getTimeZone("GMT")
+    val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT_SHORT, Locale.getDefault())
+//    formatter.timeZone = TimeZone.getTimeZone("GMT")
 
-    val cal = GregorianCalendar(TimeZone.getTimeZone("GMT"))
+    val cal = Calendar.getInstance()//GregorianCalendar(TimeZone.getTimeZone("GMT"))
+
+    val localDataFormatter = DateTimeFormatter.ofPattern(App.DATE_FORMAT_SHORT)
+    val localDate: String = Instant.ofEpochMilli(date).atZone(ZoneId.systemDefault()).toLocalDate().format(localDataFormatter)
 
     val days =
-        if (date < 0) (date / 86400000).toInt() - 1
-        else (date / 86400000).toInt()
+        if (date < 0) floor(date.toDouble() / 86400000)
+        else floor(date.toDouble() / 86400000).toInt()
 
     cal.timeInMillis =
-        days * 86400000L + hours * 3600000L + minutes * 60000L
+        (days.toLong()) * 86400000L// + hours * 3600000L + minutes * 60000L
 
-    return formatter.format(cal.time)
+    return "$localDate $hours:$minutes:00"
 }

@@ -29,16 +29,16 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
         setupInitTheme()
 
         binding.anim.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                 super.onAnimationStart(animation, isReverse)
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                 super.onAnimationEnd(animation, isReverse)
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 EventBus.getDefault().post(FinishFirstLoaderEvent(
                     isFirst = true
                 ))
@@ -47,19 +47,16 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
                 binding.anim2.isVisible = true
 
                 binding.anim2.addAnimatorListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
-                        super.onAnimationStart(animation, isReverse)
-                    }
 
-                    override fun onAnimationStart(animation: Animator?) {
+                    override fun onAnimationStart(animation: Animator) {
                         binding.anim.isVisible = false
                     }
 
-                    override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+                    override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                         super.onAnimationEnd(animation, isReverse)
                     }
 
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
 //                        binding.anim2.clearAnimation()
                         android.os.Handler().postDelayed({
                             binding.anim2.clearAnimation()
@@ -68,8 +65,8 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
                         }, 350)
                     }
 
-                    override fun onAnimationCancel(animation: Animator?) {}
-                    override fun onAnimationRepeat(animation: Animator?) {
+                    override fun onAnimationCancel(animation: Animator) {}
+                    override fun onAnimationRepeat(animation: Animator) {
                         android.os.Handler().postDelayed({
 //                            binding.anim2.clearAnimation()
 //                            binding.anim2.cancelAnimation()
@@ -79,8 +76,8 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
                 })
             }
 
-            override fun onAnimationCancel(animation: Animator?) {}
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 
         android.os.Handler().postDelayed({

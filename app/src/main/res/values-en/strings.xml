@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">HDesign</string>
     <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
-
+    <string name="search">Search</string>
     <string name="title_splash_01">Human Design</string>
     <string name="next">Next</string>
     <string name="desc_splash_01">
@@ -57,21 +57,22 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
 ]]></string>
     <string name="understand">Continue</string>
     <string name="continue_btn">Continue</string>
+    <string name="continue_btn_start">Continue</string>
     <string name="start_rave_btn_text">Create</string>
 
     <string name="start_name_title"><![CDATA[What is<br>your name?]]></string>
-    <string name="start_name_desc"><![CDATA[Please introduce yourself so that we know how best to address you!]]></string>
+    <string name="start_name_desc"><![CDATA[We’ll enjoy getting to know your better.]]></string>
     <string name="start_name_hint">Name</string>
 
     <string name="start_date_title">Date of birth</string>
-    <string name="start_date_desc"><![CDATA[ , enter the date of birth, and<br>we will calculate your personal bodygraph!]]></string>
+    <string name="start_date_desc"><![CDATA[You date of birth is essential for identifying the exact position of the planets at the moment you were born.]]></string>
 
     <string name="start_time_title">Time of birth</string>
-    <string name="start_time_desc"><![CDATA[It will show the exact location of the planets<br>and stars at the time of your birth, which is<br>important for calculating the card.]]></string>
+    <string name="start_time_desc"><![CDATA[We are almost done!<br>name, please enter your time of birth.]]></string>
     <string name="start_time_skip">I DON\'T KNOW FOR SURE</string>
 
     <string name="start_place_title">Place of birth</string>
-    <string name="start_place_desc"><![CDATA[The place where you were born is very important. We will be able to accurately determine the position of planets and stars that left an imprint on your destiny.]]></string>
+    <string name="start_place_desc"><![CDATA[Your place of birth will give a clearer image of how stars affect you.]]></string>
     <string name="start_place_hint">City, Country</string>
 
     <string name="settings_title">Settings</string>
@@ -84,6 +85,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="settings_faq_title">FAQ</string>
     <string name="settings_privace_policy_title">Privacy Policy</string>
     <string name="settings_terms_conditions_title">Terms &amp; Conditions</string>
+    <string name="settings_manage_sub_title">Manage Subscriptions</string>
     <string name="settings_version_title">Version</string>
     <string name="settings_write_us_title">Write to us</string>
 
@@ -149,7 +151,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="environment_title">Environment</string>
 
     <string name="start_bodygraph_ready_title">Bodygraph is ready!</string>
-    <string name="start_bodygraph_ready_text"><![CDATA[Find out your true self and start your experiment!]]></string>
+    <string name="start_bodygraph_ready_text"><![CDATA[Start your experiment and improve the quality of your life!]]></string>
 
     <string-array name="push_titles">
         <item>Guide to discover your true Self 👤</item>
@@ -298,10 +300,11 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="forecast_push_desc">Your personal forecast is already available. Hurry up to read it!</string>
 
     <string name="paywall_open_full_access">Open full access</string>
-    <string name="paywall_text_1">Personal bodygraph decoding</string>
-    <string name="paywall_text_2">Planetary movements and their impact on you</string>
-    <string name="paywall_text_3">Calculation of compatibility with others</string>
-    <string name="paywall_text_4">Check what the Universe has in store for you</string>
+    <string name="paywall_text_1">Get personal bodygraph readings</string>
+    <string name="paywall_text_2">Find out your hidden talents</string>
+    <string name="paywall_text_3">Check compatibility with other people</string>
+    <string name="paywall_text_4">Discover how planets affect you</string>
+    <string name="paywall_btn">Get full access</string>
 
     <string name="paywall_1_month">Month</string>
     <string name="paywall_1_week">Week</string>
@@ -348,4 +351,17 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="promocode_cancel">Cancel</string>
     <string name="promocode_subtitle">Enter a promo code</string>
     <string name="promocode_error">Invalid promo code</string>
+
+    <string name="enjoy_hd">Enjoy Human Design!</string>
+
+    <string name="start_quiz_title">What do you expect from Human Design?</string>
+    <string name="start_quiz_variant_1">Find my true life purpose</string>
+    <string name="start_quiz_variant_2">Improve relationship</string>
+    <string name="start_quiz_variant_3">Get recommendations on how to live</string>
+    <string name="start_quiz_variant_4">Enchance my working life</string>
+    <string name="start_quiz_variant_5">Discover my hidden talents</string>
+    <string name="start_quiz_variant_6">Get advice for my everyday life</string>
+    <string name="_37_discount">37% discount</string>
+    <string name="best_offer">best offer</string>
+    <string name="pw_4_autorenewable">auto-renewable</string>
 </resources>

@@ -2,11 +2,114 @@ package com.myhumandesignhd.ui.start
 
 import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
+import com.airbnb.lottie.LottieCompositionFactory
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import kotlinx.android.synthetic.main.view_place_select.view.*
 
 fun StartFragment.updateTheme() {
+    binding.variant1Block.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
+        else R.drawable.bg_quiz_variant
+    )
+
+    binding.variant2Block.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
+        else R.drawable.bg_quiz_variant
+    )
+
+    binding.variant3Block.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
+        else R.drawable.bg_quiz_variant
+    )
+
+    binding.variant4Block.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
+        else R.drawable.bg_quiz_variant
+    )
+
+    binding.variant5Block.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
+        else R.drawable.bg_quiz_variant
+    )
+
+    binding.variant6Block.background = ContextCompat.getDrawable(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
+        else R.drawable.bg_quiz_variant
+    )
+
+    binding.variant1Check.setImageResource(
+        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
+        else R.drawable.ic_quiz_variant
+    )
+
+    binding.variant2Check.setImageResource(
+        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
+        else R.drawable.ic_quiz_variant
+    )
+
+    binding.variant3Check.setImageResource(
+        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
+        else R.drawable.ic_quiz_variant
+    )
+
+    binding.variant4Check.setImageResource(
+        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
+        else R.drawable.ic_quiz_variant
+    )
+
+    binding.variant5Check.setImageResource(
+        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
+        else R.drawable.ic_quiz_variant
+    )
+
+    binding.variant6Check.setImageResource(
+        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
+        else R.drawable.ic_quiz_variant
+    )
+
+    binding.variant1Text.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.variant2Text.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.variant3Text.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.variant4Text.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.variant5Text.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
+    binding.variant6Text.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+
     binding.loaderView.container.background = ContextCompat.getDrawable(
         requireContext(),
         if (App.preferences.isDarkTheme) R.drawable.bg_splash_dark
@@ -143,11 +246,44 @@ fun StartFragment.updateTheme() {
         else R.drawable.bg_start_header_light
     )
 
-    binding.startHeaderAnim.setAnimation(
+//    binding.startHeaderAnim.setAnimation(
+//        if (App.preferences.isDarkTheme) R.raw.start_header_dark
+//        else R.raw.start_header_light
+//    )
+
+    LottieCompositionFactory.fromRawResSync(
+        requireContext(),
         if (!App.preferences.isDarkTheme) R.raw.start_header_dark
         else R.raw.start_header_light
-    )
+    )?.let { result ->
+        result.value?.let { composition -> binding.startHeaderAnim.setComposition(composition) }
+    }
 
+    binding.bodygraphReadyText1.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+    binding.bodygraphReadyText2.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+    binding.bodygraphReadyText3.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+    binding.bodygraphReadyText4.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
+    binding.bodygraphReadyText5.setTextColor(ContextCompat.getColor(
+        requireContext(),
+        if (App.preferences.isDarkTheme) R.color.lightColor
+        else R.color.darkColor
+    ))
 
 
 }

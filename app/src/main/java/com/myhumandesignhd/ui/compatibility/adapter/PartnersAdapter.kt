@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
+import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.AddPartnerClickEvent
@@ -143,6 +144,7 @@ class PartnerModel(
             }
 
             partnerCard.setOnClickListener {
+                Amplitude.getInstance().logEvent("tab4CheckedLoveRelationship");
                 EventBus.getDefault().post(
                     CompatibilityStartClickEvent(
                         user = model,

@@ -20,7 +20,7 @@ class Preferences(context: Context) {
     var locale: String
         set(value) = sharedPreferences.edit().putString(LOCALE, value).apply()
         get() =
-            if (Locale.getDefault().language == "en" || Locale.getDefault().language == "ru")
+            if (Locale.getDefault().language == "en" || Locale.getDefault().language == "ru" )//|| Locale.getDefault().language == "es"
                 Locale.getDefault().language
             else "en"
 
@@ -67,6 +67,10 @@ class Preferences(context: Context) {
         set(value) = sharedPreferences.edit().putInt(LAST_LOGIN_PAGE_ID, value).apply()
         get() = sharedPreferences.getInt(LAST_LOGIN_PAGE_ID, 0)
 
+    var amountPaywallsShown: Int
+        set(value) = sharedPreferences.edit().putInt("amount_paywalls_shown", value).apply()
+        get() = sharedPreferences.getInt("amount_paywalls_shown", 0)
+
     var lastKnownLocation: String?
         set(value) = sharedPreferences.edit().putString("last_known_location", value).apply()
         get() = sharedPreferences.getString("last_known_location", null)
@@ -82,6 +86,10 @@ class Preferences(context: Context) {
     var isPremiun: Boolean
         set(value) = sharedPreferences.edit().putBoolean("is_premium", value).apply()
         get() = sharedPreferences.getBoolean("is_premium", false)
+
+    var uniqueUserId: String?
+        set(value) = sharedPreferences.edit().putString("unique_user_id", value).apply()
+        get() = sharedPreferences.getString("unique_user_id", null)
 
     fun clearNewUserTemps() {
         newUserName = null
@@ -162,10 +170,13 @@ class Preferences(context: Context) {
             .apply()
         get() = sharedPreferences.getBoolean("is_compatibility_from_child", false)
 
-
     var lastPaywall: Int
         set(value) = sharedPreferences.edit().putInt("last_paywall", value).apply()
         get() = sharedPreferences.getInt("last_paywall", 0)
+
+    var userNameFromStart: String?
+        set(value) = sharedPreferences.edit().putString("user_name_from_start", value).apply()
+        get() = sharedPreferences.getString("user_name_from_start", null)
 
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"

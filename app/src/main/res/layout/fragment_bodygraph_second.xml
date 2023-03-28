@@ -33,13 +33,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/selectionCard"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             app:cardCornerRadius="10dp"
+            android:background="@drawable/shadow"
             app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +63,7 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:onClick="@{handler::onAboutClicked}"
                     android:textSize="14sp" />
 
@@ -75,6 +77,7 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:onClick="@{handler::onCentersClicked}"
                     android:textSize="14sp" />
 
@@ -88,6 +91,7 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:onClick="@{handler::onGatesClicked}"
                     android:textSize="14sp" />
 
@@ -102,11 +106,12 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:onClick="@{handler::onChannelsClicked}"
                     android:textSize="14sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"

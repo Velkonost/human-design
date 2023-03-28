@@ -2,11 +2,15 @@ package com.myhumandesignhd.ui.settings
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
+import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.amplitude.api.Amplitude
+import com.amplitude.api.Identify
 import com.myhumandesignhd.App
 import com.myhumandesignhd.BuildConfig
 import com.myhumandesignhd.R
@@ -23,6 +27,11 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     Handler::class
 ) {
 
+    override fun onLayoutReady(savedInstanceState: Bundle?) {
+        super.onLayoutReady(savedInstanceState)
+        Amplitude.getInstance().logEvent("settings_screen_shown");
+    }
+
     private fun setupLocale() {
         binding.title.text = App.resourcesProvider.getStringLocale(R.string.settings_title)
         binding.notificationsTitle.text =
@@ -36,6 +45,8 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             App.resourcesProvider.getStringLocale(R.string.settings_privace_policy_title)
         binding.termsTitle.text =
             App.resourcesProvider.getStringLocale(R.string.settings_terms_conditions_title)
+        binding.manageSubTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.settings_manage_sub_title)
         binding.writeUs.text =
             App.resourcesProvider.getStringLocale(R.string.settings_write_us_title)
         binding.version.text =
@@ -138,8 +149,10 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 binding.writeUs.setTextColor(it.animatedValue.toString().toInt())
                 binding.infoBlockSeparator.setBackgroundColor(it.animatedValue.toString().toInt())
                 binding.footerBlockSeparator.setBackgroundColor(it.animatedValue.toString().toInt())
+                binding.footerBlockSeparator2.setBackgroundColor(it.animatedValue.toString().toInt())
                 binding.privacyPolicyTitle.setTextColor(it.animatedValue.toString().toInt())
                 binding.termsTitle.setTextColor(it.animatedValue.toString().toInt())
+                binding.manageSubTitle.setTextColor(it.animatedValue.toString().toInt())
 
                 binding.nightTheme.setTextColor(it.animatedValue.toString().toInt())
             }
@@ -273,6 +286,14 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 )
             )
 
+            binding.footerBlockSeparator2.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
             binding.version.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
@@ -310,6 +331,14 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                     else R.color.darkColor
                 )
             )
+
+            binding.manageSubTitle.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
         }
 
         binding.notificationsSwitch.isChecked = App.preferences.isPushAvailable
@@ -318,6 +347,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
             if (!App.preferences.isPushAvailable) {
                 YandexMetrica.reportEvent("Tab1userDisabledNotifications")
+                Amplitude.getInstance().logEvent("settingsDisabledNotifications");
 
                 binding.notificationBlockActive.background = null
                 binding.notificationBlockActive.setBackgroundColor(ContextCompat.getColor(
@@ -332,6 +362,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 ))
             } else {
                 YandexMetrica.reportEvent("Tab1userAllowedNotifications")
+                Amplitude.getInstance().logEvent("settingsAllowedNotifications");
 
                 binding.notificationBlockActive.background = ContextCompat.getDrawable(
                     requireContext(),
@@ -368,6 +399,11 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
         fun onNightClicked(v: View) {
             YandexMetrica.reportEvent("Tab1UserSwitchedToDarkMode")
+            Amplitude.getInstance().logEvent("userSwitchedToDarkMode");
+
+            val identify = Identify()
+            identify.set("mode", "dark")
+            Amplitude.getInstance().identify(identify)
 
             if (!App.preferences.isDarkTheme) {
                 App.preferences.isDarkTheme = true
@@ -383,6 +419,12 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
         fun onDayClicked(v: View) {
             YandexMetrica.reportEvent("Tab1UserSwitchedToWhiteMode")
+            Amplitude.getInstance().logEvent("userSwitchedToWhiteMode");
+
+            val identify = Identify()
+            identify.set("mode", "light")
+            Amplitude.getInstance().identify(identify)
+
             if (App.preferences.isDarkTheme) {
                 App.preferences.isDarkTheme = false
                 EventBus.getDefault().post(
@@ -396,14 +438,14 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
 
         fun onTermsClicked(v: View) {
-            val url = "http://humdesign.tilda.ws/terms"
+            val url = "https://humdesign.info/terms-of-use.php"
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
             startActivity(i)
         }
 
         fun onPrivacyPolicyClicked(v: View) {
-            val url = "http://humdesign.tilda.ws/policy"
+            val url = "https://humdesign.info/policy.php"
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
             startActivity(i)
@@ -412,15 +454,15 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         fun onWriteUsClicked(v: View) {
             YandexMetrica.reportEvent("Tab1WriteToUsTapped")
 
-            val email: Array<String> = arrayOf("humdesignhd@gmail.com")
-            val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:")
-                putExtra(Intent.EXTRA_EMAIL, email)
-                putExtra(Intent.EXTRA_SUBJECT,   App.resourcesProvider.getStringLocale(R.string.app_name))
-            }
-            if (intent.resolveActivity(requireContext().packageManager) != null) {
+            kotlin.runCatching {
+                val email: Array<String> = arrayOf("humdesignhd@gmail.com")
+                val intent = Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse("mailto:")
+                    putExtra(Intent.EXTRA_EMAIL, email)
+                    putExtra(Intent.EXTRA_SUBJECT,   App.resourcesProvider.getStringLocale(R.string.app_name))
+                }
                 startActivity(intent)
-            } else {
+            }.onFailure {
                 val email = "humdesignhd@gmail.com"
                 val uri = Uri.parse("mailto:$email")
                     .buildUpon()
@@ -446,18 +488,28 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
         fun onFaqClicked(v: View) {
             YandexMetrica.reportEvent("Tab1SettingsFAQTapped")
+            Amplitude.getInstance().logEvent("settingsTappedFAQ");
 
             router.navigateTo(Screens.faqScreen())
         }
 
         fun onPersonalInfoClicked(v: View) {
             YandexMetrica.reportEvent("Tab1SettingsPersonalInfoTapped")
+            Amplitude.getInstance().logEvent("settingsTappedChangeInfo");
 
             router.navigateTo(Screens.personalInfoScreen())
         }
 
         fun onBackClicked(v: View) {
             router.exit()
+        }
+
+        fun openPlaystoreAccount(v: View) {
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/account/subscriptions?package=com.myhumandesignhd")))
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
+            }
         }
     }
 }

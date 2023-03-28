@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.EpoxyRecyclerView
+import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.model.Cycle
@@ -88,14 +89,17 @@ class CycleModel(
         with(view) {
             cycleTitle.text =
                 if (App.preferences.locale == "ru") model.nameRu
+                else if (App.preferences.locale == "es") model.nameEs
                 else model.nameEn
 
             cycleDesc.text =
                 if (App.preferences.locale == "ru") model.descriptionRu
+                else if (App.preferences.locale == "es") model.descriptionEs
                 else model.descriptionEn
 
             cycleAge.text =
                 if (App.preferences.locale == "ru") model.ageRu
+                else if (App.preferences.locale == "es") model.ageEs
                 else model.ageEn
 
             cycleAgeTitle.text = App.resourcesProvider.getStringLocale(R.string.cycle_age_title)
@@ -150,10 +154,22 @@ class CycleModel(
 
             cycleCard.setOnClickListener {
                 when(model.id) {
-                    "SaturnReturn" -> YandexMetrica.reportEvent("Tab3CyclesSaturnTapped")
-                    "OppositionUran" -> YandexMetrica.reportEvent("Tab3CyclesUranusTapped")
-                    "ReturnChiron" -> YandexMetrica.reportEvent("Tab3CyclesChironTapped")
-                    "SecondSaturn" -> YandexMetrica.reportEvent("Tab3CyclesSecondSaturnTapped")
+                    "SaturnReturn" -> {
+                        YandexMetrica.reportEvent("Tab3CyclesSaturnTapped")
+                        Amplitude.getInstance().logEvent("tab3CyclesSaturnTapped");
+                    }
+                    "OppositionUran" -> {
+                        YandexMetrica.reportEvent("Tab3CyclesUranusTapped")
+                        Amplitude.getInstance().logEvent("tab3CyclesUranusTapped");
+                    }
+                    "ReturnChiron" -> {
+                        YandexMetrica.reportEvent("Tab3CyclesChironTapped")
+                        Amplitude.getInstance().logEvent("tab3CyclesChironTapped");
+                    }
+                    "SecondSaturn" -> {
+                        YandexMetrica.reportEvent("Tab3CyclesSecondSaturnTapped")
+                        Amplitude.getInstance().logEvent("tab3CyclesSecondSaturnTapped");
+                    }
                 }
 
                 isExpanded = !isExpanded

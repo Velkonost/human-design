@@ -93,19 +93,19 @@ class VerticalViewPager : ViewPager {
             }
         }
         animator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
                 kotlin.runCatching { beginFakeDrag() }
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 kotlin.runCatching { endFakeDrag() }
 
             }
 
-            override fun onAnimationCancel(animation: Animator?) { /* Ignored */
+            override fun onAnimationCancel(animation: Animator) { /* Ignored */
             }
 
-            override fun onAnimationRepeat(animation: Animator?) { /* Ignored */
+            override fun onAnimationRepeat(animation: Animator) { /* Ignored */
             }
         })
         animator.interpolator = interpolator

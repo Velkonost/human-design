@@ -72,6 +72,9 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     }
 
     override fun onStart() {
+        updateThemeAndLocale()
+        updateThemeAndLocale(withAnimation = false, withTextAnimation = false)
+
         registerBackPressedCallback()
         super.onStart()
         try {
@@ -90,9 +93,7 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
     open fun updateThemeAndLocale(
         withAnimation: Boolean = false,
         withTextAnimation: Boolean = false
-    ) {
-
-    }
+    ) {}
 
     open fun updateThemeAndLocale() {
 
@@ -107,7 +108,6 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
             )
         } else
             updateThemeAndLocale()
-
     }
 
     override fun onStop() {
@@ -184,8 +184,8 @@ abstract class BaseFragment<T : ViewModel, B : ViewDataBinding>(
         Timber.d("${this@BaseFragment.javaClass.name}::OnLayoutReady")
         Timber.d("${this@BaseFragment.javaClass.name}::${savedInstanceState == null}")
 
-        updateThemeAndLocale()
-        updateThemeAndLocale(withAnimation = false, withTextAnimation = false)
+//        updateThemeAndLocale()
+//        updateThemeAndLocale(withAnimation = false, withTextAnimation = false)
     }
 
     protected open fun onViewModelReady(viewModel: T) {

@@ -12,7 +12,7 @@
         android:clipChildren="true"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingBottom="450dp"
+        android:paddingBottom="150dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/activeGatesDesc" />
 </androidx.constraintlayout.widget.ConstraintLayout>

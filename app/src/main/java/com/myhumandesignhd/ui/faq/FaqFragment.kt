@@ -73,8 +73,10 @@ class FaqFragment : BaseFragment<FaqViewModel, FragmentFaqBinding>(
         router.navigateTo(
             Screens.faqDetailScreen(
             title = if (App.preferences.locale == "ru") e.faq.titleRu
+            else if (App.preferences.locale == "es") e.faq.titleEs
             else e.faq.titleEn,
             desc = if (App.preferences.locale == "ru") e.faq.textRu
+            else if (App.preferences.locale == "es") e.faq.textEs
             else e.faq.textEn
         ))
     }

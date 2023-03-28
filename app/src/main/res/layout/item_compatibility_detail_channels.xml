@@ -13,6 +13,6 @@
         android:clipChildren="true"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingBottom="450dp"
+        android:paddingBottom="150dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 </androidx.constraintlayout.widget.ConstraintLayout>

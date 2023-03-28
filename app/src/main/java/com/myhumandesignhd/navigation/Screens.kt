@@ -30,8 +30,16 @@ object Screens {
         LoaderFragment()
     }
 
-    fun paywallScreen() = FragmentScreen {
-        PaywallFragment()
+    fun paywallScreen(
+        fromStart: Boolean = false,
+        source: String
+    ) = FragmentScreen {
+        val paywallFragment = PaywallFragment()
+        paywallFragment.arguments = bundleOf(
+            "fromStart" to fromStart,
+            "source" to source
+        )
+        paywallFragment
     }
 
     fun startScreen() = FragmentScreen {
@@ -39,11 +47,13 @@ object Screens {
     }
 
     fun bodygraphScreen(
-        fromStart: Boolean = false
+        fromStart: Boolean = false,
+        needUpdateNavMenu: Boolean = true
     ) = FragmentScreen {
         val bodygraphFragment = BodygraphFragment()//.invoke()
         bodygraphFragment.arguments = bundleOf(
-            "fromStart" to fromStart
+            "fromStart" to fromStart,
+            "needUpdateNavMenu" to needUpdateNavMenu
         )
 
         bodygraphFragment

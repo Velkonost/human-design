@@ -116,9 +116,26 @@ public class DatePickerFactory {
                 "Декабря"
         };
 
+        String[] spainMonths = new String[]{
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+        };
+
         String[] monthsArray = dfs.getMonths();
         if (App.preferences.getLocale().equals("ru"))
             monthsArray = russianMonths;
+        else if (App.preferences.getLocale().equals("es"))
+            monthsArray = spainMonths;
 
         List<String> monthsList = Arrays.asList(monthsArray);
         int max = monthsList.size();

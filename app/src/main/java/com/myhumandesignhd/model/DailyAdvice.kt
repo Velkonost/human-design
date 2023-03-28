@@ -8,7 +8,9 @@ import kotlinx.android.parcel.Parcelize
 data class DailyAdvice(
     @field:JsonProperty("id") val id: String = "",
     @field:JsonProperty("title_ru") val titleRu: String = "",
+    @field:JsonProperty("title_es") val titleEs: String = "",
     @field:JsonProperty("title_en") val titleEn: String = "",
     @field:JsonProperty("text_ru") val textRu: String = "",
     @field:JsonProperty("text_en") val textEn: String = "",
+    @field:JsonProperty("text_es") val textEs: String = "",
 ): Parcelable

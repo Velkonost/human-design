@@ -21,6 +21,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.amplitude.api.Amplitude
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.myhumandesignhd.App
@@ -54,12 +55,14 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.yandex.metrica.YandexMetrica
 import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.android.synthetic.main.container_start_name.view.*
 import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
 import kotlinx.android.synthetic.main.view_place_select.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.json.JSONObject
 import java.util.*
 
 class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
@@ -188,6 +191,32 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
     }
 
     override fun updateThemeAndLocale() {
+
+        binding.bodygraphReadyText1.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+        binding.bodygraphReadyText2.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+        binding.bodygraphReadyText3.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+        binding.bodygraphReadyText4.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+        binding.bodygraphReadyText5.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
 
         binding.bottomGradient.isVisible = App.preferences.isDarkTheme
 
@@ -401,6 +430,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             placesAdapter.createList(emptyList(), false)
         }
 
+        binding.placesView.newPlaceET.hint = App.resourcesProvider.getStringLocale(R.string.search)
         binding.placesView.newPlaceET.addTextChangedListener {
             if (!binding.placesView.newPlaceET.text.isNullOrEmpty()) {
                 binding.viewModel!!.geocodingNominatim(binding.placesView.newPlaceET.text.toString())
@@ -531,6 +561,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         val c = Calendar.getInstance()
         c.add(Calendar.YEAR, -20)
+        binding.date.maxDate = Calendar.getInstance().time
         binding.date.setDefaultDate(c.time)
 
         binding.nameET.alpha0(500) {
@@ -665,6 +696,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
     private fun setupBodygraph() {
         currentStartPage = StartPage.BODYGRAPH
+        binding.startBtn.isVisible = false
 
         binding.indicatorsContainer.alpha0(300)
 
@@ -678,35 +710,20 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         when {
             isChild -> {
                 YandexMetrica.reportEvent("TabAddChildrenBodygrapsScreenShowen")
+//                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_bodygraph_ready_title))
 
-                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_bodygraph_ready_title))
-                binding.bodygraphReadyText.setTextAnimation07(
-                    App.resourcesProvider.getStringLocale(
-                        R.string.add_child_bodygraph_ready_desc
-                    )
-                )
             }
             fromCompatibility -> {
                 YandexMetrica.reportEvent("TabAddAdultsBodygrapsScreenShowen")
-
-                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_bodygraph_ready_title))
-                binding.bodygraphReadyText.setTextAnimation07(
-                    App.resourcesProvider.getStringLocale(
-                        R.string.add_partner_bodygraph_ready_desc
-                    )
-                )
+//                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_bodygraph_ready_title))
             }
             else -> {
                 YandexMetrica.reportEvent("Tab1AddUserStartBodygraphShowen")
+//                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_bodygraph_title))
 
-                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_bodygraph_title))
-                binding.bodygraphReadyText.setTextAnimation07(
-                    App.resourcesProvider.getStringLocale(
-                        R.string.diagram_bodygraph_desc
-                    )
-                )
             }
         }
+        binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_creating_title))
 
         when {
             isChild -> {
@@ -718,12 +735,75 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                         android.os.Handler().postDelayed({
                             binding.startBtn.isEnabled = true
 
-                            binding.bodygraphView.isVisible = true
-                            binding.bodygraphView.scaleXY(1f, 1f, 1500) {
-                                binding.bodygraphView.changeSpeedAnimationFactor(3f)
-                                binding.bodygraphView.changeIsAllowDrawLinesState(true)
+                            if (!binding.bodygraphView.isVisible) {
+                                binding.bodygraphView.isVisible = true
+                                binding.bodygraphView.scaleXY(1f, 1f, 1500) {
+                                    binding.bodygraphView.changeSpeedAnimationFactor(10f)
+                                    binding.bodygraphView.changeIsAllowDrawLinesState(true)
+                                }
+
+                                binding.bodygraphReadyMark1.isVisible = true
+                                binding.bodygraphReadyMark1.playAnimation()
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark2.isVisible = true
+                                    binding.bodygraphReadyMark2.playAnimation()
+                                }, 1500)
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark3.isVisible = true
+                                    binding.bodygraphReadyMark3.playAnimation()
+                                }, 3000)
+
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark4.isVisible = true
+                                    binding.bodygraphReadyMark4.playAnimation()
+                                }, 4500)
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark5.isVisible = true
+                                    binding.bodygraphReadyMark5.playAnimation()
+                                }, 6000)
+
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyTitle.text =
+                                        App.resourcesProvider.getStringLocale(
+                                            R.string.start_bodygraph_ready_title
+                                        )
+
+
+                                    android.os.Handler().postDelayed({
+                                        App.preferences.lastLoginPageId = -1
+
+                                        when {
+                                            isChild -> {
+                                                Amplitude.getInstance()
+                                                    .logEvent("tab4AddChildStartButton7");
+                                                App.preferences.isCompatibilityFromChild = true
+                                                router.navigateTo(Screens.compatibilityScreen())
+                                            }
+                                            fromCompatibility -> {
+                                                Amplitude.getInstance()
+                                                    .logEvent("tab3TappedStartButton7");
+                                                router.navigateTo(Screens.compatibilityScreen())
+                                            }
+                                            else -> {
+                                                Amplitude.getInstance()
+                                                    .logEvent("addUserTappedStart6");
+                                                App.isBodygraphWithAnimationShown = false
+
+                                                App.preferences.isInvokeNewTransits = true
+                                                App.preferences.isInvokeNewDescription = true
+                                                App.preferences.isInvokeNewCompatibility = true
+                                                App.preferences.isInvokeNewInsights = true
+
+                                                App.isBodygraphWithAnimationShown = false
+
+                                                router.replaceScreen(Screens.bodygraphScreen())
+                                            }
+                                        }
+                                    }, 1000)
+
+                                }, 7500)
                             }
-                        }, 200)
+                        }, 700)
 
                     }
 
@@ -744,12 +824,75 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                         android.os.Handler().postDelayed({
                             binding.startBtn.isEnabled = true
 
-                            binding.bodygraphView.isVisible = true
-                            binding.bodygraphView.scaleXY(1f, 1f, 1500) {
-                                binding.bodygraphView.changeSpeedAnimationFactor(3f)
-                                binding.bodygraphView.changeIsAllowDrawLinesState(true)
+                            if (!binding.bodygraphView.isVisible) {
+                                binding.bodygraphView.isVisible = true
+                                binding.bodygraphView.scaleXY(1f, 1f, 1500) {
+                                    binding.bodygraphView.changeSpeedAnimationFactor(10f)
+                                    binding.bodygraphView.changeIsAllowDrawLinesState(true)
+                                }
+
+                                binding.bodygraphReadyMark1.isVisible = true
+                                binding.bodygraphReadyMark1.playAnimation()
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark2.isVisible = true
+                                    binding.bodygraphReadyMark2.playAnimation()
+                                }, 1500)
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark3.isVisible = true
+                                    binding.bodygraphReadyMark3.playAnimation()
+                                }, 3000)
+
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark4.isVisible = true
+                                    binding.bodygraphReadyMark4.playAnimation()
+                                }, 4500)
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark5.isVisible = true
+                                    binding.bodygraphReadyMark5.playAnimation()
+                                }, 6000)
+
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyTitle.text =
+                                        App.resourcesProvider.getStringLocale(
+                                            R.string.start_bodygraph_ready_title
+                                        )
+
+
+                                    android.os.Handler().postDelayed({
+                                        App.preferences.lastLoginPageId = -1
+
+                                        when {
+                                            isChild -> {
+                                                Amplitude.getInstance()
+                                                    .logEvent("tab4AddChildStartButton7");
+                                                App.preferences.isCompatibilityFromChild = true
+                                                router.navigateTo(Screens.compatibilityScreen())
+                                            }
+                                            fromCompatibility -> {
+                                                Amplitude.getInstance()
+                                                    .logEvent("tab3TappedStartButton7");
+                                                router.navigateTo(Screens.compatibilityScreen())
+                                            }
+                                            else -> {
+                                                Amplitude.getInstance()
+                                                    .logEvent("addUserTappedStart6");
+                                                App.isBodygraphWithAnimationShown = false
+
+                                                App.preferences.isInvokeNewTransits = true
+                                                App.preferences.isInvokeNewDescription = true
+                                                App.preferences.isInvokeNewCompatibility = true
+                                                App.preferences.isInvokeNewInsights = true
+
+                                                App.isBodygraphWithAnimationShown = false
+
+                                                router.replaceScreen(Screens.bodygraphScreen())
+                                            }
+                                        }
+                                    }, 1000)
+
+                                }, 7500)
                             }
-                        }, 200)
+                        }, 700)
 
                     }
 
@@ -770,12 +913,75 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                         android.os.Handler().postDelayed({
                             binding.startBtn.isEnabled = true
 
-                            binding.bodygraphView.isVisible = true
-                            binding.bodygraphView.scaleXY(1f, 1f, 1500) {
-                                binding.bodygraphView.changeSpeedAnimationFactor(3f)
-                                binding.bodygraphView.changeIsAllowDrawLinesState(true)
+                            if (!binding.bodygraphView.isVisible) {
+                                binding.bodygraphView.isVisible = true
+                                binding.bodygraphView.scaleXY(1f, 1f, 1500) {
+                                    binding.bodygraphView.changeSpeedAnimationFactor(10f)
+                                    binding.bodygraphView.changeIsAllowDrawLinesState(true)
+                                }
+
+                                binding.bodygraphReadyMark1.isVisible = true
+                                binding.bodygraphReadyMark1.playAnimation()
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark2.isVisible = true
+                                    binding.bodygraphReadyMark2.playAnimation()
+                                }, 1500)
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark3.isVisible = true
+                                    binding.bodygraphReadyMark3.playAnimation()
+                                }, 3000)
+
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark4.isVisible = true
+                                    binding.bodygraphReadyMark4.playAnimation()
+                                }, 4500)
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyMark5.isVisible = true
+                                    binding.bodygraphReadyMark5.playAnimation()
+                                }, 6000)
+
+                                android.os.Handler().postDelayed({
+                                    binding.bodygraphReadyTitle.text =
+                                        App.resourcesProvider.getStringLocale(
+                                            R.string.start_bodygraph_ready_title
+                                        )
+
+
+                                    android.os.Handler().postDelayed({
+                                        App.preferences.lastLoginPageId = -1
+
+                                        when {
+                                            isChild -> {
+                                                Amplitude.getInstance()
+                                                    .logEvent("tab4AddChildStartButton7");
+                                                App.preferences.isCompatibilityFromChild = true
+                                                router.navigateTo(Screens.compatibilityScreen())
+                                            }
+                                            fromCompatibility -> {
+                                                Amplitude.getInstance()
+                                                    .logEvent("tab3TappedStartButton7");
+                                                router.navigateTo(Screens.compatibilityScreen())
+                                            }
+                                            else -> {
+                                                Amplitude.getInstance()
+                                                    .logEvent("addUserTappedStart6");
+                                                App.isBodygraphWithAnimationShown = false
+
+                                                App.preferences.isInvokeNewTransits = true
+                                                App.preferences.isInvokeNewDescription = true
+                                                App.preferences.isInvokeNewCompatibility = true
+                                                App.preferences.isInvokeNewInsights = true
+
+                                                App.isBodygraphWithAnimationShown = false
+
+                                                router.replaceScreen(Screens.bodygraphScreen())
+                                            }
+                                        }
+                                    }, 1000)
+
+                                }, 7500)
                             }
-                        }, 200)
+                        }, 700)
 
                     }
 
@@ -979,13 +1185,24 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         }
 
         fun onBtnClicked(v: View) {
-
             when (currentStartPage) {
                 StartPage.RAVE -> {
+                    when {
+                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton1");
+                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton1");
+                        else -> Amplitude.getInstance().logEvent("addUserTappedStart1");
+                    }
+
                     animateCirclesBtwPages(1000)
                     setupName()
                 }
                 StartPage.NAME -> {
+                    when {
+                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton2");
+                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton2");
+                        else -> Amplitude.getInstance().logEvent("addUserTappedStart2");
+                    }
+
                     if (binding.nameET.text.toString().replace(" ", "").isNullOrEmpty()) {
                         snackbarName.show()
                     } else {
@@ -1001,14 +1218,44 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     }
                 }
                 StartPage.DATE_BIRTH -> {
+                    when {
+                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton3");
+                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton3");
+                        else -> Amplitude.getInstance().logEvent("addUserTappedStart3");
+                    }
+
                     animateCirclesBtwPages(1000)
                     setupTimeBirth()
                 }
                 StartPage.TIME_BIRTH -> {
+                    when {
+                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton4");
+                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton4");
+                        else -> Amplitude.getInstance().logEvent("addUserTappedStart4");
+                    }
+
+                    Amplitude.getInstance().logEvent(
+                        "",
+                        JSONObject(mutableMapOf(
+                            "source" to when {
+                                isChild -> "fromKidsBodygraphCreating"
+                                fromCompatibility -> "fromCompatibleBodygraphCreating"
+                                else -> "fromSecondaryBodygraphCreating"
+                            }
+                        ).toMap()))
+
+
                     animateCirclesBtwPages(1000)
                     setupPlaceBirth()
                 }
                 StartPage.PLACE_BIRTH -> {
+
+                    when {
+                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton5");
+                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton5");
+                        else -> Amplitude.getInstance().logEvent("addUserTappedStart5");
+                    }
+
                     if (!isNetworkConnected()) {
                         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
                         EventBus.getDefault().post(NoInetEvent())
@@ -1061,13 +1308,16 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
                     when {
                         isChild -> {
+                            Amplitude.getInstance().logEvent("tab4AddChildStartButton7");
                             App.preferences.isCompatibilityFromChild = true
                             router.navigateTo(Screens.compatibilityScreen())
                         }
                         fromCompatibility -> {
+                            Amplitude.getInstance().logEvent("tab3TappedStartButton7");
                             router.navigateTo(Screens.compatibilityScreen())
                         }
                         else -> {
+                            Amplitude.getInstance().logEvent("addUserTappedStart6");
                             App.isBodygraphWithAnimationShown = false
 
                             App.preferences.isInvokeNewTransits = true
@@ -1077,7 +1327,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
                             App.isBodygraphWithAnimationShown = false
 
-                            router.navigateTo(Screens.bodygraphScreen())
+                            router.replaceScreen(Screens.bodygraphScreen())
+//                            router.navigateTo(Screens.bodygraphScreen())
                         }
                     }
                 }

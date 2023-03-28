@@ -35,6 +35,7 @@
 
         <ImageView
             android:id="@+id/icInfo"
+            android:layerType="none"
             android:layout_width="27dp"
             android:layout_height="27dp"
             android:layout_marginEnd="20dp"
@@ -74,6 +75,7 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:onClick="@{handler::onTransitsClicked}"
                     android:textSize="14sp" />
 
@@ -87,6 +89,7 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:onClick="@{handler::onCyclesClicked}"
                     android:textSize="14sp" />
 
@@ -101,6 +104,7 @@
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:onClick="@{handler::onAdviceClicked}"
                     android:textSize="14sp" />
 

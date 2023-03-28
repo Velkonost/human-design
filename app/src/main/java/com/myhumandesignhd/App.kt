@@ -9,8 +9,8 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import com.adapty.Adapty
-import com.adapty.models.PaywallModel
-import com.adapty.models.ProductModel
+import com.adapty.models.AdaptyPaywall
+import com.adapty.models.AdaptyPaywallProduct
 import com.adapty.utils.AdaptyLogLevel
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.attribution.AppsFlyerRequestListener
@@ -46,7 +46,7 @@ class App : DaggerApplication() {
     private var mActivityTransitionTimer: Timer? = null
     private var mActivityTransitionTimerTask: TimerTask? = null
     var wasInBackground = false
-    private val MAX_ACTIVITY_TRANSITION_TIME_MS: Long = 1200000
+    private val MAX_ACTIVITY_TRANSITION_TIME_MS: Long = 300000
 
     private val appComponent = DaggerAppComponent.builder()
         .appModule(AppModule(this))
@@ -178,14 +178,30 @@ class App : DaggerApplication() {
         const val LOCATION_REQUEST_CODE = 99
 
         const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
+        const val DATE_FORMAT_SHORT = "yyyy-MM-dd"
         const val DATE_FORMAT_PERSONAL_INFO = "dd.MM.yyyy"
 
         const val TARGET_SDK = android.os.Build.VERSION_CODES.M
 
+
+        val PROMOCODES = arrayListOf<String>(
+            "1hxn3eus", "LeRfUjHN", "zOMFmWTK", "FFjOcW8i", "TvH36Qmg",
+            "ARxfuK55", "3wEet9gC", "SCiMJODv", "cdtlbCAX", "8x3eMkHD",
+            "LieG4c97", "Im38VXbd", "RNNdh3hJ", "tE3q71zG", "idORkAnz",
+            "EySZgQEv", "aE7gAoOT", "THibAlmL", "tKblRicY", "oB6cgELb",
+            "r1uY8O6B", "poiSITaA", "8RULa6iZ", "dzvcWydz", "NkdNcppv",
+            "kiWZTPFl", "2rN3Obel", "4snr17Yg", "SkIJFwPu", "DrSRBF59",
+            "zHzfwMvC", "YTLPN8QB", "m16nOjxF", "xWSk4d2W", "qB2CkELy",
+            "7ykKoS8g", "Tc6cvOfO", "d15aaQrA", "OvzncMzz", "EXop4FCY",
+            "hs4REHTL", "B9rrYsKW", "qI5VHhsU", "UTqvDbvV", "VqYF6M8R",
+            "SqHmNwB5", "gpQld7U6", "GD24Wgnt", "qDLxV8hv", "xQ4x3tQ1",
+            "HDFREETEST"
+        )
         const val PROMOCODE = "HDFREETEST"
 
-        var adaptyPaywallModel: PaywallModel? = null
-        var adaptyProducts: List<ProductModel>? = null
+        var adaptySplitPwName: String? = null
+        var adaptyPaywallModel: AdaptyPaywall? = null
+        var adaptyProducts: List<AdaptyPaywallProduct>? = null
     }
 }
 

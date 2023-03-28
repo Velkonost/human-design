@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentTransitBinding
@@ -35,6 +36,7 @@ import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.yandex.metrica.YandexMetrica
+import com.yandex.metrica.impl.ob.uf
 import kotlinx.android.synthetic.main.item_transit_advice.view.*
 import kotlinx.android.synthetic.main.item_transit_cycles.view.*
 import kotlinx.android.synthetic.main.item_transit_gates.view.*
@@ -82,6 +84,12 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
         super.onCreate(savedInstanceState)
 
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+    }
+
+    override fun onLayoutReady(savedInstanceState: Bundle?) {
+        super.onLayoutReady(savedInstanceState)
+
+        Amplitude.getInstance().logEvent("tab3_screen_shown");
     }
 
     private fun showTransitHelp() {
@@ -191,6 +199,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
     private fun selectTransits() {
         YandexMetrica.reportEvent("Tab3TransitsTapped")
+        Amplitude.getInstance().logEvent("tab3TappedTransits");
 
         binding.icInfo.isVisible = true
 
@@ -222,6 +231,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
     private fun selectCycles() {
         YandexMetrica.reportEvent("Tab3CyclesTapped")
+        Amplitude.getInstance().logEvent("tab3TappedCycles");
 
         binding.icInfo.isVisible = false
 
@@ -253,6 +263,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
     private fun selectAdvice() {
         YandexMetrica.reportEvent("Tab3AdviceTapped")
+        Amplitude.getInstance().logEvent("tab3TappedDailyAdvice");
 
         binding.icInfo.isVisible = false
 
@@ -339,10 +350,12 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                     baseViewModel.currentDailyAdvice.observe(viewLifecycleOwner) {
                         view.adviceTitle.text =
                             if (App.preferences.locale == "ru") it.titleRu
+                            else if (App.preferences.locale == "es") it.titleEs
                             else it.titleEn
 
                         view.adviceText.text =
                             if (App.preferences.locale == "ru") it.textRu
+                            else if (App.preferences.locale == "es") it.textEs
                             else it.textEn
                     }
 
@@ -372,21 +385,22 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                         else R.color.darkColor
                     ))
 
+                    view.adviceIcon.setImageResource(
+                        if (App.preferences.isDarkTheme) R.drawable.ic_advice_icon_dark
+                        else R.drawable.ic_advice_icon_light
+                    )
+
+                    view.bigCircle.setImageResource(
+                        if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
+                        else R.drawable.ic_circle_big_light
+                    )
+
+                    view.midCircle.setImageResource(
+                        if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
+                        else R.drawable.ic_circle_mid_light
+                    )
+
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                        view.adviceIcon.setImageResource(
-                            if (App.preferences.isDarkTheme) R.drawable.ic_advice_icon_dark
-                            else R.drawable.ic_advice_icon_light
-                        )
-
-                        view.bigCircle.setImageResource(
-                            if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
-                            else R.drawable.ic_circle_big_light
-                        )
-
-                        view.midCircle.setImageResource(
-                            if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
-                            else R.drawable.ic_circle_mid_light
-                        )
 
                         val rotate = RotateAnimation(
                             0f,
@@ -453,8 +467,10 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
             router.navigateTo(
                 Screens.faqDetailScreen(
                 title = if (App.preferences.locale == "ru") baseViewModel.faqsList[7].titleRu
+                else if (App.preferences.locale == "es") baseViewModel.faqsList[7].titleEs
                 else baseViewModel.faqsList[8].titleEn,
                 desc = if (App.preferences.locale == "ru") baseViewModel.faqsList[7].textRu
+                else if (App.preferences.locale == "es") baseViewModel.faqsList[7].textEs
                 else baseViewModel.faqsList[8].textEn
             ))
         }

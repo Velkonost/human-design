@@ -460,8 +460,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
             @Override
             public void run() {
                 if (maxDate != null && isAfterMaxDate(getDate())) {
+                    Date today = Calendar.getInstance().getTime();
                     for (WheelPicker p : pickers) {
-                        p.scrollTo(p.findIndexOfDate(maxDate));
+                        if (p instanceof WheelYearPicker) {
+                            p.scrollTo(((WheelYearPicker) p).getAdapter().getData().indexOf(String.valueOf(Calendar.getInstance().get(Calendar.YEAR))));
+                        } else p.scrollTo(p.findIndexOfDate(today));
                     }
                 }
             }

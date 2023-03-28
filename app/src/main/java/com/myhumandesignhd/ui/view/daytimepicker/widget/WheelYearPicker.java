@@ -31,6 +31,10 @@ public class WheelYearPicker extends com.github.florent37.singledateandtimepicke
         super(context, attrs);
     }
 
+    public Adapter getAdapter() {
+        return adapter;
+    }
+
     @Override
     public void setDefaultDate(Date date) {
 

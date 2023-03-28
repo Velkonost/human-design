@@ -27,15 +27,11 @@ class NotificationService(name: String?) : IntentService(name) {
     override fun onCreate() {
         super.onCreate()
 
-        startForeground()
-    }
-
-    private fun startForeground() {
+//        startForeground()
         val channelId =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 createNotificationChannel("my_service", "My Background Service")
             } else {
-
                 ""
             }
 
@@ -47,6 +43,10 @@ class NotificationService(name: String?) : IntentService(name) {
             .setContentText("pez")
             .build()
         startForeground(101, notification)
+    }
+
+    private fun startForeground() {
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -74,7 +74,7 @@ class NotificationService(name: String?) : IntentService(name) {
                 link = "google.com",
                 pageTitle = "pageTitle",
                 filter = "filter",
-                section = "section"
+                section = "trauma"
             )
         } else if (intent != null && !intent.getStringExtra("isForecast").isNullOrEmpty()) {
             var title = resources.getStringArray(R.array.forecast_push_titles)[intent.getStringExtra("forecastPosition")?.toInt()?: 0]

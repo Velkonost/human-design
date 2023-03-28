@@ -3,6 +3,7 @@ package com.myhumandesignhd.ui.bodygraph
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.media.metrics.Event
 import android.os.Bundle
 import android.os.Handler
 import android.view.Gravity
@@ -15,11 +16,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentBodygraphBinding
 import com.myhumandesignhd.event.BodygraphCenterClickEvent
 import com.myhumandesignhd.event.HelpType
+import com.myhumandesignhd.event.OpenBodygraphEvent
 import com.myhumandesignhd.event.SetupNavMenuEvent
 import com.myhumandesignhd.event.ShowHelpEvent
 import com.myhumandesignhd.event.UpdateBalloonBgStateEvent
@@ -60,14 +63,23 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         arguments?.getBoolean("fromStart")?: false
     }
 
+    private val needUpdateNavMenu: Boolean by lazy {
+        arguments?.getBoolean("needUpdateNavMenu")?: false
+    }
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
         setupUserData()
         setupZnaks()
-        EventBus.getDefault().post(SetupNavMenuEvent())
+
+        if (needUpdateNavMenu)
+            EventBus.getDefault().post(SetupNavMenuEvent())
+
+        EventBus.getDefault().post(OpenBodygraphEvent())
 
         isFirstFragmentLaunch = false
+        Amplitude.getInstance().logEvent("tab1_screen_shown");
 
         if (
             !App.preferences.isDarkTheme
@@ -135,7 +147,9 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                         showHelp(HelpType.BodygraphCenters)
                     }, 2000)
                 else if (!App.preferences.isPremiun)
-                    router.navigateTo(Screens.paywallScreen())
+                    if (isAdded) {
+                        router.navigateTo(Screens.paywallScreen(source = "bodygraph"))
+                    }
             }, 3000)
         }
     }
@@ -209,17 +223,17 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             if (it.typeRu.isNotEmpty() && it.line.isNotEmpty() && it.profileRu.isNotEmpty()) {
                 if (isFirstFragmentLaunch) {
                     binding.subtitle1.setTextAnimation07(
-                        "${if (App.preferences.locale == "ru") it.typeRu else it.typeEn} • " +
+                        "${if (App.preferences.locale == "ru") it.typeRu else if (App.preferences.locale == "es") it.typeEs else it.typeEn} • " +
                                 "${it.line} •<br>" +
-                                "${if (App.preferences.locale == "ru") it.profileRu else it.profileEn}"
+                                "${if (App.preferences.locale == "ru") it.profileRu else if (App.preferences.locale == "es") it.profileEs else it.profileEn}"
                     ) {
                         binding.subtitle1.alpha = 0.5f
                     }
                 } else {
                     binding.subtitle1.text =
-                        "${if (App.preferences.locale == "ru") it.typeRu else it.typeEn} • " +
+                        "${if (App.preferences.locale == "ru") it.typeRu else if (App.preferences.locale == "es") it.typeEs else it.typeEn} • " +
                             "${it.line} •\n" +
-                            "${if (App.preferences.locale == "ru") it.profileRu else it.profileEn}"
+                            "${if (App.preferences.locale == "ru") it.profileRu else if (App.preferences.locale == "es") it.profileEs else it.profileEn}"
                 }
             }
         }
@@ -490,15 +504,17 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         fun onAddUserClicked(v: View) {
             YandexMetrica.reportEvent("Tab1AddUserTapped")
+            Amplitude.getInstance().logEvent("tab1TappedShowUsers");
 
             router.navigateTo(
                 if (App.preferences.isPremiun) Screens.diagramScreen()
-                else Screens.paywallScreen()
+                else Screens.paywallScreen(source = "adduser")
             )
         }
 
         fun onSettingsClicked(v: View) {
             YandexMetrica.reportEvent("Tab1SettingsTapped")
+            Amplitude.getInstance().logEvent("tab1TappedSettings");
 
             router.navigateTo(Screens.settingsScreen())
         }

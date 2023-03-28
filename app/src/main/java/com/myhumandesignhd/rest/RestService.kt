@@ -85,6 +85,13 @@ interface RestService {
 
     @GET("/info/cycles.json")
     fun getCycles(): Single<HashMap<String, List<Cycle>>>
+
+    @GET
+    fun setUserInfo(
+        @Url url: String,
+        @Query("gclid") gclid: String,
+        @Query("app_instance_id") appInstanceId: String,
+    ): Single<String>
 //  Метод получения способа загрузки адрессов
 //    @GET("/getapple.php")
 //    fun getApple(): Single<>

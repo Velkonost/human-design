@@ -29,6 +29,7 @@
             android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,6 +61,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
+                    android:textStyle="bold"
                     android:gravity="center"
                     android:onClick="@{handler::onPartnersClicked}"
                     android:textSize="14sp" />
@@ -74,6 +76,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/ic_affirmation_bg"
                     android:fontFamily="@font/roboto"
+                    android:textStyle="bold"
                     android:gravity="center"
                     android:onClick="@{handler::onChildrenClicked}"
                     android:textSize="14sp" />

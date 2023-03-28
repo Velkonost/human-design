@@ -1,6 +1,8 @@
 package com.myhumandesignhd.ui.paywall
 
 import android.animation.Animator
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -10,14 +12,17 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +30,9 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator
 import com.adapty.Adapty
+import com.adapty.utils.AdaptyResult
+import com.amplitude.api.Amplitude
+import com.amplitude.api.Identify
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingResult
@@ -52,7 +60,12 @@ import kotlinx.android.synthetic.main.view_paywall_3.view.*
 import org.greenrobot.eventbus.EventBus
 import com.myhumandesignhd.event.AdaptyLogShowEvent
 import com.myhumandesignhd.event.AdaptyMakePurchaseEvent
+import com.myhumandesignhd.navigation.Screens
+import kotlinx.android.synthetic.main.view_paywall_2.view.startBtnText
+import kotlinx.android.synthetic.main.view_paywall_22.*
+import kotlinx.android.synthetic.main.view_paywall_4.view.*
 import kotlinx.coroutines.Dispatchers
+import org.json.JSONObject
 import java.util.*
 import kotlin.random.Random.Default.nextLong
 
@@ -72,12 +85,31 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         )
     }
 
+    private val fromStart: Boolean by lazy {
+        arguments?.getBoolean("fromStart")?: false
+    }
+
+    private val source: String by lazy {
+        arguments?.getString("source")?: ""
+    }
+
     private val promoBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
         BottomSheetBehavior.from(binding.promoBottomSheet.bottomSheetContainer)
     }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+        App.preferences.amountPaywallsShown += 1
+
+        Amplitude.getInstance().logEvent(
+            "subscription_shown",
+            JSONObject(mutableMapOf(
+                "source" to "from $source",
+                "type" to if (App.preferences.amountPaywallsShown == 3) "special" else "basic"
+            ).toMap())
+        );
 
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(false))
         binding.container.setBackgroundColor(
@@ -141,21 +173,20 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         }
         promoBehavior.addBottomSheetCallback(promoCallback)
 
-        if (
-            App.adaptyPaywallModel != null
-            && !App.adaptyPaywallModel!!.customPayload.isNullOrEmpty()
-            && App.adaptyPaywallModel!!.customPayload!!.containsKey("id")
-            && App.preferences.locale != "ru"
-        ) {
-            when (App.adaptyPaywallModel!!.customPayload?.get("id")!!) {
-                "pw_1" -> setupFirstPaywall()
-                "pw_2" -> setupSecondPaywall()
-                "pw_3" -> setupThirdPaywall()
-                else -> setupFirstPaywall()
-            }
-            EventBus.getDefault().post(AdaptyLogShowEvent(selectedPaywall))
-        } else setupFirstPaywall()
 
+        if (App.adaptyPaywallModel != null)
+            Adapty.logShowPaywall(App.adaptyPaywallModel!!)
+//
+
+        if (App.preferences.amountPaywallsShown == 3)
+            setupSpecialPaywall()
+        else {
+            when(App.adaptySplitPwName) {
+                "with_scroll" -> setupSecondPaywall()
+                else -> setupSecond2Paywall()
+            }
+        }
+//        setupSpecialPaywall()
     }
 
     override fun onViewModelReady(viewModel: LoaderViewModel) {
@@ -164,351 +195,165 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
     private fun launchBilling() {
         val billingPeriod =
-            if (selectedPaywall == PAYWALL_TYPE.PAYWALL1) {
-                when (selectedOffer) {
-                    1 -> "P1M"
-                    2 -> "P1W"
-                    else -> "P1Y"
+            when (selectedPaywall) {
+                PAYWALL_TYPE.PAYWALL1 -> {
+                    when (selectedOffer) {
+                        1 -> "P1M"
+                        2 -> "P1W"
+                        else -> "P1Y"
+                    }
                 }
-            } else {
-                when (selectedOffer) {
-                    2 -> "P1M"
-                    1 -> "P1W"
-                    else -> "P1Y"
+                PAYWALL_TYPE.SPECIAL -> { "P1Y" }
+                else -> {
+                    when (selectedOffer) {
+                        2 -> "P1M"
+                        1 -> "P1W"
+                        else -> "P1Y"
+                    }
                 }
             }
 
-        val vendorProductId = when(billingPeriod) {
+        var vendorProductId = when(billingPeriod) {
             "P1M" -> "hd_month_sub"
             "P1W" -> "hd_week_sub"
             "P1Y" -> "hd_year_sub"
             else -> "hd_month_sub"
         }
 
+        if (selectedPaywall == PAYWALL_TYPE.SPECIAL)
+            vendorProductId = "hd_year_sub_3d_trial"
+
         if (!App.adaptyProducts.isNullOrEmpty()) {
             Adapty.makePurchase(
                 requireActivity(),
-                if (App.preferences.locale == "ru") {
-                    App.adaptyProducts!!.first { productModel ->
-                        productModel.vendorProductId == vendorProductId
-                    }
-                } else {
-                    App.adaptyPaywallModel!!.products.first { productModel ->
-                        productModel.vendorProductId == vendorProductId
-                    }
+                App.adaptyProducts!!.first { productModel ->
+                    productModel.vendorProductId == vendorProductId
                 }
-            ) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
-                if (error == null) {
-                    val firebaseAnalytics = Firebase.analytics
+            ) { result ->
+                when (result) {
+                    is AdaptyResult.Success -> {
+                        val profile = result.value
+                        val firebaseAnalytics = Firebase.analytics
 
-                    if (product.freeTrialPeriod != null) {
-                        firebaseAnalytics.logEvent("start_trial", null)
-                    } else {
-                        firebaseAnalytics.logEvent("subscription", null)
-                        firebaseAnalytics.logEvent(vendorProductId, null)
+                        if (App.adaptyProducts!!.first { productModel ->
+                                productModel.vendorProductId == vendorProductId
+                            }.freeTrialPeriod != null) {
+                            firebaseAnalytics.logEvent("start_trial", null)
+                        } else {
+                            firebaseAnalytics.logEvent("subscription", null)
+                            firebaseAnalytics.logEvent(vendorProductId, null)
+                        }
+
+                        if (profile?.accessLevels?.get("premium")?.isActive == true) {
+                            Amplitude.getInstance().logEvent(
+                                "subscription_purchased",
+                                JSONObject(mutableMapOf(
+                                    "type" to when(billingPeriod) {
+                                        "P1M" -> "Month"
+                                        "P1W" -> "Week"
+                                        "P1Y" -> "Year"
+                                        else -> "Month"
+                                    }
+                                ).toMap())
+                            );
+                            App.preferences.isPremiun = true
+
+                            val identify = Identify()
+                            identify.set("Purchased", "yes")
+                            Amplitude.getInstance().identify(identify)
+
+                            close()
+                        }
                     }
-
-                    if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
-                        App.preferences.isPremiun = true
-                        close()
+                    is AdaptyResult.Error -> {
+                        val error = result.error
+                        // handle the error
                     }
                 }
             }
+
+//            Adapty.makePurchase(
+//                requireActivity(),
+//                if (App.preferences.locale == "ru" || selectedPaywall == PAYWALL_TYPE.SPECIAL) {
+//                    App.adaptyProducts!!.first { productModel ->
+//                        productModel.vendorProductId == vendorProductId
+//                    }
+//                } else {
+//                    App.adaptyPaywallModel!!.products.first { productModel ->
+//                        productModel.vendorProductId == vendorProductId
+//                    }
+//                }
+//            ) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
+//                if (error == null) {
+//                    val firebaseAnalytics = Firebase.analytics
+//
+//                    if (product.freeTrialPeriod != null) {
+//                        firebaseAnalytics.logEvent("start_trial", null)
+//                        product.freeTrialPeriod
+//                    } else {
+//                        firebaseAnalytics.logEvent("subscription", null)
+//                        firebaseAnalytics.logEvent(vendorProductId, null)
+//                    }
+//
+//                    if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
+//                        Amplitude.getInstance().logEvent(
+//                            "subscription_purchased",
+//                            JSONObject(mutableMapOf(
+//                                "type" to when(billingPeriod) {
+//                                    "P1M" -> "Month"
+//                                    "P1W" -> "Week"
+//                                    "P1Y" -> "Year"
+//                                    else -> "Month"
+//                                }
+//                            ).toMap())
+//                        );
+//                        App.preferences.isPremiun = true
+//
+//                        val identify = Identify()
+//                        identify.set("Purchased", "yes")
+//                        Amplitude.getInstance().identify(identify)
+//
+//                        close()
+//                    }
+//                }
+//            }
         }
     }
 
     private fun restorePurchase() {
-        Adapty.restorePurchases { purchaserInfo, googleValidationResultList, error ->
-            if (error == null) {
-                // successful restore
-                if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
-                    App.preferences.isPremiun = true
-                    close()
+        Adapty.restorePurchases { result ->
+            when (result) {
+                is AdaptyResult.Success -> {
+                    val profile = result.value
+
+                    if (profile.accessLevels["premium"]?.isActive == true) {
+                        val identify = Identify()
+                        identify.set("Purchased", "yes")
+                        Amplitude.getInstance().identify(identify)
+
+                        App.preferences.isPremiun = true
+                        close()
+                    }
+                }
+                is AdaptyResult.Error -> {
+                    val error = result.error
                 }
             }
         }
-    }
 
-    private fun setupFirstPaywall() {
-        selectedPaywall = PAYWALL_TYPE.PAYWALL1
-
-        binding.paywall1.isVisible = true
-        with(binding.paywall1) {
-
-            paywall1Title.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            text1.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            text2.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            text3.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            text4.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer1Duration.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer2Duration.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer3Duration.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer1Price.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer2Price.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer3Price.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer1Text.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer2Text.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer3Text.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer2Title.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            offer3Title.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            paywall1TermsOfUse.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            paywall1Policy.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            paywall1Restore.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            paywall1Promo.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            breakline1.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            breakline2.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            breakline3.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            bottomGradient.isVisible = App.preferences.isDarkTheme
-            paywall1Close.imageTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            offer1.setOnClickListener { selectFirstOffer() }
-            offer2.setOnClickListener { selectSecondOffer() }
-            offer3.setOnClickListener { selectThirdOffer() }
-            paywall1TermsOfUse.setOnClickListener { openTermsOfUse() }
-            paywall1Policy.setOnClickListener { openPrivacyPolicy() }
-            paywall1Restore.setOnClickListener { openRestore() }
-            paywall1Close.setOnClickListener { close() }
-            paywall1Promo.setOnClickListener { promocodeClicked() }
-            startBtn.setOnClickListener { launchBilling() }
-
-            icBigCircle.imageTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            icMidCircle.imageTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            val rotate = RotateAnimation(
-                0f,
-                360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f
-            )
-
-            rotate.repeatCount = Animation.INFINITE
-            rotate.fillAfter = true
-            rotate.duration = 100000
-            rotate.interpolator = LinearInterpolator()
-
-            val rotateNegative = RotateAnimation(
-                0f,
-                -360f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f
-            )
-            rotateNegative.repeatCount = Animation.INFINITE
-            rotateNegative.fillAfter = true
-            rotateNegative.duration = 100000
-//        rotateNegative.interpolator = LinearInterpolator()
-
-            icBigCircle.startAnimation(rotate)
-            icMidCircle.startAnimation(rotateNegative)
-
-            bodygraphView.changeIsAllowDrawTextState(false)
-            baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
-                if (
-                    !it.design.channels.isNullOrEmpty()
-                    && !it.personality.channels.isNullOrEmpty()
-                    && !it.activeCentres.isNullOrEmpty()
-                    && !it.inactiveCentres.isNullOrEmpty()
-                ) {
-                    android.os.Handler().postDelayed({
-                        bodygraphView.isVisible = true
-                        bodygraphView.scaleXY(1.1f, 1.1f, 1500) {
-                            bodygraphView.changeSpeedAnimationFactor(3f)
-                            bodygraphView.changeIsAllowDrawLinesState(true)
-                        }
-                    }, 200)
-                }
-
-                bodygraphView.setupData(
-                    it.design,
-                    it.personality,
-                    it.activeCentres,
-                    it.inactiveCentres
-                )
-            }
-
-            if (
-                App.adaptyPaywallModel != null
-                && App.adaptyPaywallModel!!.customPayload != null
-                && App.adaptyPaywallModel!!.customPayload?.keys?.contains("autoselect") == true
-            ) {
-                when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
-                    "1" -> selectFirstOffer()
-                    "2" -> selectSecondOffer()
-                    "3" -> selectThirdOffer()
-                    else -> selectSecondOffer()
-                }
-            } else {
-                selectSecondOffer()
-            }
-        }
+//        Adapty.restorePurchases { purchaserInfo, googleValidationResultList, error ->
+//            if (error == null) {
+//                // successful restore
+//                if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
+//                    val identify = Identify()
+//                    identify.set("Purchased", "yes")
+//                    Amplitude.getInstance().identify(identify)
+//
+//                    App.preferences.isPremiun = true
+//                    close()
+//                }
+//            }
+//        }
     }
 
     private fun setupSecondPaywall() {
@@ -516,6 +361,18 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
         binding.paywall2.isVisible = true
         with(binding.paywall2) {
+            if (fromStart) {
+                title.text = "${App.preferences.userNameFromStart?.strip()},\n" + App.resourcesProvider.getStringLocale(R.string.enjoy_hd)
+            }
+
+            endingPw2.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
             title.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
@@ -731,6 +588,12 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 else R.drawable.bg_paywall_2_offer_title_light
             )
 
+            offer1TitlePw2.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                else R.drawable.bg_paywall_2_offer_title_light
+            )
+
             bottomGradientPw2.isVisible = App.preferences.isDarkTheme
             closePw2.imageTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
@@ -750,42 +613,32 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             paywall1PromoPw2.setOnClickListener { promocodeClicked() }
             startBtnPw2.setOnClickListener { launchBilling() }
 
-            if (
-                App.adaptyPaywallModel != null
-                && App.adaptyPaywallModel!!.customPayload != null
-                && App.adaptyPaywallModel!!.customPayload?.keys?.contains("autoselect") == true
-            ) {
-                when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
-                    "1" -> selectFirstOffer()
-                    "2" -> selectSecondOffer()
-                    "3" -> selectThirdOffer()
-                    else -> selectSecondOffer()
-                }
-            } else selectSecondOffer()
+//            if (
+//                App.adaptyPaywallModel != null
+//                && App.adaptyPaywallModel!!.customPayload != null
+//                && App.adaptyPaywallModel!!.customPayload?.keys?.contains("autoselect") == true
+//            ) {
+//                when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
+//                    "1" -> selectFirstOffer()
+//                    "2" -> selectSecondOffer()
+//                    "3" -> selectThirdOffer()
+//                    else -> selectSecondOffer()
+//                }
+//            } else selectSecondOffer()
+            selectThirdOffer()
         }
     }
 
-    private fun setupThirdPaywall() {
-        selectedPaywall = PAYWALL_TYPE.PAYWALL3
+    private fun setupSecond2Paywall() {
+        selectedPaywall = PAYWALL_TYPE.PAYWALL22
 
-        binding.paywall3.isVisible = true
-        with(binding.paywall3) {
-            titlePw3.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-            subtitlePw3.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+        binding.paywall22.isVisible = true
+        with(binding.paywall22) {
+            if (fromStart) {
+                title.text = "${App.preferences.userNameFromStart?.strip()},\n" + App.resourcesProvider.getStringLocale(R.string.enjoy_hd)
+            }
 
-            offer1DurationPw3.setTextColor(
+            title.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -793,7 +646,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer2DurationPw3.setTextColor(
+            text1Pw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -801,7 +654,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer3DurationPw3.setTextColor(
+            text2Pw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -809,7 +662,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer1PricePw3.setTextColor(
+            text3Pw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -817,7 +670,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer2PricePw3.setTextColor(
+            text4Pw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -825,7 +678,12 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer3PricePw3.setTextColor(
+            icLogoPw22.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_paywall_2_logo_dark
+                else R.drawable.ic_paywall_2_logo_light
+            )
+
+            offer1DurationPw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -833,7 +691,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer1TextPw3.setTextColor(
+            offer2DurationPw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -841,7 +699,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer2TextPw3.setTextColor(
+            offer3DurationPw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -849,7 +707,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer3TextPw3.setTextColor(
+            offer1PricePw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -857,7 +715,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer1TitlePw3.setTextColor(
+            offer2PricePw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -865,7 +723,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer2TitlePw3.setTextColor(
+            offer3PricePw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -873,7 +731,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer3TitlePw3.setTextColor(
+            offer1TextPw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -881,7 +739,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            termsOfUsePw3.setTextColor(
+            offer2TextPw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -889,7 +747,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            policyPw3.setTextColor(
+            offer3TextPw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -897,7 +755,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            restorePw3.setTextColor(
+            offer1TitlePw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -905,7 +763,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            breakline1Pw3.setTextColor(
+            offer2TitlePw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -913,7 +771,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            breakline2Pw3.setTextColor(
+            offer3TitlePw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -921,7 +779,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            breakline3Pw3.setTextColor(
+            termsOfUsePw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -929,7 +787,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            paywall1PromoPw3.setTextColor(
+            policyPw22.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -937,26 +795,72 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer1TitlePw3.background = ContextCompat.getDrawable(
+            restorePw22.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline1Pw22.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline2Pw22.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline3Pw22.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            paywall1PromoPw22.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer1TitlePw22.background = ContextCompat.getDrawable(
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
                 else R.drawable.bg_paywall_2_offer_title_light
             )
 
-            offer2TitlePw3.background = ContextCompat.getDrawable(
+            offer2TitlePw22.background = ContextCompat.getDrawable(
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
                 else R.drawable.bg_paywall_2_offer_title_light
             )
 
-            offer3TitlePw3.background = ContextCompat.getDrawable(
+            offer3TitlePw22.background = ContextCompat.getDrawable(
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
                 else R.drawable.bg_paywall_2_offer_title_light
             )
 
-            bottomGradientPw3.isVisible = App.preferences.isDarkTheme
-            closePw3.imageTintList = ColorStateList.valueOf(
+            offer1TitlePw22.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                else R.drawable.bg_paywall_2_offer_title_light
+            )
+
+            bottomGradientPw22.isVisible = App.preferences.isDarkTheme
+            closePw22.imageTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -964,56 +868,195 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 )
             )
 
-            offer1Pw3.setOnClickListener { selectFirstOffer() }
-            offer2Pw3.setOnClickListener { selectSecondOffer() }
-            offer3Pw3.setOnClickListener { selectThirdOffer() }
-            termsOfUsePw3.setOnClickListener { openTermsOfUse() }
-            policyPw3.setOnClickListener { openPrivacyPolicy() }
-            restorePw3.setOnClickListener { openRestore() }
-            closePw3.setOnClickListener { close() }
-            paywall1PromoPw3.setOnClickListener { promocodeClicked() }
-            startBtnPw3.setOnClickListener { launchBilling() }
+            offer1Pw22.setOnClickListener { selectFirstOffer() }
+            offer2Pw22.setOnClickListener { selectSecondOffer() }
+            offer3Pw22.setOnClickListener { selectThirdOffer() }
+            termsOfUsePw22.setOnClickListener { openTermsOfUse() }
+            policyPw22.setOnClickListener { openPrivacyPolicy() }
+            restorePw22.setOnClickListener { openRestore() }
+            closePw22.setOnClickListener { close() }
+            paywall1PromoPw22.setOnClickListener { promocodeClicked() }
+            startBtnPw22.setOnClickListener { launchBilling() }
 
-            subtitlePw3.text = getString(R.string.paywall_3_subtitle)
+//            if (
+//                App.adaptyPaywallModel != null
+//                && App.adaptyPaywallModel!!.customPayload != null
+//                && App.adaptyPaywallModel!!.customPayload?.keys?.contains("autoselect") == true
+//            ) {
+//                when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
+//                    "1" -> selectFirstOffer()
+//                    "2" -> selectSecondOffer()
+//                    "3" -> selectThirdOffer()
+//                    else -> selectSecondOffer()
+//                }
+//            } else selectSecondOffer()
+            selectThirdOffer()
+        }
+    }
 
-            val reviewsAdapter = Pw3ReviewsAdapter()
-            val snapHelper = PagerSnapHelper()
+    private fun setupSpecialPaywall() {
+        selectedPaywall = PAYWALL_TYPE.SPECIAL
 
-            recycler.adapter = reviewsAdapter
-            snapHelper.attachToRecyclerView(recycler)
-            reviewsAdapter.createList()
+        binding.paywall4.isVisible = true
+        with(binding.paywall4) {
+            bottomGradientPw4.isVisible = App.preferences.isDarkTheme
 
-            updatePw3IndicatorsState(0)
-            recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-
-                    recyclerView.layoutManager?.apply {
-                        this as LinearLayoutManager
-                        val firstVisibleItemPosition: Int = findFirstVisibleItemPosition()
-                        updatePw3IndicatorsState(firstVisibleItemPosition)
+            subtitlePw4.text = App.resourcesProvider.getStringLocale(R.string.it_s_a_lucky_day_for_manifestor) + " " +
+                    if (App.preferences.locale == "ru") {
+                        when(baseViewModel.currentUser.subtitle1Ru) {
+                            "Манифестор" -> "Манифестора"
+                            "Манифестирующий Генератор" -> "Манифестирующего Генератора"
+                            "Генератор" -> "Генератора"
+                            "Проектор" -> "Проектора"
+                            "Рефлектор" -> "Рефлектора"
+                            else -> "Манифестора"
+                        }
                     }
-                }
-            })
+                    else { baseViewModel.currentUser.subtitle1En } + "!"
 
-            val random = Random()
-            val timer = Timer()
+            bigCirclePw4.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
+                else R.drawable.ic_circle_big_light
+            )
 
-            kotlin.runCatching { timer.purge() }
-            timer.schedule(Pw3ReviewsChangeTimer(timer, random), 5000)
+            midCirclePw4.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
+                else R.drawable.ic_circle_mid_light
+            )
 
-            if (
-                App.adaptyPaywallModel != null
-                && App.adaptyPaywallModel!!.customPayload != null
-                && App.adaptyPaywallModel!!.customPayload?.keys?.contains("autoselect") == true
-            ) {
-                when (App.adaptyPaywallModel!!.customPayload?.get("autoselect")) {
-                    "1" -> selectFirstOffer()
-                    "2" -> selectSecondOffer()
-                    "3" -> selectThirdOffer()
-                    else -> selectSecondOffer()
-                }
-            } else selectSecondOffer()
+            val rotate = RotateAnimation(
+                0f,
+                360f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f
+            )
+
+            rotate.repeatCount = Animation.INFINITE
+            rotate.fillAfter = true
+            rotate.duration = 100000
+            rotate.interpolator = LinearInterpolator()
+
+            val rotateNegative = RotateAnimation(
+                0f,
+                -360f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f
+            )
+            rotateNegative.repeatCount = Animation.INFINITE
+            rotateNegative.fillAfter = true
+            rotateNegative.duration = 100000
+
+            bigCirclePw4.startAnimation(rotate)
+            midCirclePw4.startAnimation(rotateNegative)
+
+            icPw4.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_pw_special_dark
+                else R.drawable.ic_pw_special_light
+            )
+
+            titlePw4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            subtitlePw4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            planTitlePw4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            planSubtitlePw4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            endingPw4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offerPw4.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_active_dark
+                else R.drawable.bg_paywall_2_offer_active_light
+            )
+
+            offerUptitlePw4.setTextColor(ContextCompat.getColor(requireContext(), R.color.lightColor))
+            offerUptitlePw4.background = ContextCompat.getDrawable(
+                requireContext(), R.drawable.bg_pw_offer_title_selected
+            )
+
+            offerTitlePw4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            renewablePw4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offerThenPw4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offerPrevPricePw4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            linePw4.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.bg_line_dark
+                else R.drawable.bg_line_light
+            )
+
+            closePw4.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            startBtnPw4.setOnClickListener { launchBilling() }
+            closePw4.setOnClickListener { close() }
         }
     }
 
@@ -1058,6 +1101,48 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             }
             PAYWALL_TYPE.PAYWALL2 -> {
                 with(binding.paywall2) {
+                    startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
+
+                    endingPw2.text = App.resourcesProvider.getStringLocale(R.string.pw_ending_week)
+
+                    offer1TitlePw2.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(), R.color.lightColor
+                        )
+                    )
+
+                    offer2TitlePw2.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer3TitlePw2.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer1TitlePw2.background = ContextCompat.getDrawable(
+                        requireContext(), R.drawable.bg_pw_offer_title_selected
+                    )
+
+                    offer2TitlePw2.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+                    offer3TitlePw2.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
                     offer1Pw2.background = ContextCompat.getDrawable(
                         requireContext(),
                         if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_active_dark
@@ -1071,6 +1156,67 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     )
 
                     offer3Pw2.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_inactive_dark
+                        else R.drawable.bg_paywall_2_offer_inactive_light
+                    )
+                }
+            }
+            PAYWALL_TYPE.PAYWALL22 -> {
+                with(binding.paywall22) {
+                    startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
+
+                    offer1TitlePw22.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(), R.color.lightColor
+                        )
+                    )
+
+                    offer2TitlePw22.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer3TitlePw22.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer1TitlePw22.background = ContextCompat.getDrawable(
+                        requireContext(), R.drawable.bg_pw_offer_title_selected
+                    )
+
+                    offer2TitlePw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+                    offer3TitlePw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+                    offer1Pw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_active_dark
+                        else R.drawable.bg_paywall_2_offer_active_light
+                    )
+
+                    offer2Pw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_inactive_dark
+                        else R.drawable.bg_paywall_2_offer_inactive_light
+                    )
+
+                    offer3Pw22.background = ContextCompat.getDrawable(
                         requireContext(),
                         if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_inactive_dark
                         else R.drawable.bg_paywall_2_offer_inactive_light
@@ -1144,6 +1290,47 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             }
             PAYWALL_TYPE.PAYWALL2 -> {
                 with(binding.paywall2) {
+                    startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn)
+                    endingPw2.text = App.resourcesProvider.getStringLocale(R.string.pw_ending_month)
+                    offer2TitlePw2.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(), R.color.lightColor
+                        )
+                    )
+
+                    offer1TitlePw2.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer3TitlePw2.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer2TitlePw2.background = ContextCompat.getDrawable(
+                        requireContext(), R.drawable.bg_pw_offer_title_selected
+                    )
+
+                    offer1TitlePw2.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+                    offer3TitlePw2.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+
                     offer1Pw2.background = ContextCompat.getDrawable(
                         requireContext(),
                         if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_inactive_dark
@@ -1157,6 +1344,68 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     )
 
                     offer3Pw2.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_inactive_dark
+                        else R.drawable.bg_paywall_2_offer_inactive_light
+                    )
+                }
+            }
+            PAYWALL_TYPE.PAYWALL22 -> {
+                with(binding.paywall22) {
+                    startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn)
+
+                    offer2TitlePw22.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(), R.color.lightColor
+                        )
+                    )
+
+                    offer1TitlePw22.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer3TitlePw22.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer2TitlePw22.background = ContextCompat.getDrawable(
+                        requireContext(), R.drawable.bg_pw_offer_title_selected
+                    )
+
+                    offer1TitlePw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+                    offer3TitlePw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+
+                    offer1Pw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_inactive_dark
+                        else R.drawable.bg_paywall_2_offer_inactive_light
+                    )
+
+                    offer2Pw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_active_dark
+                        else R.drawable.bg_paywall_2_offer_active_light
+                    )
+
+                    offer3Pw22.background = ContextCompat.getDrawable(
                         requireContext(),
                         if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_inactive_dark
                         else R.drawable.bg_paywall_2_offer_inactive_light
@@ -1229,6 +1478,48 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             }
             PAYWALL_TYPE.PAYWALL2 -> {
                 with(binding.paywall2) {
+                    startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn)
+                    endingPw2.text = App.resourcesProvider.getStringLocale(R.string.pw_ending_year)
+
+                    offer3TitlePw2.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(), R.color.lightColor
+                        )
+                    )
+
+                    offer2TitlePw2.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer1TitlePw2.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer3TitlePw2.background = ContextCompat.getDrawable(
+                        requireContext(), R.drawable.bg_pw_offer_title_selected
+                    )
+
+                    offer2TitlePw2.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+                    offer1TitlePw2.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+
                     offer1Pw2.background = ContextCompat.getDrawable(
                         requireContext(),
                         if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_inactive_dark
@@ -1242,6 +1533,67 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     )
 
                     offer3Pw2.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_active_dark
+                        else R.drawable.bg_paywall_2_offer_active_light
+                    )
+                }
+            }
+            PAYWALL_TYPE.PAYWALL22 -> {
+                with(binding.paywall22) {
+                    startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn)
+
+                    offer3TitlePw22.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(), R.color.lightColor
+                        )
+                    )
+
+                    offer2TitlePw22.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer1TitlePw22.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+                    offer3TitlePw22.background = ContextCompat.getDrawable(
+                        requireContext(), R.drawable.bg_pw_offer_title_selected
+                    )
+
+                    offer2TitlePw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+                    offer1TitlePw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                        else R.drawable.bg_paywall_2_offer_title_light
+                    )
+
+                    offer1Pw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_inactive_dark
+                        else R.drawable.bg_paywall_2_offer_inactive_light
+                    )
+
+                    offer2Pw22.background = ContextCompat.getDrawable(
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_inactive_dark
+                        else R.drawable.bg_paywall_2_offer_inactive_light
+                    )
+
+                    offer3Pw22.background = ContextCompat.getDrawable(
                         requireContext(),
                         if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_active_dark
                         else R.drawable.bg_paywall_2_offer_active_light
@@ -1317,14 +1669,14 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
     }
 
     private fun openTermsOfUse() {
-        val url = "http://humdesign.tilda.ws/terms"
+        val url = "https://humdesign.info/terms-of-use.php"
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
     }
 
     private fun openPrivacyPolicy() {
-        val url = "http://humdesign.tilda.ws/policy"
+        val url = "https://humdesign.info/policy.php"
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
@@ -1333,8 +1685,16 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
     private fun promocodeClicked() {
         with(binding.promoBottomSheet) {
             this.ok.setOnClickListener {
-                if (this.promoET.text.toString() == App.PROMOCODE) {
+                if (
+                    App.PROMOCODES.contains(this.promoET.text.toString())
+//                    this.promoET.text.toString() == App.PROMOCODE
+                ) {
+                    val identify = Identify()
+                    identify.set("Purchased", "yes")
+                    Amplitude.getInstance().identify(identify)
+
                     App.preferences.isPremiun = true
+                    hideKeyboard(this.promoET)
                     promoBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     close()
                 } else snackbarPromo.show()
@@ -1342,7 +1702,6 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             promoBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
-
 
     private fun openRestore() {
         restorePurchase()
@@ -1397,9 +1756,19 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
     }
 
     private fun close() {
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(true))
+        Amplitude.getInstance().logEvent("subscription_exit_clicked");
 
-        router.exit()
+        if (fromStart)
+            router.replaceScreen(Screens.bodygraphScreen(true))
+        else router.exit()
+    }
+
+
+    fun hideKeyboard(view: View) {
+        val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     fun exit(): Single<Boolean> {
@@ -1412,20 +1781,20 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             .targets(requireView()).scaleX(0f).scaleY(0f)
             .setInterpolator(AccelerateInterpolator(2f))
             .addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) {
+                override fun onAnimationStart(animation: Animator) {
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     exitAnimResult?.onSuccess(true)
                     exitAnimResult = null
 //                    router.exit()
                 }
 
-                override fun onAnimationCancel(animation: Animator?) {
+                override fun onAnimationCancel(animation: Animator) {
 
                 }
 
-                override fun onAnimationRepeat(animation: Animator?) {
+                override fun onAnimationRepeat(animation: Animator) {
 
                 }
             })
@@ -1435,8 +1804,10 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
     inner class Handler {
         fun onBlurClicked(v: View) {
-            if (promoBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            if (promoBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                hideKeyboard(binding.promoBottomSheet.promoET)
                 promoBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
         }
 
     }
@@ -1445,5 +1816,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 enum class PAYWALL_TYPE {
     PAYWALL1,
     PAYWALL2,
-    PAYWALL3
+    PAYWALL22,
+    PAYWALL3,
+    SPECIAL
 }

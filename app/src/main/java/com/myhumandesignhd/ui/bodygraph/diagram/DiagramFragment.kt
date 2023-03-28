@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentDiagramBinding
@@ -140,10 +141,13 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         binding.diagramsRecycler.adapter = diagramsAdapter
 
         GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-            val users = baseViewModel.getAllUsers()
-
-            diagramsAdapter.createList(users)
-           // binding.emptyText.isVisible = users.size <= 1
+            baseViewModel.updateBodygraphs()
+        }
+        baseViewModel.updateUsersEvent.observe(this) {
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                val users = baseViewModel.getAllUsers()
+                diagramsAdapter.createList(users)
+            }
         }
 
     }
@@ -155,6 +159,7 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         }
 
         fun onAddClicked(v: View) {
+            Amplitude.getInstance().logEvent("tab1TappedAddUser");
             router.navigateTo(
                 Screens.addUserScreen(
                 fromDiagram = true

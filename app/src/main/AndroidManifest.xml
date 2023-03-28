@@ -36,13 +36,11 @@
 <!--        android:roundIcon="@drawable/logo"-->
         <activity
             android:screenOrientation="portrait"
-
+            android:exported="false"
             android:name="com.myhumandesignhd.ui.activity.main.MainActivity"
             android:configChanges="uiMode"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" />
-
-
 
         <activity-alias
             android:name=".Launcher"

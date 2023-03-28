@@ -2,18 +2,22 @@ package com.myhumandesignhd.ui.bodygraph.second
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
+import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentBodygraphSecondBinding
+import com.myhumandesignhd.event.OpenPaywallEvent
 import com.myhumandesignhd.event.UpdateCurrentUserInjurySettingsEvent
 import com.myhumandesignhd.model.AboutItem
 import com.myhumandesignhd.model.AboutType
 import com.myhumandesignhd.model.TransitionChannel
 import com.myhumandesignhd.model.TransitionGate
+import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.bodygraph.BodygraphViewModel
 import com.myhumandesignhd.ui.bodygraph.second.adapter.ColumnsAdapter
@@ -35,6 +39,12 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
     private val columnsAdapter: ColumnsAdapter by lazy {
         ColumnsAdapter()
+    }
+
+    override fun onLayoutReady(savedInstanceState: Bundle?) {
+        super.onLayoutReady(savedInstanceState)
+
+        Amplitude.getInstance().logEvent("tab2_screen_shown");
     }
 
     @Subscribe
@@ -105,6 +115,9 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     private fun setupViewPager() {
         binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.adapter = columnsAdapter
+
+        if (!App.preferences.isPremiun)
+            binding.viewPager.isUserInputEnabled = false
 
         baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
 
@@ -217,8 +230,14 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         })
     }
 
+    @Subscribe
+    fun onOpenPaywallEvent(e: OpenPaywallEvent) {
+        router.replaceScreen(Screens.paywallScreen(source = e.source))
+    }
+
     private fun selectAbout() {
         YandexMetrica.reportEvent("Tab2AboutTapped")
+        Amplitude.getInstance().logEvent("tab2TappedAbout");
 
         binding.aboutTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -228,17 +247,26 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
         binding.centersTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else
+                if (App.preferences.isDarkTheme) R.color.unselectTextLock
+                else R.color.unselectTextLockDark
         ))
 
         binding.gatesTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else
+                if (App.preferences.isDarkTheme) R.color.unselectTextLock
+                else R.color.unselectTextLockDark
         ))
 
         binding.channelsTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else
+                if (App.preferences.isDarkTheme) R.color.unselectTextLock
+                else R.color.unselectTextLockDark
         ))
 
         binding.aboutTitle.background = ContextCompat.getDrawable(
@@ -253,7 +281,10 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     }
 
     private fun selectCenters() {
+        if (!App.preferences.isPremiun) return
+
         YandexMetrica.reportEvent("Tab2CentersTapped")
+        Amplitude.getInstance().logEvent("tab2TappedCenters");
 
         binding.centersTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -263,17 +294,20 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
         binding.aboutTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else R.color.unselectTextLock
         ))
 
         binding.gatesTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else R.color.unselectTextLock
         ))
 
         binding.channelsTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else R.color.unselectTextLock
         ))
 
         binding.centersTitle.background = ContextCompat.getDrawable(
@@ -288,7 +322,10 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     }
 
     private fun selectGates() {
+        if (!App.preferences.isPremiun) return
+
         YandexMetrica.reportEvent("Tab2GatesTapped")
+        Amplitude.getInstance().logEvent("tab2TappedGates");
 
         binding.gatesTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -298,17 +335,20 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
         binding.aboutTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else R.color.unselectTextLock
         ))
 
         binding.centersTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else R.color.unselectTextLock
         ))
 
         binding.channelsTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else R.color.unselectTextLock
         ))
 
         binding.gatesTitle.background = ContextCompat.getDrawable(
@@ -323,7 +363,10 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     }
 
     private fun selectChannels() {
+        if (!App.preferences.isPremiun) return
+
         YandexMetrica.reportEvent("Tab2ChannelsTapped")
+        Amplitude.getInstance().logEvent("tab2TappedChannels");
 
         binding.channelsTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -333,17 +376,20 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
         binding.aboutTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else R.color.unselectTextLock
         ))
 
         binding.gatesTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else R.color.unselectTextLock
         ))
 
         binding.centersTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            R.color.unselectText
+            if (App.preferences.isPremiun) R.color.unselectText
+            else R.color.unselectTextLock
         ))
 
         binding.channelsTitle.background = ContextCompat.getDrawable(
@@ -384,16 +430,22 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         }
 
         fun onCentersClicked(v: View) {
+            if (!App.preferences.isPremiun) return
+
             binding.viewPager.setCurrentItem(1, true)
             selectCenters()
         }
 
         fun onGatesClicked(v: View) {
+            if (!App.preferences.isPremiun) return
+
             binding.viewPager.setCurrentItem(2, true)
             selectGates()
         }
 
         fun onChannelsClicked(v: View) {
+            if (!App.preferences.isPremiun) return
+
             binding.viewPager.setCurrentItem(3, true)
             selectChannels()
         }

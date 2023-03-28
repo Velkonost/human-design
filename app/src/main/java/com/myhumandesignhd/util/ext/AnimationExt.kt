@@ -123,23 +123,23 @@ fun View.alpha0(duration: Long, onEnd: () -> Unit = {}) {
         .alpha(0f)
         .setDuration(duration)
         .setListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                 super.onAnimationStart(animation, isReverse)
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator) {}
 
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                 super.onAnimationEnd(animation, isReverse)
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 onEnd.invoke()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
 
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 }
 
@@ -148,23 +148,23 @@ fun View.alpha1(duration: Long, onEnd: () -> Unit = {}) {
         .alpha(1f)
         .setDuration(duration)
         .setListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                 super.onAnimationStart(animation, isReverse)
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator) {}
 
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                 super.onAnimationEnd(animation, isReverse)
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 onEnd.invoke()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
 
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 }
 
@@ -173,23 +173,23 @@ fun View.alpha07(duration: Long, onEnd: () -> Unit = {}) {
         .alpha(0.7f)
         .setDuration(duration)
         .setListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                 super.onAnimationStart(animation, isReverse)
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator) {}
 
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                 super.onAnimationEnd(animation, isReverse)
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 onEnd.invoke()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
 
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 }
 
@@ -199,23 +199,23 @@ fun View.translationYalpha0(y: Float, duration: Long, onEnd: () -> Unit = {}) {
         .translationY(y)
         .setDuration(duration)
         .setListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                 super.onAnimationStart(animation, isReverse)
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator) {}
 
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                 super.onAnimationEnd(animation, isReverse)
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 onEnd.invoke()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
 
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 }
 
@@ -225,23 +225,23 @@ fun View.translationYalpha1(y: Float, duration: Long, onEnd: () -> Unit = {}) {
         .translationY(y)
         .setDuration(duration)
         .setListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                 super.onAnimationStart(animation, isReverse)
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator) {}
 
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                 super.onAnimationEnd(animation, isReverse)
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 onEnd.invoke()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
 
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 }
 
@@ -250,23 +250,23 @@ fun View.translationY(y: Float, duration: Long, onEnd: () -> Unit = {}) {
         .translationY(y)
         .setDuration(duration)
         .setListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                 super.onAnimationStart(animation, isReverse)
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator) {}
 
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                 super.onAnimationEnd(animation, isReverse)
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 onEnd.invoke()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
 
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 }
 
@@ -275,23 +275,23 @@ fun View.translationX(x: Float, duration: Long, onEnd: () -> Unit = {}) {
         .translationX(x)
         .setDuration(duration)
         .setListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                 super.onAnimationStart(animation, isReverse)
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator) {}
 
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                 super.onAnimationEnd(animation, isReverse)
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 onEnd.invoke()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
 
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 }
 
@@ -301,22 +301,22 @@ fun View.scaleXY(x: Float, y: Float, duration: Long, onEnd: () -> Unit = {}) {
         .scaleY(y)
         .setDuration(duration)
         .setListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
                 super.onAnimationStart(animation, isReverse)
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator) {}
 
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
                 super.onAnimationEnd(animation, isReverse)
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 onEnd.invoke()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
 
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
 }
