@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">HDesign</string>
     <string name="facebook_app_id" translatable="false">1024507441786747</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1024507441786747</string>
+    <string name="facebook_client_token" translatable="false">8300d3e22249a339f57e6edb01d7d6b966540ca1d4c946977cf72597e0e9d374</string>
+
+
     <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
     <string name="search">Search</string>
     <string name="title_splash_01">Human Design</string>
@@ -61,19 +65,19 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="continue_btn_start">Continue</string>
     <string name="start_rave_btn_text">Create</string>
 
-    <string name="start_name_title"><![CDATA[What is<br>your name?]]></string>
-    <string name="start_name_desc"><![CDATA[We’ll enjoy getting to know your better.]]></string>
+    <string name="start_name_title">What is your\nname?</string>
+    <string name="start_name_desc">Let’s get acquainted! Please introduce\nyourself so that we know how best to address you!</string>
     <string name="start_name_hint">Name</string>
 
     <string name="start_date_title">Date of birth</string>
-    <string name="start_date_desc"><![CDATA[You date of birth is essential for identifying the exact position of the planets at the moment you were born.]]></string>
+    <string name="start_date_desc">enter the date of birth, and we will calculate your personal bodygraph!</string>
 
     <string name="start_time_title">Time of birth</string>
-    <string name="start_time_desc"><![CDATA[We are almost done!<br>name, please enter your time of birth.]]></string>
-    <string name="start_time_skip">I DON\'T KNOW FOR SURE</string>
+    <string name="start_time_desc">It will show the exact location of the planets and stars at the time of your birth, which is important for calculating the card.</string>
+    <string name="start_time_skip">I don\'t know the exact time</string>
 
     <string name="start_place_title">Place of birth</string>
-    <string name="start_place_desc"><![CDATA[Your place of birth will give a clearer image of how stars affect you.]]></string>
+    <string name="start_place_desc">The place where you were born is very important. We will be able to accurately determine the position of the heavenly bodies that have left an imprint on your destiny.</string>
     <string name="start_place_hint">City, Country</string>
 
     <string name="settings_title">Settings</string>
@@ -405,4 +409,33 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="pw_ending_month">Subscription automatically renews for 18.99 $/ month unless auto-renew is turned off at least 24-hours before the end of the current period. You can cancel or change your membership at any time in Subscription on Google play.</string>
     <string name="pw_ending_year">Subscription automatically renews for 45.99 $/ year unless auto-renew is turned off at least 24-hours before the end of the current period. You can cancel or change your membership at any time in Subscription on Google play.</string>
 
+    <string name="onboarding_title_1">Human Design</string>
+    <string name="onboarding_title_2">Allow access</string>
+    <string name="onboarding_title_3">Rave Card</string>
+    <string name="onboarding_desc_1">Human Design is the newest system for self-discovery.\n\nThis is a tool that allows to explore your true nature, discover your unique characteristics and learn how to make the right decisions.\n\nHuman Design helps to build a harmonious relationship with yourself and the world around you. It gives recommendations how to unlock your potential and self-realization.</string>
+    <string name="onboarding_desc_2">Please allow us to track application usage.\nIt is important for us, so that we can:</string>
+    <string name="onboarding_desc_3">In Human Design, personality analysis is carried out on the basis of a bodygraph, the so-called Rave Card.\n\nAn individual Rave Card (bodygraph) contains a schematic image of energy centers, channels and gates that reflect the personal energy mechanics of each person, as well as the algorithm of its work.\n\nTo calculate a personal Rave Card (bodygraph), you need to fill in the data and answer a few questions.</string>
+    <string name="onboarding_variant_1">Personalize your experience\nof using the App</string>
+    <string name="onboarding_variant_2">Send individual offers especially for you</string>
+    <string name="onboarding_variant_3">Invite users similar to you to the App</string>
+
+    <string name="calculate_title">Let’s calculate\nthe bodygraph!</string>
+    <string name="calculate_desc">Enter the details of person you want to calculate the bodygraph for. This will help you get to know it better.\n\nAfter creation, this bodygraph will become the main one. You can change the main bodygraph to any of the created ones at any time.</string>
+
+    <string name="bodygraph_is_ready_desc">Now all the personality secrets will be revealed to you, you will find the best ways for harmonious contact and productive interaction.</string>
+
+
+    <!--  SIGNUP  -->
+    <string name="signup_title">Human Design</string>
+    <string name="signup_subtitle">The best assistant on the path\nto self-discovery</string>
+    <string name="signup_footer">By creating an account, you accept the Terms of Use and Privacy Policy HDesign.</string>
+    <string name="signup_text">Log in or register to save your data and progress.</string>
+
+    <string name="signup_email_title">Sign Up</string>
+    <string name="signup_email_subtitle">Enter your E-mail address</string>
+
+    <string name="signup_check_inbox_title">Check your inbox!</string>
+    <string name="signup_check_inbox_subtitle">To verify your email address,\nclick on the button in the email we sent to</string>
+    <string name="signup_check_inbox_footer">We sent an email to yourmail. If you haven\'t received it yet, please try checking your spam and ads folder or click here to have us resend the link.</string>
+    <!--  SIGNUP  -->
 </resources>

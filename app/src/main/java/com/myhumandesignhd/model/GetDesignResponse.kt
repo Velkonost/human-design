@@ -113,10 +113,15 @@ data class GetDesignDescription(
 data class AboutItem(
     val name: String? = "",
     val description: String? = "",
-    val type: AboutType
+    val type: AboutType,
+
+    val title: String = "",
+    val subtitle: String = "",
+    val text: String = ""
 )
 
 enum class AboutType {
+    BODYGRAPH,
     TYPE,
     PROFILE,
     AUTHORITY,

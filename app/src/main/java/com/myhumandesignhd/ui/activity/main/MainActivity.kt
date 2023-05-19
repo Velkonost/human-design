@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -89,6 +90,7 @@ import com.myhumandesignhd.event.OpenBodygraphEvent
 import com.myhumandesignhd.event.SetupLocationEvent
 import com.myhumandesignhd.event.TestResponseEvent
 import com.myhumandesignhd.event.UpdateHadrdwareAccelerationStateEvent
+import com.myhumandesignhd.ui.description.DescriptionFragment
 import java.lang.Exception
 
 
@@ -247,8 +249,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     YandexMetrica.reportEvent("Tab1Tapped")
                     Amplitude.getInstance().logEvent("tab1Tapped")
 
-                    if (supportFragmentManager.fragments.last() !is BodygraphFragment)
-                        router.navigateTo(Screens.bodygraphScreen(needUpdateNavMenu = false))
+//                    if (supportFragmentManager.fragments.last() !is BodygraphFragment)
+//                        router.navigateTo(Screens.bodygraphScreen(needUpdateNavMenu = false))
+
+                    if (supportFragmentManager.fragments.last() !is DescriptionFragment)
+                        router.navigateTo(Screens.descriptionScreen(needUpdateNavMenu = false))
 
                     true
                 }
@@ -422,18 +427,23 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             if (location != null && location.latitude != 0.0) {
                 binding.viewModel!!.reverseNominatim(
                     location.latitude.toString(),
-                    location.longitude.toString()
+                    location.longitude.toString(),
+                    type = 1
+
                 )
             } else {
 
             }
+
+
 
             val locationResult: MyLocation.LocationResult = object : MyLocation.LocationResult() {
                 override fun gotLocation(location: Location?) {
                     if (location != null)
                         binding.viewModel!!.reverseNominatim(
                             location.latitude.toString(),
-                            location.longitude.toString()
+                            location.longitude.toString(),
+                            type = 2
                         )
                 }
             }
@@ -446,7 +456,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         if (location != null)
                             binding.viewModel!!.reverseNominatim(
                                 location.latitude.toString(),
-                                location.longitude.toString()
+                                location.longitude.toString(),
+                                type = 3
                             )
                     }
                 })
@@ -458,7 +469,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 if (location != null)
                     binding.viewModel!!.reverseNominatim(
                         location.latitude.toString(),
-                        location.longitude.toString()
+                        location.longitude.toString(),
+                        type = 4
                     )
             }
         }
@@ -540,6 +552,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     StartPage.SPLASH_05.pageId,
                     StartPage.RAVE.pageId,
                     StartPage.NAME.pageId,
+                    StartPage.CALCULATE.pageId,
                     StartPage.DATE_BIRTH.pageId,
                     StartPage.TIME_BIRTH.pageId,
                     StartPage.PLACE_BIRTH.pageId,
@@ -548,8 +561,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         Screens.startScreen()
                     }
                     else -> {
-//                        setupNavMenu()
-                        Screens.bodygraphScreen()
+//                        Screens.bodygraphScreen()
+                        Screens.descriptionScreen()
                     }
                 }
             )
@@ -571,6 +584,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         super.onPause()
     }
 
+    private var isPriorityLocationSet = false
     override fun onViewModelReady(viewModel: BaseViewModel) {
         viewModel.loadFaqs()
 
@@ -583,26 +597,39 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         viewModel.reverseSuggestions.observe(this) {
-            if (!it.isNullOrEmpty()) {
-                App.preferences.lastKnownLocationLat = it[0].lat.toString()
-                App.preferences.lastKnownLocationLon = it[0].lon.toString()
+            if (isPriorityLocationSet) {
+                return@observe
+            }
+
+            if (!it.first.isNullOrEmpty()) {
+                App.preferences.lastKnownLocationLat = it.first[0].lat.toString()
+                App.preferences.lastKnownLocationLon = it.first[0].lon.toString()
 
                 var locationStr = ""
-                if (it[0].address.city.isNotEmpty()) {
-                    locationStr += it[0].address.city
+                if (it.first[0].address.city.isNotEmpty()) {
+                    locationStr += it.first[0].address.city
                     locationStr += ", "
                 } else {
-                    locationStr += it[0].address.municipality
-                    locationStr += ", "
-                    locationStr += it[0].address.state
+                    if (it.first[0].address.municipality.isNotEmpty()) {
+                        locationStr += it.first[0].address.municipality
+                        locationStr += ", "
+                    }
+
+                    locationStr += it.first[0].address.state
                     locationStr += ", "
                 }
 
-                locationStr += it[0].address.country
+                locationStr += it.first[0].address.country
 
-                App.preferences.lastKnownLocation = locationStr
+                if (App.preferences.lastKnownLocation.isNullOrEmpty()) {
+                    App.preferences.lastKnownLocation = locationStr
+                }
 //                    "${it[0].address.city}, ${it[0].address.country}"
+
                 EventBus.getDefault().post(LastKnownLocationUpdateEvent())
+
+                if (it.second == 3)
+                    isPriorityLocationSet = true
             }
         }
         receiveNotificationData()

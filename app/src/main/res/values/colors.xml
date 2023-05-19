@@ -34,4 +34,9 @@
 
     <color name="searchTintLight">#993C3C43</color>
     <color name="searchTintDark">#99EBEBF5</color>
+
+    <color name="lightHeader">#EBEBEB</color>
+    <color name="darkHeader">#1D1D1D</color>
+
+    <color name="lightColor0.7">#B3FFFFFF</color>
 </resources>

@@ -519,17 +519,17 @@ class AboutAdapter(
 
             if (state == ExpandableLayout.State.COLLAPSED) {
                 kotlin.runCatching {
-                    expandButton.setTextAnimation(
-                        when (items[adapterPosition].type) {
-                            AboutType.TYPE -> App.resourcesProvider.getStringLocale(R.string.type_title)
-                            AboutType.PROFILE -> App.resourcesProvider.getStringLocale(R.string.profile_title)
-                            AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)
-                            AboutType.STRATEGY -> App.resourcesProvider.getStringLocale(R.string.strategy_title)
-                            AboutType.INJURY -> App.resourcesProvider.getStringLocale(R.string.injury_title)
-                            AboutType.NUTRITION -> App.resourcesProvider.getStringLocale(R.string.nutrition_title)
-                            AboutType.ENVIRONMENT -> App.resourcesProvider.getStringLocale(R.string.environment_title)
-                        }
-                    )
+//                    expandButton.setTextAnimation(
+//                        when (items[adapterPosition].type) {
+//                            AboutType.TYPE -> App.resourcesProvider.getStringLocale(R.string.type_title)
+//                            AboutType.PROFILE -> App.resourcesProvider.getStringLocale(R.string.profile_title)
+//                            AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)
+//                            AboutType.STRATEGY -> App.resourcesProvider.getStringLocale(R.string.strategy_title)
+//                            AboutType.INJURY -> App.resourcesProvider.getStringLocale(R.string.injury_title)
+//                            AboutType.NUTRITION -> App.resourcesProvider.getStringLocale(R.string.nutrition_title)
+//                            AboutType.ENVIRONMENT -> App.resourcesProvider.getStringLocale(R.string.environment_title)
+//                        }
+//                    )
                     subtitle.isVisible = true
 
                     icArrow.animate()

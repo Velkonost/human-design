@@ -26,7 +26,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     SettingsViewModel::class,
     Handler::class
 ) {
-
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
         Amplitude.getInstance().logEvent("settings_screen_shown");

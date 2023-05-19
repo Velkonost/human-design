@@ -114,4 +114,7 @@
     <dimen name="bodygraph_text_size">14px</dimen>
 
     <!--    <dimen name="review_pw3_padding">200dp</dimen>-->
+
+    <dimen name="wheelSelectorHeight">36dp</dimen>
+    <dimen name="WheelItemTextSize">20sp</dimen>
 </resources>

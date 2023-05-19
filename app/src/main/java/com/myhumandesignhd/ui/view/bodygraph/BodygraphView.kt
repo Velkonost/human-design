@@ -92,8 +92,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val bottomSquarePaint: Paint by lazy {
         initPaint(
             Color.parseColor(
-                if (App.preferences.isDarkTheme) "#3F3F3F"
-                else "#999999"
+//                if (App.preferences.isDarkTheme) "#3F3F3F"
+//                else "#999999"
+                "#999999"
             )
         )
     }
@@ -110,8 +111,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val centerSquarePaint: Paint by lazy {
         initPaint(
             Color.parseColor(
-                if (App.preferences.isDarkTheme) "#3F3F3F"
-                else "#999999"
+//                if (App.preferences.isDarkTheme) "#3F3F3F"
+//                else "#999999"
+                "#999999"
             )
         )
     }
@@ -128,8 +130,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val topSquarePaint: Paint by lazy {
         initPaint(
             Color.parseColor(
-                if (App.preferences.isDarkTheme) "#3F3F3F"
-                else "#999999"
+//                if (App.preferences.isDarkTheme) "#3F3F3F"
+//                else "#999999"
+                "#999999"
             )
         )
     }
@@ -146,8 +149,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val leftTrianglePaint: Paint by lazy {
         initPaint(
             Color.parseColor(
-                if (App.preferences.isDarkTheme) "#3F3F3F"
-                else "#999999"
+//                if (App.preferences.isDarkTheme) "#3F3F3F"
+//                else "#999999"
+                "#999999"
             )
         )
     }
@@ -164,8 +168,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val rightTrianglePaint: Paint by lazy {
         initPaint(
             Color.parseColor(
-                if (App.preferences.isDarkTheme) "#3F3F3F"
-                else "#999999"
+//                if (App.preferences.isDarkTheme) "#3F3F3F"
+//                else "#999999"
+                "#999999"
             )
         )
     }
@@ -182,8 +187,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val rhombPaint: Paint by lazy {
         initPaint(
             Color.parseColor(
-                if (App.preferences.isDarkTheme) "#3F3F3F"
-                else "#999999"
+//                if (App.preferences.isDarkTheme) "#3F3F3F"
+//                else "#999999"
+                "#999999"
             )
         )
     }
@@ -200,8 +206,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val topReverseTrianglePaint: Paint by lazy {
         initPaint(
             Color.parseColor(
-                if (App.preferences.isDarkTheme) "#3F3F3F"
-                else "#999999"
+//                if (App.preferences.isDarkTheme) "#3F3F3F"
+//                else "#999999"
+                "#999999"
             )
         )
     }
@@ -218,8 +225,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val topTrianglePaint: Paint by lazy {
         initPaint(
             Color.parseColor(
-                if (App.preferences.isDarkTheme) "#3F3F3F"
-                else "#999999"
+//                if (App.preferences.isDarkTheme) "#3F3F3F"
+//                else "#999999"
+                "#999999"
             )
         )
     }
@@ -236,8 +244,9 @@ class BodygraphView(context: Context, attributeSet: AttributeSet) : View(context
     private val strangeTrianglePaint: Paint by lazy {
         initPaint(
             Color.parseColor(
-                if (App.preferences.isDarkTheme) "#3F3F3F"
-                else "#999999"
+//                if (App.preferences.isDarkTheme) "#3F3F3F"
+//                else "#999999"
+                "#999999"
             )
         )
     }

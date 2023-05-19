@@ -1,6 +1,7 @@
 package com.myhumandesignhd.rest.di
 
 import android.content.Context
+import com.myhumandesignhd.App
 import com.myhumandesignhd.BuildConfig
 import com.myhumandesignhd.event.TestResponseEvent
 import com.myhumandesignhd.rest.Json
@@ -69,7 +70,8 @@ private fun getHeaderInterceptor(context: Context) = Interceptor { chain ->
     val originalRequest = chain.request()
     with(originalRequest.newBuilder()) {
 
-//        addHeader("Authorization", "Bearer ${App.preferences.authToken}")
+        if (!App.preferences.authToken.isNullOrEmpty())
+            addHeader("Authorization", "Bearer ${App.preferences.authToken}")
 
         originalRequest.headers.names().map {
             header(it, originalRequest.headers[it]!!)

@@ -28,194 +28,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent">
-
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/backBtn"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
-                android:layout_marginStart="24dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="24dp"
                 android:onClick="@{handler::onBackClicked}"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
                 <ImageView
                     android:id="@+id/icArrow"
-                    android:layout_width="15dp"
-                    android:layout_height="24dp"
+                    android:layout_width="22dp"
+                    android:layout_height="12dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_arrow_start" />
-
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_arrow_start_dark" />
             </FrameLayout>
-
-            <ImageView
-                android:id="@+id/bottomGradient"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:alpha="0"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_btn_bottom_gradient"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <ImageView
-                android:id="@+id/icSplashBigCircle"
-                android:layout_width="977dp"
-                android:layout_height="977dp"
-                android:layout_marginTop="-120dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:rotation="90"
-                android:src="@drawable/ic_circle_big_dark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn" />
-
-            <ImageView
-                android:id="@+id/icSplashMidCircle"
-                android:layout_width="977dp"
-                android:layout_height="977dp"
-                android:layout_marginTop="-30dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:src="@drawable/ic_circle_mid_dark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn" />
-
-            <ImageView
-                android:id="@+id/icSplashBigCircleTime"
-                android:layout_width="590dp"
-                android:layout_height="590dp"
-                android:layout_marginTop="-350dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:src="@drawable/ic_circle_big_dark"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn" />
-
-            <ImageView
-                android:id="@+id/icSplashMidCircleTime"
-                android:layout_width="480dp"
-                android:layout_height="480dp"
-                android:layout_marginTop="-300dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:src="@drawable/ic_circle_mid_dark"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn" />
-
-            <ImageView
-                android:id="@+id/icSplashBigCircleDate"
-                android:layout_width="719dp"
-                android:layout_height="719dp"
-                android:layout_marginTop="-300dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:src="@drawable/ic_circle_big_dark"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn" />
-
-            <ImageView
-                android:id="@+id/icSplashMidCircleDate"
-                android:layout_width="640dp"
-                android:layout_height="640dp"
-                android:layout_marginTop="-230dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:src="@drawable/ic_circle_mid_dark"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn" />
-
-            <!--            -->
-            <ImageView
-                android:id="@+id/icSplashBigCircleName"
-                android:layout_width="848dp"
-                android:layout_height="848dp"
-                android:layout_marginTop="-240dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:src="@drawable/ic_circle_big_dark"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn" />
-
-            <ImageView
-                android:id="@+id/icSplashMidCircleName"
-                android:layout_width="780dp"
-                android:layout_height="780dp"
-                android:layout_marginTop="-160dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:src="@drawable/ic_circle_mid_dark"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn" />
-
-            <ImageView
-                android:id="@+id/icSplashBigCircleNamePlaceholder"
-                android:layout_width="848dp"
-                android:layout_height="848dp"
-                android:layout_marginTop="-240dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn" />
-
-            <ImageView
-                android:id="@+id/icSplashMidCircleNamePlaceholder"
-                android:layout_width="780dp"
-                android:layout_height="780dp"
-                android:layout_marginTop="-160dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn" />
-
-            <ImageView
-                android:id="@+id/icSplashBigCirclePlaceOfBirth"
-                android:layout_width="461dp"
-                android:layout_height="461dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:layout_marginTop="150dp"
-                android:src="@drawable/ic_circle_big_dark"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/icSplashMidCirclePlaceOfBirth"
-                android:layout_width="380dp"
-                android:layout_height="380dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:layout_marginTop="150dp"
-                android:src="@drawable/ic_circle_mid_dark"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <FrameLayout
                 android:id="@+id/indicatorsContainer"
@@ -253,8 +85,7 @@
                         android:layout_width="7dp"
                         android:layout_height="7dp"
                         android:layout_marginStart="12dp"
-                        android:background="@drawable/bg_inactive_indicator_dark"
-                        android:visibility="gone" />
+                        android:background="@drawable/bg_inactive_indicator_dark" />
 
                     <View
                         android:id="@+id/indicator4"
@@ -313,7 +144,7 @@
                     android:gravity="center"
                     android:letterSpacing="0.12"
                     android:text="@string/continue_btn_start"
-                    android:textAllCaps="true"
+                    android:fontFamily="@font/gilroy"
                     android:textColor="@color/lightColor"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -327,212 +158,10 @@
                 app:layout_constraintBottom_toTopOf="@id/startBtn"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/bgSplashHeader"
-                    android:layout_width="107dp"
-                    android:layout_height="107dp"
-                    android:layout_marginTop="40dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/bg_start_header_dark"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/startHeaderAnim"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="@id/bgSplashHeader"
-                    app:layout_constraintEnd_toEndOf="@id/bgSplashHeader"
-                    app:layout_constraintStart_toStartOf="@id/bgSplashHeader"
-                    app:layout_constraintTop_toTopOf="@id/bgSplashHeader"
-                    app:lottie_autoPlay="false" />
-
-                <TextView
-                    android:id="@+id/titleSplash0102"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center"
-                    android:textColor="@color/darkColor"
-                    android:textSize="28sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bgSplashHeader" />
-
-                <TextView
-                    android:id="@+id/descSplash0102"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="14dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center|top"
-                    android:scrollbars="vertical"
-                    android:textColor="@color/darkColor"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/titleSplash0102" />
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/variantsBlock"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="4dp"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/titleSplash0102">
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/variant1Block"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="12dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="10dp">
-
-                        <ImageView
-                            android:id="@+id/variant1Check"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_quiz_variant_empty_dark" />
-
-                        <TextView
-                            android:id="@+id/variant1Text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/variant2Block"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="12dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="10dp">
-
-                        <ImageView
-                            android:id="@+id/variant2Check"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_quiz_variant_empty_dark" />
-
-                        <TextView
-                            android:id="@+id/variant2Text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/variant3Block"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="12dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="10dp">
-
-                        <ImageView
-                            android:id="@+id/variant3Check"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_quiz_variant_empty_dark" />
-
-                        <TextView
-                            android:id="@+id/variant3Text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/variant4Block"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="12dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="10dp">
-
-                        <ImageView
-                            android:id="@+id/variant4Check"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_quiz_variant_empty_dark" />
-
-                        <TextView
-                            android:id="@+id/variant4Text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/variant5Block"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="12dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="10dp">
-
-                        <ImageView
-                            android:id="@+id/variant5Check"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_quiz_variant_empty_dark" />
-
-                        <TextView
-                            android:id="@+id/variant5Text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/variant6Block"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="12dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="10dp">
-
-                        <ImageView
-                            android:id="@+id/variant6Check"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_quiz_variant_empty_dark" />
-
-                        <TextView
-                            android:id="@+id/variant6Text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
+                <include
+                    layout="@layout/view_onboarding"
+                    android:id="@+id/viewOnboarding"/>
+                
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ViewStub
@@ -572,183 +201,188 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.myhumandesignhd.ui.view.bodygraph.BodygraphView
-                    android:id="@+id/bodygraphView"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toTopOf="@id/bodygraphReadySubblock"
-                    app:layout_constraintDimensionRatio="720:852"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bodygraphReadyTitle" />
+<!--                <com.myhumandesignhd.ui.view.bodygraph.BodygraphView-->
+<!--                    android:id="@+id/bodygraphView"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:scaleX="0.5"-->
+<!--                    android:scaleY="0.5"-->
+<!--                    android:visibility="invisible"-->
+<!--                    app:layout_constraintBottom_toTopOf="@id/bodygraphReadySubblock"-->
+<!--                    app:layout_constraintDimensionRatio="720:852"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/bodygraphReadyTitle" />-->
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/bodygraphReadySubblock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginBottom="16dp"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bodygraphView">
+<!--                <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--                    android:id="@+id/bodygraphReadySubblock"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginHorizontal="20dp"-->
+<!--                    android:layout_marginBottom="16dp"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/bodygraphView">-->
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+<!--                    <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal">-->
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/bodygraphReadyMark1"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
-                            android:layout_width="24dp"
-                            android:layout_height="19dp"
-                            android:layout_gravity="center_vertical"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+<!--                        <com.airbnb.lottie.LottieAnimationView-->
+<!--                            android:id="@+id/bodygraphReadyMark1"-->
+<!--                            app:lottie_rawRes="@raw/bodygraph_ready_loader"-->
+<!--                            android:layout_width="24dp"-->
+<!--                            android:layout_height="19dp"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:adjustViewBounds="true"-->
+<!--                            android:src="@drawable/ic_bodygraph_ready_mark"-->
+<!--                            android:visibility="invisible" />-->
 
-                        <TextView
-                            android:id="@+id/bodygraphReadyText1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="7dp"
-                            android:alpha="0.7"
-                            android:text="@string/analyzing_your_info"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+<!--                        <TextView-->
+<!--                            android:id="@+id/bodygraphReadyText1"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginStart="7dp"-->
+<!--                            android:alpha="0.7"-->
+<!--                            android:text="@string/analyzing_your_info"-->
+<!--                            android:textSize="14sp" />-->
+<!--                    </androidx.appcompat.widget.LinearLayoutCompat>-->
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
+<!--                    <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:orientation="horizontal">-->
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/bodygraphReadyMark2"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
-                            android:layout_width="24dp"
-                            android:layout_height="19dp"
-                            android:layout_gravity="center_vertical"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+<!--                        <com.airbnb.lottie.LottieAnimationView-->
+<!--                            android:id="@+id/bodygraphReadyMark2"-->
+<!--                            app:lottie_rawRes="@raw/bodygraph_ready_loader"-->
+<!--                            android:layout_width="24dp"-->
+<!--                            android:layout_height="19dp"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:adjustViewBounds="true"-->
+<!--                            android:src="@drawable/ic_bodygraph_ready_mark"-->
+<!--                            android:visibility="invisible" />-->
 
-                        <TextView
-                            android:id="@+id/bodygraphReadyText2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="7dp"
-                            android:alpha="0.7"
-                            android:text="@string/determining_your_gates"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+<!--                        <TextView-->
+<!--                            android:id="@+id/bodygraphReadyText2"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginStart="7dp"-->
+<!--                            android:alpha="0.7"-->
+<!--                            android:text="@string/determining_your_gates"-->
+<!--                            android:textSize="14sp" />-->
+<!--                    </androidx.appcompat.widget.LinearLayoutCompat>-->
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
+<!--                    <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:orientation="horizontal">-->
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/bodygraphReadyMark3"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
-                            android:layout_width="24dp"
-                            android:layout_height="19dp"
-                            android:layout_gravity="center_vertical"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+<!--                        <com.airbnb.lottie.LottieAnimationView-->
+<!--                            android:id="@+id/bodygraphReadyMark3"-->
+<!--                            app:lottie_rawRes="@raw/bodygraph_ready_loader"-->
+<!--                            android:layout_width="24dp"-->
+<!--                            android:layout_height="19dp"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:adjustViewBounds="true"-->
+<!--                            android:src="@drawable/ic_bodygraph_ready_mark"-->
+<!--                            android:visibility="invisible" />-->
 
-                        <TextView
-                            android:id="@+id/bodygraphReadyText3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="7dp"
-                            android:alpha="0.7"
-                            android:text="@string/synchronizing_with_planet_transits"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+<!--                        <TextView-->
+<!--                            android:id="@+id/bodygraphReadyText3"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginStart="7dp"-->
+<!--                            android:alpha="0.7"-->
+<!--                            android:text="@string/synchronizing_with_planet_transits"-->
+<!--                            android:textSize="14sp" />-->
+<!--                    </androidx.appcompat.widget.LinearLayoutCompat>-->
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
+<!--                    <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:orientation="horizontal">-->
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/bodygraphReadyMark4"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
-                            android:layout_width="24dp"
-                            android:layout_height="19dp"
-                            android:layout_gravity="center_vertical"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+<!--                        <com.airbnb.lottie.LottieAnimationView-->
+<!--                            android:id="@+id/bodygraphReadyMark4"-->
+<!--                            app:lottie_rawRes="@raw/bodygraph_ready_loader"-->
+<!--                            android:layout_width="24dp"-->
+<!--                            android:layout_height="19dp"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:adjustViewBounds="true"-->
+<!--                            android:src="@drawable/ic_bodygraph_ready_mark"-->
+<!--                            android:visibility="invisible" />-->
 
-                        <TextView
-                            android:id="@+id/bodygraphReadyText4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="7dp"
-                            android:alpha="0.7"
-                            android:text="@string/designing_your_type_amp_profile"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+<!--                        <TextView-->
+<!--                            android:id="@+id/bodygraphReadyText4"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginStart="7dp"-->
+<!--                            android:alpha="0.7"-->
+<!--                            android:text="@string/designing_your_type_amp_profile"-->
+<!--                            android:textSize="14sp" />-->
+<!--                    </androidx.appcompat.widget.LinearLayoutCompat>-->
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
+<!--                    <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:orientation="horizontal">-->
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/bodygraphReadyMark5"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
-                            android:layout_width="24dp"
-                            android:layout_height="19dp"
-                            android:layout_gravity="center_vertical"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+<!--                        <com.airbnb.lottie.LottieAnimationView-->
+<!--                            android:id="@+id/bodygraphReadyMark5"-->
+<!--                            app:lottie_rawRes="@raw/bodygraph_ready_loader"-->
+<!--                            android:layout_width="24dp"-->
+<!--                            android:layout_height="19dp"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:adjustViewBounds="true"-->
+<!--                            android:src="@drawable/ic_bodygraph_ready_mark"-->
+<!--                            android:visibility="invisible" />-->
 
-                        <TextView
-                            android:id="@+id/bodygraphReadyText5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="7dp"
-                            android:alpha="0.7"
-                            android:text="@string/generating_your_life_strategy"
-                            android:textSize="14sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </androidx.appcompat.widget.LinearLayoutCompat>
+<!--                        <TextView-->
+<!--                            android:id="@+id/bodygraphReadyText5"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginStart="7dp"-->
+<!--                            android:alpha="0.7"-->
+<!--                            android:text="@string/generating_your_life_strategy"-->
+<!--                            android:textSize="14sp" />-->
+<!--                    </androidx.appcompat.widget.LinearLayoutCompat>-->
+<!--                </androidx.appcompat.widget.LinearLayoutCompat>-->
 
-                <TextView
-                    android:id="@+id/bodygraphReadyText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginBottom="24dp"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bodygraphView" />
+<!--                <TextView-->
+<!--                    android:id="@+id/bodygraphReadyText"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginHorizontal="20dp"-->
+<!--                    android:layout_marginBottom="24dp"-->
+<!--                    android:fontFamily="@font/roboto"-->
+<!--                    android:gravity="center"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:visibility="invisible"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/bodygraphView" />-->
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include
+                android:id="@+id/signupView"
+                layout="@layout/view_signup"
+                android:visibility="gone"/>
 
             <include
                 android:id="@+id/placesView"

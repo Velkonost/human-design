@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signupContainer"
+        android:background="@color/darkColor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/icGradient"
+            android:src="@drawable/ic_signup_gradient"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headerContainer"
+            android:paddingHorizontal="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/signupText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/icSignupLogo"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/signupTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_signup_logo_dark"
+                android:adjustViewBounds="true"
+                android:layout_width="167dp"
+                android:layout_height="120dp"/>
+
+            <TextView
+                android:id="@+id/signupTitle"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@id/icSignupLogo"
+                app:layout_constraintBottom_toTopOf="@id/signupSubtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/signup_title"
+                android:textColor="@color/lightColor"
+                android:textStyle="bold"
+                android:textSize="32sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/signupSubtitle"
+                android:layout_marginTop="12dp"
+                android:text="@string/signup_subtitle"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signupTitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="20sp"
+                android:alpha="0.7"
+                android:textColor="@color/lightColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/signupText"
+            android:paddingHorizontal="20dp"
+            android:text="@string/signup_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0.5"
+            android:textSize="12sp"
+            android:textColor="@color/lightColor"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@id/icEmailBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/icEmailBtn"
+            android:paddingHorizontal="20dp"
+            app:layout_constraintBottom_toTopOf="@id/icBreakline"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_email_signup"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/icBreakline"
+            android:paddingHorizontal="20dp"
+            app:layout_constraintBottom_toTopOf="@id/icGoogleBtn"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_breakline_signup"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/icGoogleBtn"
+            android:paddingHorizontal="20dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_google_signup"
+            app:layout_constraintBottom_toTopOf="@id/icFbBtn"
+            android:layout_marginBottom="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/icFbBtn"
+            android:paddingHorizontal="20dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_fb_signup"
+            app:layout_constraintBottom_toTopOf="@id/signupFooter"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/signupFooter"
+            android:paddingHorizontal="20dp"
+            android:textSize="12sp"
+            android:textColor="@color/lightColor"
+            android:alpha="0.5"
+            android:layout_marginBottom="32dp"
+            android:text="@string/signup_footer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/emailContainer"
+        android:visibility="gone"
+        android:paddingHorizontal="20dp"
+        android:background="@color/darkColor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <ImageView
+            android:id="@+id/icEmailBack"
+            android:src="@drawable/ic_arrow_start"
+            app:tint="@color/lightColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_width="16dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            />
+        <TextView
+            android:id="@+id/emailTitle"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@id/icEmailBack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/signup_email_title"
+            android:textSize="32sp"
+            android:textColor="@color/lightColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/emailSubtitle"
+            android:text="@string/signup_email_subtitle"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/emailTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="16sp"
+            android:textColor="@color/lightColor"
+            android:alpha="0.7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/emailET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/gilroy"
+            android:gravity="center"
+            android:includeFontPadding="true"
+            android:textColor="@color/lightColor"
+            android:letterSpacing="0.12"
+            android:inputType="textEmailAddress"
+            android:padding="20dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/emailBtn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="36dp"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{handler::onBtnClicked}"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_btn" />
+
+            <TextView
+                android:id="@+id/startBtnText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:letterSpacing="0.12"
+                android:text="@string/next"
+                android:textAllCaps="true"
+                android:fontFamily="@font/gilroy"
+                android:textColor="@color/lightColor"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/inboxContainer"
+
+        android:paddingHorizontal="20dp"
+        android:background="@color/darkColor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/icInboxBack"
+            android:src="@drawable/ic_arrow_start"
+            app:tint="@color/lightColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_width="16dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            />
+        <TextView
+            android:id="@+id/inboxTitle"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@id/icInboxBack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/signup_check_inbox_title"
+            android:textSize="32sp"
+            android:textColor="@color/lightColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/inboxSubtitle"
+            android:text="@string/signup_check_inbox_subtitle"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/inboxTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="16sp"
+            android:textColor="@color/lightColor0.7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/gotoInboxBtn"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_signup_goto_email"
+            app:layout_constraintBottom_toTopOf="@id/inboxFooter"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/inboxFooter"
+            android:text="@string/signup_check_inbox_footer"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/lightColor"
+            android:alpha="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "782291192410-i60b8rd9m3in8vj5fur4dvjf963qpvj2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myhumandesignhd",
+            "certificate_hash": "087136cd9a465f17e520e9714301a8564a8319e2"
+          }
+        },
+        {
           "client_id": "782291192410-itua6hno6r8kbh4khv5mpekqpttkjac7.apps.googleusercontent.com",
           "client_type": 3
         }

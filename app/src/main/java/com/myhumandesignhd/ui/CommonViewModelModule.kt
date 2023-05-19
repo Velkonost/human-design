@@ -7,6 +7,8 @@ import com.myhumandesignhd.ui.bodygraph.BodygraphViewModel
 import com.myhumandesignhd.ui.compatibility.CompatibilityViewModel
 import com.myhumandesignhd.ui.faq.FaqViewModel
 import com.myhumandesignhd.ui.loader.LoaderViewModel
+import com.myhumandesignhd.ui.description.DescriptionViewModel
+import com.myhumandesignhd.ui.description.di.DescriptionModule
 import com.myhumandesignhd.ui.settings.SettingsViewModel
 import com.myhumandesignhd.ui.start.StartViewModel
 import com.myhumandesignhd.ui.transit.TransitViewModel
@@ -62,5 +64,10 @@ interface CommonViewModelModule {
     @IntoMap
     @ViewModelKey(LoaderViewModel::class)
     fun loaderViewModel(m: LoaderViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DescriptionViewModel::class)
+    fun descriptionViewModel(m: DescriptionViewModel): ViewModel
 
 }

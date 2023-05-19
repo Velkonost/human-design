@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.myhumandesignhd.BuildConfig
 import com.myhumandesignhd.di.scope.AppScope
 import com.myhumandesignhd.rest.RestService
+import com.myhumandesignhd.rest.RestServiceV2
 import dagger.Module
 import dagger.Provides
 import retrofit2.Converter
@@ -25,6 +26,9 @@ class RetrofitModule(val context: Context) {
     @Provides
     fun restService(): RestService =
         createRetrofit(BuildConfig.BASE_URL, context).create(RestService::class.java)
+
+    fun restServiceV2(): RestServiceV2 =
+        createRetrofit(BuildConfig.BASE_URL_V2, context).create(RestServiceV2::class.java)
 }
 
 @Module

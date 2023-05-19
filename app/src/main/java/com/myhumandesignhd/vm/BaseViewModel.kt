@@ -651,10 +651,11 @@ class BaseViewModel @Inject constructor(
             }).disposeOnCleared()
     }
 
-    var reverseSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> = mutableLiveDataOf(emptyList())
+    var reverseSuggestions: MutableLiveData<Pair<List<GeocodingNominatimFeature>, Int>> = mutableLiveDataOf(Pair(emptyList(), 0))
     fun reverseNominatim(
         lat: String,
-        lon: String
+        lon: String,
+        type: Int = 0
     ) {
         val acceptLang = if (App.preferences.locale == "es") "en" else App.preferences.locale
         repo.geocodingNominatim(
@@ -665,7 +666,7 @@ class BaseViewModel @Inject constructor(
                     + "&limit=50"
         ).subscribe({
 //                suggestions.postValue(it)
-            reverseSuggestions.postValue(it)
+            reverseSuggestions.postValue(Pair(it, type))
         }, {
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             EventBus.getDefault().post(NoInetEvent())

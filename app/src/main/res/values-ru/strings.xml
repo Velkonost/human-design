@@ -65,11 +65,11 @@
     <string name="start_name_hint">Имя</string>
 
     <string name="start_date_title">Дата рождения</string>
-    <string name="start_date_desc"><![CDATA[ , укажите дату рождения,<br>и мы сможем построить ваш личный<br>бодиграф!]]></string>
+    <string name="start_date_desc">укажите дату рождения,\nи мы сможем построить ваш личный\nбодиграф!</string>
 
     <string name="start_time_title">Время рождения</string>
     <string name="start_time_desc"><![CDATA[Мы уже почти закончили. Пожалуйста, выберите время вашего рождения. ]]></string>
-    <string name="start_time_skip">Я НЕ ЗНАЮ ТОЧНОЕ ВРЕМЯ</string>
+    <string name="start_time_skip">Я не знаю точное время</string>
 
     <string name="start_place_title">Место рождения</string>
     <string name="start_place_desc"><![CDATA[Знание места вашего рождения поможет нам увидеть какие планеты оказали влияние на вашу судьбу]]></string>

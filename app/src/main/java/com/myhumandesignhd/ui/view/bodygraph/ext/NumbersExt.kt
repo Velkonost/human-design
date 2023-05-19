@@ -526,7 +526,7 @@ fun BodygraphView.initNumbers() {
             y = (strangeTrianglePoints[BodygraphView.StrangeTrianglePoint.Left]!!.y - .1f * cellSize).toFloat()
         ),
         BodygraphNumber(
-            text = "40",
+            text = "21",
             x = (strangeTrianglePoints[BodygraphView.StrangeTrianglePoint.Top]!!.x - .6f * cellSize).toFloat(),
             y = (strangeTrianglePoints[BodygraphView.StrangeTrianglePoint.Top]!!.y + 1.2f * cellSize).toFloat()
         ),
