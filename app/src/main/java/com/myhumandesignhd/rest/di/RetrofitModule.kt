@@ -27,6 +27,9 @@ class RetrofitModule(val context: Context) {
     fun restService(): RestService =
         createRetrofit(BuildConfig.BASE_URL, context).create(RestService::class.java)
 
+
+    @AppScope
+    @Provides
     fun restServiceV2(): RestServiceV2 =
         createRetrofit(BuildConfig.BASE_URL_V2, context).create(RestServiceV2::class.java)
 }

@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Bundle
 import android.text.Selection
 import android.text.Spannable
 import android.text.SpannableString
@@ -19,9 +18,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.facebook.AccessToken
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
@@ -35,7 +34,20 @@ import com.myhumandesignhd.R
 import com.myhumandesignhd.ui.start.StartFragment
 import com.myhumandesignhd.ui.start.StartFragment.Companion.GOOGLE_REQUEST_CODE
 import com.myhumandesignhd.ui.start.StartPage
-import kotlinx.android.synthetic.main.view_signup.*
+import kotlinx.android.synthetic.main.view_signup.emailBtn
+import kotlinx.android.synthetic.main.view_signup.emailContainer
+import kotlinx.android.synthetic.main.view_signup.emailET
+import kotlinx.android.synthetic.main.view_signup.gotoInboxBtn
+import kotlinx.android.synthetic.main.view_signup.icEmailBack
+import kotlinx.android.synthetic.main.view_signup.icEmailBtn
+import kotlinx.android.synthetic.main.view_signup.icFbBtn
+import kotlinx.android.synthetic.main.view_signup.icGoogleBtn
+import kotlinx.android.synthetic.main.view_signup.icInboxBack
+import kotlinx.android.synthetic.main.view_signup.inboxContainer
+import kotlinx.android.synthetic.main.view_signup.inboxFooter
+import kotlinx.android.synthetic.main.view_signup.inboxSubtitle
+import kotlinx.android.synthetic.main.view_signup.signupContainer
+import kotlinx.android.synthetic.main.view_signup.signupFooter
 
 
 fun StartFragment.setupSignup() {
@@ -149,46 +161,33 @@ fun StartFragment.gotoMailInbox() {
 
 fun StartFragment.loginFb() {
 
-    val loginButton = LoginButton(requireContext())
-    loginButton.setReadPermissions(listOf("email"))
-    loginButton.permissions
-    loginButton.setFragment(this)
+    val accessToken = AccessToken.getCurrentAccessToken()
+    if (accessToken != null && !accessToken.isExpired) {
+        binding.viewModel!!.loginFb(accessToken.token)
+    } else {
+        val loginButton = LoginButton(requireContext())
+        loginButton.setReadPermissions(listOf("email"))
+        loginButton.setFragment(this)
 
-    LoginManager.getInstance().registerCallback(facebookCallbackManager,
-        object : FacebookCallback<LoginResult> {
-            override fun onSuccess(result: LoginResult) {
-
-                val request = GraphRequest.newMeRequest(result.accessToken) { _object, response ->
-//                    AccessToken.expireCurrentAccessToken()
-                    // Application code
-
-                    if (_object != null && _object.has("email")) {
-                        val email = _object.getString("email")
-
-                        if (email.isValidEmail()) {
-                            checkInboxPage(email)
-                        }
-                    }
-
+        LoginManager.getInstance().registerCallback(facebookCallbackManager,
+            object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult) {
+                    val accessToken = result.accessToken.token
+                    binding.viewModel!!.loginFb(accessToken)
                 }
 
-                val parameters = Bundle()
-                parameters.putString("fields", "email")
-                request.parameters = parameters
-                request.executeAsync()
-            }
+                override fun onCancel() {
+                    // App code
+                }
 
-            override fun onCancel() {
-                // App code
-            }
+                override fun onError(error: FacebookException) {
+                    // App code
+                    Log.d("keke", error.message.toString())
+                }
+            })
 
-            override fun onError(error: FacebookException) {
-                // App code
-                Log.d("keke", error.message.toString())
-            }
-        })
-
-    loginButton.performClick()
+        loginButton.performClick()
+    }
 }
 
 fun StartFragment.loginGoogle() {

@@ -11,6 +11,7 @@ import com.myhumandesignhd.model.GetDesignResponse
 import com.myhumandesignhd.model.TransitResponse
 import com.myhumandesignhd.repo.base.RestRepo
 import com.myhumandesignhd.rest.RestService
+import com.myhumandesignhd.rest.RestServiceV2
 import com.myhumandesignhd.util.ext.subscribeIoObserveMain
 import io.reactivex.Single
 import javax.inject.Inject

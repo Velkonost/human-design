@@ -4,6 +4,8 @@ import com.myhumandesignhd.model.request.LoginBody
 import com.myhumandesignhd.model.request.RefreshTokenBody
 import com.myhumandesignhd.model.request.RegisterBody
 import com.myhumandesignhd.model.request.VerifyEmailBody
+import com.myhumandesignhd.model.response.SimpleResponse
+import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -13,11 +15,11 @@ import retrofit2.http.POST
 
 interface RestServiceV2 {
 
-    @POST("api/register")
-    fun register(@Body registerBody: RegisterBody): String
-
-    @POST("api/verify_email")
-    fun verifyEmail(@Body verifyEmailBody: VerifyEmailBody): String
+    @POST("api/login/facebook")
+    @FormUrlEncoded
+    fun loginFb(
+        @Field("access_token") accessToken: String
+    ): Single<SimpleResponse>
 
     @GET("api/user")
     fun getUser()
@@ -34,10 +36,4 @@ interface RestServiceV2 {
         @Field("lon") lon: String? = null,
         @Field("gender") gender: String? = null
     )
-
-    @POST("api/token/refresh")
-    fun refreshToken(@Body refreshTokenBody: RefreshTokenBody)
-
-    @POST("api/login")
-    fun login(@Body loginBody: LoginBody)
 }

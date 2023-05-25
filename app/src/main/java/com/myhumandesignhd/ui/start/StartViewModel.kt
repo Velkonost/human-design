@@ -6,7 +6,9 @@ import com.myhumandesignhd.event.NoInetEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
 import com.myhumandesignhd.model.GeocodingNominatimFeature
 import com.myhumandesignhd.model.GeocodingResponse
+import com.myhumandesignhd.model.response.SimpleResponse
 import com.myhumandesignhd.repo.base.RestRepo
+import com.myhumandesignhd.repo.base.RestV2Repo
 import com.myhumandesignhd.util.RxViewModel
 import com.myhumandesignhd.util.SingleLiveEvent
 import com.myhumandesignhd.util.ext.mutableLiveDataOf
@@ -14,7 +16,8 @@ import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class StartViewModel @Inject constructor(
-    private val repo: RestRepo
+    private val repo: RestRepo,
+    private val repoV2: RestV2Repo
 ) : RxViewModel() {
 
     val errorEvent = SingleLiveEvent<Error>()
@@ -24,27 +27,19 @@ class StartViewModel @Inject constructor(
 
     var nominatimSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> = mutableLiveDataOf(emptyList())
 
-//    fun geocoding(query: String?) {
-//        if (query.isNullOrEmpty()) {
-//
-//        } else {
-//            repo.geocoding(
-//                "https://api.mapbox.com/geocoding/v5/mapbox.places/"
-//                        + query
-//                        + ".json?access_token=pk.eyJ1IjoidmVsa29ub3N0IiwiYSI6ImNsMXlxMWF6NjBmNWEzam1xazVzdm5lc3oifQ.MLuCuYBGTuf-u9RKme73lQ&language="
-//                        + App.preferences.locale
-//                        + "&autocomplete=true"
-//            ).subscribe({
-//                suggestions.postValue(it)
-//            }, {
-//
-//            }).disposeOnCleared()
-//        }
-//    }
+    var loginFbLiveData: MutableLiveData<SimpleResponse> = mutableLiveDataOf(SimpleResponse())
+
+    fun loginFb(accessToken: String) {
+        repoV2.loginFb(accessToken)
+            .subscribe({
+                loginFbLiveData.postValue(it)
+            }, {
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            }).disposeOnCleared()
+    }
 
     fun geocodingNominatim(query: String?) {
         if (query.isNullOrEmpty()) {
-//https://nominatim.openstreetmap.org/search?q=%D0%BE%D0%BC%D1%81%D0%BA&format=json&accept-language=ru
         } else {
             val acceptLang = if (App.preferences.locale == "es") "en" else App.preferences.locale
 
@@ -55,8 +50,7 @@ class StartViewModel @Inject constructor(
                         + acceptLang
                         + "&limit=50"
             ).subscribe({
-//                suggestions.postValue(it)
-                        nominatimSuggestions.postValue(it)
+                 nominatimSuggestions.postValue(it)
             }, {
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
                 EventBus.getDefault().post(NoInetEvent())
@@ -66,19 +60,4 @@ class StartViewModel @Inject constructor(
 
 
 
-
-
-//    fun reverseGeocoding(lat: Float, lon: Float) {
-//        Log.d("keke", "keke")
-//        repo.geocoding(
-//            "https://api.mapbox.com/geocoding/v5/mapbox.places/$lat,$lon"
-//                    + ".json?access_token=pk.eyJ1IjoidmVsa29ub3N0IiwiYSI6ImNsMXlxMWF6NjBmNWEzam1xazVzdm5lc3oifQ.MLuCuYBGTuf-u9RKme73lQ&language="
-//                    + App.preferences.locale
-//        ).subscribe({
-//            reverseSuggestions.postValue(it)
-//        }, {
-//
-//        }).disposeOnCleared()
-//
-//    }
 }

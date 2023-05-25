@@ -14,11 +14,27 @@
       },
       "oauth_client": [
         {
+          "client_id": "782291192410-3moq2t154ith60fk07doh7knkhmhhrsh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myhumandesignhd",
+            "certificate_hash": "50c80cb7706105bfe7e772c75d7521c124f02e14"
+          }
+        },
+        {
           "client_id": "782291192410-i60b8rd9m3in8vj5fur4dvjf963qpvj2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.myhumandesignhd",
             "certificate_hash": "087136cd9a465f17e520e9714301a8564a8319e2"
+          }
+        },
+        {
+          "client_id": "782291192410-k7ar5ro0egrghlrmnuvk60u223d6sqfe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myhumandesignhd",
+            "certificate_hash": "38219f6dae2d83dca86ee02df901615ccb7c7cfe"
           }
         },
         {

@@ -52,6 +52,7 @@ import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.start.adapter.PlacesAdapter
 import com.myhumandesignhd.ui.start.ext.handleLoginGoogleResult
+import com.myhumandesignhd.ui.start.ext.onSignupFinished
 import com.myhumandesignhd.ui.start.ext.setupSignup
 import com.myhumandesignhd.util.Keyboard
 import com.myhumandesignhd.util.ext.alpha0
@@ -390,6 +391,14 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 placesAdapter.createList(addresses.toList())
             }
         }
+
+        viewModel.loginFbLiveData.observe(this) { response ->
+            if (response.code == 200) {
+                onSignupFinished()
+            } else if (response != null){
+                showError(response.message)
+            }
+        }
     }
 
     private fun setupPlacesView() {
@@ -705,6 +714,26 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             else R.drawable.bg_inactive_indicator_light
         )
     }
+
+    fun showError(msg: String) {
+        val snackView = View.inflate(requireContext(), R.layout.view_snackbar, null)
+        val snackbar = Snackbar.make(binding.snackbarContainer, "", Snackbar.LENGTH_LONG)
+        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        val view = snackbar.view
+        val params = view.layoutParams as CoordinatorLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+
+        (snackbar.view as ViewGroup).removeAllViews()
+        (snackbar.view as ViewGroup).addView(snackView)
+
+        snackView.findViewById<TextView>(R.id.title).text = App.resourcesProvider.getStringLocale(R.string.snackbar_title)
+        snackView.findViewById<TextView>(R.id.desc).text = msg
+        snackbar.setBackgroundTint(Color.parseColor("#F7C52B"))
+
+        snackbar.show()
+    }
+
 
     private val snackbarName: Snackbar by lazy {
         val snackView = View.inflate(requireContext(), R.layout.view_snackbar, null)
