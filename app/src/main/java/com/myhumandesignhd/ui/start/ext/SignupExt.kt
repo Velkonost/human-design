@@ -166,14 +166,14 @@ fun StartFragment.loginFb() {
         binding.viewModel!!.loginFb(accessToken.token)
     } else {
         val loginButton = LoginButton(requireContext())
-        loginButton.setReadPermissions(listOf("email"))
+        listOf("email")
         loginButton.setFragment(this)
 
         LoginManager.getInstance().registerCallback(facebookCallbackManager,
             object : FacebookCallback<LoginResult> {
                 override fun onSuccess(result: LoginResult) {
-                    val accessToken = result.accessToken.token
-                    binding.viewModel!!.loginFb(accessToken)
+                    val newAccessToken = result.accessToken.token
+                    binding.viewModel!!.loginFb(newAccessToken)
                 }
 
                 override fun onCancel() {
