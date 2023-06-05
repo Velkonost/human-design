@@ -62,17 +62,31 @@ import com.myhumandesignhd.util.ext.setTextAnimation
 import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.container_start_name.view.*
-import kotlinx.android.synthetic.main.item_place.view.*
-import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
-import kotlinx.android.synthetic.main.view_onboarding.view.*
-import kotlinx.android.synthetic.main.view_place_select.view.*
+import kotlinx.android.synthetic.main.container_start_name.view.bodygraphView
+import kotlinx.android.synthetic.main.container_start_name.view.date
+import kotlinx.android.synthetic.main.container_start_name.view.icCirclesBodygraph
+import kotlinx.android.synthetic.main.container_start_name.view.nameContainer
+import kotlinx.android.synthetic.main.container_start_name.view.nameDesc
+import kotlinx.android.synthetic.main.container_start_name.view.nameET
+import kotlinx.android.synthetic.main.container_start_name.view.nameTitle
+import kotlinx.android.synthetic.main.container_start_name.view.placeET
+import kotlinx.android.synthetic.main.container_start_name.view.skipTime
+import kotlinx.android.synthetic.main.container_start_name.view.time
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.minutesPicker
+import kotlinx.android.synthetic.main.view_onboarding.view.icOnboarding
+import kotlinx.android.synthetic.main.view_onboarding.view.onboardingDesc
+import kotlinx.android.synthetic.main.view_onboarding.view.onboardingTitle
+import kotlinx.android.synthetic.main.view_onboarding.view.onboardingVariants
+import kotlinx.android.synthetic.main.view_place_select.view.icArrowPlace
+import kotlinx.android.synthetic.main.view_place_select.view.newPlaceET
+import kotlinx.android.synthetic.main.view_place_select.view.placeRecycler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 
 class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
@@ -130,7 +144,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             )
 
             inflated.skipTime.setOnClickListener {
-                Amplitude.getInstance().logEvent("userTappedStart3_dontnow");
+                Amplitude.getInstance().logEvent("userTappedStart3_dontnow")
 
                 Handler().onBtnClicked(inflated.skipTime)
             }
@@ -211,18 +225,17 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupLoader() {
         binding.loaderView.anim.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
-                super.onAnimationStart(animation, isReverse)
-            }
 
             override fun onAnimationStart(animation: Animator) {}
-            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
-                super.onAnimationEnd(animation, isReverse)
-            }
 
             override fun onAnimationEnd(animation: Animator) {
                 binding.loaderView.container.isVisible = false
-                setupSplash01()
+
+                if (App.preferences.authToken.isNullOrEmpty().not()) {
+                    onSignupFinished()
+                } else {
+                    setupSplash01()
+                }
             }
 
             override fun onAnimationCancel(animation: Animator) {}
@@ -347,7 +360,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupLocale() {
         if (App.preferences.isFirstLaunch || App.preferences.locale.isNullOrEmpty()) {
-            Amplitude.getInstance().logEvent("first_launch");
+            Amplitude.getInstance().logEvent("first_launch")
             App.preferences.isFirstLaunch = false
 
             val locale = ConfigurationCompat.getLocales(resources.configuration)[0].language
@@ -393,9 +406,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         }
 
         viewModel.loginFbLiveData.observe(this) { response ->
-            if (response.code == 200) {
+            if (response.token.isNullOrEmpty().not()) {
+                App.preferences.authToken = response.token
                 onSignupFinished()
-            } else if (response != null){
+            } else if (response != null && response.message.isNullOrEmpty().not()){
                 showError(response.message)
             }
         }
@@ -437,8 +451,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     }
 
     fun setupLetsCalculate() {
-        binding.backBtn.isVisible = true
-
         if (!::inflatedNameContainer.isInitialized) {
             inflatedNameContainer = binding.nameContainerStub.viewStub!!.inflate()
             setupPlacesView()
@@ -472,6 +484,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     lateinit var inflatedNameContainer: View
     private fun setupName() {
+        binding.backBtn.isVisible = true
+
         if (!::inflatedNameContainer.isInitialized) {
             inflatedNameContainer = binding.nameContainerStub.viewStub!!.inflate()
             setupPlacesView()
@@ -775,7 +789,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupSplash01() {
         YandexMetrica.reportEvent("Onboarding1Showen")
-        Amplitude.getInstance().logEvent("welcome1ScreenShowen");
+        Amplitude.getInstance().logEvent("welcome1ScreenShowen")
 
         binding.indicatorsContainer.alpha1(500)
         unselectAllIndicators()
@@ -905,7 +919,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         fun onBtnClicked(v: View) {
             when (currentStartPage) {
                 StartPage.SPLASH_01 -> {
-                    Amplitude.getInstance().logEvent("welcome1screen_next_clicked");
+                    Amplitude.getInstance().logEvent("welcome1screen_next_clicked")
                     setupSplash02()
                 }
                 StartPage.SPLASH_02 -> {
@@ -914,7 +928,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 }
                 StartPage.SPLASH_03 -> {
                     animateCirclesBtwPages(1000)
-                    Amplitude.getInstance().logEvent("welcome3screen_next_clicked");
+                    Amplitude.getInstance().logEvent("welcome3screen_next_clicked")
                     setupSignup()
                 }
                 StartPage.SPLASH_05 -> setupSignup()
@@ -927,7 +941,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     setupLetsCalculate()
                 }
                 StartPage.NAME -> {
-                    Amplitude.getInstance().logEvent("userTappedStart1");
+                    Amplitude.getInstance().logEvent("userTappedStart1")
 
                     if (inflatedNameContainer.nameET.text.toString().replace(" ", "").isNullOrEmpty()) {
                         snackbarName.show()
@@ -943,7 +957,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     }
                 }
                 StartPage.DATE_BIRTH -> {
-                    Amplitude.getInstance().logEvent("userTappedStart2");
+                    Amplitude.getInstance().logEvent("userTappedStart2")
 
                     animateCirclesBtwPages(1000)
                     setupTimeBirth()
@@ -954,13 +968,13 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                         JSONObject(mutableMapOf(
                             "source" to "fromFirstBodygraphCreating"
                         ).toMap())
-                    );
+                    )
 
                     animateCirclesBtwPages(1000)
                     setupPlaceBirth()
                 }
                 StartPage.PLACE_BIRTH -> {
-                    Amplitude.getInstance().logEvent("userTappedStart4");
+                    Amplitude.getInstance().logEvent("userTappedStart4")
 
                     if (!isNetworkConnected()) {
                         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))

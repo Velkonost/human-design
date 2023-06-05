@@ -4,86 +4,82 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cycleCard"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/aboutItemContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_about_item_light"
+        android:padding="20dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="20dp">
+        <TextView
+            android:id="@+id/aboutItemTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/gilroy"
+            android:text="Bodygraph"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/gateNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/cycleArrow"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginEnd="18dp"
-                android:rotation="90"
-                android:src="@drawable/ic_arrow"
-                app:layout_constraintBottom_toBottomOf="@id/cycleTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cycleTitle" />
+        <TextView
+            android:id="@+id/ageTitle"
+            android:text="@string/cycle_age_title"
+            android:textSize="16sp"
+            android:fontFamily="@font/gilroy"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/aboutItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/cycleTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="12dp"
-                android:fontFamily="@font/roboto"
-                android:gravity="start"
-                android:letterSpacing="0.04"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/cycleArrow"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/age"
+            android:textSize="15sp"
+            android:fontFamily="@font/gilroy"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/ageTitle"
+            android:text="28-30"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="6dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/bg_age_dark"
+            app:layout_constraintTop_toTopOf="@id/ageTitle"
+            app:layout_constraintBottom_toBottomOf="@id/ageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
+        <TextView
+            android:id="@+id/aboutItemText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:alpha="0.7"
+            android:ellipsize="end"
+            android:fontFamily="@font/gilroy"
+            android:lineSpacingExtra="2sp"
+            android:maxLines="3"
+            android:text="Your an individual bodygraph contains a schematic image of energy centers, channels. Learn more about yourself. woirhe  weoh wefoi ih eiwof"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ageTitle" />
 
-            <TextView
-                android:id="@+id/cycleAgeTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:alpha="0.7"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@id/cycleTitle"
-                app:layout_constraintTop_toBottomOf="@id/cycleTitle" />
+        <ImageView
+            android:id="@+id/aboutItemBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="14dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_about_item_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/aboutItemText" />
 
-            <TextView
-                android:id="@+id/cycleAge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@id/cycleAgeTitle"
-                app:layout_constraintStart_toEndOf="@id/cycleAgeTitle"
-                app:layout_constraintTop_toTopOf="@id/cycleAgeTitle" />
-
-
-            <TextView
-                android:id="@+id/cycleDesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="16dp"
-                android:alpha="0.7"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto"
-                android:maxLines="0"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/cycleAgeTitle" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

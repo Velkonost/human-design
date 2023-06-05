@@ -3,18 +3,14 @@ package com.myhumandesignhd.ui.loader
 import android.animation.Animator
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.Handler
-import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.airbnb.lottie.LottieCompositionFactory
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentLoaderBinding
 import com.myhumandesignhd.event.ContinueFirstLoaderEvent
 import com.myhumandesignhd.event.FinishFirstLoaderEvent
 import com.myhumandesignhd.event.UpdateThemeEvent
-import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -29,14 +25,8 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
         setupInitTheme()
 
         binding.anim.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator, isReverse: Boolean) {
-                super.onAnimationStart(animation, isReverse)
-            }
 
             override fun onAnimationStart(animation: Animator) {}
-            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
-                super.onAnimationEnd(animation, isReverse)
-            }
 
             override fun onAnimationEnd(animation: Animator) {
                 EventBus.getDefault().post(FinishFirstLoaderEvent(
@@ -52,12 +42,7 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
                         binding.anim.isVisible = false
                     }
 
-                    override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
-                        super.onAnimationEnd(animation, isReverse)
-                    }
-
                     override fun onAnimationEnd(animation: Animator) {
-//                        binding.anim2.clearAnimation()
                         android.os.Handler().postDelayed({
                             binding.anim2.clearAnimation()
                             binding.anim2.cancelAnimation()
@@ -68,8 +53,6 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
                     override fun onAnimationCancel(animation: Animator) {}
                     override fun onAnimationRepeat(animation: Animator) {
                         android.os.Handler().postDelayed({
-//                            binding.anim2.clearAnimation()
-//                            binding.anim2.cancelAnimation()
                             EventBus.getDefault().post(FinishFirstLoaderEvent())
                         }, 350)
                     }
@@ -133,8 +116,6 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
 
     @Subscribe
     fun onContinueFirstLoaderEvent(e: ContinueFirstLoaderEvent) {
-//        if (!binding.anim2.isAnimating)
-//            binding.anim2.playAnimation()
     }
 
     inner class Handler

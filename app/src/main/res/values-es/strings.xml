@@ -384,4 +384,8 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="designing_your_type_amp_profile"><![CDATA[Diseñando Tu Tipo y Perfil]]></string>
     <string name="generating_your_life_strategy">Generando Tu Estrategia</string>
     <string name="pw_4_autorenewable">auto-renewable</string>
+
+    <!--  PLANET TRANSITS  -->
+    <string name="planet_transits_title">Planet Transits</string>
+    <!--  PLANET TRANSITS  -->
 </resources>

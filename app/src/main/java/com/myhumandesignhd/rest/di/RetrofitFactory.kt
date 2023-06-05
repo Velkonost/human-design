@@ -3,14 +3,12 @@ package com.myhumandesignhd.rest.di
 import android.content.Context
 import com.myhumandesignhd.App
 import com.myhumandesignhd.BuildConfig
-import com.myhumandesignhd.event.TestResponseEvent
 import com.myhumandesignhd.rest.Json
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
-import org.greenrobot.eventbus.EventBus
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
@@ -72,6 +70,8 @@ private fun getHeaderInterceptor(context: Context) = Interceptor { chain ->
 
         if (!App.preferences.authToken.isNullOrEmpty())
             addHeader("Authorization", "Bearer ${App.preferences.authToken}")
+
+        addHeader("Content-Type", "application/json")
 
         originalRequest.headers.names().map {
             header(it, originalRequest.headers[it]!!)

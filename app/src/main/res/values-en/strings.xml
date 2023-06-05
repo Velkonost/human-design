@@ -366,4 +366,8 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="pw_4_autorenewable">auto-renewable</string>
 
     <string name="onboarding_title_1">Human Design</string>
+
+    <!--  PLANET TRANSITS  -->
+    <string name="planet_transits_title">Planet Transits</string>
+    <!--  PLANET TRANSITS  -->
 </resources>

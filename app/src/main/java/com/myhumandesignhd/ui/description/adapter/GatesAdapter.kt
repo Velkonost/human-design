@@ -7,18 +7,16 @@ import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
-import com.myhumandesignhd.event.OpenAboutItemEvent
 import com.myhumandesignhd.event.OpenCenterItemEvent
 import com.myhumandesignhd.event.OpenChannelItemEvent
 import com.myhumandesignhd.event.OpenGateItemEvent
-import com.myhumandesignhd.model.AboutItem
 import com.myhumandesignhd.model.Center
 import com.myhumandesignhd.model.TransitionChannel
 import com.myhumandesignhd.model.TransitionGate
-import kotlinx.android.synthetic.main.item_description_gate_item.view.*
 import kotlinx.android.synthetic.main.item_description_gate_item.view.aboutItemContainer
 import kotlinx.android.synthetic.main.item_description_gate_item.view.aboutItemText
 import kotlinx.android.synthetic.main.item_description_gate_item.view.aboutItemTitle
+import kotlinx.android.synthetic.main.item_description_gate_item.view.gateNumber
 import org.greenrobot.eventbus.EventBus
 
 class GatesAdapter : EpoxyAdapter() {
@@ -35,9 +33,7 @@ class GatesAdapter : EpoxyAdapter() {
         items.map { addModel(CenterModel(it)) }
     }
 
-    internal class GateModel(
-        private val item: TransitionGate
-    ) : EpoxyModel<View>() {
+    class GateModel(private val item: TransitionGate) : EpoxyModel<View>() {
 
         private var root: View? = null
 
@@ -85,7 +81,7 @@ class GatesAdapter : EpoxyAdapter() {
         override fun getDefaultLayout(): Int = R.layout.item_description_gate_item
     }
 
-    internal class ChannelModel(
+    class ChannelModel(
         private val item: TransitionChannel
     ) : EpoxyModel<View>() {
 

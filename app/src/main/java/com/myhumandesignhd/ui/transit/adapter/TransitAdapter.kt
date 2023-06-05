@@ -1,5 +1,8 @@
 package com.myhumandesignhd.ui.transit.adapter
 
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -14,10 +17,90 @@ import com.myhumandesignhd.R
 import com.myhumandesignhd.model.TransitionChannel
 import com.myhumandesignhd.model.TransitionGate
 import com.myhumandesignhd.model.TransitionPlanet
+import com.myhumandesignhd.ui.description.adapter.GatesAdapter
 import com.myhumandesignhd.util.ext.alpha1
 import com.myhumandesignhd.util.ext.setTextAnimation
-import kotlinx.android.synthetic.main.item_about_gates_title.view.*
-import kotlinx.android.synthetic.main.item_transit.view.*
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak1
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak10
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak11
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak12
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak13
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak2
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak3
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak4
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak5
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak6
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak7
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak8
+import kotlinx.android.synthetic.main.item_transit.view.blueZnak9
+import kotlinx.android.synthetic.main.item_transit.view.circle1
+import kotlinx.android.synthetic.main.item_transit.view.circle2
+import kotlinx.android.synthetic.main.item_transit.view.circle3
+import kotlinx.android.synthetic.main.item_transit.view.circle4
+import kotlinx.android.synthetic.main.item_transit.view.circle5
+import kotlinx.android.synthetic.main.item_transit.view.circle6
+import kotlinx.android.synthetic.main.item_transit.view.circle7
+import kotlinx.android.synthetic.main.item_transit.view.circle8
+import kotlinx.android.synthetic.main.item_transit.view.container
+import kotlinx.android.synthetic.main.item_transit.view.designTitle
+import kotlinx.android.synthetic.main.item_transit.view.emptyText
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak1
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak10
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak11
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak12
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak13
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak2
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak3
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak4
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak5
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak6
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak7
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak8
+import kotlinx.android.synthetic.main.item_transit.view.leftZnak9
+import kotlinx.android.synthetic.main.item_transit.view.nextTransitTitle
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak1
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak10
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak11
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak12
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak13
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak2
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak3
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak4
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak5
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak6
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak7
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak8
+import kotlinx.android.synthetic.main.item_transit.view.rightZnak9
+import kotlinx.android.synthetic.main.item_transit.view.transitTitle
+import kotlinx.android.synthetic.main.item_transit.view.znak10Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak10Red
+import kotlinx.android.synthetic.main.item_transit.view.znak11Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak11Red
+import kotlinx.android.synthetic.main.item_transit.view.znak12Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak12Red
+import kotlinx.android.synthetic.main.item_transit.view.znak13Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak13Red
+import kotlinx.android.synthetic.main.item_transit.view.znak1Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak1Red
+import kotlinx.android.synthetic.main.item_transit.view.znak2Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak2Red
+import kotlinx.android.synthetic.main.item_transit.view.znak3Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak3Red
+import kotlinx.android.synthetic.main.item_transit.view.znak4Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak4Red
+import kotlinx.android.synthetic.main.item_transit.view.znak5Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak5Red
+import kotlinx.android.synthetic.main.item_transit.view.znak6Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak6Red
+import kotlinx.android.synthetic.main.item_transit.view.znak7Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak7Red
+import kotlinx.android.synthetic.main.item_transit.view.znak8Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak8Red
+import kotlinx.android.synthetic.main.item_transit.view.znak9Blue
+import kotlinx.android.synthetic.main.item_transit.view.znak9Red
+import kotlinx.android.synthetic.main.item_transit_advice.view.bigCircle
+import kotlinx.android.synthetic.main.item_transit_advice.view.midCircle
+import kotlinx.android.synthetic.main.item_transit_gates_title.view.activeGatesTitle
 
 class TransitAdapter : EpoxyAdapter() {
 
@@ -48,7 +131,7 @@ class TransitAdapter : EpoxyAdapter() {
             position++
         }
         gates.map {
-            addModel(GateModel(it, position + 1, recyclerView))
+            addModel(GatesAdapter.GateModel(it))
             position++
         }
 
@@ -57,7 +140,7 @@ class TransitAdapter : EpoxyAdapter() {
             position++
         }
         channels.map {
-            addModel(ChannelModel(it, position + 1, recyclerView))
+            addModel(GatesAdapter.ChannelModel(it))
             position++
         }
         notifyDataSetChanged()
@@ -78,6 +161,57 @@ class TransitModel(
         root = view
 
         with(view) {
+
+            container.background = ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.bg_daily_advice_dark
+                else R.drawable.bg_daily_advice_light
+            )
+
+            bigCircle.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
+                else R.drawable.ic_circle_big_light
+            )
+
+            midCircle.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
+                else R.drawable.ic_circle_mid_light
+            )
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+                val rotate = RotateAnimation(
+                    0f,
+                    360f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
+
+                rotate.repeatCount = Animation.INFINITE
+                rotate.fillAfter = true
+                rotate.duration = 100000
+                rotate.interpolator = LinearInterpolator()
+
+                val rotateNegative = RotateAnimation(
+                    0f,
+                    -360f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f
+                )
+                rotateNegative.repeatCount = Animation.INFINITE
+                rotateNegative.fillAfter = true
+                rotateNegative.duration = 100000
+                rotateNegative.interpolator = LinearInterpolator()
+
+                bigCircle.startAnimation(rotate)
+                midCircle.startAnimation(rotateNegative)
+            }
+
+
             nextTransitTitle.text =
                 App.resourcesProvider.getStringLocale(R.string.next_transit_text)
             nextTransitTitle.setTextColor(
@@ -360,13 +494,12 @@ class GatesTitleModel(
                     else R.string.channels_title
                 )
 
-            activeGatesTitle.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+            val paint = activeGatesTitle.paint
+            val width = paint.measureText(activeGatesTitle.text.toString())
+            val textShader: Shader = LinearGradient(0f, 0f, width, activeGatesTitle.textSize, intArrayOf(
+                Color.parseColor("#58B9FF"), Color.parseColor("#58B9FF"), Color.parseColor("#5655F9")
+            ), null, Shader.TileMode.REPEAT)
+            activeGatesTitle.paint.shader = textShader
         }
     }
 

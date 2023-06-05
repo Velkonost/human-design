@@ -2,6 +2,7 @@ package com.myhumandesignhd.ui.start.ext
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.Uri
 import android.text.Selection
@@ -30,24 +31,35 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.myhumandesignhd.App
+import com.myhumandesignhd.BuildConfig
 import com.myhumandesignhd.R
 import com.myhumandesignhd.ui.start.StartFragment
 import com.myhumandesignhd.ui.start.StartFragment.Companion.GOOGLE_REQUEST_CODE
 import com.myhumandesignhd.ui.start.StartPage
+import com.myhumandesignhd.util.Keyboard
 import kotlinx.android.synthetic.main.view_signup.emailBtn
 import kotlinx.android.synthetic.main.view_signup.emailContainer
 import kotlinx.android.synthetic.main.view_signup.emailET
+import kotlinx.android.synthetic.main.view_signup.emailSubtitle
+import kotlinx.android.synthetic.main.view_signup.emailTitle
 import kotlinx.android.synthetic.main.view_signup.gotoInboxBtn
+import kotlinx.android.synthetic.main.view_signup.icBreakline
 import kotlinx.android.synthetic.main.view_signup.icEmailBack
 import kotlinx.android.synthetic.main.view_signup.icEmailBtn
 import kotlinx.android.synthetic.main.view_signup.icFbBtn
 import kotlinx.android.synthetic.main.view_signup.icGoogleBtn
+import kotlinx.android.synthetic.main.view_signup.icGradient
 import kotlinx.android.synthetic.main.view_signup.icInboxBack
+import kotlinx.android.synthetic.main.view_signup.icSignupLogo
 import kotlinx.android.synthetic.main.view_signup.inboxContainer
 import kotlinx.android.synthetic.main.view_signup.inboxFooter
 import kotlinx.android.synthetic.main.view_signup.inboxSubtitle
+import kotlinx.android.synthetic.main.view_signup.inboxTitle
 import kotlinx.android.synthetic.main.view_signup.signupContainer
 import kotlinx.android.synthetic.main.view_signup.signupFooter
+import kotlinx.android.synthetic.main.view_signup.signupSubtitle
+import kotlinx.android.synthetic.main.view_signup.signupText
+import kotlinx.android.synthetic.main.view_signup.signupTitle
 
 
 fun StartFragment.setupSignup() {
@@ -93,6 +105,8 @@ fun StartFragment.setupSignup() {
 
 fun StartFragment.onSignupFinished() {
     binding.startBtn.visibility = View.VISIBLE
+    binding.signupView.isVisible = false
+
     setupLetsCalculate()
 }
 
@@ -109,9 +123,13 @@ fun StartFragment.loginEmail() {
         }
 
         emailBtn.setOnClickListener {
-            if (emailET.text.toString().isValidEmail())
-                checkInboxPage(emailET.text.toString())
-            else {
+            if (emailET.text.toString().isValidEmail()) {
+                Keyboard.hide(emailET)
+
+                binding.viewModel!!.loginEmail(emailET.text.toString().trim())
+                checkInboxPage(emailET.text.toString().trim())
+            } else {
+
             }
         }
     }
@@ -131,8 +149,8 @@ fun StartFragment.checkInboxPage(email: String) {
         }
 
         gotoInboxBtn.setOnClickListener {
-//            gotoMailInbox()
-            onSignupFinished()
+            gotoMailInbox()
+//            onSignupFinished()
         }
 
         inboxSubtitle.text = inboxSubtitle.text.toString() + " $email"
@@ -141,7 +159,7 @@ fun StartFragment.checkInboxPage(email: String) {
         inboxFooter.text = inboxFooter.text.toString().replace("yourmail", email)
 
         inboxFooter.withLinks("click here to have us resend the link") {
-
+            binding.viewModel!!.loginEmail(email)
         }
     }
 }
@@ -160,40 +178,33 @@ fun StartFragment.gotoMailInbox() {
 }
 
 fun StartFragment.loginFb() {
+    AccessToken.expireCurrentAccessToken()
 
-    val accessToken = AccessToken.getCurrentAccessToken()
-    if (accessToken != null && !accessToken.isExpired) {
-        binding.viewModel!!.loginFb(accessToken.token)
-    } else {
-        val loginButton = LoginButton(requireContext())
-        listOf("email")
-        loginButton.setFragment(this)
+    val loginButton = LoginButton(requireContext())
+    loginButton.setFragment(this)
 
-        LoginManager.getInstance().registerCallback(facebookCallbackManager,
-            object : FacebookCallback<LoginResult> {
-                override fun onSuccess(result: LoginResult) {
-                    val newAccessToken = result.accessToken.token
-                    binding.viewModel!!.loginFb(newAccessToken)
-                }
+    LoginManager.getInstance().registerCallback(facebookCallbackManager,
+        object : FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                val newAccessToken = result.accessToken.token
+                binding.viewModel!!.loginFb(newAccessToken)
+            }
 
-                override fun onCancel() {
-                    // App code
-                }
+            override fun onCancel() {}
 
-                override fun onError(error: FacebookException) {
-                    // App code
-                    Log.d("keke", error.message.toString())
-                }
-            })
+            override fun onError(error: FacebookException) {
+                Log.d("keke", error.message.toString())
+            }
+        })
 
-        loginButton.performClick()
-    }
+    loginButton.performClick()
 }
 
 fun StartFragment.loginGoogle() {
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestEmail()
         .requestId()
+        .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID)
         .build()
 
     val googleClient = GoogleSignIn.getClient(requireActivity(), gso)
@@ -202,14 +213,14 @@ fun StartFragment.loginGoogle() {
 
 fun StartFragment.handleLoginGoogleResult(completedTask: Task<GoogleSignInAccount>) {
     val account = completedTask.getResult(ApiException::class.java)
-    Log.d("keke", account.email.toString())
+
+    account.serverAuthCode?.let { binding.viewModel!!.getGoogleAccessToken(it) }
 
 }
 
 fun TextView.withLinks(s: String, callback: () -> Unit) {
     makeLinks(
         Pair(s, View.OnClickListener {
-//            showTermsOfService()
             callback.invoke()
         }),
     )
@@ -226,8 +237,6 @@ fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>, underli
     for (link in links) {
         val clickableSpan = object : ClickableSpan() {
             override fun updateDrawState(textPaint: TextPaint) {
-//                textPaint.color = ContextCompat.getColor(context, R.color.mainColor)
-
                 textPaint.isUnderlineText = underline
             }
 
@@ -259,14 +268,10 @@ fun TextView.highlight(item: String) {
     val clickableSpan = object : ClickableSpan() {
         override fun updateDrawState(textPaint: TextPaint) {
             textPaint.color = ContextCompat.getColor(context, R.color.lightColor)
-
-
-//            textPaint.isUnderlineText = underline
         }
 
         override fun onClick(view: View) {
             Selection.setSelection((view as TextView).text as Spannable, 0)
-//            link.second.onClick(view)
         }
     }
 
@@ -283,4 +288,126 @@ fun TextView.highlight(item: String) {
     this.movementMethod = LinkMovementMethod.getInstance()
 
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
+}
+
+fun StartFragment.setupSignupTheme() {
+    with(binding.signupView) {
+        signupContainer.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkColor
+            else R.color.lightColor
+        ))
+
+        icGradient.isVisible = App.preferences.isDarkTheme
+        icSignupLogo.setImageResource(
+            if (App.preferences.isDarkTheme) R.drawable.ic_signup_logo_dark
+            else R.drawable.ic_signup_logo_light
+        )
+
+        signupTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        signupSubtitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        signupText.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        icEmailBtn.setImageResource(
+            if (App.preferences.isDarkTheme) R.drawable.ic_email_signup
+            else R.drawable.ic_email_signup_light
+        )
+
+        icBreakline.setImageResource(
+            if (App.preferences.isDarkTheme) R.drawable.ic_breakline_signup
+            else R.drawable.ic_breakline_signup_light
+        )
+
+        icGoogleBtn.setImageResource(
+            if (App.preferences.isDarkTheme) R.drawable.ic_google_signup
+            else R.drawable.ic_google_signup_light
+        )
+
+        icFbBtn.setImageResource(
+            if (App.preferences.isDarkTheme) R.drawable.ic_fb_signup
+            else R.drawable.ic_fb_signup_light
+        )
+
+        signupFooter.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        emailContainer.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkColor
+            else R.color.lightColor
+        ))
+
+        icEmailBack.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        emailTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        emailSubtitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        emailET.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        inboxContainer.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkColor
+            else R.color.lightColor
+        ))
+
+        icInboxBack.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        inboxTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        inboxSubtitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor0_7
+            else R.color.darkColor0_7
+        ))
+
+//        gotoInboxBtn
+
+        inboxFooter.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+    }
 }

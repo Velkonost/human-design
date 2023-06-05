@@ -1,26 +1,27 @@
 package com.myhumandesignhd.ui.transit.adapter
 
-import android.animation.ObjectAnimator
-import android.content.res.ColorStateList
-import android.util.DisplayMetrics
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.view.View
-import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
-import com.airbnb.epoxy.EpoxyRecyclerView
 import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
+import com.myhumandesignhd.event.OpenCycleItemEvent
 import com.myhumandesignhd.model.Cycle
 import com.yandex.metrica.YandexMetrica
-import kotlinx.android.synthetic.main.item_about_gates_title.view.*
-import kotlinx.android.synthetic.main.item_channel.view.*
-import kotlinx.android.synthetic.main.item_cycle.view.*
+import kotlinx.android.synthetic.main.item_about_gates_title.view.activeGatesDesc
+import kotlinx.android.synthetic.main.item_cycle.view.aboutItemText
+import kotlinx.android.synthetic.main.item_cycle.view.aboutItemTitle
+import kotlinx.android.synthetic.main.item_cycle.view.age
+import kotlinx.android.synthetic.main.item_cycle.view.ageTitle
+import kotlinx.android.synthetic.main.item_description_gate_item.view.aboutItemContainer
+import kotlinx.android.synthetic.main.item_transit_gates_title.view.activeGatesTitle
+import org.greenrobot.eventbus.EventBus
 
 class CyclesAdapter : EpoxyAdapter() {
 
@@ -33,14 +34,14 @@ class CyclesAdapter : EpoxyAdapter() {
         addModel(CycleTitleModel())
         var position = 0
         models.map {
-            addModel(CycleModel(it, position + 1, recyclerView))
+            addModel(CycleModel(it))
             position ++
         }
         notifyDataSetChanged()
     }
 }
 
-class CycleTitleModel(): EpoxyModel<View>() {
+class CycleTitleModel : EpoxyModel<View>() {
     private var root: View? = null
 
     override fun bind(view: View) {
@@ -60,13 +61,12 @@ class CycleTitleModel(): EpoxyModel<View>() {
                 )
             )
 
-            activeGatesDesc.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+            val paint = activeGatesTitle.paint
+            val width = paint.measureText(activeGatesTitle.text.toString())
+            val textShader: Shader = LinearGradient(0f, 0f, width, activeGatesTitle.textSize, intArrayOf(
+                Color.parseColor("#58B9FF"), Color.parseColor("#58B9FF"), Color.parseColor("#5655F9")
+            ), null, Shader.TileMode.REPEAT)
+            activeGatesTitle.paint.shader = textShader
         }
     }
 
@@ -74,10 +74,7 @@ class CycleTitleModel(): EpoxyModel<View>() {
 }
 
 class CycleModel(
-    private val model: Cycle,
-    private val position: Int,
-    private val recyclerView: RecyclerView,
-    private var isExpanded: Boolean = false
+    private val model: Cycle
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -87,136 +84,87 @@ class CycleModel(
         root = view
 
         with(view) {
-            cycleTitle.text =
-                if (App.preferences.locale == "ru") model.nameRu
-                else if (App.preferences.locale == "es") model.nameEs
-                else model.nameEn
+            aboutItemTitle.text =
+                when (App.preferences.locale) {
+                    "ru" -> model.nameRu
+                    "es" -> model.nameEs
+                    else -> model.nameEn
+                }
 
-            cycleDesc.text =
-                if (App.preferences.locale == "ru") model.descriptionRu
-                else if (App.preferences.locale == "es") model.descriptionEs
-                else model.descriptionEn
+            aboutItemText.text =
+                when (App.preferences.locale) {
+                    "ru" -> model.descriptionRu
+                    "es" -> model.descriptionEs
+                    else -> model.descriptionEn
+                }
 
-            cycleAge.text =
-                if (App.preferences.locale == "ru") model.ageRu
-                else if (App.preferences.locale == "es") model.ageEs
-                else model.ageEn
+            age.text =
+                when (App.preferences.locale) {
+                    "ru" -> model.ageRu
+                    "es" -> model.ageEs
+                    else -> model.ageEn
+                }
 
-            cycleAgeTitle.text = App.resourcesProvider.getStringLocale(R.string.cycle_age_title)
+            ageTitle.text = App.resourcesProvider.getStringLocale(R.string.cycle_age_title)
 
-            cycleTitle.setTextColor(ContextCompat.getColor(
+            aboutItemTitle.setTextColor(ContextCompat.getColor(
                 context,
                 if (App.preferences.isDarkTheme) R.color.lightColor
                 else R.color.darkColor
             ))
 
-            cycleDesc.setTextColor(ContextCompat.getColor(
+            aboutItemText.setTextColor(ContextCompat.getColor(
                 context,
                 if (App.preferences.isDarkTheme) R.color.lightColor
                 else R.color.darkColor
             ))
 
-            cycleAge.setTextColor(ContextCompat.getColor(
+            age.setTextColor(ContextCompat.getColor(
                 context,
                 if (App.preferences.isDarkTheme) R.color.lightColor
                 else R.color.darkColor
             ))
 
-            cycleAgeTitle.setTextColor(ContextCompat.getColor(
+            ageTitle.setTextColor(ContextCompat.getColor(
                 context,
                 if (App.preferences.isDarkTheme) R.color.lightColor
                 else R.color.darkColor
             ))
 
-            cycleArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            age.background = ContextCompat.getDrawable(
                 context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+                if (App.preferences.isDarkTheme) R.drawable.bg_age_dark
+                else R.drawable.bg_age_light
+            )
 
-            cycleCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            aboutItemContainer.background = ContextCompat.getDrawable(
                 context,
-                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                else R.color.lightSettingsCard
-            ))
+                if (App.preferences.isDarkTheme) R.drawable.bg_about_item_dark
+                else R.drawable.bg_about_item_light
+            )
 
-            if (isExpanded) {
-                cycleDesc.maxLines = 70
-                cycleArrow
-                    .animate().rotation(-90f).duration = 300
-                cycleArrow.alpha = 0.3f
-            } else {
-                cycleDesc.maxLines = 3
-                cycleArrow
-                    .animate().rotation(90f).duration = 300
-                cycleArrow.alpha = 1f
-            }
-
-            cycleCard.setOnClickListener {
+            aboutItemContainer.setOnClickListener {
                 when(model.id) {
                     "SaturnReturn" -> {
                         YandexMetrica.reportEvent("Tab3CyclesSaturnTapped")
-                        Amplitude.getInstance().logEvent("tab3CyclesSaturnTapped");
+                        Amplitude.getInstance().logEvent("tab3CyclesSaturnTapped")
                     }
                     "OppositionUran" -> {
                         YandexMetrica.reportEvent("Tab3CyclesUranusTapped")
-                        Amplitude.getInstance().logEvent("tab3CyclesUranusTapped");
+                        Amplitude.getInstance().logEvent("tab3CyclesUranusTapped")
                     }
                     "ReturnChiron" -> {
                         YandexMetrica.reportEvent("Tab3CyclesChironTapped")
-                        Amplitude.getInstance().logEvent("tab3CyclesChironTapped");
+                        Amplitude.getInstance().logEvent("tab3CyclesChironTapped")
                     }
                     "SecondSaturn" -> {
                         YandexMetrica.reportEvent("Tab3CyclesSecondSaturnTapped")
-                        Amplitude.getInstance().logEvent("tab3CyclesSecondSaturnTapped");
+                        Amplitude.getInstance().logEvent("tab3CyclesSecondSaturnTapped")
                     }
                 }
 
-                isExpanded = !isExpanded
+                EventBus.getDefault().post(OpenCycleItemEvent(model))
 
-                if (isExpanded) {
-                    val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(context) {
-                        override fun getVerticalSnapPreference(): Int {
-                            return SNAP_TO_START
-                        }
-
-                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-                            return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
-                        }
-
-                    }
-                    smoothScroller.targetPosition = position
-                    (recyclerView.layoutManager as LinearLayoutManager)
-                        .startSmoothScroll(smoothScroller)
-
-                    cycleDesc.isVisible = true
-                    val animation = ObjectAnimator.ofInt(
-                        cycleDesc,
-                        "maxLines",
-                        50
-                    )
-                    animation.duration = 1000
-                    animation.start()
-                    cycleArrow
-                        .animate().rotation(-90f).duration = 300
-                    cycleArrow.alpha = 0.3f
-                } else {
-                    val animation = ObjectAnimator.ofInt(
-                        cycleDesc,
-                        "maxLines",
-                        0
-                    )
-                    animation.duration = 500
-                    animation.start()
-                    animation.doOnEnd {
-                        cycleDesc.isVisible = false
-                    }
-                    cycleArrow
-                        .animate().rotation(90f).duration = 300
-                    cycleArrow.alpha = 1f
-
-
-                }
             }
         }
     }

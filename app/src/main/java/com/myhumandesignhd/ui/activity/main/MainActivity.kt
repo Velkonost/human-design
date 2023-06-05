@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -14,10 +13,8 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -25,8 +22,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -45,53 +40,46 @@ import com.android.installreferrer.api.ReferrerDetails
 import com.appsflyer.AppsFlyerConversionListener
 import com.appsflyer.AppsFlyerLib
 import com.facebook.appevents.AppEventsLogger
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.jaeger.library.StatusBarUtil
 import com.myhumandesignhd.App
 import com.myhumandesignhd.App.Companion.LOCATION_REQUEST_CODE
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.ActivityMainBinding
+import com.myhumandesignhd.event.AdaptyLogShowEvent
 import com.myhumandesignhd.event.ContinueFirstLoaderEvent
 import com.myhumandesignhd.event.FinishFirstLoaderEvent
 import com.myhumandesignhd.event.LastKnownLocationUpdateEvent
 import com.myhumandesignhd.event.NoInetEvent
+import com.myhumandesignhd.event.OpenBodygraphEvent
+import com.myhumandesignhd.event.SetupLocationEvent
 import com.myhumandesignhd.event.SetupNavMenuEvent
+import com.myhumandesignhd.event.SetupNotificationsEvent
+import com.myhumandesignhd.event.TestResponseEvent
 import com.myhumandesignhd.event.UpdateBalloonBgStateEvent
+import com.myhumandesignhd.event.UpdateHadrdwareAccelerationStateEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.navigation.SupportAppNavigator
 import com.myhumandesignhd.push.NotificationReceiver
 import com.myhumandesignhd.ui.base.BaseActivity
-import com.myhumandesignhd.ui.bodygraph.BodygraphFragment
+import com.myhumandesignhd.ui.description.DescriptionFragment
 import com.myhumandesignhd.ui.start.StartPage
+import com.myhumandesignhd.util.MyLocation
+import com.myhumandesignhd.util.SingleShotLocationProvider
+import com.myhumandesignhd.util.SingleShotLocationProvider.GPSCoordinates
+import com.myhumandesignhd.util.SingleShotLocationProvider.requestSingleUpdate
 import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import java.time.LocalDate
 import java.util.*
-import com.myhumandesignhd.util.SingleShotLocationProvider.GPSCoordinates
-
-import com.myhumandesignhd.util.SingleShotLocationProvider
-
-import com.myhumandesignhd.event.SetupNotificationsEvent
-import com.myhumandesignhd.util.SingleShotLocationProvider.requestSingleUpdate
-import com.myhumandesignhd.util.MyLocation
-
-import com.google.android.gms.location.LocationServices
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.myhumandesignhd.event.AdaptyLogShowEvent
-import com.myhumandesignhd.event.AdaptyMakePurchaseEvent
-import com.myhumandesignhd.event.OpenBodygraphEvent
-import com.myhumandesignhd.event.SetupLocationEvent
-import com.myhumandesignhd.event.TestResponseEvent
-import com.myhumandesignhd.event.UpdateHadrdwareAccelerationStateEvent
-import com.myhumandesignhd.ui.description.DescriptionFragment
-import java.lang.Exception
 
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
@@ -145,7 +133,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                     Amplitude.getInstance().userId = App.preferences.uniqueUserId
 
-                    Adapty.activate(applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy", customerUserId = App.preferences.uniqueUserId)
+                    Adapty.activate(
+                        applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy",
+                        customerUserId = App.preferences.uniqueUserId
+                    )
                     Adapty.logLevel = AdaptyLogLevel.VERBOSE
 
                     referrerClient = InstallReferrerClient.newBuilder(this).build()
@@ -177,11 +168,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         }
                     })
 
-
-//                    setupAdapty()
-
                     return@addOnCompleteListener
                 }
+
                 if (it.isSuccessful) {
                     val appInstanceId = it.result.toString()
                     if (App.preferences.uniqueUserId == null) {
@@ -189,7 +178,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     }
 
                     Amplitude.getInstance().userId = App.preferences.uniqueUserId
-                    Adapty.activate(applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy", customerUserId = App.preferences.uniqueUserId)
+                    Adapty.activate(
+                        applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy",
+                        customerUserId = App.preferences.uniqueUserId
+                    )
                     Adapty.logLevel = AdaptyLogLevel.VERBOSE
 
                     referrerClient = InstallReferrerClient.newBuilder(this).build()
@@ -232,11 +224,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                             // Google Play by calling the startConnection() method.
                         }
                     })
-
-//                    setupAdapty()
                 }
             }
 
+            receiveLinkData()
             initStartPage()
         }
 
@@ -311,6 +302,23 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
             }
 
+        }
+    }
+
+    private fun receiveLinkData() {
+        intent?.let { intent ->
+            intent.data?.let { data ->
+                kotlin.runCatching {
+                    val link = data.toString()
+
+                    if (link.contains("token=")) {
+                        val token = link.substringAfter("token=")
+                        App.preferences.authToken = token
+
+                        Log.d("keke_token", token)
+                    }
+                }
+            }
         }
     }
 
@@ -392,7 +400,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ),
-            App.LOCATION_REQUEST_CODE
+            LOCATION_REQUEST_CODE
         )
     }
 
@@ -557,6 +565,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     StartPage.TIME_BIRTH.pageId,
                     StartPage.PLACE_BIRTH.pageId,
                     StartPage.BODYGRAPH.pageId,
+                    StartPage.SIGNUP.pageId
                     -> {
                         Screens.startScreen()
                     }
@@ -717,7 +726,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     fun onFinishFirstLoaderEvent(e: FinishFirstLoaderEvent) {
         isLoaderEnded = true
         if (isFirstAnimationPlayed) {
-            Log.d("keke", "finish first event")
             initStartPage()
         } else if (!e.isFirst) {
             EventBus.getDefault().post(ContinueFirstLoaderEvent())

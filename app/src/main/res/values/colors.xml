@@ -39,4 +39,8 @@
     <color name="darkHeader">#1D1D1D</color>
 
     <color name="lightColor0.7">#B3FFFFFF</color>
+    <color name="darkColor0.7">#B3000000</color>
+
+    <color name="darkColor0.5">#800E0E0F</color>
+    <color name="lightColor0.5">#80FFFFFF</color>
 </resources>

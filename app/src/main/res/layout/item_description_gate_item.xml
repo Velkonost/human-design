@@ -20,6 +20,7 @@
             android:textSize="32sp"
             android:fontFamily="@font/gilroy"
             android:text="Bodygraph"
+            android:layout_marginTop="4dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/gateNumber"
@@ -34,7 +35,6 @@
             android:fontFamily="@font/gilroy"
             android:text="5"
             android:paddingVertical="2dp"
-            android:layout_marginTop="8dp"
             android:paddingHorizontal="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -63,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@id/aboutItemText"
             app:layout_constraintEnd_toEndOf="parent"
             android:adjustViewBounds="true"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:layout_width="30dp"
             android:layout_height="30dp"/>
 

@@ -1,12 +1,8 @@
 package com.myhumandesignhd.ui.description
 
-import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -16,9 +12,7 @@ import com.amplitude.api.Amplitude
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
-import com.myhumandesignhd.databinding.FragmentBodygraphBinding
 import com.myhumandesignhd.databinding.FragmentDescriptionBinding
-import com.myhumandesignhd.event.BodygraphCenterClickEvent
 import com.myhumandesignhd.event.HelpType
 import com.myhumandesignhd.event.OpenAboutItemEvent
 import com.myhumandesignhd.event.OpenCenterItemEvent
@@ -27,7 +21,6 @@ import com.myhumandesignhd.event.OpenGateItemEvent
 import com.myhumandesignhd.event.OpenPaywallEvent
 import com.myhumandesignhd.event.SetupNavMenuEvent
 import com.myhumandesignhd.event.ShowHelpEvent
-import com.myhumandesignhd.event.UpdateBalloonBgStateEvent
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.model.AboutItem
 import com.myhumandesignhd.model.AboutType
@@ -36,20 +29,10 @@ import com.myhumandesignhd.model.TransitionGate
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.description.adapter.DescriptionAdapter
-import com.myhumandesignhd.util.convertDpToPx
 import com.myhumandesignhd.util.ext.alpha1
 import com.myhumandesignhd.util.ext.scaleXY
-import com.myhumandesignhd.util.ext.setTextAnimation07
 import com.myhumandesignhd.vm.BaseViewModel
-import com.skydoves.balloon.ArrowOrientation
-import com.skydoves.balloon.ArrowPositionRules
-import com.skydoves.balloon.Balloon
-import com.skydoves.balloon.BalloonAnimation
-import com.skydoves.balloon.BalloonSizeSpec
 import com.yandex.metrica.YandexMetrica
-import kotlinx.android.synthetic.main.item_about.*
-import kotlinx.android.synthetic.main.view_about_item_sheet.*
-import kotlinx.android.synthetic.main.view_snackbar.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -101,9 +84,8 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
 
         if (needUpdateNavMenu)
             EventBus.getDefault().post(SetupNavMenuEvent())
+
         Amplitude.getInstance().logEvent("tab1_screen_shown")
-
-
     }
 
     override fun onResume() {
@@ -183,6 +165,12 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
                 else R.color.darkColor
             ))
 
+            sheetText.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
             icSheetCross.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.color.lightColor
@@ -203,7 +191,7 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
         }
     }
 
-    private fun showSheet(title: String) {
+    private fun showSheet(title: String, desc: String = "") {
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         with(binding.aboutBottomSheet) {
@@ -223,13 +211,17 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
                 sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
 
+            sheetScroll.fullScroll(View.FOCUS_UP)
             sheetTitle.text = title
+            sheetText.text = desc
         }
     }
 
     @Subscribe
     fun onOpenAboutItemEvent(e: OpenAboutItemEvent) {
-        showSheet(e.item.title)
+        if (!isAdded) return
+
+        showSheet(e.item.title, e.item.text)
 
         with(binding.aboutBottomSheet) {
             when(e.item.type) {
@@ -311,7 +303,9 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
 
     @Subscribe
     fun onOpenCenterItemEvent(e: OpenCenterItemEvent) {
-        showSheet(e.center.name)
+        if (!isAdded) return
+
+        showSheet(e.center.name, e.center.description)
 
         with(binding.aboutBottomSheet) {
             designBlock.isVisible = false
@@ -323,7 +317,9 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
 
     @Subscribe
     fun onOpenGateItemEvent(e: OpenGateItemEvent) {
-        showSheet(e.gate.title)
+        if (!isAdded) return
+
+        showSheet(e.gate.title, e.gate.description)
 
         with(binding.aboutBottomSheet) {
             designBlock.isVisible = false
@@ -335,7 +331,9 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
 
     @Subscribe
     fun onOpenChannelItemEvent(e: OpenChannelItemEvent) {
-        showSheet(e.channel.title)
+        if (!isAdded) return
+
+        showSheet(e.channel.title, e.channel.description)
 
         with(binding.aboutBottomSheet) {
             designBlock.isVisible = false
@@ -531,19 +529,19 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
                 if (!App.preferences.isPremiun) return
 
                 YandexMetrica.reportEvent("Tab2CentersTapped")
-                Amplitude.getInstance().logEvent("tab2TappedCenters");
+                Amplitude.getInstance().logEvent("tab2TappedCenters")
             }
             SECTION.GATES -> {
                 if (!App.preferences.isPremiun) return
 
                 YandexMetrica.reportEvent("Tab2GatesTapped")
-                Amplitude.getInstance().logEvent("tab2TappedGates");
+                Amplitude.getInstance().logEvent("tab2TappedGates")
             }
             SECTION.CHANNELS -> {
                 if (!App.preferences.isPremiun) return
 
                 YandexMetrica.reportEvent("Tab2ChannelsTapped")
-                Amplitude.getInstance().logEvent("tab2TappedChannels");
+                Amplitude.getInstance().logEvent("tab2TappedChannels")
             }
         }
 

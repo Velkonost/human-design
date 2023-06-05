@@ -6,7 +6,9 @@ import com.myhumandesignhd.event.NoInetEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
 import com.myhumandesignhd.model.GeocodingNominatimFeature
 import com.myhumandesignhd.model.GeocodingResponse
-import com.myhumandesignhd.model.response.SimpleResponse
+import com.myhumandesignhd.model.request.GoogleAccessTokenBody
+import com.myhumandesignhd.model.response.LoginEmailResponse
+import com.myhumandesignhd.model.response.LoginResponse
 import com.myhumandesignhd.repo.base.RestRepo
 import com.myhumandesignhd.repo.base.RestV2Repo
 import com.myhumandesignhd.util.RxViewModel
@@ -27,12 +29,44 @@ class StartViewModel @Inject constructor(
 
     var nominatimSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> = mutableLiveDataOf(emptyList())
 
-    var loginFbLiveData: MutableLiveData<SimpleResponse> = mutableLiveDataOf(SimpleResponse())
+    var loginFbLiveData: MutableLiveData<LoginResponse> = mutableLiveDataOf(LoginResponse())
+    var loginEmailLiveData: MutableLiveData<LoginEmailResponse> = mutableLiveDataOf(
+        LoginEmailResponse()
+    )
+
+    fun loginEmail(email: String) {
+        repoV2.loginEmail(email)
+            .subscribe({
+                loginEmailLiveData.postValue(it)
+            }, {
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            }).disposeOnCleared()
+    }
 
     fun loginFb(accessToken: String) {
         repoV2.loginFb(accessToken)
             .subscribe({
                 loginFbLiveData.postValue(it)
+            }, {
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            }).disposeOnCleared()
+    }
+
+    fun loginGoogle(accessToken: String) {
+        repoV2.loginGoogle(accessToken)
+            .subscribe({
+                loginFbLiveData.postValue(it)
+            }, {
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            }).disposeOnCleared()
+    }
+
+    fun getGoogleAccessToken(authCode: String) {
+        repoV2.getGoogleAccessToken(GoogleAccessTokenBody(code = authCode))
+            .subscribe({
+                if (it.accessToken.isNullOrEmpty().not()) {
+                    loginGoogle(it.accessToken)
+                }
             }, {
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             }).disposeOnCleared()
