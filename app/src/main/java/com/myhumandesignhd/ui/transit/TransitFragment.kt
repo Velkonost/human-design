@@ -81,9 +81,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitNewBinding
     }
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -370,8 +368,6 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitNewBinding
         binding.adviceTitle.background = ContextCompat.getDrawable(
             requireContext(), R.drawable.bg_inactive_item_transit
         )
-
-
     }
 
     private fun selectCycles() {

@@ -2,22 +2,19 @@ package com.myhumandesignhd.ui.compatibility.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.text.Html
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
-import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
-import com.myhumandesignhd.event.AddChildClickEvent
 import com.myhumandesignhd.event.CompatibilityChildStartClickEvent
 import com.myhumandesignhd.event.DeleteChildItemEvent
-import com.myhumandesignhd.event.DeleteDiagramItemEvent
 import com.myhumandesignhd.model.Child
 import com.zerobranch.layout.SwipeLayout
-import io.sulek.ssml.OnSwipeListener
 import kotlinx.android.synthetic.main.item_diagram.view.*
 import kotlinx.android.synthetic.main.item_partner.view.*
 import kotlinx.android.synthetic.main.item_partner.view.chart
@@ -176,26 +173,46 @@ class EmptyChildrenModel(
         root = view
 
         with(view) {
-            icPlus.imageTintList = ColorStateList.valueOf(
+//            icPlus.imageTintList = ColorStateList.valueOf(
+//                ContextCompat.getColor(
+//                context,
+//                if (App.preferences.isDarkTheme) R.color.lightColor
+//                else R.color.darkColor
+//            ))
+//
+//            emptyPartnerCard.background = ContextCompat.getDrawable(
+//                context,
+//                if (App.preferences.isDarkTheme) R.drawable.bg_empty_partner_light
+//                else R.drawable.bg_empty_partner_dark
+//            )
+//
+//            emptyPartnerCard.setOnClickListener {
+//                EventBus.getDefault().post(AddChildClickEvent())
+//            }
+//
+//            partnersEmptyText.isVisible = showEmptyText
+//            partnersEmptyText.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.children_empty_text))
+//            partnersEmptyText.setTextColor(ContextCompat.getColor(
+//                context,
+//                if (App.preferences.isDarkTheme) R.color.lightColor
+//                else R.color.darkColor
+//            ))
+            emptyTitle.setTextColor(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-
-            emptyPartnerCard.background = ContextCompat.getDrawable(
-                context,
-                if (App.preferences.isDarkTheme) R.drawable.bg_empty_partner_light
-                else R.drawable.bg_empty_partner_dark
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
             )
 
-            emptyPartnerCard.setOnClickListener {
-                EventBus.getDefault().post(AddChildClickEvent())
-            }
+            val paint = emptyTitle.paint
+            val width = paint.measureText(emptyTitle.text.toString())
+            val textShader: Shader = LinearGradient(0f, 0f, width, emptyTitle.textSize, intArrayOf(
+                Color.parseColor("#58B9FF"), Color.parseColor("#5655F9")
+            ), null, Shader.TileMode.REPEAT)
+            emptyTitle.paint.shader = textShader
 
-            partnersEmptyText.isVisible = showEmptyText
-            partnersEmptyText.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.children_empty_text))
-            partnersEmptyText.setTextColor(ContextCompat.getColor(
+            emptySubtitle.setTextColor(ContextCompat.getColor(
                 context,
                 if (App.preferences.isDarkTheme) R.color.lightColor
                 else R.color.darkColor

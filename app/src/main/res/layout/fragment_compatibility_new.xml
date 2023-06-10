@@ -6,11 +6,11 @@
 
         <variable
             name="viewModel"
-            type="com.myhumandesignhd.ui.transit.TransitViewModel" />
+            type="com.myhumandesignhd.ui.compatibility.CompatibilityViewModel" />
 
         <variable
             name="handler"
-            type="com.myhumandesignhd.ui.transit.TransitFragment.Handler" />
+            type="com.myhumandesignhd.ui.compatibility.CompatibilityFragment.Handler" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -29,25 +29,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/gilroy"
-                android:text="@string/planet_transits_title"
+                android:text="@string/compatibility_title"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/icInfo"
-                android:layerType="none"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
-                android:layout_marginEnd="20dp"
-                android:adjustViewBounds="true"
-                android:onClick="@{handler::onFaqClicked}"
-                android:src="@drawable/ic_info"
-                app:layout_constraintBottom_toBottomOf="@id/title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/title" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/selectionBlock"
@@ -59,7 +46,7 @@
                 app:layout_constraintTop_toBottomOf="@id/title">
 
                 <TextView
-                    android:id="@+id/transitsTitle"
+                    android:id="@+id/partnersTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="4dp"
@@ -69,26 +56,13 @@
                     android:fontFamily="@font/gilroy"
                     android:gravity="center"
                     android:text="@string/transits_title"
-                    android:onClick="@{handler::onTransitsClicked}"
+                    android:onClick="@{handler::onPartnersClicked}"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/cyclesTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="2dp"
-                    android:layout_marginVertical="4dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/gilroy"
-                    android:gravity="center"
-                    android:text="@string/cycles_title"
-                    android:onClick="@{handler::onCyclesClicked}"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/adviceTitle"
+                    android:id="@+id/childrenTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="2dp"
@@ -97,18 +71,51 @@
                     android:fontFamily="@font/gilroy"
                     android:gravity="center"
                     android:text="@string/advice_title"
-                    android:onClick="@{handler::onAdviceClicked}"
+                    android:onClick="@{handler::onChildrenClicked}"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.viewpager.widget.ViewPager
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="12dp"
+                android:animateLayoutChanges="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/selectionBlock" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/addPartnerBtn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="72dp"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="20dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:onClick="@{handler::onAddPartnerBtnClicked}"
+                android:background="@drawable/bg_add_partner_btn_light">
+                
+                <ImageView
+                    android:id="@+id/addPartnerIcon"
+                    android:src="@drawable/ic_plus"
+                    app:tint="@color/darkColor"
+                    android:adjustViewBounds="true"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"/>
+
+                <TextView
+                    android:id="@+id/addPartnerTitle"
+                    android:text="@string/add_partner_btn_title"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/gilroy"
+                    android:textStyle="bold"
+                    android:layout_marginStart="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+               
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include

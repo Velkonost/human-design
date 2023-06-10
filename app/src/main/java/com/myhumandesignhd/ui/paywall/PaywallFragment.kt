@@ -2,13 +2,11 @@ package com.myhumandesignhd.ui.paywall
 
 import android.animation.Animator
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -22,22 +20,14 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
 import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator
 import com.adapty.Adapty
 import com.adapty.utils.AdaptyResult
 import com.amplitude.api.Amplitude
 import com.amplitude.api.Identify
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingClientStateListener
-import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.Purchase
-import com.android.billingclient.api.PurchasesUpdatedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -47,27 +37,113 @@ import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentPaywallBinding
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
+import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.loader.LoaderViewModel
-import com.myhumandesignhd.ui.paywall.adapter.Pw3ReviewsAdapter
-import com.myhumandesignhd.util.ext.scaleXY
 import com.myhumandesignhd.vm.BaseViewModel
 import io.reactivex.Single
 import io.reactivex.subjects.SingleSubject
-import kotlinx.android.synthetic.main.view_paywall_1.view.*
-import kotlinx.android.synthetic.main.view_paywall_2.view.*
-import kotlinx.android.synthetic.main.view_paywall_3.view.*
-import org.greenrobot.eventbus.EventBus
-import com.myhumandesignhd.event.AdaptyLogShowEvent
-import com.myhumandesignhd.event.AdaptyMakePurchaseEvent
-import com.myhumandesignhd.navigation.Screens
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer1
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer2
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer2Title
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer3
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer3Title
+import kotlinx.android.synthetic.main.view_paywall_1.view.snackbarContainer
+import kotlinx.android.synthetic.main.view_paywall_2.view.bottomGradientPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.breakline1Pw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.breakline2Pw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.breakline3Pw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.closePw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.endingPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.icLogoPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer1DurationPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer1PricePw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer1Pw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer1TextPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer1TitlePw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer2DurationPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer2PricePw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer2Pw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer2TextPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer2TitlePw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer3DurationPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer3PricePw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer3Pw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer3TextPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.offer3TitlePw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.paywall1PromoPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.policyPw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.restorePw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.startBtnPw2
 import kotlinx.android.synthetic.main.view_paywall_2.view.startBtnText
-import kotlinx.android.synthetic.main.view_paywall_22.*
-import kotlinx.android.synthetic.main.view_paywall_4.view.*
-import kotlinx.coroutines.Dispatchers
+import kotlinx.android.synthetic.main.view_paywall_2.view.termsOfUsePw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.text1Pw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.text2Pw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.text3Pw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.text4Pw2
+import kotlinx.android.synthetic.main.view_paywall_2.view.title
+import kotlinx.android.synthetic.main.view_paywall_22.bottomGradientPw22
+import kotlinx.android.synthetic.main.view_paywall_22.breakline1Pw22
+import kotlinx.android.synthetic.main.view_paywall_22.breakline2Pw22
+import kotlinx.android.synthetic.main.view_paywall_22.breakline3Pw22
+import kotlinx.android.synthetic.main.view_paywall_22.closePw22
+import kotlinx.android.synthetic.main.view_paywall_22.icLogoPw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer1DurationPw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer1PricePw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer1Pw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer1TextPw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer1TitlePw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer2DurationPw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer2PricePw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer2Pw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer2TextPw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer2TitlePw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer3DurationPw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer3PricePw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer3Pw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer3TextPw22
+import kotlinx.android.synthetic.main.view_paywall_22.offer3TitlePw22
+import kotlinx.android.synthetic.main.view_paywall_22.paywall1PromoPw22
+import kotlinx.android.synthetic.main.view_paywall_22.policyPw22
+import kotlinx.android.synthetic.main.view_paywall_22.restorePw22
+import kotlinx.android.synthetic.main.view_paywall_22.startBtnPw22
+import kotlinx.android.synthetic.main.view_paywall_22.termsOfUsePw22
+import kotlinx.android.synthetic.main.view_paywall_22.text1Pw22
+import kotlinx.android.synthetic.main.view_paywall_22.text2Pw22
+import kotlinx.android.synthetic.main.view_paywall_22.text3Pw22
+import kotlinx.android.synthetic.main.view_paywall_22.text4Pw22
+import kotlinx.android.synthetic.main.view_paywall_3.view.indicator1
+import kotlinx.android.synthetic.main.view_paywall_3.view.indicator2
+import kotlinx.android.synthetic.main.view_paywall_3.view.indicator3
+import kotlinx.android.synthetic.main.view_paywall_3.view.indicator4
+import kotlinx.android.synthetic.main.view_paywall_3.view.indicator5
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer1Pw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer2Pw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer3Pw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.recycler
+import kotlinx.android.synthetic.main.view_paywall_4.view.bigCirclePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.bottomGradientPw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.closePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.endingPw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.icPw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.linePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.midCirclePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.offerPrevPricePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.offerPw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.offerThenPw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.offerTitlePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.offerUptitlePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.planSubtitlePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.planTitlePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.renewablePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.startBtnPw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.subtitlePw4
+import kotlinx.android.synthetic.main.view_paywall_4.view.titlePw4
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
-import java.util.*
-import kotlin.random.Random.Default.nextLong
+import java.util.Random
+import java.util.Timer
+import java.util.TimerTask
 
 
 class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
@@ -109,7 +185,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 "source" to "from $source",
                 "type" to if (App.preferences.amountPaywallsShown == 3) "special" else "basic"
             ).toMap())
-        );
+        )
 
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(false))
         binding.container.setBackgroundColor(
@@ -176,21 +252,12 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
         if (App.adaptyPaywallModel != null)
             Adapty.logShowPaywall(App.adaptyPaywallModel!!)
-//
 
-        if (App.preferences.amountPaywallsShown == 3)
-            setupSpecialPaywall()
-        else {
-            when(App.adaptySplitPwName) {
-                "with_scroll" -> setupSecondPaywall()
-                else -> setupSecond2Paywall()
-            }
+        when(App.adaptySplitPwName) {
+            "with_scroll" -> setupSecondPaywall()
+            else -> setupSecond2Paywall()
         }
-//        setupSpecialPaywall()
-    }
 
-    override fun onViewModelReady(viewModel: LoaderViewModel) {
-        super.onViewModelReady(viewModel)
     }
 
     private fun launchBilling() {
@@ -255,7 +322,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                                         else -> "Month"
                                     }
                                 ).toMap())
-                            );
+                            )
                             App.preferences.isPremiun = true
 
                             val identify = Identify()
@@ -1758,7 +1825,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
     private fun close() {
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(true))
-        Amplitude.getInstance().logEvent("subscription_exit_clicked");
+        Amplitude.getInstance().logEvent("subscription_exit_clicked")
 
         if (fromStart)
             router.replaceScreen(Screens.descriptionScreen(true))

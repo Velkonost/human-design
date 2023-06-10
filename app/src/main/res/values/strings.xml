@@ -441,4 +441,11 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <!--  PLANET TRANSITS  -->
     <string name="planet_transits_title">Planet Transits</string>
     <!--  PLANET TRANSITS  -->
+
+    <!--  COMPATIBILITY  -->
+    <string name="empty_compatibility_title">Test your\ncompatibility</string>
+    <string name="empty_compatibility_subtitle">Do you want to have harmonious and peaceful relationship?\n\nCheck your compatibility and find out what to expect from your couple.</string>
+    <string name="add_partner_btn_title">Add Partner</string>
+    <string name="add_child_btn_title">Add Child</string>
+    <!--  COMPATIBILITY  -->
 </resources>

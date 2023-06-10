@@ -2,16 +2,13 @@ package com.myhumandesignhd.ui.bodygraph.diagram.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.text.Html
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.DeleteDiagramItemEvent
-import com.myhumandesignhd.event.DiagramAddUserClickEvent
 import com.myhumandesignhd.event.UpdateCurrentUserEvent
 import com.myhumandesignhd.model.User
 import com.zerobranch.layout.SwipeLayout
@@ -234,34 +231,34 @@ class DiagramEmptyModel(
 
         with(view) {
 
-            icPlus.imageTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            emptyPartnerCard.background = ContextCompat.getDrawable(
-                context,
-                if (App.preferences.isDarkTheme) R.drawable.bg_empty_partner_light
-                else R.drawable.bg_empty_partner_dark
-            )
-
-            emptyPartnerCard.setOnClickListener {
-                EventBus.getDefault().post(DiagramAddUserClickEvent())
-            }
-
-            partnersEmptyText.isVisible = showEmptyText
-            partnersEmptyText.text =
-                Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_empty_text))
-            partnersEmptyText.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+//            icPlus.imageTintList = ColorStateList.valueOf(
+//                ContextCompat.getColor(
+//                    context,
+//                    if (App.preferences.isDarkTheme) R.color.lightColor
+//                    else R.color.darkColor
+//                )
+//            )
+//
+//            emptyPartnerCard.background = ContextCompat.getDrawable(
+//                context,
+//                if (App.preferences.isDarkTheme) R.drawable.bg_empty_partner_light
+//                else R.drawable.bg_empty_partner_dark
+//            )
+//
+//            emptyPartnerCard.setOnClickListener {
+//                EventBus.getDefault().post(DiagramAddUserClickEvent())
+//            }
+//
+//            partnersEmptyText.isVisible = showEmptyText
+//            partnersEmptyText.text =
+//                Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_empty_text))
+//            partnersEmptyText.setTextColor(
+//                ContextCompat.getColor(
+//                    context,
+//                    if (App.preferences.isDarkTheme) R.color.lightColor
+//                    else R.color.darkColor
+//                )
+//            )
 
 
         }
