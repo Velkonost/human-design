@@ -1008,7 +1008,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 StartPage.BODYGRAPH -> {
                     App.preferences.lastLoginPageId = -1
 //                    router.navigateTo(Screens.bodygraphScreen(fromStart = true))
-                    router.navigateTo(Screens.descriptionScreen(fromStart = true))
+                    router.navigateTo(Screens.bodygraphScreen(fromStart = true))
 //                    Navigator.startToBodygraph(this@StartFragment)
                 }
             }

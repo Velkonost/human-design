@@ -208,6 +208,8 @@ fun StartFragment.loginGoogle() {
         .build()
 
     val googleClient = GoogleSignIn.getClient(requireActivity(), gso)
+    googleClient.signOut()
+
     startActivityForResult(googleClient.signInIntent, GOOGLE_REQUEST_CODE)
 }
 
@@ -402,7 +404,10 @@ fun StartFragment.setupSignupTheme() {
             else R.color.darkColor0_7
         ))
 
-//        gotoInboxBtn
+        gotoInboxBtn.setImageResource(
+            if (App.preferences.isDarkTheme) R.drawable.ic_signup_goto_email
+            else R.drawable.ic_signup_goto_email_dark
+        )
 
         inboxFooter.setTextColor(ContextCompat.getColor(
             requireContext(),

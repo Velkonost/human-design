@@ -64,7 +64,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="http"/>
                 <data android:scheme="https"/>
-                <data android:host="web.humdesign.info"/>
+                <data android:host="webhumandesign.site"/>
             </intent-filter>
         </activity-alias>
 

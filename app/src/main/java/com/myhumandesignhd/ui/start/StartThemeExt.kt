@@ -2,11 +2,24 @@ package com.myhumandesignhd.ui.start
 
 import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
-import com.airbnb.lottie.LottieCompositionFactory
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
-import kotlinx.android.synthetic.main.view_onboarding.view.*
-import kotlinx.android.synthetic.main.view_place_select.view.*
+import com.myhumandesignhd.ui.start.ext.setupSignupTheme
+import kotlinx.android.synthetic.main.view_onboarding.view.breaklineVariant1
+import kotlinx.android.synthetic.main.view_onboarding.view.breaklineVariant2
+import kotlinx.android.synthetic.main.view_onboarding.view.breaklineVariant3
+import kotlinx.android.synthetic.main.view_onboarding.view.icCircles
+import kotlinx.android.synthetic.main.view_onboarding.view.icOnboardingBg
+import kotlinx.android.synthetic.main.view_onboarding.view.onboardingContainer
+import kotlinx.android.synthetic.main.view_onboarding.view.onboardingDesc
+import kotlinx.android.synthetic.main.view_onboarding.view.onboardingTitle
+import kotlinx.android.synthetic.main.view_onboarding.view.titleVariant1
+import kotlinx.android.synthetic.main.view_onboarding.view.titleVariant2
+import kotlinx.android.synthetic.main.view_onboarding.view.titleVariant3
+import kotlinx.android.synthetic.main.view_place_select.view.icArrowPlace
+import kotlinx.android.synthetic.main.view_place_select.view.icSearch
+import kotlinx.android.synthetic.main.view_place_select.view.newPlaceET
+import kotlinx.android.synthetic.main.view_place_select.view.placesViewContainer
 
 fun StartFragment.updateTheme() {
     binding.loaderView.container.background = ContextCompat.getDrawable(
@@ -226,4 +239,6 @@ fun StartFragment.updateTheme() {
         if (App.preferences.isDarkTheme) R.color.darkColor
         else R.color.lightColor
     )
+
+    setupSignupTheme()
 }

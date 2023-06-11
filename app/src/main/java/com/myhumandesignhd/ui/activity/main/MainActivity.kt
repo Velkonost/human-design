@@ -67,7 +67,7 @@ import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.navigation.SupportAppNavigator
 import com.myhumandesignhd.push.NotificationReceiver
 import com.myhumandesignhd.ui.base.BaseActivity
-import com.myhumandesignhd.ui.description.DescriptionFragment
+import com.myhumandesignhd.ui.bodygraph.BodygraphFragment
 import com.myhumandesignhd.ui.start.StartPage
 import com.myhumandesignhd.util.MyLocation
 import com.myhumandesignhd.util.SingleShotLocationProvider
@@ -240,11 +240,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     YandexMetrica.reportEvent("Tab1Tapped")
                     Amplitude.getInstance().logEvent("tab1Tapped")
 
-//                    if (supportFragmentManager.fragments.last() !is BodygraphFragment)
-//                        router.navigateTo(Screens.bodygraphScreen(needUpdateNavMenu = false))
+                    if (supportFragmentManager.fragments.last() !is BodygraphFragment)
+                        router.navigateTo(Screens.bodygraphScreen(needUpdateNavMenu = false))
 
-                    if (supportFragmentManager.fragments.last() !is DescriptionFragment)
-                        router.navigateTo(Screens.descriptionScreen(needUpdateNavMenu = false))
+//                    if (supportFragmentManager.fragments.last() !is DescriptionFragment)
+//                        router.navigateTo(Screens.descriptionScreen(needUpdateNavMenu = false))
 
                     true
                 }
@@ -570,8 +570,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         Screens.startScreen()
                     }
                     else -> {
-//                        Screens.bodygraphScreen()
-                        Screens.descriptionScreen()
+                        Screens.bodygraphScreen()
+//                        Screens.descriptionScreen()
                     }
                 }
             )
