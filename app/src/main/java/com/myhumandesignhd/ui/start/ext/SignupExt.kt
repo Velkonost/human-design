@@ -37,6 +37,8 @@ import com.myhumandesignhd.ui.start.StartFragment
 import com.myhumandesignhd.ui.start.StartFragment.Companion.GOOGLE_REQUEST_CODE
 import com.myhumandesignhd.ui.start.StartPage
 import com.myhumandesignhd.util.Keyboard
+import com.myhumandesignhd.util.ext.getDeviceId
+import kotlinx.android.synthetic.main.view_signup.checkLoginBtn
 import kotlinx.android.synthetic.main.view_signup.emailBtn
 import kotlinx.android.synthetic.main.view_signup.emailContainer
 import kotlinx.android.synthetic.main.view_signup.emailET
@@ -126,7 +128,7 @@ fun StartFragment.loginEmail() {
             if (emailET.text.toString().isValidEmail()) {
                 Keyboard.hide(emailET)
 
-                binding.viewModel!!.loginEmail(emailET.text.toString().trim())
+                binding.viewModel!!.loginEmail(emailET.text.toString().trim(), requireContext().getDeviceId())
                 checkInboxPage(emailET.text.toString().trim())
             } else {
 
@@ -148,6 +150,10 @@ fun StartFragment.checkInboxPage(email: String) {
             inboxContainer.isVisible = false
         }
 
+        checkLoginBtn.setOnClickListener {
+            binding.viewModel!!.checkLogin(requireContext().getDeviceId())
+        }
+
         gotoInboxBtn.setOnClickListener {
             gotoMailInbox()
 //            onSignupFinished()
@@ -159,7 +165,7 @@ fun StartFragment.checkInboxPage(email: String) {
         inboxFooter.text = inboxFooter.text.toString().replace("yourmail", email)
 
         inboxFooter.withLinks("click here to have us resend the link") {
-            binding.viewModel!!.loginEmail(email)
+            binding.viewModel!!.loginEmail(email, requireContext().getDeviceId())
         }
     }
 }

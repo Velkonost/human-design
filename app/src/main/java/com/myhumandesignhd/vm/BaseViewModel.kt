@@ -1,6 +1,5 @@
 package com.myhumandesignhd.vm
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.myhumandesignhd.App
 import com.myhumandesignhd.event.CurrentUserLoadedEvent
@@ -26,7 +25,6 @@ import com.myhumandesignhd.repo.base.RestRepo
 import com.myhumandesignhd.util.RxViewModel
 import com.myhumandesignhd.util.SingleLiveEvent
 import com.myhumandesignhd.util.ext.mutableLiveDataOf
-import com.yandex.metrica.YandexMetrica
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -36,9 +34,9 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
-import kotlin.collections.HashMap
 
 
 class BaseViewModel @Inject constructor(
@@ -100,8 +98,7 @@ class BaseViewModel @Inject constructor(
             "http://5.45.79.21/setuserinfo.php",
             gclid,
             appInstanceId
-        )
-            .subscribe({}, {}).disposeOnCleared()
+        ).subscribe({}, {}).disposeOnCleared()
     }
 
     private fun resetAllUserDataStates() {

@@ -1,11 +1,15 @@
 package com.myhumandesignhd.ui.start
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.myhumandesignhd.App
 import com.myhumandesignhd.event.NoInetEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
+import com.myhumandesignhd.model.BodygraphChildrenData
+import com.myhumandesignhd.model.BodygraphData
 import com.myhumandesignhd.model.GeocodingNominatimFeature
 import com.myhumandesignhd.model.GeocodingResponse
+import com.myhumandesignhd.model.getDateStr
 import com.myhumandesignhd.model.request.GoogleAccessTokenBody
 import com.myhumandesignhd.model.response.LoginEmailResponse
 import com.myhumandesignhd.model.response.LoginResponse
@@ -14,6 +18,10 @@ import com.myhumandesignhd.repo.base.RestV2Repo
 import com.myhumandesignhd.util.RxViewModel
 import com.myhumandesignhd.util.SingleLiveEvent
 import com.myhumandesignhd.util.ext.mutableLiveDataOf
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
@@ -34,31 +42,52 @@ class StartViewModel @Inject constructor(
         LoginEmailResponse()
     )
 
-    fun loginEmail(email: String) {
-        repoV2.loginEmail(email)
+    fun loginEmail(email: String, deviceId: String) {
+        viewModelScope.launch {
+            val bodygraphs = collectBodygraphsData()
+
+            repoV2.loginEmail(email, deviceId, bodygraphs)
+                .subscribe({
+                    loginEmailLiveData.postValue(it)
+                }, {
+                    EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                }).disposeOnCleared()
+        }
+    }
+
+    fun checkLogin(deviceId: String) {
+        repoV2.checkLogin(deviceId)
             .subscribe({
-                loginEmailLiveData.postValue(it)
+                loginFbLiveData.postValue(it)
             }, {
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             }).disposeOnCleared()
     }
 
     fun loginFb(accessToken: String) {
-        repoV2.loginFb(accessToken)
-            .subscribe({
-                loginFbLiveData.postValue(it)
-            }, {
-                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
-            }).disposeOnCleared()
+        viewModelScope.launch {
+            val bodygraphs = collectBodygraphsData()
+
+            repoV2.loginFb(accessToken, bodygraphs)
+                .subscribe({
+                    loginFbLiveData.postValue(it)
+                }, {
+                    EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                }).disposeOnCleared()
+        }
     }
 
     fun loginGoogle(accessToken: String) {
-        repoV2.loginGoogle(accessToken)
-            .subscribe({
-                loginFbLiveData.postValue(it)
-            }, {
-                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
-            }).disposeOnCleared()
+        viewModelScope.launch {
+            val bodygraphs = collectBodygraphsData()
+
+            repoV2.loginGoogle(accessToken, bodygraphs)
+                .subscribe({
+                    loginFbLiveData.postValue(it)
+                }, {
+                    EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                }).disposeOnCleared()
+        }
     }
 
     fun getGoogleAccessToken(authCode: String) {
@@ -71,6 +100,59 @@ class StartViewModel @Inject constructor(
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             }).disposeOnCleared()
     }
+
+    private suspend fun collectBodygraphsData() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                val users = getAllUsers()
+                val children = getAllChildren()
+
+                val data = mutableListOf<BodygraphData>()
+
+                users.map { user ->
+                    val userChildren = mutableListOf<BodygraphChildrenData>()
+
+                    children.filter { it.parentId == user.id }.map { child ->
+                        userChildren.add(
+                            BodygraphChildrenData(
+                                name = child.name,
+                                date = child.getDateStr(),
+                                lat = child.lat,
+                                lon = child.lon,
+                            )
+                        )
+                    }
+
+
+                    data.add(
+                        BodygraphData(
+                            name = user.name,
+                            date = user.getDateStr(),
+                            lat = user.lat,
+                            lon = user.lon,
+                            children = userChildren
+                        )
+                    )
+                }
+
+                data
+            }
+        }
+
+
+    private suspend fun getAllUsers() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.database.userDao().getAll()
+            }
+        }
+
+    private suspend fun getAllChildren() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                App.database.childDao().getAll()
+            }
+        }
 
     fun geocodingNominatim(query: String?) {
         if (query.isNullOrEmpty()) {

@@ -411,6 +411,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 onSignupFinished()
             } else if (response != null && response.message.isNullOrEmpty().not()){
                 showError(response.message)
+            } else {
+                showError("Check Email Inbox")
             }
         }
     }

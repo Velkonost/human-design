@@ -1,5 +1,6 @@
 package com.myhumandesignhd.rest
 
+import com.myhumandesignhd.model.request.CheckLoginRequestBody
 import com.myhumandesignhd.model.request.GoogleAccessTokenBody
 import com.myhumandesignhd.model.request.LoginEmailBody
 import com.myhumandesignhd.model.request.LoginFbBody
@@ -25,6 +26,9 @@ interface RestServiceV2 {
 
     @POST("api/login/email")
     fun loginEmail(@Body loginEmailBody: LoginEmailBody): Single<LoginEmailResponse>
+
+    @POST("api/login/check_login")
+    fun checkLogin(@Body checkLoginRequestBody: CheckLoginRequestBody): Single<LoginResponse>
 
     @POST
     fun getGoogleAccessToken(

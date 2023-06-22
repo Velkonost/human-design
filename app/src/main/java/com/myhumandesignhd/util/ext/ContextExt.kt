@@ -1,8 +1,10 @@
 package com.myhumandesignhd.util.ext
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Build
+import android.provider.Settings
 import android.text.ParcelableSpan
 import android.text.SpannableString
 import android.text.Spanned
@@ -24,6 +26,11 @@ import androidx.lifecycle.lifecycleScope
 import com.myhumandesignhd.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
+@SuppressLint("HardwareIds")
+fun Context.getDeviceId(): String {
+    return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+}
 
 fun Context.toastTodo() = Toast.makeText(
     this,
