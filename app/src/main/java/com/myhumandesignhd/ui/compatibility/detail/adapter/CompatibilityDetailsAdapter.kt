@@ -1,30 +1,28 @@
 package com.myhumandesignhd.ui.compatibility.detail.adapter
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.LinearGradient
 import android.graphics.Rect
+import android.graphics.Shader
 import android.os.CountDownTimer
 import android.os.Handler
-import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
-import com.airbnb.epoxy.EpoxyRecyclerView
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
+import com.myhumandesignhd.event.OpenCompatibilityChannelEvent
 import com.myhumandesignhd.model.CompatibilityChannel
 import com.myhumandesignhd.model.CompatibilityResponse
+import com.myhumandesignhd.model.NewDescriptions
 import com.myhumandesignhd.util.convertDpToPx
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.ArrowPositionRules
@@ -35,17 +33,17 @@ import com.skydoves.balloon.overlay.BalloonOverlayRect
 import kotlinx.android.synthetic.main.item_about_gates_title.view.*
 import kotlinx.android.synthetic.main.item_bodygraph_channels.view.*
 import kotlinx.android.synthetic.main.item_channel.view.*
-import kotlinx.android.synthetic.main.item_channel.view.channelCard
-import kotlinx.android.synthetic.main.item_channel.view.channelDesc
-import kotlinx.android.synthetic.main.item_channel.view.channelTitle
-import kotlinx.android.synthetic.main.item_channel.view.number
 import kotlinx.android.synthetic.main.item_compatibility_channel.view.*
-import kotlinx.android.synthetic.main.item_compatibility_channel.view.channelArrow
 import kotlinx.android.synthetic.main.item_compatibility_detail_about.view.*
 import kotlinx.android.synthetic.main.item_compatibility_detail_channels.view.*
 import kotlinx.android.synthetic.main.item_compatibility_detail_channels.view.channelsRecycler
 import kotlinx.android.synthetic.main.item_compatibility_detail_profiles.view.*
 import kotlinx.android.synthetic.main.item_compatibility_info.view.*
+import kotlinx.android.synthetic.main.item_description_gate_item.view.aboutItemContainer
+import kotlinx.android.synthetic.main.item_description_gate_item.view.aboutItemText
+import kotlinx.android.synthetic.main.item_description_gate_item.view.aboutItemTitle
+import kotlinx.android.synthetic.main.item_description_gate_item.view.gateNumber
+import org.greenrobot.eventbus.EventBus
 import pl.droidsonroids.gif.GifDrawable
 
 class CompatibilityDetailsAdapter : EpoxyAdapter() {
@@ -58,32 +56,33 @@ class CompatibilityDetailsAdapter : EpoxyAdapter() {
         compatibility: CompatibilityResponse,
         chart1ResId: Int,
         chart2ResId: Int,
-        context: Context
+        context: Context,
     ) {
         removeAllModels()
 
         addModel(
             AboutModel(
-            firstTitle, secondTitle,
-            firstName, secondName,
-            compatibility.description,
-            chart1ResId, chart2ResId
-        )
+                firstTitle, secondTitle,
+                firstName, secondName,
+                compatibility.description,
+                chart1ResId, chart2ResId,
+                compatibility.newDescriptions
+            )
         )
         addModel(
             ProfilesModel(
-            compatibility.line,
-            compatibility.profileTitle,
-            compatibility.profileDescription,
-            compatibility.descrTitle,
-            compatibility.descrNext
-        )
+                compatibility.line,
+                compatibility.profileTitle,
+                compatibility.profileDescription,
+                compatibility.descrTitle,
+                compatibility.descrNext
+            )
         )
         addModel(
             ChannelsModel(
-            compatibility.channels,
-            context
-        )
+                compatibility.channels,
+                context
+            )
         )
 
         notifyDataSetChanged()
@@ -98,6 +97,7 @@ class AboutModel(
     private val description: String,
     private val chart1ResId: Int,
     private val chart2ResId: Int,
+    private val newDescriptions: ArrayList<NewDescriptions>
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -116,37 +116,49 @@ class AboutModel(
             firstName.text = firstNameValue
             secondName.text = secondNameValue
 
-            aboutDesc.text = description
+            firstTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            firstTitle.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            firstName.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            firstName.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            secondTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            secondTitle.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            secondName.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            secondName.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            aboutDesc.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            aboutDesc.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            val adapter = ParentDescriptionAdapter()
+            adapter.createList(newDescriptions)
+            descriptionRecycler.adapter = adapter
 
             Handler().postDelayed({
                 (gif.drawable as GifDrawable).start()
@@ -174,34 +186,52 @@ class ProfilesModel(
         root = view
 
         with(view) {
-            profileTitle.text = "$profileTitleValue ${App.resourcesProvider.getStringLocale(R.string.profile_title)} $line"
+            profileTitle.text =
+                "$profileTitleValue ${App.resourcesProvider.getStringLocale(R.string.profile_title)} $line"
             profileDesc.text = profileDescriptionValue
             descrTitle.text = this@ProfilesModel.descrTitle
             descNext.text = this@ProfilesModel.descNext
 
-            profileTitle.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            profileTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            profileDesc.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            val paint = profileTitle.paint
+            val width = paint.measureText(profileTitle.text.toString())
+            val textShader: Shader = LinearGradient(
+                0f, 0f, width, profileTitle.textSize, intArrayOf(
+                    Color.parseColor("#58B9FF"), Color.parseColor("#5655F9")
+                ), null, Shader.TileMode.REPEAT
+            )
+            profileTitle.paint.shader = textShader
 
-            descrTitle.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            profileDesc.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-            descNext.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            descrTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            descNext.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
 
         }
@@ -210,7 +240,7 @@ class ProfilesModel(
     override fun getDefaultLayout(): Int = R.layout.item_compatibility_detail_profiles
 }
 
-class CompatibilityChannelsTitleModel(): EpoxyModel<View>() {
+class CompatibilityChannelsTitleModel : EpoxyModel<View>() {
     private var root: View? = null
 
     override fun bind(view: View) {
@@ -220,7 +250,8 @@ class CompatibilityChannelsTitleModel(): EpoxyModel<View>() {
         with(view) {
             activeGatesTitle.text =
                 App.resourcesProvider.getStringLocale(R.string.compatibility_channels_title)
-            activeGatesDesc.text = App.resourcesProvider.getStringLocale(R.string.compatibility_channels_desc)
+            activeGatesDesc.text =
+                App.resourcesProvider.getStringLocale(R.string.compatibility_channels_desc)
 
             activeGatesTitle.setTextColor(
                 ContextCompat.getColor(
@@ -229,6 +260,15 @@ class CompatibilityChannelsTitleModel(): EpoxyModel<View>() {
                     else R.color.darkColor
                 )
             )
+
+            val paint = activeGatesTitle.paint
+            val width = paint.measureText(activeGatesTitle.text.toString())
+            val textShader: Shader = LinearGradient(
+                0f, 0f, width, activeGatesTitle.textSize, intArrayOf(
+                    Color.parseColor("#58B9FF"), Color.parseColor("#5655F9")
+                ), null, Shader.TileMode.REPEAT
+            )
+            activeGatesTitle.paint.shader = textShader
 
             activeGatesDesc.setTextColor(
                 ContextCompat.getColor(
@@ -268,13 +308,13 @@ class ChannelsModel(
         }
     }
 
-    private fun lastPosUpdate(memeID: Long, scrollPos: Int){
+    private fun lastPosUpdate(memeID: Long, scrollPos: Int) {
 
-        if(countDownTimer != null){
+        if (countDownTimer != null) {
             countDownTimer!!.cancel()
         }
 
-        countDownTimer = object: CountDownTimer(300, 300) {
+        countDownTimer = object : CountDownTimer(300, 300) {
             override fun onTick(millisUntilFinished: Long) {
 
             }
@@ -318,7 +358,10 @@ class ChannelsModel(
                         if (model is CompatibilityChannelModel) {
                             if (model.getTypeView().isVisible() && !isHelpShowing) {
                                 isHelpShowing = true
-                                balloon.showAlignBottom(model.getTypeView(), xOff = context.convertDpToPx(64f).toInt())
+                                balloon.showAlignBottom(
+                                    model.getTypeView(),
+                                    xOff = context.convertDpToPx(64f).toInt()
+                                )
 
                             }
                         }
@@ -334,7 +377,11 @@ class ChannelsModel(
 }
 
 @SuppressLint("ClickableViewAccessibility")
-fun NestedScrollView.onScrollStateChanged(startDelay: Long = 100, stopDelay: Long = 400, listener: (Boolean) -> Unit) {
+fun NestedScrollView.onScrollStateChanged(
+    startDelay: Long = 100,
+    stopDelay: Long = 400,
+    listener: (Boolean) -> Unit
+) {
     setOnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_SCROLL, MotionEvent.ACTION_MOVE -> {
@@ -365,7 +412,7 @@ class CompatibilityChannelsAdapter : EpoxyAdapter() {
         var position = 0
         models.map {
             addModel(CompatibilityChannelModel(it, position + 1, recyclerView))
-            position ++
+            position++
         }
         notifyDataSetChanged()
     }
@@ -391,50 +438,59 @@ class CompatibilityChannelModel(
         root = view
 
         with(view) {
-            channelTitle.text = model.title
-            channelDesc.text = model.description
-            number.text = model.number
+            aboutItemTitle.text = model.title
+            aboutItemText.text = model.description
+            gateNumber.text = model.number
 
-            channelTitle.setTextColor(ContextCompat.getColor(
+            aboutItemContainer.background = ContextCompat.getDrawable(
                 context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-
-            channelDesc.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-
-            number.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-
-            channelCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                else R.color.lightSettingsCard
-            ))
-
-            number.background = ContextCompat.getDrawable(
-                context,
-                if (App.preferences.isDarkTheme) R.drawable.bg_channel_number_dark
-                else R.drawable.bg_channel_number_light
+                if (App.preferences.isDarkTheme) R.drawable.bg_about_item_dark
+                else R.drawable.bg_about_item_light
             )
 
-            typeTitle.text = when(model.type) {
+            aboutItemTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            aboutItemText.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            gateNumber.background = ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.bg_gate_number_dark
+                else R.drawable.bg_gate_number_light
+            )
+
+            typeTitle.text = when (model.type) {
                 "0" -> App.resourcesProvider.getStringLocale(R.string.channel_type_1)
                 "1" -> App.resourcesProvider.getStringLocale(R.string.channel_type_2)
                 "2" -> App.resourcesProvider.getStringLocale(R.string.channel_type_3)
                 else -> App.resourcesProvider.getStringLocale(R.string.channel_type_4)
             }
 
+            typeTitle.setTextColor(
+                Color.parseColor(
+                    when (model.type) {
+                        "0" -> "#CE7959"
+                        "1" -> "#538DBE"
+                        "2" -> "#45A2A2"
+                        else -> "#802793"
+                    }
+                )
+            )
+
             typeTitle.background = ContextCompat.getDrawable(
                 context,
-                when(model.type) {
+                when (model.type) {
                     "0" -> R.drawable.bg_channel_type_1
                     "1" -> R.drawable.bg_channel_type_2
                     "2" -> R.drawable.bg_channel_type_3
@@ -442,72 +498,14 @@ class CompatibilityChannelModel(
                 }
             )
 
-            channelArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-
-            if (isExpanded) {
-                channelDesc.maxLines = 70
-                channelArrow
-                    .animate().rotation(-90f).duration = 300
-                channelArrow.alpha = 0.3f
-            } else {
-
-                channelDesc.maxLines = 3
-                channelArrow
-                    .animate().rotation(90f).duration = 300
-                channelArrow.alpha = 1f
-            }
-
-            channelCard.setOnClickListener {
-                isExpanded = !isExpanded
-
-                if (isExpanded) {
-                    val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(context) {
-                        override fun getVerticalSnapPreference(): Int {
-                            return SNAP_TO_START
-                        }
-
-                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-                            return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
-                        }
-
-                    }
-                    smoothScroller.targetPosition = position
-                    (recyclerView.layoutManager as LinearLayoutManager)
-                        .startSmoothScroll(smoothScroller)
-
-                    val animation = ObjectAnimator.ofInt(
-                        channelDesc,
-                        "maxLines",
-                        300
-                    )
-                    animation.duration = 1000
-                    animation.start()
-                    channelArrow
-                        .animate().rotation(-90f).duration = 300
-                    channelArrow.alpha = 0.3f
-                } else {
-                    val animation = ObjectAnimator.ofInt(
-                        channelDesc,
-                        "maxLines",
-                        3
-                    )
-                    animation.duration = 1000
-                    animation.start()
-                    channelArrow
-                        .animate().rotation(90f).duration = 300
-                    channelArrow.alpha = 1f
-                }
+            aboutItemContainer.setOnClickListener {
+                EventBus.getDefault().post(OpenCompatibilityChannelEvent(model))
             }
 
         }
     }
 
-    fun getTypeView() =
-        root!!.typeTitle
+    fun getTypeView() = root!!.typeTitle
 
 
     override fun getDefaultLayout(): Int = R.layout.item_compatibility_channel

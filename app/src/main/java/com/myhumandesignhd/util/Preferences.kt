@@ -3,7 +3,7 @@ package com.myhumandesignhd.util
 import android.content.Context
 import android.content.SharedPreferences
 import com.myhumandesignhd.App
-import java.util.*
+import java.util.Locale
 
 class Preferences(context: Context) {
 
@@ -86,6 +86,14 @@ class Preferences(context: Context) {
     var isPremiun: Boolean
         set(value) = sharedPreferences.edit().putBoolean("is_premium", value).apply()
         get() = true//sharedPreferences.getBoolean("is_premium", false)
+
+    fun setString(key: String, value: String) {
+        sharedPreferences.edit().putString(key, value).apply()
+    }
+
+    fun getString(key: String): String? {
+        return sharedPreferences.getString(key, null)
+    }
 
     var uniqueUserId: String?
         set(value) = sharedPreferences.edit().putString("unique_user_id", value).apply()

@@ -1,27 +1,20 @@
 package com.myhumandesignhd.ui.compatibility.detail.info.adapter
 
-import android.animation.ObjectAnimator
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.graphics.Shader.TileMode
-import android.util.DisplayMetrics
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
-import kotlinx.android.synthetic.main.item_channel.view.*
-import kotlinx.android.synthetic.main.item_channel.view.channelArrow
-import kotlinx.android.synthetic.main.item_channel.view.channelDesc
-import kotlinx.android.synthetic.main.item_compatibility_channel.view.*
-import kotlinx.android.synthetic.main.item_compatibility_info.view.*
-import kotlinx.android.synthetic.main.item_compatibility_info_title.view.*
+import kotlinx.android.synthetic.main.item_compatibility_info.view.aboutItemContainer
+import kotlinx.android.synthetic.main.item_compatibility_info.view.aboutItemText
+import kotlinx.android.synthetic.main.item_compatibility_info.view.aboutItemTitle
+import kotlinx.android.synthetic.main.item_compatibility_info_title.view.desc
 
 class CompatibilityInfoAdapter : EpoxyAdapter() {
 
@@ -40,9 +33,7 @@ class CompatibilityInfoAdapter : EpoxyAdapter() {
     }
 }
 
-class CompatibilityInfoTitleModel(
-
-): EpoxyModel<View>() {
+class CompatibilityInfoTitleModel : EpoxyModel<View>() {
 
     private var root: View? = null
 
@@ -78,17 +69,11 @@ class CompatibilityInfoModel(
 
         with(view) {
 
-            compatibilityInfoCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            aboutItemContainer.background = ContextCompat.getDrawable(
                 context,
-                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                else R.color.lightSettingsCard
-            ))
-
-            compatibilityInfoArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+                if (App.preferences.isDarkTheme) R.drawable.bg_about_item_dark
+                else R.drawable.bg_about_item_light
+            )
 
             val textShader: Shader = LinearGradient(
                 0f, 0f, 0f, 20f,
@@ -102,16 +87,16 @@ class CompatibilityInfoModel(
                 TileMode.CLAMP
             )
 
-            compatibilityInfoTitle.setTextColor(
+            aboutItemTitle.setTextColor(
                 when(position) {
-                    1 -> Color.parseColor("#C66456")
-                    2 -> Color.parseColor("#5D77C5")
-                    3 -> Color.parseColor("#278E68")
+                    1 -> Color.parseColor("#E45B47")
+                    2 -> Color.parseColor("#58A1FE")
+                    3 -> Color.parseColor("#2AC568")
                     else -> Color.parseColor("#278E68")
                 }
             )
-            compatibilityInfoTitle.paint.shader = textShader
-            compatibilityInfoTitle.text = App.resourcesProvider.getStringLocale(
+            aboutItemTitle.paint.shader = textShader
+            aboutItemTitle.text = App.resourcesProvider.getStringLocale(
                 when (position) {
                     1 -> R.string.compatibility_info_title_1
                     2 -> R.string.compatibility_info_title_2
@@ -120,14 +105,14 @@ class CompatibilityInfoModel(
                 }
             )
 
-            compatibilityInfoDesc.setTextColor(
+            aboutItemText.setTextColor(
                 ContextCompat.getColor(
                     context,
                     if (App.preferences.isDarkTheme) R.color.lightColor
                     else R.color.darkColor
                 )
             )
-            compatibilityInfoDesc.text = App.resourcesProvider.getStringLocale(
+            aboutItemText.text = App.resourcesProvider.getStringLocale(
                 when (position) {
                     1 -> R.string.compatibility_info_desc_1
                     2 -> R.string.compatibility_info_desc_2
@@ -135,62 +120,6 @@ class CompatibilityInfoModel(
                     else -> R.string.compatibility_info_desc_4
                 }
             )
-
-            if (isExpanded) {
-                compatibilityInfoDesc.maxLines = 70
-                compatibilityInfoArrow
-                    .animate().rotation(-90f).duration = 300
-                compatibilityInfoArrow.alpha = 0.3f
-            } else {
-
-                compatibilityInfoDesc.maxLines = 3
-                compatibilityInfoArrow
-                    .animate().rotation(90f).duration = 300
-                compatibilityInfoArrow.alpha = 1f
-            }
-
-            compatibilityInfoCard.setOnClickListener {
-                isExpanded = !isExpanded
-
-                if (isExpanded) {
-                    val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(context) {
-                        override fun getVerticalSnapPreference(): Int {
-                            return SNAP_TO_START
-                        }
-
-                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-                            return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
-                        }
-
-                    }
-                    smoothScroller.targetPosition = position
-                    (recyclerView.layoutManager as LinearLayoutManager)
-                        .startSmoothScroll(smoothScroller)
-
-                    val animation = ObjectAnimator.ofInt(
-                        compatibilityInfoDesc,
-                        "maxLines",
-                        30
-                    )
-                    animation.duration = 1000
-                    animation.start()
-                    compatibilityInfoArrow
-                        .animate().rotation(-90f).duration = 300
-                    compatibilityInfoArrow.alpha = 0.3f
-
-                } else {
-                    val animation = ObjectAnimator.ofInt(
-                        compatibilityInfoDesc,
-                        "maxLines",
-                        3
-                    )
-                    animation.duration = 500
-                    animation.start()
-                    compatibilityInfoArrow
-                        .animate().rotation(90f).duration = 300
-                    compatibilityInfoArrow.alpha = 1f
-                }
-            }
         }
     }
 

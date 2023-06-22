@@ -51,17 +51,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.google.android.material.card.MaterialCardView
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/partnerCard"
+                    android:background="@drawable/bg_about_item_light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     app:cardCornerRadius="10dp"
+                    android:paddingBottom="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/partnerContainer"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -70,11 +73,33 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_marginVertical="8dp"
-                            android:layout_marginEnd="14dp"
+                            android:layout_marginEnd="12dp"
                             android:adjustViewBounds="true"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/percentTitle"
+                            android:fontFamily="@font/gilroy"
+                            android:textSize="16sp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/compatibility_percent_title"
+                            app:layout_constraintStart_toStartOf="@id/userName"
+                            app:layout_constraintTop_toBottomOf="@id/userName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/percent"
+                            android:text="96%"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/gilroy"
+                            app:layout_constraintTop_toTopOf="@id/percentTitle"
+                            app:layout_constraintBottom_toBottomOf="@id/percentTitle"
+                            app:layout_constraintStart_toEndOf="@id/percentTitle"
+                            android:layout_marginStart="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
                         <TextView
                             android:id="@+id/userName"
@@ -82,9 +107,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
                             android:layout_marginTop="20dp"
-                            android:fontFamily="@font/roboto"
+                            android:fontFamily="@font/gilroy"
                             android:gravity="start"
-                            android:textSize="20sp"
+                            android:textSize="32sp"
+                            android:text="William"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -92,20 +118,32 @@
 
                         <TextView
                             android:id="@+id/subtitle"
+                            android:text="Projector • 1/3 • Investigative martyr"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="12dp"
                             android:alpha="0.7"
-                            android:fontFamily="@font/roboto"
+                            android:fontFamily="@font/gilroy"
                             android:gravity="start"
                             android:letterSpacing="0.12"
                             android:paddingBottom="20dp"
                             android:textAllCaps="true"
                             android:textSize="12sp"
-                            app:layout_constraintTop_toBottomOf="@id/userName" />
+                            app:layout_constraintTop_toBottomOf="@id/percentTitle" />
+
+                        <ImageView
+                            android:id="@+id/aboutItemBtn"
+                            android:src="@drawable/ic_about_item_btn"
+                            app:layout_constraintTop_toBottomOf="@id/subtitle"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:adjustViewBounds="true"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </com.zerobranch.layout.SwipeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

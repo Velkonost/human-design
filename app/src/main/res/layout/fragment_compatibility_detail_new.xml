@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.myhumandesignhd.ui.compatibility.CompatibilityViewModel" />
+
+        <variable
+            name="handler"
+            type="com.myhumandesignhd.ui.compatibility.detail.CompatibilityDetailFragment.Handler" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/gilroy"
+                android:text="@string/compatibility_detail_title"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icInfo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="20dp"
+                android:adjustViewBounds="true"
+                android:onClick="@{handler::onFaqClicked}"
+                android:src="@drawable/ic_info"
+                app:layout_constraintBottom_toBottomOf="@id/title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/title" />
+
+            <FrameLayout
+                android:id="@+id/arrowBlock"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="14dp"
+                android:onClick="@{handler::onBackClicked}"
+                app:layout_constraintBottom_toBottomOf="@id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/title">
+
+                <ImageView
+                    android:id="@+id/icArrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:rotation="180"
+                    android:src="@drawable/ic_arrow" />
+            </FrameLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/selectionBlock"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/title">
+
+                <TextView
+                    android:id="@+id/aboutTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/gilroy"
+                    android:gravity="center"
+                    android:onClick="@{handler::onAboutClicked}"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/profilesTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_marginVertical="4dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/gilroy"
+                    android:gravity="center"
+                    android:onClick="@{handler::onProfilesClicked}"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/channelsTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_marginVertical="4dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/gilroy"
+                    android:gravity="center"
+                    android:onClick="@{handler::onChannelsClicked}"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/selectionBlock" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/aboutBottomSheet"
+            layout="@layout/view_about_item_sheet" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

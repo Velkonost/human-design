@@ -1,7 +1,6 @@
 package com.myhumandesignhd.ui.compatibility.adapter
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -34,7 +33,11 @@ class ChildrenAdapter : EpoxyAdapter() {
     ) {
         removeAllModels()
         children.map { addModel(ChildModel(it)) }
-        addModel(EmptyChildrenModel(children.isNullOrEmpty()))
+
+        if (children.isEmpty()) {
+            addModel(EmptyChildrenModel(children.isNullOrEmpty()))
+        }
+
 
         notifyDataSetChanged()
     }
@@ -101,11 +104,17 @@ class ChildModel(
                     else R.color.darkColor
                 ))
 
-            partnerCard.backgroundTintList = ColorStateList.valueOf(
+            partnerCard.background = ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.bg_about_item_dark
+                else R.drawable.bg_about_item_light
+            )
+
+            percentTitle.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                    else R.color.lightSettingsCard
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
                 ))
 
             chart.setImageResource(
@@ -151,10 +160,17 @@ class ChildModel(
                     }
                 }
 
-                override fun onClose() {
-
-                }
+                override fun onClose() {}
             })
+
+            percent.text = "96%"
+
+            val paint = percent.paint
+            val width = paint.measureText(percent.text.toString())
+            val textShader: Shader = LinearGradient(0f, 0f, width, percent.textSize, intArrayOf(
+                Color.parseColor("#58B9FF"), Color.parseColor("#5655F9")
+            ), null, Shader.TileMode.REPEAT)
+            percent.paint.shader = textShader
         }
     }
 

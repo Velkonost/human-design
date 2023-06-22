@@ -14,107 +14,102 @@
             type="com.myhumandesignhd.ui.compatibility.child.CompatibilityChildFragment.Handler" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/compatibilityContainer"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/arrowBlock"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="14dp"
-            android:onClick="@{handler::onBackClicked}"
-            app:layout_constraintBottom_toBottomOf="@id/compatibilityTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/compatibilityTitle">
-
-            <ImageView
-                android:id="@+id/icArrow"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_gravity="center"
-                android:rotation="180"
-                android:src="@drawable/ic_arrow" />
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/compatibilityTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="64dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/roboto"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/selectionCard"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/compatibilityContainer"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="24dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/compatibilityTitle">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
+
+            <FrameLayout
+                android:id="@+id/arrowBlock"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="14dp"
+                android:onClick="@{handler::onBackClicked}"
+                app:layout_constraintBottom_toBottomOf="@id/compatibilityTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/compatibilityTitle">
+
+                <ImageView
+                    android:id="@+id/icArrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:rotation="180"
+                    android:src="@drawable/ic_arrow" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/compatibilityTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="64dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/gilroy"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/selectionLinear"
+                android:id="@+id/selectionBlock"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:orientation="horizontal">
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/compatibilityTitle">
 
-                <TextView
-                    android:id="@+id/childTitle"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="4dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/ic_affirmation_bg"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center"
-                    android:onClick="@{handler::onChildClicked}"
-                    android:textSize="14sp"
-                    />
+                    <TextView
+                        android:id="@+id/childTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="4dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/gilroy"
+                        android:gravity="center"
+                        android:onClick="@{handler::onChildClicked}"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/parentTitle"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="4dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/ic_affirmation_bg"
-                    android:fontFamily="@font/roboto"
-                    android:gravity="center"
-                    android:onClick="@{handler::onParentClicked}"
-                    android:textSize="14sp"
-                    />
+                    <TextView
+                        android:id="@+id/parentTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="4dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/gilroy"
+                        android:gravity="center"
+                        android:onClick="@{handler::onParentClicked}"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </com.google.android.material.card.MaterialCardView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectionCard" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/selectionBlock" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/aboutBottomSheet"
+            layout="@layout/view_about_item_sheet" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

@@ -447,5 +447,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="empty_compatibility_subtitle">Do you want to have harmonious and peaceful relationship?\n\nCheck your compatibility and find out what to expect from your couple.</string>
     <string name="add_partner_btn_title">Add Partner</string>
     <string name="add_child_btn_title">Add Child</string>
+    <string name="compatibility_percent_title">Compatibility:</string>
+    <string name="compatibility_details_about_subtitle">Interest does not give a full guarantee!\nRead more about your compatibility</string>
     <!--  COMPATIBILITY  -->
 </resources>

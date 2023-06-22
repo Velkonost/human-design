@@ -221,7 +221,7 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
     fun onOpenAboutItemEvent(e: OpenAboutItemEvent) {
         if (!isAdded) return
 
-        showSheet(e.item.title, e.item.text)
+        showSheet(e.item.title, if (e.item.type == AboutType.BODYGRAPH) "" else e.item.text)
 
         with(binding.aboutBottomSheet) {
             when(e.item.type) {

@@ -13,6 +13,20 @@ data class CompatibilityResponse(
     @field:JsonProperty("descrnext") val descrNext: String = "",
     @field:JsonProperty("profileDescription") val profileDescription: String = "",
     @field:JsonProperty("channels") val channels: ArrayList<CompatibilityChannel> = arrayListOf(),
+    @field:JsonProperty("newDescriptions") val newDescriptions: ArrayList<NewDescriptions> = arrayListOf(),
+) : Parcelable
+
+@Parcelize
+data class NewDescriptions(
+    @field:JsonProperty("title") val title: String = "",
+    @field:JsonProperty("percentage") val percentage: Int = 0,
+    @field:JsonProperty("description") val description: ArrayList<Description> = arrayListOf(),
+) : Parcelable
+
+@Parcelize
+data class Description(
+    @field:JsonProperty("title") val title: String = "",
+    @field:JsonProperty("text") val text: String = "",
 ) : Parcelable
 
 @Parcelize
