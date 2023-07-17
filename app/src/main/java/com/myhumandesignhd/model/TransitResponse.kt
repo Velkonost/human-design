@@ -6,6 +6,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TransitResponse(
+    @field:JsonProperty("code") val code: Int? = null,
+    @field:JsonProperty("message") val message: String? = null,
+
     @field:JsonProperty("only_birth_gates") val onlyBirthGates: ArrayList<TransitionGate> = arrayListOf(),
     @field:JsonProperty("only_current_gates") val onlyCurrentGates: ArrayList<TransitionGate> = arrayListOf(),
     @field:JsonProperty("only_birth_channels") val onlyBirthChannels: ArrayList<TransitionChannel> = arrayListOf(),

@@ -22,8 +22,14 @@ import com.myhumandesignhd.ui.settings.SettingsViewModel
 import com.myhumandesignhd.ui.start.adapter.PlacesAdapter
 import com.myhumandesignhd.util.Keyboard
 import com.myhumandesignhd.vm.BaseViewModel
-import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
-import kotlinx.android.synthetic.main.view_place_select.view.*
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.amPmPicker
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.hoursPicker
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.minutesPicker
+import kotlinx.android.synthetic.main.view_place_select.view.icArrowPlace
+import kotlinx.android.synthetic.main.view_place_select.view.icSearch
+import kotlinx.android.synthetic.main.view_place_select.view.newPlaceET
+import kotlinx.android.synthetic.main.view_place_select.view.placeRecycler
+import kotlinx.android.synthetic.main.view_place_select.view.placesViewContainer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,7 +37,8 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 
 class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInfoBinding>(
@@ -73,26 +80,70 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
     }
 
     private fun setupData() {
-        val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO, Locale.getDefault())
+        val formatter: DateFormat =
+            SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO, Locale.getDefault())
         val calendar: Calendar = Calendar.getInstance()
 
-        if (baseViewModel.isCurrentUserInitialized()) {
-            calendar.timeInMillis = baseViewModel.currentUser.date
-            val dateStr = formatter.format(calendar.time)
+        baseViewModel.currentBodygraph.observe(this) {
+//            calendar.timeInMillis = baseViewModel.currentUser.date
+            val dateStr = it.birthDatetime.split(" ")[0]//formatter.format(calendar.time)
 
-            binding.nameET.setText(baseViewModel.currentUser.name)
-            binding.placeET.setText(baseViewModel.currentUser.place)
-            binding.dateET.setText(dateStr)
-            binding.timeET.setText(baseViewModel.currentUser.time)
+            val originalFormat: DateFormat = SimpleDateFormat(App.DATE_FORMAT_SHORT, Locale.ENGLISH)
+            val targetFormat: DateFormat = SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO)
+            val date = originalFormat.parse(dateStr)
+            val formattedDate = targetFormat.format(date) // 20120821
+
+
+            binding.nameET.setText(it.name)
+//            binding.placeET.setText(baseViewModel.currentUser.place)
+            binding.dateET.setText(formattedDate)
+            binding.timeET.setText(it.birthDatetime.split(" ")[1].subSequence(0, 4))
 
             if (App.preferences.locale == "en") {
                 val sdf = SimpleDateFormat("hh:mm")
                 val sdfs = SimpleDateFormat("hh:mm a")
 
-                val dt = sdf.parse(baseViewModel.currentUser.time)
+                val dt = sdf.parse(it.birthDatetime.split(" ")[1].subSequence(0, 4).toString())
                 binding.timeET.setText(dt?.let { sdfs.format(it) })
             }
         }
+
+        baseViewModel.bodygraphPlace.observe(this) {
+            var locationStr = ""
+            if (it[0].address.city.isNotEmpty()) {
+                locationStr += it[0].address.city
+                locationStr += ", "
+            } else {
+                if (it[0].address.municipality.isNotEmpty()) {
+                    locationStr += it[0].address.municipality
+                    locationStr += ", "
+                }
+
+                locationStr += it[0].address.state
+                locationStr += ", "
+            }
+
+            locationStr += it[0].address.country
+            binding.placeET.setText(locationStr)
+        }
+
+//        if (baseViewModel.isCurrentUserInitialized()) {
+//            calendar.timeInMillis = baseViewModel.currentUser.date
+//            val dateStr = formatter.format(calendar.time)
+//
+//            binding.nameET.setText(baseViewModel.currentUser.name)
+//            binding.placeET.setText(baseViewModel.currentUser.place)
+//            binding.dateET.setText(dateStr)
+//            binding.timeET.setText(baseViewModel.currentUser.time)
+//
+//            if (App.preferences.locale == "en") {
+//                val sdf = SimpleDateFormat("hh:mm")
+//                val sdfs = SimpleDateFormat("hh:mm a")
+//
+//                val dt = sdf.parse(baseViewModel.currentUser.time)
+//                binding.timeET.setText(dt?.let { sdfs.format(it) })
+//            }
+//        }
 
         setupPlacesView()
 
@@ -144,7 +195,10 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             this.ok.setOnClickListener {
                 dateBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-                val formatter: DateFormat = SimpleDateFormat(com.myhumandesignhd.App.DATE_FORMAT_PERSONAL_INFO, Locale.getDefault())
+                val formatter: DateFormat = SimpleDateFormat(
+                    App.DATE_FORMAT_PERSONAL_INFO,
+                    Locale.getDefault()
+                )
                 val calendar: Calendar = Calendar.getInstance()
 
                 calendar.timeInMillis = this.date.date.time
@@ -156,19 +210,24 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
             val c = Calendar.getInstance()
 
-            if (baseViewModel.isCurrentUserInitialized()) {
-                c.timeInMillis = baseViewModel.currentUser.date
-            }
 
-            this.date.maxDate = Calendar.getInstance().time
-            this.date.setDefaultDate(c.time)
+            baseViewModel.currentBodygraph.observe(this@PersonalInfoFragment) {
+                val sdf = SimpleDateFormat(App.DATE_FORMAT_SHORT)
+                val date = sdf.parse(it.birthDatetime.split(" ")[0])
+
+                if (date != null) {
+                    c.timeInMillis = date.time
+                    this.date.maxDate = Calendar.getInstance().time
+                    this.date.setDefaultDate(c.time)
+                }//baseViewModel.currentUser.date
+            }
 
         }
     }
 
     private fun setupTimeSheet() {
         with(binding.timeBottomSheet) {
-            if (com.myhumandesignhd.App.preferences.locale == "en")
+            if (App.preferences.locale == "en")
                 time.setIsAmPm(true)
             else time.setIsAmPm(false)
 
@@ -200,18 +259,22 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
             val c = Calendar.getInstance()
 
-            if (baseViewModel.isCurrentUserInitialized()) {
-                c.set(Calendar.HOUR_OF_DAY, baseViewModel.currentUser.time.split(":")[0].toInt())
-                c.set(Calendar.MINUTE, baseViewModel.currentUser.time.split(":")[1].toInt())
+            baseViewModel.currentBodygraph.observe(this@PersonalInfoFragment) {
+                c.set(Calendar.HOUR_OF_DAY, it.birthDatetime.split(" ")[1].split(":")[0].toInt())
+                c.set(Calendar.MINUTE, it.birthDatetime.split(" ")[1].split(":")[1].toInt())
+                this.time.selectDate(c)
             }
+//                c.set(Calendar.HOUR_OF_DAY, baseViewModel.currentUser.time.split(":")[0].toInt())
+//                c.set(Calendar.MINUTE, baseViewModel.currentUser.time.split(":")[1].toInt())
 
-            this.time.selectDate(c)
+
         }
     }
 
     private fun setupLocale() {
         binding.done.text = App.resourcesProvider.getStringLocale(R.string.done_title)
-        binding.personalInfoTitle.text = App.resourcesProvider.getStringLocale(R.string.personal_info_title)
+        binding.personalInfoTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.personal_info_title)
         binding.nameTitle.text = App.resourcesProvider.getStringLocale(R.string.name_title)
         binding.placeTitle.text = App.resourcesProvider.getStringLocale(R.string.city_birth_title)
         binding.dateTitle.text = App.resourcesProvider.getStringLocale(R.string.date_birth_title)
@@ -225,29 +288,37 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
     override fun updateThemeAndLocale() {
         setupLocale()
 
-        binding.dateBottomSheet.container.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-            else R.color.lightSettingsCard
-        ))
+        binding.dateBottomSheet.container.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                else R.color.lightSettingsCard
+            )
+        )
 
-        binding.dateBottomSheet.ok.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.dateBottomSheet.ok.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.timeBottomSheet.container.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-            else R.color.lightSettingsCard
-        ))
+        binding.timeBottomSheet.container.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                else R.color.lightSettingsCard
+            )
+        )
 
-        binding.timeBottomSheet.ok.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.timeBottomSheet.ok.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         binding.placesView.newPlaceET.backgroundTintList = ColorStateList.valueOf(
             ContextCompat.getColor(
@@ -281,125 +352,165 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             )
         )
 
-        binding.personalInfoContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+        binding.personalInfoContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
-        binding.personalInfoTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.personalInfoTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.nameTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.nameTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.dateTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.dateTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.placeTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.placeTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.timeTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.timeTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.nameET.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.nameET.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.placeET.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.placeET.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.dateET.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.dateET.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.timeET.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.timeET.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.nameET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkHintColor
-            else R.color.lightHintColor
-        ))
+        binding.nameET.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
 
-        binding.placeET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkHintColor
-            else R.color.lightHintColor
-        ))
+        binding.placeET.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
 
-        binding.dateET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkHintColor
-            else R.color.lightHintColor
-        ))
+        binding.dateET.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
 
-        binding.timeET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkHintColor
-            else R.color.lightHintColor
-        ))
+        binding.timeET.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
 
-        binding.confirmTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.confirmTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.confirmText.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.confirmText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.icCross.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.icCross.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.confirmCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-            else R.color.lightSettingsCard
-        ))
+        binding.confirmCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                else R.color.lightSettingsCard
+            )
+        )
 
-        binding.confirmBackground.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.darkColor
-        ))
+        binding.confirmBackground.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.blur.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+        binding.blur.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
         binding.placesView.newPlaceET.background = ContextCompat.getDrawable(
             requireContext(),
@@ -407,17 +518,21 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             else R.drawable.bg_search_light
         )
 
-        binding.placesView.icArrowPlace.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.placesView.icArrowPlace.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.placesView.icSearch.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.searchTintDark
-            else R.color.searchTintLight
-        ))
+        binding.placesView.icSearch.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.searchTintDark
+                else R.color.searchTintLight
+            )
+        )
 
     }
 
@@ -491,32 +606,55 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
     private fun updateUserData() {
         GlobalScope.launch(Dispatchers.Main) {
-            if (binding.nameET.text.toString().replace(" ", "").isNotEmpty())
-                baseViewModel.currentUser.name = binding.nameET.text.toString().trim()
+//            if (binding.nameET.text.toString().replace(" ", "").isNotEmpty())
+//                baseViewModel.currentUser.name = binding.nameET.text.toString().trim()
+//
+//            if (!binding.placeET.text.isNullOrEmpty()) {
+//                if (selectedLat.isNotEmpty())
+//                    baseViewModel.currentUser.lat = selectedLat
+//
+//                if (selectedLon.isNotEmpty())
+//                    baseViewModel.currentUser.lon = selectedLon
+//
+//                baseViewModel.currentUser.place = binding.placeET.text.toString()
+//            }
+//
+//            if (!binding.dateET.text.isNullOrEmpty() && selectedDate != 0L)
+//                baseViewModel.currentUser.date = selectedDate
+//
+//            if (!binding.timeET.text.isNullOrEmpty() && selectedTime.isNotEmpty())
+//                baseViewModel.currentUser.time = selectedTime
 
-            if (!binding.placeET.text.isNullOrEmpty()) {
-                if (selectedLat.isNotEmpty())
-                    baseViewModel.currentUser.lat = selectedLat
+            baseViewModel.editBodygraph(
+                name = if (binding.nameET.text.toString().replace(" ", "").isNotEmpty()) {
+                    binding.nameET.text.toString().trim()
+                } else null,
 
-                if (selectedLon.isNotEmpty())
-                    baseViewModel.currentUser.lon = selectedLon
+                lat = if (!binding.placeET.text.isNullOrEmpty() && selectedLat.isNotEmpty()) {
+                    selectedLat
+                } else null,
 
-                baseViewModel.currentUser.place = binding.placeET.text.toString()
-            }
+                lon = if (!binding.placeET.text.isNullOrEmpty() && selectedLon.isNotEmpty()) {
+                    selectedLon
+                } else null,
 
-        if (!binding.dateET.text.isNullOrEmpty() && selectedDate != 0L)
-            baseViewModel.currentUser.date = selectedDate
-
-        if (!binding.timeET.text.isNullOrEmpty() && selectedTime.isNotEmpty())
-            baseViewModel.currentUser.time = selectedTime//binding.timeET.text.toString()
-
-
+                date = if ((!binding.dateET.text.isNullOrEmpty() && selectedDate != 0L)
+                    || (!binding.timeET.text.isNullOrEmpty() && selectedTime.isNotEmpty())
+                ) {
+                    "${binding.dateET.text} ${binding.timeET.text}"
+//                    if (selectedDate == 0L) {
+//                        "${binding.dateET.text} ${binding.timeET.text}"
+//                    } else {
+//                        requireContext().getDateStr(selectedDate, binding.timeET.text.toString())
+//                    }
+                } else null
+            )
         }.invokeOnCompletion {
-            baseViewModel.updateUser(true)
+//            baseViewModel.updateUser(true)
 
-           android.os.Handler().postDelayed({
-               router.exit()
-           }, 2000)
+            android.os.Handler().postDelayed({
+                router.exit()
+            }, 2000)
 
         }
     }

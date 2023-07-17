@@ -151,21 +151,18 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                                     setupAdapty(referrerUrl)
                                 }
+
                                 InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
-                                    // API not available on the current Play Store app.
                                     setupAdapty()
                                 }
+
                                 InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
-                                    // Connection couldn't be established.
                                     setupAdapty()
                                 }
                             }
                         }
 
-                        override fun onInstallReferrerServiceDisconnected() {
-                            // Try to restart the connection on the next request to
-                            // Google Play by calling the startConnection() method.
-                        }
+                        override fun onInstallReferrerServiceDisconnected() {}
                     })
 
                     return@addOnCompleteListener
@@ -197,32 +194,31 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                                     setupAdapty(referrerUrl)
 
                                     if (
-                                        !referrerUrl.isNullOrEmpty()
-                                        && !appInstanceId.isNullOrEmpty()
+                                        referrerUrl.isNotEmpty()
+                                        && appInstanceId.isNotEmpty()
                                         && referrerUrl.contains("utm_source=")
-                                        && referrerUrl.substringAfter("utm_source=").split("&")[0] != "google-play"
+                                        && referrerUrl.substringAfter("utm_source=")
+                                            .split("&")[0] != "google-play"
                                     ) {
                                         binding.viewModel!!.setUserInfo(
-                                            gclid = referrerUrl.substringAfter("utm_source=").split("&")[0],
+                                            gclid = referrerUrl.substringAfter("utm_source=")
+                                                .split("&")[0],
                                             appInstanceId = appInstanceId
                                         )
                                     }
                                 }
+
                                 InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
-                                    // API not available on the current Play Store app.
                                     setupAdapty()
                                 }
+
                                 InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
-                                    // Connection couldn't be established.
                                     setupAdapty()
                                 }
                             }
                         }
 
-                        override fun onInstallReferrerServiceDisconnected() {
-                            // Try to restart the connection on the next request to
-                            // Google Play by calling the startConnection() method.
-                        }
+                        override fun onInstallReferrerServiceDisconnected() {}
                     })
                 }
             }
@@ -248,6 +244,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                     true
                 }
+
                 R.id.navigation_description -> {
                     YandexMetrica.reportEvent("Tab2Tapped")
                     Amplitude.getInstance().logEvent("tab2Tapped")
@@ -260,6 +257,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         false
                     }
                 }
+
                 R.id.navigation_transit -> {
                     YandexMetrica.reportEvent("Tab3Tapped")
                     Amplitude.getInstance().logEvent("tab3Tapped")
@@ -272,6 +270,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         false
                     }
                 }
+
                 R.id.navigation_compatibility -> {
                     YandexMetrica.reportEvent("Tab4Tapped")
                     Amplitude.getInstance().logEvent("tab4Tapped")
@@ -284,6 +283,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         false
                     }
                 }
+
                 R.id.navigation_affirmation -> {
                     YandexMetrica.reportEvent("Tab5Tapped")
                     Amplitude.getInstance().logEvent("tab5Tapped")
@@ -296,6 +296,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         false
                     }
                 }
+
                 else -> {
                     router.navigateTo(Screens.settingsScreen())
                     true
@@ -323,7 +324,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     @Subscribe
-    fun onTestResponseEvent(e: TestResponseEvent) {}
+    fun onTestResponseEvent(e: TestResponseEvent) {
+    }
 
     @Subscribe
     fun onOpenBodygraphEvent(e: OpenBodygraphEvent) {
@@ -444,7 +446,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             }
 
 
-
             val locationResult: MyLocation.LocationResult = object : MyLocation.LocationResult() {
                 override fun gotLocation(location: Location?) {
                     if (location != null)
@@ -538,14 +539,22 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
             val alarmManagerForecasts = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        alarmManagerForecasts.setRepeating(
-            AlarmManager.RTC_WAKEUP, cal.timeInMillis + mult * 86400000, AlarmManager.INTERVAL_DAY * 7, pendingIntentForecasts
-        )
+            alarmManagerForecasts.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                cal.timeInMillis + mult * 86400000,
+                AlarmManager.INTERVAL_DAY * 7,
+                pendingIntentForecasts
+            )
         }
     }
 
     private fun initStartPage() {
         if (isStartPageInitialized) return
+
+        if (App.preferences.authToken.isNullOrEmpty()) {
+            router.replaceScreen(Screens.startScreen())
+            return
+        }
 
         if (!isFirstAnimationPlayed && App.preferences.currentUserId != -1L) {
             router.replaceScreen(Screens.loaderScreen())
@@ -569,6 +578,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     -> {
                         Screens.startScreen()
                     }
+
                     else -> {
                         Screens.bodygraphScreen()
 //                        Screens.descriptionScreen()
@@ -700,11 +710,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     return@runOnUiThread
                 } else {
                     binding.progress.isVisible = isVisible
-                    binding.progress.setBackgroundColor(ContextCompat.getColor(
-                        this,
-                        if (App.preferences.isDarkTheme) R.color.darkColor
-                        else R.color.lightColor
-                    ))
+                    binding.progress.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this,
+                            if (App.preferences.isDarkTheme) R.color.darkColor
+                            else R.color.lightColor
+                        )
+                    )
                     binding.progressBar.setAnimation(
                         if (App.preferences.isDarkTheme) R.raw.loader_white
                         else R.raw.loader_black
@@ -911,7 +923,10 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     .withAmplitudeDeviceId(Amplitude.getInstance().deviceId)
                     .withAmplitudeUserId(Amplitude.getInstance().userId)
                     .withFacebookAnonymousId(AppEventsLogger.getAnonymousAppDeviceGUID(this))
-                    .withCustomAttribute("referrer", referrer.substringAfter("utm_source=").split("&")[0])
+                    .withCustomAttribute(
+                        "referrer",
+                        referrer.substringAfter("utm_source=").split("&")[0]
+                    )
                     .build()
                 Adapty.updateProfile(paramsAmplitude) { error -> }
             }
@@ -950,13 +965,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 //        }
 
         Adapty.getPaywall("pw_test") { result ->
-            when(result) {
+            when (result) {
                 is AdaptyResult.Success -> {
                     App.adaptySplitPwName = result.value.name
                     App.adaptyPaywallModel = result.value
 
                     Adapty.getPaywallProducts(result.value) { products ->
-                        when(products) {
+                        when (products) {
                             is AdaptyResult.Success -> {
                                 App.adaptyProducts = products.value
                             }
@@ -981,7 +996,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 //        }
 
         Adapty.getProfile { result ->
-            when(result) {
+            when (result) {
                 is AdaptyResult.Success -> {
                     val profile = result.value
 
@@ -999,6 +1014,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         Amplitude.getInstance().identify(identify)
                     }
                 }
+
                 is AdaptyResult.Error -> {
                     App.preferences.isPremiun = false
 
@@ -1028,7 +1044,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             App.preferences.isPremiun = profile.accessLevels["premium"]?.isActive == true
 
             val identify = Identify()
-            identify.set("Purchased",
+            identify.set(
+                "Purchased",
                 if (profile.accessLevels["premium"]?.isActive == true) "yes"
                 else "no"
             )
@@ -1073,7 +1090,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     private fun enableHardwareAcceleration() {
         window.setFlags(
             WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-            WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
+            WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
+        )
     }
 
     private fun disableHardwareAcceleration() {

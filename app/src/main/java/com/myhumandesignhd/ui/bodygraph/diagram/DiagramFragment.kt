@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
@@ -22,10 +21,6 @@ import com.myhumandesignhd.ui.bodygraph.diagram.adapter.DiagramsAdapter
 import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
 import io.sulek.ssml.SSMLLinearLayoutManager
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.Subscribe
 
 class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>(
@@ -49,14 +44,16 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
 
         setupData()
 
-        (binding.diagramsRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        (binding.diagramsRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
+            false
         binding.diagramsRecycler.itemAnimator = null
         binding.diagramsRecycler.layoutManager = SSMLLinearLayoutManager(requireContext())
     }
 
     @Subscribe
     fun onDeleteDiagramItemEvent(e: DeleteDiagramItemEvent) {
-        baseViewModel.deleteUser(e.userId,
+        baseViewModel.deleteUser(
+            e.userId,
             diagramsAdapter.getUserAtPosition(
                 diagramsAdapter.getNextPosition(
                     diagramsAdapter.getPositionByUserId(e.userId)
@@ -67,45 +64,57 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
     }
 
     override fun updateThemeAndLocale() {
-        binding.diagramContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+        binding.diagramContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
-        binding.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.icArrow.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.icPlus.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.icPlus.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         binding.diagramTitle.text = App.resourcesProvider.getStringLocale(R.string.diagram_title)
-        binding.diagramTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.diagramTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         binding.emptyText.text = App.resourcesProvider.getStringLocale(R.string.diagram_empty_text)
-        binding.emptyText.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.emptyText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
     }
 
     private var isChangedUserClicked = false
+
     @Subscribe
     fun onUpdateCurrentUserEvent(e: UpdateCurrentUserEvent) {
-        App.preferences.currentUserId = e.userId
+//        App.preferences.currentUserId = e.userId
         isChangedUserClicked = true
-        baseViewModel.setupCurrentUser()
+//        baseViewModel.setupCurrentUser()
+        baseViewModel.changeActiveBodygraph(e.userId)
     }
 
     @Subscribe
@@ -131,24 +140,26 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
     fun onDiagramAddUserClickEvent(e: DiagramAddUserClickEvent) {
         YandexMetrica.reportEvent("Tab1AddUserTappedStart1")
 
-        router.navigateTo(
-            Screens.addUserScreen(
-            fromDiagram = true
-        ))
+        router.navigateTo(Screens.addUserScreen(fromDiagram = true))
     }
 
     private fun setupData() {
         binding.diagramsRecycler.adapter = diagramsAdapter
+        baseViewModel.getAllBodygraphs()
 
-        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-            baseViewModel.updateBodygraphs()
+        baseViewModel.allBodygraphsData.observe(this) {
+            diagramsAdapter.createList(it)
         }
-        baseViewModel.updateUsersEvent.observe(this) {
-            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-                val users = baseViewModel.getAllUsers()
-                diagramsAdapter.createList(users)
-            }
-        }
+
+//        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//            baseViewModel.updateBodygraphs()
+//        }
+//        baseViewModel.updateUsersEvent.observe(this) {
+//            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//                val users = baseViewModel.getAllUsers()
+//                diagramsAdapter.createList(users)
+//            }
+//        }
 
     }
 
@@ -159,11 +170,8 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         }
 
         fun onAddClicked(v: View) {
-            Amplitude.getInstance().logEvent("tab1TappedAddUser");
-            router.navigateTo(
-                Screens.addUserScreen(
-                fromDiagram = true
-            ))
+            Amplitude.getInstance().logEvent("tab1TappedAddUser")
+            router.navigateTo(Screens.addUserScreen(fromDiagram = true))
         }
 
     }

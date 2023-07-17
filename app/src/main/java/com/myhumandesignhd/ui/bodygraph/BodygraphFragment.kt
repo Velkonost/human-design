@@ -3,9 +3,7 @@ package com.myhumandesignhd.ui.bodygraph
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.media.metrics.Event
 import android.os.Bundle
-import android.os.Handler
 import android.view.Gravity
 import android.view.View
 import android.view.animation.Animation
@@ -15,7 +13,6 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
@@ -42,8 +39,6 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.item_transit_advice.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -79,7 +74,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         EventBus.getDefault().post(OpenBodygraphEvent())
 
         isFirstFragmentLaunch = false
-        Amplitude.getInstance().logEvent("tab1_screen_shown");
+        Amplitude.getInstance().logEvent("tab1_screen_shown")
 
         if (
             !App.preferences.isDarkTheme
@@ -207,33 +202,32 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     private fun setupUserData() {
-        if (baseViewModel.isCurrentUserInitialized()) {
-            binding.userName.text = baseViewModel.currentUser.name
-        }
+//        if (baseViewModel.isCurrentUserInitialized()) {
+//            binding.userName.text = baseViewModel.currentUser.name
+//        }
 
-        baseViewModel.currentUserSetupEvent.observe(viewLifecycleOwner) {
-            if (it) {
-                if (isFirstFragmentLaunch)
-                    binding.userName.setTextAnimation(baseViewModel.currentUser.name)
-                else binding.userName.text = baseViewModel.currentUser.name
-            }
-        }
+//        baseViewModel.currentUserSetupEvent.observe(viewLifecycleOwner) {
+//            if (it) {
+//                if (isFirstFragmentLaunch)
+//                    binding.userName.setTextAnimation(baseViewModel.currentUser.name)
+//                else binding.userName.text = baseViewModel.currentUser.name
+//            }
+//        }
 
         baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
-            if (it.typeRu.isNotEmpty() && it.line.isNotEmpty() && it.profileRu.isNotEmpty()) {
+            if (it.type.isNotEmpty() && it.line.isNotEmpty() && it.profile.isNotEmpty()) {
                 if (isFirstFragmentLaunch) {
+
+                    binding.userName.setTextAnimation(it.name)
+
                     binding.subtitle1.setTextAnimation07(
-                        "${if (App.preferences.locale == "ru") it.typeRu else if (App.preferences.locale == "es") it.typeEs else it.typeEn} • " +
-                                "${it.line} •<br>" +
-                                "${if (App.preferences.locale == "ru") it.profileRu else if (App.preferences.locale == "es") it.profileEs else it.profileEn}"
+                        "${it.type} • " + "${it.line} •<br>" + it.profile
                     ) {
                         binding.subtitle1.alpha = 0.5f
                     }
                 } else {
-                    binding.subtitle1.text =
-                        "${if (App.preferences.locale == "ru") it.typeRu else if (App.preferences.locale == "es") it.typeEs else it.typeEn} • " +
-                            "${it.line} •\n" +
-                            "${if (App.preferences.locale == "ru") it.profileRu else if (App.preferences.locale == "es") it.profileEs else it.profileEn}"
+                    binding.subtitle1.text = "${it.type} • " + "${it.line} •\n" + it.profile
+                    binding.userName.text = it.name
                 }
             }
         }
@@ -504,7 +498,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         fun onAddUserClicked(v: View) {
             YandexMetrica.reportEvent("Tab1AddUserTapped")
-            Amplitude.getInstance().logEvent("tab1TappedShowUsers");
+            Amplitude.getInstance().logEvent("tab1TappedShowUsers")
 
             router.navigateTo(
                 if (App.preferences.isPremiun) Screens.diagramScreen()
@@ -514,7 +508,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         fun onSettingsClicked(v: View) {
             YandexMetrica.reportEvent("Tab1SettingsTapped")
-            Amplitude.getInstance().logEvent("tab1TappedSettings");
+            Amplitude.getInstance().logEvent("tab1TappedSettings")
 
             router.navigateTo(Screens.settingsScreen())
         }

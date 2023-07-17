@@ -33,9 +33,11 @@ class StartViewModel @Inject constructor(
     val errorEvent = SingleLiveEvent<Error>()
 
     var suggestions: MutableLiveData<GeocodingResponse> = mutableLiveDataOf(GeocodingResponse())
-    var reverseSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> = mutableLiveDataOf(emptyList())
+    var reverseSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> =
+        mutableLiveDataOf(emptyList())
 
-    var nominatimSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> = mutableLiveDataOf(emptyList())
+    var nominatimSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> =
+        mutableLiveDataOf(emptyList())
 
     var loginFbLiveData: MutableLiveData<LoginResponse> = mutableLiveDataOf(LoginResponse())
     var loginEmailLiveData: MutableLiveData<LoginEmailResponse> = mutableLiveDataOf(
@@ -77,7 +79,7 @@ class StartViewModel @Inject constructor(
         }
     }
 
-    fun loginGoogle(accessToken: String) {
+    private fun loginGoogle(accessToken: String) {
         viewModelScope.launch {
             val bodygraphs = collectBodygraphsData()
 
@@ -166,14 +168,13 @@ class StartViewModel @Inject constructor(
                         + acceptLang
                         + "&limit=50"
             ).subscribe({
-                 nominatimSuggestions.postValue(it)
+                nominatimSuggestions.postValue(it)
             }, {
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
                 EventBus.getDefault().post(NoInetEvent())
             }).disposeOnCleared()
         }
     }
-
 
 
 }

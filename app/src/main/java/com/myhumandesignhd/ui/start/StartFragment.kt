@@ -322,7 +322,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     @Subscribe
     fun onLastKnownLocationUpdateEvent(e: LastKnownLocationUpdateEvent) {
         if (!App.preferences.lastKnownLocation.isNullOrEmpty() && binding.nameContainerStub.isInflated) {
-            requireActivity().runOnUiThread { inflatedNameContainer.placeET.setText(App.preferences.lastKnownLocation) }
+            inflatedNameContainer.placeET.setText(App.preferences.lastKnownLocation)
             selectedLat = App.preferences.lastKnownLocationLat!!
             selectedLon = App.preferences.lastKnownLocationLon!!
         }
@@ -406,12 +406,12 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         }
 
         viewModel.loginFbLiveData.observe(this) { response ->
-            if (response.token.isNullOrEmpty().not()) {
+            if (response.token.isEmpty().not()) {
                 App.preferences.authToken = response.token
                 onSignupFinished()
-            } else if (response != null && response.message.isNullOrEmpty().not()){
+            } else if (response != null && response.message.isEmpty().not()){
                 showError(response.message)
-            } else {
+            } else if (response != null && response.status.isEmpty().not()) {
                 showError("Check Email Inbox")
             }
         }

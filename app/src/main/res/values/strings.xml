@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">HDesign</string>
-    <string name="facebook_app_id" translatable="false">1024507441786747</string>
-    <string name="fb_login_protocol_scheme" translatable="false">fb1024507441786747</string>
-    <string name="facebook_client_token" translatable="false">8300d3e22249a339f57e6edb01d7d6b966540ca1d4c946977cf72597e0e9d374</string>
+    <string name="facebook_app_id" translatable="false">3369984609932290</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb3369984609932290</string>
+    <string name="facebook_client_token" translatable="false">cec4b5eaffaa4534d8f289badc106eaf</string>
 
     <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
     <string name="search">Search</string>

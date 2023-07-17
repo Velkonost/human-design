@@ -3,7 +3,7 @@ package com.myhumandesignhd.util
 import android.content.Context
 import android.content.SharedPreferences
 import com.myhumandesignhd.App
-import java.util.*
+import java.util.Locale
 
 class Preferences(context: Context) {
 
@@ -25,8 +25,7 @@ class Preferences(context: Context) {
             else "en"
 
     var isDarkTheme: Boolean
-        set(value) = sharedPreferences.edit().putBoolean(IS_DARK_THEME, value)
-            .apply()
+        set(value) = sharedPreferences.edit().putBoolean(IS_DARK_THEME, value).apply()
         get() = sharedPreferences.getBoolean(IS_DARK_THEME, true)
 
     var isFirstLaunch: Boolean
@@ -181,6 +180,11 @@ class Preferences(context: Context) {
     var userNameFromStart: String?
         set(value) = sharedPreferences.edit().putString("user_name_from_start", value).apply()
         get() = sharedPreferences.getString("user_name_from_start", null)
+
+    var isUserLoginBodygraphSetup: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("is_user_login_bodygraph_setup", value)
+            .apply()
+        get() = sharedPreferences.getBoolean("is_user_login_bodygraph_setup", false)
 
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"

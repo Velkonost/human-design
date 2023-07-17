@@ -23,9 +23,40 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import com.myhumandesignhd.App
 import com.myhumandesignhd.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import kotlin.math.floor
+
+fun Context.getDateStr(date: Long, time: String): String {
+    val hours = time.split(":")[0]//.toInt()
+    val minutes = time.split(":")[1]//.toInt()
+
+    val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT_SHORT, Locale.getDefault())
+//    formatter.timeZone = TimeZone.getTimeZone("GMT")
+
+    val cal = Calendar.getInstance()//GregorianCalendar(TimeZone.getTimeZone("GMT"))
+
+    val localDataFormatter = DateTimeFormatter.ofPattern(App.DATE_FORMAT_SHORT)
+    val localDate: String = Instant.ofEpochMilli(date).atZone(ZoneId.systemDefault()).toLocalDate().format(localDataFormatter)
+
+    val days =
+        if (date < 0) floor(date.toDouble() / 86400000)
+        else floor(date.toDouble() / 86400000).toInt()
+
+    cal.timeInMillis =
+        (days.toLong()) * 86400000L// + hours * 3600000L + minutes * 60000L
+
+    return "$localDate $hours:$minutes:00"
+}
 
 @SuppressLint("HardwareIds")
 fun Context.getDeviceId(): String {

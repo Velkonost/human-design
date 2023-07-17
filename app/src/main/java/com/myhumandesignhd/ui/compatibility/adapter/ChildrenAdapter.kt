@@ -13,7 +13,7 @@ import com.myhumandesignhd.R
 import com.myhumandesignhd.event.AddChildClickEvent
 import com.myhumandesignhd.event.CompatibilityChildStartClickEvent
 import com.myhumandesignhd.event.DeleteChildItemEvent
-import com.myhumandesignhd.model.Child
+import com.myhumandesignhd.model.response.BodygraphResponse
 import com.zerobranch.layout.SwipeLayout
 import kotlinx.android.synthetic.main.item_diagram.view.*
 import kotlinx.android.synthetic.main.item_partner.view.*
@@ -29,9 +29,7 @@ import java.util.*
 
 class ChildrenAdapter : EpoxyAdapter() {
 
-    fun createList(
-        children: List<Child>
-    ) {
+    fun createList(children: List<BodygraphResponse>) {
         removeAllModels()
         children.map { addModel(ChildModel(it)) }
         addModel(EmptyChildrenModel(children.isNullOrEmpty()))
@@ -39,7 +37,7 @@ class ChildrenAdapter : EpoxyAdapter() {
         notifyDataSetChanged()
     }
 
-    fun getChildAtPosition(position: Int): Child {
+    fun getChildAtPosition(position: Int): BodygraphResponse {
         return (models[position] as ChildModel).model
     }
 
@@ -68,7 +66,7 @@ class ChildrenAdapter : EpoxyAdapter() {
 }
 
 class ChildModel(
-    val model: Child,
+    val model: BodygraphResponse,
     private var isExpanded: Boolean = false,
     private val isSwipeEnabled: Boolean = true
 ) : EpoxyModel<View>() {
@@ -82,10 +80,7 @@ class ChildModel(
 
         with(view) {
             userName.text = model.name
-            subtitle.text =
-                "${if (App.preferences.locale == "ru") model.subtitle1Ru else model.subtitle1En} • " +
-                        "${model.subtitle2} • " +
-                        "${if (App.preferences.locale == "ru") model.subtitle3Ru else model.subtitle3En}"
+            subtitle.text = "${model.type} • " + "${model.line} • " + model.profile
 
             userName.setTextColor(
                 ContextCompat.getColor(
@@ -109,16 +104,16 @@ class ChildModel(
                 ))
 
             chart.setImageResource(
-                if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
+                if (model.type.lowercase(Locale.getDefault()) == "проектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_child_dark
                     else R.drawable.ic_chart_proektor_child_light
-                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
+                } else if (model.type.lowercase(Locale.getDefault()) == "рефлектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_child_dark
                     else R.drawable.ic_chart_reflector_child_light
-                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
+                } else if (model.type.lowercase(Locale.getDefault()) == "генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_child_dark
                     else R.drawable.ic_chart_generator_child_light
-                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
+                } else if (model.type.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_child_dark
                     else R.drawable.ic_chart_mangenerator_child_light
                 } else {

@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
 import android.text.Html
 import android.util.TypedValue
 import android.view.Gravity
@@ -13,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -30,7 +28,6 @@ import com.myhumandesignhd.databinding.FragmentAddUserBinding
 import com.myhumandesignhd.event.BodygraphCenterClickEvent
 import com.myhumandesignhd.event.LastKnownLocationUpdateEvent
 import com.myhumandesignhd.event.NoInetEvent
-import com.myhumandesignhd.event.PermissionGrantedEvent
 import com.myhumandesignhd.event.PlaceSelectedEvent
 import com.myhumandesignhd.event.UpdateBalloonBgStateEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
@@ -55,15 +52,18 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.yandex.metrica.YandexMetrica
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.container_start_name.view.*
-import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
-import kotlinx.android.synthetic.main.view_place_select.view.*
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.minutesPicker
+import kotlinx.android.synthetic.main.view_place_select.view.icArrowPlace
+import kotlinx.android.synthetic.main.view_place_select.view.icSearch
+import kotlinx.android.synthetic.main.view_place_select.view.newPlaceET
+import kotlinx.android.synthetic.main.view_place_select.view.placeRecycler
+import kotlinx.android.synthetic.main.view_place_select.view.placesViewContainer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
-import java.util.*
+import java.util.Calendar
 
 class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
     R.layout.fragment_add_user,
@@ -86,6 +86,10 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
     private val fromCompatibility: Boolean by lazy {
         arguments?.getBoolean("fromCompatibility", false) ?: false
+    }
+
+    private val fromDiagram: Boolean by lazy {
+        arguments?.getBoolean("fromDiagram", false) ?: false
     }
 
     private val isChild: Boolean by lazy {
@@ -775,18 +779,18 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                                         when {
                                             isChild -> {
                                                 Amplitude.getInstance()
-                                                    .logEvent("tab4AddChildStartButton7");
+                                                    .logEvent("tab4AddChildStartButton7")
                                                 App.preferences.isCompatibilityFromChild = true
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
                                             fromCompatibility -> {
                                                 Amplitude.getInstance()
-                                                    .logEvent("tab3TappedStartButton7");
+                                                    .logEvent("tab3TappedStartButton7")
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
                                             else -> {
                                                 Amplitude.getInstance()
-                                                    .logEvent("addUserTappedStart6");
+                                                    .logEvent("addUserTappedStart6")
                                                 App.isBodygraphWithAnimationShown = false
 
                                                 App.preferences.isInvokeNewTransits = true
@@ -864,18 +868,18 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                                         when {
                                             isChild -> {
                                                 Amplitude.getInstance()
-                                                    .logEvent("tab4AddChildStartButton7");
+                                                    .logEvent("tab4AddChildStartButton7")
                                                 App.preferences.isCompatibilityFromChild = true
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
                                             fromCompatibility -> {
                                                 Amplitude.getInstance()
-                                                    .logEvent("tab3TappedStartButton7");
+                                                    .logEvent("tab3TappedStartButton7")
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
                                             else -> {
                                                 Amplitude.getInstance()
-                                                    .logEvent("addUserTappedStart6");
+                                                    .logEvent("addUserTappedStart6")
                                                 App.isBodygraphWithAnimationShown = false
 
                                                 App.preferences.isInvokeNewTransits = true
@@ -953,18 +957,18 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                                         when {
                                             isChild -> {
                                                 Amplitude.getInstance()
-                                                    .logEvent("tab4AddChildStartButton7");
+                                                    .logEvent("tab4AddChildStartButton7")
                                                 App.preferences.isCompatibilityFromChild = true
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
                                             fromCompatibility -> {
                                                 Amplitude.getInstance()
-                                                    .logEvent("tab3TappedStartButton7");
+                                                    .logEvent("tab3TappedStartButton7")
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
                                             else -> {
                                                 Amplitude.getInstance()
-                                                    .logEvent("addUserTappedStart6");
+                                                    .logEvent("addUserTappedStart6")
                                                 App.isBodygraphWithAnimationShown = false
 
                                                 App.preferences.isInvokeNewTransits = true
@@ -1188,9 +1192,9 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             when (currentStartPage) {
                 StartPage.RAVE -> {
                     when {
-                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton1");
-                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton1");
-                        else -> Amplitude.getInstance().logEvent("addUserTappedStart1");
+                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton1")
+                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton1")
+                        else -> Amplitude.getInstance().logEvent("addUserTappedStart1")
                     }
 
                     animateCirclesBtwPages(1000)
@@ -1198,9 +1202,9 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 }
                 StartPage.NAME -> {
                     when {
-                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton2");
-                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton2");
-                        else -> Amplitude.getInstance().logEvent("addUserTappedStart2");
+                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton2")
+                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton2")
+                        else -> Amplitude.getInstance().logEvent("addUserTappedStart2")
                     }
 
                     if (binding.nameET.text.toString().replace(" ", "").isNullOrEmpty()) {
@@ -1219,9 +1223,9 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 }
                 StartPage.DATE_BIRTH -> {
                     when {
-                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton3");
-                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton3");
-                        else -> Amplitude.getInstance().logEvent("addUserTappedStart3");
+                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton3")
+                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton3")
+                        else -> Amplitude.getInstance().logEvent("addUserTappedStart3")
                     }
 
                     animateCirclesBtwPages(1000)
@@ -1229,9 +1233,9 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 }
                 StartPage.TIME_BIRTH -> {
                     when {
-                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton4");
-                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton4");
-                        else -> Amplitude.getInstance().logEvent("addUserTappedStart4");
+                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton4")
+                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton4")
+                        else -> Amplitude.getInstance().logEvent("addUserTappedStart4")
                     }
 
                     Amplitude.getInstance().logEvent(
@@ -1251,9 +1255,9 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 StartPage.PLACE_BIRTH -> {
 
                     when {
-                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton5");
-                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton5");
-                        else -> Amplitude.getInstance().logEvent("addUserTappedStart5");
+                        isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton5")
+                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton5")
+                        else -> Amplitude.getInstance().logEvent("addUserTappedStart5")
                     }
 
                     if (!isNetworkConnected()) {
@@ -1294,7 +1298,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                                     ) + ":" + String.format("%02d", binding.time.minutesPicker.currentMinute),
                                     lat = selectedLat,
                                     lon = selectedLon,
-                                    fromCompatibility = fromCompatibility
+                                    fromCompatibility = fromCompatibility,
+                                    fromDiagram = fromDiagram
                                 )
                             }
 
@@ -1308,16 +1313,16 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
                     when {
                         isChild -> {
-                            Amplitude.getInstance().logEvent("tab4AddChildStartButton7");
+                            Amplitude.getInstance().logEvent("tab4AddChildStartButton7")
                             App.preferences.isCompatibilityFromChild = true
                             router.navigateTo(Screens.compatibilityScreen())
                         }
                         fromCompatibility -> {
-                            Amplitude.getInstance().logEvent("tab3TappedStartButton7");
+                            Amplitude.getInstance().logEvent("tab3TappedStartButton7")
                             router.navigateTo(Screens.compatibilityScreen())
                         }
                         else -> {
-                            Amplitude.getInstance().logEvent("addUserTappedStart6");
+                            Amplitude.getInstance().logEvent("addUserTappedStart6")
                             App.isBodygraphWithAnimationShown = false
 
                             App.preferences.isInvokeNewTransits = true

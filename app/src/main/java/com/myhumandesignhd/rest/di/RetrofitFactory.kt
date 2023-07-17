@@ -68,8 +68,12 @@ private fun getHeaderInterceptor(context: Context) = Interceptor { chain ->
     val originalRequest = chain.request()
     with(originalRequest.newBuilder()) {
 
+//        val skipAuthToken = chain.request().url.toString().contains("api/design") && !App.preferences.isUserLoginBodygraphSetup
+
         if (!App.preferences.authToken.isNullOrEmpty())
             addHeader("Authorization", "Bearer ${App.preferences.authToken}")
+
+        addHeader("Accept-Language", App.preferences.locale)
 
         addHeader("Content-Type", "application/json")
 
@@ -90,6 +94,7 @@ private fun getHeaderInterceptor(context: Context) = Interceptor { chain ->
 
 private fun getLoggingInterceptor(): Interceptor {
     val logging = HttpLoggingInterceptor()
-    logging.level = HttpLoggingInterceptor.Level.BASIC
+    logging.level = HttpLoggingInterceptor.Level.HEADERS
+
     return logging
 }

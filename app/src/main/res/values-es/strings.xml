@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">HDesign</string>
-    <string name="facebook_app_id" translatable="false">1024507441786747</string>
     <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
     <string name="search">Buscar</string>
     <string name="title_splash_01">Dieseño Humano</string>

@@ -1,8 +1,5 @@
 package com.myhumandesignhd.event
 
-import com.myhumandesignhd.model.User
+import com.myhumandesignhd.model.response.BodygraphResponse
 
-data class CompatibilityStartClickEvent(
-    val user: User,
-    val chartResId: Int
-    )
+data class CompatibilityStartClickEvent(val user: BodygraphResponse, val chartResId: Int)

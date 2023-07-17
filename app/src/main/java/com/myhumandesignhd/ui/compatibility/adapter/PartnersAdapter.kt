@@ -14,7 +14,7 @@ import com.myhumandesignhd.R
 import com.myhumandesignhd.event.AddPartnerClickEvent
 import com.myhumandesignhd.event.CompatibilityStartClickEvent
 import com.myhumandesignhd.event.DeletePartnerItemEvent
-import com.myhumandesignhd.model.User
+import com.myhumandesignhd.model.response.BodygraphResponse
 import com.zerobranch.layout.SwipeLayout
 import kotlinx.android.synthetic.main.item_diagram.view.*
 import kotlinx.android.synthetic.main.item_partner.view.*
@@ -31,9 +31,7 @@ import java.util.*
 
 class PartnersAdapter : EpoxyAdapter() {
 
-    fun createList(
-        partners: List<User>
-    ) {
+    fun createList(partners: List<BodygraphResponse>) {
         removeAllModels()
         partners.map { addModel(PartnerModel(it)) }
         addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
@@ -41,7 +39,7 @@ class PartnersAdapter : EpoxyAdapter() {
         notifyDataSetChanged()
     }
 
-    fun getPartnerAtPosition(position: Int): User {
+    fun getPartnerAtPosition(position: Int): BodygraphResponse {
         return (models[position] as PartnerModel).model
     }
 
@@ -71,7 +69,7 @@ class PartnersAdapter : EpoxyAdapter() {
 }
 
 class PartnerModel(
-    val model: User,
+    val model: BodygraphResponse,
     private var isExpanded: Boolean = false,
     private val isSwipeEnabled: Boolean = true
 ) : EpoxyModel<View>() {
@@ -86,9 +84,7 @@ class PartnerModel(
         with(view) {
             userName.text = model.name
             subtitle.text =
-                "${if (App.preferences.locale == "ru") model.subtitle1Ru else model.subtitle1En} • " +
-                        "${model.subtitle2} • " +
-                        "${if (App.preferences.locale == "ru") model.subtitle3Ru else model.subtitle3En}"
+                "${model.type} • " + "${model.line} • " + model.profile
 
             userName.setTextColor(
                 ContextCompat.getColor(
@@ -112,16 +108,16 @@ class PartnerModel(
             ))
 
             val chartResId =
-                if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
+                if (model.type.lowercase(Locale.getDefault()) == "проектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
                     else R.drawable.ic_chart_proektor_light
-                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
+                } else if (model.type.lowercase(Locale.getDefault()) == "рефлектор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_dark
                     else R.drawable.ic_chart_reflector_light
-                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
+                } else if (model.type.lowercase(Locale.getDefault()) == "генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_dark
                     else R.drawable.ic_chart_generator_light
-                } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
+                } else if (model.type.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_dark
                     else R.drawable.ic_chart_mangenerator_light
                 } else {

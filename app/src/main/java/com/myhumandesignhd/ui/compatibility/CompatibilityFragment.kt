@@ -22,7 +22,6 @@ import com.myhumandesignhd.event.CompatibilityStartClickEvent
 import com.myhumandesignhd.event.DeleteChildEvent
 import com.myhumandesignhd.event.DeletePartnerEvent
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
-import com.myhumandesignhd.model.getDateStr
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.compatibility.adapter.CompatibilityAdapter
@@ -35,10 +34,6 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.skydoves.balloon.overlay.BalloonOverlayRoundRect
 import com.yandex.metrica.YandexMetrica
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -66,6 +61,9 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
         Amplitude.getInstance().logEvent("tab4_screen_shown")
+
+        baseViewModel.getAllBodygraphs()
+        baseViewModel.getChildren()
     }
 
     @Subscribe
@@ -80,21 +78,21 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
     @Subscribe
     fun onCompatibilityStartClickEvent(e: CompatibilityStartClickEvent) {
-       YandexMetrica.reportEvent("Tab4AdultsCreatedProfileTapped")
+        YandexMetrica.reportEvent("Tab4AdultsCreatedProfileTapped")
 
         baseViewModel.setupCompatibility(
             lat1 = e.user.lat,
             lon1 = e.user.lon,
-            date = e.user.getDateStr(),
+            date = e.user.birthDatetime,
+            e.user.id.toString()
         ) {
             router.navigateTo(
                 Screens.compatibilityDetailScreen(
-                name = e.user.name,
-                title =
-                "${if (App.preferences.locale == "ru") e.user.subtitle1Ru
-                else e.user.subtitle1En} • ${e.user.subtitle2}",
-                chartResId = e.chartResId
-            ))
+                    name = e.user.name,
+                    title = "${e.user.type} • ${e.user.profile}",
+                    chartResId = e.chartResId
+                )
+            )
         }
     }
 
@@ -109,32 +107,40 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     override fun updateThemeAndLocale() {
         binding.compatibilityContainer.setBackgroundColor(
             ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
-        binding.compatibilityTitle.text = App.resourcesProvider.getStringLocale(R.string.compatibility_title)
-        binding.compatibilityTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.compatibilityTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.compatibility_title)
+        binding.compatibilityTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         binding.partnersTitle.text = App.resourcesProvider.getStringLocale(R.string.partners_title)
         binding.childrenTitle.text = App.resourcesProvider.getStringLocale(R.string.children_title)
 
-        binding.selectionCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-            else R.color.lightSettingsCard
-        ))
+        binding.selectionCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                else R.color.lightSettingsCard
+            )
+        )
 
-        binding.selectionLinear.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-            else R.color.lightSettingsCard
-        ))
+        binding.selectionLinear.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                else R.color.lightSettingsCard
+            )
+        )
 
         if (App.preferences.isCompatibilityFromChild) {
             selectChildren()
@@ -229,16 +235,20 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     private fun selectPartners() {
         Amplitude.getInstance().logEvent("tab4TappedLove")
 
-        binding.partnersTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.partnersTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.childrenTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            R.color.unselectText
-        ))
+        binding.childrenTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.unselectText
+            )
+        )
 
         binding.partnersTitle.background = ContextCompat.getDrawable(
             requireContext(),
@@ -261,16 +271,20 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     private fun selectChildren() {
         Amplitude.getInstance().logEvent("tab4TappedFamily")
 
-        binding.childrenTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.childrenTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.partnersTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            R.color.unselectText
-        ))
+        binding.partnersTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.unselectText
+            )
+        )
 
         binding.childrenTitle.background = ContextCompat.getDrawable(
             requireContext(),
@@ -297,27 +311,43 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.isUserInputEnabled = true
 
-        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-            val partners = baseViewModel.getAllUsers()
-                .toMutableList().filter { it.id != App.preferences.currentUserId }
-            val children = baseViewModel.getAllChildren()
+        baseViewModel.allBodygraphsData.observe(this) { bodygraphs ->
+            val partners =
+                bodygraphs.toMutableList().filter { it.id != App.preferences.currentUserId }
 
-            if (!compatibilityAdapter.isCreated)
-                compatibilityAdapter.createList(partners, children.filter { it.parentId == App.preferences.currentUserId })
-            else compatibilityAdapter.updateList(partners, children.filter { it.parentId == App.preferences.currentUserId })
+            baseViewModel.childrenData.observe(this) { children ->
+                if (!compatibilityAdapter.isCreated)
+                    compatibilityAdapter.createList(partners, children)
+                else compatibilityAdapter.updateList(partners, children)
 
-            val identify = Identify()
-            identify.set("partnersadded", partners.size.toString())
-            identify.set("kidsadded", children.size.toString())
-            Amplitude.getInstance().identify(identify)
+                val identify = Identify()
+                identify.set("partnersadded", partners.size.toString())
+                identify.set("kidsadded", children.size.toString())
+                Amplitude.getInstance().identify(identify)
+            }
         }
+
+//        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+//            val partners = baseViewModel.getAllUsers()
+//                .toMutableList().filter { it.id != App.preferences.currentUserId }
+//            val children = baseViewModel.getAllChildren()
+//
+//            if (!compatibilityAdapter.isCreated)
+//                compatibilityAdapter.createList(partners, children.filter { it.parentId == App.preferences.currentUserId })
+//            else compatibilityAdapter.updateList(partners, children.filter { it.parentId == App.preferences.currentUserId })
+//
+//            val identify = Identify()
+//            identify.set("partnersadded", partners.size.toString())
+//            identify.set("kidsadded", children.size.toString())
+//            Amplitude.getInstance().identify(identify)
+//        }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
                 if (!App.preferences.isCompatibilityFromChild) {
-                    when(position) {
+                    when (position) {
                         0 -> selectPartners()
                         else -> selectChildren()
                     }
@@ -325,7 +355,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             }
         })
 
-        binding.viewPager.postDelayed ({
+        binding.viewPager.postDelayed({
             binding.viewPager.adapter = compatibilityAdapter
             if (App.preferences.isCompatibilityFromChild) {
                 App.preferences.isCompatibilityFromChild = false

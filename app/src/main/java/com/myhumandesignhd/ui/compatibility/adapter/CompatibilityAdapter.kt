@@ -12,11 +12,10 @@ import com.myhumandesignhd.event.DeleteChildEvent
 import com.myhumandesignhd.event.DeleteChildItemEvent
 import com.myhumandesignhd.event.DeletePartnerEvent
 import com.myhumandesignhd.event.DeletePartnerItemEvent
-import com.myhumandesignhd.model.Child
-import com.myhumandesignhd.model.User
+import com.myhumandesignhd.model.response.BodygraphResponse
 import io.sulek.ssml.SSMLLinearLayoutManager
-import kotlinx.android.synthetic.main.item_compatibility_children.view.*
-import kotlinx.android.synthetic.main.item_compatibility_partners.view.*
+import kotlinx.android.synthetic.main.item_compatibility_children.view.childrenRecycler
+import kotlinx.android.synthetic.main.item_compatibility_partners.view.partnersRecycler
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -32,8 +31,8 @@ class CompatibilityAdapter : EpoxyAdapter() {
     var isCreated = false
 
     fun createList(
-        partners: List<User>,
-        children: List<Child>
+        partners: List<BodygraphResponse>,
+        children: List<BodygraphResponse>
     ) {
         removeAllModels()
 
@@ -48,24 +47,18 @@ class CompatibilityAdapter : EpoxyAdapter() {
         notifyDataSetChanged()
     }
 
-    fun updateList(
-        partners: List<User>,
-        children: List<Child>
-    ) {
-
-
+    fun updateList(partners: List<BodygraphResponse>, children: List<BodygraphResponse>) {
         partnersModel.partners = partners
         childrenModel.children = children
 //        notifyDataSetChanged()
 
         partnersAdapter.createList(partners)
         childrenAdapter.createList(children)
-
     }
 }
 
 class PartnersModel(
-    var partners: List<User>,
+    var partners: List<BodygraphResponse>,
     val partnersAdapter: PartnersAdapter
 ) : EpoxyModel<View>() {
 
@@ -111,11 +104,8 @@ class PartnersModel(
         }
     }
 
-    fun updatePartnersList(
-        partners: List<User>
-    ) {
+    fun updatePartnersList(partners: List<BodygraphResponse>) {
         this.partners = partners
-
     }
 
     @Subscribe
@@ -135,7 +125,7 @@ class PartnersModel(
 }
 
 class ChildrenModel(
-    var children: List<Child>,
+    var children: List<BodygraphResponse>,
     private val childrenAdapter: ChildrenAdapter
 ) : EpoxyModel<View>() {
 
@@ -161,11 +151,7 @@ class ChildrenModel(
             EventBus.getDefault().register(this)
 
         with(view) {
-
-
-
             childrenRecycler.adapter = childrenAdapter
-
             childrenAdapter.createList(children)
         }
     }

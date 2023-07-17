@@ -230,12 +230,8 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
                     transitBlock.isVisible = true
 
                     baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
-                        if (it.typeRu.isNotEmpty() && it.line.isNotEmpty() && it.profileRu.isNotEmpty()) {
-                            bodygraphTitle.text =
-                                "${if (App.preferences.locale == "ru") it.typeRu else if (App.preferences.locale == "es") it.typeEs else it.typeEn} • " +
-                                        "${it.line} •\n" +
-                                        "${if (App.preferences.locale == "ru") it.profileRu else if (App.preferences.locale == "es") it.profileEs else it.profileEn}"
-
+                        if (it.type.isNotEmpty() && it.line.isNotEmpty() && it.profile.isNotEmpty()) {
+                            bodygraphTitle.text = "${it.type} • " + "${it.line} •\n" + it.profile
                         }
                     }
 
@@ -687,8 +683,8 @@ class DescriptionFragment : BaseFragment<DescriptionViewModel, FragmentDescripti
             aboutItemsList.add(
                 AboutItem(
                     title = App.resourcesProvider.getStringLocale(R.string.authority_title),
-                    subtitle = it.authority.name,
-                    text = it.authority.description,
+                    subtitle = it.authority.name!!,
+                    text = it.authority.description!!,
                     type = AboutType.AUTHORITY
                 )
             )

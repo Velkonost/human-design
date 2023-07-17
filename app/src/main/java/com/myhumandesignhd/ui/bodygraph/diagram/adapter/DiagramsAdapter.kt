@@ -2,15 +2,18 @@ package com.myhumandesignhd.ui.bodygraph.diagram.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.text.Html
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.DeleteDiagramItemEvent
+import com.myhumandesignhd.event.DiagramAddUserClickEvent
 import com.myhumandesignhd.event.UpdateCurrentUserEvent
-import com.myhumandesignhd.model.User
+import com.myhumandesignhd.model.response.BodygraphResponse
 import com.zerobranch.layout.SwipeLayout
 import kotlinx.android.synthetic.main.item_diagram.view.*
 import kotlinx.android.synthetic.main.item_partner_empty.view.*
@@ -19,9 +22,7 @@ import java.util.*
 
 class DiagramsAdapter : EpoxyAdapter() {
 
-    fun createList(
-        users: List<User>
-    ) {
+    fun createList(users: List<BodygraphResponse>) {
         removeAllModels()
         users.map {
             addModel(
@@ -36,8 +37,8 @@ class DiagramsAdapter : EpoxyAdapter() {
         notifyDataSetChanged()
     }
 
-    fun getUserById(id: Long): User {
-        lateinit var user: User
+    fun getUserById(id: Long): BodygraphResponse {
+        lateinit var user: BodygraphResponse
         models.forEach { model ->
             if (
                 model is DiagramModel
@@ -49,7 +50,7 @@ class DiagramsAdapter : EpoxyAdapter() {
         return user
     }
 
-    fun getUserAtPosition(position: Int): User {
+    fun getUserAtPosition(position: Int): BodygraphResponse {
         return (models[position] as DiagramModel).model
     }
 
@@ -103,7 +104,7 @@ class DiagramsAdapter : EpoxyAdapter() {
 }
 
 class DiagramModel(
-    val model: User,
+    val model: BodygraphResponse,
     private var isExpanded: Boolean = false,
     var isSwipeEnabled: Boolean = true
 ) : EpoxyModel<View>() {
@@ -118,9 +119,7 @@ class DiagramModel(
         with(view) {
             userName.text = model.name
             subtitle.text =
-                "${if (App.preferences.locale == "ru") model.subtitle1Ru else model.subtitle1En} • " +
-                        "${model.subtitle2} •\n" +
-                        "${if (App.preferences.locale == "ru") model.subtitle3Ru else model.subtitle3En}"
+                "${model.type} • " + "${model.line} •\n" + model.profile
 
             userName.setTextColor(
                 ContextCompat.getColor(
@@ -146,7 +145,7 @@ class DiagramModel(
                 )
             )
 
-            if (App.preferences.currentUserId == model.id) {
+            if (model.isActive) {
                 diagramContainer.background = ContextCompat.getDrawable(
                     context,
                     if (App.preferences.isDarkTheme) R.drawable.gradient_variant_card_selected_dark
@@ -156,16 +155,16 @@ class DiagramModel(
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 chart.setImageResource(
-                    if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
+                    if (model.type.lowercase(Locale.getDefault()) == "проектор") {
                         if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
                         else R.drawable.ic_chart_proektor_light
-                    } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
+                    } else if (model.type.lowercase(Locale.getDefault()) == "рефлектор") {
                         if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_dark
                         else R.drawable.ic_chart_reflector_light
-                    } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
+                    } else if (model.type.lowercase(Locale.getDefault()) == "генератор") {
                         if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_dark
                         else R.drawable.ic_chart_generator_light
-                    } else if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
+                    } else if (model.type.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
                         if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_dark
                         else R.drawable.ic_chart_mangenerator_light
                     } else {
@@ -187,13 +186,13 @@ class DiagramModel(
 
             if (isSwipeEnabled) {
                 diagramCard.setOnClickListener {
-                    if (App.preferences.currentUserId != model.id) {
+                    if (!model.isActive) {
                         EventBus.getDefault().post(UpdateCurrentUserEvent(model.id))
                     }
                 }
             } else {
                 diagramCard.setOnClickListener {
-                    if (App.preferences.currentUserId != model.id) {
+                    if (!model.isActive) {
                         EventBus.getDefault().post(UpdateCurrentUserEvent(model.id))
                     }
                 }
@@ -207,9 +206,7 @@ class DiagramModel(
                     }
                 }
 
-                override fun onClose() {
-
-                }
+                override fun onClose() {}
             })
         }
     }
@@ -231,35 +228,34 @@ class DiagramEmptyModel(
 
         with(view) {
 
-//            icPlus.imageTintList = ColorStateList.valueOf(
-//                ContextCompat.getColor(
-//                    context,
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            emptyPartnerCard.background = ContextCompat.getDrawable(
-//                context,
-//                if (App.preferences.isDarkTheme) R.drawable.bg_empty_partner_light
-//                else R.drawable.bg_empty_partner_dark
-//            )
-//
-//            emptyPartnerCard.setOnClickListener {
-//                EventBus.getDefault().post(DiagramAddUserClickEvent())
-//            }
-//
-//            partnersEmptyText.isVisible = showEmptyText
-//            partnersEmptyText.text =
-//                Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_empty_text))
-//            partnersEmptyText.setTextColor(
-//                ContextCompat.getColor(
-//                    context,
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
+            icPlus.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
+            emptyPartnerCard.background = ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.bg_empty_partner_light
+                else R.drawable.bg_empty_partner_dark
+            )
+
+            emptyPartnerCard.setOnClickListener {
+                EventBus.getDefault().post(DiagramAddUserClickEvent())
+            }
+
+            partnersEmptyText.isVisible = showEmptyText
+            partnersEmptyText.text =
+                Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_empty_text))
+            partnersEmptyText.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
         }
     }
