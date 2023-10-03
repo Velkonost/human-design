@@ -16,7 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class WheelDayPicker extends com.github.florent37.singledateandtimepicker.widget.WheelDayPicker {
+public class WheelDayPicker extends MyWheelPicker<DateWithLabel> {
+//        com.github.florent37.singledateandtimepicker.widget.WheelDayPicker {
 
     private static final String DAY_FORMAT_PATTERN = "EEE d MMM";
 
@@ -48,8 +49,8 @@ public class WheelDayPicker extends com.github.florent37.singledateandtimepicker
     }
 
     @Override
-    protected com.github.florent37.singledateandtimepicker.widget.DateWithLabel initDefault() {
-        return new com.github.florent37.singledateandtimepicker.widget.DateWithLabel(getTodayText(), new Date());
+    protected DateWithLabel initDefault() {
+        return new DateWithLabel(getTodayText(), new Date());
     }
 
     @NonNull
@@ -58,7 +59,7 @@ public class WheelDayPicker extends com.github.florent37.singledateandtimepicker
     }
 
     @Override
-    protected void onItemSelected(int position, com.github.florent37.singledateandtimepicker.widget.DateWithLabel item) {
+    protected void onItemSelected(int position, DateWithLabel item) {
         if (onDaySelectedListener != null) {
             onDaySelectedListener.onDaySelected(this, position, item.label, item.date);
         }
@@ -69,8 +70,8 @@ public class WheelDayPicker extends com.github.florent37.singledateandtimepicker
     }
 
     @Override
-    protected List<com.github.florent37.singledateandtimepicker.widget.DateWithLabel> generateAdapterValues(boolean showOnlyFutureDates) {
-        final List<com.github.florent37.singledateandtimepicker.widget.DateWithLabel> days = new ArrayList<>();
+    protected List<DateWithLabel> generateAdapterValues(boolean showOnlyFutureDates) {
+        final List<DateWithLabel> days = new ArrayList<>();
 
         Calendar instance = Calendar.getInstance();
         instance.setTimeZone(dateHelper.getTimeZone());
@@ -79,11 +80,11 @@ public class WheelDayPicker extends com.github.florent37.singledateandtimepicker
         for (int i = startDayOffset; i < 0; ++i) {
             instance.add(Calendar.DAY_OF_MONTH, 1);
             Date date = instance.getTime();
-            days.add(new com.github.florent37.singledateandtimepicker.widget.DateWithLabel(getFormattedValue(date), date));
+            days.add(new DateWithLabel(getFormattedValue(date), date));
         }
 
         //today
-        days.add(new com.github.florent37.singledateandtimepicker.widget.DateWithLabel(getTodayText(), new Date()));
+        days.add(new DateWithLabel(getTodayText(), new Date()));
 
         instance = Calendar.getInstance();
         instance.setTimeZone(dateHelper.getTimeZone());
@@ -91,7 +92,7 @@ public class WheelDayPicker extends com.github.florent37.singledateandtimepicker
         for (int i = 0; i < dayCount; ++i) {
             instance.add(Calendar.DATE, 1);
             Date date = instance.getTime();
-            days.add(new com.github.florent37.singledateandtimepicker.widget.DateWithLabel(getFormattedValue(date), date));
+            days.add(new DateWithLabel(getFormattedValue(date), date));
         }
 
         return days;
@@ -130,7 +131,7 @@ public class WheelDayPicker extends com.github.florent37.singledateandtimepicker
         todayCalendar.setTimeZone(dateHelper.getTimeZone());
 
         int todayPosition = -1;
-        final List<com.github.florent37.singledateandtimepicker.widget.DateWithLabel> data = adapter.getData();
+        final List<DateWithLabel> data = adapter.getData();
 
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).label.equals(getTodayText())) {
@@ -149,7 +150,7 @@ public class WheelDayPicker extends com.github.florent37.singledateandtimepicker
     }
 
     public void setTodayText(DateWithLabel today) {
-        final List<com.github.florent37.singledateandtimepicker.widget.DateWithLabel> data = adapter.getData();
+        final List<DateWithLabel> data = adapter.getData();
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).label.equals(getTodayText())) {
                 adapter.getData().set(i, today);

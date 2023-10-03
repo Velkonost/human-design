@@ -91,20 +91,11 @@ class CycleModel(
         root = view
 
         with(view) {
-            cycleTitle.text =
-                if (App.preferences.locale == "ru") model.nameRu
-                else if (App.preferences.locale == "es") model.nameEs
-                else model.nameEn
+            cycleTitle.text = model.name
 
-            cycleDesc.text =
-                if (App.preferences.locale == "ru") model.descriptionRu
-                else if (App.preferences.locale == "es") model.descriptionEs
-                else model.descriptionEn
+            cycleDesc.text = model.description
 
-            cycleAge.text =
-                if (App.preferences.locale == "ru") model.ageRu
-                else if (App.preferences.locale == "es") model.ageEs
-                else model.ageEn
+            cycleAge.text = model.age
 
             cycleAgeTitle.text = App.resourcesProvider.getStringLocale(R.string.cycle_age_title)
 

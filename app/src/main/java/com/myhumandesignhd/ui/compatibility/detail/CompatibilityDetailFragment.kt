@@ -26,22 +26,14 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 ) {
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
-    private val secondUserName: String by lazy {
-        arguments?.getString("name")!!
-    }
+    private val secondUserName: String by lazy { arguments?.getString("name")!! }
 
-    private val secondUserTitle: String by lazy {
-        arguments?.getString("title")!!
-    }
+    private val secondUserTitle: String by lazy { arguments?.getString("title")!! }
 
-    private val secondUserChartResId: Int by lazy {
-        arguments?.getInt("chartResId")!!
-    }
+    private val secondUserChartResId: Int by lazy { arguments?.getInt("chartResId")!! }
 
     private val detailsAdapter: CompatibilityDetailsAdapter by lazy {
         CompatibilityDetailsAdapter()
@@ -227,7 +219,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
             baseViewModel.currentBodygraph.observe(this) { user ->
                 detailsAdapter.createList(
-                    firstTitle = "${user.type} • " + user.profile,
+                    firstTitle = "${user.type} • " + user.line,
                     firstName = user.name,
                     secondName = secondUserName,
                     secondTitle = secondUserTitle,

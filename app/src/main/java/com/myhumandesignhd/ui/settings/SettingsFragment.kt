@@ -9,15 +9,19 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
 import com.amplitude.api.Amplitude
 import com.amplitude.api.Identify
 import com.myhumandesignhd.App
 import com.myhumandesignhd.BuildConfig
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentSettingsBinding
+import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.event.UpdateThemeEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
+import com.myhumandesignhd.util.ext.observeOnce
+import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
 import org.greenrobot.eventbus.EventBus
 
@@ -26,9 +30,15 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     SettingsViewModel::class,
     Handler::class
 ) {
+
+    private val baseViewModel: BaseViewModel by lazy {
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
+    }
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-        Amplitude.getInstance().logEvent("settings_screen_shown");
+        Amplitude.getInstance().logEvent("settings_screen_shown")
+        baseViewModel.checkSubscription()
     }
 
     private fun setupLocale() {
@@ -55,6 +65,9 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             App.resourcesProvider.getStringLocale(R.string.settings_light_theme_title)
         binding.nightTheme.text =
             App.resourcesProvider.getStringLocale(R.string.settings_dark_theme_title)
+
+        binding.manageSubscriptionTitle.text = App.resourcesProvider.getStringLocale(R.string.settings_manage_subscription)
+        binding.manageAccountTitle.text = App.resourcesProvider.getStringLocale(R.string.settings_manage_account)
     }
 
     private val updateThemeDuration = 300L
@@ -78,6 +91,18 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         ))
 
         binding.faqArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.manageAccountArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.manageSubscriptionArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor
             else R.color.darkColor
@@ -154,6 +179,9 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 binding.manageSubTitle.setTextColor(it.animatedValue.toString().toInt())
 
                 binding.nightTheme.setTextColor(it.animatedValue.toString().toInt())
+
+                binding.manageSubscriptionTitle.setTextColor(it.animatedValue.toString().toInt())
+                binding.manageAccountTitle.setTextColor(it.animatedValue.toString().toInt())
             }
             textColorAnimation.start()
 
@@ -177,6 +205,11 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 binding.themeBlock.backgroundTintList =
                     ColorStateList.valueOf(it.animatedValue.toString().toInt())
                 binding.infoBlock.backgroundTintList =
+                    ColorStateList.valueOf(it.animatedValue.toString().toInt())
+
+                binding.manageSubscriptionBlock.backgroundTintList =
+                    ColorStateList.valueOf(it.animatedValue.toString().toInt())
+                binding.manageAccountBlock.backgroundTintList =
                     ColorStateList.valueOf(it.animatedValue.toString().toInt())
 
             }
@@ -253,6 +286,24 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 )
             )
 
+            binding.manageSubscriptionBlock.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                    else R.color.lightSettingsCard
+                )
+            )
+
+            binding.manageAccountBlock.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                    else R.color.lightSettingsCard
+                )
+            )
+
+
+
             binding.personalInfoTitle.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
@@ -262,6 +313,22 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             )
 
             binding.faqTitle.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            binding.manageAccountTitle.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            binding.manageSubscriptionTitle.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
@@ -346,7 +413,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
             if (!App.preferences.isPushAvailable) {
                 YandexMetrica.reportEvent("Tab1userDisabledNotifications")
-                Amplitude.getInstance().logEvent("settingsDisabledNotifications");
+                Amplitude.getInstance().logEvent("settingsDisabledNotifications")
 
                 binding.notificationBlockActive.background = null
                 binding.notificationBlockActive.setBackgroundColor(ContextCompat.getColor(
@@ -361,7 +428,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 ))
             } else {
                 YandexMetrica.reportEvent("Tab1userAllowedNotifications")
-                Amplitude.getInstance().logEvent("settingsAllowedNotifications");
+                Amplitude.getInstance().logEvent("settingsAllowedNotifications")
 
                 binding.notificationBlockActive.background = ContextCompat.getDrawable(
                     requireContext(),
@@ -390,7 +457,32 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+    }
+
     inner class Handler {
+
+        fun onManageSubscriptionClicked(v: View) {
+            baseViewModel.subscriptionData.observeOnce(this@SettingsFragment) { data ->
+                data?.let {
+                    with(data) {
+                        if (!data.isActive) {
+                            router.navigateTo(Screens.paywallScreen(fromStart = false, source = "settings"))
+                        } else {
+                            router.navigateTo(Screens.manageSubscriptionScreen())
+                        }
+                    }
+                }
+            }
+
+        }
+
+        fun onManageAccountClicked(v: View) {
+            router.navigateTo(Screens.manageAccountScreen())
+        }
 
         fun onVersionClicked(v: View) {
 //            router.navigateTo(Screens.paywallScreen())
@@ -398,7 +490,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
         fun onNightClicked(v: View) {
             YandexMetrica.reportEvent("Tab1UserSwitchedToDarkMode")
-            Amplitude.getInstance().logEvent("userSwitchedToDarkMode");
+            Amplitude.getInstance().logEvent("userSwitchedToDarkMode")
 
             val identify = Identify()
             identify.set("mode", "dark")
@@ -418,7 +510,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
         fun onDayClicked(v: View) {
             YandexMetrica.reportEvent("Tab1UserSwitchedToWhiteMode")
-            Amplitude.getInstance().logEvent("userSwitchedToWhiteMode");
+            Amplitude.getInstance().logEvent("userSwitchedToWhiteMode")
 
             val identify = Identify()
             identify.set("mode", "light")
@@ -487,14 +579,14 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
         fun onFaqClicked(v: View) {
             YandexMetrica.reportEvent("Tab1SettingsFAQTapped")
-            Amplitude.getInstance().logEvent("settingsTappedFAQ");
+            Amplitude.getInstance().logEvent("settingsTappedFAQ")
 
             router.navigateTo(Screens.faqScreen())
         }
 
         fun onPersonalInfoClicked(v: View) {
             YandexMetrica.reportEvent("Tab1SettingsPersonalInfoTapped")
-            Amplitude.getInstance().logEvent("settingsTappedChangeInfo");
+            Amplitude.getInstance().logEvent("settingsTappedChangeInfo")
 
             router.navigateTo(Screens.personalInfoScreen())
         }

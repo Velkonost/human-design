@@ -1,6 +1,10 @@
 package com.myhumandesignhd.rest
 
+import com.myhumandesignhd.model.AffirmationResponse
 import com.myhumandesignhd.model.CompatibilityResponse
+import com.myhumandesignhd.model.DailyAdviceResponse
+import com.myhumandesignhd.model.FaqResponse
+import com.myhumandesignhd.model.ForecastResponse
 import com.myhumandesignhd.model.TransitResponse
 import com.myhumandesignhd.model.request.CheckLoginRequestBody
 import com.myhumandesignhd.model.request.CreateBodygraphBody
@@ -8,12 +12,15 @@ import com.myhumandesignhd.model.request.EditBodygraphBody
 import com.myhumandesignhd.model.request.GoogleAccessTokenBody
 import com.myhumandesignhd.model.request.LoginEmailBody
 import com.myhumandesignhd.model.request.LoginFbBody
-import com.myhumandesignhd.model.response.BodygraphResponse
+import com.myhumandesignhd.model.response.BodygraphListResponse
 import com.myhumandesignhd.model.response.GoogleAccessTokenResponse
-import com.myhumandesignhd.model.response.LoginEmailResponse
+import com.myhumandesignhd.model.response.InjuryResponse
 import com.myhumandesignhd.model.response.LoginResponse
+import com.myhumandesignhd.model.response.SimpleResponse
+import com.myhumandesignhd.model.response.SubscriptionStatusResponse
 import io.reactivex.Single
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -32,7 +39,7 @@ interface RestServiceV2 {
     fun loginGoogle(@Body loginFbBody: LoginFbBody): Single<LoginResponse>
 
     @POST("api/login/email")
-    fun loginEmail(@Body loginEmailBody: LoginEmailBody): Single<LoginEmailResponse>
+    fun loginEmail(@Body loginEmailBody: LoginEmailBody): Single<LoginResponse>
 
     @POST("api/login/check_login")
     fun checkLogin(@Body checkLoginRequestBody: CheckLoginRequestBody): Single<LoginResponse>
@@ -46,37 +53,54 @@ interface RestServiceV2 {
     // Bodygraphs
 
     @GET("api/body_graphs")
-    fun getAllBodygraphs(): Single<List<BodygraphResponse>>
+    fun getAllBodygraphs(): Single<BodygraphListResponse>
 
-    @GET("api/body_graph/children")
-    fun getChildren(): Single<List<BodygraphResponse>>
+    @POST("api/body_graph")
+    fun createBodygraph(@Body createBodygraphBody: CreateBodygraphBody): Single<BodygraphListResponse>
 
-    @POST("api/body_graph/new")
-    fun createBodygraph(@Body createBodygraphBody: CreateBodygraphBody): Single<BodygraphResponse>
-
-    @GET("api/body_graph")
-    fun getBodygraph(
-        @Query("date") date: String? = null,
-        @Query("lat") lat: String? = null,
-        @Query("lon") lon: String? = null,
-        @Query("name") name: String? = null,
-        @Query("utcTimestamp") utcTimestamp: Long? = null
-    ): Single<BodygraphResponse?>
-
-    @GET("api/body_graph/child/{id}")
-    fun getChild(@Path("id") childId: Int): Single<BodygraphResponse>
-
-    @PATCH("api/body_graph/{id}/edit")
+    @PATCH("api/body_graph/{id}")
     fun editBodygraph(
         @Path("id") bodygraphId: Long, @Body editBodygraphBody: EditBodygraphBody
-    ): Single<BodygraphResponse>
+    ): Single<BodygraphListResponse>
 
     @GET("api/transit")
     fun getTransit(@Query("currentDate") currentDate: String): Single<TransitResponse>
 
     @GET("api/compatibility/{id}")
     fun getCompatibility(
-        @Path("id") id: String,
-        @Query("light") light: Boolean
+        @Path("id") id: String, @Query("light") light: Boolean = false
     ): Single<CompatibilityResponse>
+
+    @GET("api/forecast")
+    fun getForecast(
+        @Query("user_date") userDate: String,
+        @Query("week_starts_on") weekStartsOn: String
+    ): Single<ForecastResponse>
+
+    @GET("api/daily_advice")
+    fun getDailyAdvice(@Query("user_date") userDate: String): Single<DailyAdviceResponse>
+
+    @GET("api/affirmation")
+    fun getAffirmation(@Query("user_date") userDate: String): Single<AffirmationResponse>
+
+    @POST("api/injury/identify")
+    fun startInjury(): Single<InjuryResponse>
+
+    @GET("api/injury/status")
+    fun checkInjury(): Single<InjuryResponse>
+
+    @DELETE("api/body_graph/{id}")
+    fun deleteBodygraph(@Path("id") id: Long): Single<BodygraphListResponse>
+
+    @GET("api/faq")
+    fun getFaq(): Single<FaqResponse>
+
+    @GET("api/subscription/status")
+    fun checkSubscription(): Single<SubscriptionStatusResponse>
+
+    @POST("api/cancel_subscription")
+    fun cancelStripeSubscription(): Single<SubscriptionStatusResponse>
+
+    @DELETE("api/user")
+    fun deleteAcc(): Single<SimpleResponse>
 }

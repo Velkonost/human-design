@@ -16,6 +16,7 @@ import com.myhumandesignhd.App
 import com.myhumandesignhd.BuildConfig
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentAffirmationBinding
+import com.myhumandesignhd.event.SelectNavItemEvent
 import com.myhumandesignhd.ui.affirmation.ext.shareAffirmation
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.util.ext.setTextAnimation
@@ -26,11 +27,25 @@ import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.yandex.metrica.YandexMetrica
-import kotlinx.android.synthetic.main.item_affirmation.view.*
-import kotlinx.android.synthetic.main.item_forecast.view.*
+import kotlinx.android.synthetic.main.item_affirmation.view.affirmationCard
+import kotlinx.android.synthetic.main.item_affirmation.view.affirmationIcon
+import kotlinx.android.synthetic.main.item_affirmation.view.affirmationNextText
+import kotlinx.android.synthetic.main.item_affirmation.view.affirmationText
+import kotlinx.android.synthetic.main.item_affirmation.view.shareBtn
+import kotlinx.android.synthetic.main.item_forecast.view.forecastNextTitle
+import kotlinx.android.synthetic.main.item_forecast.view.forecastText
+import kotlinx.android.synthetic.main.item_forecast.view.forecastTitle
+import kotlinx.android.synthetic.main.item_forecast.view.line1
+import kotlinx.android.synthetic.main.item_forecast.view.line2
+import kotlinx.android.synthetic.main.item_forecast.view.line3
+import kotlinx.android.synthetic.main.item_forecast.view.line4
+import kotlinx.android.synthetic.main.item_forecast.view.line5
+import kotlinx.android.synthetic.main.item_forecast.view.line6
+import kotlinx.android.synthetic.main.item_forecast.view.line7
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.*
+import org.greenrobot.eventbus.EventBus
+import java.util.Calendar
 
 class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmationBinding>(
     R.layout.fragment_affirmation,
@@ -39,15 +54,13 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 ) {
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        Amplitude.getInstance().logEvent("tab5_screen_shown");
+        Amplitude.getInstance().logEvent("tab5_screen_shown")
     }
 
     private fun setupViewPager() {
@@ -115,7 +128,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
     private fun selectAffirmations() {
         YandexMetrica.reportEvent("Tap5AffirmationsTapped")
-        Amplitude.getInstance().logEvent("tab5TappedAffirmations");
+        Amplitude.getInstance().logEvent("tab5TappedAffirmations")
 
         binding.affirmationTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -145,7 +158,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
     private fun selectForecasts() {
         YandexMetrica.reportEvent("Tap5ForecastsTapped")
-        Amplitude.getInstance().logEvent("tab5TappedForecasts");
+        Amplitude.getInstance().logEvent("tab5TappedForecasts")
 
         binding.forecastTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -245,6 +258,10 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
             return 2
         }
 
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+            (container as ViewPager).removeView(`object` as View)
+        }
+
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             return when (position) {
                 0 -> {
@@ -258,11 +275,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     ))
 
                     baseViewModel.currentAffirmation.observe(viewLifecycleOwner) {
-                        view.affirmationText.setTextAnimation(
-                            if (App.preferences.locale == "ru") it.ru
-                            else if (App.preferences.locale == "es") it.es
-                            else it.en
-                        )
+                        view.affirmationText.setTextAnimation(it.text)
 
                         view.affirmationText.background =
                             ContextCompat.getDrawable(requireContext(), R.drawable.bg_affirmation_text)
@@ -278,7 +291,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     view.shareBtn.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.affirmation_share))
                     view.shareBtn.setOnClickListener {
                         YandexMetrica.reportEvent("Tab5TappedShareTapped")
-                        Amplitude.getInstance().logEvent("tab5TappedShare");
+                        Amplitude.getInstance().logEvent("tab5TappedShare")
 
 //                        view.shareBtn.isVisible = false
                         GlobalScope.launch {
@@ -313,15 +326,8 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     ))
 
                     baseViewModel.currentForecast.observe(viewLifecycleOwner) {
-                        view.forecastTitle.text =
-                            if (App.preferences.locale == "ru") it.titleRu
-                            else if (App.preferences.locale == "es") it.titleEs
-                            else it.titleEn
-
-                        view.forecastText.text =
-                            if (App.preferences.locale == "ru") it.ru
-                            else if (App.preferences.locale == "es") it.es
-                            else it.en
+                        view.forecastTitle.text = it.title
+                        view.forecastText.text = it.text
                     }
 
 
@@ -598,6 +604,12 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
         override fun isViewFromObject(view: View, `object`: Any): Boolean {
             return view == `object`
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        EventBus.getDefault().post(SelectNavItemEvent(itemPosition = 4))
     }
 
     inner class Handler {

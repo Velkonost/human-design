@@ -14,7 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class WheelAmPmPicker extends com.github.florent37.singledateandtimepicker.widget.WheelAmPmPicker {
+public class WheelAmPmPicker extends MyWheelPicker<String> {
+//        com.github.florent37.singledateandtimepicker.widget.WheelAmPmPicker {
 
     public static final int INDEX_AM = 0;
     public static final int INDEX_PM = 1;

@@ -4,12 +4,12 @@ import com.github.florent37.singledateandtimepicker.DateHelper;
 
 import java.util.Date;
 
-public class DateWithLabel extends com.github.florent37.singledateandtimepicker.widget.DateWithLabel {
+public class DateWithLabel {
     public final String label;
     public final Date date;
 
     public DateWithLabel(String label, Date date) {
-        super(label, date);
+//        super(label, date);
         this.label = label;
         this.date = date;
         if (date == null) {

@@ -24,18 +24,12 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
 ) {
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
-    private val childId: Long by lazy {
-        arguments?.getLong("childId")!!
-    }
+    private val childId: Long by lazy { arguments?.getLong("childId")!! }
 
-    private val columnsAdapter: CompatibilityChildAdapter by lazy {
-        CompatibilityChildAdapter()
-    }
+    private val columnsAdapter: CompatibilityChildAdapter by lazy { CompatibilityChildAdapter() }
 
     override fun updateThemeAndLocale() {
         super.updateThemeAndLocale()
@@ -99,11 +93,11 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
             baseViewModel.currentBodygraph.observe(this) { parent ->
                 columnsAdapter.createList(
                     childTitle = child.type,
-                    childDesc = child.description.profile,
+                    childDesc = child.kidDescription,
                     parentTitle = parent.type,
                     parentDesc = parent.parentDescription,
-                    childrenTitles = child.description.channelsTitles.values.toList(),
-                    childrenDescriptions = child.description.channels.values.toList(),
+                    childrenTitles = child.childrenDescriptions.titles,
+                    childrenDescriptions = child.childrenDescriptions.descriptions,
                     chart1ResId =
                     if (child.type.lowercase(Locale.getDefault()) == "проектор") {
                         if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_child_dark

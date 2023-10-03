@@ -21,6 +21,7 @@ import com.myhumandesignhd.event.CompatibilityChildStartClickEvent
 import com.myhumandesignhd.event.CompatibilityStartClickEvent
 import com.myhumandesignhd.event.DeleteChildEvent
 import com.myhumandesignhd.event.DeletePartnerEvent
+import com.myhumandesignhd.event.SelectNavItemEvent
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
@@ -46,14 +47,13 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     private var isPartnersHelpShowing = false
     private var isChildrenHelpShowing = false
 
-    private val compatibilityAdapter: CompatibilityAdapter by lazy {
-        CompatibilityAdapter()
-    }
+    private var lastDeletedChildId = -1L
+    private var lastDeletedPartnerId = -1L
+
+    private val compatibilityAdapter: CompatibilityAdapter by lazy { CompatibilityAdapter() }
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
@@ -63,33 +63,33 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         Amplitude.getInstance().logEvent("tab4_screen_shown")
 
         baseViewModel.getAllBodygraphs()
-        baseViewModel.getChildren()
     }
 
     @Subscribe
     fun onDeletePartnerEvent(e: DeletePartnerEvent) {
-        baseViewModel.deleteUser(e.partnerId)
+        if (e.partnerId != lastDeletedPartnerId) {
+            lastDeletedPartnerId = e.partnerId
+            baseViewModel.deleteUser(e.partnerId)
+        }
     }
 
     @Subscribe
     fun onDeleteChildEvent(e: DeleteChildEvent) {
-        baseViewModel.deleteChild(e.childId)
+        if (e.childId != lastDeletedChildId) {
+            lastDeletedChildId = e.childId
+            baseViewModel.deleteChild(e.childId)
+        }
     }
 
     @Subscribe
     fun onCompatibilityStartClickEvent(e: CompatibilityStartClickEvent) {
         YandexMetrica.reportEvent("Tab4AdultsCreatedProfileTapped")
 
-        baseViewModel.setupCompatibility(
-            lat1 = e.user.lat,
-            lon1 = e.user.lon,
-            date = e.user.birthDatetime,
-            e.user.id.toString()
-        ) {
+        baseViewModel.setupCompatibility(e.user.id.toString()) {
             router.navigateTo(
                 Screens.compatibilityDetailScreen(
                     name = e.user.name,
-                    title = "${e.user.type} • ${e.user.profile}",
+                    title = "${e.user.type} • ${e.user.line}",
                     chartResId = e.chartResId
                 )
             )
@@ -164,12 +164,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             .setTextSize(12f)
             .setCornerRadius(20f)
             .setText(App.resourcesProvider.getStringLocale(R.string.help_compatibility_partners))
-            .setTextColor(
-                ContextCompat.getColor(
-                    context!!,
-                    R.color.lightColor
-                )
-            )
+            .setTextColor(ContextCompat.getColor(context!!, R.color.lightColor))
             .setTextIsHtml(true)
             .setOverlayColorResource(R.color.helpBgColor)
             .setOverlayShape(BalloonOverlayRoundRect(40f, 40f))
@@ -296,9 +291,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
         if (!App.preferences.isCompatibilityChildrenHelpShown && !isChildrenHelpShowing) {
             isChildrenHelpShowing = true
-            android.os.Handler().postDelayed({
-                showChildrenHelp()
-            }, 500)
+            android.os.Handler().postDelayed({ showChildrenHelp() }, 500)
         }
     }
 
@@ -316,9 +309,8 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                 bodygraphs.toMutableList().filter { it.id != App.preferences.currentUserId }
 
             baseViewModel.childrenData.observe(this) { children ->
-                if (!compatibilityAdapter.isCreated)
+//                if (!compatibilityAdapter.isCreated)
                     compatibilityAdapter.createList(partners, children)
-                else compatibilityAdapter.updateList(partners, children)
 
                 val identify = Identify()
                 identify.set("partnersadded", partners.size.toString())
@@ -388,6 +380,12 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         } else {
             router.navigateTo(Screens.paywallScreen(source = "compatibility"))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        EventBus.getDefault().post(SelectNavItemEvent(itemPosition = 3))
     }
 
     companion object {

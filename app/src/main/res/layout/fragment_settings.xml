@@ -263,14 +263,94 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/manageSubscriptionBlock"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:elevation="4dp"
+            android:onClick="@{handler::onManageSubscriptionClicked}"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/infoBlock">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/manageSubscriptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/manageSubscriptionArrow"
+                    android:layout_width="8dp"
+                    android:layout_height="14dp"
+                    android:layout_marginEnd="24dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/manageAccountBlock"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:elevation="4dp"
+            android:onClick="@{handler::onManageAccountClicked}"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/manageSubscriptionBlock">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/manageAccountTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/manageAccountArrow"
+                    android:layout_width="8dp"
+                    android:layout_height="14dp"
+                    android:layout_marginEnd="24dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/footerBlock"
             android:layout_width="match_parent"
             android:layout_height="108dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="16dp"
             android:elevation="4dp"
             app:cardCornerRadius="10dp"
-            app:layout_constraintTop_toBottomOf="@id/infoBlock">
+            app:layout_constraintTop_toBottomOf="@id/manageAccountBlock">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -281,7 +361,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:onClick="@{handler::onPrivacyPolicyClicked}"
-                    app:layout_constraintHeight_percent="0.33"
+                    app:layout_constraintHeight_percent="0.5"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
@@ -310,10 +390,12 @@
 
                 <View
                     android:id="@+id/footerBlockSeparator"
-                    android:layout_width="234dp"
+                    android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginStart="24dp"
+                    android:layout_marginEnd="20dp"
                     android:alpha="0.1"
+                    app:layout_constraintEnd_toEndOf="@id/privacyPolicyBlock"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/privacyPolicyBlock" />
 
@@ -322,7 +404,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:onClick="@{handler::onTermsClicked}"
-                    app:layout_constraintHeight_percent="0.33"
+                    app:layout_constraintHeight_percent="0.5"
                     app:layout_constraintTop_toBottomOf="@id/footerBlockSeparator">
 
                     <TextView
@@ -348,6 +430,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <View
                     android:id="@+id/footerBlockSeparator2"
                     android:layout_width="234dp"
@@ -356,12 +439,14 @@
                     android:alpha="0.1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/termsBlock" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/manageSubBlock"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:onClick="@{handler::openPlaystoreAccount}"
-                    app:layout_constraintHeight_percent="0.33"
+                    android:visibility="gone"
+                    app:layout_constraintHeight_percent="0"
                     app:layout_constraintTop_toBottomOf="@id/footerBlockSeparator2">
 
                     <TextView

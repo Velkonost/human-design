@@ -19,10 +19,10 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.github.florent37.singledateandtimepicker.widget.WheelPicker;
 import com.myhumandesignhd.App;
 import com.myhumandesignhd.R;
 import com.myhumandesignhd.ui.view.daytimepicker.widget.DateWithLabel;
+import com.myhumandesignhd.ui.view.daytimepicker.widget.MyWheelPicker;
 import com.myhumandesignhd.ui.view.daytimepicker.widget.WheelAmPmPicker;
 import com.myhumandesignhd.ui.view.daytimepicker.widget.WheelDayOfMonthPicker;
 import com.myhumandesignhd.ui.view.daytimepicker.widget.WheelDayPicker;
@@ -76,11 +76,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
     @NonNull
     private final WheelAmPmPicker amPmPicker;
 
-    private List<WheelPicker> pickers = new ArrayList<>();
+    private final List<MyWheelPicker> pickers = new ArrayList<>();
 
-    private List<OnDateChangedListener> listeners = new ArrayList<>();
+    private final List<OnDateChangedListener> listeners = new ArrayList<>();
 
-    private View dtSelector;
+    private final View dtSelector;
     private boolean mustBeOnFuture;
 
     @Nullable
@@ -111,9 +111,14 @@ public class SingleDateAndTimePicker extends LinearLayout {
         super(context, attrs, defStyleAttr);
 
         defaultDate = new Date();
+
         isAmPm = !(DateFormat.is24HourFormat(context));
 
-        inflate(context, R.layout.single_day_and_time_picker, this);
+        int layoutId = R.layout.single_day_and_time_picker;
+        if (App.preferences.getLocale().equals("en")) {
+            layoutId = R.layout.single_day_and_time_picker_en;
+        }
+        inflate(context, layoutId, this);
 
         yearsPicker = findViewById(R.id.yearPicker);
         monthPicker = findViewById(R.id.monthPicker);
@@ -133,7 +138,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 monthPicker,
                 yearsPicker
         ));
-        for (WheelPicker wheelPicker : pickers) {
+        for (MyWheelPicker wheelPicker : pickers) {
             wheelPicker.setDateHelper(dateHelper);
         }
         init(context, attrs);
@@ -249,7 +254,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.setEnabled(enabled);
         }
     }
@@ -311,56 +316,59 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public void setItemSpacing(int size) {
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.setItemSpace(size);
         }
     }
 
     public void setCurvedMaxAngle(int angle) {
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.setCurvedMaxAngle(angle);
         }
     }
 
     public void setCurved(boolean curved) {
-        for (WheelPicker picker : pickers) {
-            picker.setCurved(curved);
+        for (MyWheelPicker picker : pickers) {
+//            if (picker.getVisibility() == View.VISIBLE) {
+                picker.setCurved(curved);
+//            }
+
         }
     }
 
     public void setCyclic(boolean cyclic) {
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.setCyclic(cyclic);
         }
     }
 
     public void setTextSize(int textSize) {
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.setItemTextSize(textSize);
         }
     }
 
     public void setSelectedTextColor(int selectedTextColor) {
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.setSelectedItemTextColor(selectedTextColor);
         }
     }
 
     public void setTextColor(int textColor) {
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.setItemTextColor(textColor);
         }
     }
 
     public void setTextAlign(int align) {
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.setItemAlign(align);
         }
     }
 
     public void setTypeface(Typeface typeface) {
         if(typeface == null) return;
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.setTypeface(typeface);
         }
     }
@@ -384,7 +392,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public void setVisibleItemCount(int visibleItemCount) {
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.setVisibleItemCount(visibleItemCount);
         }
     }
@@ -431,23 +439,23 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public void setCustomLocale(Locale locale) {
-        for (WheelPicker p : pickers) {
+        for (MyWheelPicker p : pickers) {
             p.setCustomLocale(locale);
             p.updateAdapter();
         }
     }
 
-    private void checkMinMaxDate(final WheelPicker picker) {
+    private void checkMinMaxDate(final MyWheelPicker picker) {
         checkBeforeMinDate(picker);
         checkAfterMaxDate(picker);
     }
 
-    private void checkBeforeMinDate(final WheelPicker picker) {
+    private void checkBeforeMinDate(final MyWheelPicker picker) {
         picker.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (minDate != null && isBeforeMinDate(getDate())) {
-                    for (WheelPicker p : pickers) {
+                    for (MyWheelPicker p : pickers) {
                         p.scrollTo(p.findIndexOfDate(minDate));
                     }
                 }
@@ -455,13 +463,13 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }, DELAY_BEFORE_CHECK_PAST);
     }
 
-    private void checkAfterMaxDate(final WheelPicker picker) {
+    private void checkAfterMaxDate(final MyWheelPicker picker) {
         picker.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (maxDate != null && isAfterMaxDate(getDate())) {
                     Date today = Calendar.getInstance().getTime();
-                    for (WheelPicker p : pickers) {
+                    for (MyWheelPicker p : pickers) {
                         if (p instanceof WheelYearPicker) {
                             p.scrollTo(((WheelYearPicker) p).getAdapter().getData().indexOf(String.valueOf(Calendar.getInstance().get(Calendar.YEAR))));
                         } else p.scrollTo(p.findIndexOfDate(today));
@@ -488,7 +496,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public void checkPickersMinMax() {
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             checkMinMaxDate(picker);
         }
     }
@@ -547,7 +555,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
             
             updateDaysOfMonth(calendar);
 
-            for (WheelPicker picker : pickers) {
+            for (MyWheelPicker picker : pickers) {
                 picker.setDefaultDate(defaultDate);
             }
         }
@@ -559,7 +567,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
 
         final Date date = calendar.getTime();
-        for (WheelPicker picker : pickers) {
+        for (MyWheelPicker picker : pickers) {
             picker.selectDate(date);
         }
 
@@ -666,6 +674,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
+//        setCurved(true);
         TypedArray a = context.obtainStyledAttributes(attrs, com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker);
 
         final Resources resources = getResources();
@@ -684,10 +693,15 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setItemSpacing(Math.round(px)
 //                a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_itemSpacing, resources.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.dimen.wheelSelectorHeight))
         );
-        setCurvedMaxAngle(a.getInteger(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_curvedMaxAngle, WheelPicker.MAX_ANGLE));
+
+        setCurvedMaxAngle(
+                80
+//                a.getInteger(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_curvedMaxAngle, WheelPicker.MAX_ANGLE)
+        );
         setSelectorHeight(a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_selectorHeight, resources.getDimensionPixelSize(R.dimen.wheelSelectorHeight)));
         setTextSize(a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_textSize, resources.getDimensionPixelSize(R.dimen.WheelItemTextSize)));
-        setCurved(a.getBoolean(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_curved, IS_CURVED_DEFAULT));
+
+//        setCurved(a.getBoolean(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_curved, IS_CURVED_DEFAULT));
         setCyclic(a.getBoolean(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_cyclic, IS_CYCLIC_DEFAULT));
         setMustBeOnFuture(a.getBoolean(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTURE_DEFAULT));
         setVisibleItemCount(a.getInt(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT));
@@ -707,7 +721,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 //        setFontToAllPickers(a.getResourceId(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_android_fontFamily,0));
         String monthFormat = a.getString(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_monthFormat);
         setMonthFormat(TextUtils.isEmpty(monthFormat) ? WheelMonthPicker.MONTH_FORMAT : monthFormat);
-        setTextAlign(a.getInt(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_textAlign, ALIGN_CENTER));
+//        setTextAlign(a.getInt(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_textAlign, ALIGN_CENTER));
 
         if (App.preferences.isDarkTheme()) {
             monthPicker.setItemTextColor(ContextCompat.getColor(

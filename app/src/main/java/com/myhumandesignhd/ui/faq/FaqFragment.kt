@@ -22,14 +22,10 @@ class FaqFragment : BaseFragment<FaqViewModel, FragmentFaqBinding>(
 ) {
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
-    private val faqAdapter by lazy {
-        FaqAdapter()
-    }
+    private val faqAdapter by lazy { FaqAdapter() }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -70,15 +66,7 @@ class FaqFragment : BaseFragment<FaqViewModel, FragmentFaqBinding>(
 
     @Subscribe
     fun onFaqClickedEvent(e: FaqClickedEvent) {
-        router.navigateTo(
-            Screens.faqDetailScreen(
-            title = if (App.preferences.locale == "ru") e.faq.titleRu
-            else if (App.preferences.locale == "es") e.faq.titleEs
-            else e.faq.titleEn,
-            desc = if (App.preferences.locale == "ru") e.faq.textRu
-            else if (App.preferences.locale == "es") e.faq.textEs
-            else e.faq.textEn
-        ))
+        router.navigateTo(Screens.faqDetailScreen(title = e.faq.title, desc = e.faq.text))
     }
 
     inner class Handler {

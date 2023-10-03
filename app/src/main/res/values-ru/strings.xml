@@ -88,6 +88,25 @@
     <string name="settings_manage_sub_title">Управлять подписками</string>
     <string name="settings_version_title">Version</string>
     <string name="settings_write_us_title">Напишите нам</string>
+    <string name="settings_manage_subscription">Управление подпиской</string>
+    <string name="settings_manage_account">Управление аккаунтом</string>
+    <string name="settings_logout">выйти</string>
+    <string name="settings_delete_acc">удалить мой аккаунт</string>
+    <string name="settings_account_title">Аккаунт</string>
+    <string name="settings_account_text">Вы можете в любое время выйти из своего аккаунта или удалить его. При удалении аккаунта будут удалены все ваши данные, и их восстановление будет невозможным.</string>
+    <string name="settings_confirm_logout">Вы уверены, что хотите выйти\nиз своего аккаунта?</string>
+    <string name="settings_delete">удалить</string>
+    <string name="settings_confirm_delete_text">Вы уверены, что хотите удалить свой аккаунт? После этого ваши данные будут удалены и их будет невозможно восстановить.</string>
+
+    <string name="settings_subscription">Подписка</string>
+    <string name="settings_cancel_subscription">Отменить подписку</string>
+    <string name="settings_subscribe">Подписаться</string>
+
+    <string name="settings_trial_active">Ваша недельная пробная версия активна</string>
+    <string name="settings_trial_expires_at">Ваша недельная пробная версия истекает {date}</string>
+    <string name="settings_subscription_active">Ваша подписка активна</string>
+    <string name="settings_subscription_expires_at">Ваша трехмесячная подписка истекает {date}</string>
+    <string name="settings_subscription_inactive">У вас нет активных подписок</string>
 
     <string name="faq_title">FAQ</string>
 
@@ -211,6 +230,8 @@
     <string name="channel_type_2">Главенство</string>
     <string name="channel_type_3">Подавление</string>
     <string name="channel_type_4">Взаимозависимость</string>
+    <string name="channel_type_5">Главенство партнера</string>
+    <string name="channel_type_6">Подавление партнером</string>
 
     <string name="compatibility_child_title">Ребенок</string>
     <string name="compatibility_parent_title">Родитель</string>
@@ -271,6 +292,7 @@
     <string name="advice_title">Совет Дня</string>
 
     <string name="snackbar_title">Ошибка</string>
+    <string name="snackbar_title_notification">Уведомление</string>
     <string name="snackbar_inet_title">Нет соединения с интернетом</string>
     <string name="snackbar_inet">Ваше сетевое соединение нестабильно или отключено</string>
     <string name="snackbar_name">Поле имени не может быть пустым.</string>
@@ -406,4 +428,44 @@
     <!--  PLANET TRANSITS  -->
     <string name="planet_transits_title">Транзиты Планет</string>
     <!--  PLANET TRANSITS  -->
+
+    <!--  SIGNUP  -->
+    <string name="resend_email">Новое письмо отправлено на вашу почту</string>
+
+    <string name="signup_title">Дизайн Человека</string>
+    <string name="signup_subtitle">Лучший помощник на пути к самопознанию</string>
+    <string name="signup_footer">Создавая аккаунт, вы соглашаетесь с Условиями использования и Политикой конфиденциальности HDesign.</string>
+    <string name="signup_text">Войдите или зарегистрируйтесь, чтобы сохранить свои данные.</string>
+
+    <string name="signup_email_title">Зарегистрироваться</string>
+    <string name="signup_email_subtitle">Введите ваш е-mail</string>
+
+    <string name="signup_check_inbox_title">Проверьте ваш почтовый ящик!</string>
+    <string name="signup_check_inbox_subtitle">Для подтверждения адреса электронной почты нажмите на кнопку в письме, которое мы отправили на</string>
+    <string name="signup_check_inbox_footer">Мы отправили письмо на yourmail. Если вы его еще не получили, проверьте папки Спам и Удаленные или нажмите здесь, чтобы получить ссылку повторно.</string>
+    <string name="signup_goto_email">перейти в почту</string>
+
+    <string name="signup_google">Продолжить с Google</string>
+    <string name="signup_email">Продолжить через почту</string>
+    <string name="signup_facebook">Продолжить с Facebook</string>
+    <!--  SIGNUP  -->
+
+    <!--  OLD USERS  -->
+    <string name="old_users_first_title">У нас отличные новости!</string>
+    <string name="old_users_first_text">С нашим последним обновлением использование приложения станет еще удобнее!</string>
+    <string name="old_users_first_footer">Вам потребуется всего несколько секунд, чтобы создать аккаунт.</string>
+
+    <string name="old_users_second_title">Сохранение данных</string>
+    <string name="old_users_second_text">Регистрируясь, вы гарантируете сохранение и безопасность ваших данных и настроек. Это обеспечивает беспроблемное восстановление ваших настроек, даже если вы смените устройство или переустановите приложение.</string>
+
+    <string name="old_users_third_title">Доступ к новым функциям</string>
+    <string name="old_users_third_text">Регистрация предоставляет вам ранний доступ к будущим функциям и обновлениям. У вас будет возможность быть среди первых, кто оценит расширенные возможности приложения.</string>
+
+    <string name="old_users_forth_title">Поддержка и обслуживание</string>
+    <string name="old_users_forth_text">Регистрация позволит нам предоставлять вам более быструю поддержку и оперативно решать любые возникающие проблемы.</string>
+
+    <string name="create_account">СОЗДАТЬ АККАУНТ</string>
+    <!--  OLD USERS  -->
+
+    <string name="signup_user_not_logged_in">Email еще не был подтвержден</string>
 </resources>

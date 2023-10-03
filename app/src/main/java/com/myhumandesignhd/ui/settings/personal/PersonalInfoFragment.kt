@@ -3,6 +3,7 @@ package com.myhumandesignhd.ui.settings.personal
 import android.content.res.ColorStateList
 import android.location.Geocoder
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.View
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +36,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.threeten.bp.LocalTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -48,9 +51,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 ) {
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
     private val dateBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
@@ -63,9 +64,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
     private lateinit var geocoder: Geocoder
 
-    private val placesAdapter: PlacesAdapter by lazy {
-        PlacesAdapter()
-    }
+    private val placesAdapter: PlacesAdapter by lazy { PlacesAdapter() }
 
     private var selectedLat = ""
     private var selectedLon = ""
@@ -80,33 +79,49 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
     }
 
     private fun setupData() {
-        val formatter: DateFormat =
-            SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO, Locale.getDefault())
-        val calendar: Calendar = Calendar.getInstance()
-
         baseViewModel.currentBodygraph.observe(this) {
-//            calendar.timeInMillis = baseViewModel.currentUser.date
-            val dateStr = it.birthDatetime.split(" ")[0]//formatter.format(calendar.time)
+            val dateStr = it.birthDatetime.split(" ")[0]
 
             val originalFormat: DateFormat = SimpleDateFormat(App.DATE_FORMAT_SHORT, Locale.ENGLISH)
-            val targetFormat: DateFormat = SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO)
+            val targetFormat: DateFormat = SimpleDateFormat(
+                if (App.preferences.locale == "en") App.DATE_FORMAT_PERSONAL_INFO_US
+                else App.DATE_FORMAT_PERSONAL_INFO
+            )
             val date = originalFormat.parse(dateStr)
             val formattedDate = targetFormat.format(date) // 20120821
 
 
             binding.nameET.setText(it.name)
-//            binding.placeET.setText(baseViewModel.currentUser.place)
             binding.dateET.setText(formattedDate)
-            binding.timeET.setText(it.birthDatetime.split(" ")[1].subSequence(0, 4))
+            binding.timeET.setText(it.birthDatetime.split(" ")[1].subSequence(0, 5))
 
             if (App.preferences.locale == "en") {
                 val sdf = SimpleDateFormat("hh:mm")
-                val sdfs = SimpleDateFormat("hh:mm a")
 
-                val dt = sdf.parse(it.birthDatetime.split(" ")[1].subSequence(0, 4).toString())
-                binding.timeET.setText(dt?.let { sdfs.format(it) })
+                val dt = sdf.parse(it.birthDatetime.split(" ")[1].subSequence(0, 5).toString())
+                binding.timeET.setText(dt?.let { date ->
+                    LocalTime.parse(it.birthDatetime.split(" ")[1].subSequence(0, 5).toString(), DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH))
+                        .format(DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH))
+                })
             }
         }
+
+        val filter = InputFilter { source, start, end, dest, dstart, dend ->
+            val stringSource = source.toString()
+            val stringDest = dest.toString()
+            if (stringSource == " ") {
+                if (stringDest.isEmpty()) return@InputFilter ""
+
+                if (stringDest.isNotEmpty())
+                    if (dstart > 0 && binding.nameET.text.toString().toCharArray()[dstart - 1] === ' '
+                        || binding.nameET.text.toString().length > dstart
+                        && binding.nameET.text.toString().toCharArray()[dstart] === ' '
+                        || dstart == 0)
+                        return@InputFilter ""
+            }
+            null
+        }
+        binding.nameET.filters = arrayOf(filter)
 
         baseViewModel.bodygraphPlace.observe(this) {
             var locationStr = ""
@@ -126,24 +141,6 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             locationStr += it[0].address.country
             binding.placeET.setText(locationStr)
         }
-
-//        if (baseViewModel.isCurrentUserInitialized()) {
-//            calendar.timeInMillis = baseViewModel.currentUser.date
-//            val dateStr = formatter.format(calendar.time)
-//
-//            binding.nameET.setText(baseViewModel.currentUser.name)
-//            binding.placeET.setText(baseViewModel.currentUser.place)
-//            binding.dateET.setText(dateStr)
-//            binding.timeET.setText(baseViewModel.currentUser.time)
-//
-//            if (App.preferences.locale == "en") {
-//                val sdf = SimpleDateFormat("hh:mm")
-//                val sdfs = SimpleDateFormat("hh:mm a")
-//
-//                val dt = sdf.parse(baseViewModel.currentUser.time)
-//                binding.timeET.setText(dt?.let { sdfs.format(it) })
-//            }
-//        }
 
         setupPlacesView()
 
@@ -196,7 +193,8 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
                 dateBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
                 val formatter: DateFormat = SimpleDateFormat(
-                    App.DATE_FORMAT_PERSONAL_INFO,
+                    if (App.preferences.locale == "en") App.DATE_FORMAT_PERSONAL_INFO_US
+                    else App.DATE_FORMAT_PERSONAL_INFO,
                     Locale.getDefault()
                 )
                 val calendar: Calendar = Calendar.getInstance()
@@ -252,7 +250,11 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
                     val sdfs = SimpleDateFormat("hh:mm a")
 
                     val dt = sdf.parse(newTime)
-                    binding.timeET.setText(dt?.let { sdfs.format(it) })
+                    binding.timeET.setText(dt?.let {
+//                        sdfs.format(it)
+                        LocalTime.parse(newTime, DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH))
+                            .format(DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH))
+                    })
                 }
                 selectedTime = newTime
             }
@@ -641,7 +643,17 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
                 date = if ((!binding.dateET.text.isNullOrEmpty() && selectedDate != 0L)
                     || (!binding.timeET.text.isNullOrEmpty() && selectedTime.isNotEmpty())
                 ) {
-                    "${binding.dateET.text} ${binding.timeET.text}"
+                    if (App.preferences.locale == "en") {
+                        val originalFormat: DateFormat = SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO_US, Locale.ENGLISH)
+                        val targetFormat: DateFormat = SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO)
+                        val date = originalFormat.parse(binding.dateET.text.toString())
+                        val formattedDate = targetFormat.format(date)
+
+                        "$formattedDate ${binding.timeET.text}"
+                    } else {
+                        "${binding.dateET.text} ${binding.timeET.text}"
+                    }
+
 //                    if (selectedDate == 0L) {
 //                        "${binding.dateET.text} ${binding.timeET.text}"
 //                    } else {

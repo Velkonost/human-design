@@ -12,6 +12,9 @@ import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentBodygraphSecondBinding
 import com.myhumandesignhd.event.OpenPaywallEvent
+import com.myhumandesignhd.event.SelectNavItemEvent
+import com.myhumandesignhd.event.SetupNavMenuEvent
+import com.myhumandesignhd.event.StartInjuryEvent
 import com.myhumandesignhd.event.UpdateCurrentUserInjurySettingsEvent
 import com.myhumandesignhd.model.AboutItem
 import com.myhumandesignhd.model.AboutType
@@ -23,6 +26,7 @@ import com.myhumandesignhd.ui.bodygraph.BodygraphViewModel
 import com.myhumandesignhd.ui.bodygraph.second.adapter.ColumnsAdapter
 import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
 class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphSecondBinding>(
@@ -32,19 +36,23 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 ) {
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
-    private val columnsAdapter: ColumnsAdapter by lazy {
-        ColumnsAdapter()
+    private val columnsAdapter: ColumnsAdapter by lazy { ColumnsAdapter() }
+
+    private val needUpdateNavMenu: Boolean by lazy {
+        arguments?.getBoolean("needUpdateNavMenu")?: false
     }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        Amplitude.getInstance().logEvent("tab2_screen_shown");
+        if (needUpdateNavMenu)
+            EventBus.getDefault().post(SetupNavMenuEvent())
+
+        Amplitude.getInstance().logEvent("tab2_screen_shown")
+        baseViewModel.getInjuryStatus()
     }
 
     @Subscribe
@@ -212,7 +220,8 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
                 gates = gates,
                 channels = channels,
                 aboutItems = aboutItemsList,
-                currentUser = baseViewModel.currentUser
+                injuryStatus = baseViewModel.injuryStatus,
+                injuryPercent = baseViewModel.injuryPercent
             )
         }
 
@@ -235,9 +244,14 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         router.replaceScreen(Screens.paywallScreen(source = e.source))
     }
 
+    @Subscribe
+    fun onStartInjuryEvent(e: StartInjuryEvent) {
+        baseViewModel.startInjury()
+    }
+
     private fun selectAbout() {
         YandexMetrica.reportEvent("Tab2AboutTapped")
-        Amplitude.getInstance().logEvent("tab2TappedAbout");
+        Amplitude.getInstance().logEvent("tab2TappedAbout")
 
         binding.aboutTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -284,7 +298,7 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         if (!App.preferences.isPremiun) return
 
         YandexMetrica.reportEvent("Tab2CentersTapped")
-        Amplitude.getInstance().logEvent("tab2TappedCenters");
+        Amplitude.getInstance().logEvent("tab2TappedCenters")
 
         binding.centersTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -325,7 +339,7 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         if (!App.preferences.isPremiun) return
 
         YandexMetrica.reportEvent("Tab2GatesTapped")
-        Amplitude.getInstance().logEvent("tab2TappedGates");
+        Amplitude.getInstance().logEvent("tab2TappedGates")
 
         binding.gatesTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -366,7 +380,7 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         if (!App.preferences.isPremiun) return
 
         YandexMetrica.reportEvent("Tab2ChannelsTapped")
-        Amplitude.getInstance().logEvent("tab2TappedChannels");
+        Amplitude.getInstance().logEvent("tab2TappedChannels")
 
         binding.channelsTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -401,6 +415,12 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         binding.aboutTitle.background = null
         binding.gatesTitle.background = null
         binding.centersTitle.background = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        EventBus.getDefault().post(SelectNavItemEvent(itemPosition = 1))
     }
 
     companion object {

@@ -193,8 +193,9 @@ dependencies {
     implementation "com.android.installreferrer:installreferrer:2.2"
 
     //    Facebook SDK
-
-    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
+    implementation 'com.facebook.android:facebook-android-sdk:16.2.0'
+    implementation 'com.facebook.android:facebook-core:latest.release'
+//    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
     implementation 'com.facebook.android:facebook-login:latest.release'
 
     //  AppMetrica
@@ -206,7 +207,7 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.0.5'
     implementation 'at.wirecube:additive_animations:1.9.3'
 
-    implementation 'com.android.billingclient:billing:4.0.0'
+    implementation 'com.android.billingclient:billing:6.0.1'
 
 //    OneSignal
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'

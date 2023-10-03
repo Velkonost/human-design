@@ -47,10 +47,7 @@ class ChildrenAdapter : EpoxyAdapter() {
 
     fun deleteChildById(childId: Long) {
         models.forEach { model ->
-            if (
-                model is ChildModel
-                && model.model.id == childId
-            ) {
+            if (model is ChildModel && model.model.id == childId) {
                 hideModel(model)
 
                 if (models.count { it.isShown } == 1) {
@@ -128,11 +125,13 @@ class ChildModel(
             )
 
             deleteBtn.setOnClickListener {
-                EventBus.getDefault().post(DeleteChildItemEvent(model.id))
+                if (!isExpanded) {
+                    isExpanded = true
+                    EventBus.getDefault().post(DeleteChildItemEvent(model.id))
+                }
             }
 
             partnerCard.setOnClickListener {
-
                 EventBus.getDefault().post(
                     CompatibilityChildStartClickEvent(childId = model.id)
                 )
@@ -141,14 +140,13 @@ class ChildModel(
             swipeContainer.isEnabledSwipe = isSwipeEnabled
             swipeContainer.setOnActionsListener(object : SwipeLayout.SwipeActionsListener {
                 override fun onOpen(direction: Int, isContinuous: Boolean) {
-                    if (isContinuous) {
+                    if (isContinuous && !isExpanded) {
+                        isExpanded = true
                         EventBus.getDefault().post(DeleteChildItemEvent(model.id))
                     }
                 }
 
-                override fun onClose() {
-
-                }
+                override fun onClose() {}
             })
         }
     }

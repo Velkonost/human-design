@@ -1,6 +1,7 @@
 package com.myhumandesignhd.ui.activity.main
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -9,10 +10,10 @@ import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.location.Criteria
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -30,31 +31,29 @@ import androidx.navigation.NavController
 import com.adapty.Adapty
 import com.adapty.models.AdaptyAttributionSource
 import com.adapty.models.AdaptyProfileParameters
-import com.adapty.utils.AdaptyLogLevel
 import com.adapty.utils.AdaptyResult
 import com.amplitude.api.Amplitude
-import com.amplitude.api.Identify
 import com.android.installreferrer.api.InstallReferrerClient
-import com.android.installreferrer.api.InstallReferrerStateListener
-import com.android.installreferrer.api.ReferrerDetails
 import com.appsflyer.AppsFlyerConversionListener
 import com.appsflyer.AppsFlyerLib
 import com.facebook.appevents.AppEventsLogger
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.jaeger.library.StatusBarUtil
 import com.myhumandesignhd.App
 import com.myhumandesignhd.App.Companion.LOCATION_REQUEST_CODE
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.ActivityMainBinding
+import com.myhumandesignhd.event.ActivateAdaptyEvent
 import com.myhumandesignhd.event.AdaptyLogShowEvent
 import com.myhumandesignhd.event.ContinueFirstLoaderEvent
 import com.myhumandesignhd.event.FinishFirstLoaderEvent
 import com.myhumandesignhd.event.LastKnownLocationUpdateEvent
 import com.myhumandesignhd.event.NoInetEvent
 import com.myhumandesignhd.event.OpenBodygraphEvent
+import com.myhumandesignhd.event.SelectNavItemEvent
+import com.myhumandesignhd.event.SetInjuryAlarmEvent
 import com.myhumandesignhd.event.SetupLocationEvent
 import com.myhumandesignhd.event.SetupNavMenuEvent
 import com.myhumandesignhd.event.SetupNotificationsEvent
@@ -66,6 +65,7 @@ import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.navigation.SupportAppNavigator
 import com.myhumandesignhd.push.NotificationReceiver
+import com.myhumandesignhd.ui.activity.main.ext.activateAdapty
 import com.myhumandesignhd.ui.base.BaseActivity
 import com.myhumandesignhd.ui.bodygraph.BodygraphFragment
 import com.myhumandesignhd.ui.start.StartPage
@@ -88,20 +88,14 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     Handler::class
 ) {
 
-    lateinit var geocoder: Geocoder
-
     private lateinit var navigator: SupportAppNavigator
 
-    private val navigationHolder by lazy {
-        App.instance.navigatorHolder
-    }
+    private val navigationHolder by lazy { App.instance.navigatorHolder }
 
-    private val router by lazy {
-        App.instance.router
-    }
+    private val router by lazy { App.instance.router }
 
     private var navController: NavController? = null
-    private lateinit var referrerClient: InstallReferrerClient
+    lateinit var referrerClient: InstallReferrerClient
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -124,105 +118,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         if (savedInstanceState == null) {
-            FirebaseAnalytics.getInstance(this).appInstanceId.addOnCompleteListener {
-                if (!it.isSuccessful || it.result.isNullOrEmpty()) {
-                    val uniqueId = UUID.randomUUID().toString()
-                    if (App.preferences.uniqueUserId == null) {
-                        App.preferences.uniqueUserId = uniqueId
-                    }
-
-                    Amplitude.getInstance().userId = App.preferences.uniqueUserId
-
-                    Adapty.activate(
-                        applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy",
-                        customerUserId = App.preferences.uniqueUserId
-                    )
-                    Adapty.logLevel = AdaptyLogLevel.VERBOSE
-
-                    referrerClient = InstallReferrerClient.newBuilder(this).build()
-                    referrerClient.startConnection(object : InstallReferrerStateListener {
-
-                        override fun onInstallReferrerSetupFinished(responseCode: Int) {
-                            when (responseCode) {
-                                InstallReferrerClient.InstallReferrerResponse.OK -> {
-                                    // Connection established.
-                                    val response: ReferrerDetails = referrerClient.installReferrer
-                                    val referrerUrl: String = response.installReferrer
-
-                                    setupAdapty(referrerUrl)
-                                }
-
-                                InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
-                                    setupAdapty()
-                                }
-
-                                InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
-                                    setupAdapty()
-                                }
-                            }
-                        }
-
-                        override fun onInstallReferrerServiceDisconnected() {}
-                    })
-
-                    return@addOnCompleteListener
-                }
-
-                if (it.isSuccessful) {
-                    val appInstanceId = it.result.toString()
-                    if (App.preferences.uniqueUserId == null) {
-                        App.preferences.uniqueUserId = appInstanceId
-                    }
-
-                    Amplitude.getInstance().userId = App.preferences.uniqueUserId
-                    Adapty.activate(
-                        applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy",
-                        customerUserId = App.preferences.uniqueUserId
-                    )
-                    Adapty.logLevel = AdaptyLogLevel.VERBOSE
-
-                    referrerClient = InstallReferrerClient.newBuilder(this).build()
-                    referrerClient.startConnection(object : InstallReferrerStateListener {
-
-                        override fun onInstallReferrerSetupFinished(responseCode: Int) {
-                            when (responseCode) {
-                                InstallReferrerClient.InstallReferrerResponse.OK -> {
-                                    // Connection established.
-                                    val response: ReferrerDetails = referrerClient.installReferrer
-                                    val referrerUrl: String = response.installReferrer
-
-                                    setupAdapty(referrerUrl)
-
-                                    if (
-                                        referrerUrl.isNotEmpty()
-                                        && appInstanceId.isNotEmpty()
-                                        && referrerUrl.contains("utm_source=")
-                                        && referrerUrl.substringAfter("utm_source=")
-                                            .split("&")[0] != "google-play"
-                                    ) {
-                                        binding.viewModel!!.setUserInfo(
-                                            gclid = referrerUrl.substringAfter("utm_source=")
-                                                .split("&")[0],
-                                            appInstanceId = appInstanceId
-                                        )
-                                    }
-                                }
-
-                                InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
-                                    setupAdapty()
-                                }
-
-                                InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
-                                    setupAdapty()
-                                }
-                            }
-                        }
-
-                        override fun onInstallReferrerServiceDisconnected() {}
-                    })
-                }
-            }
-
+            activateAdapty()
             receiveLinkData()
             initStartPage()
         }
@@ -304,19 +200,49 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             }
 
         }
+
+        if (Build.VERSION.SDK_INT > 32) {
+            if (!shouldShowRequestPermissionRationale(PERMISSION_REQUEST_CODE.toString())){
+                getNotificationPermission()
+            }
+        }
     }
 
+    @Subscribe
+    fun onActivateAdaptyEvent(e: ActivateAdaptyEvent) {
+        activateAdapty()
+    }
+
+    private val PERMISSION_REQUEST_CODE = 112
+    private fun getNotificationPermission() {
+        try {
+            if (Build.VERSION.SDK_INT > 32) {
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    PERMISSION_REQUEST_CODE
+                )
+            }
+        } catch (e: java.lang.Exception) {
+        }
+    }
+
+    private var navigateToInjury = false
     private fun receiveLinkData() {
         intent?.let { intent ->
-            intent.data?.let { data ->
+            intent.extras?.let { data ->
                 kotlin.runCatching {
+                    val section = intent.extras?.getString("section")
                     val link = data.toString()
 
-                    if (link.contains("token=")) {
-                        val token = link.substringAfter("token=")
-                        App.preferences.authToken = token
+                    val linkUri = Uri.parse(link)
 
-                        Log.d("keke_token", token)
+                    if (link.contains("token=")) {
+                        val token = linkUri.getQueryParameter("token")
+                        App.preferences.authToken = token
+                    }
+
+                    if (section == "trauma") {
+                        navigateToInjury = true
                     }
                 }
             }
@@ -330,6 +256,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     @Subscribe
     fun onOpenBodygraphEvent(e: OpenBodygraphEvent) {
         binding.navView.selectedItemId = R.id.navigation_bodygraph
+    }
+
+    @Subscribe
+    fun onSelectNavItemEvent(e: SelectNavItemEvent) {
+        binding.navView.menu.getItem(e.itemPosition).isChecked = true
     }
 
     @Subscribe
@@ -379,16 +310,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
             ) {
-//                AlertDialog.Builder(this)
-//                    .setTitle("Location Permission Needed")
-//                    .setMessage("This app needs the Location permission, please accept to use location functionality")
-//                    .setPositiveButton(
-//                        "OK"
-//                    ) { _, _ ->
-//                        requestLocationPermission()
-//                    }
-//                    .create()
-//                    .show()
             } else {
                 requestLocationPermission()
             }
@@ -432,19 +353,17 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             criteria.powerRequirement = Criteria.POWER_MEDIUM
             val provider = locationManager.getBestProvider(criteria, true)
 
-            var location = locationManager.getLastKnownLocation(provider!!)
+            provider?.let {
+                val location = locationManager.getLastKnownLocation(provider)
 
-            if (location != null && location.latitude != 0.0) {
-                binding.viewModel!!.reverseNominatim(
-                    location.latitude.toString(),
-                    location.longitude.toString(),
-                    type = 1
-
-                )
-            } else {
-
+                if (location != null && location.latitude != 0.0) {
+                    binding.viewModel!!.reverseNominatim(
+                        location.latitude.toString(),
+                        location.longitude.toString(),
+                        type = 1
+                    )
+                }
             }
-
 
             val locationResult: MyLocation.LocationResult = object : MyLocation.LocationResult() {
                 override fun gotLocation(location: Location?) {
@@ -474,7 +393,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
             val task = fusedLocationProviderClient.lastLocation
 
-            task.addOnSuccessListener {
+            task.addOnSuccessListener { location ->
                 if (location != null)
                     binding.viewModel!!.reverseNominatim(
                         location.latitude.toString(),
@@ -482,6 +401,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         type = 4
                     )
             }
+        }.onFailure {
         }
     }
 
@@ -490,61 +410,90 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         initNotificationReceiver()
     }
 
-    private fun initNotificationReceiver() {
-        val notifyIntent = Intent(this, NotificationReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            3,
-            notifyIntent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
-            else PendingIntent.FLAG_CANCEL_CURRENT
-        )
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 24, (
-                    1000 * 60 * 60 * 24).toLong(), pendingIntent
-        )
-        val cal = Calendar.getInstance()
+    @SuppressLint("ScheduleExactAlarm")
+    @Subscribe
+    fun onSetInjuryAlarmEvent(e: SetInjuryAlarmEvent) {
+        viewModel.currentBodygraph.observe(this) {
+            val notifyIntent = Intent(this, NotificationReceiver::class.java)
+            notifyIntent.putExtra("userName", it.name)
 
-        cal.add(Calendar.DAY_OF_WEEK, -(cal[Calendar.DAY_OF_WEEK]))
-        cal.set(Calendar.MINUTE, 0)
-        cal.set(Calendar.HOUR_OF_DAY, 14)
-        cal.set(Calendar.SECOND, 0)
-
-        if (!binding.viewModel!!.currentUser.name.isNullOrEmpty()) {
-            val notifyIntentForecasts = Intent(this, NotificationReceiver::class.java)
-            notifyIntentForecasts.putExtra("isForecast", "true")
-            notifyIntentForecasts.putExtra("userNameForecast", binding.viewModel!!.currentUser.name)
-            notifyIntentForecasts.putExtra(
-                "forecastPosition",
-                binding.viewModel!!.currentUser.pushForecastIdsList?.get(binding.viewModel!!.currentUser.pushForecastPosition % 10)
-                    ?: 0
+            val pendingIntent = PendingIntent.getBroadcast(
+                this, 4, notifyIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_IMMUTABLE
             )
 
-            binding.viewModel!!.updatePushForecastPosition()
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis() + (e.remain * 1000),
+                    pendingIntent
+                )
+            } else {
+                alarmManager.set(
+                    AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis() + (e.remain * 1000),
+                    pendingIntent
+                )
+            }
+        }
+    }
 
-            val pendingIntentForecasts = PendingIntent.getBroadcast(
-                this, 948,
-                notifyIntentForecasts,
+    private fun initNotificationReceiver() {
+        viewModel.currentBodygraph.observe(this) {
+            val notifyIntent = Intent(this, NotificationReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                3,
+                notifyIntent,
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                     PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
                 else PendingIntent.FLAG_CANCEL_CURRENT
-//                PendingIntent.FLAG_UPDATE_CURRENT
             )
-
-            val mult =
-                if (App.preferences.locale == "ru") 8
-                else 7
-
-            val alarmManagerForecasts = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-            alarmManagerForecasts.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                cal.timeInMillis + mult * 86400000,
-                AlarmManager.INTERVAL_DAY * 7,
-                pendingIntentForecasts
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 60 * 60 * 24, (
+                        1000 * 60 * 60 * 24).toLong(), pendingIntent
             )
+            val cal = Calendar.getInstance()
+
+            cal.add(Calendar.DAY_OF_WEEK, -(cal[Calendar.DAY_OF_WEEK]))
+            cal.set(Calendar.MINUTE, 0)
+            cal.set(Calendar.HOUR_OF_DAY, 14)
+            cal.set(Calendar.SECOND, 0)
+
+            if (!it.name.isNullOrEmpty()) {
+                val notifyIntentForecasts = Intent(this, NotificationReceiver::class.java)
+                notifyIntentForecasts.putExtra("isForecast", "true")
+                notifyIntentForecasts.putExtra(
+                    "userNameForecast",
+                    it.name
+                )
+                notifyIntentForecasts.putExtra(
+                    "forecastPosition", 0
+//                    binding.viewModel!!.currentUser.pushForecastIdsList?.get(binding.viewModel!!.currentUser.pushForecastPosition % 10)
+//                        ?: 0
+                )
+
+                val pendingIntentForecasts = PendingIntent.getBroadcast(
+                    this, 948,
+                    notifyIntentForecasts,
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
+                    else PendingIntent.FLAG_CANCEL_CURRENT
+                )
+
+                val mult = if (App.preferences.locale == "ru") 8 else 7
+
+                val alarmManagerForecasts = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                alarmManagerForecasts.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    cal.timeInMillis + mult * 86400000,
+                    AlarmManager.INTERVAL_DAY * 7,
+                    pendingIntentForecasts
+                )
+            }
         }
     }
 
@@ -558,7 +507,12 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         if (!isFirstAnimationPlayed && App.preferences.currentUserId != -1L) {
             router.replaceScreen(Screens.loaderScreen())
-        } else {
+        } else if (navigateToInjury) {
+            router.replaceScreen(Screens.bodygraphSecondScreen(needUpdateNavMenu = true))
+            navigateToInjury = false
+        }
+
+        else {
             isStartPageInitialized = true
             router.replaceScreen(
                 when (App.preferences.lastLoginPageId) {
@@ -755,7 +709,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             overridePendingTransition(0, 0)
             startActivity(intent)
             overridePendingTransition(0, 0)
-            //Do specific came-here-from-background code
         }
         myApp.stopActivityTransitionTimer()
     }
@@ -782,27 +735,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     setupLocationListener()
                 }
 
-//                } else {
-//                    YandexMetrica.reportEvent("userDisabledGps")
-//                    Amplitude.getInstance().logEvent("userDisabledGeo");
-//                    // permission denied, boo! Disable the
-//                    // functionality that depends on this permission.
-////                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
-//
-//                    // Check if we are in a state where the user has denied the permission and
-//                    // selected Don't ask again
-//                    if (!ActivityCompat.shouldShowRequestPermissionRationale(
-//                            this, Manifest.permission.ACCESS_FINE_LOCATION
-//                        )
-//                    ) {
-//                        startActivity(
-//                            Intent(
-//                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-//                                Uri.fromParts("package", this.packageName, null),
-//                            ),
-//                        )
-//                    }
-//                }
                 return
             }
         }
@@ -816,8 +748,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 else R.color.lightColor
             )
         )
-
-
 
         if (App.preferences.isDarkTheme) {
             window.navigationBarColor = resources.getColor(R.color.darkColor)
@@ -899,7 +829,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navView.itemIconTintList = null
     }
 
-    private fun setupAdapty(referrer: String = "") {
+    fun setupAdapty(referrer: String = "") {
         Adapty.identify(App.preferences.uniqueUserId!!, {
             Log.d("ekke", "keke")
         })
@@ -995,62 +925,47 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 //            }
 //        }
 
-        Adapty.getProfile { result ->
-            when (result) {
-                is AdaptyResult.Success -> {
-                    val profile = result.value
-
-                    if (profile.accessLevels["premium"]?.isActive == true) {
-                        App.preferences.isPremiun = true
-
-                        val identify = Identify()
-                        identify.set("Purchased", "yes")
-                        Amplitude.getInstance().identify(identify)
-                    } else {
-                        App.preferences.isPremiun = false
-
-                        val identify = Identify()
-                        identify.set("Purchased", "no")
-                        Amplitude.getInstance().identify(identify)
-                    }
-                }
-
-                is AdaptyResult.Error -> {
-                    App.preferences.isPremiun = false
-
-                    val identify = Identify()
-                    identify.set("Purchased", "no")
-                    Amplitude.getInstance().identify(identify)
-                }
-            }
-        }
-//        Adapty.getPurchaserInfo { purchaserInfo, error ->
-//            if (error == null) {
-//                val identify = Identify()
-//                identify.set("Purchased", "yes")
-//                Amplitude.getInstance().identify(identify)
+//        Adapty.getProfile { result ->
+//            when (result) {
+//                is AdaptyResult.Success -> {
+//                    val profile = result.value
 //
-//                App.preferences.isPremiun = purchaserInfo?.accessLevels?.get("premium")?.isActive == true
-//            } else {
-//                val identify = Identify()
-//                identify.set("Purchased", "no")
-//                Amplitude.getInstance().identify(identify)
+//                    if (profile.accessLevels["premium"]?.isActive == true) {
+//                        App.preferences.isPremiun = true
 //
-//                App.preferences.isPremiun = false
+//                        val identify = Identify()
+//                        identify.set("Purchased", "yes")
+//                        Amplitude.getInstance().identify(identify)
+//                    } else {
+//                        App.preferences.isPremiun = false
+//
+//                        val identify = Identify()
+//                        identify.set("Purchased", "no")
+//                        Amplitude.getInstance().identify(identify)
+//                    }
+//                }
+//
+//                is AdaptyResult.Error -> {
+//                    App.preferences.isPremiun = false
+//
+//                    val identify = Identify()
+//                    identify.set("Purchased", "no")
+//                    Amplitude.getInstance().identify(identify)
+//                }
 //            }
 //        }
 
-        Adapty.setOnProfileUpdatedListener { profile ->
-            App.preferences.isPremiun = profile.accessLevels["premium"]?.isActive == true
-
-            val identify = Identify()
-            identify.set(
-                "Purchased",
-                if (profile.accessLevels["premium"]?.isActive == true) "yes"
-                else "no"
-            )
-            Amplitude.getInstance().identify(identify)
-        }
+//        Adapty.setOnProfileUpdatedListener { profile ->
+//            App.preferences.isPremiun = profile.accessLevels["premium"]?.isActive == true
+//
+//            val identify = Identify()
+//            identify.set(
+//                "Purchased",
+//                if (profile.accessLevels["premium"]?.isActive == true) "yes"
+//                else "no"
+//            )
+//            Amplitude.getInstance().identify(identify)
+//        }
 //        Adapty.setOnPurchaserInfoUpdatedListener(object : OnPurchaserInfoUpdatedListener {
 //            override fun onPurchaserInfoReceived(purchaserInfo: PurchaserInfoModel) {
 //                App.preferences.isPremiun = purchaserInfo.accessLevels["premium"]?.isActive == true
@@ -1082,7 +997,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 //        if (android.os.Build.VERSION.SDK_INT != android.os.Build.VERSION_CODES.P)
 //            return
 
-
         if (e.isEnable) enableHardwareAcceleration()
 //        else disableHardwareAcceleration()
     }
@@ -1096,6 +1010,22 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private fun disableHardwareAcceleration() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
+    }
+
+    override fun onBackPressed() {
+        var lastFragment = supportFragmentManager.fragments.last()
+
+        if (lastFragment.tag == "SupportLifecycleFragmentImpl") {
+            lastFragment = supportFragmentManager.fragments.get(
+                supportFragmentManager.fragments.size - 2
+            )
+        }
+        if (lastFragment is FragmentBackPressCallback) {
+            lastFragment.backPressed()
+        } else {
+            router.exit()
+        }
+//        super.onBackPressed()
     }
 
     inner class Handler

@@ -4,5 +4,6 @@ import com.myhumandesignhd.model.BodygraphData
 
 data class LoginFbBody(
     val access_token: String,
+    val customerId: String,
     val bodyGraphs: List<BodygraphData>
 )

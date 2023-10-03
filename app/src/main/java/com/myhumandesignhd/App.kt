@@ -4,37 +4,27 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import android.widget.Toast
-import com.adapty.Adapty
 import com.adapty.models.AdaptyPaywall
 import com.adapty.models.AdaptyPaywallProduct
-import com.adapty.utils.AdaptyLogLevel
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.attribution.AppsFlyerRequestListener
-import com.facebook.FacebookSdk
-import com.facebook.appevents.AppEventsLogger
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import com.github.terrakok.cicerone.Cicerone
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.myhumandesignhd.di.AppModule
+import com.myhumandesignhd.di.DaggerAppComponent
 import com.myhumandesignhd.repo.AppDatabase
 import com.myhumandesignhd.rest.di.RetrofitModule
 import com.myhumandesignhd.util.Preferences
 import com.myhumandesignhd.util.ResourcesProvider
-import timber.log.Timber
-import com.github.terrakok.cicerone.Cicerone
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
-import com.myhumandesignhd.di.DaggerAppComponent
 import com.onesignal.OneSignal
 import com.yandex.metrica.ReporterConfig
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
+import timber.log.Timber
 import java.util.*
-import java.util.logging.Level.ALL
 
 class App : DaggerApplication() {
 
@@ -62,10 +52,10 @@ class App : DaggerApplication() {
         database = AppDatabase(this)
 
         // Enable verbose OneSignal logging to debug issues if needed.
-        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
+        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE)
 
         // OneSignal Initialization
-        OneSignal.initWithContext(this);
+        OneSignal.initWithContext(this)
         OneSignal.setAppId(BuildConfig.ONESIGNAL_APP_ID)
 
         setupAppsFlyer()
@@ -180,6 +170,7 @@ class App : DaggerApplication() {
         const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
         const val DATE_FORMAT_SHORT = "yyyy-MM-dd"
         const val DATE_FORMAT_PERSONAL_INFO = "dd.MM.yyyy"
+        const val DATE_FORMAT_PERSONAL_INFO_US = "MM.dd.yyyy"
 
         const val TARGET_SDK = android.os.Build.VERSION_CODES.M
 

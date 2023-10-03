@@ -94,7 +94,7 @@ private fun getHeaderInterceptor(context: Context) = Interceptor { chain ->
 
 private fun getLoggingInterceptor(): Interceptor {
     val logging = HttpLoggingInterceptor()
-    logging.level = HttpLoggingInterceptor.Level.HEADERS
+    logging.level = HttpLoggingInterceptor.Level.BODY
 
     return logging
 }

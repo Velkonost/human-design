@@ -42,6 +42,7 @@ class NotificationHelper(private val mContext: Context) {
         Timber.d("link: $link")
         Timber.d("pageTitle: $pageTitle")
         Timber.d("filter: $filter")
+        Timber.d("section: $section")
 
         val resultPendingIntent = PendingIntent.getActivity(
             mContext,
@@ -62,7 +63,7 @@ class NotificationHelper(private val mContext: Context) {
         mNotificationManager =
             mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mBuilder?.setChannelId(mContext.getString(R.string.default_notification_channel_id))
         }
 //        if (App.preferences.userId != 0)

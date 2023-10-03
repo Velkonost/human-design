@@ -75,6 +75,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:alpha="0.5"
+            android:gravity="center"
             android:textSize="12sp"
             android:textColor="@color/lightColor"
             android:layout_marginBottom="20dp"
@@ -259,6 +260,7 @@
         <TextView
             android:id="@+id/inboxTitle"
             android:layout_marginTop="32dp"
+            android:gravity="center"
             app:layout_constraintTop_toBottomOf="@id/icInboxBack"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -270,7 +272,6 @@
 
         <TextView
             android:id="@+id/inboxSubtitle"
-            android:text="@string/signup_check_inbox_subtitle"
             android:layout_marginTop="12dp"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@id/inboxTitle"
@@ -318,10 +319,25 @@
         <ImageView
             android:id="@+id/gotoInboxBtn"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_signup_goto_email"
+            android:src="@drawable/ic_signup_goto_email_empty"
             app:layout_constraintBottom_toTopOf="@id/inboxFooter"
             android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/gotoInboxBtnTitle"
+            android:text="@string/signup_goto_email"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            android:textColor="@color/lightColor"
+            android:fontFamily="@font/gilroy"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/gotoInboxBtn"
+            app:layout_constraintBottom_toBottomOf="@id/gotoInboxBtn"
+            app:layout_constraintStart_toStartOf="@id/gotoInboxBtn"
+            app:layout_constraintEnd_toEndOf="@id/gotoInboxBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView

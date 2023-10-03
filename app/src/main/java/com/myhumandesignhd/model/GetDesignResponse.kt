@@ -20,8 +20,14 @@ data class GetDesignResponse(
     @field:JsonProperty("description") val description: GetDesignDescription = GetDesignDescription(),
     @field:JsonProperty("injury") val injury: Injury = Injury(),
     @field:JsonProperty("strategy") val strategy: Strategy = Strategy(),
-    @field:JsonProperty("nutriton") val nutrition: Nutrition = Nutrition(),
+    @field:JsonProperty("nutrition") val nutrition: Nutrition = Nutrition(),
     @field:JsonProperty("environment") val environment: Environment = Environment(),
+) : Parcelable
+
+@Parcelize
+data class ChildrenDescriptions(
+    @field:JsonProperty("titles") val titles: List<String> = listOf(),
+    @field:JsonProperty("descriptions") val descriptions: List<String> = listOf(),
 ) : Parcelable
 
 @Parcelize
@@ -98,13 +104,13 @@ data class Center(
 @Parcelize
 data class GetDesignDescription(
     @field:JsonProperty("type") val type: String = "",
-    @field:JsonProperty("type_title") val typeTitle: String = "",
+    @field:JsonProperty("typeTitle") val typeTitle: String = "",
     @field:JsonProperty("profile") val profile: String = "",
-    @field:JsonProperty("profile_title") val profileTitle: String = "",
-    @field:JsonProperty("gates") val gates: HashMap<String, String> = hashMapOf(),
-    @field:JsonProperty("gates_titles") val gatesTitles: HashMap<String, String> = hashMapOf(),
-    @field:JsonProperty("channels") val channels: HashMap<String, String> = hashMapOf(),
-    @field:JsonProperty("channels_titles") val channelsTitles: HashMap<String, String> = hashMapOf(),
+    @field:JsonProperty("profileTitle") val profileTitle: String = "",
+    @field:JsonProperty("gates") val gates: HashMap<String, String>? = hashMapOf(),
+    @field:JsonProperty("gateTitles") val gatesTitles: HashMap<String, String> = hashMapOf(),
+    @field:JsonProperty("channels") val channels: HashMap<String, String>? = hashMapOf(),
+    @field:JsonProperty("channelTitles") val channelsTitles: HashMap<String, String> = hashMapOf(),
 ) : Parcelable
 
 data class AboutItem(

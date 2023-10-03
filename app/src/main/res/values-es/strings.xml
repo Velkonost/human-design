@@ -87,6 +87,25 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="settings_manage_sub_title">Administrar Suscripciones</string>
     <string name="settings_version_title">Versión</string>
     <string name="settings_write_us_title">Escríbenos</string>
+    <string name="settings_manage_subscription">Administrar suscripción</string>
+    <string name="settings_manage_account">Administrar cuenta</string>
+    <string name="settings_logout">CERRAR SESIÓN</string>
+    <string name="settings_delete_acc">ELIMINAR MI CUENTA</string>
+    <string name="settings_account_title">Cuenta</string>
+    <string name="settings_account_text">Puedes cerrar sesión en tu cuenta o eliminarla en cualquier momento. Cuando eliminas tu cuenta, se borrarán todos tus datos y no será posible recuperarlos.</string>
+    <string name="settings_confirm_logout">¿Estás seguro de que deseas cerrar sesión\nen tu cuenta?</string>
+    <string name="settings_delete">ELIMINAR</string>
+    <string name="settings_confirm_delete_text">¿Estás seguro de que quieres eliminar tu cuenta? Después de esto, tus datos serán eliminados y no será posible recuperarlos.</string>
+
+    <string name="settings_subscription">Suscripción</string>
+    <string name="settings_cancel_subscription">CANCELAR SUSCRIPCIÓN</string>
+    <string name="settings_subscribe">SUSCRIBIRSE</string>
+
+    <string name="settings_trial_active">Tu prueba semanal está activa.</string>
+    <string name="settings_trial_expires_at">Tu prueba semanal expira el {date}</string>
+    <string name="settings_subscription_active">Tu suscripción de está activa</string>
+    <string name="settings_subscription_expires_at">Tu suscripción de vence el {date}</string>
+    <string name="settings_subscription_inactive">No tienes ninguna suscripción activa</string>
 
     <string name="faq_title">FAQ</string>
     <string name="affirmations_title">Afirmaciones</string>
@@ -202,10 +221,12 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="add_child_bodygraph_ready_title"><![CDATA[¡El Cuerpo Gráfico está listo!]]></string>
     <string name="add_child_bodygraph_ready_desc"><![CDATA[Ahora puedes descubrir las fortalezas y debilidades de tu hijo, puedes encontrar la forma más armoniosa de su desarrollo personal.]]></string>
 
-    <string name="channel_type_1">Interdependencia</string>
+    <string name="channel_type_1">Cooperación</string>
     <string name="channel_type_2">Dominio</string>
     <string name="channel_type_3">Supresión</string>
-    <string name="channel_type_4">Cooperación</string>
+    <string name="channel_type_4">Interdependencia</string>
+    <string name="channel_type_5">Supremacía de socios</string>
+    <string name="channel_type_6">Supresión por parte de un socio</string>
 
     <string name="compatibility_channels_title">Canales de Compatibilidad</string>
     <string name="compatibility_channels_desc">Los canales de compatibilidad demuestran cómo las personas se influyen entre sí. Al superponer tarjetas rave de dos personas, podemos ver si tú y tu pareja tienen canales que coinciden total o parcialmente. En base a esto, se concluye si tu relación será armoniosa</string>
@@ -387,4 +408,19 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <!--  PLANET TRANSITS  -->
     <string name="planet_transits_title">Planet Transits</string>
     <!--  PLANET TRANSITS  -->
+
+    <!--  OLD USERS  -->
+    <string name="old_users_first_title">¡Tenemos excelentes noticias para ti!</string>
+    <string name="old_users_first_text">Hemos realizado una actualización importante que hará que el uso de la aplicación sea aún más conveniente.</string>
+    <string name="old_users_first_footer">Te llevará solo unos segundos crear una cuenta.</string>
+
+    <string name="old_users_second_title">Preservación de Datos</string>
+    <string name="old_users_second_text">Al registrarte, aseguras la preservación y seguridad de tus datos y ajustes. Esto te permitirá restaurar tus ajustes fácilmente, incluso si cambias de dispositivo o reinstalas la aplicación.</string>
+
+    <string name="old_users_third_title">Acceso a Nuevas Funciones</string>
+    <string name="old_users_third_text">La inscripción te brinda un acceso temprano a futuras funciones y actualizaciones. Tendrás la oportunidad de ser uno de los primeros en experimentar las capacidades mejoradas de la aplicación.</string>
+
+    <string name="old_users_forth_title">Soporte y Servicio</string>
+    <string name="old_users_forth_text">Registrarse nos permitirá ofrecerte soporte de mayor calidad y abordar rápidamente cualquier problema que pueda surgir.</string>
+    <!--  OLD USERS  -->
 </resources>

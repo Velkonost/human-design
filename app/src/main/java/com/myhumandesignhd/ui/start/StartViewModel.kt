@@ -11,7 +11,6 @@ import com.myhumandesignhd.model.GeocodingNominatimFeature
 import com.myhumandesignhd.model.GeocodingResponse
 import com.myhumandesignhd.model.getDateStr
 import com.myhumandesignhd.model.request.GoogleAccessTokenBody
-import com.myhumandesignhd.model.response.LoginEmailResponse
 import com.myhumandesignhd.model.response.LoginResponse
 import com.myhumandesignhd.repo.base.RestRepo
 import com.myhumandesignhd.repo.base.RestV2Repo
@@ -40,9 +39,28 @@ class StartViewModel @Inject constructor(
         mutableLiveDataOf(emptyList())
 
     var loginFbLiveData: MutableLiveData<LoginResponse> = mutableLiveDataOf(LoginResponse())
-    var loginEmailLiveData: MutableLiveData<LoginEmailResponse> = mutableLiveDataOf(
-        LoginEmailResponse()
-    )
+    var loginEmailLiveData: MutableLiveData<LoginResponse> = mutableLiveDataOf(LoginResponse())
+
+    var skipOnboarding: MutableLiveData<Boolean?> = mutableLiveDataOf(null)
+
+    fun setupCurrentBodygraph() {
+        EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
+
+        repoV2.getAllBodygraphs().subscribe({ result ->
+            val bodygraphs = result.data.toMutableList()
+
+            val activeBodygraph = result.data.firstOrNull { it.isActive }
+            if (activeBodygraph != null) {
+                App.preferences.currentUserId = activeBodygraph.id
+            }
+
+            skipOnboarding.postValue(activeBodygraph != null)
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+        }, {
+            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+            EventBus.getDefault().post(NoInetEvent())
+        }).disposeOnCleared()
+    }
 
     fun loginEmail(email: String, deviceId: String) {
         viewModelScope.launch {
@@ -57,11 +75,13 @@ class StartViewModel @Inject constructor(
         }
     }
 
-    fun checkLogin(deviceId: String) {
-        repoV2.checkLogin(deviceId)
+    fun checkLogin(deviceId: String, email: String) {
+        repoV2.checkLogin(deviceId, email)
             .subscribe({
                 loginFbLiveData.postValue(it)
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             }, {
+                loginFbLiveData.postValue(LoginResponse(status = "error", message = "User isn't logged in."))
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             }).disposeOnCleared()
     }
@@ -103,7 +123,14 @@ class StartViewModel @Inject constructor(
             }).disposeOnCleared()
     }
 
-    private suspend fun collectBodygraphsData() =
+    suspend fun isOldUser() =
+        coroutineScope {
+            withContext(Dispatchers.IO) {
+                getAllUsers().isNotEmpty()
+            }
+        }
+
+    suspend fun collectBodygraphsData() =
         coroutineScope {
             withContext(Dispatchers.IO) {
                 val users = getAllUsers()
@@ -124,7 +151,6 @@ class StartViewModel @Inject constructor(
                             )
                         )
                     }
-
 
                     data.add(
                         BodygraphData(

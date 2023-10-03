@@ -15,12 +15,14 @@ import com.myhumandesignhd.ui.compatibility.CompatibilityFragment
 import com.myhumandesignhd.ui.compatibility.child.CompatibilityChildFragment
 import com.myhumandesignhd.ui.compatibility.detail.CompatibilityDetailFragment
 import com.myhumandesignhd.ui.compatibility.detail.info.CompatibilityDetailInfoFragment
+import com.myhumandesignhd.ui.description.DescriptionFragment
 import com.myhumandesignhd.ui.faq.FaqFragment
 import com.myhumandesignhd.ui.faq.detail.FaqDetailFragment
 import com.myhumandesignhd.ui.loader.LoaderFragment
-import com.myhumandesignhd.ui.description.DescriptionFragment
 import com.myhumandesignhd.ui.paywall.PaywallFragment
 import com.myhumandesignhd.ui.settings.SettingsFragment
+import com.myhumandesignhd.ui.settings.manageaccount.ManageAccountFragment
+import com.myhumandesignhd.ui.settings.managesubscription.ManageSubscriptionFragment
 import com.myhumandesignhd.ui.settings.personal.PersonalInfoFragment
 import com.myhumandesignhd.ui.start.StartFragment
 import com.myhumandesignhd.ui.transit.TransitFragment
@@ -103,14 +105,21 @@ object Screens {
         key = "bodygraph_first"
     )
 
-    fun bodygraphSecondScreen() = FragmentScreen {
+    fun bodygraphSecondScreen(
+        needUpdateNavMenu: Boolean = false
+    ) = FragmentScreen {
         if (App.preferences.isInvokeNewDescription) {
             BodygraphSecondFragment.reset()
 
             App.preferences.isInvokeNewDescription = false
         }
-//        BodygraphSecondFragment.invoke()
-        BodygraphSecondFragment()
+
+        val screen = BodygraphSecondFragment()
+        screen.arguments = bundleOf(
+            "needUpdateNavMenu" to needUpdateNavMenu
+        )
+
+        screen
     }
 
     fun faqScreen() = FragmentScreen {
@@ -181,6 +190,14 @@ object Screens {
 
     fun compatibilityDetailInfoScreen() = FragmentScreen {
         CompatibilityDetailInfoFragment()
+    }
+
+    fun manageAccountScreen() = FragmentScreen {
+        ManageAccountFragment()
+    }
+
+    fun manageSubscriptionScreen() = FragmentScreen {
+        ManageSubscriptionFragment()
     }
 }
 

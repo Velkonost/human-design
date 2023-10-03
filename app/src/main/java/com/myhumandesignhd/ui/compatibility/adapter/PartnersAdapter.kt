@@ -83,8 +83,7 @@ class PartnerModel(
 
         with(view) {
             userName.text = model.name
-            subtitle.text =
-                "${model.type} • " + "${model.line} • " + model.profile
+            subtitle.text = "${model.type} • " + "${model.line} • " + model.profile
 
             userName.setTextColor(
                 ContextCompat.getColor(

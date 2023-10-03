@@ -25,13 +25,11 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
         setupInitTheme()
 
         binding.anim.addAnimatorListener(object : Animator.AnimatorListener {
-
             override fun onAnimationStart(animation: Animator) {}
-
             override fun onAnimationEnd(animation: Animator) {
-                EventBus.getDefault().post(FinishFirstLoaderEvent(
-                    isFirst = true
-                ))
+                EventBus.getDefault().post(FinishFirstLoaderEvent(isFirst = true))
+
+                binding.anim.isVisible = false
 
                 binding.anim2.playAnimation()
                 binding.anim2.isVisible = true
@@ -39,7 +37,7 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
                 binding.anim2.addAnimatorListener(object : Animator.AnimatorListener {
 
                     override fun onAnimationStart(animation: Animator) {
-                        binding.anim.isVisible = false
+
                     }
 
                     override fun onAnimationEnd(animation: Animator) {

@@ -30,14 +30,10 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
 ) {
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
-    private val diagramsAdapter: DiagramsAdapter by lazy {
-        DiagramsAdapter()
-    }
+    private val diagramsAdapter: DiagramsAdapter by lazy { DiagramsAdapter() }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -50,17 +46,15 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         binding.diagramsRecycler.layoutManager = SSMLLinearLayoutManager(requireContext())
     }
 
+    private var lastDeletedUserId = -1L
     @Subscribe
     fun onDeleteDiagramItemEvent(e: DeleteDiagramItemEvent) {
-        baseViewModel.deleteUser(
-            e.userId,
-            diagramsAdapter.getUserAtPosition(
-                diagramsAdapter.getNextPosition(
-                    diagramsAdapter.getPositionByUserId(e.userId)
-                )
-            ).id
-        )
-        diagramsAdapter.deleteUserById(e.userId)
+        if (lastDeletedUserId != e.userId) {
+            lastDeletedUserId = e.userId
+
+            baseViewModel.deleteUser(e.userId)
+            diagramsAdapter.deleteUserById(e.userId)
+        }
     }
 
     override fun updateThemeAndLocale() {
@@ -111,9 +105,7 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
 
     @Subscribe
     fun onUpdateCurrentUserEvent(e: UpdateCurrentUserEvent) {
-//        App.preferences.currentUserId = e.userId
         isChangedUserClicked = true
-//        baseViewModel.setupCurrentUser()
         baseViewModel.changeActiveBodygraph(e.userId)
     }
 
@@ -150,17 +142,6 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         baseViewModel.allBodygraphsData.observe(this) {
             diagramsAdapter.createList(it)
         }
-
-//        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-//            baseViewModel.updateBodygraphs()
-//        }
-//        baseViewModel.updateUsersEvent.observe(this) {
-//            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-//                val users = baseViewModel.getAllUsers()
-//                diagramsAdapter.createList(users)
-//            }
-//        }
-
     }
 
     inner class Handler {

@@ -10,10 +10,10 @@ import com.myhumandesignhd.ui.compatibility.child.di.CompatibilityChildModule
 import com.myhumandesignhd.ui.compatibility.detail.di.CompatibilityDetailModule
 import com.myhumandesignhd.ui.compatibility.detail.info.di.CompatibilityDetailInfoModule
 import com.myhumandesignhd.ui.compatibility.di.CompatibilityModule
+import com.myhumandesignhd.ui.description.di.DescriptionModule
 import com.myhumandesignhd.ui.faq.detail.di.FaqDetailModule
 import com.myhumandesignhd.ui.faq.di.FaqModule
 import com.myhumandesignhd.ui.loader.di.LoaderModule
-import com.myhumandesignhd.ui.description.di.DescriptionModule
 import com.myhumandesignhd.ui.paywall.di.PaywallModule
 import com.myhumandesignhd.ui.settings.di.SettingsModule
 import com.myhumandesignhd.ui.settings.personal.di.PersonalInfoModule
@@ -41,7 +41,7 @@ import dagger.Module
         PersonalInfoModule::class,
         LoaderModule::class,
         PaywallModule::class,
-        DescriptionModule::class
+        DescriptionModule::class,
     ]
 )
 class FragmentsModule

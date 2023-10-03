@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="50dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -27,7 +28,7 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             app:wheel_atmospheric="true"
-            app:wheel_item_align="right"
+            app:wheel_item_align="left"
             app:wheel_item_text_size="20sp" />
 
         <com.myhumandesignhd.ui.view.daytimepicker.widget.WheelDayOfMonthPicker
@@ -36,9 +37,10 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_weight="1"
             android:visibility="gone"
             app:wheel_atmospheric="true"
-            app:wheel_item_align="right"
+            app:wheel_item_align="left"
             app:wheel_item_text_size="20sp" />
 
         <com.myhumandesignhd.ui.view.daytimepicker.widget.WheelMonthPicker
@@ -47,9 +49,10 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_weight="1"
             android:visibility="gone"
             app:wheel_atmospheric="true"
-            app:wheel_item_align="right"
+            app:wheel_item_align="left"
             app:wheel_item_text_color="@color/lightColor"
             app:wheel_item_text_size="20sp"
             app:wheel_selected_item_text_color="@color/lightColor" />
@@ -60,6 +63,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_weight="1"
             android:visibility="gone"
             app:wheel_atmospheric="true"
             app:wheel_item_align="right"

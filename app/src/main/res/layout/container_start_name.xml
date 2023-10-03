@@ -11,23 +11,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="12dp"
-
+        android:alpha="0"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/startBtn"
         app:layout_constraintTop_toBottomOf="@id/backBtn">
 
         <TextView
             android:id="@+id/nameTitle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gilroy"
-            android:gravity="start|top"
-            android:textSize="32sp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center|bottom"
+            android:lines="2"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/nameTitle"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/gilroy"-->
+<!--            android:gravity="start|top"-->
+<!--            android:textSize="32sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/nameDesc"
@@ -35,30 +48,58 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="12dp"
-            android:fontFamily="@font/gilroy_regular"
-            android:gravity="start"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
             android:textSize="16sp"
-            android:lineSpacingExtra="1sp"
-            android:alpha="0.7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nameTitle" />
+<!--        <TextView-->
+<!--            android:id="@+id/nameDesc"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:fontFamily="@font/gilroy_regular"-->
+<!--            android:gravity="start"-->
+<!--            android:textSize="16sp"-->
+<!--            android:lineSpacingExtra="1sp"-->
+<!--            android:alpha="0.7"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/nameTitle" />-->
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/nameET"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/gilroy"
-            android:gravity="center_vertical|start"
+            android:layout_marginBottom="46dp"
+            android:backgroundTint="@color/darkHintColor"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
             android:includeFontPadding="true"
             android:inputType="textVisiblePassword|textNoSuggestions"
-            android:padding="16dp"
+            android:letterSpacing="0.12"
+            android:paddingBottom="24dp"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/nameDesc"
-            />
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent" />
+<!--        <androidx.appcompat.widget.AppCompatEditText-->
+<!--            android:id="@+id/nameET"-->
+<!--            android:visibility="gone"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            android:fontFamily="@font/gilroy"-->
+<!--            android:gravity="center_vertical|start"-->
+<!--            android:includeFontPadding="true"-->
+<!--            android:inputType="textVisiblePassword|textNoSuggestions"-->
+<!--            android:padding="16dp"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/nameDesc"-->
+<!--            />-->
 
         <com.myhumandesignhd.ui.view.daytimepicker.SingleDateAndTimePicker
             android:id="@+id/date"
@@ -72,8 +113,7 @@
             android:datePickerMode="spinner"
             android:hapticFeedbackEnabled="true"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/nameDesc"
-            android:layout_marginTop="42dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:offset="3"
             app:pickerMode="dayFirst"
             app:picker_curved="true"
@@ -97,10 +137,9 @@
             android:alpha="0"
             android:timePickerMode="spinner"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/nameDesc"
+            app:layout_constraintBottom_toTopOf="@id/skipTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:picker_curved="true"
-            android:layout_marginTop="42dp"
             app:picker_cyclic="true"
             app:picker_displayDays="false"
             app:picker_displayDaysOfMonth="false"
@@ -113,20 +152,38 @@
 
         <TextView
             android:id="@+id/skipTime"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="25dp"
             android:alpha="0"
-            android:fontFamily="@font/gilroy_regular"
+            android:background="@drawable/bg_skip_time"
+            android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:letterSpacing="0.12"
             android:paddingVertical="12dp"
             android:textSize="16sp"
             android:visibility="gone"
+            android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/skipTime"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:layout_marginBottom="15dp"-->
+<!--            android:alpha="0"-->
+<!--            android:fontFamily="@font/gilroy_regular"-->
+<!--            android:gravity="center"-->
+<!--            android:letterSpacing="0.12"-->
+<!--            android:paddingVertical="12dp"-->
+<!--            android:textSize="16sp"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
         <View
             app:layout_constraintTop_toBottomOf="@id/skipTime"
@@ -134,6 +191,7 @@
             app:layout_constraintEnd_toEndOf="@id/skipTime"
             android:layout_marginTop="4dp"
             android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_height="1dp"
             android:background="@drawable/ic_breakline"/>
 
@@ -142,18 +200,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/gilroy"
-            android:gravity="center_vertical|start"
             android:alpha="0"
+            android:backgroundTint="@color/darkHintColor"
             android:clickable="true"
             android:focusable="false"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
             android:includeFontPadding="true"
             android:inputType="textVisiblePassword|textNoSuggestions"
+            android:letterSpacing="0.2"
+            android:paddingBottom="24dp"
+            android:textAllCaps="true"
             android:textSize="16sp"
-            android:padding="16dp"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nameDesc" />
+<!--        <androidx.appcompat.widget.AppCompatEditText-->
+<!--            android:id="@+id/placeET"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            android:fontFamily="@font/gilroy"-->
+<!--            android:gravity="center_vertical|start"-->
+<!--            android:alpha="0"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="false"-->
+<!--            android:includeFontPadding="true"-->
+<!--            android:inputType="textVisiblePassword|textNoSuggestions"-->
+<!--            android:textSize="16sp"-->
+<!--            android:padding="16dp"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/nameDesc" />-->
 
         <ImageView
             android:id="@+id/icCirclesBodygraph"

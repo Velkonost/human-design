@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.myhumandesignhd.ui.settings.SettingsViewModel" />
+
+        <variable
+            name="handler"
+            type="com.myhumandesignhd.ui.settings.managesubscription.ManageSubscriptionFragment.Handler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/settingsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/darkColor"
+        android:fitsSystemWindows="true"
+        android:paddingHorizontal="20dp"
+        tools:context="com.myhumandesignhd.ui.activity.main.MainActivity">
+
+        <TextView
+            android:id="@+id/subscribeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/settings_subscription"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/subscribeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:alpha="0.7"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subscribeTitle" />
+
+        <FrameLayout
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:onClick="@{handler::onBackClicked}"
+            app:layout_constraintBottom_toBottomOf="@id/subscribeTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/subscribeTitle">
+
+            <ImageView
+                android:id="@+id/faqBack"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:rotation="180"
+                android:src="@drawable/ic_arrow" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/cancelSubscriptionBtn"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/bg_red_btn"
+            android:gravity="center"
+            android:letterSpacing=".192"
+            android:onClick="@{handler::onCancelSubscriptionClicked}"
+            android:paddingVertical="14dp"
+            android:text="@string/settings_cancel_subscription"
+            android:textAllCaps="true"
+            android:textColor="#AA3755"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/subscribeBtn"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="30dp"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{handler::onSubscribeClicked}"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <!--android:foreground="?attr/selectableItemBackground"-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_btn" />
+
+            <TextView
+                android:id="@+id/startBtnText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/gilroy"
+                android:gravity="center"
+                android:letterSpacing="0.12"
+                android:text="@string/settings_subscribe"
+                android:textAllCaps="true"
+                android:textColor="@color/lightColor"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

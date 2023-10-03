@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
-import com.airbnb.epoxy.EpoxyRecyclerView
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.model.CompatibilityChannel
@@ -66,22 +65,22 @@ class CompatibilityDetailsAdapter : EpoxyAdapter() {
             AboutModel(
             firstTitle, secondTitle,
             firstName, secondName,
-            compatibility.description,
+            compatibility.data.description,
             chart1ResId, chart2ResId
         )
         )
         addModel(
             ProfilesModel(
-            compatibility.line,
-            compatibility.profileTitle,
-            compatibility.profileDescription,
-            compatibility.descrTitle,
-            compatibility.descrNext
+            compatibility.data.line,
+            compatibility.data.profileTitle,
+            compatibility.data.profileDescription,
+            compatibility.data.descrTitle,
+            compatibility.data.descrNext
         )
         )
         addModel(
             ChannelsModel(
-            compatibility.channels,
+            compatibility.data.channels,
             context
         )
         )
@@ -210,7 +209,7 @@ class ProfilesModel(
     override fun getDefaultLayout(): Int = R.layout.item_compatibility_detail_profiles
 }
 
-class CompatibilityChannelsTitleModel(): EpoxyModel<View>() {
+class CompatibilityChannelsTitleModel : EpoxyModel<View>() {
     private var root: View? = null
 
     override fun bind(view: View) {
@@ -429,15 +428,21 @@ class CompatibilityChannelModel(
                 "0" -> App.resourcesProvider.getStringLocale(R.string.channel_type_1)
                 "1" -> App.resourcesProvider.getStringLocale(R.string.channel_type_2)
                 "2" -> App.resourcesProvider.getStringLocale(R.string.channel_type_3)
+                "3" -> App.resourcesProvider.getStringLocale(R.string.channel_type_4)
+                "4" -> App.resourcesProvider.getStringLocale(R.string.channel_type_5)
+                "5" -> App.resourcesProvider.getStringLocale(R.string.channel_type_6)
                 else -> App.resourcesProvider.getStringLocale(R.string.channel_type_4)
             }
 
             typeTitle.background = ContextCompat.getDrawable(
                 context,
                 when(model.type) {
-                    "0" -> R.drawable.bg_channel_type_1
+                    "0" -> R.drawable.bg_channel_type_4
                     "1" -> R.drawable.bg_channel_type_2
                     "2" -> R.drawable.bg_channel_type_3
+                    "3" -> R.drawable.bg_channel_type_1
+                    "4" -> R.drawable.bg_channel_type_3
+                    "5" -> R.drawable.bg_channel_type_2
                     else -> R.drawable.bg_channel_type_4
                 }
             )

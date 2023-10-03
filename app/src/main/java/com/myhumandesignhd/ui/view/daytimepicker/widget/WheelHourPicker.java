@@ -15,13 +15,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class WheelHourPicker extends com.github.florent37.singledateandtimepicker.widget.WheelHourPicker {
+public class WheelHourPicker extends MyWheelPicker<String> {
+//        com.github.florent37.singledateandtimepicker.widget.WheelHourPicker {
 
     private int minHour;
     private int maxHour;
     private int hoursStep;
 
-    protected boolean isAmPm;
+    public boolean isAmPm;
     private FinishedLoopListener finishedLoopListener;
     private OnHourChangedListener hourChangedListener;
 

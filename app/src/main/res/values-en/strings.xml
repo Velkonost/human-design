@@ -203,10 +203,12 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="add_child_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
     <string name="add_child_bodygraph_ready_desc"><![CDATA[Now you can will find out the strengths\nand weakness of your child, you can find\nthe most harmonious way of his\ndevelopment and personal becoming.]]></string>
 
-    <string name="channel_type_1">Interdependence</string>
+    <string name="channel_type_1">Cooperation</string>
     <string name="channel_type_2">Dominance</string>
     <string name="channel_type_3">Suppression</string>
-    <string name="channel_type_4">Cooperation</string>
+    <string name="channel_type_4">Interdependence</string>
+    <string name="channel_type_5">Suppression by partner</string>
+    <string name="channel_type_6">Partner dominance</string>
 
     <string name="compatibility_channels_title">Compatibility Channels</string>
     <string name="compatibility_channels_desc">Compatibility channels demonstrate how people influence each other. When overlaying rave cards of two persons, we can see if you and your partner have completely or partially matching Channels.  Based on this, it is concluded whether your relationship will be harmonious.</string>
@@ -264,6 +266,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="advice_title">Daily Advice</string>
 
     <string name="snackbar_title">Error</string>
+    <string name="snackbar_title_notification">Notification</string>
     <string name="snackbar_inet_title">No internet connection</string>
     <string name="snackbar_inet">Your network connection is unstable or disconnected</string>
     <string name="snackbar_name">The name field cannot be empty.</string>
@@ -370,4 +373,24 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <!--  PLANET TRANSITS  -->
     <string name="planet_transits_title">Planet Transits</string>
     <!--  PLANET TRANSITS  -->
+
+    <!--  SIGNUP  -->
+    <string name="resend_email">A new email has been sent to your email</string>
+    <!--  SIGNUP  -->
+
+    <!--  OLD USERS  -->
+    <string name="old_users_first_title">We have great news\nfor you!</string>
+    <string name="old_users_first_text">We\'ve made a major update for you\nthat will make using the app even\nmore convenient!</string>
+    <string name="old_users_first_footer">It will take you just a few seconds to create an account</string>
+
+    <string name="old_users_second_title">Data Preservation</string>
+    <string name="old_users_second_text">By registering, you ensure the preservation\nand security of your data and settings.This\nwill allow you to easily restore your settings,\neven if you switch devices or reinstall\nthe application.</string>
+
+    <string name="old_users_third_title">Access to\nNew Features</string>
+    <string name="old_users_third_text">Registration grants you early access to\nupcoming features and updates. You will\nhave the chance to be among the first to\nexperience the enhanced capabilities of\nthe application.</string>
+
+    <string name="old_users_forth_title">Support and Servicing</string>
+    <string name="old_users_forth_text">Registration will enable us to provide you\nwith higher quality support and promptly\naddress any issues that may arise.</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <!--  OLD USERS  -->
 </resources>

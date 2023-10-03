@@ -20,6 +20,7 @@ import com.myhumandesignhd.databinding.FragmentBodygraphBinding
 import com.myhumandesignhd.event.BodygraphCenterClickEvent
 import com.myhumandesignhd.event.HelpType
 import com.myhumandesignhd.event.OpenBodygraphEvent
+import com.myhumandesignhd.event.SelectNavItemEvent
 import com.myhumandesignhd.event.SetupNavMenuEvent
 import com.myhumandesignhd.event.ShowHelpEvent
 import com.myhumandesignhd.event.UpdateBalloonBgStateEvent
@@ -49,9 +50,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 ) {
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
     private val fromStart: Boolean by lazy {
@@ -122,6 +121,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     override fun onResume() {
         super.onResume()
 
+        EventBus.getDefault().post(SelectNavItemEvent(itemPosition = 0))
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
     }
 

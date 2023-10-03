@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.Html
+import android.text.InputFilter
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -34,6 +35,7 @@ import com.myhumandesignhd.event.UpdateLoaderStateEvent
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.model.Place
 import com.myhumandesignhd.navigation.Screens
+import com.myhumandesignhd.ui.activity.main.FragmentBackPressCallback
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.start.StartPage
 import com.myhumandesignhd.ui.start.StartViewModel
@@ -64,12 +66,15 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
 import java.util.Calendar
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+
 
 class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
     R.layout.fragment_add_user,
     StartViewModel::class,
     Handler::class
-) {
+), FragmentBackPressCallback {
 
     var currentStartPage: StartPage = StartPage.RAVE
 
@@ -79,9 +84,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
     var selectedLon = ""
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
     private val fromCompatibility: Boolean by lazy {
@@ -96,9 +99,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         arguments?.getBoolean("isChild", false) ?: false
     }
 
-    private val placesAdapter: PlacesAdapter by lazy {
-        PlacesAdapter()
-    }
+    private val placesAdapter: PlacesAdapter by lazy { PlacesAdapter() }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -120,7 +121,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
     }
 
     private var prevHeightDiff = -1
-    private fun addKeyboardDetectListener(){
+    private fun addKeyboardDetectListener() {
         binding.startContainer.viewTreeObserver.addOnGlobalLayoutListener {
             if (isAdded) {
                 val heightDifference =
@@ -130,7 +131,11 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 }
                 prevHeightDiff = heightDifference
 
-                if (heightDifference > dpToPx(requireContext(), 200F) && !binding.placesView.isVisible) {
+                if (heightDifference > dpToPx(
+                        requireContext(),
+                        200F
+                    ) && !binding.placesView.isVisible
+                ) {
                     binding.nameET.isVisible = false
                     binding.nameET.requestLayout()
 
@@ -178,7 +183,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         }
     }
 
-    private fun dpToPx(context: Context, valueInDp: Float) : Float{
+    private fun dpToPx(context: Context, valueInDp: Float): Float {
         val displayMetrics = context.resources.displayMetrics
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, displayMetrics)
     }
@@ -196,31 +201,41 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
     override fun updateThemeAndLocale() {
 
-        binding.bodygraphReadyText1.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
-        binding.bodygraphReadyText2.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
-        binding.bodygraphReadyText3.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
-        binding.bodygraphReadyText4.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
-        binding.bodygraphReadyText5.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.bodygraphReadyText1.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+        binding.bodygraphReadyText2.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+        binding.bodygraphReadyText3.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+        binding.bodygraphReadyText4.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+        binding.bodygraphReadyText5.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         binding.bottomGradient.isVisible = App.preferences.isDarkTheme
 
@@ -361,17 +376,21 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             )
         )
 
-        binding.nameET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkHintColor
-            else R.color.lightHintColor
-        ))
+        binding.nameET.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
 
-        binding.placeET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkHintColor
-            else R.color.lightHintColor
-        ))
+        binding.placeET.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkHintColor
+                else R.color.lightHintColor
+            )
+        )
 
         binding.placesView.newPlaceET.background = ContextCompat.getDrawable(
             requireContext(),
@@ -379,17 +398,21 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             else R.drawable.bg_search_light
         )
 
-        binding.placesView.icArrowPlace.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.placesView.icArrowPlace.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.placesView.icSearch.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.searchTintDark
-            else R.color.searchTintLight
-        ))
+        binding.placesView.icSearch.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.searchTintDark
+                else R.color.searchTintLight
+            )
+        )
 
         binding.skipTime.background = ContextCompat.getDrawable(
             requireContext(),
@@ -423,7 +446,8 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
     }
 
     private fun setupPlacesView() {
-        (binding.placesView.placeRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        (binding.placesView.placeRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
+            false
         binding.placesView.placeRecycler.itemAnimator = null
         binding.placesView.placeRecycler.adapter = placesAdapter
 
@@ -491,20 +515,28 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             isChild -> {
                 YandexMetrica.reportEvent("TabAddChildren1Screen")
 
-                binding.raveTitle.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_child_rave_title))
-                binding.raveDesc.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_child_rave_desc))
+                binding.raveTitle.text =
+                    Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_child_rave_title))
+                binding.raveDesc.text =
+                    Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_child_rave_desc))
             }
+
             fromCompatibility -> {
                 YandexMetrica.reportEvent("TabAddAdults1Screen")
 
-                binding.raveTitle.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_title))
-                binding.raveDesc.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_desc))
+                binding.raveTitle.text =
+                    Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_title))
+                binding.raveDesc.text =
+                    Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_desc))
             }
+
             else -> {
                 YandexMetrica.reportEvent("Tab1AddUserTappedStart2")
 
-                binding.raveTitle.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_rave_title))
-                binding.raveDesc.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_rave_desc))
+                binding.raveTitle.text =
+                    Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_rave_title))
+                binding.raveDesc.text =
+                    Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_rave_desc))
             }
         }
     }
@@ -536,12 +568,14 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_name_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_name_desc))
             }
+
             fromCompatibility -> {
                 YandexMetrica.reportEvent("TabAddAdultsNameScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_name_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_name_desc))
             }
+
             else -> {
                 YandexMetrica.reportEvent("Tab1AddUserTappedStartName")
 
@@ -551,6 +585,25 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         }
 
         binding.nameET.hint = App.resourcesProvider.getStringLocale(R.string.start_name_hint)
+
+        val filter = InputFilter { source, start, end, dest, dstart, dend ->
+            val stringSource = source.toString()
+            val stringDest = dest.toString()
+            if (stringSource == " ") {
+                if (stringDest.isEmpty()) return@InputFilter ""
+
+                if (stringDest.isNotEmpty())
+                    if (dstart > 0 && binding.nameET.text.toString()
+                            .toCharArray()[dstart - 1] === ' '
+                        || binding.nameET.text.toString().length > dstart
+                        && binding.nameET.text.toString().toCharArray()[dstart] === ' '
+                        || dstart == 0
+                    )
+                        return@InputFilter ""
+            }
+            null
+        }
+        binding.nameET.filters = arrayOf(filter)
     }
 
     private fun setupDateBirth() {
@@ -571,8 +624,18 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         binding.nameET.alpha0(500) {
             binding.nameET.isVisible = false
         }
+        val executorService: ExecutorService = Executors.newSingleThreadExecutor()
+        executorService.submit {
+//            binding.date.setCurved(true)
+//            binding.date.setCurvedMaxAngle(0)
+        }
+
+//        withContext(Dispatchers.IO) {
+//            delay(2500)
+//        }
+//
         binding.date.isVisible = true
-        binding.date.alpha1(500)
+        binding.date.alpha = 1f
 
         when {
             isChild -> {
@@ -581,12 +644,14 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_date_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_date_birth_desc))
             }
+
             fromCompatibility -> {
                 YandexMetrica.reportEvent("TabAddAdultsDateScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_date_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_date_birth_desc))
             }
+
             else -> {
                 YandexMetrica.reportEvent("Tab1AddUserTappedStartDate")
 
@@ -613,12 +678,14 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_time_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_time_birth_desc))
             }
+
             fromCompatibility -> {
                 YandexMetrica.reportEvent("TabAddAdultsTimeScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_time_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_time_birth_desc))
             }
+
             else -> {
                 YandexMetrica.reportEvent("Tab1AddUserTappedStartTime")
 
@@ -666,12 +733,14 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_place_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_place_birth_desc))
             }
+
             fromCompatibility -> {
                 YandexMetrica.reportEvent("TabAddAdultsPlaceScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_place_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_place_birth_desc))
             }
+
             else -> {
                 YandexMetrica.reportEvent("Tab1AddUserTappedStartPlace")
 
@@ -717,10 +786,12 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 //                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_bodygraph_ready_title))
 
             }
+
             fromCompatibility -> {
                 YandexMetrica.reportEvent("TabAddAdultsBodygrapsScreenShowen")
 //                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_bodygraph_ready_title))
             }
+
             else -> {
                 YandexMetrica.reportEvent("Tab1AddUserStartBodygraphShowen")
 //                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_bodygraph_title))
@@ -783,11 +854,13 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                                                 App.preferences.isCompatibilityFromChild = true
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
+
                                             fromCompatibility -> {
                                                 Amplitude.getInstance()
                                                     .logEvent("tab3TappedStartButton7")
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
+
                                             else -> {
                                                 Amplitude.getInstance()
                                                     .logEvent("addUserTappedStart6")
@@ -819,6 +892,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     )
                 }
             }
+
             fromCompatibility -> {
                 baseViewModel.currentPartnerBodygraph.observe(viewLifecycleOwner) {
                     if (
@@ -872,11 +946,13 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                                                 App.preferences.isCompatibilityFromChild = true
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
+
                                             fromCompatibility -> {
                                                 Amplitude.getInstance()
                                                     .logEvent("tab3TappedStartButton7")
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
+
                                             else -> {
                                                 Amplitude.getInstance()
                                                     .logEvent("addUserTappedStart6")
@@ -908,6 +984,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     )
                 }
             }
+
             else -> {
                 baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
                     if (
@@ -961,11 +1038,13 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                                                 App.preferences.isCompatibilityFromChild = true
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
+
                                             fromCompatibility -> {
                                                 Amplitude.getInstance()
                                                     .logEvent("tab3TappedStartButton7")
                                                 router.navigateTo(Screens.compatibilityScreen())
                                             }
+
                                             else -> {
                                                 Amplitude.getInstance()
                                                     .logEvent("addUserTappedStart6")
@@ -1044,8 +1123,10 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         (snackbar.view as ViewGroup).removeAllViews()
         (snackbar.view as ViewGroup).addView(snackView)
 
-        snackView.findViewById<TextView>(R.id.title).text = App.resourcesProvider.getStringLocale(R.string.snackbar_title)
-        snackView.findViewById<TextView>(R.id.desc).text = App.resourcesProvider.getStringLocale(R.string.snackbar_name)
+        snackView.findViewById<TextView>(R.id.title).text =
+            App.resourcesProvider.getStringLocale(R.string.snackbar_title)
+        snackView.findViewById<TextView>(R.id.desc).text =
+            App.resourcesProvider.getStringLocale(R.string.snackbar_name)
         snackbar.setBackgroundTint(Color.parseColor("#F7C52B"))
 
         snackbar
@@ -1063,15 +1144,18 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         (snackbar.view as ViewGroup).removeAllViews()
         (snackbar.view as ViewGroup).addView(snackView)
 
-        snackView.findViewById<TextView>(R.id.title).text = App.resourcesProvider.getStringLocale(R.string.snackbar_title)
-        snackView.findViewById<TextView>(R.id.desc).text = App.resourcesProvider.getStringLocale(R.string.snackbar_address)
+        snackView.findViewById<TextView>(R.id.title).text =
+            App.resourcesProvider.getStringLocale(R.string.snackbar_title)
+        snackView.findViewById<TextView>(R.id.desc).text =
+            App.resourcesProvider.getStringLocale(R.string.snackbar_address)
         snackbar.setBackgroundTint(Color.parseColor("#F7C52B"))
 
         snackbar
     }
 
     private fun isNetworkConnected(): Boolean {
-        val cm = requireContext().getSystemService(DaggerAppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm =
+            requireContext().getSystemService(DaggerAppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnected
     }
 
@@ -1091,7 +1175,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         view.x =
             if (e.isLeftTriangle) binding.bodygraphView.left + e.x
             else if (e.isRightTriangle) binding.bodygraphView.right - e.x
-             else if (e.isXCenter) binding.bodygraphContainer.width / 2f
+            else if (e.isXCenter) binding.bodygraphContainer.width / 2f
             else e.x
         view.y =
             binding.bodygraphView.top + e.y
@@ -1151,6 +1235,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
                     router.exit()
                 }
+
                 StartPage.NAME -> {
                     binding.nameContainer.alpha0(500) {
                         binding.nameContainer.isVisible = false
@@ -1159,6 +1244,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 //                    binding.startBtn.translationY(requireContext().convertDpToPx(0f), 500)
                     setupRave()
                 }
+
                 StartPage.DATE_BIRTH -> {
                     binding.date.alpha0(500) {
                         binding.date.isVisible = false
@@ -1168,6 +1254,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
                     setupName()
                 }
+
                 StartPage.TIME_BIRTH -> {
                     binding.skipTime.isVisible = false
                     binding.time.alpha0(500) {
@@ -1175,6 +1262,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     }
                     setupDateBirth()
                 }
+
                 StartPage.PLACE_BIRTH -> {
                     binding.placeET.alpha0(500) {
                         binding.placeET.isVisible = false
@@ -1182,6 +1270,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                     binding.skipTime.alpha = 1f
                     setupTimeBirth()
                 }
+
                 StartPage.BODYGRAPH -> {
                     setupPlaceBirth()
                 }
@@ -1193,70 +1282,82 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                 StartPage.RAVE -> {
                     when {
                         isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton1")
-                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton1")
+                        fromCompatibility -> Amplitude.getInstance()
+                            .logEvent("tab3TappedStartButton1")
+
                         else -> Amplitude.getInstance().logEvent("addUserTappedStart1")
                     }
 
                     animateCirclesBtwPages(1000)
                     setupName()
                 }
+
                 StartPage.NAME -> {
                     when {
                         isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton2")
-                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton2")
+                        fromCompatibility -> Amplitude.getInstance()
+                            .logEvent("tab3TappedStartButton2")
+
                         else -> Amplitude.getInstance().logEvent("addUserTappedStart2")
                     }
 
                     if (binding.nameET.text.toString().replace(" ", "").isNullOrEmpty()) {
                         snackbarName.show()
                     } else {
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            Keyboard.hide(binding.nameET)
-                        }.invokeOnCompletion {
-                            requireActivity().runOnUiThread {
-                                animateCirclesBtwPages(1000)
-                                setupDateBirth()
-                            }
-                        }
+                        animateCirclesBtwPages(1000)
+                        Keyboard.hide(binding.nameET)
+                        setupDateBirth()
 
                     }
                 }
+
                 StartPage.DATE_BIRTH -> {
                     when {
                         isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton3")
-                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton3")
+                        fromCompatibility -> Amplitude.getInstance()
+                            .logEvent("tab3TappedStartButton3")
+
                         else -> Amplitude.getInstance().logEvent("addUserTappedStart3")
                     }
 
                     animateCirclesBtwPages(1000)
                     setupTimeBirth()
                 }
+
                 StartPage.TIME_BIRTH -> {
                     when {
                         isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton4")
-                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton4")
+                        fromCompatibility -> Amplitude.getInstance()
+                            .logEvent("tab3TappedStartButton4")
+
                         else -> Amplitude.getInstance().logEvent("addUserTappedStart4")
                     }
 
                     Amplitude.getInstance().logEvent(
                         "",
-                        JSONObject(mutableMapOf(
-                            "source" to when {
-                                isChild -> "fromKidsBodygraphCreating"
-                                fromCompatibility -> "fromCompatibleBodygraphCreating"
-                                else -> "fromSecondaryBodygraphCreating"
-                            }
-                        ).toMap()))
+                        JSONObject(
+                            mutableMapOf(
+                                "source" to when {
+                                    isChild -> "fromKidsBodygraphCreating"
+                                    fromCompatibility -> "fromCompatibleBodygraphCreating"
+                                    else -> "fromSecondaryBodygraphCreating"
+                                }
+                            ).toMap()
+                        )
+                    )
 
 
                     animateCirclesBtwPages(1000)
                     setupPlaceBirth()
                 }
+
                 StartPage.PLACE_BIRTH -> {
 
                     when {
                         isChild -> Amplitude.getInstance().logEvent("tab4AddChildStartButton5")
-                        fromCompatibility -> Amplitude.getInstance().logEvent("tab3TappedStartButton5")
+                        fromCompatibility -> Amplitude.getInstance()
+                            .logEvent("tab3TappedStartButton5")
+
                         else -> Amplitude.getInstance().logEvent("addUserTappedStart5")
                     }
 
@@ -1282,7 +1383,10 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                                         "%02d",
                                         binding.time.date.hours
 //                                        binding.time.hoursPicker.currentHour
-                                    ) + ":" + String.format("%02d", binding.time.minutesPicker.currentMinute),
+                                    ) + ":" + String.format(
+                                        "%02d",
+                                        binding.time.minutesPicker.currentMinute
+                                    ),
                                     lat = selectedLat,
                                     lon = selectedLon
                                 )
@@ -1295,7 +1399,10 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                                         "%02d",
                                         binding.time.date.hours
 //                                        binding.time.hoursPicker.currentHour
-                                    ) + ":" + String.format("%02d", binding.time.minutesPicker.currentMinute),
+                                    ) + ":" + String.format(
+                                        "%02d",
+                                        binding.time.minutesPicker.currentMinute
+                                    ),
                                     lat = selectedLat,
                                     lon = selectedLon,
                                     fromCompatibility = fromCompatibility,
@@ -1308,6 +1415,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                         }
                     }
                 }
+
                 StartPage.BODYGRAPH -> {
                     App.preferences.lastLoginPageId = -1
 
@@ -1317,10 +1425,12 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                             App.preferences.isCompatibilityFromChild = true
                             router.navigateTo(Screens.compatibilityScreen())
                         }
+
                         fromCompatibility -> {
                             Amplitude.getInstance().logEvent("tab3TappedStartButton7")
                             router.navigateTo(Screens.compatibilityScreen())
                         }
+
                         else -> {
                             Amplitude.getInstance().logEvent("addUserTappedStart6")
                             App.isBodygraphWithAnimationShown = false
@@ -1331,13 +1441,19 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                             App.preferences.isInvokeNewInsights = true
 
                             App.isBodygraphWithAnimationShown = false
-
                             router.replaceScreen(Screens.bodygraphScreen())
-//                            router.navigateTo(Screens.bodygraphScreen())
                         }
                     }
                 }
             }
+        }
+    }
+
+    override fun backPressed() {
+        if (binding.placesView.isVisible) {
+            binding.placesView.isVisible = false
+        } else {
+            Handler().onBackClicked(binding.snackbarContainer)
         }
     }
 

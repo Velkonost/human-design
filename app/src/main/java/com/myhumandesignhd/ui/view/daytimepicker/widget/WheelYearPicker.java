@@ -15,10 +15,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class WheelYearPicker extends com.github.florent37.singledateandtimepicker.widget.WheelYearPicker {
+public class WheelYearPicker extends MyWheelPicker<String> {
+//        com.github.florent37.singledateandtimepicker.widget.WheelYearPicker {
 
     private SimpleDateFormat simpleDateFormat;
-    protected int minYear;
+    public int minYear;
     protected int maxYear;
 
     private OnYearSelectedListener onYearSelectedListener;

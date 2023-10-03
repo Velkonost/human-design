@@ -14,7 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class WheelMinutePicker extends com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker {
+public class WheelMinutePicker extends MyWheelPicker<String> {
+//        com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker {
 
     private int stepMinutes;
 

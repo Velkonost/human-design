@@ -6,9 +6,13 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class CompatibilityResponse(
-    @field:JsonProperty("code") val code: Int? = null,
+    @field:JsonProperty("status") val status: String = "",
     @field:JsonProperty("message") val message: String? = null,
+    @field:JsonProperty("data") val data: CompatibilityResponseData = CompatibilityResponseData(),
+) : Parcelable
 
+@Parcelize
+data class CompatibilityResponseData(
     @field:JsonProperty("description") val description: String = "",
     @field:JsonProperty("line") val line: String = "",
     @field:JsonProperty("profileTitle") val profileTitle: String = "",

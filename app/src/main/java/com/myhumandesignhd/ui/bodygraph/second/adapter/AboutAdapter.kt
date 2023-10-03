@@ -3,10 +3,7 @@ package com.myhumandesignhd.ui.bodygraph.second.adapter
 import android.animation.ArgbEvaluator
 import android.animation.TimeAnimator
 import android.animation.ValueAnimator
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -31,13 +28,13 @@ import com.google.android.material.card.MaterialCardView
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.OpenPaywallEvent
+import com.myhumandesignhd.event.StartInjuryEvent
 import com.myhumandesignhd.event.UpdateCurrentUserInjurySettingsEvent
 import com.myhumandesignhd.model.AboutItem
 import com.myhumandesignhd.model.AboutType
-import com.myhumandesignhd.model.User
-import com.myhumandesignhd.push.NotificationReceiver
 import com.myhumandesignhd.util.ext.setTextAnimation
 import com.myhumandesignhd.util.ext.setTextAnimation07
+import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
@@ -46,7 +43,8 @@ class AboutAdapter(
     private val context: Context,
     private val recyclerView: RecyclerView,
     private val items: List<AboutItem>,
-    private val currentUser: User
+    private val injuryStatus: BaseViewModel.InjuryStatus,
+    private val injuryPercent: Int? = null,
 ) : RecyclerView.Adapter<AboutAdapter.ViewHolder>() {
 
     private var selectedItem = UNSELECTED
@@ -223,7 +221,7 @@ class AboutAdapter(
                 }
                 AboutType.INJURY -> {
                     pointViewContainer.isVisible = false
-                    if (currentUser.injuryDateStart == null) {
+                    if (injuryStatus == BaseViewModel.InjuryStatus.NOT_STARTED) {
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                             val gd = GradientDrawable(
@@ -273,7 +271,7 @@ class AboutAdapter(
                     subtitle.isVisible = true
                     subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_injury_subtitle)
 
-                    if (currentUser.isInjuryGenerated) {
+                    if (injuryStatus == BaseViewModel.InjuryStatus.FINISHED) {
                         text.text = items[position].description
 
                         generateBtn.isVisible = false
@@ -282,7 +280,7 @@ class AboutAdapter(
                     } else {
                         generateProgressText.text = App.resourcesProvider.getStringLocale(R.string.injury_generating_text)
 
-                        if (currentUser.injuryDateStart == null) {
+                        if (injuryStatus == BaseViewModel.InjuryStatus.NOT_STARTED) {
                             text.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.injury_desc_before))
 
                             generateBtn.isVisible = true
@@ -293,11 +291,9 @@ class AboutAdapter(
 
                             generateBtn.setOnClickListener {
                                 YandexMetrica.reportEvent("Tab2AboutTraumaGenerateTapped")
-                                Amplitude.getInstance().logEvent("tab2AboutTraumaGenerateTapped");
+                                Amplitude.getInstance().logEvent("tab2AboutTraumaGenerateTapped")
 
-                                val injuryGenerationDuration = (12..24).random() * 3600000L
-                                currentUser.injuryDateStart = System.currentTimeMillis()
-                                currentUser.injuryGenerationDuration = injuryGenerationDuration
+                                EventBus.getDefault().post(StartInjuryEvent())
 
                                 text.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.injury_desc_progress))
 
@@ -307,29 +303,12 @@ class AboutAdapter(
                                 generateProgressText.isVisible = true
 
                                 generateProgress.max = 100
-                                generateProgress.progress = 5
-
-                                val notifyIntent = Intent(context, NotificationReceiver::class.java)
-                                notifyIntent.putExtra("userName", currentUser.name)
-
-                                val pendingIntent = PendingIntent.getBroadcast(
-                                    context,
-                                    4,
-                                    notifyIntent,
-                                    PendingIntent.FLAG_IMMUTABLE
-                                )
-
-                                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                                alarmManager.set(
-                                    AlarmManager.RTC_WAKEUP,
-                                    System.currentTimeMillis() + injuryGenerationDuration,
-                                    pendingIntent
-                                )
+                                generateProgress.progress = 0
 
                                 EventBus.getDefault().post(UpdateCurrentUserInjurySettingsEvent())
                             }
                         } else {
-                            Amplitude.getInstance().logEvent("tab2AboutTraumaGeneratedTapped");
+                            Amplitude.getInstance().logEvent("tab2AboutTraumaGeneratedTapped")
                             generateProgress.isVisible = true
                             generateProgressText.isVisible = true
                             generateBtn.isVisible = false
@@ -338,20 +317,17 @@ class AboutAdapter(
 
                             generateProgress.max = 100
 
-                            var currentProgress =
-                                ((System.currentTimeMillis() - currentUser.injuryDateStart!!) * 100 / currentUser.injuryGenerationDuration!!).toInt() + 5
+                            if (injuryPercent != null) {
+                                generateProgress.progress = injuryPercent
 
-                            if (currentProgress > 100) currentProgress = 100
+                                if (injuryPercent >= 100) {
+                                    generateProgress.isVisible = false
+                                    generateProgressText.isVisible = false
 
-                            generateProgress.progress = currentProgress
+                                    text.text = items[position].description
+                                } else {
 
-                            if (currentProgress >= 100) {
-                                generateProgress.isVisible = false
-                                generateProgressText.isVisible = false
-
-                                text.text = items[position].description
-                            } else {
-
+                                }
                             }
                         }
                     }
@@ -450,31 +426,31 @@ class AboutAdapter(
                 when (items[adapterPosition].type) {
                     AboutType.TYPE -> {
                         YandexMetrica.reportEvent("Tab2AboutTypeTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutTypeTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutTypeTapped")
                     }
                     AboutType.PROFILE -> {
                         YandexMetrica.reportEvent("Tab2AboutProfileTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutProfileTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutProfileTapped")
                     }
                     AboutType.AUTHORITY -> {
                         YandexMetrica.reportEvent("Tab2AboutAuthorityTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutAuthorityTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutAuthorityTapped")
                     }
                     AboutType.STRATEGY -> {
                         YandexMetrica.reportEvent("Tab2AboutStrategyTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutStategyTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutStategyTapped")
                     }
                     AboutType.INJURY -> {
                         YandexMetrica.reportEvent("Tab2AboutTraumaTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutTraumaTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutTraumaTapped")
                     }
                     AboutType.NUTRITION -> {
                         YandexMetrica.reportEvent("Tab2AboutNutrition")
-                        Amplitude.getInstance().logEvent("tab2AboutNutritionTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutNutritionTapped")
                     }
                     AboutType.ENVIRONMENT -> {
                         YandexMetrica.reportEvent("Tab2AboutEnvironment")
-                        Amplitude.getInstance().logEvent("tab2AboutEnvironmentTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutEnvironmentTapped")
                     }
                 }
             }
@@ -486,12 +462,8 @@ class AboutAdapter(
             if (state == ExpandableLayout.State.EXPANDED) {
                     if (items[adapterPosition].type == AboutType.INJURY) {
 
-                        if (currentUser.injuryDateStart != null) {
-                            var currentProgress =
-                                ((System.currentTimeMillis() - currentUser.injuryDateStart!!) * 100 / currentUser.injuryGenerationDuration!!).toInt() + 5
-                            if (currentProgress > 100) currentProgress = 100
-
-                            if (currentProgress == 100) {
+                        if (injuryStatus != BaseViewModel.InjuryStatus.NOT_STARTED && injuryPercent != null) {
+                            if (injuryPercent == 100) {
                                 expandButton.setTextAnimation(items[adapterPosition].name?: "")
                             }
                         }
@@ -536,7 +508,7 @@ class AboutAdapter(
                         .rotation(90f)
                         .duration = 300
 
-                    if (items[adapterPosition].type == AboutType.INJURY && currentUser.injuryDateStart == null) {
+                    if (items[adapterPosition].type == AboutType.INJURY && injuryStatus == BaseViewModel.InjuryStatus.NOT_STARTED) {
                         pointViewContainer.isVisible = true
 
                         val paddingDp = 6f

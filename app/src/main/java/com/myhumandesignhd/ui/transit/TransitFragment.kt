@@ -19,6 +19,7 @@ import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentTransitBinding
+import com.myhumandesignhd.event.SelectNavItemEvent
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
@@ -65,6 +66,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     override fun onResume() {
         super.onResume()
 
+        EventBus.getDefault().post(SelectNavItemEvent(itemPosition = 2))
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
     }
 
@@ -128,40 +130,51 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     override fun updateThemeAndLocale() {
-        binding.icInfo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.icInfo.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.transitContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+        binding.transitContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
-        binding.transitTitle.text = App.resourcesProvider.getStringLocale(R.string.daily_transits_title)
-        binding.transitTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.transitTitle.text =
+            App.resourcesProvider.getStringLocale(R.string.daily_transits_title)
+        binding.transitTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         binding.transitsTitle.text = App.resourcesProvider.getStringLocale(R.string.transits_title)
         binding.cyclesTitle.text = App.resourcesProvider.getStringLocale(R.string.cycles_title)
         binding.adviceTitle.text = App.resourcesProvider.getStringLocale(R.string.advice_title)
 
-        binding.selectionCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-            else R.color.lightSettingsCard
-        ))
+        binding.selectionCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                else R.color.lightSettingsCard
+            )
+        )
 
-        binding.selectionLinear.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-            else R.color.lightSettingsCard
-        ))
+        binding.selectionLinear.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                else R.color.lightSettingsCard
+            )
+        )
 
         selectTransits()
         setupViewPager()
@@ -178,7 +191,8 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
-            ) {}
+            ) {
+            }
 
             override fun onPageSelected(position: Int) {
                 when (position) {
@@ -198,21 +212,27 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
         binding.icInfo.isVisible = true
 
-        binding.transitsTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.transitsTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.cyclesTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            R.color.unselectText
-        ))
+        binding.cyclesTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.unselectText
+            )
+        )
 
-        binding.adviceTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            R.color.unselectText
-        ))
+        binding.adviceTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.unselectText
+            )
+        )
 
         binding.transitsTitle.background = ContextCompat.getDrawable(
             requireContext(),
@@ -230,21 +250,27 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
         binding.icInfo.isVisible = false
 
-        binding.cyclesTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.cyclesTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.transitsTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            R.color.unselectText
-        ))
+        binding.transitsTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.unselectText
+            )
+        )
 
-        binding.adviceTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            R.color.unselectText
-        ))
+        binding.adviceTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.unselectText
+            )
+        )
 
         binding.cyclesTitle.background = ContextCompat.getDrawable(
             requireContext(),
@@ -262,21 +288,27 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
         binding.icInfo.isVisible = false
 
-        binding.adviceTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.adviceTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.transitsTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            R.color.unselectText
-        ))
+        binding.transitsTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.unselectText
+            )
+        )
 
-        binding.cyclesTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            R.color.unselectText
-        ))
+        binding.cyclesTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.unselectText
+            )
+        )
 
         binding.adviceTitle.background = ContextCompat.getDrawable(
             requireContext(),
@@ -313,19 +345,20 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
                     baseViewModel.currentTransit.observe(viewLifecycleOwner) {
                         transitAdapter.createList(
-                            it.onlyCurrentGates.sortedBy { it.number },
-                            it.onlyCurrentChannels,
+                            it.data.onlyCurrentGates.sortedBy { it.number },
+                            it.data.onlyCurrentChannels,
                             view.channelsRecycler,
-                            it.birthDesignPlanets,
-                            it.birthPersonalityPlanets,
-                            it.currentDesignPlanets,
-                            it.currentPersonalityPlanets,
+                            it.data.birthDesignPlanets,
+                            it.data.birthPersonalityPlanets,
+                            it.data.currentDesignPlanets,
+                            it.data.currentPersonalityPlanets,
                         )
                     }
 
                     container.addView(view)
                     view
                 }
+
                 1 -> {
                     val view = layoutInflater.inflate(R.layout.item_transit_cycles, null)
 
@@ -339,22 +372,18 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                     container.addView(view)
                     view
                 }
+
                 else -> {
                     val view = layoutInflater.inflate(R.layout.item_transit_advice, null)
 
                     baseViewModel.currentDailyAdvice.observe(viewLifecycleOwner) {
-                        view.adviceTitle.text =
-                            if (App.preferences.locale == "ru") it.titleRu
-                            else if (App.preferences.locale == "es") it.titleEs
-                            else it.titleEn
+                        view.adviceTitle.text = it.title
 
-                        view.adviceText.text =
-                            if (App.preferences.locale == "ru") it.textRu
-                            else if (App.preferences.locale == "es") it.textEs
-                            else it.textEn
+                        view.adviceText.text = it.text
                     }
 
-                    view.adviceSubtitle.text = App.resourcesProvider.getStringLocale(R.string.daily_advice_subtitle)
+                    view.adviceSubtitle.text =
+                        App.resourcesProvider.getStringLocale(R.string.daily_advice_subtitle)
 
                     view.adviceBlock.background = ContextCompat.getDrawable(
                         requireContext(),
@@ -362,23 +391,29 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                         else R.drawable.bg_daily_advice_light
                     )
 
-                    view.adviceTitle.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
+                    view.adviceTitle.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
 
-                    view.adviceText.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
+                    view.adviceText.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
 
-                    view.adviceSubtitle.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
+                    view.adviceSubtitle.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
 
                     view.adviceIcon.setImageResource(
                         if (App.preferences.isDarkTheme) R.drawable.ic_advice_icon_dark
@@ -461,13 +496,10 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
 
             router.navigateTo(
                 Screens.faqDetailScreen(
-                title = if (App.preferences.locale == "ru") baseViewModel.faqsList[7].titleRu
-                else if (App.preferences.locale == "es") baseViewModel.faqsList[7].titleEs
-                else baseViewModel.faqsList[8].titleEn,
-                desc = if (App.preferences.locale == "ru") baseViewModel.faqsList[7].textRu
-                else if (App.preferences.locale == "es") baseViewModel.faqsList[7].textEs
-                else baseViewModel.faqsList[8].textEn
-            ))
+                    title = baseViewModel.faqsList[7].title,
+                    desc = baseViewModel.faqsList[7].text
+                )
+            )
         }
 
     }

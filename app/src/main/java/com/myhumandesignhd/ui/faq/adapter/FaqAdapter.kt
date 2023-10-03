@@ -1,7 +1,6 @@
 package com.myhumandesignhd.ui.faq.adapter
 
 import android.content.res.ColorStateList
-import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
@@ -17,7 +16,10 @@ import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.FaqClickedEvent
 import com.myhumandesignhd.model.Faq
-import kotlinx.android.synthetic.main.item_faq.view.*
+import kotlinx.android.synthetic.main.item_faq.view.faqArrow
+import kotlinx.android.synthetic.main.item_faq.view.faqClick
+import kotlinx.android.synthetic.main.item_faq.view.faqSeparator
+import kotlinx.android.synthetic.main.item_faq.view.faqTitle
 import org.greenrobot.eventbus.EventBus
 
 class FaqAdapter : EpoxyAdapter() {
@@ -40,27 +42,11 @@ class FaqModel(
         root = view
 
         with(view) {
-            faqTitle.text =
-                if (App.preferences.locale == "ru") Html.fromHtml(model.titleRu)
-                else if (App.preferences.locale == "es") Html.fromHtml(model.titleEs)
-                else Html.fromHtml(model.titleEn)
-
+            faqTitle.text = model.title
             faqTitle.highlightKeys(
-                "Human Design",
-                "Types",
-                "Profiles",
-                "Gate",
-                "Channels",
-                "Daily Transits",
-                "Compatibility",
-                "Каналы",
-                "Дизайн Человека",
-                "Типы",
-                "Ворота",
-                "Профили",
-                "Отношения",
-                "Транзиты",
-                "Inner Authority",
+                "Human Design", "Types", "Profiles", "Gate", "Channels", "Daily Transits",
+                "Compatibility", "Каналы", "Дизайн Человека", "Типы", "Ворота", "Профили",
+                "Отношения", "Транзиты", "Inner Authority",
                 model = model
             )
 

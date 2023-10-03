@@ -9,8 +9,13 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
+import com.myhumandesignhd.App
+import com.myhumandesignhd.R
 import com.myhumandesignhd.ui.start.StartPage
 import com.myhumandesignhd.util.convertDpToPx
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+
 
 fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
     binding.icSplashBigCircle.clearAnimation()
@@ -135,12 +140,14 @@ fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
 
             binding.icSplashBigCircle
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleName.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircle
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleName.y)
                 .setDuration(1000)
                 .start()
@@ -175,12 +182,14 @@ fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
 
             binding.icSplashBigCircleName
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleDate.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleName
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleDate.y)
                 .setDuration(1000)
                 .start()
@@ -215,12 +224,14 @@ fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
 
             binding.icSplashBigCircleDate
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleTime.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleDate
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleTime.y)
                 .setDuration(1000)
                 .start()
@@ -255,12 +266,14 @@ fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
 
             binding.icSplashBigCircleTime
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCirclePlaceOfBirth.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleTime
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCirclePlaceOfBirth.y)
                 .setDuration(1000)
                 .start()
@@ -337,51 +350,108 @@ fun AddUserFragment.animateCirclesBtwPages(duration: Long) {
             StartPage.NAME -> {
                 binding.icSplashMidCircle.isVisible = false
                 binding.icSplashBigCircle.isVisible = false
+                binding.icSplashMidCircle.setImageResource(0)
+                binding.icSplashBigCircle.setImageResource(0)
 
                 binding.icSplashMidCircleName.isVisible = true
                 binding.icSplashBigCircleName.isVisible = true
+
+                binding.icSplashMidCircleName.setImageResource(
+                    if (!App.preferences.isDarkTheme) R.drawable.ic_circle_mid_light
+                    else R.drawable.ic_circle_mid_dark
+                )
+                binding.icSplashBigCircleName.setImageResource(
+                    if (!App.preferences.isDarkTheme) R.drawable.ic_circle_big_light
+                    else R.drawable.ic_circle_big_dark
+                )
             }
             StartPage.DATE_BIRTH -> {
                 binding.icSplashMidCircle.isVisible = false
                 binding.icSplashBigCircle.isVisible = false
+                binding.icSplashMidCircle.setImageResource(0)
+                binding.icSplashBigCircle.setImageResource(0)
 
                 binding.icSplashMidCircleName.isVisible = false
                 binding.icSplashBigCircleName.isVisible = false
+                binding.icSplashMidCircleName.setImageResource(0)
+                binding.icSplashBigCircleName.setImageResource(0)
 
                 binding.icSplashMidCircleDate.isVisible = true
                 binding.icSplashBigCircleDate.isVisible = true
+                binding.icSplashMidCircleDate.setImageResource(
+                    if (!App.preferences.isDarkTheme) R.drawable.ic_circle_mid_light
+                    else R.drawable.ic_circle_mid_dark
+                )
+                binding.icSplashBigCircleDate.setImageResource(
+                    if (!App.preferences.isDarkTheme) R.drawable.ic_circle_big_light
+                    else R.drawable.ic_circle_big_dark
+                )
             }
             StartPage.TIME_BIRTH -> {
                 binding.icSplashMidCircle.isVisible = false
                 binding.icSplashBigCircle.isVisible = false
+                binding.icSplashMidCircle.setImageResource(0)
+                binding.icSplashBigCircle.setImageResource(0)
 
                 binding.icSplashMidCircleName.isVisible = false
                 binding.icSplashBigCircleName.isVisible = false
+                binding.icSplashMidCircleName.setImageResource(0)
+                binding.icSplashBigCircleName.setImageResource(0)
 
                 binding.icSplashMidCircleDate.isVisible = false
                 binding.icSplashBigCircleDate.isVisible = false
+                binding.icSplashMidCircleDate.setImageResource(0)
+                binding.icSplashBigCircleDate.setImageResource(0)
 
                 binding.icSplashMidCircleTime.isVisible = true
                 binding.icSplashBigCircleTime.isVisible = true
+                binding.icSplashMidCircleTime.setImageResource(
+                    if (!App.preferences.isDarkTheme) R.drawable.ic_circle_mid_light
+                    else R.drawable.ic_circle_mid_dark
+                )
+                binding.icSplashBigCircleTime.setImageResource(
+                    if (!App.preferences.isDarkTheme) R.drawable.ic_circle_big_light
+                    else R.drawable.ic_circle_big_dark
+                )
             }
             StartPage.PLACE_BIRTH, StartPage.BODYGRAPH -> {
                 binding.icSplashMidCircle.isVisible = false
                 binding.icSplashBigCircle.isVisible = false
+                binding.icSplashMidCircle.setImageResource(0)
+                binding.icSplashBigCircle.setImageResource(0)
 
                 binding.icSplashMidCircleName.isVisible = false
                 binding.icSplashBigCircleName.isVisible = false
+                binding.icSplashMidCircleName.setImageResource(0)
+                binding.icSplashBigCircleName.setImageResource(0)
 
                 binding.icSplashMidCircleDate.isVisible = false
                 binding.icSplashBigCircleDate.isVisible = false
+                binding.icSplashMidCircleDate.setImageResource(0)
+                binding.icSplashBigCircleDate.setImageResource(0)
 
                 binding.icSplashMidCircleTime.isVisible = false
                 binding.icSplashBigCircleTime.isVisible = false
+                binding.icSplashMidCircleTime.setImageResource(0)
+                binding.icSplashBigCircleTime.setImageResource(0)
 
                 binding.icSplashBigCirclePlaceOfBirth.isVisible = true
                 binding.icSplashMidCirclePlaceOfBirth.isVisible = true
+                binding.icSplashMidCirclePlaceOfBirth.setImageResource(
+                    if (!App.preferences.isDarkTheme) R.drawable.ic_circle_mid_light
+                    else R.drawable.ic_circle_mid_dark
+                )
+                binding.icSplashBigCirclePlaceOfBirth.setImageResource(
+                    if (!App.preferences.isDarkTheme) R.drawable.ic_circle_big_light
+                    else R.drawable.ic_circle_big_dark
+                )
             }
         }
-        startCirclesRotation(currentStartPage)
+
+        val executorService: ExecutorService = Executors.newSingleThreadExecutor()
+        executorService.submit {
+            startCirclesRotation(currentStartPage)
+        }
     }
 }
 
@@ -502,6 +572,17 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircleName.isVisible = false
             binding.icSplashMidCircleName.isVisible = false
+
+            binding.icSplashMidCircle.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_circle_mid_light
+                else R.drawable.ic_circle_mid_dark
+            )
+            binding.icSplashBigCircle.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_circle_big_light
+                else R.drawable.ic_circle_big_dark
+            )
+            binding.icSplashBigCircleName.setImageResource(0)
+            binding.icSplashBigCircleName.setImageResource(0)
         }
         StartPage.DATE_BIRTH -> {
             binding.icSplashMidCircleName.isVisible = true
@@ -509,6 +590,17 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircleDate.isVisible = false
             binding.icSplashMidCircleDate.isVisible = false
+
+            binding.icSplashMidCircleName.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_circle_mid_light
+                else R.drawable.ic_circle_mid_dark
+            )
+            binding.icSplashBigCircleName.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_circle_big_light
+                else R.drawable.ic_circle_big_dark
+            )
+            binding.icSplashBigCircleDate.setImageResource(0)
+            binding.icSplashBigCircleDate.setImageResource(0)
         }
         StartPage.TIME_BIRTH -> {
             binding.icSplashMidCircleDate.isVisible = true
@@ -516,6 +608,17 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircleTime.isVisible = false
             binding.icSplashMidCircleTime.isVisible = false
+
+            binding.icSplashMidCircleDate.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_circle_mid_light
+                else R.drawable.ic_circle_mid_dark
+            )
+            binding.icSplashBigCircleDate.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_circle_big_light
+                else R.drawable.ic_circle_big_dark
+            )
+            binding.icSplashBigCircleTime.setImageResource(0)
+            binding.icSplashBigCircleTime.setImageResource(0)
         }
         StartPage.PLACE_BIRTH -> {
             binding.icSplashMidCircleTime.isVisible = true
@@ -523,6 +626,17 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCirclePlaceOfBirth.isVisible = false
             binding.icSplashMidCirclePlaceOfBirth.isVisible = false
+
+            binding.icSplashMidCircleTime.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_circle_mid_light
+                else R.drawable.ic_circle_mid_dark
+            )
+            binding.icSplashBigCircleTime.setImageResource(
+                if (!App.preferences.isDarkTheme) R.drawable.ic_circle_big_light
+                else R.drawable.ic_circle_big_dark
+            )
+            binding.icSplashBigCirclePlaceOfBirth.setImageResource(0)
+            binding.icSplashBigCirclePlaceOfBirth.setImageResource(0)
         }
     }
 
@@ -552,12 +666,14 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircle
                 .animate()
+                .withLayer()
                 .y(0f)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircle
                 .animate()
+                .withLayer()
                 .y(0f)
                 .setDuration(1000)
                 .start()
@@ -592,12 +708,14 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircleName
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleNamePlaceholder.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleName
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleNamePlaceholder.y)
                 .setDuration(1000)
                 .start()
@@ -632,12 +750,14 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircleDate
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleName.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleDate
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleName.y)
                 .setDuration(1000)
                 .start()
@@ -672,12 +792,14 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircleTime
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleDate.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleTime
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleDate.y)
                 .setDuration(1000)
                 .start()
@@ -686,65 +808,8 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
                 animSizeBigCircle,
                 animSizeMidCircle
             )
+
         }
-//        StartPage.PLACE_BIRTH -> {
-//            animSizeBigCircle.addUpdateListener { valueAnimator ->
-//                val `val` = valueAnimator.animatedValue as Int
-//
-//                val layoutParamsBigCircle: ViewGroup.LayoutParams =
-//                    binding.icSplashBigCirclePlaceOfBirth.layoutParams
-//                layoutParamsBigCircle.height = `val`
-//                layoutParamsBigCircle.width = `val`
-//                binding.icSplashBigCirclePlaceOfBirth.layoutParams = layoutParamsBigCircle
-//                binding.icSplashBigCirclePlaceOfBirth.requestLayout()
-//            }
-//
-//            animSizeMidCircle.addUpdateListener { valueAnimator ->
-//                val `val` = valueAnimator.animatedValue as Int
-//
-//                val layoutParamsMidCircle: ViewGroup.LayoutParams =
-//                    binding.icSplashMidCirclePlaceOfBirth.layoutParams
-//                layoutParamsMidCircle.height = `val`
-//                layoutParamsMidCircle.width = `val`
-//                binding.icSplashMidCirclePlaceOfBirth.layoutParams = layoutParamsMidCircle
-//                binding.icSplashMidCirclePlaceOfBirth.requestLayout()
-//            }
-//
-//            animatorSet.playTogether(
-//                animSizeBigCircle,
-//                animSizeMidCircle
-//            )
-//        }
-//        else -> {
-//            animSizeBigCircle.addUpdateListener { valueAnimator ->
-//                val `val` = valueAnimator.animatedValue as Int
-//
-//                val layoutParamsBigCircle: ViewGroup.LayoutParams =
-//                    binding.icSplashBigCircle.layoutParams
-//                layoutParamsBigCircle.height = `val`
-//                layoutParamsBigCircle.width = `val`
-//                binding.icSplashBigCircle.layoutParams = layoutParamsBigCircle
-//                binding.icSplashBigCircle.requestLayout()
-//            }
-//
-//            animSizeMidCircle.addUpdateListener { valueAnimator ->
-//                val `val` = valueAnimator.animatedValue as Int
-//
-//                val layoutParamsMidCircle: ViewGroup.LayoutParams =
-//                    binding.icSplashMidCircle.layoutParams
-//                layoutParamsMidCircle.height = `val`
-//                layoutParamsMidCircle.width = `val`
-//                binding.icSplashMidCircle.layoutParams = layoutParamsMidCircle
-//                binding.icSplashMidCircle.requestLayout()
-//            }
-//
-//            animatorSet.playTogether(
-//                yAnimatorMidCircle,
-//                yAnimatorBigCircle,
-//                animSizeBigCircle,
-//                animSizeMidCircle
-//            )
-//        }
     }
 
     animatorSet.playTogether(
@@ -757,13 +822,15 @@ fun AddUserFragment.animateBackCirclesBtwPages() {
     animatorSet.start()
 
     animatorSet.doOnEnd {
-        startCirclesRotation(prevStartPage)
+        val executorService: ExecutorService = Executors.newSingleThreadExecutor()
+        executorService.submit {
+            startCirclesRotation(prevStartPage)
+        }
     }
 }
 
-fun AddUserFragment.startCirclesRotation(
-    page: StartPage
-) {
+fun AddUserFragment.startCirclesRotation(page: StartPage) {
+
     val rotate = RotateAnimation(
         0f,
         360f,
@@ -774,7 +841,7 @@ fun AddUserFragment.startCirclesRotation(
     )
 
     rotate.repeatCount = Animation.INFINITE
-    rotate.fillAfter = true
+    rotate.fillAfter = false
     rotate.duration = 100000
     rotate.interpolator = LinearInterpolator()
 
@@ -787,15 +854,22 @@ fun AddUserFragment.startCirclesRotation(
         0.5f
     )
     rotateNegative.repeatCount = Animation.INFINITE
-    rotateNegative.fillAfter = true
+    rotateNegative.fillAfter = false
     rotateNegative.duration = 100000
+    rotateNegative.interpolator = LinearInterpolator()
 
     when (currentStartPage) {
         StartPage.NAME -> {
+            binding.icSplashBigCircleName.clearAnimation()
+            binding.icSplashMidCircleName.clearAnimation()
+
             binding.icSplashBigCircleName.startAnimation(rotate)
             binding.icSplashMidCircleName.startAnimation(rotateNegative)
         }
         StartPage.DATE_BIRTH -> {
+            binding.icSplashBigCircleDate.clearAnimation()
+            binding.icSplashMidCircleDate.clearAnimation()
+
             binding.icSplashBigCircleDate.startAnimation(rotate)
             binding.icSplashMidCircleDate.startAnimation(rotateNegative)
         }
@@ -812,6 +886,5 @@ fun AddUserFragment.startCirclesRotation(
             binding.icSplashMidCircle.startAnimation(rotateNegative)
         }
     }
-
 
 }

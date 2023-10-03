@@ -11,16 +11,15 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
-import com.airbnb.epoxy.EpoxyRecyclerView
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.model.Center
-import kotlinx.android.synthetic.main.item_about_gates_title.view.*
-import kotlinx.android.synthetic.main.item_center.view.*
+import kotlinx.android.synthetic.main.item_about_gates_title.view.activeGatesDesc
+import kotlinx.android.synthetic.main.item_about_gates_title.view.activeGatesTitle
+import kotlinx.android.synthetic.main.item_center.view.centersArrow
 import kotlinx.android.synthetic.main.item_center.view.channelCard
 import kotlinx.android.synthetic.main.item_center.view.channelDesc
 import kotlinx.android.synthetic.main.item_center.view.channelTitle
-import kotlinx.android.synthetic.main.item_channel.view.*
 
 class CentersAdapter : EpoxyAdapter() {
 
@@ -32,7 +31,7 @@ class CentersAdapter : EpoxyAdapter() {
     ) {
         removeAllModels()
 
-        if (fromAbout) {
+        if (fromAbout && activeCenters.isNotEmpty()) {
             addModel(AboutCentersTitleModel(true))
         }
         var position = 0
@@ -188,6 +187,21 @@ class CentersModel(
                             .animate().rotation(-90f).duration = 300
                         centersArrow.alpha = 0.3f
                     } else {
+                        val smoothScroller: RecyclerView.SmoothScroller =
+                            object : LinearSmoothScroller(context) {
+                                override fun getVerticalSnapPreference(): Int {
+                                    return SNAP_TO_START
+                                }
+
+                                override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                                    return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
+                                }
+
+                            }
+                        smoothScroller.targetPosition = position
+                        (recyclerView.layoutManager as LinearLayoutManager)
+                            .startSmoothScroll(smoothScroller)
+
                         val animation = ObjectAnimator.ofInt(
                             channelDesc,
                             "maxLines",

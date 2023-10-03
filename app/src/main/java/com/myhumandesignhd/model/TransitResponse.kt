@@ -6,17 +6,23 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TransitResponse(
-    @field:JsonProperty("code") val code: Int? = null,
+    @field:JsonProperty("status") val status: String = "",
     @field:JsonProperty("message") val message: String? = null,
+    @field:JsonProperty("data") val data: TransitResponseData = TransitResponseData(),
+) : Parcelable
 
-    @field:JsonProperty("only_birth_gates") val onlyBirthGates: ArrayList<TransitionGate> = arrayListOf(),
-    @field:JsonProperty("only_current_gates") val onlyCurrentGates: ArrayList<TransitionGate> = arrayListOf(),
-    @field:JsonProperty("only_birth_channels") val onlyBirthChannels: ArrayList<TransitionChannel> = arrayListOf(),
-    @field:JsonProperty("only_current_channels") val onlyCurrentChannels: ArrayList<TransitionChannel> = arrayListOf(),
-    @field:JsonProperty("birth_design_planets") val birthDesignPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
-    @field:JsonProperty("birth_personality_planets") val birthPersonalityPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
-    @field:JsonProperty("current_design_planets") val currentDesignPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
-    @field:JsonProperty("current_personality_planets") val currentPersonalityPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
+@Parcelize
+data class TransitResponseData(
+    @field:JsonProperty("code") val code: Int? = null,
+
+    @field:JsonProperty("onlyBirthGates") val onlyBirthGates: ArrayList<TransitionGate> = arrayListOf(),
+    @field:JsonProperty("onlyCurrentGates") val onlyCurrentGates: ArrayList<TransitionGate> = arrayListOf(),
+    @field:JsonProperty("onlyBirthChannels") val onlyBirthChannels: ArrayList<TransitionChannel> = arrayListOf(),
+    @field:JsonProperty("onlyCurrentChannels") val onlyCurrentChannels: ArrayList<TransitionChannel> = arrayListOf(),
+    @field:JsonProperty("birthDesignPlanets") val birthDesignPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
+    @field:JsonProperty("birthPersonalityPlanets") val birthPersonalityPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
+    @field:JsonProperty("currentDesignPlanets") val currentDesignPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
+    @field:JsonProperty("currentPersonalityPlanets") val currentPersonalityPlanets: ArrayList<TransitionPlanet> = arrayListOf(),
 ) : Parcelable
 
 @Parcelize

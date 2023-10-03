@@ -10,7 +10,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class WheelMonthPicker extends com.github.florent37.singledateandtimepicker.widget.WheelMonthPicker {
+public class WheelMonthPicker extends MyWheelPicker<String> {
+//        com.github.florent37.singledateandtimepicker.widget.WheelMonthPicker {
 
     private int lastScrollPosition;
 
@@ -49,7 +50,10 @@ public class WheelMonthPicker extends com.github.florent37.singledateandtimepick
             if (displayMonthNumbers) {
                 monthList.add(String.format("%02d", i + 1));
             } else {
-                monthList.add(month_date.format(cal.getTime()).substring(0, 1).toUpperCase(Locale.ROOT) + month_date.format(cal.getTime()).substring(1));
+                monthList.add(
+                        month_date.format(cal.getTime()).substring(0, 1).toUpperCase(Locale.ROOT)
+                                + month_date.format(cal.getTime()).substring(1)
+                );
             }
         }
 
@@ -97,20 +101,15 @@ public class WheelMonthPicker extends com.github.florent37.singledateandtimepick
         void onMonthSelected(WheelMonthPicker picker, int monthIndex, String monthName);
     }
 
-    public void setMonthFormat(String format)
-    {
+    public void setMonthFormat(String format) {
         this.monthFormat = format;
     }
 
-    public String getMonthFormat()
-    {
-       if(TextUtils.isEmpty(this.monthFormat))
-       {
-           return MONTH_FORMAT;
-       }
-       else
-       {
-           return this.monthFormat;
-       }
+    public String getMonthFormat() {
+        if (TextUtils.isEmpty(this.monthFormat)) {
+            return MONTH_FORMAT;
+        } else {
+            return this.monthFormat;
+        }
     }
 }

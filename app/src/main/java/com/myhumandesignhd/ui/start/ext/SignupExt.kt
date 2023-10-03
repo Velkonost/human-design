@@ -45,6 +45,7 @@ import kotlinx.android.synthetic.main.view_signup.emailET
 import kotlinx.android.synthetic.main.view_signup.emailSubtitle
 import kotlinx.android.synthetic.main.view_signup.emailTitle
 import kotlinx.android.synthetic.main.view_signup.gotoInboxBtn
+import kotlinx.android.synthetic.main.view_signup.gotoInboxBtnTitle
 import kotlinx.android.synthetic.main.view_signup.icBreakline
 import kotlinx.android.synthetic.main.view_signup.icEmailBack
 import kotlinx.android.synthetic.main.view_signup.icEmailBtn
@@ -65,8 +66,8 @@ import kotlinx.android.synthetic.main.view_signup.signupTitle
 
 
 fun StartFragment.setupSignup() {
-    currentStartPage = StartPage.SIGNUP
-    App.preferences.lastLoginPageId = StartPage.SIGNUP.pageId
+    currentStartPage = StartPage.NAME
+    App.preferences.lastLoginPageId = StartPage.NAME.pageId
 
     binding.startBtn.visibility = View.GONE
 
@@ -106,10 +107,7 @@ fun StartFragment.setupSignup() {
 }
 
 fun StartFragment.onSignupFinished() {
-    binding.startBtn.visibility = View.VISIBLE
-    binding.signupView.isVisible = false
-
-    setupLetsCalculate()
+    binding.viewModel!!.setupCurrentBodygraph()
 }
 
 fun StartFragment.loginEmail() {
@@ -128,7 +126,10 @@ fun StartFragment.loginEmail() {
             if (emailET.text.toString().isValidEmail()) {
                 Keyboard.hide(emailET)
 
-                binding.viewModel!!.loginEmail(emailET.text.toString().trim(), requireContext().getDeviceId())
+                binding.viewModel!!.loginEmail(
+                    emailET.text.toString().trim(),
+                    requireContext().getDeviceId()
+                )
                 checkInboxPage(emailET.text.toString().trim())
             } else {
 
@@ -151,7 +152,7 @@ fun StartFragment.checkInboxPage(email: String) {
         }
 
         checkLoginBtn.setOnClickListener {
-            binding.viewModel!!.checkLogin(requireContext().getDeviceId())
+            binding.viewModel!!.checkLogin(requireContext().getDeviceId(), email)
         }
 
         gotoInboxBtn.setOnClickListener {
@@ -159,17 +160,29 @@ fun StartFragment.checkInboxPage(email: String) {
 //            onSignupFinished()
         }
 
-        inboxSubtitle.text = inboxSubtitle.text.toString() + " $email"
-        inboxSubtitle.highlight(email)
+        val subtitleStart = getString(R.string.signup_check_inbox_subtitle)
+        inboxSubtitle.text = "$subtitleStart $email"
 
-        inboxFooter.text = inboxFooter.text.toString().replace("yourmail", email)
+        val footerStart = getString(R.string.signup_check_inbox_footer).replace("yourmail", email)
+        inboxFooter.text = footerStart
 
-        inboxFooter.withLinks("click here to have us resend the link") {
+        val underlineText = when (App.preferences.locale) {
+            "en" -> {
+                "click here to have us resend the link"
+            }
+            "ru" -> {
+                "нажмите здесь, чтобы получить ссылку повторно"
+            }
+            else -> {
+                "click here to have us resend the link"
+            }
+        }
+        inboxFooter.withLinks(underlineText) {
+            showMessage(getString(R.string.resend_email))
             binding.viewModel!!.loginEmail(email, requireContext().getDeviceId())
         }
     }
 }
-
 
 
 fun StartFragment.gotoMailInbox() {
@@ -187,6 +200,7 @@ fun StartFragment.loginFb() {
     AccessToken.expireCurrentAccessToken()
 
     val loginButton = LoginButton(requireContext())
+    loginButton.authType = "rerequest"
     loginButton.setFragment(this)
 
     LoginManager.getInstance().registerCallback(facebookCallbackManager,
@@ -239,7 +253,10 @@ fun String.isValidEmail(): Boolean {
     return !TextUtils.isEmpty(this) && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }
 
-fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>, underline: Boolean = true) {
+fun TextView.makeLinks(
+    vararg links: Pair<String, View.OnClickListener>,
+    underline: Boolean = true
+) {
     val spannableString = SpannableString(this.text)
     var startIndexOfLink = -1
     for (link in links) {
@@ -300,11 +317,13 @@ fun TextView.highlight(item: String) {
 
 fun StartFragment.setupSignupTheme() {
     with(binding.signupView) {
-        signupContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+        signupContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
         icGradient.isVisible = App.preferences.isDarkTheme
         icSignupLogo.setImageResource(
@@ -312,113 +331,165 @@ fun StartFragment.setupSignupTheme() {
             else R.drawable.ic_signup_logo_light
         )
 
-        signupTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        signupTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        signupSubtitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        signupSubtitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        signupText.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        signupText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         icEmailBtn.setImageResource(
-            if (App.preferences.isDarkTheme) R.drawable.ic_email_signup
-            else R.drawable.ic_email_signup_light
+            if (App.preferences.isDarkTheme)
+                if (App.preferences.locale == "ru") R.drawable.ic_email_signup_ru
+                else R.drawable.ic_email_signup
+            else
+                if (App.preferences.locale == "ru") R.drawable.ic_email_signup_light_ru
+                else R.drawable.ic_email_signup_light
         )
 
         icBreakline.setImageResource(
-            if (App.preferences.isDarkTheme) R.drawable.ic_breakline_signup
-            else R.drawable.ic_breakline_signup_light
+            if (App.preferences.isDarkTheme)
+                if (App.preferences.locale == "ru") R.drawable.ic_breakline_signup_ru
+                else R.drawable.ic_breakline_signup
+            else
+                if (App.preferences.locale == "ru") R.drawable.ic_breakline_signup_light_ru
+                else R.drawable.ic_breakline_signup_light
         )
 
         icGoogleBtn.setImageResource(
-            if (App.preferences.isDarkTheme) R.drawable.ic_google_signup
-            else R.drawable.ic_google_signup_light
+            if (App.preferences.isDarkTheme)
+                if (App.preferences.locale == "ru") R.drawable.ic_google_signup_ru
+                else R.drawable.ic_google_signup
+            else
+                if (App.preferences.locale == "ru") R.drawable.ic_google_signup_light_ru
+                else R.drawable.ic_google_signup_light
         )
 
         icFbBtn.setImageResource(
-            if (App.preferences.isDarkTheme) R.drawable.ic_fb_signup
-            else R.drawable.ic_fb_signup_light
+            if (App.preferences.isDarkTheme)
+                if (App.preferences.locale == "ru") R.drawable.ic_fb_signup_ru
+                else R.drawable.ic_fb_signup
+            else
+                if (App.preferences.locale == "ru") R.drawable.ic_fb_signup_light_ru
+                else R.drawable.ic_fb_signup_light
         )
 
-        signupFooter.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        signupFooter.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        emailContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+        emailContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
-        icEmailBack.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        icEmailBack.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        emailTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        emailTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        emailSubtitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        emailSubtitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        emailET.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        emailET.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        inboxContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+        inboxContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
-        icInboxBack.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        icInboxBack.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        inboxTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        inboxTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        inboxSubtitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor0_7
-            else R.color.darkColor0_7
-        ))
+        inboxSubtitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor0_7
+                else R.color.darkColor0_7
+            )
+        )
+
+        gotoInboxBtnTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         gotoInboxBtn.setImageResource(
-            if (App.preferences.isDarkTheme) R.drawable.ic_signup_goto_email
-            else R.drawable.ic_signup_goto_email_dark
+            if (App.preferences.isDarkTheme) R.drawable.ic_signup_goto_email_empty
+            else R.drawable.ic_signup_goto_email_empty_dark
         )
 
-        inboxFooter.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        inboxFooter.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
     }
 }

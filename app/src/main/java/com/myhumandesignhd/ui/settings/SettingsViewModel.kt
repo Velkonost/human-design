@@ -5,8 +5,8 @@ import com.myhumandesignhd.App
 import com.myhumandesignhd.event.NoInetEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
 import com.myhumandesignhd.model.GeocodingNominatimFeature
-import com.myhumandesignhd.model.GeocodingResponse
 import com.myhumandesignhd.repo.base.RestRepo
+import com.myhumandesignhd.repo.base.RestV2Repo
 import com.myhumandesignhd.util.RxViewModel
 import com.myhumandesignhd.util.SingleLiveEvent
 import com.myhumandesignhd.util.ext.mutableLiveDataOf
@@ -14,35 +14,18 @@ import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
-    private val repo: RestRepo
+    private val repo: RestRepo,
+    private val repoV2Repo: RestV2Repo
 ) : RxViewModel() {
 
     val errorEvent = SingleLiveEvent<Error>()
+    var nominatimSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> =
+        mutableLiveDataOf(emptyList())
 
-    var suggestions: MutableLiveData<GeocodingResponse> = mutableLiveDataOf(GeocodingResponse())
-    var nominatimSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> = mutableLiveDataOf(emptyList())
-
-    fun geocoding(query: String?) {
-        if (query.isNullOrEmpty()) {
-
-        } else {
-            repo.geocoding(
-                "https://api.mapbox.com/geocoding/v5/mapbox.places/"
-                        + query
-                        + ".json?access_token=pk.eyJ1IjoidmVsa29ub3N0IiwiYSI6ImNsMXlxMWF6NjBmNWEzam1xazVzdm5lc3oifQ.MLuCuYBGTuf-u9RKme73lQ&language="
-                        + App.preferences.locale
-                        + "&autocomplete=true"
-            ).subscribe({
-                suggestions.postValue(it)
-            }, {
-
-            }).disposeOnCleared()
-        }
-    }
+    var deleteEvent = SingleLiveEvent<Boolean>()
 
     fun geocodingNominatim(query: String?) {
         if (query.isNullOrEmpty()) {
-//https://nominatim.openstreetmap.org/search?q=%D0%BE%D0%BC%D1%81%D0%BA&format=json&accept-language=ru
         } else {
             val acceptLang = if (App.preferences.locale == "es") "en" else App.preferences.locale
             repo.geocodingNominatim(
@@ -52,13 +35,21 @@ class SettingsViewModel @Inject constructor(
                         + acceptLang
                         + "&limit=50"
             ).subscribe({
-//                suggestions.postValue(it)
                 nominatimSuggestions.postValue(it)
             }, {
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
                 EventBus.getDefault().post(NoInetEvent())
             }).disposeOnCleared()
         }
+    }
+
+    fun deleteAcc() {
+        repoV2Repo.deleteAcc()
+            .subscribe({
+                deleteEvent.postValue(true)
+            }, {
+
+            }).disposeOnCleared()
     }
 
 }

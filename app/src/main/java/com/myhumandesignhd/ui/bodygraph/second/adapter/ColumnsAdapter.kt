@@ -1,23 +1,21 @@
 package com.myhumandesignhd.ui.bodygraph.second.adapter
 
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
-import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.model.AboutItem
 import com.myhumandesignhd.model.Center
 import com.myhumandesignhd.model.TransitionChannel
 import com.myhumandesignhd.model.TransitionGate
-import com.myhumandesignhd.model.User
 import com.myhumandesignhd.ui.bodygraph.adapter.CentersAdapter
 import com.myhumandesignhd.ui.transit.adapter.ChannelsAdapter
 import com.myhumandesignhd.ui.transit.adapter.GatesAdapter
-import kotlinx.android.synthetic.main.item_bodygraph_about.view.*
-import kotlinx.android.synthetic.main.item_bodygraph_centers.view.*
-import kotlinx.android.synthetic.main.item_bodygraph_channels.view.*
-import kotlinx.android.synthetic.main.item_bodygraph_gates.view.*
+import com.myhumandesignhd.vm.BaseViewModel
+import kotlinx.android.synthetic.main.item_bodygraph_about.view.aboutRecycler
+import kotlinx.android.synthetic.main.item_bodygraph_centers.view.inactiveCentersRecycler
+import kotlinx.android.synthetic.main.item_bodygraph_channels.view.channelsRecycler
+import kotlinx.android.synthetic.main.item_bodygraph_gates.view.gatesRecycler
 
 
 class ColumnsAdapter : EpoxyAdapter() {
@@ -28,11 +26,12 @@ class ColumnsAdapter : EpoxyAdapter() {
         gates: List<TransitionGate>,
         channels: List<TransitionChannel>,
         aboutItems: List<AboutItem>,
-        currentUser: User
+        injuryStatus: BaseViewModel.InjuryStatus,
+        injuryPercent: Int? = null,
     ) {
         removeAllModels()
 
-        addModel(AboutModel(aboutItems, currentUser))
+        addModel(AboutModel(aboutItems, injuryStatus, injuryPercent))
         addModel(CentersModel(activeCenters, inactiveCenters))
         addModel(GatesModel(gates))
         addModel(ChannelsModel(channels))
@@ -43,7 +42,8 @@ class ColumnsAdapter : EpoxyAdapter() {
 
 class AboutModel(
     private val aboutItems: List<AboutItem>,
-    private val currentUser: User
+    private val injuryStatus: BaseViewModel.InjuryStatus,
+    private val injuryPercent: Int? = null,
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -57,7 +57,7 @@ class AboutModel(
                 context,
                 aboutRecycler,
                 aboutItems,
-                currentUser
+                injuryStatus, injuryPercent
             )
             aboutRecycler.adapter = aboutAdapter
 

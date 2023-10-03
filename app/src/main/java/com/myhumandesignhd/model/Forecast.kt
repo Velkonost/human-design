@@ -7,10 +7,13 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Forecast(
     @field:JsonProperty("id") val id: String = "",
-    @field:JsonProperty("ru") val ru: String = "",
-    @field:JsonProperty("en") val en: String = "",
-    @field:JsonProperty("es") val es: String = "",
-    @field:JsonProperty("rutitle") val titleRu: String = "",
-    @field:JsonProperty("estitle") val titleEs: String = "",
-    @field:JsonProperty("entitle") val titleEn: String = "",
+    @field:JsonProperty("title") val title: String = "",
+    @field:JsonProperty("text") val text: String = "",
+) : Parcelable
+
+@Parcelize
+data class ForecastResponse(
+    @field:JsonProperty("status") val status: String = "",
+    @field:JsonProperty("message") val message: String? = null,
+    @field:JsonProperty("data") val data: Forecast = Forecast(),
 ) : Parcelable

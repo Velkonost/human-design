@@ -22,19 +22,20 @@ import java.util.*
 
 class DiagramsAdapter : EpoxyAdapter() {
 
+    var isCreated = false
+
     fun createList(users: List<BodygraphResponse>) {
         removeAllModels()
+        notifyDataSetChanged()
+
         users.map {
-            addModel(
-                DiagramModel(
-                    it,
-                    isSwipeEnabled = users.size > 1
-                )
-            )
+            addModel(DiagramModel(it, isSwipeEnabled = users.size > 1))
         }
 
         addModel(DiagramEmptyModel(users.size <= 1))
         notifyDataSetChanged()
+
+        isCreated = true
     }
 
     fun getUserById(id: Long): BodygraphResponse {
@@ -77,10 +78,7 @@ class DiagramsAdapter : EpoxyAdapter() {
 
     fun deleteUserById(id: Long) {
         models.forEach { model ->
-            if (
-                model is DiagramModel
-                && model.model.id == id
-            ) {
+            if (model is DiagramModel && model.model.id == id) {
                 hideModel(model)
 
                 if (models.filter { it is DiagramModel && it.isShown }.size == 1) {
@@ -117,6 +115,8 @@ class DiagramModel(
         root = view
 
         with(view) {
+            swipeContainer.close(false)
+
             userName.text = model.name
             subtitle.text =
                 "${model.type} • " + "${model.line} •\n" + model.profile

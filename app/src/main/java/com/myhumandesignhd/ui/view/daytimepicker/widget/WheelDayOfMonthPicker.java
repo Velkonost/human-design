@@ -7,7 +7,8 @@ import android.util.AttributeSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WheelDayOfMonthPicker extends com.github.florent37.singledateandtimepicker.widget.WheelDayOfMonthPicker {
+public class WheelDayOfMonthPicker extends MyWheelPicker<String> {
+//        com.github.florent37.singledateandtimepicker.widget.WheelDayOfMonthPicker {
 
     private int daysInMonth;
     private DayOfMonthSelectedListener listener;

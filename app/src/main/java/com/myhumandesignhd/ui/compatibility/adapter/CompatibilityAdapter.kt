@@ -75,9 +75,12 @@ class PartnersModel(
 
             partnersRecycler.adapter = partnersAdapter
 
-            (partnersRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-            partnersRecycler.itemAnimator = null
-            partnersRecycler.layoutManager = SSMLLinearLayoutManager(context)
+            if (partnersRecycler != null && partnersRecycler.itemAnimator != null) {
+                (partnersRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
+                    false
+                partnersRecycler.itemAnimator = null
+                partnersRecycler.layoutManager = SSMLLinearLayoutManager(context)
+            }
 
             partnersRecycler.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
@@ -95,9 +98,7 @@ class PartnersModel(
                     }
                 }
 
-                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-
-                }
+                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
             })
 
             partnersAdapter.createList(partners)
@@ -131,15 +132,11 @@ class ChildrenModel(
 
     private var root: View? = null
 
-
-
     override fun preBind(view: View, previouslyBoundModel: EpoxyModel<*>?) {
         super.preBind(view, previouslyBoundModel)
 
         with(view) {
-            (childrenRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-            childrenRecycler.itemAnimator = null
-            childrenRecycler.layoutManager = SSMLLinearLayoutManager(context)
+
         }
     }
 
@@ -152,6 +149,14 @@ class ChildrenModel(
 
         with(view) {
             childrenRecycler.adapter = childrenAdapter
+
+            if (childrenRecycler != null && childrenRecycler.itemAnimator != null) {
+                (childrenRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
+                    false
+                childrenRecycler.itemAnimator = null
+                childrenRecycler.layoutManager = SSMLLinearLayoutManager(context)
+            }
+
             childrenAdapter.createList(children)
         }
     }

@@ -36,21 +36,21 @@
 
             <FrameLayout
                 android:id="@+id/backBtn"
-                android:layerType="none"
                 android:layout_width="27dp"
                 android:layout_height="27dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
+                android:layerType="none"
                 android:onClick="@{handler::onBackClicked}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/icArrow"
-                    android:layerType="none"
                     android:layout_width="15dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
+                    android:layerType="none"
                     android:src="@drawable/ic_arrow_start" />
 
             </FrameLayout>
@@ -67,12 +67,12 @@
 
             <ImageView
                 android:id="@+id/icSplashBigCircle"
-                android:layerType="none"
                 android:layout_width="977dp"
                 android:layout_height="977dp"
                 android:layout_marginTop="-120dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
+                android:layerType="hardware"
                 android:rotation="90"
                 android:src="@drawable/ic_circle_big_dark"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,12 +81,12 @@
 
             <ImageView
                 android:id="@+id/icSplashMidCircle"
-                android:layerType="none"
                 android:layout_width="977dp"
                 android:layout_height="977dp"
                 android:layout_marginTop="-30dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
+                android:layerType="hardware"
                 android:src="@drawable/ic_circle_mid_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,125 +94,118 @@
 
             <ImageView
                 android:id="@+id/icSplashBigCircleTime"
-                android:layerType="none"
                 android:layout_width="590dp"
                 android:layout_height="590dp"
+                android:layout_marginTop="-350dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
-                android:src="@drawable/ic_circle_big_dark"
+                android:layerType="hardware"
                 android:visibility="invisible"
-                android:layout_marginTop="-350dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn"/>
+                app:layout_constraintTop_toTopOf="@id/startBtn" />
 
             <ImageView
                 android:id="@+id/icSplashMidCircleTime"
-                android:layerType="none"
                 android:layout_width="480dp"
                 android:layout_height="480dp"
+                android:layout_marginTop="-300dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
-                android:src="@drawable/ic_circle_mid_dark"
+                android:layerType="hardware"
                 android:visibility="invisible"
-                android:layout_marginTop="-300dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/startBtn" />
 
             <ImageView
                 android:id="@+id/icSplashBigCircleDate"
-                android:layerType="none"
                 android:layout_width="719dp"
                 android:layout_height="719dp"
+                android:layout_marginTop="-300dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
-                android:src="@drawable/ic_circle_big_dark"
+                android:layerType="hardware"
                 android:visibility="invisible"
-                android:layout_marginTop="-300dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn"/>
+                app:layout_constraintTop_toTopOf="@id/startBtn" />
 
             <ImageView
                 android:id="@+id/icSplashMidCircleDate"
-                android:layerType="none"
                 android:layout_width="640dp"
                 android:layout_height="640dp"
+                android:layout_marginTop="-230dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
-                android:src="@drawable/ic_circle_mid_dark"
+                android:layerType="hardware"
                 android:visibility="invisible"
-                android:layout_marginTop="-230dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/startBtn" />
 
-<!--            -->
+            <!--            -->
             <ImageView
                 android:id="@+id/icSplashBigCircleName"
-                android:layerType="none"
                 android:layout_width="848dp"
                 android:layout_height="848dp"
+                android:layout_marginTop="-240dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
-                android:src="@drawable/ic_circle_big_dark"
+                android:layerType="hardware"
                 android:visibility="invisible"
-                android:layout_marginTop="-240dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn"/>
+                app:layout_constraintTop_toTopOf="@id/startBtn" />
 
             <ImageView
                 android:id="@+id/icSplashMidCircleName"
-                android:layerType="none"
                 android:layout_width="780dp"
                 android:layout_height="780dp"
+                android:layout_marginTop="-160dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
-                android:src="@drawable/ic_circle_mid_dark"
+                android:layerType="hardware"
                 android:visibility="invisible"
-                android:layout_marginTop="-160dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/startBtn" />
 
-            <ImageView
+            <View
                 android:id="@+id/icSplashBigCircleNamePlaceholder"
-                android:layerType="none"
                 android:layout_width="848dp"
                 android:layout_height="848dp"
-                android:adjustViewBounds="true"
-                android:alpha="0.2"
-                android:visibility="invisible"
                 android:layout_marginTop="-240dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/startBtn"/>
-
-            <ImageView
-                android:id="@+id/icSplashMidCircleNamePlaceholder"
-                android:layerType="none"
-                android:layout_width="780dp"
-                android:layout_height="780dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
+                android:layerType="none"
                 android:visibility="invisible"
-                android:layout_marginTop="-160dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/startBtn" />
-<!--            -->
+
+            <View
+                android:id="@+id/icSplashMidCircleNamePlaceholder"
+                android:layout_width="780dp"
+                android:layout_height="780dp"
+                android:layout_marginTop="-160dp"
+                android:adjustViewBounds="true"
+                android:alpha="0.2"
+                android:layerType="none"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/startBtn" />
+            <!--            -->
 
             <ImageView
                 android:id="@+id/icSplashBigCirclePlaceOfBirth"
-                android:layerType="none"
                 android:layout_width="461dp"
                 android:layout_height="461dp"
+                android:layout_marginTop="150dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
-                android:layout_marginTop="150dp"
-                android:src="@drawable/ic_circle_big_dark"
+                android:layerType="hardware"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -221,13 +214,12 @@
 
             <ImageView
                 android:id="@+id/icSplashMidCirclePlaceOfBirth"
-                android:layerType="none"
                 android:layout_width="380dp"
                 android:layout_height="380dp"
+                android:layout_marginTop="150dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
-                android:layout_marginTop="150dp"
-                android:src="@drawable/ic_circle_mid_dark"
+                android:layerType="hardware"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -287,19 +279,19 @@
                 android:layout_height="48dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="16dp"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@android:color/transparent"
                 android:clickable="true"
                 android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:onClick="@{handler::onBtnClicked}"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:background="@android:color/transparent"
-                android:backgroundTint="@android:color/transparent"
                 app:layout_constraintBottom_toTopOf="@id/indicatorsContainer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
-<!--
-                android:foreground="?attr/selectableItemBackground"-->
+                <!--
+                                android:foreground="?attr/selectableItemBackground"-->
 
                 <View
                     android:layout_width="match_parent"
@@ -360,9 +352,9 @@
                 android:id="@+id/nameContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:alpha="0"
-                android:layout_marginTop="12dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/startBtn"
                 app:layout_constraintTop_toBottomOf="@id/backBtn">
@@ -371,10 +363,10 @@
                     android:id="@+id/nameTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
                     android:fontFamily="@font/roboto"
                     android:gravity="center|bottom"
                     android:lines="2"
-                    android:layout_marginHorizontal="12dp"
                     android:textSize="28sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -416,7 +408,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginBottom="62dp"
-                    android:alpha="0"
                     android:calendarTextColor="@color/lightColor"
                     android:calendarViewShown="false"
                     android:datePickerMode="spinner"
@@ -424,8 +415,6 @@
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:offset="3"
-                    app:pickerMode="dayFirst"
-                    app:picker_curved="true"
                     app:picker_cyclic="true"
                     app:picker_displayDays="false"
                     app:picker_displayDaysOfMonth="true"
@@ -448,7 +437,6 @@
                     android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@id/skipTime"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:picker_curved="true"
                     app:picker_cyclic="true"
                     app:picker_displayDays="false"
                     app:picker_displayDaysOfMonth="false"
@@ -474,6 +462,7 @@
                     android:paddingVertical="12dp"
                     android:textSize="16sp"
                     android:visibility="gone"
+                    android:textAllCaps="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -522,9 +511,9 @@
                     android:layout_marginTop="66dp"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
-                    android:textSize="28sp"
                     android:lines="2"
                     android:minLines="2"
+                    android:textSize="28sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -562,13 +551,13 @@
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/bodygraphReadyMark1"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
                             android:layout_width="24dp"
                             android:layout_height="19dp"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            app:lottie_rawRes="@raw/bodygraph_ready_loader" />
 
                         <TextView
                             android:id="@+id/bodygraphReadyText1"
@@ -589,13 +578,13 @@
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/bodygraphReadyMark2"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
                             android:layout_width="24dp"
                             android:layout_height="19dp"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            app:lottie_rawRes="@raw/bodygraph_ready_loader" />
 
                         <TextView
                             android:id="@+id/bodygraphReadyText2"
@@ -616,13 +605,13 @@
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/bodygraphReadyMark3"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
                             android:layout_width="24dp"
                             android:layout_height="19dp"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            app:lottie_rawRes="@raw/bodygraph_ready_loader" />
 
                         <TextView
                             android:id="@+id/bodygraphReadyText3"
@@ -643,13 +632,13 @@
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/bodygraphReadyMark4"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
                             android:layout_width="24dp"
                             android:layout_height="19dp"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            app:lottie_rawRes="@raw/bodygraph_ready_loader" />
 
                         <TextView
                             android:id="@+id/bodygraphReadyText4"
@@ -670,13 +659,13 @@
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/bodygraphReadyMark5"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
                             android:layout_width="24dp"
                             android:layout_height="19dp"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            app:lottie_rawRes="@raw/bodygraph_ready_loader" />
 
                         <TextView
                             android:id="@+id/bodygraphReadyText5"
@@ -697,9 +686,9 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginBottom="24dp"
                     android:fontFamily="@font/roboto"
-                    android:visibility="invisible"
                     android:gravity="center"
                     android:textSize="16sp"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
