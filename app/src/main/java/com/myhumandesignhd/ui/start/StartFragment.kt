@@ -54,25 +54,15 @@ import com.myhumandesignhd.util.ext.setTextAnimation07
 import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.container_start_name.view.date
-import kotlinx.android.synthetic.main.container_start_name.view.nameContainer
-import kotlinx.android.synthetic.main.container_start_name.view.nameDesc
-import kotlinx.android.synthetic.main.container_start_name.view.nameET
-import kotlinx.android.synthetic.main.container_start_name.view.nameTitle
-import kotlinx.android.synthetic.main.container_start_name.view.placeET
-import kotlinx.android.synthetic.main.container_start_name.view.skipTime
-import kotlinx.android.synthetic.main.container_start_name.view.time
-import kotlinx.android.synthetic.main.single_day_and_time_picker.view.minutesPicker
-import kotlinx.android.synthetic.main.view_place_select.view.icArrowPlace
-import kotlinx.android.synthetic.main.view_place_select.view.newPlaceET
-import kotlinx.android.synthetic.main.view_place_select.view.placeRecycler
+import kotlinx.android.synthetic.main.container_start_name.view.*
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
+import kotlinx.android.synthetic.main.view_place_select.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     R.layout.fragment_start,

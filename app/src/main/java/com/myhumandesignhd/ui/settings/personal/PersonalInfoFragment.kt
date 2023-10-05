@@ -22,14 +22,8 @@ import com.myhumandesignhd.ui.settings.SettingsViewModel
 import com.myhumandesignhd.ui.start.adapter.PlacesAdapter
 import com.myhumandesignhd.util.Keyboard
 import com.myhumandesignhd.vm.BaseViewModel
-import kotlinx.android.synthetic.main.single_day_and_time_picker.view.amPmPicker
-import kotlinx.android.synthetic.main.single_day_and_time_picker.view.hoursPicker
-import kotlinx.android.synthetic.main.single_day_and_time_picker.view.minutesPicker
-import kotlinx.android.synthetic.main.view_place_select.view.icArrowPlace
-import kotlinx.android.synthetic.main.view_place_select.view.icSearch
-import kotlinx.android.synthetic.main.view_place_select.view.newPlaceET
-import kotlinx.android.synthetic.main.view_place_select.view.placeRecycler
-import kotlinx.android.synthetic.main.view_place_select.view.placesViewContainer
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
+import kotlinx.android.synthetic.main.view_place_select.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -39,8 +33,7 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 
 class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInfoBinding>(

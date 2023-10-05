@@ -33,7 +33,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
 
     private Listener listener;
-    private final BottomSheetHelper bottomSheetHelper;
+    private final com.github.florent37.singledateandtimepicker.dialog.BottomSheetHelper bottomSheetHelper;
     private TextView buttonTab0;
     private TextView buttonTab1;
     private SingleDateAndTimePicker pickerTab0;
@@ -66,7 +66,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     private DoubleDateAndTimePickerDialog(Context context, boolean bottomSheet) {
         final int layout = bottomSheet ? R.layout.bottom_sheet_double_picker_bottom_sheet :
                 R.layout.bottom_sheet_double_picker;
-        this.bottomSheetHelper = new BottomSheetHelper(context, layout);
+        this.bottomSheetHelper = new com.github.florent37.singledateandtimepicker.dialog.BottomSheetHelper(context, layout);
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
             @Override
             public void onOpen() {
