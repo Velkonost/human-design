@@ -1,6 +1,5 @@
 package com.myhumandesignhd.vm
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.myhumandesignhd.App
 import com.myhumandesignhd.event.CurrentUserLoadedEvent
@@ -26,7 +25,6 @@ import com.myhumandesignhd.repo.base.RestRepo
 import com.myhumandesignhd.util.RxViewModel
 import com.myhumandesignhd.util.SingleLiveEvent
 import com.myhumandesignhd.util.ext.mutableLiveDataOf
-import com.yandex.metrica.YandexMetrica
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -36,9 +34,9 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
-import kotlin.collections.HashMap
 
 
 class BaseViewModel @Inject constructor(
@@ -651,11 +649,10 @@ class BaseViewModel @Inject constructor(
             }).disposeOnCleared()
     }
 
-    var reverseSuggestions: MutableLiveData<Pair<List<GeocodingNominatimFeature>, Int>> = mutableLiveDataOf(Pair(emptyList(), 0))
+    var reverseSuggestions: MutableLiveData<List<GeocodingNominatimFeature>> = mutableLiveDataOf(emptyList())
     fun reverseNominatim(
         lat: String,
-        lon: String,
-        type: Int = 0
+        lon: String
     ) {
         val acceptLang = if (App.preferences.locale == "es") "en" else App.preferences.locale
         repo.geocodingNominatim(
@@ -666,7 +663,7 @@ class BaseViewModel @Inject constructor(
                     + "&limit=50"
         ).subscribe({
 //                suggestions.postValue(it)
-            reverseSuggestions.postValue(Pair(it, type))
+            reverseSuggestions.postValue(it)
         }, {
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             EventBus.getDefault().post(NoInetEvent())

@@ -76,11 +76,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
     @NonNull
     private final WheelAmPmPicker amPmPicker;
 
-    private List<WheelPicker> pickers = new ArrayList<>();
+    private final List<WheelPicker> pickers = new ArrayList<>();
 
-    private List<OnDateChangedListener> listeners = new ArrayList<>();
+    private final List<OnDateChangedListener> listeners = new ArrayList<>();
 
-    private View dtSelector;
+    private final View dtSelector;
     private boolean mustBeOnFuture;
 
     @Nullable
@@ -685,8 +685,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
 //                a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_itemSpacing, resources.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.dimen.wheelSelectorHeight))
         );
         setCurvedMaxAngle(a.getInteger(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_curvedMaxAngle, WheelPicker.MAX_ANGLE));
-        setSelectorHeight(a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_selectorHeight, resources.getDimensionPixelSize(R.dimen.wheelSelectorHeight)));
-        setTextSize(a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_textSize, resources.getDimensionPixelSize(R.dimen.WheelItemTextSize)));
+        setSelectorHeight(a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_selectorHeight, resources.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.dimen.wheelSelectorHeight)));
+        setTextSize(a.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_textSize, resources.getDimensionPixelSize(com.github.florent37.singledateandtimepicker.R.dimen.WheelItemTextSize)));
         setCurved(a.getBoolean(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_curved, IS_CURVED_DEFAULT));
         setCyclic(a.getBoolean(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_cyclic, IS_CYCLIC_DEFAULT));
         setMustBeOnFuture(a.getBoolean(com.github.florent37.singledateandtimepicker.R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTURE_DEFAULT));

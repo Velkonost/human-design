@@ -67,7 +67,7 @@ import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.navigation.SupportAppNavigator
 import com.myhumandesignhd.push.NotificationReceiver
 import com.myhumandesignhd.ui.base.BaseActivity
-import com.myhumandesignhd.ui.description.DescriptionFragment
+import com.myhumandesignhd.ui.bodygraph.BodygraphFragment
 import com.myhumandesignhd.ui.start.StartPage
 import com.myhumandesignhd.util.MyLocation
 import com.myhumandesignhd.util.SingleShotLocationProvider
@@ -133,10 +133,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                     Amplitude.getInstance().userId = App.preferences.uniqueUserId
 
-                    Adapty.activate(
-                        applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy",
-                        customerUserId = App.preferences.uniqueUserId
-                    )
+                    Adapty.activate(applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy", customerUserId = App.preferences.uniqueUserId)
                     Adapty.logLevel = AdaptyLogLevel.VERBOSE
 
                     referrerClient = InstallReferrerClient.newBuilder(this).build()
@@ -168,9 +165,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         }
                     })
 
+
+//                    setupAdapty()
+
                     return@addOnCompleteListener
                 }
-
                 if (it.isSuccessful) {
                     val appInstanceId = it.result.toString()
                     if (App.preferences.uniqueUserId == null) {
@@ -178,10 +177,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     }
 
                     Amplitude.getInstance().userId = App.preferences.uniqueUserId
-                    Adapty.activate(
-                        applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy",
-                        customerUserId = App.preferences.uniqueUserId
-                    )
+                    Adapty.activate(applicationContext, "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy", customerUserId = App.preferences.uniqueUserId)
                     Adapty.logLevel = AdaptyLogLevel.VERBOSE
 
                     referrerClient = InstallReferrerClient.newBuilder(this).build()
@@ -224,10 +220,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                             // Google Play by calling the startConnection() method.
                         }
                     })
+
+//                    setupAdapty()
                 }
             }
 
-            receiveLinkData()
             initStartPage()
         }
 
@@ -240,11 +237,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     YandexMetrica.reportEvent("Tab1Tapped")
                     Amplitude.getInstance().logEvent("tab1Tapped")
 
-//                    if (supportFragmentManager.fragments.last() !is BodygraphFragment)
-//                        router.navigateTo(Screens.bodygraphScreen(needUpdateNavMenu = false))
-
-                    if (supportFragmentManager.fragments.last() !is DescriptionFragment)
-                        router.navigateTo(Screens.descriptionScreen(needUpdateNavMenu = false))
+                    if (supportFragmentManager.fragments.last() !is BodygraphFragment)
+                        router.navigateTo(Screens.bodygraphScreen(needUpdateNavMenu = false))
 
                     true
                 }
@@ -302,23 +296,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
             }
 
-        }
-    }
-
-    private fun receiveLinkData() {
-        intent?.let { intent ->
-            intent.data?.let { data ->
-                kotlin.runCatching {
-                    val link = data.toString()
-
-                    if (link.contains("token=")) {
-                        val token = link.substringAfter("token=")
-                        App.preferences.authToken = token
-
-                        Log.d("keke_token", token)
-                    }
-                }
-            }
         }
     }
 
@@ -435,23 +412,18 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             if (location != null && location.latitude != 0.0) {
                 binding.viewModel!!.reverseNominatim(
                     location.latitude.toString(),
-                    location.longitude.toString(),
-                    type = 1
-
+                    location.longitude.toString()
                 )
             } else {
 
             }
-
-
 
             val locationResult: MyLocation.LocationResult = object : MyLocation.LocationResult() {
                 override fun gotLocation(location: Location?) {
                     if (location != null)
                         binding.viewModel!!.reverseNominatim(
                             location.latitude.toString(),
-                            location.longitude.toString(),
-                            type = 2
+                            location.longitude.toString()
                         )
                 }
             }
@@ -464,8 +436,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         if (location != null)
                             binding.viewModel!!.reverseNominatim(
                                 location.latitude.toString(),
-                                location.longitude.toString(),
-                                type = 3
+                                location.longitude.toString()
                             )
                     }
                 })
@@ -477,8 +448,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 if (location != null)
                     binding.viewModel!!.reverseNominatim(
                         location.latitude.toString(),
-                        location.longitude.toString(),
-                        type = 4
+                        location.longitude.toString()
                     )
             }
         }
@@ -560,18 +530,16 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     StartPage.SPLASH_05.pageId,
                     StartPage.RAVE.pageId,
                     StartPage.NAME.pageId,
-                    StartPage.CALCULATE.pageId,
                     StartPage.DATE_BIRTH.pageId,
                     StartPage.TIME_BIRTH.pageId,
                     StartPage.PLACE_BIRTH.pageId,
                     StartPage.BODYGRAPH.pageId,
-                    StartPage.SIGNUP.pageId
                     -> {
                         Screens.startScreen()
                     }
                     else -> {
-//                        Screens.bodygraphScreen()
-                        Screens.descriptionScreen()
+//                        setupNavMenu()
+                        Screens.bodygraphScreen()
                     }
                 }
             )
@@ -593,7 +561,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         super.onPause()
     }
 
-    private var isPriorityLocationSet = false
     override fun onViewModelReady(viewModel: BaseViewModel) {
         viewModel.loadFaqs()
 
@@ -606,39 +573,26 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
 
         viewModel.reverseSuggestions.observe(this) {
-            if (isPriorityLocationSet) {
-                return@observe
-            }
-
-            if (!it.first.isNullOrEmpty()) {
-                App.preferences.lastKnownLocationLat = it.first[0].lat.toString()
-                App.preferences.lastKnownLocationLon = it.first[0].lon.toString()
+            if (!it.isNullOrEmpty()) {
+                App.preferences.lastKnownLocationLat = it[0].lat.toString()
+                App.preferences.lastKnownLocationLon = it[0].lon.toString()
 
                 var locationStr = ""
-                if (it.first[0].address.city.isNotEmpty()) {
-                    locationStr += it.first[0].address.city
+                if (it[0].address.city.isNotEmpty()) {
+                    locationStr += it[0].address.city
                     locationStr += ", "
                 } else {
-                    if (it.first[0].address.municipality.isNotEmpty()) {
-                        locationStr += it.first[0].address.municipality
-                        locationStr += ", "
-                    }
-
-                    locationStr += it.first[0].address.state
+                    locationStr += it[0].address.municipality
+                    locationStr += ", "
+                    locationStr += it[0].address.state
                     locationStr += ", "
                 }
 
-                locationStr += it.first[0].address.country
+                locationStr += it[0].address.country
 
-                if (App.preferences.lastKnownLocation.isNullOrEmpty()) {
-                    App.preferences.lastKnownLocation = locationStr
-                }
+                App.preferences.lastKnownLocation = locationStr
 //                    "${it[0].address.city}, ${it[0].address.country}"
-
                 EventBus.getDefault().post(LastKnownLocationUpdateEvent())
-
-                if (it.second == 3)
-                    isPriorityLocationSet = true
             }
         }
         receiveNotificationData()
@@ -726,6 +680,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     fun onFinishFirstLoaderEvent(e: FinishFirstLoaderEvent) {
         isLoaderEnded = true
         if (isFirstAnimationPlayed) {
+            Log.d("keke", "finish first event")
             initStartPage()
         } else if (!e.isFirst) {
             EventBus.getDefault().post(ContinueFirstLoaderEvent())

@@ -257,7 +257,6 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             "with_scroll" -> setupSecondPaywall()
             else -> setupSecond2Paywall()
         }
-
     }
 
     private fun launchBilling() {
@@ -1828,7 +1827,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         Amplitude.getInstance().logEvent("subscription_exit_clicked")
 
         if (fromStart)
-            router.replaceScreen(Screens.descriptionScreen(true))
+            router.replaceScreen(Screens.bodygraphScreen(true))
         else router.exit()
     }
 

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">HDesign</string>
-    <string name="facebook_app_id" translatable="false">1024507441786747</string>
     <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
     <string name="search">Поиск</string>
     <string name="next">Далее</string>
@@ -65,11 +64,11 @@
     <string name="start_name_hint">Имя</string>
 
     <string name="start_date_title">Дата рождения</string>
-    <string name="start_date_desc">укажите дату рождения,\nи мы сможем построить ваш личный\nбодиграф!</string>
+    <string name="start_date_desc"><![CDATA[ , укажите дату рождения,<br>и мы сможем построить ваш личный<br>бодиграф!]]></string>
 
     <string name="start_time_title">Время рождения</string>
     <string name="start_time_desc"><![CDATA[Мы уже почти закончили. Пожалуйста, выберите время вашего рождения. ]]></string>
-    <string name="start_time_skip">Я не знаю точное время</string>
+    <string name="start_time_skip">Я НЕ ЗНАЮ ТОЧНОЕ ВРЕМЯ</string>
 
     <string name="start_place_title">Место рождения</string>
     <string name="start_place_desc"><![CDATA[Знание места вашего рождения поможет нам увидеть какие планеты оказали влияние на вашу судьбу]]></string>
@@ -403,8 +402,4 @@
     <string name="pw_ending_week">После 3-дневного бесплатного пробного периода подписка автоматически продлевается за ₽399 в неделю, если она не будет отменена по крайней мере за 24 часа до окончания пробного периода. Подписки автоматически продлеваются, если автоматическое продление не отключено по крайней мере за 24 часа до окончания текущего периода. Вы можете отменить или изменить подписку в любое время в разделе «Подписка» в Google Play.</string>
     <string name="pw_ending_month">Подписки автоматически продлеваются за ₽899/месяц, если автоматическое продление не отключено по крайней мере за 24 часа до окончания текущего периода. Вы можете отменить или изменить подписку в любое время в разделе «Подписка» в Google Play.</string>
     <string name="pw_ending_year">Подписки автоматически продлеваются за ₽2699/год, если автоматическое продление не отключено по крайней мере за 24 часа до окончания текущего периода. Вы можете отменить или изменить подписку в любое время в разделе «Подписка» в Google Play.</string>
-
-    <!--  PLANET TRANSITS  -->
-    <string name="planet_transits_title">Транзиты Планет</string>
-    <!--  PLANET TRANSITS  -->
 </resources>

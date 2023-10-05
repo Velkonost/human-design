@@ -60,19 +60,19 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="continue_btn_start">Continue</string>
     <string name="start_rave_btn_text">Create</string>
 
-    <string name="start_name_title">What is your\nname?</string>
-    <string name="start_name_desc">Let’s get acquainted! Please introduce\nyourself so that we know how best to address you!</string>
+    <string name="start_name_title"><![CDATA[What is<br>your name?]]></string>
+    <string name="start_name_desc"><![CDATA[We’ll enjoy getting to know your better.]]></string>
     <string name="start_name_hint">Name</string>
 
     <string name="start_date_title">Date of birth</string>
-    <string name="start_date_desc">enter the date of birth, and we will calculate your personal bodygraph!</string>
+    <string name="start_date_desc"><![CDATA[You date of birth is essential for identifying the exact position of the planets at the moment you were born.]]></string>
 
     <string name="start_time_title">Time of birth</string>
-    <string name="start_time_desc">It will show the exact location of the planets and stars at the time of your birth, which is important for calculating the card.</string>
-    <string name="start_time_skip">I don\'t know the exact time</string>
+    <string name="start_time_desc"><![CDATA[We are almost done!<br>name, please enter your time of birth.]]></string>
+    <string name="start_time_skip">I DON\'T KNOW FOR SURE</string>
 
     <string name="start_place_title">Place of birth</string>
-    <string name="start_place_desc">The place where you were born is very important. We will be able to accurately determine the position of the heavenly bodies that have left an imprint on your destiny.</string>
+    <string name="start_place_desc"><![CDATA[Your place of birth will give a clearer image of how stars affect you.]]></string>
     <string name="start_place_hint">City, Country</string>
 
     <string name="settings_title">Settings</string>
@@ -364,10 +364,4 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="_37_discount">37% discount</string>
     <string name="best_offer">best offer</string>
     <string name="pw_4_autorenewable">auto-renewable</string>
-
-    <string name="onboarding_title_1">Human Design</string>
-
-    <!--  PLANET TRANSITS  -->
-    <string name="planet_transits_title">Planet Transits</string>
-    <!--  PLANET TRANSITS  -->
 </resources>

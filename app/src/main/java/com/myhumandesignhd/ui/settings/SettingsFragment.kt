@@ -26,9 +26,10 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     SettingsViewModel::class,
     Handler::class
 ) {
+
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
-        Amplitude.getInstance().logEvent("settings_screen_shown");
+        Amplitude.getInstance().logEvent("settings_screen_shown")
     }
 
     private fun setupLocale() {
@@ -346,7 +347,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
             if (!App.preferences.isPushAvailable) {
                 YandexMetrica.reportEvent("Tab1userDisabledNotifications")
-                Amplitude.getInstance().logEvent("settingsDisabledNotifications");
+                Amplitude.getInstance().logEvent("settingsDisabledNotifications")
 
                 binding.notificationBlockActive.background = null
                 binding.notificationBlockActive.setBackgroundColor(ContextCompat.getColor(
@@ -361,7 +362,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                 ))
             } else {
                 YandexMetrica.reportEvent("Tab1userAllowedNotifications")
-                Amplitude.getInstance().logEvent("settingsAllowedNotifications");
+                Amplitude.getInstance().logEvent("settingsAllowedNotifications")
 
                 binding.notificationBlockActive.background = ContextCompat.getDrawable(
                     requireContext(),
@@ -398,7 +399,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
         fun onNightClicked(v: View) {
             YandexMetrica.reportEvent("Tab1UserSwitchedToDarkMode")
-            Amplitude.getInstance().logEvent("userSwitchedToDarkMode");
+            Amplitude.getInstance().logEvent("userSwitchedToDarkMode")
 
             val identify = Identify()
             identify.set("mode", "dark")
@@ -418,7 +419,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
         fun onDayClicked(v: View) {
             YandexMetrica.reportEvent("Tab1UserSwitchedToWhiteMode")
-            Amplitude.getInstance().logEvent("userSwitchedToWhiteMode");
+            Amplitude.getInstance().logEvent("userSwitchedToWhiteMode")
 
             val identify = Identify()
             identify.set("mode", "light")
@@ -487,14 +488,14 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
         fun onFaqClicked(v: View) {
             YandexMetrica.reportEvent("Tab1SettingsFAQTapped")
-            Amplitude.getInstance().logEvent("settingsTappedFAQ");
+            Amplitude.getInstance().logEvent("settingsTappedFAQ")
 
             router.navigateTo(Screens.faqScreen())
         }
 
         fun onPersonalInfoClicked(v: View) {
             YandexMetrica.reportEvent("Tab1SettingsPersonalInfoTapped")
-            Amplitude.getInstance().logEvent("settingsTappedChangeInfo");
+            Amplitude.getInstance().logEvent("settingsTappedChangeInfo")
 
             router.navigateTo(Screens.personalInfoScreen())
         }

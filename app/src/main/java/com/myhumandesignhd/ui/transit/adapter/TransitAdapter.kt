@@ -1,8 +1,5 @@
 package com.myhumandesignhd.ui.transit.adapter
 
-import android.graphics.Color
-import android.graphics.LinearGradient
-import android.graphics.Shader
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -17,9 +14,9 @@ import com.myhumandesignhd.R
 import com.myhumandesignhd.model.TransitionChannel
 import com.myhumandesignhd.model.TransitionGate
 import com.myhumandesignhd.model.TransitionPlanet
-import com.myhumandesignhd.ui.description.adapter.GatesAdapter
 import com.myhumandesignhd.util.ext.alpha1
 import com.myhumandesignhd.util.ext.setTextAnimation
+import kotlinx.android.synthetic.main.item_about_gates_title.view.activeGatesTitle
 import kotlinx.android.synthetic.main.item_transit.view.blueZnak1
 import kotlinx.android.synthetic.main.item_transit.view.blueZnak10
 import kotlinx.android.synthetic.main.item_transit.view.blueZnak11
@@ -41,7 +38,6 @@ import kotlinx.android.synthetic.main.item_transit.view.circle5
 import kotlinx.android.synthetic.main.item_transit.view.circle6
 import kotlinx.android.synthetic.main.item_transit.view.circle7
 import kotlinx.android.synthetic.main.item_transit.view.circle8
-import kotlinx.android.synthetic.main.item_transit.view.container
 import kotlinx.android.synthetic.main.item_transit.view.designTitle
 import kotlinx.android.synthetic.main.item_transit.view.emptyText
 import kotlinx.android.synthetic.main.item_transit.view.leftZnak1
@@ -98,9 +94,6 @@ import kotlinx.android.synthetic.main.item_transit.view.znak8Blue
 import kotlinx.android.synthetic.main.item_transit.view.znak8Red
 import kotlinx.android.synthetic.main.item_transit.view.znak9Blue
 import kotlinx.android.synthetic.main.item_transit.view.znak9Red
-import kotlinx.android.synthetic.main.item_transit_advice.view.bigCircle
-import kotlinx.android.synthetic.main.item_transit_advice.view.midCircle
-import kotlinx.android.synthetic.main.item_transit_gates_title.view.activeGatesTitle
 
 class TransitAdapter : EpoxyAdapter() {
 
@@ -131,7 +124,7 @@ class TransitAdapter : EpoxyAdapter() {
             position++
         }
         gates.map {
-            addModel(GatesAdapter.GateModel(it))
+            addModel(GateModel(it, position + 1, recyclerView))
             position++
         }
 
@@ -140,7 +133,7 @@ class TransitAdapter : EpoxyAdapter() {
             position++
         }
         channels.map {
-            addModel(GatesAdapter.ChannelModel(it))
+            addModel(ChannelModel(it, position + 1, recyclerView))
             position++
         }
         notifyDataSetChanged()
@@ -161,57 +154,6 @@ class TransitModel(
         root = view
 
         with(view) {
-
-            container.background = ContextCompat.getDrawable(
-                context,
-                if (App.preferences.isDarkTheme) R.drawable.bg_daily_advice_dark
-                else R.drawable.bg_daily_advice_light
-            )
-
-            bigCircle.setImageResource(
-                if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
-                else R.drawable.ic_circle_big_light
-            )
-
-            midCircle.setImageResource(
-                if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
-                else R.drawable.ic_circle_mid_light
-            )
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-                val rotate = RotateAnimation(
-                    0f,
-                    360f,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5f,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5f
-                )
-
-                rotate.repeatCount = Animation.INFINITE
-                rotate.fillAfter = true
-                rotate.duration = 100000
-                rotate.interpolator = LinearInterpolator()
-
-                val rotateNegative = RotateAnimation(
-                    0f,
-                    -360f,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5f,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5f
-                )
-                rotateNegative.repeatCount = Animation.INFINITE
-                rotateNegative.fillAfter = true
-                rotateNegative.duration = 100000
-                rotateNegative.interpolator = LinearInterpolator()
-
-                bigCircle.startAnimation(rotate)
-                midCircle.startAnimation(rotateNegative)
-            }
-
-
             nextTransitTitle.text =
                 App.resourcesProvider.getStringLocale(R.string.next_transit_text)
             nextTransitTitle.setTextColor(
@@ -494,12 +436,13 @@ class GatesTitleModel(
                     else R.string.channels_title
                 )
 
-            val paint = activeGatesTitle.paint
-            val width = paint.measureText(activeGatesTitle.text.toString())
-            val textShader: Shader = LinearGradient(0f, 0f, width, activeGatesTitle.textSize, intArrayOf(
-                Color.parseColor("#58B9FF"), Color.parseColor("#58B9FF"), Color.parseColor("#5655F9")
-            ), null, Shader.TileMode.REPEAT)
-            activeGatesTitle.paint.shader = textShader
+            activeGatesTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
         }
     }
 

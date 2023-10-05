@@ -6,17 +6,14 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.amplitude.api.Amplitude
 import com.amplitude.api.Identify
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
-import com.myhumandesignhd.databinding.FragmentCompatibilityNewBinding
+import com.myhumandesignhd.databinding.FragmentCompatibilityBinding
 import com.myhumandesignhd.event.AddChildClickEvent
 import com.myhumandesignhd.event.AddPartnerClickEvent
 import com.myhumandesignhd.event.ChangeCompatibilityViewPagerUserInputEvent
@@ -40,12 +37,13 @@ import com.skydoves.balloon.overlay.BalloonOverlayRoundRect
 import com.yandex.metrica.YandexMetrica
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompatibilityNewBinding>(
-    R.layout.fragment_compatibility_new,
+class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompatibilityBinding>(
+    R.layout.fragment_compatibility,
     CompatibilityViewModel::class,
     Handler::class
 ) {
@@ -63,30 +61,11 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         )
     }
 
-    private val sheetBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
-        BottomSheetBehavior.from(binding.aboutBottomSheet.bottomSheetContainer)
-    }
-
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
         Amplitude.getInstance().logEvent("tab4_screen_shown")
-
-        val sheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-//                    binding.blur.isVisible = false
-//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
-                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-//                    binding.blur.isVisible = true
-//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
-                }
-            }
-        }
-        sheetBehavior.addBottomSheetCallback(sheetCallback)
     }
 
     @Subscribe
@@ -128,15 +107,15 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     }
 
     override fun updateThemeAndLocale() {
-        binding.container.setBackgroundColor(
+        binding.compatibilityContainer.setBackgroundColor(
             ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.darkColor
             else R.color.lightColor
         ))
 
-        binding.title.text = App.resourcesProvider.getStringLocale(R.string.compatibility_title)
-        binding.title.setTextColor(ContextCompat.getColor(
+        binding.compatibilityTitle.text = App.resourcesProvider.getStringLocale(R.string.compatibility_title)
+        binding.compatibilityTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             if (App.preferences.isDarkTheme) R.color.lightColor
             else R.color.darkColor
@@ -145,11 +124,17 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         binding.partnersTitle.text = App.resourcesProvider.getStringLocale(R.string.partners_title)
         binding.childrenTitle.text = App.resourcesProvider.getStringLocale(R.string.children_title)
 
-        binding.selectionBlock.background = ContextCompat.getDrawable(
+        binding.selectionCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
             requireContext(),
-            if (App.preferences.isDarkTheme) R.drawable.bg_selection_block_dark
-            else R.drawable.bg_selection_block_light
-        )
+            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+            else R.color.lightSettingsCard
+        ))
+
+        binding.selectionLinear.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+            else R.color.lightSettingsCard
+        ))
 
         if (App.preferences.isCompatibilityFromChild) {
             selectChildren()
@@ -157,89 +142,6 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         } else selectPartners()
 
         setupViewPager()
-
-        with(binding.aboutBottomSheet) {
-            sheetTitle.background = ContextCompat.getDrawable(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.drawable.bg_sheet_header_dark
-                else R.drawable.bg_sheet_header_light
-            )
-            sheetTitle.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-
-            sheetText.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-
-            icSheetCross.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-
-            sheetContainer.setBackgroundColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.darkColor
-                else R.color.lightColor
-            ))
-
-            bodygraphTitle.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-        }
-
-
-        // add partner btn
-        binding.addPartnerBtn.background = ContextCompat.getDrawable(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.drawable.bg_add_partner_btn_dark
-            else R.drawable.bg_add_partner_btn_light
-        )
-
-        binding.addPartnerIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
-
-        binding.addPartnerTitle.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
-    }
-
-    private fun showSheet(title: String, desc: String = "") {
-        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-
-        with(binding.aboutBottomSheet) {
-            bottomSheetContainer.setBackgroundColor(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.darkColor
-                else R.color.lightColor
-            ))
-
-            backSheet.background = ContextCompat.getDrawable(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.drawable.bg_sheet_header_dark
-                else R.drawable.bg_sheet_header_light
-            )
-
-            closeSheetBtn.setOnClickListener {
-                sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            }
-
-            sheetScroll.fullScroll(View.FOCUS_UP)
-            sheetTitle.text = title
-            sheetText.text = desc
-        }
     }
 
     private fun showPartnersHelp() {
@@ -327,20 +229,21 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     private fun selectPartners() {
         Amplitude.getInstance().logEvent("tab4TappedLove")
 
-        binding.addPartnerTitle.text = App.resourcesProvider.getStringLocale(R.string.add_partner_btn_title)
-
         binding.partnersTitle.setTextColor(ContextCompat.getColor(
-            requireContext(), R.color.lightColor
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
         ))
 
         binding.childrenTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor0_5
-            else R.color.darkColor0_5
+            R.color.unselectText
         ))
 
         binding.partnersTitle.background = ContextCompat.getDrawable(
-            requireContext(), R.drawable.bg_selection_item_compatibility
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.childrenTitle.background = null
@@ -350,6 +253,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
             android.os.Handler().postDelayed({
                 showPartnersHelp()
             }, 500)
+
         }
 
     }
@@ -357,20 +261,21 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     private fun selectChildren() {
         Amplitude.getInstance().logEvent("tab4TappedFamily")
 
-        binding.addPartnerTitle.text = App.resourcesProvider.getStringLocale(R.string.add_child_btn_title)
-
         binding.childrenTitle.setTextColor(ContextCompat.getColor(
-            requireContext(), R.color.lightColor
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
         ))
 
         binding.partnersTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor0_5
-            else R.color.darkColor0_5
+            R.color.unselectText
         ))
 
         binding.childrenTitle.background = ContextCompat.getDrawable(
-            requireContext(), R.drawable.bg_selection_item_compatibility
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
         )
 
         binding.partnersTitle.background = null
@@ -392,7 +297,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.isUserInputEnabled = true
 
-        lifecycleScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
             val partners = baseViewModel.getAllUsers()
                 .toMutableList().filter { it.id != App.preferences.currentUserId }
             val children = baseViewModel.getAllChildren()
@@ -471,30 +376,6 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     }
 
     inner class Handler {
-
-        fun onAddPartnerBtnClicked(v: View) {
-            val position = binding.viewPager.currentItem
-
-            if (position == 0) {
-                YandexMetrica.reportEvent("Tab4AddAdultsTapped")
-                Amplitude.getInstance().logEvent("tab4TappedAddUser")
-
-                if (App.preferences.isPremiun) {
-                    router.navigateTo(Screens.addUserScreen(fromCompatibility = true))
-                } else {
-                    router.navigateTo(Screens.paywallScreen(source = "compatibility"))
-                }
-            } else {
-                YandexMetrica.reportEvent("Tab4AddChildrenTapped")
-                Amplitude.getInstance().logEvent("tab4TappedAddKid")
-
-                if (App.preferences.isPremiun) {
-                    router.navigateTo(Screens.addUserScreen(isChild = true))
-                } else {
-                    router.navigateTo(Screens.paywallScreen(source = "compatibility"))
-                }
-            }
-        }
 
         fun onPartnersClicked(v: View) {
             binding.viewPager.setCurrentItem(0, true)

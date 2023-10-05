@@ -20,20 +20,20 @@
         android:id="@+id/adviceBlock"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1.29:1"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="76dp"
         android:background="@color/darkCardColor"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/adviceSubtitle">
 
         <ImageView
             android:id="@+id/bigCircle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:alpha="0.6"
-            android:scaleX="1.65"
-            android:scaleY="1.65"
+            android:alpha="0.2"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,10 +44,7 @@
             android:id="@+id/midCircle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:alpha="0.6"
-            android:scaleX="1.35"
-            app:tint="#5655F9"
-            android:scaleY="1.35"
+            android:alpha="0.2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,39 +57,34 @@
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/adviceTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/adviceTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="38dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/adviceText" />
+
+        <TextView
+            android:id="@+id/adviceText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="24dp"
+            android:alpha="0.7"
+            android:gravity="center"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/adviceTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:gravity="start"
-        android:fontFamily="@font/gilroy"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/adviceBlock"
-        app:layout_constraintBottom_toTopOf="@id/adviceText" />
-
-    <TextView
-        android:id="@+id/adviceText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="16dp"
-        android:alpha="0.7"
-        android:gravity="start"
-        android:lineSpacingExtra="3sp"
-        android:translationY="-1.3sp"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/adviceTitle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

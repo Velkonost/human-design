@@ -22,16 +22,25 @@ import com.myhumandesignhd.ui.settings.SettingsViewModel
 import com.myhumandesignhd.ui.start.adapter.PlacesAdapter
 import com.myhumandesignhd.util.Keyboard
 import com.myhumandesignhd.vm.BaseViewModel
-import kotlinx.android.synthetic.main.single_day_and_time_picker.view.*
-import kotlinx.android.synthetic.main.view_place_select.view.*
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.amPmPicker
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.hoursPicker
+import kotlinx.android.synthetic.main.single_day_and_time_picker.view.minutesPicker
+import kotlinx.android.synthetic.main.view_place_select.view.icArrowPlace
+import kotlinx.android.synthetic.main.view_place_select.view.icSearch
+import kotlinx.android.synthetic.main.view_place_select.view.newPlaceET
+import kotlinx.android.synthetic.main.view_place_select.view.placeRecycler
+import kotlinx.android.synthetic.main.view_place_select.view.placesViewContainer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.threeten.bp.LocalTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 
 class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInfoBinding>(
@@ -90,7 +99,10 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
                 val sdfs = SimpleDateFormat("hh:mm a")
 
                 val dt = sdf.parse(baseViewModel.currentUser.time)
-                binding.timeET.setText(dt?.let { sdfs.format(it) })
+                binding.timeET.setText(dt?.let {
+                    LocalTime.parse(baseViewModel.currentUser.time, DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH))
+                        .format(DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH))
+                })
             }
         }
 
@@ -144,7 +156,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
             this.ok.setOnClickListener {
                 dateBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-                val formatter: DateFormat = SimpleDateFormat(com.myhumandesignhd.App.DATE_FORMAT_PERSONAL_INFO, Locale.getDefault())
+                val formatter: DateFormat = SimpleDateFormat(App.DATE_FORMAT_PERSONAL_INFO, Locale.getDefault())
                 val calendar: Calendar = Calendar.getInstance()
 
                 calendar.timeInMillis = this.date.date.time
@@ -168,7 +180,7 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
 
     private fun setupTimeSheet() {
         with(binding.timeBottomSheet) {
-            if (com.myhumandesignhd.App.preferences.locale == "en")
+            if (App.preferences.locale == "en")
                 time.setIsAmPm(true)
             else time.setIsAmPm(false)
 
@@ -176,24 +188,29 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
                 timeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
                 var newTime = String.format(
-                    "%02d",
-                    this.time.hoursPicker.currentHour
+                    "%02d", this.time.hoursPicker.currentHour
                 ) + ":" + String.format("%02d", this.time.minutesPicker.currentMinute)
                 binding.timeET.setText(newTime)
 
                 if (App.preferences.locale == "en") {
+                    var currentHour = this.time.hoursPicker.currentHour
+//                    if (currentHour == 0) currentHour = 12
+
                     newTime =
                         String.format(
-                            "%02d",
-                            this.time.hoursPicker.currentHour +
-                                    if (this.time.amPmPicker.isPm) 12 else 0
+                            "%02d", currentHour + if (this.time.amPmPicker.isPm) 12 else 0
                         ) + ":" + String.format("%02d", this.time.minutesPicker.currentMinute)
 
                     val sdf = SimpleDateFormat("hh:mm")
                     val sdfs = SimpleDateFormat("hh:mm a")
 
                     val dt = sdf.parse(newTime)
-                    binding.timeET.setText(dt?.let { sdfs.format(it) })
+
+                    binding.timeET.setText(dt?.let {
+//                        sdfs.format(it)
+                        LocalTime.parse(newTime, DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH))
+                            .format(DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH))
+                    })
                 }
                 selectedTime = newTime
             }

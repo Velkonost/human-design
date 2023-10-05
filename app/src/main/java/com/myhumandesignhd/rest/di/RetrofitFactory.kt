@@ -1,7 +1,6 @@
 package com.myhumandesignhd.rest.di
 
 import android.content.Context
-import com.myhumandesignhd.App
 import com.myhumandesignhd.BuildConfig
 import com.myhumandesignhd.rest.Json
 import io.reactivex.schedulers.Schedulers
@@ -68,10 +67,7 @@ private fun getHeaderInterceptor(context: Context) = Interceptor { chain ->
     val originalRequest = chain.request()
     with(originalRequest.newBuilder()) {
 
-        if (!App.preferences.authToken.isNullOrEmpty())
-            addHeader("Authorization", "Bearer ${App.preferences.authToken}")
-
-        addHeader("Content-Type", "application/json")
+//        addHeader("Authorization", "Bearer ${App.preferences.authToken}")
 
         originalRequest.headers.names().map {
             header(it, originalRequest.headers[it]!!)

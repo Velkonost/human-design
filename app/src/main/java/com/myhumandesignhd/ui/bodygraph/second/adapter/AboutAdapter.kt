@@ -293,7 +293,7 @@ class AboutAdapter(
 
                             generateBtn.setOnClickListener {
                                 YandexMetrica.reportEvent("Tab2AboutTraumaGenerateTapped")
-                                Amplitude.getInstance().logEvent("tab2AboutTraumaGenerateTapped");
+                                Amplitude.getInstance().logEvent("tab2AboutTraumaGenerateTapped")
 
                                 val injuryGenerationDuration = (12..24).random() * 3600000L
                                 currentUser.injuryDateStart = System.currentTimeMillis()
@@ -329,7 +329,7 @@ class AboutAdapter(
                                 EventBus.getDefault().post(UpdateCurrentUserInjurySettingsEvent())
                             }
                         } else {
-                            Amplitude.getInstance().logEvent("tab2AboutTraumaGeneratedTapped");
+                            Amplitude.getInstance().logEvent("tab2AboutTraumaGeneratedTapped")
                             generateProgress.isVisible = true
                             generateProgressText.isVisible = true
                             generateBtn.isVisible = false
@@ -450,31 +450,31 @@ class AboutAdapter(
                 when (items[adapterPosition].type) {
                     AboutType.TYPE -> {
                         YandexMetrica.reportEvent("Tab2AboutTypeTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutTypeTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutTypeTapped")
                     }
                     AboutType.PROFILE -> {
                         YandexMetrica.reportEvent("Tab2AboutProfileTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutProfileTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutProfileTapped")
                     }
                     AboutType.AUTHORITY -> {
                         YandexMetrica.reportEvent("Tab2AboutAuthorityTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutAuthorityTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutAuthorityTapped")
                     }
                     AboutType.STRATEGY -> {
                         YandexMetrica.reportEvent("Tab2AboutStrategyTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutStategyTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutStategyTapped")
                     }
                     AboutType.INJURY -> {
                         YandexMetrica.reportEvent("Tab2AboutTraumaTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutTraumaTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutTraumaTapped")
                     }
                     AboutType.NUTRITION -> {
                         YandexMetrica.reportEvent("Tab2AboutNutrition")
-                        Amplitude.getInstance().logEvent("tab2AboutNutritionTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutNutritionTapped")
                     }
                     AboutType.ENVIRONMENT -> {
                         YandexMetrica.reportEvent("Tab2AboutEnvironment")
-                        Amplitude.getInstance().logEvent("tab2AboutEnvironmentTapped");
+                        Amplitude.getInstance().logEvent("tab2AboutEnvironmentTapped")
                     }
                 }
             }
@@ -519,17 +519,17 @@ class AboutAdapter(
 
             if (state == ExpandableLayout.State.COLLAPSED) {
                 kotlin.runCatching {
-//                    expandButton.setTextAnimation(
-//                        when (items[adapterPosition].type) {
-//                            AboutType.TYPE -> App.resourcesProvider.getStringLocale(R.string.type_title)
-//                            AboutType.PROFILE -> App.resourcesProvider.getStringLocale(R.string.profile_title)
-//                            AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)
-//                            AboutType.STRATEGY -> App.resourcesProvider.getStringLocale(R.string.strategy_title)
-//                            AboutType.INJURY -> App.resourcesProvider.getStringLocale(R.string.injury_title)
-//                            AboutType.NUTRITION -> App.resourcesProvider.getStringLocale(R.string.nutrition_title)
-//                            AboutType.ENVIRONMENT -> App.resourcesProvider.getStringLocale(R.string.environment_title)
-//                        }
-//                    )
+                    expandButton.setTextAnimation(
+                        when (items[adapterPosition].type) {
+                            AboutType.TYPE -> App.resourcesProvider.getStringLocale(R.string.type_title)
+                            AboutType.PROFILE -> App.resourcesProvider.getStringLocale(R.string.profile_title)
+                            AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)
+                            AboutType.STRATEGY -> App.resourcesProvider.getStringLocale(R.string.strategy_title)
+                            AboutType.INJURY -> App.resourcesProvider.getStringLocale(R.string.injury_title)
+                            AboutType.NUTRITION -> App.resourcesProvider.getStringLocale(R.string.nutrition_title)
+                            AboutType.ENVIRONMENT -> App.resourcesProvider.getStringLocale(R.string.environment_title)
+                        }
+                    )
                     subtitle.isVisible = true
 
                     icArrow.animate()

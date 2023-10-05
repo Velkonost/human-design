@@ -3,7 +3,6 @@ package com.myhumandesignhd.util
 import android.content.Context
 import android.content.SharedPreferences
 import com.myhumandesignhd.App
-import java.util.*
 
 class Preferences(context: Context) {
 
@@ -19,10 +18,10 @@ class Preferences(context: Context) {
 
     var locale: String
         set(value) = sharedPreferences.edit().putString(LOCALE, value).apply()
-        get() =
-            if (Locale.getDefault().language == "en" || Locale.getDefault().language == "ru" )//|| Locale.getDefault().language == "es"
-                Locale.getDefault().language
-            else "en"
+        get() = "en"
+//            if (Locale.getDefault().language == "en" || Locale.getDefault().language == "ru" )//|| Locale.getDefault().language == "es"
+//                Locale.getDefault().language
+//            else "en"
 
     var isDarkTheme: Boolean
         set(value) = sharedPreferences.edit().putBoolean(IS_DARK_THEME, value)
@@ -85,15 +84,11 @@ class Preferences(context: Context) {
 
     var isPremiun: Boolean
         set(value) = sharedPreferences.edit().putBoolean("is_premium", value).apply()
-        get() = true//sharedPreferences.getBoolean("is_premium", false)
+        get() = sharedPreferences.getBoolean("is_premium", false)
 
     var uniqueUserId: String?
         set(value) = sharedPreferences.edit().putString("unique_user_id", value).apply()
         get() = sharedPreferences.getString("unique_user_id", null)
-
-    var authToken: String?
-        set(value) = sharedPreferences.edit().putString("auth_token", value).apply()
-        get() = sharedPreferences.getString("auth_token", null)
 
     fun clearNewUserTemps() {
         newUserName = null

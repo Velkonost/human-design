@@ -18,7 +18,6 @@ import com.myhumandesignhd.ui.compatibility.detail.info.CompatibilityDetailInfoF
 import com.myhumandesignhd.ui.faq.FaqFragment
 import com.myhumandesignhd.ui.faq.detail.FaqDetailFragment
 import com.myhumandesignhd.ui.loader.LoaderFragment
-import com.myhumandesignhd.ui.description.DescriptionFragment
 import com.myhumandesignhd.ui.paywall.PaywallFragment
 import com.myhumandesignhd.ui.settings.SettingsFragment
 import com.myhumandesignhd.ui.settings.personal.PersonalInfoFragment
@@ -58,19 +57,6 @@ object Screens {
         )
 
         bodygraphFragment
-    }
-
-    fun descriptionScreen(
-        fromStart: Boolean = false,
-        needUpdateNavMenu: Boolean = true
-    ) = FragmentScreen {
-        val descriptionFragment = DescriptionFragment()
-        descriptionFragment.arguments = bundleOf(
-            "fromStart" to fromStart,
-            "needUpdateNavMenu" to needUpdateNavMenu
-        )
-
-        descriptionFragment
     }
 
     fun transitScreen() = FragmentScreen {

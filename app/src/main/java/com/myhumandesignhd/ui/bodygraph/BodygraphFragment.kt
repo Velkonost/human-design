@@ -3,9 +3,7 @@ package com.myhumandesignhd.ui.bodygraph
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.media.metrics.Event
 import android.os.Bundle
-import android.os.Handler
 import android.view.Gravity
 import android.view.View
 import android.view.animation.Animation
@@ -15,7 +13,6 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
@@ -42,8 +39,6 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.item_transit_advice.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -79,7 +74,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         EventBus.getDefault().post(OpenBodygraphEvent())
 
         isFirstFragmentLaunch = false
-        Amplitude.getInstance().logEvent("tab1_screen_shown");
+        Amplitude.getInstance().logEvent("tab1_screen_shown")
 
         if (
             !App.preferences.isDarkTheme
@@ -286,7 +281,6 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             if (App.preferences.isDarkTheme) R.color.lightColor
             else R.color.darkColor
         ))
-
 
         binding.toDecryptionText.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -504,7 +498,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         fun onAddUserClicked(v: View) {
             YandexMetrica.reportEvent("Tab1AddUserTapped")
-            Amplitude.getInstance().logEvent("tab1TappedShowUsers");
+            Amplitude.getInstance().logEvent("tab1TappedShowUsers")
 
             router.navigateTo(
                 if (App.preferences.isPremiun) Screens.diagramScreen()
@@ -514,7 +508,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         fun onSettingsClicked(v: View) {
             YandexMetrica.reportEvent("Tab1SettingsTapped")
-            Amplitude.getInstance().logEvent("tab1TappedSettings");
+            Amplitude.getInstance().logEvent("tab1TappedSettings")
 
             router.navigateTo(Screens.settingsScreen())
         }
