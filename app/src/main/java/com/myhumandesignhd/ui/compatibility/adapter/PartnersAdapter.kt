@@ -36,7 +36,10 @@ class PartnersAdapter : EpoxyAdapter() {
     ) {
         removeAllModels()
         partners.map { addModel(PartnerModel(it)) }
-        addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
+
+        if (partners.isNotEmpty()) {
+            addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
+        }
 
         notifyDataSetChanged()
     }
@@ -58,7 +61,8 @@ class PartnersAdapter : EpoxyAdapter() {
                 hideModel(model)
 
                 if (models.count { it.isShown } == 1) {
-                    val emptyModel = (models.findLast { it is EmptyPartnerModel } as EmptyPartnerModel)
+                    val emptyModel =
+                        (models.findLast { it is EmptyPartnerModel } as EmptyPartnerModel)
                     emptyModel.showEmptyText = true
 
                     notifyModelChanged(emptyModel)
@@ -92,24 +96,27 @@ class PartnerModel(
 
             userName.setTextColor(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             subtitle.setTextColor(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             partnerCard.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                else R.color.lightSettingsCard
-            ))
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                    else R.color.lightSettingsCard
+                )
+            )
 
             val chartResId =
                 if (model.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
@@ -181,11 +188,13 @@ class EmptyPartnerModel(
         root = view
 
         with(view) {
-            icPlus.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            icPlus.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             emptyPartnerCard.background = ContextCompat.getDrawable(
                 context,
@@ -198,12 +207,15 @@ class EmptyPartnerModel(
             }
 
             partnersEmptyText.isVisible = showEmptyText
-            partnersEmptyText.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.partners_empty_text))
-            partnersEmptyText.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            partnersEmptyText.text =
+                Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.partners_empty_text))
+            partnersEmptyText.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
         }
     }
 

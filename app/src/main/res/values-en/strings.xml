@@ -146,7 +146,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="profile_title">Profile</string>
     <string name="authority_title">Authority</string>
     <string name="strategy_title">Strategy</string>
-    <string name="business_title">Business</string>
+    <string name="business_title">Business &amp; Career</string>
     <string name="injury_title">Genetic Trauma</string>
     <string name="nutrition_title">Nutrition</string>
     <string name="environment_title">Environment</string>
@@ -277,7 +277,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
 
     <string name="about_authority_subtitle">How to make the right decisions</string>
     <string name="about_strategy_subtitle">How to live without resistance</string>
-    <string name="about_business_subtitle">How to succeed</string>
+    <string name="about_business_subtitle">How to become successful</string>
     <string name="about_injury_subtitle">How to take control over your trauma</string>
     <string name="about_nutrition_subtitle">The way you are designed to eat</string>
     <string name="about_environment_subtitle">The most nourishing surrounding</string>
@@ -366,4 +366,13 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="_37_discount">37% discount</string>
     <string name="best_offer">best offer</string>
     <string name="pw_4_autorenewable">auto-renewable</string>
+
+    <!--  COMPATIBILITY  -->
+    <string name="compatibility_partner_empty_title">Test your compatibility</string>
+    <string name="compatibility_partner_empty_text">Check your partner and unlock keys to your peaceful relationships.\n\nCreate a deeper connection and discover how to interact harmoniously.</string>
+    <string name="compatibility_partner_empty_add_btn">add partner</string>
+    <string name="compatibility_child_empty_title">Improve your relationship</string>
+    <string name="compatibility_child_empty_text">Discover how to guide your child to their innate nature.\n\nFind out harmonious ways of interaction to allow your child\'s potential to grow freely.</string>
+    <string name="compatibility_child_empty_add_btn">add child</string>
+    <!--  COMPATIBILITY  -->
 </resources>

@@ -34,7 +34,11 @@ class ChildrenAdapter : EpoxyAdapter() {
     ) {
         removeAllModels()
         children.map { addModel(ChildModel(it)) }
-        addModel(EmptyChildrenModel(children.isNullOrEmpty()))
+
+        if (children.isNotEmpty()) {
+            addModel(EmptyChildrenModel(children.isNullOrEmpty()))
+        }
+
 
         notifyDataSetChanged()
     }
