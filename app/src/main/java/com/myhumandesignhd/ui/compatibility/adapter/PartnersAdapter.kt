@@ -37,9 +37,9 @@ class PartnersAdapter : EpoxyAdapter() {
         removeAllModels()
         partners.map { addModel(PartnerModel(it)) }
 
-        if (partners.isNotEmpty()) {
-            addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
-        }
+//        if (partners.isNotEmpty()) {
+//            addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
+//        }
 
         notifyDataSetChanged()
     }
@@ -94,6 +94,8 @@ class PartnerModel(
                         "${model.subtitle2} • " +
                         "${if (App.preferences.locale == "ru") model.subtitle3Ru else model.subtitle3En}"
 
+            compatibilityPercentage.text = "${model.compatibilityAvg}%"
+
             userName.setTextColor(
                 ContextCompat.getColor(
                     context,
@@ -103,6 +105,14 @@ class PartnerModel(
             )
 
             subtitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            compatibilityName.setTextColor(
                 ContextCompat.getColor(
                     context,
                     if (App.preferences.isDarkTheme) R.color.lightColor

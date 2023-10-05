@@ -413,4 +413,8 @@
     <string name="compatibility_child_empty_text">Узнайте, как направить ребенка к его собственной природе.\n\nНайдите гармоничные пути взаимодействия, чтобы дать потенциалу вашего ребенка свободно расти.</string>
     <string name="compatibility_child_empty_add_btn">ДОБАВИТЬ РЕБЕНКА</string>
     <!--  COMPATIBILITY  -->
+
+    <string name="compatibility_range">Совместимость:</string>
+    <string name="compatibility_about_warning">Проценты не отображают полной картины.\nИзучите подробное описание совместимости.</string>
+    <string name="compatibility_success">совпадение</string>
 </resources>

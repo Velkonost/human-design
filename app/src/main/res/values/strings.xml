@@ -414,5 +414,9 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="compatibility_child_empty_title">Improve your relationship</string>
     <string name="compatibility_child_empty_text">Discover how to guide your child to their innate nature.\n\nFind out harmonious ways of interaction to allow your child\'s potential to grow freely.</string>
     <string name="compatibility_child_empty_add_btn">add child</string>
+
+    <string name="compatibility_range">Compatibility:</string>
+    <string name="compatibility_about_warning">Percentage match is not a full guarantee.\nRead your detailed compatibility description.</string>
+    <string name="compatibility_success">success</string>
     <!--  COMPATIBILITY  -->
 </resources>

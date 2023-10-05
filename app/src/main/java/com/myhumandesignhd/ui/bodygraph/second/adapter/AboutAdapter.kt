@@ -610,6 +610,6 @@ class AboutAdapter(
     }
 
     companion object {
-        private const val UNSELECTED = -1
+        const val UNSELECTED = -1
     }
 }

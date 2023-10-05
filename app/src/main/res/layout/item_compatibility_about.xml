@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/itemAboutContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        android:animateLayoutChanges="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="10dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/pointViewContainer"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="22dp"
+                    app:cardCornerRadius="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/expand_button">
+
+                    <View
+                        android:id="@+id/pointView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_injury_point_view"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/expand_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:fontFamily="@font/roboto"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="18dp"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@id/icArrow"
+                    app:layout_constraintStart_toEndOf="@id/pointViewContainer"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/percentage"
+                    android:textSize="16sp"
+                    android:textColor="#5356BD"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/expand_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ProgressBar
+                    android:id="@+id/percentageProgress"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="91dp"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="8dp"
+                    android:indeterminateOnly="false"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/injury_generate_progress_light"
+                    app:layout_constraintStart_toStartOf="@id/percentage"
+                    app:layout_constraintTop_toBottomOf="@id/percentage" />
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.7"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto"
+                    android:paddingHorizontal="16dp"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toStartOf="@id/icArrow"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/percentageProgress" />
+
+                <ImageView
+                    android:id="@+id/icArrow"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="16dp"
+                    android:alpha="0.5"
+                    android:rotation="90"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/expandable_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:el_duration="1500"
+                app:el_expanded="false"
+                app:el_parallax="0.5">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:alpha="0.7"
+                        android:fontFamily="@font/roboto"
+                        android:gravity="start"
+                        android:paddingHorizontal="20dp"
+                        android:text="Content"
+                        android:textSize="14sp"
+
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/generateBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:visibility="gone"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="4dp"
+                        app:layout_constraintTop_toBottomOf="@id/description">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_btn" />
+
+                        <TextView
+                            android:id="@+id/generateBtnText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:letterSpacing="0.12"
+                            android:text="@string/continue_btn"
+                            android:textAllCaps="true"
+                            android:textColor="@color/lightColor"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <ProgressBar
+                        android:id="@+id/generateProgress"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="20dp"
+                        android:indeterminateOnly="false"
+                        android:max="100"
+                        android:progress="30"
+                        android:progressDrawable="@drawable/injury_generate_progress_light"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/description" />
+
+                    <TextView
+                        android:id="@+id/generateProgressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/generateProgress"
+                        app:layout_constraintEnd_toEndOf="@id/generateProgress"
+                        app:layout_constraintStart_toStartOf="@id/generateProgress"
+                        app:layout_constraintTop_toTopOf="@id/generateProgress" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <!--android:textColor="@color/colorItemFaqExpandableLayoutTextText"-->
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

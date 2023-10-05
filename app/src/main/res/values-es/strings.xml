@@ -145,7 +145,7 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="profile_title">Perfil</string>
     <string name="authority_title">Autoridad</string>
     <string name="strategy_title">Estrategia</string>
-    <string name="business_title">Negocia y Trabajo</string>
+    <string name="business_title">Negocio y Trabajo</string>
     <string name="injury_title">Trauma Genético</string>
     <string name="nutrition_title">Nutrición</string>
     <string name="environment_title">Ambiente</string>
@@ -394,4 +394,8 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="compatibility_child_empty_text">Descubre cómo guiar a tu hijo hacia su naturaleza innata.\n\nDescubra formas armoniosas de interacción para permitir que el potencial de su hijo crezca libremente.</string>
     <string name="compatibility_child_empty_add_btn">AÑADIR NIÑO</string>
     <!--  COMPATIBILITY  -->
+
+    <string name="compatibility_range">Compatibilidad:</string>
+    <string name="compatibility_about_warning">Porcentajes no muestran la imagen completa.\nLee la descripción detallada de la compatibilidad.</string>
+    <string name="compatibility_success">coincidencia</string>
 </resources>

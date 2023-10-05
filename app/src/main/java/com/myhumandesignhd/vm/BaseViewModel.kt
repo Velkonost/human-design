@@ -10,6 +10,7 @@ import com.myhumandesignhd.event.ShowHelpEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
 import com.myhumandesignhd.model.Affirmation
 import com.myhumandesignhd.model.Child
+import com.myhumandesignhd.model.CompatibilityNewDescription
 import com.myhumandesignhd.model.CompatibilityResponse
 import com.myhumandesignhd.model.Cycle
 import com.myhumandesignhd.model.DailyAdvice
@@ -140,7 +141,7 @@ class BaseViewModel @Inject constructor(
         lat1: String,
         lon1: String,
         date: String,
-        onComplete: () -> Unit
+        onComplete: (Int, List<CompatibilityNewDescription>) -> Unit
     ) {
 
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
@@ -152,7 +153,14 @@ class BaseViewModel @Inject constructor(
             date = currentUser.getDateStr(),
             lat1, lon1, date
         ).subscribe({
-            onComplete.invoke()
+
+            var percentageAvg = 0
+            it.newDescriptions.map { nd ->
+                percentageAvg += nd.percentage
+            }
+            percentageAvg /= it.newDescriptions.size
+
+            onComplete.invoke(percentageAvg, it.newDescriptions)
 
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             currentCompatibility.postValue(it)

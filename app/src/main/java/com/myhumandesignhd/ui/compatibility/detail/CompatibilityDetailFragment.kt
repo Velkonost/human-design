@@ -17,7 +17,7 @@ import com.myhumandesignhd.ui.compatibility.detail.adapter.CompatibilityDetailsA
 import com.myhumandesignhd.util.ext.setTextAnimation
 import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
-import java.util.*
+import java.util.Locale
 
 class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, FragmentCompatibilityDetailBinding>(
     R.layout.fragment_compatibility_detail,
@@ -26,9 +26,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 ) {
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
     private val secondUserName: String by lazy {
@@ -115,7 +113,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
     private fun selectAbout() {
         YandexMetrica.reportEvent("Tab4AdultsAbout")
-        Amplitude.getInstance().logEvent("tab4PartnerGeneral");
+        Amplitude.getInstance().logEvent("tab4PartnerGeneral")
 
         App.preferences.isCompatibilityDetailChannelsAddedNow = false
 
@@ -151,7 +149,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
     private fun selectProfiles() {
         YandexMetrica.reportEvent("Tab4AdultsProfile")
-        Amplitude.getInstance().logEvent("tab4PartnerProfile");
+        Amplitude.getInstance().logEvent("tab4PartnerProfile")
 
         App.preferences.isCompatibilityDetailChannelsAddedNow = false
         binding.icInfo.isVisible = false
@@ -186,7 +184,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
 
     private fun selectChannels() {
         YandexMetrica.reportEvent("Tab4AdultsChannels")
-        Amplitude.getInstance().logEvent("tab4PartnerChannels");
+        Amplitude.getInstance().logEvent("tab4PartnerChannels")
 
         App.preferences.isCompatibilityDetailChannelsAddedNow = true
         binding.icInfo.isVisible = true
@@ -250,7 +248,8 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
                     if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_dark
                     else R.drawable.ic_chart_manifestor_light
                 },
-                context = requireContext()
+                context = requireContext(),
+                descs = it.newDescriptions
             )
         }
 
