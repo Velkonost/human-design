@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="darkColor">#0E0E0F</color>
+    <color name="lightColor">#FFFFFF</color>
+
+    <color name="darkCardColor">#19191A</color>
+    <color name="lightCardColor">#F9FAFD</color>
+
+    <color name="darkHintColor">#66FFFFFF</color>
+    <color name="lightHintColor">#66000000</color>
+
+    <color name="darkSettingsCard">#161616</color>
+    <color name="lightSettingsCard">#F9F9F9</color>
+
+    <color name="darkSettingsArrowTint">#888888</color>
+    <color name="lightSettingsArrowTint">#888888</color>
+
+    <color name="darkMenu">#111111</color>
+    <color name="lightMenu">#F9F9F9</color>
+
+    <color name="unselectText">#888888</color>
+
+    <color name="blue">#2a9df4</color>
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="color_text">#ffffff</color>
+    <color name="color_grey">#999999</color>
+    <color name="color_grey1">#bbbbbb</color>
+    <color name="color_grey2">#dfdfdf</color>
+</resources>

@@ -1,0 +1,451 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:ambientShadowAlpha">0.05</item>
+        <item name="colorControlHighlight">@null</item>
+        <item name="android:spotShadowAlpha">0.05</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
+        <!--        <item name="colorPrimary">@color/colorLightPrimaryStyles</item>-->
+        <!--        <item name="colorPrimaryDark">@color/colorLightPrimaryDarkStyles</item>-->
+        <!--        <item name="colorAccent">@color/colorLightAccentStyles</item>-->
+
+        <!--        <item name="colorControlNormal">@color/colorLightControlNormalStyles</item>-->
+        <!--        <item name="colorControlActivated">@color/colorLightPrimaryStyles</item>-->
+
+        <item name="colorSecondary">@color/darkSettingsArrowTint</item>
+        <item name="colorAccent">@color/darkSettingsArrowTint</item>
+        <item name="colorPrimary">@color/darkSettingsArrowTint</item>
+        <item name="colorPrimaryDark">@color/darkSettingsArrowTint</item>
+        <item name="colorControlNormal">@color/darkSettingsArrowTint</item>
+        <item name="colorControlActivated">@color/darkSettingsArrowTint</item>
+        <!--        <item name="colorControlHighlight">@color/mainColor</item>-->
+        <item name="android:windowBackground">@drawable/bg_splash_dark</item>
+    </style>
+
+    <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+
+    <style name="ToBodygraphCard" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ToBodygraphCardCorners</item>
+    </style>
+
+    <style name="ToBodygraphCardCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">35dp</item>
+        <item name="cornerSizeTopLeft">35dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="roundedCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">6dp</item>
+    </style>
+
+    <style name="DialogStyle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+
+    <style name="SpinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:textAppearance">@style/Text14.Medium</item>
+    </style>
+
+    <style name="SpinnerStyle">
+        <item name="android:showDividers">none</item>
+        <item name="android:dropDownHeight">70dp</item>
+        <item name="android:dropDownSelector">@android:color/white</item>
+    </style>
+
+    <style name="CalenderViewWeekCustomText" parent="Text16.Medium.Primary" />
+
+    <!-- Base -->
+    <style name="TextView">
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="TextView.Regular">
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="TextView.Light" parent="TextView">
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="TextView.Bold" parent="TextView">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <!--    <style name="TextView.SemiBold" parent="TextView">-->
+    <!--        <item name="android:fontFamily">@font/sf_ui_display_semibold</item>-->
+    <!--    </style>-->
+
+    <style name="TextView.Medium" parent="TextView">
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+    <!-- Base ends-->
+    <style name="Text30.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_30</item>
+    </style>
+
+    <style name="Text30.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_30</item>
+    </style>
+
+    <style name="Text22.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_22</item>
+    </style>
+
+    <style name="Text22.Medium.Secondary" parent="Text22.Medium">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Text22.Medium.Primary" parent="Text22.Medium">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <!-- 24 -->
+    <style name="Text24.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_24</item>
+    </style>
+
+    <style name="Text24.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_24</item>
+    </style>
+
+    <!--    <style name="Text24.SemiBold" parent="TextView.SemiBold">-->
+    <!--        <item name="android:textSize">@dimen/text_size_24</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text24.SemiBold.Primary" parent="Text24.SemiBold">-->
+    <!--        <item name="android:textColor">@color/colorPrimary</item>-->
+    <!--    </style>-->
+
+    <!-- 24 ends -->
+
+    <!-- 22 -->
+    <style name="Text20.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_20</item>
+    </style>
+
+    <style name="Text20.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_20</item>
+    </style>
+    <!-- 22 ends -->
+
+    <!-- 21 -->
+    <!--    <style name="Text21.SemiBold" parent="TextView.SemiBold">-->
+    <!--        <item name="android:textSize">@dimen/text_size_24</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text21.SemiBold.Primary" parent="Text21.SemiBold">-->
+    <!--        <item name="android:textColor">@color/colorPrimary</item>-->
+    <!--    </style>-->
+    <!-- 21 ends -->
+
+    <!-- 19 -->
+    <style name="Text19.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_19</item>
+    </style>
+    <!-- 19 ends -->
+
+    <!-- 18 -->
+    <style name="Text18.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_18</item>
+    </style>
+
+    <style name="Text18.Bold" parent="TextView.Bold">
+        <item name="android:textSize">@dimen/text_size_18</item>
+    </style>
+
+    <style name="Text18.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_18</item>
+    </style>
+
+    <style name="Text18.Medium.Primary" parent="Text18.Medium">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <!--    <style name="Text18.SemiBold" parent="TextView.SemiBold">-->
+    <!--        <item name="android:textSize">@dimen/text_size_18</item>-->
+    <!--    </style>-->
+    <!-- 18 ends-->
+
+    <!-- 16 -->
+
+    <style name="Text16" parent="TextView">
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="Text16.Medium.Secondary" parent="Text16.Medium">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Text16.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <!--    <style name="Text16.SemiBold" parent="TextView.SemiBold">-->
+    <!--        <item name="android:textSize">@dimen/text_size_16</item>-->
+    <!--    </style>-->
+
+    <style name="Text16.Medium.Primary" parent="Text16.Medium">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Text16.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="Text16.Light.Secondary" parent="Text16.Light">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Text16.Light.Primary" parent="Text16.Light">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <!--    <style name="Text16.SemiBold.Primary" parent="Text16.SemiBold">-->
+    <!--        <item name="android:textColor">@color/colorPrimary</item>-->
+    <!--    </style>-->
+    <!-- 16 ends-->
+    <style name="Text15.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_15</item>
+    </style>
+    <!-- 14 -->
+    <style name="Text14.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <style name="Text14.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <style name="Text14.Medium.Secondary" parent="Text14.Medium">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <!--    <style name="Text14.SemiBold" parent="TextView.SemiBold">-->
+    <!--        <item name="android:textSize">@dimen/text_size_14</item>-->
+    <!--    </style>-->
+
+    <style name="Text14.Medium.Primary" parent="Text14.Medium">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Text14.Bold" parent="TextView.Bold">
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <style name="Text14.Light.Primary" parent="Text14.Light">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <!-- 14 ends -->
+
+    <!-- 13 -->
+    <style name="Text13.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_13</item>
+    </style>
+
+    <style name="Text13.Medium.Secondary" parent="Text13.Medium">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <!--    <style name="Text13.Medium.Gray" parent="TextView.Medium">-->
+    <!--        <item name="android:textSize">@dimen/text_size_13</item>-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <style name="Text13.Medium.Primary" parent="Text13.Medium">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <!--    <style name="Text13.Light.Red" parent="TextView.Light">-->
+    <!--        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>-->
+    <!--        <item name="android:textSize">@dimen/text_size_13</item>-->
+    <!--    </style>-->
+
+    <style name="Text13.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_13</item>
+    </style>
+    <!-- 13 ends -->
+
+    <!-- 12 -->
+    <style name="Text12.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+
+    <style name="Text12.Light.Spinner" parent="Text12.Light">
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:layout_marginTop">8dip</item>
+        <item name="android:layout_marginBottom">8dip</item>
+    </style>
+
+
+    <!--    <style name="Text12.Light.Gray" parent="TextView.Light">-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text12.Light.Red" parent="TextView.Light">-->
+    <!--        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>-->
+    <!--        <item name="android:textSize">@dimen/text_size_12</item>-->
+    <!--    </style>-->
+
+    <style name="Text12.Light.Green" parent="TextView.Light">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Text12.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+
+    <style name="Text12.Medium.Primary" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <!--    <style name="Text12.Medium.Gray" parent="Text12.Medium">-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+
+    <!--    <style name="Text12.Medium.Grey" parent="Text12.Medium">-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text12.Medium.White" parent="Text12.Medium">-->
+    <!--        <item name="android:textColor">@color/colorTextWhiteTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!-- 12 ends -->
+
+    <!-- 11 -->
+    <!--    <style name="Text11.Medium.Grey" parent="TextView.Medium">-->
+    <!--        <item name="android:textSize">@dimen/text_size_11</item>-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text11.Medium.Red" parent="TextView.Medium">-->
+    <!--        <item name="android:textSize">@dimen/text_size_11</item>-->
+    <!--        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <style name="Text11.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_11</item>
+    </style>
+
+
+    <!--    <style name="Text11.Light.Black" parent="TextView.Light">-->
+    <!--        <item name="android:textSize">@dimen/text_size_11</item>-->
+    <!--        <item name="android:textColor">@color/colorTextBlackTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text11.Grey" parent="TextView">-->
+    <!--        <item name="android:textSize">@dimen/text_size_11</item>-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text11.Medium.Gray" parent="Text11.Medium">-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text11.Light.Gray" parent="TextView.Light">-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--        <item name="android:textSize">@dimen/text_size_11</item>-->
+    <!--    </style>-->
+
+    <style name="Text11.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_11</item>
+    </style>
+
+    <!-- 11 ends -->
+
+    <!-- 10 -->
+    <style name="Text10.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_10</item>
+    </style>
+
+    <style name="Text10.Medium.Primary" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_10</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Text10.Medium" parent="TextView.Medium">
+        <item name="android:textSize">@dimen/text_size_10</item>
+    </style>
+
+    <!--    <style name="Text10.Light.Gray" parent="Text10.Light">-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text10.Medium.Gray" parent="Text10.Medium">-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text10.Light.Red" parent="Text10.Light">-->
+    <!--        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text10.Medium.White" parent="TextView.Medium">-->
+    <!--        <item name="android:textSize">@dimen/text_size_10</item>-->
+    <!--        <item name="android:textColor">@color/colorTextWhiteTextViewStyles</item>-->
+    <!--    </style>-->
+    <!-- 10 ends -->
+
+    <!--  9  -->
+    <style name="Text9.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_9</item>
+    </style>
+
+    <style name="Text9.Bold" parent="TextView.Bold">
+        <item name="android:textSize">@dimen/text_size_9</item>
+    </style>
+
+    <!--    <style name="Text9.Light.Red" parent="TextView.Light">-->
+    <!--        <item name="android:textSize">@dimen/text_size_9</item>-->
+    <!--        <item name="android:textColor">@color/colorTextRedTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Text9.Light.Gray" parent="TextView.Light">-->
+    <!--        <item name="android:textSize">@dimen/text_size_9</item>-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+
+    <!--    <style name="Text8.Medium.Gray" parent="Text10.Medium">-->
+    <!--        <item name="android:textSize">@dimen/text_size_10</item>-->
+    <!--        <item name="android:textColor">@color/colorTextGrayTextViewStyles</item>-->
+    <!--    </style>-->
+
+    <style name="Text8.Light" parent="TextView.Light">
+        <item name="android:textSize">@dimen/text_size_8</item>
+    </style>
+    <!--  9 ends -->
+
+
+</resources>

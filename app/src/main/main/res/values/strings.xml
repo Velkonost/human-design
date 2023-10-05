@@ -1,0 +1,408 @@
+<resources>
+    <string name="app_name">HDesign</string>
+    <string name="facebook_app_id" translatable="false">3369984609932290</string>
+    <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
+    <string name="search">Search</string>
+    <string name="title_splash_01">Human Design</string>
+    <string name="next">Next</string>
+    <string name="desc_splash_01">
+        <![CDATA[
+Human Design is the newest system for self-discovery.
+<br><br>
+This is a tool that brings together principles of the Chinese I Ching, the Hindu chakra system, Kaballah, astrology, quantum physics and genetics.
+<br><br>
+Human Design helps living in sync with your true nature. It guides you in building harmonious relationships with yourself and the world around you. ]]></string>
+
+    <string name="desc_splash_02">
+    <![CDATA[
+Human Design offers a personality analysis based on the bodygraph, the so-called Rave Card.
+<br><br>
+The individual Rave Card contains a schematic image of energy centers, channels and gates that reflect the energy flow of each person.
+<br><br>
+ To calculate your personal Rave Card, you only need to fill in the data and answer a few questions.]]></string>
+
+    <string name="title_splash_03"><![CDATA[Did you know<br>something about<br>Human Design?]]></string>
+    <string name="title_splash_04"><![CDATA[What would you like<br>to get using<br>Human Design?]]></string>
+
+    <string name="desc_splash_03"><![CDATA[Your answers will help us find<br>a more personalized approach for you.]]></string>
+    <string name="desc_splash_04"><![CDATA[Your answers will help us choose<br>a personal approach.]]></string>
+
+    <string name="variant_1_splash_03"><![CDATA[I didn\'t know anything<br>about Human Design]]></string>
+    <string name="variant_2_splash_03"><![CDATA[I knew something, but<br>superficially]]></string>
+    <string name="variant_3_splash_03"><![CDATA[I understand a little about<br>this system]]></string>
+    <string name="variant_4_splash_03"><![CDATA[I study Human Design<br>professionally]]></string>
+
+    <string name="variant_1_splash_04"><![CDATA[Know yourself better]]></string>
+    <string name="variant_2_splash_04"><![CDATA[Improve the quality of life]]></string>
+    <string name="variant_3_splash_04"><![CDATA[Find your destination]]></string>
+    <string name="variant_4_splash_04"><![CDATA[Build relationships<br>with loved ones]]></string>
+    <string name="variant_5_splash_04"><![CDATA[For general development]]></string>
+
+    <string name="splash_05_title">Please allow us to track application usage</string>
+    <string name="splash_05_desc">It is important for us, so that we can:</string>
+    <string name="splash_05_text_1">Personalize your experience of using the App</string>
+    <string name="splash_05_text_2">Send individual offers especially for you</string>
+    <string name="splash_05_text_3">Invite users similar to you to the App</string>
+
+    <string name="text_1_splash_05"><![CDATA[Please allow us to track application usage. It is<br>important for us, so that we can:]]></string>
+    <string name="text_2_splash_05"><![CDATA[- Personalize your experience of using the App<br>- Invite users similar to you to the App<br>- Send individual offers especially for you]]></string>
+    <string name="text_3_splash_05"><![CDATA[These parameters can always be changed in the<br>"settings" of your device.]]></string>
+
+    <string name="rave_title">Rave Card</string>
+    <string name="rave_desc"><![CDATA[
+    In Human Design, personality analysis is<br>carried out on the basis of a bodygraph,<br>the so-called Rave Card.
+<br><br>
+An individual Rave Card (bodygraph)<br>contains a schematic image of energy<br>centers, channels and gates that reflect<br>the personal energy mechanics of each<br>person, as well as the algorithm of its<br>work.
+<br><br>
+To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<br>and answer a few questions.
+]]></string>
+    <string name="understand">Continue</string>
+    <string name="continue_btn">Continue</string>
+    <string name="continue_btn_start">Continue</string>
+    <string name="start_rave_btn_text">Create</string>
+
+    <string name="start_name_title"><![CDATA[What is<br>your name?]]></string>
+    <string name="start_name_desc"><![CDATA[We’ll enjoy getting to know your better.]]></string>
+    <string name="start_name_hint">Name</string>
+
+    <string name="start_date_title">Date of birth</string>
+    <string name="start_date_desc"><![CDATA[You date of birth is essential for identifying the exact position of the planets at the moment you were born.]]></string>
+
+    <string name="start_time_title">Time of birth</string>
+    <string name="start_time_desc"><![CDATA[We are almost done!<br>name, please enter your time of birth.]]></string>
+    <string name="start_time_skip">I DON\'T KNOW FOR SURE</string>
+
+    <string name="start_place_title">Place of birth</string>
+    <string name="start_place_desc"><![CDATA[Your place of birth will give a clearer image of how stars affect you.]]></string>
+    <string name="start_place_hint">City, Country</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_dark_theme_title">Night</string>
+    <string name="settings_light_theme_title">Day</string>
+
+    <string name="settings_personal_info_title">Personal info</string>
+    <string name="settings_faq_title">FAQ</string>
+    <string name="settings_privace_policy_title">Privacy Policy</string>
+    <string name="settings_terms_conditions_title">Terms &amp; Conditions</string>
+    <string name="settings_manage_sub_title">Manage Subscriptions</string>
+    <string name="settings_version_title">Version</string>
+    <string name="settings_write_us_title">Write to us</string>
+
+    <string name="faq_title">FAQ</string>
+    <string name="affirmations_title">Affirmations</string>
+    <string name="forecasts_title">Forecasts</string>
+    <string name="next_affirmation_text">The next affirmation will be tomorrow</string>
+    <string name="next_forecast_text">Your individual weekly forecast</string>
+    <string name="affirmation_share">Share</string>
+
+    <string name="daily_transits_title">Planet transits</string>
+    <string name="gates_title">Gates</string>
+    <string name="channels_title">Channels</string>
+    <string name="next_transit_text">The next transit will be tomorrow</string>
+
+    <string name="design_title">Design</string>
+    <string name="transit_title">Transit</string>
+    <string name="personality_title">Personality</string>
+
+    <string name="to_decryption_text">to decryption</string>
+
+    <string name="about_title">About</string>
+    <string name="centers_title">Centers</string>
+
+    <string name="places_empty_text">No results</string>
+
+    <string name="active_channels_title">Active Channels</string>
+    <string name="active_channels_text">Channels are bridges that connect all the active centers within your design. Here you will find the descriptions of the most important aspects of your life.</string>
+
+    <string name="active_gates_title">Active Gates</string>
+    <string name="active_gates_text">The gates are a personal feature of your character, showing the potential that you can discover in yourself, making certain decisions every day.</string>
+
+    <string name="active_centers_title">Defined Centers</string>
+    <string name="active_centers_text">Defined centers perform the functions assigned to them. This is what is determined in you from the birth, this is consistent energy by which you are recognized. From here you are broadcasting your energy out into the world, influencing and inspiring others. It is what is fixed and reliable within you.</string>
+
+    <string name="inactive_centers_title">Undefined Centers</string>
+    <string name="inactive_centers_text">Undefined centers are open to influence from the outside, these are places where you are designed to be receptive from people and life. These are places of vulnerability and sensitivity where the world affects you.</string>
+
+    <string name="to_bodygraph">to bodygraph</string>
+    <string name="diagram_title">My charts</string>
+    <string name="diagram_empty_text">In this section, you can add bodygraphs of other people (friends, acquaintances) and get to know them from a completely new side</string>
+
+    <string name="partners_title">Partners</string>
+    <string name="children_title">Children</string>
+    <string name="compatibility_title">Relationship</string>
+
+    <string name="name_title">Name</string>
+    <string name="city_birth_title">City of birth</string>
+    <string name="date_birth_title">Date of birth</string>
+    <string name="time_birth_title">Time of birth</string>
+    <string name="personal_info_title">Personal info</string>
+    <string name="done_title">Done</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_title">Are you sure?</string>
+    <string name="confirm_text">The introduction of new data will lead\nto the fact that your design will\nirreversibly change. Are you sure you\nwant to change the data?</string>
+
+    <string name="type_title">Type</string>
+    <string name="profile_title">Profile</string>
+    <string name="authority_title">Authority</string>
+    <string name="strategy_title">Strategy</string>
+    <string name="injury_title">Genetic Trauma</string>
+    <string name="nutrition_title">Nutrition</string>
+    <string name="environment_title">Environment</string>
+
+    <string name="start_bodygraph_ready_title">Bodygraph is ready!</string>
+    <string name="start_bodygraph_creating_title">Creating bodygraph…</string>
+    <string name="start_bodygraph_ready_text"><![CDATA[Start your experiment and improve the quality of your life!]]></string>
+
+    <string-array name="push_titles">
+        <item>Guide to discover your true Self 👤</item>
+        <item>Your potential at the biochemistry level 🧬</item>
+        <item>Your individual forecast is ready! 🔮</item>
+        <item>Click here to read 🔍</item>
+        <item>Free human design decoding ⚛️️</item>
+    </string-array>
+
+    <string-array name="push_descs">
+        <item>3 Days Free Trial 🔥 Click here to try</item>
+        <item>Try it right now for free 🔬</item>
+        <item>Visit the App to learn more ☝🏽</item>
+        <item>Your compatibility report awaits you 🔥</item>
+        <item>Visit the App to read it ☝🏽</item>
+    </string-array>
+
+    <string name="compatibility_detail_title">Relationship</string>
+    <string name="profiles_title">Profile</string>
+
+    <string name="add_partner_rave_title"><![CDATA[Let’s calculate\nthe bodygraph!]]></string>
+    <string name="add_child_rave_title"><![CDATA[Let’s calculate\nyour child’s\nbodygraph!]]></string>
+
+    <string name="add_partner_rave_desc"><![CDATA[Enter your partner’s information and\nfind out everything about your\ncompatibility. You will understand where\nou coincide and where you are\ndissimilar.]]></string>
+    <string name="add_child_rave_desc"><![CDATA[Enter the details of your child, this will\nallow you to choose the right approach in\nhis upbringing. The child’s bodygraph\ncannot be used as the main bodygraph.]]></string>
+
+    <string name="add_partner_name_title"><![CDATA[What is your partner’s name?]]></string>
+    <string name="add_child_name_title"><![CDATA[Name of your child]]></string>
+    <string name="add_partner_name_desc"><![CDATA[Introduce your partner to us! ]]></string>
+    <string name="add_child_name_desc"><![CDATA[Please enter the name of the child for\nwhom the bodygraph is calculated.]]></string>
+
+    <string name="add_partner_date_birth_title"><![CDATA[Your partner’s\ndate of birth ]]></string>
+    <string name="add_partner_date_birth_desc"><![CDATA[Enter your partner’s date of birth and we\nwill calculate his bodygraph!]]></string>
+    <string name="add_child_date_birth_title"><![CDATA[Date of Birth]]></string>
+    <string name="add_child_date_birth_desc"><![CDATA[Indicate the date of birth of the child for\nwhom the bodygraph is calculated.]]></string>
+
+    <string name="add_partner_time_birth_title"><![CDATA[Time of your partner’s birth]]></string>
+    <string name="add_partner_time_birth_desc"><![CDATA[It will show the exact location of the\nplanets and stars at the time of your\npartner’s bith, which is important for\ncalculating the card.\nI don’t know for sure]]></string>
+    <string name="add_child_time_birth_title"><![CDATA[Time of Birth]]></string>
+    <string name="add_child_time_birth_desc"><![CDATA[Shows the exact location of planets and\nstars at the time of your child’s birth\nI don’t know for sure]]></string>
+
+    <string name="add_partner_place_birth_title"><![CDATA[Your partner’s\nplace of birth]]></string>
+    <string name="add_partner_place_birth_desc"><![CDATA[The place where your partner was born is\nvery important. We will be able to\naccurately determine the position of the\nheavenly bodies that have left an imprint\non your partner’s destiny.]]></string>
+    <string name="add_child_place_birth_title"><![CDATA[Place of Birth]]></string>
+    <string name="add_child_place_birth_desc"><![CDATA[Very important information for\ncalculating the bodygraph. We will be\nable to accurately determine the position\nof the heavenly bodies that have left an\nimprint on your child’s destiny.]]></string>
+
+    <string name="add_partner_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
+    <string name="add_partner_bodygraph_ready_desc"><![CDATA[Now you can reveal all the secrets of your\nrelationship and learn to live in harmony.]]></string>
+    <string name="add_child_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
+    <string name="add_child_bodygraph_ready_desc"><![CDATA[Now you can find out the strengths\nand weakness of your child, you can find\nthe most harmonious way of his\ndevelopment and personal becoming.]]></string>
+
+    <string name="channel_type_1">Interdependence</string>
+    <string name="channel_type_2">Dominance</string>
+    <string name="channel_type_3">Suppression</string>
+    <string name="channel_type_4">Cooperation</string>
+
+    <string name="compatibility_channels_title">Compatibility Channels</string>
+    <string name="compatibility_channels_desc">Compatibility channels demonstrate how people influence each other. When overlaying rave cards of two persons, we can see if you and your partner have completely or partially matching Channels.  Based on this, it is concluded whether your relationship will be harmonious.</string>
+
+    <string name="compatibility_child_title">Child</string>
+    <string name="compatibility_parent_title">Parent</string>
+
+    <string name="transit_no_channels">Today no active channels</string>
+
+    <string name="diagram_rave_title">Let’s calculate the bodygraph!</string>
+    <string name="diagram_rave_desc"><![CDATA[Enter the information of the person you want to calculate the bodygraph for. This will help you to know this person better.<br><br>After creation, this bodygraph will become the primary one. You can change the main bodygraph to any of the created ones at any time.]]></string>
+
+    <string name="diagram_name_title">Name</string>
+    <string name="diagram_name_desc">Please enter the name of the person for whom the bodygraph is calculated.</string>
+
+    <string name="diagram_date_title">Date of Birth</string>
+    <string name="diagram_date_desc">Enter the date of birth of the person for whom the bodygraph will be calculated.</string>
+
+    <string name="diagram_time_title">Time of Birth</string>
+    <string name="diagram_time_desc">It shows the exact location of the planets and stars at the time of birth, which is very important for calculating the card.</string>
+
+    <string name="diagram_place_title">Place of Birth</string>
+    <string name="diagram_place_desc">This information is very important. We will be able to accurately determine the position of the celestial bodies that influenced fate.</string>
+
+    <string name="diagram_bodygraph_title">Bodygraph is ready!</string>
+    <string name="diagram_bodygraph_desc">Now all the secrets will be revealed to you, you will find the best ways for harmonious contact and productive interaction.</string>
+
+    <string name="help_bodygraph_add_diagram">Click if you want to add a new user to decrypt his personal rave card.</string>
+    <string name="help_bodygraph_centers">Click on the center to read its description. Your defined centers are colored.</string>
+    <string name="help_bodygraph_to_decryption">Swipe to decode your bodygraph.</string>
+    <string name="help_transit">Here you can find more information about daily transits.</string>
+    <string name="help_compatibility_channel">Связи в отношениях, которые вызывают эмоции между вами.</string>
+    <string name="help_affirmation">You can share the affirmation on social media.</string>
+    <string name="help_compatibility_partners">Compatibility with other people</string>
+    <string name="help_compatibility_children">Relationship with children</string>
+
+    <string name="information_title">Information</string>
+    <string name="compatibility_information_desc">There are four types of connections by compatibility channels:</string>
+
+    <string name="partners_empty_text"><![CDATA[Do you want to have harmonious and peaceful relationship?<br><br>Check your compatibility and find out what to expect from your couple.<br><br>You will find out the strengths and weaknesses of your relationship, learn how to interact harmoniously.]]></string>
+    <string name="children_empty_text"><![CDATA[Discover how to guide your child to his own nature.<br><br>You will be able to find harmonious ways of interaction to allow your child\'s potential to grow freely.]]></string>
+
+    <string name="compatibility_info_title_1">Interdependence</string>
+    <string name="compatibility_info_title_2">Dominance</string>
+    <string name="compatibility_info_title_3">Suppression</string>
+    <string name="compatibility_info_title_4">Cooperation</string>
+
+    <string name="compatibility_info_desc_1">Interdependence defines the bonds in a relationship that cause emotions between you and your partner. These emotions can be both positive and negative. Emotions with a positive sign are passion, admiration for another person. With a negative sign - resentment, a desire to correct your partner. Interdependence occurs when one side of the Channel is activated in your bodygraph, and the other side is activated on your partner\'s bodygraph. The more there are such connections in the imposition of bodygraphs on each other, the more sensitive, brighter, more emotional the relationship will be.</string>
+    <string name="compatibility_info_desc_2">Dominance is a kind of compatibility that shows what qualities are present only in you. This means that a certain Channel on your bodygraph is colored, and your partner has no energy in it at all. These are the characteristics that make you different from each other, this is your uniqueness, something that can really impress, amaze your partner. On the one hand, your uniqueness is a challenge for your partner, because it is difficult to accept what you do not understand at all. On the other hand, this kind of compatibility teaches patience, love, acceptance of other people as they are.</string>
+    <string name="compatibility_info_desc_3">This kind of compatibility arises when one of the partners has an active Channel, and the other only has a Gate. Such a composite shows where we have to play by the partner\'s rules and forget about our desires. Often this type of communication between Channels brings resentment, misunderstanding, claims to each other into relations, it points to difficult places where a conflict can arise.</string>
+    <string name="compatibility_info_desc_4">If you feel attracted to a person and are ready after a little communication to go to the ends of the earth with him/her, then there is such a type of compatibility as Cooperation. This is due to the fact that you have the same Channels activated with the person, and the same Gates are present in your both bodygraphs. With such a composite, one can observe a harmonious, stable, lasting relationship. Cooperation brings empathy and understanding into the lives of two people.</string>
+
+    <string name="transits_title">Transits</string>
+    <string name="cycles_title">Cycles</string>
+    <string name="advice_title">Daily Advice</string>
+
+    <string name="snackbar_title">Error</string>
+    <string name="snackbar_inet_title">No internet connection</string>
+    <string name="snackbar_inet">Your network connection is unstable or disconnected</string>
+    <string name="snackbar_name">The name field cannot be empty.</string>
+    <string name="snackbar_address">We could not find your address.</string>
+
+    <string name="injury_push_title">, check your account!</string>
+    <string name="injury_push_desc">Your personal genetic trauma tips are ready!</string>
+    <string name="injury_desc_before"><![CDATA[Genetic trauma lies deep in the subconscious. Trauma is individual, so we will need time to collect information for you personally.<br><br>Your recommendations will appear in this block in 24 hours, you will have constant and free access to them at any time.<br><br>If you are ready to work through your genetic trauma, please press the button below.]]></string>
+    <string name="injury_desc_progress"><![CDATA[We are working hard to prepare all the information about the nature of your genetic trauma.<br><br>You will receive your personal recommendations in the next 24 hours!]]></string>
+
+    <string name="about_authority_subtitle">How to make the right decisions</string>
+    <string name="about_strategy_subtitle">How to live without resistance</string>
+    <string name="about_injury_subtitle">How to take control over your trauma</string>
+    <string name="about_nutrition_subtitle">The way you are designed to eat</string>
+    <string name="about_environment_subtitle">The most nourishing surrounding</string>
+
+    <string name="menu_first_title">Bodygraph</string>
+    <string name="menu_second_title">Description</string>
+    <string name="menu_third_title">Transits</string>
+    <string name="menu_forth_title">Compatibility</string>
+    <string name="menu_fifth_title">Insights</string>
+
+    <string name="daily_advice_subtitle">Get your daily advice</string>
+
+    <string name="transit_cycles_title">Planet Returns</string>
+    <string name="transit_cycles_desc">In Human Design, the cycles of life are reflected in the Returns of the planets, which have a special effect on us. There are many planets, but only the Return of Saturn, Chiron and the Opposition of Uranus divide our life into main cycles. Each cycle reflects its own individual moments that bring a special expression to your personal Design. Understanding the mechanics of cycles, you can figure out what stage you are right now, or what you still have to go through in the future, understand why your life looks different at different periods.</string>
+    <string name="cycle_age_title">Approximate age:</string>
+
+    <string name="paywall_restore">Restore</string>
+    <string name="paywall_terms_of_use">Terms of Use</string>
+    <string name="paywall_privacy_policy">Privacy Policy</string>
+
+    <string name="forecast_push_title">Ready for a new week?</string>
+    <string name="forecast_push_desc">Your personal forecast is already available. Hurry up to read it!</string>
+
+    <string name="paywall_open_full_access">Open full access</string>
+    <string name="paywall_text_1">Get personal bodygraph readings</string>
+    <string name="paywall_text_2">Find out your hidden talents</string>
+    <string name="paywall_text_3">Check compatibility with other people</string>
+    <string name="paywall_text_4">Discover how planets affect you</string>
+    <string name="paywall_btn">Get full access</string>
+    <string name="paywall_btn_trial">Start your free trial</string>
+
+    <string name="paywall_1_month">Month</string>
+    <string name="paywall_1_week">Week</string>
+    <string name="paywall_1_year">Year</string>
+    <string name="paywall_1_autorenewable">auto-renewable</string>
+    <string name="paywall_1_trial">3 days trial\nauto-renewable</string>
+    <string name="paywall_1_trial_year">auto-renewable</string>
+
+    <string name="injury_generate_text">GENERATE</string>
+    <string name="injury_generating_text">GENERATING</string>
+
+    <string-array name="forecast_push_titles">
+        <item>⚡️Ready for a new week?</item>
+        <item>New week - new start💥</item>
+        <item>☀️Имя, happy new week!</item>
+        <item>It\’s new forecast time💥</item>
+        <item>We wish you a productive week!</item>
+        <item>🌟New week for new goals!</item>
+        <item>⏰Your forecast is here👉🏽</item>
+        <item>✨New week is a new beginning</item>
+        <item>New week! Bring it on🔥</item>
+        <item>💥Имя, let’s do this!</item>
+    </string-array>
+
+    <string-array name="forecast_push_desc">
+        <item>Your personal forecast is already available. Hurry up to read it!</item>
+        <item>Personal forecast for the new week is ready!</item>
+        <item>💫Get ready for future events💫</item>
+        <item>Start the new week on a positive note!🤩</item>
+        <item>Имя, your forecast is already available!🤩</item>
+        <item>Choose the right direction with your personal forecast!</item>
+        <item>You can handle whatever this week throws at you🌟</item>
+        <item>Let nothing get in your way!</item>
+        <item>Hurry up to ready your new personal forecast👉🏽    </item>
+        <item>Start a new week with your personal forecast🔥</item>
+    </string-array>
+
+    <string name="paywall_3_review_1_title">Abigail, 46 y.o.</string>
+    <string name="paywall_3_review_2_title">Liam, 38 y.o.</string>
+    <string name="paywall_3_review_3_title">Ethan, 34 y.o.</string>
+    <string name="paywall_3_review_4_title">Charlotte, 31 y.o.</string>
+    <string name="paywall_3_review_5_title">Olivia, 42 y.o.</string>
+
+    <string name="paywall_3_subtitle">Start your Human Design journey</string>
+    <string name="paywall_3_review_1_text">This is so deeply beautiful and I am truly fascinated by what I have discovered!</string>
+    <string name="paywall_3_review_2_text">Useful app! It’s so exciting to check how I can change with planetary transits.</string>
+    <string name="paywall_3_review_3_text">Love this app! Super useful &amp; in-depth text information.</string>
+    <string name="paywall_3_review_4_text">This is a brilliant app! It has my ears perked up &amp; eyes wide open. Thank you!</string>
+    <string name="paywall_3_review_5_text">I’m enjoying the app so far! Thank you for creating such a unique experience for me!</string>
+
+    <string name="paywall_2_open_full_access">Start your journey\nto Human Design</string>
+
+    <string name="pw_price_1">$7.49</string>
+    <string name="pw_price_2">$18.99</string>
+    <string name="pw_price_3">$45.99</string>
+
+    <string name="promocode">Promo Code</string>
+    <string name="promocode_ok">OK</string>
+    <string name="promocode_cancel">Cancel</string>
+    <string name="promocode_subtitle">Enter a promo code</string>
+    <string name="promocode_error">Invalid promo code</string>
+    <string name="pw_3_days_free">3 days free</string>
+    <string name="pw_4_75_per_week">$4.75 per week</string>
+    <string name="_0_90_per_week">$0.89 per week</string>
+    <string name="_5_99_per_week">$7.49 per week</string>
+
+    <string name="enjoy_hd">Enjoy Human Design!</string>
+
+    <string name="start_quiz_title">What do you expect from Human Design?</string>
+    <string name="start_quiz_variant_1">Find my true life purpose</string>
+    <string name="start_quiz_variant_2">Improve relationship</string>
+    <string name="start_quiz_variant_3">Get recommendations on how to live</string>
+    <string name="start_quiz_variant_4">Enchance my working life</string>
+    <string name="start_quiz_variant_5">Discover my hidden talents</string>
+    <string name="start_quiz_variant_6">Get advice for my everyday life</string>
+    <string name="_37_discount">37% discount</string>
+    <string name="best_offer">best offer</string>
+    <string name="special_offer">Special Offer</string>
+    <string name="it_s_a_lucky_day_for_manifestor">It’s a lucky day for </string>
+    <string name="_12_month_plan">12-Month Plan</string>
+    <string name="_35_off">35% OFF</string>
+    <string name="ending_special_pw">After the 3 days free trial this subscription automatically renews for 29.99 $/year unless it is canceled at least 24 hours before the end of the trial period. Subscriptions automatically renew unless auto-renew is turned off at least 24-hours before the end of the current period. You can cancel or change your membership at any time in Subscription on Google play.</string>
+    <string name="_3_days_free_trial_pw4">3 Days free trial</string>
+    <string name="one_time_deal">one-time deal</string>
+    <string name="then_29_99_year">then $29.99/year</string>
+    <string name="_45_99">$45.99</string>
+    <string name="determining_your_gates">Determining Your Gates</string>
+    <string name="designing_your_type_amp_profile"><![CDATA[Designing Your Type & Profile]]></string>
+    <string name="generating_your_life_strategy">Generating Your Life Strategy</string>
+    <string name="creating_your_bodygraph">Creating bodygraph…</string>
+    <string name="analyzing_your_info">Analyzing Your Info</string>
+    <string name="synchronizing_with_planet_transits">Synchronizing with Planet Transits</string>
+    <string name="pw_4_autorenewable">auto-renewable</string>
+    <string name="pw_ending_week">After the 3 days free trial this subscription automatically renews for 7.49 $/week unless it is canceled at least 24 hours before the end of the trial period. Subscriptions automatically renew unless auto-renew is turned off at least 24-hours before the end of the current period. You can cancel or change your membership at any time in Subscription on Google play.</string>
+    <string name="pw_ending_month">Subscription automatically renews for 18.99 $/ month unless auto-renew is turned off at least 24-hours before the end of the current period. You can cancel or change your membership at any time in Subscription on Google play.</string>
+    <string name="pw_ending_year">Subscription automatically renews for 45.99 $/ year unless auto-renew is turned off at least 24-hours before the end of the current period. You can cancel or change your membership at any time in Subscription on Google play.</string>
+
+</resources>

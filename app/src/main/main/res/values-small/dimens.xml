@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bodygraph_text_size">3px</dimen>
+
+    <dimen name="review_pw3_padding">8dp</dimen>
+</resources>
