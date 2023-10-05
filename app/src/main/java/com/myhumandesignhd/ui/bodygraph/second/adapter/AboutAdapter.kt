@@ -181,6 +181,26 @@ class AboutAdapter(
 
                     pointViewContainer.isVisible = false
                 }
+                AboutType.BUSINESS -> {
+                    expandButton.text =
+                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun)
+                            items[adapterPosition].name
+                        else App.resourcesProvider.getStringLocale(R.string.business_title)
+                    text.text = items[position].description
+
+                    subtitle.isVisible =
+                        android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
+                    if (!App.preferences.isPremiun)
+                        subtitle.isVisible = true
+
+                    subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_business_subtitle)
+
+                    generateBtn.isVisible = false
+                    generateProgress.isVisible = false
+                    generateProgressText.isVisible = false
+
+                    pointViewContainer.isVisible = false
+                }
                 AboutType.NUTRITION -> {
                     expandButton.text =
                         if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun)
@@ -462,7 +482,11 @@ class AboutAdapter(
                     }
                     AboutType.STRATEGY -> {
                         YandexMetrica.reportEvent("Tab2AboutStrategyTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutStategyTapped")
+                        Amplitude.getInstance().logEvent("tab2AboutStrategyTapped")
+                    }
+                    AboutType.BUSINESS -> {
+                        YandexMetrica.reportEvent("Tab2AboutBusinessTapped")
+                        Amplitude.getInstance().logEvent("tab2AboutBusinessTapped")
                     }
                     AboutType.INJURY -> {
                         YandexMetrica.reportEvent("Tab2AboutTraumaTapped")
@@ -525,6 +549,7 @@ class AboutAdapter(
                             AboutType.PROFILE -> App.resourcesProvider.getStringLocale(R.string.profile_title)
                             AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)
                             AboutType.STRATEGY -> App.resourcesProvider.getStringLocale(R.string.strategy_title)
+                            AboutType.BUSINESS -> App.resourcesProvider.getStringLocale(R.string.business_title)
                             AboutType.INJURY -> App.resourcesProvider.getStringLocale(R.string.injury_title)
                             AboutType.NUTRITION -> App.resourcesProvider.getStringLocale(R.string.nutrition_title)
                             AboutType.ENVIRONMENT -> App.resourcesProvider.getStringLocale(R.string.environment_title)

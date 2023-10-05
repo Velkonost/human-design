@@ -15,8 +15,8 @@ import com.myhumandesignhd.event.DeletePartnerItemEvent
 import com.myhumandesignhd.model.Child
 import com.myhumandesignhd.model.User
 import io.sulek.ssml.SSMLLinearLayoutManager
-import kotlinx.android.synthetic.main.item_compatibility_children.view.*
-import kotlinx.android.synthetic.main.item_compatibility_partners.view.*
+import kotlinx.android.synthetic.main.item_compatibility_children.view.childrenRecycler
+import kotlinx.android.synthetic.main.item_compatibility_partners.view.partnersRecycler
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -52,11 +52,8 @@ class CompatibilityAdapter : EpoxyAdapter() {
         partners: List<User>,
         children: List<Child>
     ) {
-
-
         partnersModel.partners = partners
         childrenModel.children = children
-//        notifyDataSetChanged()
 
         partnersAdapter.createList(partners)
         childrenAdapter.createList(children)
@@ -111,11 +108,8 @@ class PartnersModel(
         }
     }
 
-    fun updatePartnersList(
-        partners: List<User>
-    ) {
+    fun updatePartnersList(partners: List<User>) {
         this.partners = partners
-
     }
 
     @Subscribe

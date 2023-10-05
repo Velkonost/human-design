@@ -44,7 +44,7 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        Amplitude.getInstance().logEvent("tab2_screen_shown");
+        Amplitude.getInstance().logEvent("tab2_screen_shown")
     }
 
     @Subscribe
@@ -192,6 +192,14 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
             aboutItemsList.add(
                 AboutItem(
+                    name = it.business.name?: "",
+                    description = it.business.description?: "",
+                    type = AboutType.BUSINESS
+                )
+            )
+
+            aboutItemsList.add(
+                AboutItem(
                     name = it.nutrition.name?: "",
                     description = it.nutrition.description?: "",
                     type = AboutType.NUTRITION
@@ -237,7 +245,7 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
     private fun selectAbout() {
         YandexMetrica.reportEvent("Tab2AboutTapped")
-        Amplitude.getInstance().logEvent("tab2TappedAbout");
+        Amplitude.getInstance().logEvent("tab2TappedAbout")
 
         binding.aboutTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -284,7 +292,7 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         if (!App.preferences.isPremiun) return
 
         YandexMetrica.reportEvent("Tab2CentersTapped")
-        Amplitude.getInstance().logEvent("tab2TappedCenters");
+        Amplitude.getInstance().logEvent("tab2TappedCenters")
 
         binding.centersTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -325,7 +333,7 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         if (!App.preferences.isPremiun) return
 
         YandexMetrica.reportEvent("Tab2GatesTapped")
-        Amplitude.getInstance().logEvent("tab2TappedGates");
+        Amplitude.getInstance().logEvent("tab2TappedGates")
 
         binding.gatesTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -366,7 +374,7 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
         if (!App.preferences.isPremiun) return
 
         YandexMetrica.reportEvent("Tab2ChannelsTapped")
-        Amplitude.getInstance().logEvent("tab2TappedChannels");
+        Amplitude.getInstance().logEvent("tab2TappedChannels")
 
         binding.channelsTitle.setTextColor(ContextCompat.getColor(
             requireContext(),

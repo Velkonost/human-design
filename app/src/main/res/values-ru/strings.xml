@@ -147,6 +147,7 @@
     <string name="profile_title">Профиль</string>
     <string name="authority_title">Внутренний авторитет</string>
     <string name="strategy_title">Внешняя стратегия</string>
+    <string name="business_title">Бизнес и Карьера</string>
     <string name="injury_title">Генетическая Травма</string>
     <string name="nutrition_title">Питание</string>
     <string name="environment_title">Среда Обитания</string>
@@ -286,6 +287,7 @@
 
     <string name="about_authority_subtitle">Как принимать правильные решения</string>
     <string name="about_strategy_subtitle">Как двигаться по жизни без сопротивления</string>
+    <string name="about_business_subtitle">Как достичь успеха</string>
     <string name="about_injury_subtitle">Как взять свою травму под контроль</string>
     <string name="about_nutrition_subtitle">Как выбрать корректный режим питания</string>
     <string name="about_environment_subtitle">Как создать правильное окружение</string>
