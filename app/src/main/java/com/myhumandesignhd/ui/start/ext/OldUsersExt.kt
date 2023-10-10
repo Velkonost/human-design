@@ -1,5 +1,6 @@
 package com.myhumandesignhd.ui.start.ext
 
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.myhumandesignhd.App
@@ -19,6 +20,7 @@ fun StartFragment.setupOldUsers1() {
     currentStartPage = StartPage.OLD_USERS_1
     App.preferences.lastLoginPageId = StartPage.OLD_USERS_1.pageId
 
+    binding.indicatorsContainer.visibility = View.INVISIBLE
     binding.backBtn.isVisible = false
     with(binding.oldUsersView) {
         isVisible = true
