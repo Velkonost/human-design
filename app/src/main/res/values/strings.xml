@@ -8,6 +8,8 @@
     <string name="search">Search</string>
     <string name="title_splash_01">Human Design</string>
     <string name="next">Next</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="desc_splash_01">
         <![CDATA[
 Human Design is the newest system for self-discovery.
@@ -99,6 +101,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="settings_account_title">Account</string>
     <string name="settings_account_text">You can log out of your account or delete it at any time. When you delete your account, all your data will be removed, and it won\'t be possible to recover it.</string>
     <string name="settings_confirm_logout">Are you sure you want to log out\nof your account?</string>
+    <string name="settings_confirm_cancel_subscription">Are you sure you want to cancel\nsubscription?</string>
     <string name="settings_delete">delete</string>
     <string name="settings_confirm_delete_text">Are you sure you want to delete your account? After this, your data will be removed and it won\'t be possible to recover it.</string>
 

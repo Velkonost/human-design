@@ -104,6 +104,7 @@ class ManageSubscriptionFragment : BaseFragment<SettingsViewModel, FragmentManag
                         }
 
                     }
+                    binding.cancelSubscriptionBtn.isVisible = true
                 }
             }
 
@@ -143,8 +144,80 @@ class ManageSubscriptionFragment : BaseFragment<SettingsViewModel, FragmentManag
                 else R.color.darkColor
             )
         )
+
+        //
+
+        binding.confirmLogoutTitle.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+
+        binding.confirmLogoutText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+
+        binding.icCrossLogout.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+
+        binding.confirmCard.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                else R.color.lightSettingsCard
+            )
+        )
+
+        binding.confirmCancelBg.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.darkColor
+            )
+        )
     }
+
+    private fun showConfirmCancelView() {
+        binding.confirmCancelBlock.isVisible = true
+        binding.confirmCard.animate()
+            .alpha(1f)
+            .setDuration(300)
+            .withEndAction { binding.confirmCard.alpha = 1f }
+
+        binding.confirmCancelBg.animate()
+            .alpha(0.8f).duration = 300
+    }
+
+    private fun hideConfirmCancelView() {
+        binding.confirmCard.animate()
+            .alpha(0f)
+            .duration = 300
+
+        binding.confirmCancelBg.animate()
+            .alpha(0f).setDuration(300)
+            .withEndAction { binding.confirmCancelBlock.isVisible = false }
+    }
+
     inner class Handler {
+
+        fun onShowCancelClicked(v: View) {
+            showConfirmCancelView()
+        }
+
+        fun onCloseCancelClicked(v: View) {
+            hideConfirmCancelView()
+        }
 
         fun onCancelSubscriptionClicked(v: View) {
             if (subType == "google") {
@@ -156,6 +229,7 @@ class ManageSubscriptionFragment : BaseFragment<SettingsViewModel, FragmentManag
 //                "https://webhumandesign.site"
                 baseViewModel.cancelStripeSubscription()
             }
+            hideConfirmCancelView()
 
         }
 
