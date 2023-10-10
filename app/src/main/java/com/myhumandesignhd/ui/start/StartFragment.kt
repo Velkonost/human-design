@@ -651,13 +651,17 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                   }, 6000)
                   android.os.Handler().postDelayed({
                       binding.bodygraphReadyTitle.text = App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title)
+                      App.preferences.lastLoginPageId = -1
+                      App.preferences.userNameFromStart = inflatedNameContainer.nameET.text.toString()
 
                       if (!App.preferences.isPremiun && !isPaywallOpened) {
                           isPaywallOpened = true
                           android.os.Handler().postDelayed({
-                              App.preferences.lastLoginPageId = -1
-                              App.preferences.userNameFromStart = inflatedNameContainer.nameET.text.toString()
                               router.replaceScreen(Screens.paywallScreen(true, source = "start"))
+                          }, 1000)
+                      } else {
+                          android.os.Handler().postDelayed({
+                              router.replaceScreen(Screens.bodygraphScreen(fromStart = true))
                           }, 1000)
                       }
                   }, 7500)
