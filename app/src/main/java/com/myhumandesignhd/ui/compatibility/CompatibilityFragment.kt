@@ -320,28 +320,34 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
             runBlocking {
                 var ready = 0
-                partners.forEachIndexed { index, partner ->
-                    baseViewModel.setupCompatibility(
-                        lat1 = partner.lat,
-                        lon1 = partner.lon,
-                        date = partner.getDateStr(),
-                    ) { avg, _ ->
-                        ready += 1
-                        partner.compatibilityAvg = avg
 
-                        if (ready == partners.size) {
-                            if (!compatibilityAdapter.isCreated)
-                                compatibilityAdapter.createList(
+                if (partners.isEmpty()) {
+                    compatibilityAdapter.createList(
+                        partners,
+                        children.filter { it.parentId == App.preferences.currentUserId })
+                } else {
+
+                    partners.forEachIndexed { index, partner ->
+                        baseViewModel.setupCompatibility(
+                            lat1 = partner.lat,
+                            lon1 = partner.lon,
+                            date = partner.getDateStr(),
+                        ) { avg, _ ->
+                            ready += 1
+                            partner.compatibilityAvg = avg
+
+                            if (ready == partners.size) {
+                                if (!compatibilityAdapter.isCreated)
+                                    compatibilityAdapter.createList(
+                                        partners,
+                                        children.filter { it.parentId == App.preferences.currentUserId })
+                                else compatibilityAdapter.updateList(
                                     partners,
                                     children.filter { it.parentId == App.preferences.currentUserId })
-                            else compatibilityAdapter.updateList(
-                                partners,
-                                children.filter { it.parentId == App.preferences.currentUserId })
+                            }
                         }
                     }
                 }
-
-
             }
 
 
