@@ -3,6 +3,7 @@ package com.myhumandesignhd.util
 import android.content.Context
 import android.content.SharedPreferences
 import com.myhumandesignhd.App
+import java.util.Locale
 
 class Preferences(context: Context) {
 
@@ -18,10 +19,10 @@ class Preferences(context: Context) {
 
     var locale: String
         set(value) = sharedPreferences.edit().putString(LOCALE, value).apply()
-        get() = "en"
-//            if (Locale.getDefault().language == "en" || Locale.getDefault().language == "ru" )//|| Locale.getDefault().language == "es"
-//                Locale.getDefault().language
-//            else "en"
+        get() =
+            if (Locale.getDefault().language == "en" || Locale.getDefault().language == "ru" )//|| Locale.getDefault().language == "es"
+                Locale.getDefault().language
+            else "en"
 
     var isDarkTheme: Boolean
         set(value) = sharedPreferences.edit().putBoolean(IS_DARK_THEME, value)

@@ -40,7 +40,6 @@ class CompatibilityAdapter : EpoxyAdapter() {
     val partnersAdapter = PartnersAdapter()
     val childrenAdapter = ChildrenAdapter()
 
-
     lateinit var partnersModel: PartnersModel
     lateinit var childrenModel: ChildrenModel
 
@@ -126,6 +125,7 @@ class PartnersModel(
             emptyAnim.playAnimation()
 
             emptyBlock.isVisible = partners.isEmpty()
+            addPartnerBtn.isVisible = partners.isEmpty()
             emptyTitle.setTextColor(ContextCompat.getColor(
                 context,
                 if (App.preferences.isDarkTheme) R.color.lightColor
@@ -199,6 +199,7 @@ class ChildrenModel(
             )
 
             emptyBlockChild.isVisible = children.isEmpty()
+            addChildBtn.isVisible = children.isEmpty()
             emptyTitleChild.setTextColor(ContextCompat.getColor(
                 context,
                 if (App.preferences.isDarkTheme) R.color.lightColor

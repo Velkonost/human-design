@@ -4,6 +4,9 @@
     <color name="darkColor">#0E0E0F</color>
     <color name="lightColor">#FFFFFF</color>
 
+    <color name="darkColor07">#B30E0E0F</color>
+    <color name="lightColor07">#B3FFFFFF</color>
+
     <color name="darkCardColor">#19191A</color>
     <color name="lightCardColor">#F9FAFD</color>
 

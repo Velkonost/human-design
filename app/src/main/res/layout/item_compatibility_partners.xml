@@ -21,10 +21,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/emptyBlock"
-        app:layout_constraintBottom_toTopOf="@id/addPartnerBtn"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/addPartnerBtn"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/emptyAnim"
@@ -39,8 +39,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:fontFamily="@font/roboto"
             android:text="@string/compatibility_partner_empty_title"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/emptyText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -52,6 +54,7 @@
             android:layout_marginHorizontal="42dp"
             android:layout_marginBottom="48dp"
             android:alpha="0.7"
+            android:fontFamily="@font/roboto"
             android:gravity="center"
             android:text="@string/compatibility_partner_empty_text"
             android:textColor="@color/lightColor"
@@ -59,8 +62,8 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/addPartnerBtn"
         android:layout_width="match_parent"
@@ -89,23 +92,24 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/ic_plus"/>
+                android:src="@drawable/ic_plus" />
 
             <TextView
                 android:id="@+id/startBtnText"
-                android:layout_marginStart="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/roboto"
                 android:gravity="center"
                 android:letterSpacing="0.12"
                 android:text="@string/compatibility_partner_empty_add_btn"
                 android:textAllCaps="true"
                 android:textColor="@color/lightColor"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

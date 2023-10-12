@@ -41,8 +41,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:fontFamily="@font/roboto"
             android:text="@string/compatibility_child_empty_title"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/emptyTextChild"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -55,6 +57,7 @@
             android:layout_marginBottom="48dp"
             android:alpha="0.7"
             android:gravity="center"
+            android:fontFamily="@font/roboto"
             android:text="@string/compatibility_child_empty_text"
             android:textColor="@color/lightColor"
             android:textSize="16sp"
@@ -101,12 +104,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:fontFamily="@font/roboto"
                 android:letterSpacing="0.12"
                 android:text="@string/compatibility_child_empty_add_btn"
                 android:textAllCaps="true"
                 android:textColor="@color/lightColor"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                 />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

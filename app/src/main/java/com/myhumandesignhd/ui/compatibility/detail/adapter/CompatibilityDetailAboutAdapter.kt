@@ -65,7 +65,8 @@ class CompatibilityDetailAboutAdapter(
         private val generateBtnText: TextView = itemView.findViewById(R.id.generateBtnText)
         private val generateBtn: MaterialCardView = itemView.findViewById(R.id.generateBtn)
 
-        private val generateProgressText: TextView = itemView.findViewById(R.id.generateProgressText)
+        private val generateProgressText: TextView =
+            itemView.findViewById(R.id.generateProgressText)
         private val generateProgress: ProgressBar = itemView.findViewById(R.id.generateProgress)
         private val percentageProgress: ProgressBar = itemView.findViewById(R.id.percentageProgress)
 
@@ -99,10 +100,11 @@ class CompatibilityDetailAboutAdapter(
             else items[position].description.first().text
 
             var fullText = ""
+            val titleColor = if (App.preferences.isDarkTheme) "#ffffff" else "#000000"
             items[position].description.forEach {
                 if (it.title != null) {
-                    fullText += "<b>${it.title}</b>"
-                    fullText += "<br>"
+                    fullText += "<strong><font size=\"20\"><font color='${titleColor}'>${it.title}</font></font></strong>"
+                    fullText += "<br><br>"
                 }
 
                 if (it.text != null) {
@@ -112,7 +114,7 @@ class CompatibilityDetailAboutAdapter(
 
                 fullText += "<br>"
             }
-            text.text = Html.fromHtml(fullText)
+            text.setText(Html.fromHtml(fullText), TextView.BufferType.SPANNABLE)
             subtitle.text = firstLine
 
             val successStr = App.resourcesProvider.getStringLocale(R.string.compatibility_success)
@@ -129,37 +131,50 @@ class CompatibilityDetailAboutAdapter(
 
             container.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                else R.color.lightSettingsCard
-            ))
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                    else R.color.lightSettingsCard
+                )
+            )
 
             expandButton.setTextColor(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             text.setTextColor(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor07
+                    else R.color.darkColor07
+                )
+            )
 
             subtitle.setTextColor(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             generateProgressText.setTextColor(
                 ContextCompat.getColor(
-                context,
-                R.color.lightColor
-            ))
+                    context,
+                    R.color.lightColor
+                )
+            )
+
+            icArrow.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             percentageProgress.progressDrawable = ContextCompat.getDrawable(
                 context,
@@ -183,10 +198,7 @@ class CompatibilityDetailAboutAdapter(
 
                     holder.expandButton.isSelected = false
                     holder.expandableLayout.collapse()
-                }
-
-
-                else if (holder != null && !holder.expandableLayout.isExpanded) {
+                } else if (holder != null && !holder.expandableLayout.isExpanded) {
                     expandButton.isSelected = true
                     expandableLayout.expand()
                     selectedItem = position
@@ -216,10 +228,12 @@ class CompatibilityDetailAboutAdapter(
                         YandexMetrica.reportEvent("CompatibilityOverviewTapped")
                         Amplitude.getInstance().logEvent("CompatibilityOverviewTapped")
                     }
+
                     1 -> {
                         YandexMetrica.reportEvent("CompatibilityLoveTapped")
                         Amplitude.getInstance().logEvent("CompatibilityLoveTapped")
                     }
+
                     else -> {
                         YandexMetrica.reportEvent("CompatibilityBusinessTapped")
                         Amplitude.getInstance().logEvent("CompatibilityBusinessTapped")

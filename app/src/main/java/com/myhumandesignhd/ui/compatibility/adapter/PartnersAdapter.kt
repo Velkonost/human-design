@@ -37,9 +37,9 @@ class PartnersAdapter : EpoxyAdapter() {
         removeAllModels()
         partners.map { addModel(PartnerModel(it)) }
 
-//        if (partners.isNotEmpty()) {
-//            addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
-//        }
+        if (partners.isNotEmpty()) {
+            addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
+        }
 
         notifyDataSetChanged()
     }
