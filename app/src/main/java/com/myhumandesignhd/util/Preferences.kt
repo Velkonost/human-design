@@ -84,7 +84,7 @@ class Preferences(context: Context) {
 
     var isPremiun: Boolean
         set(value) = sharedPreferences.edit().putBoolean("is_premium", value).apply()
-        get() = sharedPreferences.getBoolean("is_premium", false)
+        get() = true//sharedPreferences.getBoolean("is_premium", false)
 
     var uniqueUserId: String?
         set(value) = sharedPreferences.edit().putString("unique_user_id", value).apply()

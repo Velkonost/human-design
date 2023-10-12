@@ -162,6 +162,7 @@
     <string name="done_title">Готово</string>
     <string name="confirm">Подтвердить</string>
     <string name="confirm_title">Вы уверены?</string>
+    <string name="settings_confirm_cancel_subscription">Вы уверены, что хотите отменить\nподписку?</string>
     <string name="confirm_text">Введение новых данных приведет к тому, что ваш дизайн необратимо изменится. Вы уверены, что хотите изменить данные?</string>
 
     <string name="type_title">Тип</string>
