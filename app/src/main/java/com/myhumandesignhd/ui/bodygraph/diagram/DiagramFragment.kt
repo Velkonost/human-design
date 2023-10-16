@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
@@ -159,7 +158,7 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         }
 
         fun onAddClicked(v: View) {
-            Amplitude.getInstance().logEvent("tab1TappedAddUser");
+            Amplitude.getInstance().logEvent("tab1TappedAddUser")
             router.navigateTo(
                 Screens.addUserScreen(
                 fromDiagram = true

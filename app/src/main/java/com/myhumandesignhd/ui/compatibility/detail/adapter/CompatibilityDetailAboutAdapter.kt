@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +36,7 @@ enum class CompatibilityDetailAboutType {
 
 class CompatibilityDetailAboutAdapter(
     private val context: Context,
+    private val scroll: NestedScrollView,
     private val recyclerView: RecyclerView,
     private val items: List<CompatibilityNewDescription>,
 ) : RecyclerView.Adapter<CompatibilityDetailAboutAdapter.ViewHolder>() {
@@ -101,7 +103,7 @@ class CompatibilityDetailAboutAdapter(
 
             var fullText = ""
             val titleColor = if (App.preferences.isDarkTheme) "#ffffff" else "#000000"
-            items[position].description.forEach {
+            items[position].description.forEachIndexed { index, it ->
                 if (it.title != null) {
                     fullText += "<strong><font size=\"20\"><font color='${titleColor}'>${it.title}</font></font></strong>"
                     fullText += "<br><br>"
@@ -112,8 +114,10 @@ class CompatibilityDetailAboutAdapter(
                     fullText += "<br>"
                 }
 
-                fullText += "<br>"
+                if (index != items[position].description.size - 1)
+                    fullText += "<br>"
             }
+
             text.setText(Html.fromHtml(fullText), TextView.BufferType.SPANNABLE)
             subtitle.text = firstLine
 
@@ -161,12 +165,6 @@ class CompatibilityDetailAboutAdapter(
                 )
             )
 
-            generateProgressText.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.lightColor
-                )
-            )
 
             icArrow.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
@@ -195,7 +193,6 @@ class CompatibilityDetailAboutAdapter(
                     recyclerView.findViewHolderForAdapterPosition(adapterPosition) as ViewHolder?
                 val position = adapterPosition
                 if (holder != null && holder.expandableLayout.isExpanded) {
-
                     holder.expandButton.isSelected = false
                     holder.expandableLayout.collapse()
                 } else if (holder != null && !holder.expandableLayout.isExpanded) {

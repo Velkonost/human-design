@@ -45,6 +45,7 @@
             android:text="@string/compatibility_child_empty_title"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:justificationMode="inter_word"
             app:layout_constraintBottom_toTopOf="@id/emptyTextChild"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -54,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="42dp"
+            android:justificationMode="inter_word"
             android:layout_marginBottom="48dp"
             android:alpha="0.7"
             android:gravity="center"

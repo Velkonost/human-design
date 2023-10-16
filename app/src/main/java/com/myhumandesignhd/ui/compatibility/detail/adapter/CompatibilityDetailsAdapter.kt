@@ -175,6 +175,7 @@ class AboutModel(
 
             val aboutAdapter = CompatibilityDetailAboutAdapter(
                 context,
+                scroll,
                 aboutRecycler,
                 descs
             )

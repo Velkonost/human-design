@@ -598,9 +598,9 @@ class BaseViewModel @Inject constructor(
 
     fun deleteUser(
         userIdToDelete: Long,
-        userIdNext: Long? = null
+        userIdNext: Long? = null,
+        onComplete: (() -> Unit)? = null
     ) {
-
         GlobalScope.launch {
             val userToDelete = App.database.userDao().findById(userIdToDelete)
 
@@ -618,6 +618,8 @@ class BaseViewModel @Inject constructor(
                     setupCurrentUser()
                 }
             }
+
+            onComplete?.invoke()
         }
     }
 
