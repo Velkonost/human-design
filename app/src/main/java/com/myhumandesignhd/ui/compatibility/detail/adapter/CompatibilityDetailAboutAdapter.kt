@@ -2,6 +2,7 @@ package com.myhumandesignhd.ui.compatibility.detail.adapter
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.os.Handler
 import android.text.Html
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -11,9 +12,9 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,8 @@ import com.myhumandesignhd.ui.bodygraph.second.adapter.AboutAdapter
 import com.yandex.metrica.YandexMetrica
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
+import pl.droidsonroids.gif.GifDrawable
+import pl.droidsonroids.gif.GifImageView
 
 enum class CompatibilityDetailAboutType {
     Overview,
@@ -36,9 +39,14 @@ enum class CompatibilityDetailAboutType {
 
 class CompatibilityDetailAboutAdapter(
     private val context: Context,
-    private val scroll: NestedScrollView,
     private val recyclerView: RecyclerView,
     private val items: List<CompatibilityNewDescription>,
+    private val firstTitleValue: String,
+    private val secondTitleValue: String,
+    private val firstNameValue: String,
+    private val secondNameValue: String,
+    private val chart1ResId: Int,
+    private val chart2ResId: Int,
 ) : RecyclerView.Adapter<CompatibilityDetailAboutAdapter.ViewHolder>() {
     private var selectedItem = AboutAdapter.UNSELECTED
 
@@ -79,109 +87,186 @@ class CompatibilityDetailAboutAdapter(
 
         private val percentage: TextView = itemView.findViewById(R.id.percentage)
 
+        //
+        private val headerBlock: ConstraintLayout = itemView.findViewById(R.id.headerBlock)
+        private val chart1: ImageView = itemView.findViewById(R.id.chart1)
+        private val chart2: ImageView = itemView.findViewById(R.id.chart2)
+        private val firstName: TextView = itemView.findViewById(R.id.firstName)
+        private val secondName: TextView = itemView.findViewById(R.id.secondName)
+        private val firstTitle: TextView = itemView.findViewById(R.id.firstTitle)
+        private val secondTitle: TextView = itemView.findViewById(R.id.secondTitle)
+        private val gifImg: GifImageView = itemView.findViewById(R.id.gif)
+        private val warning: TextView = itemView.findViewById(R.id.warning)
+
         fun bind() {
-            val position = adapterPosition
-            val isSelected = position == selectedItem
+            val position = adapterPosition - 1
 
-            icArrow.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
-            generateBtn.isVisible = false
-            generateProgress.isVisible = false
-            generateProgressText.isVisible = false
-            pointViewContainer.isVisible = false
+            if (position == -1) {
+                headerBlock.isVisible = true
+                container.isVisible = false
 
-            //
-            expandButton.text = items[adapterPosition].title
+                chart1.setImageResource(chart1ResId)
+                chart2.setImageResource(chart2ResId)
+
+                firstTitle.text = firstTitleValue
+                secondTitle.text = secondTitleValue
+
+                firstName.text = firstNameValue
+                secondName.text = secondNameValue
+
+                firstTitle.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    )
+                )
+
+                firstName.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    )
+                )
+
+                secondTitle.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    )
+                )
+
+                secondName.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    )
+                )
+
+                warning.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    )
+                )
+
+                Handler().postDelayed({
+                    (gifImg.drawable as GifDrawable).start()
+                }, 1000)
+
+            } else {
+                headerBlock.isVisible = false
+                container.isVisible = true
+
+                val isSelected = position == selectedItem
+
+                icArrow.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
+                generateBtn.isVisible = false
+                generateProgress.isVisible = false
+                generateProgressText.isVisible = false
+                pointViewContainer.isVisible = false
+
+                //
+                expandButton.text = items[position].title
 
 
-            subtitle.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
-            if (!App.preferences.isPremiun)
-                subtitle.isVisible = true
+                subtitle.isVisible = android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
+                if (!App.preferences.isPremiun)
+                    subtitle.isVisible = true
 
-            val firstLine = if (items[position].description.first().title != null)
-                items[position].description.first().title
-            else items[position].description.first().text
+                val firstLine = if (items[position].description.first().title != null)
+                    items[position].description.first().title
+                else items[position].description.first().text
 
-            var fullText = ""
-            val titleColor = if (App.preferences.isDarkTheme) "#ffffff" else "#000000"
-            items[position].description.forEachIndexed { index, it ->
-                if (it.title != null) {
-                    fullText += "<strong><font size=\"20\"><font color='${titleColor}'>${it.title}</font></font></strong>"
-                    fullText += "<br><br>"
+                var fullText = ""
+                val titleColor = if (App.preferences.isDarkTheme) "#ffffff" else "#000000"
+                items[position].description.forEachIndexed { index, it ->
+                    if (it.title != null) {
+                        fullText += "<strong><font size=\"20\"><font color='${titleColor}'>${it.title}</font></font></strong>"
+                        fullText += "<br><br>"
+                    }
+
+                    if (it.text != null) {
+                        fullText += it.text
+                        fullText += "<br>"
+                    }
+
+                    if (index != items[position].description.size - 1)
+                        fullText += "<br>"
                 }
 
-                if (it.text != null) {
-                    fullText += it.text
-                    fullText += "<br>"
-                }
+                text.setText(Html.fromHtml(fullText), TextView.BufferType.SPANNABLE)
+                subtitle.text = firstLine
 
-                if (index != items[position].description.size - 1)
-                    fullText += "<br>"
+                val successStr =
+                    App.resourcesProvider.getStringLocale(R.string.compatibility_success)
+                percentage.text = "${items[position].percentage}% ${successStr}"
+                percentageProgress.progress = items[position].percentage
+                //
+
+                expandButton.isSelected = isSelected
+                expandableLayout.setExpanded(
+                    if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun) true
+                    else isSelected,
+                    false
+                )
+
+                container.backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                        else R.color.lightSettingsCard
+                    )
+                )
+
+                expandButton.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    )
+                )
+
+                text.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.lightColor07
+                        else R.color.darkColor07
+                    )
+                )
+
+                subtitle.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    )
+                )
+
+
+                icArrow.backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    )
+                )
+
+                percentageProgress.progressDrawable = ContextCompat.getDrawable(
+                    context,
+                    if (App.preferences.isDarkTheme) R.drawable.injury_generate_progress_dark
+                    else R.drawable.injury_generate_progress_light
+                )
             }
-
-            text.setText(Html.fromHtml(fullText), TextView.BufferType.SPANNABLE)
-            subtitle.text = firstLine
-
-            val successStr = App.resourcesProvider.getStringLocale(R.string.compatibility_success)
-            percentage.text = "${items[position].percentage}% ${successStr}"
-            percentageProgress.progress = items[position].percentage
-            //
-
-            expandButton.isSelected = isSelected
-            expandableLayout.setExpanded(
-                if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun) true
-                else isSelected,
-                false
-            )
-
-            container.backgroundTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                    else R.color.lightSettingsCard
-                )
-            )
-
-            expandButton.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            text.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor07
-                    else R.color.darkColor07
-                )
-            )
-
-            subtitle.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-
-            icArrow.backgroundTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            percentageProgress.progressDrawable = ContextCompat.getDrawable(
-                context,
-                if (App.preferences.isDarkTheme) R.drawable.injury_generate_progress_dark
-                else R.drawable.injury_generate_progress_light
-            )
         }
 
         override fun onClick(view: View?) {
+            if (adapterPosition == 0) return
+
             if (!App.preferences.isPremiun) {
                 EventBus.getDefault().post(OpenPaywallEvent())
             }
@@ -189,7 +274,6 @@ class CompatibilityDetailAboutAdapter(
             if (android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK) {
 
                 val holder =
-//                    recyclerView.findViewHolderForAdapterPosition(selectedItem) as ViewHolder?
                     recyclerView.findViewHolderForAdapterPosition(adapterPosition) as ViewHolder?
                 val position = adapterPosition
                 if (holder != null && holder.expandableLayout.isExpanded) {
@@ -220,7 +304,7 @@ class CompatibilityDetailAboutAdapter(
                     }
                 }
 
-                when (adapterPosition) {
+                when (adapterPosition - 1) {
                     0 -> {
                         YandexMetrica.reportEvent("CompatibilityOverviewTapped")
                         Amplitude.getInstance().logEvent("CompatibilityOverviewTapped")
@@ -243,12 +327,31 @@ class CompatibilityDetailAboutAdapter(
         override fun onExpansionUpdate(expansionFraction: Float, state: Int) {
 
             if (state == ExpandableLayout.State.EXPANDED) {
-                expandButton.text = items[adapterPosition].title
+                expandButton.text = items[adapterPosition - 1].title
                 subtitle.isVisible = false
 
                 icArrow.animate()
                     .rotation(-90f)
                     .duration = 300
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    val smoothScroller: RecyclerView.SmoothScroller =
+                        object : LinearSmoothScroller(context) {
+                            override fun getVerticalSnapPreference(): Int {
+                                return SNAP_TO_START
+                            }
+
+                            override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                                return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
+                            }
+
+                        }
+                    smoothScroller.targetPosition = adapterPosition
+
+
+                    (recyclerView.layoutManager as LinearLayoutManager)
+                        .startSmoothScroll(smoothScroller)
+                }
             }
 
             if (state == ExpandableLayout.State.EXPANDING) {
@@ -257,7 +360,7 @@ class CompatibilityDetailAboutAdapter(
 
             if (state == ExpandableLayout.State.COLLAPSED) {
                 kotlin.runCatching {
-                    expandButton.text = items[adapterPosition].title
+                    expandButton.text = items[adapterPosition - 1].title
                     subtitle.isVisible = true
 
                     icArrow.animate()
@@ -279,6 +382,6 @@ class CompatibilityDetailAboutAdapter(
 
 
     override fun getItemCount(): Int {
-        return items.size
+        return items.size + 1
     }
 }

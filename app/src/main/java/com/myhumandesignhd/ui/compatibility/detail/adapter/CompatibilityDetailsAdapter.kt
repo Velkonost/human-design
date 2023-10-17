@@ -8,7 +8,6 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.CountDownTimer
-import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.MotionEvent
@@ -46,7 +45,6 @@ import kotlinx.android.synthetic.main.item_compatibility_detail_channels.view.*
 import kotlinx.android.synthetic.main.item_compatibility_detail_channels.view.channelsRecycler
 import kotlinx.android.synthetic.main.item_compatibility_detail_profiles.view.*
 import kotlinx.android.synthetic.main.item_compatibility_info.view.*
-import pl.droidsonroids.gif.GifDrawable
 
 class CompatibilityDetailsAdapter : EpoxyAdapter() {
 
@@ -110,74 +108,69 @@ class AboutModel(
         root = view
 
         with(view) {
-            chart1.setImageResource(chart1ResId)
-            chart2.setImageResource(chart2ResId)
-
-            firstTitle.text = firstTitleValue
-            secondTitle.text = secondTitleValue
-
-            firstName.text = firstNameValue
-            secondName.text = secondNameValue
-
-//            aboutDesc.text = description
-
-            firstTitle.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            firstName.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            secondTitle.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            secondName.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-            warning.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
-
-//            aboutDesc.setTextColor(
+//            chart1.setImageResource(chart1ResId)
+//            chart2.setImageResource(chart2ResId)
+//
+//            firstTitle.text = firstTitleValue
+//            secondTitle.text = secondTitleValue
+//
+//            firstName.text = firstNameValue
+//            secondName.text = secondNameValue
+//
+//            firstTitle.setTextColor(
 //                ContextCompat.getColor(
 //                    context,
 //                    if (App.preferences.isDarkTheme) R.color.lightColor
 //                    else R.color.darkColor
 //                )
 //            )
-
-            Handler().postDelayed({
-                (gif.drawable as GifDrawable).start()
-            }, 1000)
+//
+//            firstName.setTextColor(
+//                ContextCompat.getColor(
+//                    context,
+//                    if (App.preferences.isDarkTheme) R.color.lightColor
+//                    else R.color.darkColor
+//                )
+//            )
+//
+//            secondTitle.setTextColor(
+//                ContextCompat.getColor(
+//                    context,
+//                    if (App.preferences.isDarkTheme) R.color.lightColor
+//                    else R.color.darkColor
+//                )
+//            )
+//
+//            secondName.setTextColor(
+//                ContextCompat.getColor(
+//                    context,
+//                    if (App.preferences.isDarkTheme) R.color.lightColor
+//                    else R.color.darkColor
+//                )
+//            )
+//
+//            warning.setTextColor(
+//                ContextCompat.getColor(
+//                    context,
+//                    if (App.preferences.isDarkTheme) R.color.lightColor
+//                    else R.color.darkColor
+//                )
+//            )
+//
+//            Handler().postDelayed({
+//                (gif.drawable as GifDrawable).start()
+//            }, 1000)
 
             val aboutAdapter = CompatibilityDetailAboutAdapter(
                 context,
-                scroll,
                 aboutRecycler,
-                descs
+                descs,
+                firstTitleValue,
+                secondTitleValue,
+                firstNameValue,
+                secondNameValue,
+                chart1ResId,
+                chart2ResId,
             )
             aboutRecycler.adapter = aboutAdapter
         }
