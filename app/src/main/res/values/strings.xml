@@ -409,10 +409,10 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
 
     <!--  COMPATIBILITY  -->
     <string name="compatibility_partner_empty_title">Test your compatibility</string>
-    <string name="compatibility_partner_empty_text">Check your partner and unlock keys to your peaceful relationships.\n\nCreate a deeper connection and discover how to interact harmoniously.</string>
+    <string name="compatibility_partner_empty_text">Check your partner and unlock keys to your\npeaceful relationships.\n\nCreate a deeper connection and discover\nhow to interact harmoniously.</string>
     <string name="compatibility_partner_empty_add_btn">add partner</string>
     <string name="compatibility_child_empty_title">Improve your relationship</string>
-    <string name="compatibility_child_empty_text">Discover how to guide your child to their innate nature.\n\nFind out harmonious ways of interaction to allow your child\'s potential to grow freely.</string>
+    <string name="compatibility_child_empty_text">Discover how to guide your child to their\ninnate nature.\n\nFind out harmonious ways of interaction to\nallow your child\'s potential to grow freely.</string>
     <string name="compatibility_child_empty_add_btn">add child</string>
 
     <string name="compatibility_range">Compatibility:</string>

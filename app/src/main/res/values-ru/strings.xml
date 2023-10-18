@@ -407,10 +407,10 @@
 
     <!--  COMPATIBILITY  -->
     <string name="compatibility_partner_empty_title">Проверьте вашу совместимость</string>
-    <string name="compatibility_partner_empty_text">Узнайте насколько вы совместимы и что ожидать от вашего союза.\n\nНайдите ключ к корректным и гармоничным отношениям.</string>
+    <string name="compatibility_partner_empty_text">Узнайте насколько вы совместимы и что\nожидать от вашего союза.\n\nНайдите ключ к корректным и гармоничным\nотношениям.</string>
     <string name="compatibility_partner_empty_add_btn">ДОБАВИТЬ ПАРТНЕРА</string>
     <string name="compatibility_child_empty_title">Проверьте ваши взаимоотношения</string>
-    <string name="compatibility_child_empty_text">Узнайте, как направить ребенка к его собственной природе.\n\nНайдите гармоничные пути взаимодействия, чтобы дать потенциалу вашего ребенка свободно расти.</string>
+    <string name="compatibility_child_empty_text">Узнайте, как направить ребенка к его\nсобственной природе.\n\nНайдите гармоничные пути взаимодействия, чтобы дать\nпотенциалу вашего ребенка свободно расти.</string>
     <string name="compatibility_child_empty_add_btn">ДОБАВИТЬ РЕБЕНКА</string>
     <!--  COMPATIBILITY  -->
 

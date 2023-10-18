@@ -92,13 +92,13 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                                 partner.compatibilityAvg = avg
 
                                 if (ready == partners.size) {
-                                    if (!compatibilityAdapter.isCreated)
+//                                    if (!compatibilityAdapter.isCreated)
                                         compatibilityAdapter.createList(
                                             partners,
                                             children.filter { it.parentId == App.preferences.currentUserId })
-                                    else compatibilityAdapter.updateList(
-                                        partners,
-                                        children.filter { it.parentId == App.preferences.currentUserId })
+//                                    else compatibilityAdapter.updateList(
+//                                        partners,
+//                                        children.filter { it.parentId == App.preferences.currentUserId })
                                 }
                             }
                         }
@@ -400,6 +400,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     private fun setupViewPager() {
         binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.isUserInputEnabled = true
+        binding.viewPager.adapter = compatibilityAdapter
 
         GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
             val partners = baseViewModel.getAllUsers()
@@ -413,8 +414,18 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                     compatibilityAdapter.createList(
                         partners,
                         children.filter { it.parentId == App.preferences.currentUserId })
-                } else {
 
+                    binding.viewPager.postDelayed({
+                        if (App.preferences.isCompatibilityFromChild) {
+                            android.os.Handler().postDelayed({
+                                App.preferences.isCompatibilityFromChild = false
+                                binding.viewPager.setCurrentItem(1, false)
+                                selectChildren()
+                            }, 100)
+
+                        }
+                    }, 150)
+                } else {
                     partners.forEachIndexed { index, partner ->
                         baseViewModel.setupCompatibility(
                             lat1 = partner.lat,
@@ -425,13 +436,24 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                             partner.compatibilityAvg = avg
 
                             if (ready == partners.size) {
-                                if (!compatibilityAdapter.isCreated)
+//                                if (!compatibilityAdapter.isCreated)
                                     compatibilityAdapter.createList(
                                         partners,
                                         children.filter { it.parentId == App.preferences.currentUserId })
-                                else compatibilityAdapter.updateList(
-                                    partners,
-                                    children.filter { it.parentId == App.preferences.currentUserId })
+//                                else compatibilityAdapter.updateList(
+//                                    partners,
+//                                    children.filter { it.parentId == App.preferences.currentUserId })
+
+                                binding.viewPager.postDelayed({
+                                    if (App.preferences.isCompatibilityFromChild) {
+                                        android.os.Handler().postDelayed({
+                                            App.preferences.isCompatibilityFromChild = false
+                                            binding.viewPager.setCurrentItem(1, false)
+                                            selectChildren()
+                                        }, 100)
+
+                                    }
+                                }, 150)
                             }
                         }
                     }
@@ -451,21 +473,52 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
                 if (!App.preferences.isCompatibilityFromChild) {
                     when (position) {
-                        0 -> selectPartners()
+                        0 -> {
+                            if (App.preferences.isCompatibilityFromChild) {
+                                binding.viewPager.setCurrentItem(1, false)
+                            } else {
+                                selectPartners()
+                            }
+                        }
+
                         else -> selectChildren()
                     }
                 }
             }
         })
 
-        binding.viewPager.postDelayed({
-            binding.viewPager.adapter = compatibilityAdapter
-            if (App.preferences.isCompatibilityFromChild) {
-                App.preferences.isCompatibilityFromChild = false
-                binding.viewPager.setCurrentItem(1, false)
-                selectChildren()
-            }
-        }, 150)
+
+
+//        while (App.preferences.isCompatibilityFromChild) {
+//            kotlin.runCatching {
+//                binding.viewPager.setCurrentItem(1, false)
+//            }.onSuccess {
+//                App.preferences.isCompatibilityFromChild = false
+//            }
+//        }
+
+//        val recyclerView = binding.viewPager.getChildAt(0) as RecyclerView
+//
+//        recyclerView.apply {
+//            val itemCount = adapter?.itemCount ?: 0
+//            if (itemCount >= 1) {
+//                viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+//                    override fun onGlobalLayout() {
+//                        viewTreeObserver.removeOnGlobalLayoutListener(this)
+//
+//                        // False for without animation scroll
+//                        binding.viewPager.setCurrentItem(1, false)
+//                    }
+//                })
+//            }
+//        }
+
+//        binding.viewPager.post {
+//            val defaultPosition = if (App.preferences.isCompatibilityFromChild) 1 else 0
+//            binding.viewPager.setCurrentItem(defaultPosition, true)
+//        }
+//
+
 
     }
 

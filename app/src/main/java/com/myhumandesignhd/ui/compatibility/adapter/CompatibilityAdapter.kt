@@ -93,9 +93,13 @@ class PartnersModel(
 
             partnersRecycler.adapter = partnersAdapter
 
-            (partnersRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-            partnersRecycler.itemAnimator = null
-            partnersRecycler.layoutManager = SSMLLinearLayoutManager(context)
+            kotlin.runCatching {
+                (partnersRecycler.itemAnimator as SimpleItemAnimator)
+                    .supportsChangeAnimations = false
+            }
+            kotlin.runCatching { partnersRecycler.itemAnimator = null }
+            kotlin.runCatching { partnersRecycler.layoutManager = SSMLLinearLayoutManager(context) }
+
 
             partnersRecycler.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
@@ -176,9 +180,11 @@ class ChildrenModel(
         super.preBind(view, previouslyBoundModel)
 
         with(view) {
-            (childrenRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-            childrenRecycler.itemAnimator = null
-            childrenRecycler.layoutManager = SSMLLinearLayoutManager(context)
+            kotlin.runCatching {
+                (childrenRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+                childrenRecycler.itemAnimator = null
+                childrenRecycler.layoutManager = SSMLLinearLayoutManager(context)
+            }
         }
     }
 
