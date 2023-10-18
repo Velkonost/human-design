@@ -116,7 +116,51 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
     @Subscribe
     fun onDeleteChildEvent(e: DeleteChildEvent) {
-        baseViewModel.deleteChild(e.childId)
+        baseViewModel.deleteChild(e.childId) {
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                val partners = baseViewModel.getAllUsers()
+                    .toMutableList().filter { it.id != App.preferences.currentUserId }
+                val children = baseViewModel.getAllChildren()
+
+                runBlocking {
+                    var ready = 0
+
+                    if (partners.isEmpty()) {
+                        compatibilityAdapter.createList(
+                            partners,
+                            children.filter { it.parentId == App.preferences.currentUserId })
+                    } else {
+
+                        partners.forEachIndexed { index, partner ->
+                            baseViewModel.setupCompatibility(
+                                lat1 = partner.lat,
+                                lon1 = partner.lon,
+                                date = partner.getDateStr(),
+                            ) { avg, _ ->
+                                ready += 1
+                                partner.compatibilityAvg = avg
+
+                                if (ready == partners.size) {
+                                    if (!compatibilityAdapter.isCreated)
+                                        compatibilityAdapter.createList(
+                                            partners,
+                                            children.filter { it.parentId == App.preferences.currentUserId })
+                                    else compatibilityAdapter.updateList(
+                                        partners,
+                                        children.filter { it.parentId == App.preferences.currentUserId })
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                val identify = Identify()
+                identify.set("partnersadded", partners.size.toString())
+                identify.set("kidsadded", children.size.toString())
+                Amplitude.getInstance().identify(identify)
+            }
+        }
     }
 
     @Subscribe
@@ -350,12 +394,12 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
     @Subscribe
     fun onChangeCompatibilityViewPagerUserInputEvent(e: ChangeCompatibilityViewPagerUserInputEvent) {
-//        binding.viewPager.isUserInputEnabled = e.isEnableUserInput
+        binding.viewPager.isUserInputEnabled = e.isEnableUserInput
     }
 
     private fun setupViewPager() {
         binding.viewPager.offscreenPageLimit = 1
-        binding.viewPager.isUserInputEnabled = false
+        binding.viewPager.isUserInputEnabled = true
 
         GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
             val partners = baseViewModel.getAllUsers()

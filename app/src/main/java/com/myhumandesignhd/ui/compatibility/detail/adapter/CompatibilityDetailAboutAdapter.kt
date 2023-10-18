@@ -256,6 +256,14 @@ class CompatibilityDetailAboutAdapter(
                     )
                 )
 
+                icArrow.imageTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        context,
+                        if (App.preferences.isDarkTheme) R.color.lightColor
+                        else R.color.darkColor
+                    )
+                )
+
                 percentageProgress.progressDrawable = ContextCompat.getDrawable(
                     context,
                     if (App.preferences.isDarkTheme) R.drawable.injury_generate_progress_dark

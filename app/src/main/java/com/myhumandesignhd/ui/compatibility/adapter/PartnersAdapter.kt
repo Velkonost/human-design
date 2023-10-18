@@ -3,6 +3,7 @@ package com.myhumandesignhd.ui.compatibility.adapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.text.Html
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -12,6 +13,7 @@ import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.AddPartnerClickEvent
+import com.myhumandesignhd.event.ChangeCompatibilityViewPagerUserInputEvent
 import com.myhumandesignhd.event.CompatibilityStartClickEvent
 import com.myhumandesignhd.event.DeletePartnerItemEvent
 import com.myhumandesignhd.model.User
@@ -167,16 +169,42 @@ class PartnerModel(
                 )
             }
 
+            partnerCard.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(true)
+                    )
+                    else -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(false)
+                    )
+                }
+                false
+            }
+
+
+            swipeContainer.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(true)
+                    )
+                    else -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(false)
+                    )
+                }
+                false
+            }
+
             swipeContainer.isEnabledSwipe = isSwipeEnabled
             swipeContainer.setOnActionsListener(object : SwipeLayout.SwipeActionsListener {
                 override fun onOpen(direction: Int, isContinuous: Boolean) {
+                    ChangeCompatibilityViewPagerUserInputEvent(false)
                     if (isContinuous) {
                         EventBus.getDefault().post(DeletePartnerItemEvent(model.id))
                     }
                 }
 
                 override fun onClose() {
-
+                    ChangeCompatibilityViewPagerUserInputEvent(false)
                 }
             })
 

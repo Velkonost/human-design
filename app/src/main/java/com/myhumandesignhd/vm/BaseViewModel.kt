@@ -624,12 +624,14 @@ class BaseViewModel @Inject constructor(
     }
 
     fun deleteChild(
-        childIdToDelete: Long
+        childIdToDelete: Long,
+        onComplete: (() -> Unit)?
     ) {
         GlobalScope.launch {
             val childToDelete = App.database.childDao().findById(childIdToDelete)
             if (childToDelete != null) {
                 App.database.childDao().delete(childToDelete)
+                onComplete?.invoke()
             }
         }
     }
