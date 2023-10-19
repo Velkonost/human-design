@@ -3,6 +3,7 @@ package com.myhumandesignhd.ui.compatibility.adapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.text.Html
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -11,6 +12,7 @@ import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.AddChildClickEvent
+import com.myhumandesignhd.event.ChangeCompatibilityViewPagerUserInputEvent
 import com.myhumandesignhd.event.CompatibilityChildStartClickEvent
 import com.myhumandesignhd.event.DeleteChildItemEvent
 import com.myhumandesignhd.model.Child
@@ -141,7 +143,6 @@ class ChildModel(
             }
 
             partnerCard.setOnClickListener {
-
                 EventBus.getDefault().post(
                     CompatibilityChildStartClickEvent(childId = model.id)
                 )
@@ -149,16 +150,41 @@ class ChildModel(
             compatibilityName.isVisible = false
             compatibilityPercentage.isVisible = false
 
+            partnerCard.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(true)
+                    )
+                    else -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(false)
+                    )
+                }
+                false
+            }
+
+            swipeContainer.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(true)
+                    )
+                    else -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(false)
+                    )
+                }
+                false
+            }
+
             swipeContainer.isEnabledSwipe = isSwipeEnabled
             swipeContainer.setOnActionsListener(object : SwipeLayout.SwipeActionsListener {
                 override fun onOpen(direction: Int, isContinuous: Boolean) {
+                    ChangeCompatibilityViewPagerUserInputEvent(false)
                     if (isContinuous) {
                         EventBus.getDefault().post(DeleteChildItemEvent(model.id))
                     }
                 }
 
                 override fun onClose() {
-
+                    ChangeCompatibilityViewPagerUserInputEvent(false)
                 }
             })
         }

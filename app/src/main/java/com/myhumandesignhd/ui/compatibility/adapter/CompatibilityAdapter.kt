@@ -100,7 +100,6 @@ class PartnersModel(
             kotlin.runCatching { partnersRecycler.itemAnimator = null }
             kotlin.runCatching { partnersRecycler.layoutManager = SSMLLinearLayoutManager(context) }
 
-
             partnersRecycler.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                     return false
@@ -220,6 +219,25 @@ class ChildrenModel(
             addChildBtn.setOnClickListener {
                 EventBus.getDefault().post(AddChildClickEvent())
             }
+
+            childrenRecycler.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                    return false
+                }
+
+                override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+                    when (e.action) {
+                        MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                            ChangeCompatibilityViewPagerUserInputEvent(true)
+                        )
+                        else -> EventBus.getDefault().post(
+                            ChangeCompatibilityViewPagerUserInputEvent(false)
+                        )
+                    }
+                }
+
+                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+            })
         }
     }
 
