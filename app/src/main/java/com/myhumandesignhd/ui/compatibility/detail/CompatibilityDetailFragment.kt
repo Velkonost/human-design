@@ -217,6 +217,11 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
         binding.profilesTitle.background = null
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Handler().onBackClicked(binding.aboutTitle)
+    }
+
     private fun setupViewPager() {
         binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.adapter = detailsAdapter

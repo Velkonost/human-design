@@ -417,4 +417,8 @@
     <string name="compatibility_range">Совместимость:</string>
     <string name="compatibility_about_warning">Проценты не отображают полной картины.\nИзучите подробное описание совместимости.</string>
     <string name="compatibility_success">совпадение</string>
+
+
+<!--    -->
+    <string name="start_bodygraph_creating_title">Создание бодиграфа…</string>
 </resources>

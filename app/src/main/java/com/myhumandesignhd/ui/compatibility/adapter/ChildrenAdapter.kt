@@ -3,6 +3,7 @@ package com.myhumandesignhd.ui.compatibility.adapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.text.Html
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -221,6 +222,13 @@ class EmptyChildrenModel(
             emptyPartnerCard.setOnClickListener {
                 EventBus.getDefault().post(AddChildClickEvent())
             }
+
+            val height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 105f, resources.displayMetrics)
+
+            val cardParams = emptyPartnerCard.layoutParams
+            cardParams.height = height.toInt()
+            emptyPartnerCard.layoutParams = cardParams
+            emptyPartnerCard.requestLayout()
 
             partnersEmptyText.isVisible = showEmptyText
             partnersEmptyText.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.children_empty_text))

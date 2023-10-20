@@ -18,7 +18,7 @@ import com.yandex.metrica.YandexMetrica
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Locale
 
 class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, FragmentCompatibilityChildBinding>(
     R.layout.fragment_compatibility_child,
@@ -164,9 +164,14 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
         })
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Handler().onBackClicked(binding.childTitle)
+    }
+
     private fun selectParent() {
         YandexMetrica.reportEvent("Tab4ChildrenParent")
-        Amplitude.getInstance().logEvent("tab4TappedFamilyParent");
+        Amplitude.getInstance().logEvent("tab4TappedFamilyParent")
 
         binding.parentTitle.setTextColor(
             ContextCompat.getColor(
@@ -192,7 +197,7 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
 
     private fun selectChild() {
         YandexMetrica.reportEvent("Tab4ChildrenChild")
-        Amplitude.getInstance().logEvent("tab4TappedFamilyChild");
+        Amplitude.getInstance().logEvent("tab4TappedFamilyChild")
 
         binding.childTitle.setTextColor(
             ContextCompat.getColor(
