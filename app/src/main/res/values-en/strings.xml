@@ -204,10 +204,13 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="add_child_bodygraph_ready_title"><![CDATA[Bodygraph is ready!]]></string>
     <string name="add_child_bodygraph_ready_desc"><![CDATA[Now you can will find out the strengths\nand weakness of your child, you can find\nthe most harmonious way of his\ndevelopment and personal becoming.]]></string>
 
-    <string name="channel_type_1">Interdependence</string>
+
+    <string name="channel_type_1">Cooperation</string>
     <string name="channel_type_2">Dominance</string>
     <string name="channel_type_3">Suppression</string>
-    <string name="channel_type_4">Cooperation</string>
+    <string name="channel_type_4">Interdependence</string>
+    <string name="channel_type_5">Suppression by partner</string>
+    <string name="channel_type_6">Partner dominance</string>
 
     <string name="compatibility_channels_title">Compatibility Channels</string>
     <string name="compatibility_channels_desc">Compatibility channels demonstrate how people influence each other. When overlaying rave cards of two persons, we can see if you and your partner have completely or partially matching Channels.  Based on this, it is concluded whether your relationship will be harmonious.</string>
