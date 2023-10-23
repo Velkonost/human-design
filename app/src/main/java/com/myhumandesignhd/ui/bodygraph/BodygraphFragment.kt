@@ -54,11 +54,11 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     private val fromStart: Boolean by lazy {
-        arguments?.getBoolean("fromStart")?: false
+        arguments?.getBoolean("fromStart") ?: false
     }
 
     private val needUpdateNavMenu: Boolean by lazy {
-        arguments?.getBoolean("needUpdateNavMenu")?: false
+        arguments?.getBoolean("needUpdateNavMenu") ?: false
     }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
@@ -155,13 +155,20 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     private fun showHelp(type: HelpType) {
+        if (isAnyHelpsShowing) return
+
         if (type == HelpType.BodygraphCenters) {
-            if (!App.preferences.bodygraphCentersHelpShown)
+            if (!App.preferences.bodygraphCentersHelpShown) {
                 showCentersHelp()
-            else showHelp(HelpType.BodygraphAddDiagram)
+                isAnyHelpsShowing = true
+            }
+            else if (!App.preferences.bodygraphAddDiagramHelpShown)
+                showHelp(HelpType.BodygraphAddDiagram)
         } else if (type == HelpType.BodygraphAddDiagram) {
-            if (!App.preferences.bodygraphAddDiagramHelpShown)
+            if (!App.preferences.bodygraphAddDiagramHelpShown) {
                 showAddDiagramHelp()
+                isAnyHelpsShowing = true
+            }
         }
     }
 
@@ -193,12 +200,16 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             )
             .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
             .setOnBalloonDismissListener {
+                isAnyHelpsShowing = false
                 App.preferences.bodygraphAddDiagramHelpShown = true
                 EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphCenters))
             }
             .build()
 
-        balloon.showAlignBottom(binding.icAddUser, xOff = -requireContext().convertDpToPx(112f).toInt())
+        balloon.showAlignBottom(
+            binding.icAddUser,
+            xOff = -requireContext().convertDpToPx(112f).toInt()
+        )
     }
 
     private fun setupUserData() {
@@ -234,59 +245,76 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     override fun updateThemeAndLocale() {
-        binding.bodygraphContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+        binding.bodygraphContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
-        binding.userName.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.userName.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.subtitle1.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.subtitle1.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.icAddUser.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.icAddUser.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.icSettings.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.icSettings.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
 //        first
         if (isFirstFragmentLaunch) {
             binding.designTitle.text = App.resourcesProvider.getStringLocale(R.string.design_title)
-            binding.transitTitle.text = App.resourcesProvider.getStringLocale(R.string.personality_title)
+            binding.transitTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.personality_title)
             binding.toDecryptionText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.to_decryption_text))
         } else {
             binding.designTitle.text = App.resourcesProvider.getStringLocale(R.string.design_title)
-            binding.transitTitle.text = App.resourcesProvider.getStringLocale(R.string.personality_title)
-            binding.toDecryptionText.text = App.resourcesProvider.getStringLocale(R.string.to_decryption_text)
+            binding.transitTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.personality_title)
+            binding.toDecryptionText.text =
+                App.resourcesProvider.getStringLocale(R.string.to_decryption_text)
         }
 
-        binding.doubleArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.doubleArrow.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
 
-        binding.toDecryptionText.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.toDecryptionText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
     }
 
     @SuppressLint("SetTextI18n")
@@ -319,49 +347,73 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             }
 
             if (!it.design.planets.isNullOrEmpty()) {
-                binding.rightZnak1.text = "${it.design.planets[0].gate}.${it.design.planets[0].line}"
+                binding.rightZnak1.text =
+                    "${it.design.planets[0].gate}.${it.design.planets[0].line}"
 
-                binding.rightZnak2.text = "${it.design.planets[1].gate}.${it.design.planets[1].line}"
-                binding.rightZnak3.text = "${it.design.planets[2].gate}.${it.design.planets[2].line}"
-                binding.rightZnak4.text = "${it.design.planets[3].gate}.${it.design.planets[3].line}"
-                binding.rightZnak5.text = "${it.design.planets[4].gate}.${it.design.planets[4].line}"
-                binding.rightZnak6.text = "${it.design.planets[5].gate}.${it.design.planets[5].line}"
-                binding.rightZnak7.text = "${it.design.planets[6].gate}.${it.design.planets[6].line}"
-                binding.rightZnak8.text = "${it.design.planets[7].gate}.${it.design.planets[7].line}"
-                binding.rightZnak9.text = "${it.design.planets[8].gate}.${it.design.planets[8].line}"
-                binding.rightZnak10.text = "${it.design.planets[9].gate}.${it.design.planets[9].line}"
-                binding.rightZnak11.text = "${it.design.planets[10].gate}.${it.design.planets[10].line}"
-                binding.rightZnak12.text = "${it.design.planets[11].gate}.${it.design.planets[11].line}"
-                binding.rightZnak13.text = "${it.design.planets[12].gate}.${it.design.planets[12].line}"
+                binding.rightZnak2.text =
+                    "${it.design.planets[1].gate}.${it.design.planets[1].line}"
+                binding.rightZnak3.text =
+                    "${it.design.planets[2].gate}.${it.design.planets[2].line}"
+                binding.rightZnak4.text =
+                    "${it.design.planets[3].gate}.${it.design.planets[3].line}"
+                binding.rightZnak5.text =
+                    "${it.design.planets[4].gate}.${it.design.planets[4].line}"
+                binding.rightZnak6.text =
+                    "${it.design.planets[5].gate}.${it.design.planets[5].line}"
+                binding.rightZnak7.text =
+                    "${it.design.planets[6].gate}.${it.design.planets[6].line}"
+                binding.rightZnak8.text =
+                    "${it.design.planets[7].gate}.${it.design.planets[7].line}"
+                binding.rightZnak9.text =
+                    "${it.design.planets[8].gate}.${it.design.planets[8].line}"
+                binding.rightZnak10.text =
+                    "${it.design.planets[9].gate}.${it.design.planets[9].line}"
+                binding.rightZnak11.text =
+                    "${it.design.planets[10].gate}.${it.design.planets[10].line}"
+                binding.rightZnak12.text =
+                    "${it.design.planets[11].gate}.${it.design.planets[11].line}"
+                binding.rightZnak13.text =
+                    "${it.design.planets[12].gate}.${it.design.planets[12].line}"
             }
 
             if (!it.personality.planets.isNullOrEmpty()) {
-                binding.blueZnak1.text = "${it.personality.planets[0].gate}.${it.personality.planets[0].line}"
-                binding.blueZnak2.text = "${it.personality.planets[1].gate}.${it.personality.planets[1].line}"
-                binding.blueZnak3.text = "${it.personality.planets[2].gate}.${it.personality.planets[2].line}"
-                binding.blueZnak4.text = "${it.personality.planets[3].gate}.${it.personality.planets[3].line}"
-                binding.blueZnak5.text = "${it.personality.planets[4].gate}.${it.personality.planets[4].line}"
-                binding.blueZnak6.text = "${it.personality.planets[5].gate}.${it.personality.planets[5].line}"
-                binding.blueZnak7.text = "${it.personality.planets[6].gate}.${it.personality.planets[6].line}"
-                binding.blueZnak8.text = "${it.personality.planets[7].gate}.${it.personality.planets[7].line}"
-                binding.blueZnak9.text = "${it.personality.planets[8].gate}.${it.personality.planets[8].line}"
-                binding.blueZnak10.text = "${it.personality.planets[9].gate}.${it.personality.planets[9].line}"
-                binding.blueZnak11.text = "${it.personality.planets[10].gate}.${it.personality.planets[10].line}"
-                binding.blueZnak12.text = "${it.personality.planets[11].gate}.${it.personality.planets[11].line}"
-                binding.blueZnak13.text = "${it.personality.planets[12].gate}.${it.personality.planets[12].line}"
+                binding.blueZnak1.text =
+                    "${it.personality.planets[0].gate}.${it.personality.planets[0].line}"
+                binding.blueZnak2.text =
+                    "${it.personality.planets[1].gate}.${it.personality.planets[1].line}"
+                binding.blueZnak3.text =
+                    "${it.personality.planets[2].gate}.${it.personality.planets[2].line}"
+                binding.blueZnak4.text =
+                    "${it.personality.planets[3].gate}.${it.personality.planets[3].line}"
+                binding.blueZnak5.text =
+                    "${it.personality.planets[4].gate}.${it.personality.planets[4].line}"
+                binding.blueZnak6.text =
+                    "${it.personality.planets[5].gate}.${it.personality.planets[5].line}"
+                binding.blueZnak7.text =
+                    "${it.personality.planets[6].gate}.${it.personality.planets[6].line}"
+                binding.blueZnak8.text =
+                    "${it.personality.planets[7].gate}.${it.personality.planets[7].line}"
+                binding.blueZnak9.text =
+                    "${it.personality.planets[8].gate}.${it.personality.planets[8].line}"
+                binding.blueZnak10.text =
+                    "${it.personality.planets[9].gate}.${it.personality.planets[9].line}"
+                binding.blueZnak11.text =
+                    "${it.personality.planets[10].gate}.${it.personality.planets[10].line}"
+                binding.blueZnak12.text =
+                    "${it.personality.planets[11].gate}.${it.personality.planets[11].line}"
+                binding.blueZnak13.text =
+                    "${it.personality.planets[12].gate}.${it.personality.planets[12].line}"
             }
         }
     }
 
+    private var isAnyHelpsShowing = false
+
     private fun showCentersHelp() {
-        val view = View(
-            requireContext()
-        )
-        view.layoutParams = LinearLayout.LayoutParams(
-            1,
-            1
-        )
-        view.x = binding.bodygraphContainer2.width / 2f//binding.bodygraphView.getTopPoint().x.toFloat()
+        val view = View(requireContext())
+        view.layoutParams = LinearLayout.LayoutParams(1, 1)
+        view.x =
+            binding.bodygraphContainer2.width / 2f//binding.bodygraphView.getTopPoint().x.toFloat()
         view.y = binding.bodygraphContainer2.top + binding.bodygraphView.getTopPoint().y.toFloat()
 
         binding.bodygraphContainer.addView(view)
@@ -393,6 +445,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             )
             .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
             .setOnBalloonDismissListener {
+                isAnyHelpsShowing = false
                 App.preferences.bodygraphCentersHelpShown = true
                 showHelp(HelpType.BodygraphAddDiagram)
             }

@@ -253,14 +253,13 @@ class StartFragment :
                 binding.loaderView.container.isVisible = false
 
                 runBlocking {
-//                    if (binding.viewModel!!.isOldUser()) {
-//                        setupOldUsers1()
-//                    } else if (App.preferences.authToken.isNullOrEmpty().not()) {
-//                        onSignupFinished()
-//                    } else {
-//                        setupSplash01()
-//                    }
-                    setupOldUsers1()
+                    if (binding.viewModel!!.isOldUser()) {
+                        setupOldUsers1()
+                    } else if (App.preferences.authToken.isNullOrEmpty().not()) {
+                        onSignupFinished()
+                    } else {
+                        setupSplash01()
+                    }
                 }
 
             }
