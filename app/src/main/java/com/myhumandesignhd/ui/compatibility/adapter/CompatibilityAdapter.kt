@@ -110,6 +110,7 @@ class PartnersModel(
                         MotionEvent.ACTION_UP -> EventBus.getDefault().post(
                             ChangeCompatibilityViewPagerUserInputEvent(true)
                         )
+
                         else -> EventBus.getDefault().post(
                             ChangeCompatibilityViewPagerUserInputEvent(false)
                         )
@@ -129,16 +130,20 @@ class PartnersModel(
 
             emptyBlock.isVisible = partners.isEmpty()
             addPartnerBtn.isVisible = partners.isEmpty()
-            emptyTitle.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-            emptyText.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            emptyTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            emptyText.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             addPartnerBtn.setOnClickListener {
                 EventBus.getDefault().post(AddPartnerClickEvent())
@@ -173,17 +178,16 @@ class ChildrenModel(
 
     private var root: View? = null
 
-
-
     override fun preBind(view: View, previouslyBoundModel: EpoxyModel<*>?) {
         super.preBind(view, previouslyBoundModel)
 
         with(view) {
             kotlin.runCatching {
-                (childrenRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-                childrenRecycler.itemAnimator = null
-                childrenRecycler.layoutManager = SSMLLinearLayoutManager(context)
+                (childrenRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
+                    false
             }
+            kotlin.runCatching { childrenRecycler.itemAnimator = null }
+            kotlin.runCatching { childrenRecycler.layoutManager = SSMLLinearLayoutManager(context) }
         }
     }
 
@@ -195,6 +199,8 @@ class ChildrenModel(
             EventBus.getDefault().register(this)
 
         with(view) {
+            kotlin.runCatching { childrenRecycler.itemAnimator = null }
+
             childrenRecycler.adapter = childrenAdapter
             childrenAdapter.createList(children)
 
@@ -205,16 +211,20 @@ class ChildrenModel(
 
             emptyBlockChild.isVisible = children.isEmpty()
             addChildBtn.isVisible = children.isEmpty()
-            emptyTitleChild.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
-            emptyTextChild.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            emptyTitleChild.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            emptyTextChild.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             addChildBtn.setOnClickListener {
                 EventBus.getDefault().post(AddChildClickEvent())
@@ -230,6 +240,7 @@ class ChildrenModel(
                         MotionEvent.ACTION_UP -> EventBus.getDefault().post(
                             ChangeCompatibilityViewPagerUserInputEvent(true)
                         )
+
                         else -> EventBus.getDefault().post(
                             ChangeCompatibilityViewPagerUserInputEvent(false)
                         )

@@ -186,23 +186,26 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         override fun onInstallReferrerSetupFinished(responseCode: Int) {
                             when (responseCode) {
                                 InstallReferrerClient.InstallReferrerResponse.OK -> {
-                                    // Connection established.
-                                    val response: ReferrerDetails = referrerClient.installReferrer
-                                    val referrerUrl: String = response.installReferrer
+                                    kotlin.runCatching {
+                                        // Connection established.
+                                        val response: ReferrerDetails = referrerClient.installReferrer
+                                        val referrerUrl: String = response.installReferrer
 
-                                    setupAdapty(referrerUrl)
+                                        setupAdapty(referrerUrl)
 
-                                    if (
-                                        !referrerUrl.isNullOrEmpty()
-                                        && !appInstanceId.isNullOrEmpty()
-                                        && referrerUrl.contains("utm_source=")
-                                        && referrerUrl.substringAfter("utm_source=").split("&")[0] != "google-play"
-                                    ) {
-                                        binding.viewModel!!.setUserInfo(
-                                            gclid = referrerUrl.substringAfter("utm_source=").split("&")[0],
-                                            appInstanceId = appInstanceId
-                                        )
+                                        if (
+                                            referrerUrl.isNotEmpty()
+                                            && appInstanceId.isNotEmpty()
+                                            && referrerUrl.contains("utm_source=")
+                                            && referrerUrl.substringAfter("utm_source=").split("&")[0] != "google-play"
+                                        ) {
+                                            binding.viewModel!!.setUserInfo(
+                                                gclid = referrerUrl.substringAfter("utm_source=").split("&")[0],
+                                                appInstanceId = appInstanceId
+                                            )
+                                        }
                                     }
+
                                 }
                                 InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
                                     // API not available on the current Play Store app.

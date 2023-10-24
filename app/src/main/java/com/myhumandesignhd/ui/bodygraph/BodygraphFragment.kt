@@ -49,9 +49,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 ) {
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
     private val fromStart: Boolean by lazy {

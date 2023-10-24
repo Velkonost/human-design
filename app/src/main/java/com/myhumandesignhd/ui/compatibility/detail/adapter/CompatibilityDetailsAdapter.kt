@@ -471,10 +471,10 @@ class CompatibilityChannelModel(
             )
 
             typeTitle.text = when (model.type) {
-                "0" -> App.resourcesProvider.getStringLocale(R.string.channel_type_1)
+                "0" -> App.resourcesProvider.getStringLocale(R.string.channel_type_4)
                 "1" -> App.resourcesProvider.getStringLocale(R.string.channel_type_2)
                 "2" -> App.resourcesProvider.getStringLocale(R.string.channel_type_3)
-                "3" -> App.resourcesProvider.getStringLocale(R.string.channel_type_4)
+                "3" -> App.resourcesProvider.getStringLocale(R.string.channel_type_1)
                 "4" -> App.resourcesProvider.getStringLocale(R.string.channel_type_5)
                 "5" -> App.resourcesProvider.getStringLocale(R.string.channel_type_6)
                 else -> App.resourcesProvider.getStringLocale(R.string.channel_type_4)
@@ -483,13 +483,13 @@ class CompatibilityChannelModel(
             typeTitle.background = ContextCompat.getDrawable(
                 context,
                 when (model.type) {
-                    "0" -> R.drawable.bg_channel_type_4
+                    "0" -> R.drawable.bg_channel_type_1
                     "1" -> R.drawable.bg_channel_type_2
                     "2" -> R.drawable.bg_channel_type_3
-                    "3" -> R.drawable.bg_channel_type_1
-                    "4" -> R.drawable.bg_channel_type_3
-                    "5" -> R.drawable.bg_channel_type_2
-                    else -> R.drawable.bg_channel_type_4
+                    "3" -> R.drawable.bg_channel_type_4
+                    "4" -> R.drawable.bg_channel_type_2
+                    "5" -> R.drawable.bg_channel_type_3
+                    else -> R.drawable.bg_channel_type_1
                 }
             )
 
