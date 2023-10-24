@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
@@ -35,6 +36,7 @@ import kotlinx.android.synthetic.main.item_compatibility_partners.view.partnersR
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
+
 class CompatibilityAdapter : EpoxyAdapter() {
 
     val partnersAdapter = PartnersAdapter()
@@ -45,33 +47,43 @@ class CompatibilityAdapter : EpoxyAdapter() {
 
     var isCreated = false
 
+    private var childrenItems: MutableList<Child> = mutableListOf()
+    private var partnersItems: MutableList<User> = mutableListOf()
+
+
     fun createList(
         partners: List<User>,
         children: List<Child>
     ) {
-        removeAllModels()
+        childrenItems = children.toMutableList()
+        partnersItems = partners.toMutableList()
 
-        partnersModel = PartnersModel(partners, partnersAdapter)
-        childrenModel = ChildrenModel(children, childrenAdapter)
+        if (!isCreated) {
+            removeAllModels()
 
-        addModel(partnersModel)
-        addModel(childrenModel)
+            if (!partnersAdapter.hasObservers()) {
+                partnersAdapter.setHasStableIds(true)
+            }
+            if (!childrenAdapter.hasObservers()) {
+                childrenAdapter.setHasStableIds(true)
+            }
+
+            partnersModel = PartnersModel(partners, partnersAdapter)
+            childrenModel = ChildrenModel(children, childrenAdapter)
+
+            addModel(partnersModel)
+            addModel(childrenModel)
+
+            notifyDataSetChanged()
+        } else {
+            partnersModel.partners = partners
+            childrenModel.children = children
+
+            partnersAdapter.createList(partners)
+            childrenAdapter.createList(children)
+        }
 
         isCreated = true
-
-        notifyDataSetChanged()
-    }
-
-    fun updateList(
-        partners: List<User>,
-        children: List<Child>
-    ) {
-        partnersModel.partners = partners
-        childrenModel.children = children
-
-        partnersAdapter.createList(partners)
-        childrenAdapter.createList(children)
-
     }
 }
 
@@ -99,6 +111,11 @@ class PartnersModel(
             }
             kotlin.runCatching { partnersRecycler.itemAnimator = null }
             kotlin.runCatching { partnersRecycler.layoutManager = SSMLLinearLayoutManager(context) }
+
+            val animator: ItemAnimator? = partnersRecycler.itemAnimator
+            if (animator is SimpleItemAnimator) {
+                animator.supportsChangeAnimations = false
+            }
 
             partnersRecycler.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
                 override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
@@ -200,6 +217,11 @@ class ChildrenModel(
 
         with(view) {
             kotlin.runCatching { childrenRecycler.itemAnimator = null }
+
+            val animator: ItemAnimator? = childrenRecycler.itemAnimator
+            if (animator is SimpleItemAnimator) {
+                animator.supportsChangeAnimations = false
+            }
 
             childrenRecycler.adapter = childrenAdapter
             childrenAdapter.createList(children)

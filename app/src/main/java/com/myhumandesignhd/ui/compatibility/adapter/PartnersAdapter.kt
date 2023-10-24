@@ -33,9 +33,13 @@ import java.util.*
 
 class PartnersAdapter : EpoxyAdapter() {
 
+    private var items: MutableList<User> = mutableListOf()
+
     fun createList(
         partners: List<User>
     ) {
+        items = partners.toMutableList()
+
         removeAllModels()
         partners.map { addModel(PartnerModel(it)) }
 
@@ -44,6 +48,11 @@ class PartnersAdapter : EpoxyAdapter() {
         }
 
         notifyDataSetChanged()
+    }
+
+    override fun getItemId(position: Int): Long {
+        val item = models[position]
+        return item.id()
     }
 
     fun getPartnerAtPosition(position: Int): User {

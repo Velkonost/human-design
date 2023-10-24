@@ -81,7 +81,6 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                             partners,
                             children.filter { it.parentId == App.preferences.currentUserId })
                     } else {
-
                         partners.forEachIndexed { index, partner ->
                             baseViewModel.setupCompatibility(
                                 lat1 = partner.lat,
@@ -92,24 +91,14 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                                 partner.compatibilityAvg = avg
 
                                 if (ready == partners.size) {
-//                                    if (!compatibilityAdapter.isCreated)
-                                        compatibilityAdapter.createList(
-                                            partners,
-                                            children.filter { it.parentId == App.preferences.currentUserId })
-//                                    else compatibilityAdapter.updateList(
-//                                        partners,
-//                                        children.filter { it.parentId == App.preferences.currentUserId })
+                                    compatibilityAdapter.createList(
+                                        partners,
+                                        children.filter { it.parentId == App.preferences.currentUserId })
                                 }
                             }
                         }
                     }
                 }
-
-
-                val identify = Identify()
-                identify.set("partnersadded", partners.size.toString())
-                identify.set("kidsadded", children.size.toString())
-                Amplitude.getInstance().identify(identify)
             }
         }
     }
@@ -141,24 +130,15 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                                 partner.compatibilityAvg = avg
 
                                 if (ready == partners.size) {
-                                    if (!compatibilityAdapter.isCreated)
-                                        compatibilityAdapter.createList(
-                                            partners,
-                                            children.filter { it.parentId == App.preferences.currentUserId })
-                                    else compatibilityAdapter.updateList(
+                                    compatibilityAdapter.createList(
                                         partners,
                                         children.filter { it.parentId == App.preferences.currentUserId })
+
                                 }
                             }
                         }
                     }
                 }
-
-
-                val identify = Identify()
-                identify.set("partnersadded", partners.size.toString())
-                identify.set("kidsadded", children.size.toString())
-                Amplitude.getInstance().identify(identify)
             }
         }
     }
@@ -437,9 +417,9 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
                             if (ready == partners.size) {
 //                                if (!compatibilityAdapter.isCreated)
-                                    compatibilityAdapter.createList(
-                                        partners,
-                                        children.filter { it.parentId == App.preferences.currentUserId })
+                                compatibilityAdapter.createList(
+                                    partners,
+                                    children.filter { it.parentId == App.preferences.currentUserId })
 //                                else compatibilityAdapter.updateList(
 //                                    partners,
 //                                    children.filter { it.parentId == App.preferences.currentUserId })
@@ -486,7 +466,6 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                 }
             }
         })
-
 
 
 //        while (App.preferences.isCompatibilityFromChild) {

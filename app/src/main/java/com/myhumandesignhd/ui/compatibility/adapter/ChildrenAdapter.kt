@@ -32,9 +32,12 @@ import java.util.*
 
 class ChildrenAdapter : EpoxyAdapter() {
 
+    private var items: MutableList<Child> = mutableListOf()
+
     fun createList(
         children: List<Child>
     ) {
+        items = children.toMutableList()
         removeAllModels()
         children.map { addModel(ChildModel(it)) }
 
@@ -44,6 +47,11 @@ class ChildrenAdapter : EpoxyAdapter() {
 
 
         notifyDataSetChanged()
+    }
+
+    override fun getItemId(position: Int): Long {
+        val item = models[position]
+        return item.id()
     }
 
     fun getChildAtPosition(position: Int): Child {
@@ -88,6 +96,8 @@ class ChildModel(
         root = view
 
         with(view) {
+            swipeContainer.close()
+
             userName.text = model.name
             subtitle.text =
                 "${if (App.preferences.locale == "ru") model.subtitle1Ru else model.subtitle1En} • " +
@@ -174,6 +184,7 @@ class ChildModel(
                 }
                 false
             }
+
 
             swipeContainer.isEnabledSwipe = isSwipeEnabled
             swipeContainer.setOnActionsListener(object : SwipeLayout.SwipeActionsListener {
