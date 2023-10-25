@@ -68,38 +68,48 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     @Subscribe
     fun onDeletePartnerEvent(e: DeletePartnerEvent) {
         baseViewModel.deleteUser(e.partnerId) {
+
             GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
                 val partners = baseViewModel.getAllUsers()
                     .toMutableList().filter { it.id != App.preferences.currentUserId }
                 val children = baseViewModel.getAllChildren()
 
-                runBlocking {
-                    var ready = 0
-
-                    if (partners.isEmpty()) {
-                        compatibilityAdapter.createList(
-                            partners,
-                            children.filter { it.parentId == App.preferences.currentUserId })
-                    } else {
-                        partners.forEachIndexed { index, partner ->
-                            baseViewModel.setupCompatibility(
-                                lat1 = partner.lat,
-                                lon1 = partner.lon,
-                                date = partner.getDateStr(),
-                            ) { avg, _ ->
-                                ready += 1
-                                partner.compatibilityAvg = avg
-
-                                if (ready == partners.size) {
-                                    compatibilityAdapter.createList(
-                                        partners,
-                                        children.filter { it.parentId == App.preferences.currentUserId })
-                                }
-                            }
-                        }
-                    }
+                if (partners.isEmpty()) {
+                    compatibilityAdapter.createList(
+                        partners,
+                        children.filter { it.parentId == App.preferences.currentUserId },
+                        forceRecreate = true
+                    )
                 }
             }
+//
+//                runBlocking {
+//                    var ready = 0
+//
+//                    if (partners.isEmpty()) {
+//                        compatibilityAdapter.createList(
+//                            partners,
+//                            children.filter { it.parentId == App.preferences.currentUserId })
+//                    } else {
+//                        partners.forEachIndexed { index, partner ->
+//                            baseViewModel.setupCompatibility(
+//                                lat1 = partner.lat,
+//                                lon1 = partner.lon,
+//                                date = partner.getDateStr(),
+//                            ) { avg, _ ->
+//                                ready += 1
+//                                partner.compatibilityAvg = avg
+//
+//                                if (ready == partners.size) {
+//                                    compatibilityAdapter.createList(
+//                                        partners,
+//                                        children.filter { it.parentId == App.preferences.currentUserId })
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 
@@ -111,35 +121,43 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                     .toMutableList().filter { it.id != App.preferences.currentUserId }
                 val children = baseViewModel.getAllChildren()
 
-                runBlocking {
-                    var ready = 0
-
-                    if (partners.isEmpty()) {
-                        compatibilityAdapter.createList(
-                            partners,
-                            children.filter { it.parentId == App.preferences.currentUserId })
-                    } else {
-
-                        partners.forEachIndexed { index, partner ->
-                            baseViewModel.setupCompatibility(
-                                lat1 = partner.lat,
-                                lon1 = partner.lon,
-                                date = partner.getDateStr(),
-                            ) { avg, _ ->
-                                ready += 1
-                                partner.compatibilityAvg = avg
-
-                                if (ready == partners.size) {
-                                    compatibilityAdapter.createList(
-                                        partners,
-                                        children.filter { it.parentId == App.preferences.currentUserId })
-
-                                }
-                            }
-                        }
-                    }
+                if (children.isEmpty()) {
+                    compatibilityAdapter.createList(
+                        partners,
+                        children.filter { it.parentId == App.preferences.currentUserId },
+                        forceRecreate = true
+                    )
                 }
             }
+//                runBlocking {
+//                    var ready = 0
+//
+//                    if (partners.isEmpty()) {
+//                        compatibilityAdapter.createList(
+//                            partners,
+//                            children.filter { it.parentId == App.preferences.currentUserId })
+//                    } else {
+//
+//                        partners.forEachIndexed { index, partner ->
+//                            baseViewModel.setupCompatibility(
+//                                lat1 = partner.lat,
+//                                lon1 = partner.lon,
+//                                date = partner.getDateStr(),
+//                            ) { avg, _ ->
+//                                ready += 1
+//                                partner.compatibilityAvg = avg
+//
+//                                if (ready == partners.size) {
+//                                    compatibilityAdapter.createList(
+//                                        partners,
+//                                        children.filter { it.parentId == App.preferences.currentUserId })
+//
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 

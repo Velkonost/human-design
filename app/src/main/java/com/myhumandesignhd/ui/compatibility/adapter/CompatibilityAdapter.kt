@@ -53,12 +53,13 @@ class CompatibilityAdapter : EpoxyAdapter() {
 
     fun createList(
         partners: List<User>,
-        children: List<Child>
+        children: List<Child>,
+        forceRecreate: Boolean = false
     ) {
         childrenItems = children.toMutableList()
         partnersItems = partners.toMutableList()
 
-        if (!isCreated) {
+        if (!isCreated || forceRecreate) {
             removeAllModels()
 
             if (!partnersAdapter.hasObservers()) {
