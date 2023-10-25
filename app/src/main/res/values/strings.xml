@@ -172,7 +172,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
         <item>Visit the App to read it ☝🏽</item>
     </string-array>
 
-    <string name="compatibility_detail_title">Relationship</string>
+    <string name="compatibility_detail_title">Compatibility</string>
     <string name="profiles_title">Profile</string>
 
     <string name="add_partner_rave_title"><![CDATA[Let’s calculate\nthe bodygraph!]]></string>
