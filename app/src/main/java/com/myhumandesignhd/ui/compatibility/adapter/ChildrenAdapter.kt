@@ -72,9 +72,8 @@ class ChildrenAdapter : EpoxyAdapter() {
 
                 if (models.count { it.isShown } == 1) {
                     val emptyModel = (models.findLast { it is EmptyChildrenModel } as EmptyChildrenModel)
-                    emptyModel.showEmptyText = true
 
-                    notifyModelChanged(emptyModel)
+                    hideModel(emptyModel)
                 }
                 return@forEach
             }
