@@ -83,7 +83,6 @@ import kotlinx.android.synthetic.main.view_place_select.view.newPlaceET
 import kotlinx.android.synthetic.main.view_place_select.view.placeRecycler
 import kotlinx.android.synthetic.main.view_signup.view.emailContainer
 import kotlinx.android.synthetic.main.view_signup.view.inboxContainer
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.greenrobot.eventbus.EventBus
@@ -615,10 +614,10 @@ class StartFragment :
 
                 if (stringDest.isNotEmpty())
                     if (dstart > 0 && inflatedNameContainer.nameET.text.toString()
-                            .toCharArray()[dstart - 1] === ' '
+                            .toCharArray()[dstart - 1] == ' '
                         || inflatedNameContainer.nameET.text.toString().length > dstart
                         && inflatedNameContainer.nameET.text.toString()
-                            .toCharArray()[dstart] === ' '
+                            .toCharArray()[dstart] == ' '
                         || dstart == 0
                     )
                         return@InputFilter ""
@@ -666,9 +665,9 @@ class StartFragment :
 //            )
 //        }
         inflatedNameContainer.nameDesc.text =
-            inflatedNameContainer.nameET.text.toString()  + ", " + App.resourcesProvider.getStringLocale(
+            inflatedNameContainer.nameET.text.toString() + ", " + App.resourcesProvider.getStringLocale(
                 R.string.start_date_desc
-        )
+            )
     }
 
     private fun setupTimeBirth() {
@@ -1193,18 +1192,13 @@ class StartFragment :
                     Amplitude.getInstance().logEvent("userTappedStart1")
 
                     if (inflatedNameContainer.nameET.text.toString().replace(" ", "")
-                            .isNullOrEmpty()
+                            .isEmpty()
                     ) {
                         snackbarName.show()
                     } else {
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            Keyboard.hide(inflatedNameContainer.nameET)
-                        }.invokeOnCompletion {
-                            requireActivity().runOnUiThread {
-                                animateCirclesBtwPages(1000)
-                                setupDateBirth()
-                            }
-                        }
+                        Keyboard.hide(inflatedNameContainer.nameET)
+                        animateCirclesBtwPages(1000)
+                        setupDateBirth()
                     }
                 }
 
@@ -1240,7 +1234,7 @@ class StartFragment :
                     }
 
                     if (inflatedNameContainer.placeET.text.toString().replace(" ", "")
-                            .isNullOrEmpty()
+                            .isEmpty()
                     ) {
                         snackbarAddress.show()
                     } else {

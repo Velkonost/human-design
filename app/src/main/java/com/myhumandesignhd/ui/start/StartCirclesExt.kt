@@ -834,7 +834,6 @@ fun StartFragment.animateBackCirclesBtwPages() {
         ValueAnimator.ofInt(oldSizeMidCircle.toInt(), newSizeMidCircle.toInt())
 
     animSizeBigCircle.duration = 1000
-
     animSizeMidCircle.duration = 1000
 
     val yAnimatorBigCircle = ObjectAnimator.ofFloat(
