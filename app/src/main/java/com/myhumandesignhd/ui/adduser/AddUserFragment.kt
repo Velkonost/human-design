@@ -66,8 +66,6 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
 import java.util.Calendar
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 
 class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
@@ -624,16 +622,6 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         binding.nameET.alpha0(500) {
             binding.nameET.isVisible = false
         }
-        val executorService: ExecutorService = Executors.newSingleThreadExecutor()
-        executorService.submit {
-//            binding.date.setCurved(true)
-//            binding.date.setCurvedMaxAngle(0)
-        }
-
-//        withContext(Dispatchers.IO) {
-//            delay(2500)
-//        }
-//
         binding.date.isVisible = true
         binding.date.alpha = 1f
 
@@ -783,19 +771,14 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
         when {
             isChild -> {
                 YandexMetrica.reportEvent("TabAddChildrenBodygrapsScreenShowen")
-//                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_bodygraph_ready_title))
-
             }
 
             fromCompatibility -> {
                 YandexMetrica.reportEvent("TabAddAdultsBodygrapsScreenShowen")
-//                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_bodygraph_ready_title))
             }
 
             else -> {
                 YandexMetrica.reportEvent("Tab1AddUserStartBodygraphShowen")
-//                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_bodygraph_title))
-
             }
         }
         binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_bodygraph_creating_title))
@@ -1345,7 +1328,6 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
                             ).toMap()
                         )
                     )
-
 
                     animateCirclesBtwPages(1000)
                     setupPlaceBirth()
