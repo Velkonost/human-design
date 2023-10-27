@@ -30,7 +30,9 @@
             android:id="@+id/emptyAnim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/emptyTitle"
             app:lottie_repeatCount="0" />
 
