@@ -91,11 +91,34 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
+                            android:id="@+id/compatibilityName"
+                            android:layout_marginTop="8dp"
+                            android:textSize="16sp"
+                            android:alpha="0.7"
+                            app:layout_constraintStart_toStartOf="@id/userName"
+                            app:layout_constraintTop_toBottomOf="@id/userName"
+                            android:text="@string/compatibility_range"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/compatibilityPercentage"
+                            android:textSize="16sp"
+                            android:layout_marginStart="4dp"
+                            android:textColor="#525CBD"
+                            android:fontFamily="@font/roboto_bold"
+                            app:layout_constraintTop_toTopOf="@id/compatibilityName"
+                            app:layout_constraintBottom_toBottomOf="@id/compatibilityName"
+                            app:layout_constraintStart_toEndOf="@id/compatibilityName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
                             android:id="@+id/subtitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="12dp"
                             android:alpha="0.7"
                             android:fontFamily="@font/roboto"
                             android:gravity="start"
@@ -103,7 +126,7 @@
                             android:paddingBottom="20dp"
                             android:textAllCaps="true"
                             android:textSize="12sp"
-                            app:layout_constraintTop_toBottomOf="@id/userName" />
+                            app:layout_constraintTop_toBottomOf="@id/compatibilityName" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>

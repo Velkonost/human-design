@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.LinearGradient
@@ -32,10 +33,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.amplitude.api.Amplitude
 import com.amplitude.api.Identify
-import com.facebook.CallbackManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.myhumandesignhd.App
@@ -394,11 +391,15 @@ class StartFragment :
 
             val locale = ConfigurationCompat.getLocales(resources.configuration)[0].language
             App.preferences.locale =
-                when (locale) {
-                    "ru", "ua", "kz", "be", "uk" -> "ru"
-                    "es" -> "es"
-                    else -> "en"
-                }
+                if (
+                    locale == "ru"
+                    || locale == "ua"
+                    || locale == "kz"
+                    || locale == "be"
+                    || locale == "uk"
+                ) "ru"
+                else if (locale == "es") "es"
+                else "en"
         }
 
         Locale.setDefault(Locale(App.preferences.locale))
@@ -445,6 +446,7 @@ class StartFragment :
                                 lat = feature.lat,
                                 lon = feature.lon
                             )
+
                         )
                     }
                 }
@@ -646,8 +648,9 @@ class StartFragment :
         inflatedNameContainer.date.maxDate = Calendar.getInstance().time
         inflatedNameContainer.date.setDefaultDate(c.time)
 
-        inflatedNameContainer.nameET.isVisible = false
-
+        inflatedNameContainer.nameET.alpha0(300) {
+            inflatedNameContainer.nameET.isVisible = false
+        }
         inflatedNameContainer.date.isVisible = true
         inflatedNameContainer.date.alpha1(500)
 

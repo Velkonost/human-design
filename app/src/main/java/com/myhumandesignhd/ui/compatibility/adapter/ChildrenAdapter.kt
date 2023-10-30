@@ -3,6 +3,9 @@ package com.myhumandesignhd.ui.compatibility.adapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.text.Html
+import android.text.Html
+import android.util.TypedValue
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -11,6 +14,8 @@ import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.AddChildClickEvent
+import com.myhumandesignhd.event.AddChildClickEvent
+import com.myhumandesignhd.event.ChangeCompatibilityViewPagerUserInputEvent
 import com.myhumandesignhd.event.CompatibilityChildStartClickEvent
 import com.myhumandesignhd.event.DeleteChildItemEvent
 import com.myhumandesignhd.model.response.BodygraphResponse
@@ -29,12 +34,26 @@ import java.util.*
 
 class ChildrenAdapter : EpoxyAdapter() {
 
-    fun createList(children: List<BodygraphResponse>) {
+    private var items: MutableList<BodygraphResponse> = mutableListOf()
+
+    fun createList(
+        children: List<BodygraphResponse>
+    ) {
+        items = children.toMutableList()
         removeAllModels()
         children.map { addModel(ChildModel(it)) }
-        addModel(EmptyChildrenModel(children.isNullOrEmpty()))
+
+        if (children.isNotEmpty()) {
+            addModel(EmptyChildrenModel(children.isNullOrEmpty()))
+        }
+
 
         notifyDataSetChanged()
+    }
+
+    override fun getItemId(position: Int): Long {
+        val item = models[position]
+        return item.id()
     }
 
     fun getChildAtPosition(position: Int): BodygraphResponse {
@@ -52,9 +71,8 @@ class ChildrenAdapter : EpoxyAdapter() {
 
                 if (models.count { it.isShown } == 1) {
                     val emptyModel = (models.findLast { it is EmptyChildrenModel } as EmptyChildrenModel)
-                    emptyModel.showEmptyText = true
 
-                    notifyModelChanged(emptyModel)
+                    hideModel(emptyModel)
                 }
                 return@forEach
             }
@@ -76,6 +94,8 @@ class ChildModel(
         root = view
 
         with(view) {
+            swipeContainer.close()
+
             userName.text = model.name
             subtitle.text = "${model.type} • " + "${model.line} • " + model.profile
 
@@ -136,17 +156,47 @@ class ChildModel(
                     CompatibilityChildStartClickEvent(childId = model.id)
                 )
             }
+            compatibilityName.isVisible = false
+            compatibilityPercentage.isVisible = false
+
+            partnerCard.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(true)
+                    )
+                    else -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(false)
+                    )
+                }
+                false
+            }
+
+            swipeContainer.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(true)
+                    )
+                    else -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(false)
+                    )
+                }
+                false
+            }
+
 
             swipeContainer.isEnabledSwipe = isSwipeEnabled
             swipeContainer.setOnActionsListener(object : SwipeLayout.SwipeActionsListener {
                 override fun onOpen(direction: Int, isContinuous: Boolean) {
+                    ChangeCompatibilityViewPagerUserInputEvent(false)
                     if (isContinuous && !isExpanded) {
                         isExpanded = true
                         EventBus.getDefault().post(DeleteChildItemEvent(model.id))
                     }
                 }
 
-                override fun onClose() {}
+                override fun onClose() {
+                    ChangeCompatibilityViewPagerUserInputEvent(false)
+                }
             })
         }
     }
@@ -182,6 +232,13 @@ class EmptyChildrenModel(
             emptyPartnerCard.setOnClickListener {
                 EventBus.getDefault().post(AddChildClickEvent())
             }
+
+            val height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 105f, resources.displayMetrics)
+
+            val cardParams = emptyPartnerCard.layoutParams
+            cardParams.height = height.toInt()
+            emptyPartnerCard.layoutParams = cardParams
+            emptyPartnerCard.requestLayout()
 
             partnersEmptyText.isVisible = showEmptyText
             partnersEmptyText.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.children_empty_text))

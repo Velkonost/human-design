@@ -12,7 +12,7 @@ class LockableBottomSheetBehavior<V : View> : BottomSheetBehavior<V> {
     constructor() : super()
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    var swipeEnabled = false
+    var swipeEnabled = true
 
     override fun onInterceptTouchEvent(
         parent: CoordinatorLayout,

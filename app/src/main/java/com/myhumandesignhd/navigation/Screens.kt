@@ -62,19 +62,6 @@ object Screens {
         bodygraphFragment
     }
 
-    fun descriptionScreen(
-        fromStart: Boolean = false,
-        needUpdateNavMenu: Boolean = true
-    ) = FragmentScreen {
-        val descriptionFragment = DescriptionFragment()
-        descriptionFragment.arguments = bundleOf(
-            "fromStart" to fromStart,
-            "needUpdateNavMenu" to needUpdateNavMenu
-        )
-
-        descriptionFragment
-    }
-
     fun transitScreen() = FragmentScreen {
         if (App.preferences.isInvokeNewTransits) {
             TransitFragment.reset()

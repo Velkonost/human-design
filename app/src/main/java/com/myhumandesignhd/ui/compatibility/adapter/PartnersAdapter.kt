@@ -3,6 +3,8 @@ package com.myhumandesignhd.ui.compatibility.adapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.text.Html
+import android.text.Html
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -11,6 +13,8 @@ import com.airbnb.epoxy.EpoxyModel
 import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
+import com.myhumandesignhd.event.AddPartnerClickEvent
+import com.myhumandesignhd.event.ChangeCompatibilityViewPagerUserInputEvent
 import com.myhumandesignhd.event.AddPartnerClickEvent
 import com.myhumandesignhd.event.CompatibilityStartClickEvent
 import com.myhumandesignhd.event.DeletePartnerItemEvent
@@ -31,12 +35,26 @@ import java.util.*
 
 class PartnersAdapter : EpoxyAdapter() {
 
-    fun createList(partners: List<BodygraphResponse>) {
+    private var items: MutableList<BodygraphResponse> = mutableListOf()
+
+    fun createList(
+        partners: List<BodygraphResponse>
+    ) {
+        items = partners.toMutableList()
+
         removeAllModels()
         partners.map { addModel(PartnerModel(it)) }
-        addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
+
+        if (partners.isNotEmpty()) {
+            addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
+        }
 
         notifyDataSetChanged()
+    }
+
+    override fun getItemId(position: Int): Long {
+        val item = models[position]
+        return item.id()
     }
 
     fun getPartnerAtPosition(position: Int): BodygraphResponse {
@@ -56,10 +74,10 @@ class PartnersAdapter : EpoxyAdapter() {
                 hideModel(model)
 
                 if (models.count { it.isShown } == 1) {
-                    val emptyModel = (models.findLast { it is EmptyPartnerModel } as EmptyPartnerModel)
-                    emptyModel.showEmptyText = true
+                    val emptyModel =
+                        (models.findLast { it is EmptyPartnerModel } as EmptyPartnerModel)
 
-                    notifyModelChanged(emptyModel)
+                    hideModel(emptyModel)
                 }
 
                 return@forEach
@@ -83,28 +101,41 @@ class PartnerModel(
 
         with(view) {
             userName.text = model.name
-            subtitle.text = "${model.type} • " + "${model.line} • " + model.profile
+            subtitle.text = "${model.type} • " + "${model.line}\n" + model.profile
+
+            compatibilityPercentage.text = "${model.compatibilityAvg}%"
 
             userName.setTextColor(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             subtitle.setTextColor(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            compatibilityName.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             partnerCard.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                else R.color.lightSettingsCard
-            ))
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                    else R.color.lightSettingsCard
+                )
+            )
 
             val chartResId =
                 if (model.type.lowercase(Locale.getDefault()) == "проектор") {
@@ -145,16 +176,42 @@ class PartnerModel(
                 )
             }
 
+            partnerCard.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(true)
+                    )
+                    else -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(false)
+                    )
+                }
+                false
+            }
+
+
+            swipeContainer.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(true)
+                    )
+                    else -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(false)
+                    )
+                }
+                false
+            }
+
             swipeContainer.isEnabledSwipe = isSwipeEnabled
             swipeContainer.setOnActionsListener(object : SwipeLayout.SwipeActionsListener {
                 override fun onOpen(direction: Int, isContinuous: Boolean) {
+                    ChangeCompatibilityViewPagerUserInputEvent(false)
                     if (isContinuous) {
                         EventBus.getDefault().post(DeletePartnerItemEvent(model.id))
                     }
                 }
 
                 override fun onClose() {
-
+                    ChangeCompatibilityViewPagerUserInputEvent(false)
                 }
             })
 
@@ -176,11 +233,13 @@ class EmptyPartnerModel(
         root = view
 
         with(view) {
-            icPlus.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            icPlus.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             emptyPartnerCard.background = ContextCompat.getDrawable(
                 context,
@@ -193,12 +252,15 @@ class EmptyPartnerModel(
             }
 
             partnersEmptyText.isVisible = showEmptyText
-            partnersEmptyText.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.partners_empty_text))
-            partnersEmptyText.setTextColor(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            partnersEmptyText.text =
+                Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.partners_empty_text))
+            partnersEmptyText.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
         }
     }
 

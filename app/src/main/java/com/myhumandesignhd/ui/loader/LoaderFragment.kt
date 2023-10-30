@@ -41,6 +41,7 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
                     }
 
                     override fun onAnimationEnd(animation: Animator) {
+//                        binding.anim2.clearAnimation()
                         android.os.Handler().postDelayed({
                             binding.anim2.clearAnimation()
                             binding.anim2.cancelAnimation()
@@ -51,6 +52,8 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
                     override fun onAnimationCancel(animation: Animator) {}
                     override fun onAnimationRepeat(animation: Animator) {
                         android.os.Handler().postDelayed({
+//                            binding.anim2.clearAnimation()
+//                            binding.anim2.cancelAnimation()
                             EventBus.getDefault().post(FinishFirstLoaderEvent())
                         }, 350)
                     }
@@ -114,6 +117,8 @@ class LoaderFragment : BaseFragment<LoaderViewModel, FragmentLoaderBinding>(
 
     @Subscribe
     fun onContinueFirstLoaderEvent(e: ContinueFirstLoaderEvent) {
+//        if (!binding.anim2.isAnimating)
+//            binding.anim2.playAnimation()
     }
 
     inner class Handler

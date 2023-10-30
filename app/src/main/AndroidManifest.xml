@@ -47,7 +47,6 @@
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" />
 
-
         <activity-alias
             android:name=".Launcher"
             android:enabled="true"

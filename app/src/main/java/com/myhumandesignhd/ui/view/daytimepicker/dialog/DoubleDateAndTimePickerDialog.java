@@ -33,7 +33,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
 
     private Listener listener;
-    private com.github.florent37.singledateandtimepicker.dialog.BottomSheetHelper bottomSheetHelper;
+    private final com.github.florent37.singledateandtimepicker.dialog.BottomSheetHelper bottomSheetHelper;
     private TextView buttonTab0;
     private TextView buttonTab1;
     private SingleDateAndTimePicker pickerTab0;

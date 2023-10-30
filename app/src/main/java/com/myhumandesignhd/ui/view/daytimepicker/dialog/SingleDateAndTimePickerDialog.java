@@ -27,7 +27,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     private final DateHelper dateHelper = new DateHelper();
     private Listener listener;
-    private com.github.florent37.singledateandtimepicker.dialog.BottomSheetHelper bottomSheetHelper;
+    private final com.github.florent37.singledateandtimepicker.dialog.BottomSheetHelper bottomSheetHelper;
     private SingleDateAndTimePicker picker;
 
     @Nullable

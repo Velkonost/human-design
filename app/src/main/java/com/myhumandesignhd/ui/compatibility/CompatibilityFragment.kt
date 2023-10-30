@@ -35,6 +35,11 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.skydoves.balloon.overlay.BalloonOverlayRoundRect
 import com.yandex.metrica.YandexMetrica
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -297,12 +302,13 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
     @Subscribe
     fun onChangeCompatibilityViewPagerUserInputEvent(e: ChangeCompatibilityViewPagerUserInputEvent) {
-//        binding.viewPager.isUserInputEnabled = e.isEnableUserInput
+        binding.viewPager.isUserInputEnabled = e.isEnableUserInput
     }
 
     private fun setupViewPager() {
         binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.isUserInputEnabled = true
+        binding.viewPager.adapter = compatibilityAdapter
 
         baseViewModel.allBodygraphsData.observe(this) { bodygraphs ->
             val partners =
@@ -340,21 +346,51 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
                 if (!App.preferences.isCompatibilityFromChild) {
                     when (position) {
-                        0 -> selectPartners()
+                        0 -> {
+                            if (App.preferences.isCompatibilityFromChild) {
+                                binding.viewPager.setCurrentItem(1, false)
+                            } else {
+                                selectPartners()
+                            }
+                        }
+
                         else -> selectChildren()
                     }
                 }
             }
         })
 
-        binding.viewPager.postDelayed({
-            binding.viewPager.adapter = compatibilityAdapter
-            if (App.preferences.isCompatibilityFromChild) {
-                App.preferences.isCompatibilityFromChild = false
-                binding.viewPager.setCurrentItem(1, false)
-                selectChildren()
-            }
-        }, 150)
+
+//        while (App.preferences.isCompatibilityFromChild) {
+//            kotlin.runCatching {
+//                binding.viewPager.setCurrentItem(1, false)
+//            }.onSuccess {
+//                App.preferences.isCompatibilityFromChild = false
+//            }
+//        }
+
+//        val recyclerView = binding.viewPager.getChildAt(0) as RecyclerView
+//
+//        recyclerView.apply {
+//            val itemCount = adapter?.itemCount ?: 0
+//            if (itemCount >= 1) {
+//                viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+//                    override fun onGlobalLayout() {
+//                        viewTreeObserver.removeOnGlobalLayoutListener(this)
+//
+//                        // False for without animation scroll
+//                        binding.viewPager.setCurrentItem(1, false)
+//                    }
+//                })
+//            }
+//        }
+
+//        binding.viewPager.post {
+//            val defaultPosition = if (App.preferences.isCompatibilityFromChild) 1 else 0
+//            binding.viewPager.setCurrentItem(defaultPosition, true)
+//        }
+//
+
 
     }
 

@@ -84,15 +84,11 @@ class Preferences(context: Context) {
 
     var isPremiun: Boolean
         set(value) = sharedPreferences.edit().putBoolean("is_premium", value).apply()
-        get() = true//sharedPreferences.getBoolean("is_premium", false)
+        get() = sharedPreferences.getBoolean("is_premium", false)
 
     var uniqueUserId: String?
         set(value) = sharedPreferences.edit().putString("unique_user_id", value).apply()
         get() = sharedPreferences.getString("unique_user_id", null)
-
-    var authToken: String?
-        set(value) = sharedPreferences.edit().putString("auth_token", value).apply()
-        get() = sharedPreferences.getString("auth_token", null)
 
     fun clearNewUserTemps() {
         newUserName = null
