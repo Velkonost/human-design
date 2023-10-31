@@ -38,10 +38,13 @@ fun MainActivity.activateAdapty() {
                     when (responseCode) {
                         InstallReferrerClient.InstallReferrerResponse.OK -> {
                             // Connection established.
-                            val response: ReferrerDetails = referrerClient.installReferrer
-                            val referrerUrl: String = response.installReferrer
+                            kotlin.runCatching {
 
-                            setupAdapty(referrerUrl)
+                                val response: ReferrerDetails = referrerClient.installReferrer
+                                val referrerUrl: String = response.installReferrer
+
+                                setupAdapty(referrerUrl)
+                            }
                         }
 
                         InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {

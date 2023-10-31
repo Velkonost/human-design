@@ -20,6 +20,7 @@ data class CompatibilityResponseData(
     @field:JsonProperty("descrnext") val descrNext: String = "",
     @field:JsonProperty("profileDescription") val profileDescription: String = "",
     @field:JsonProperty("channels") val channels: ArrayList<CompatibilityChannel> = arrayListOf(),
+    @field:JsonProperty("newDescriptions") val newDescriptions: List<CompatibilityNewDescription> = emptyList(),
 ) : Parcelable
 
 @Parcelize

@@ -165,6 +165,7 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="type_title">Tipo</string>
     <string name="profile_title">Perfil</string>
     <string name="authority_title">Autoridad</string>
+    <string name="business_title">Negocia y Trabajo</string>
     <string name="strategy_title">Estrategia</string>
     <string name="injury_title">Trauma Genético</string>
     <string name="nutrition_title">Nutrición</string>
@@ -298,6 +299,7 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
 
     <string name="about_authority_subtitle">Cómo tomar las decisiones correctas</string>
     <string name="about_strategy_subtitle">Cómo vivir sin resistencia</string>
+    <string name="about_business_subtitle">Cómo tener éxito</string>
     <string name="about_injury_subtitle">Cómo tomar el control de tu trauma</string>
     <string name="about_nutrition_subtitle">La forma en que estás diseñado para comer</string>
     <string name="about_environment_subtitle">El entorno más nutritivo</string>

@@ -3,6 +3,7 @@ package com.myhumandesignhd.ui.compatibility.adapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.text.Html
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -12,6 +13,7 @@ import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.AddPartnerClickEvent
+import com.myhumandesignhd.event.ChangeCompatibilityViewPagerUserInputEvent
 import com.myhumandesignhd.event.CompatibilityStartClickEvent
 import com.myhumandesignhd.event.DeletePartnerItemEvent
 import com.myhumandesignhd.model.response.BodygraphResponse
@@ -31,13 +33,27 @@ import java.util.*
 
 class PartnersAdapter : EpoxyAdapter() {
 
+    private var items: MutableList<BodygraphResponse> = mutableListOf()
+
+
     fun createList(partners: List<BodygraphResponse>) {
+        items = partners.toMutableList()
+
         removeAllModels()
         partners.map { addModel(PartnerModel(it)) }
-        addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
+
+        if (partners.isNotEmpty()) {
+            addModel(EmptyPartnerModel(partners.isNullOrEmpty()))
+        }
 
         notifyDataSetChanged()
     }
+
+    override fun getItemId(position: Int): Long {
+        val item = models[position]
+        return item.id()
+    }
+
 
     fun getPartnerAtPosition(position: Int): BodygraphResponse {
         return (models[position] as PartnerModel).model
@@ -56,10 +72,9 @@ class PartnersAdapter : EpoxyAdapter() {
                 hideModel(model)
 
                 if (models.count { it.isShown } == 1) {
-                    val emptyModel = (models.findLast { it is EmptyPartnerModel } as EmptyPartnerModel)
-                    emptyModel.showEmptyText = true
-
-                    notifyModelChanged(emptyModel)
+                    val emptyModel =
+                        (models.findLast { it is EmptyPartnerModel } as EmptyPartnerModel)
+                    hideModel(emptyModel)
                 }
 
                 return@forEach
@@ -83,7 +98,8 @@ class PartnerModel(
 
         with(view) {
             userName.text = model.name
-            subtitle.text = "${model.type} • " + "${model.line} • " + model.profile
+            subtitle.text = "${model.type} • " + "${model.line}\n" + model.profile
+            compatibilityPercentage.text = "${model.compatibilityAvg}%"
 
             userName.setTextColor(
                 ContextCompat.getColor(
@@ -105,6 +121,14 @@ class PartnerModel(
                 if (App.preferences.isDarkTheme) R.color.darkSettingsCard
                 else R.color.lightSettingsCard
             ))
+
+            compatibilityName.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             val chartResId =
                 if (model.type.lowercase(Locale.getDefault()) == "проектор") {
@@ -145,16 +169,43 @@ class PartnerModel(
                 )
             }
 
+            partnerCard.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(true)
+                    )
+                    else -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(false)
+                    )
+                }
+                false
+            }
+
+
+            swipeContainer.setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_UP -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(true)
+                    )
+                    else -> EventBus.getDefault().post(
+                        ChangeCompatibilityViewPagerUserInputEvent(false)
+                    )
+                }
+                false
+            }
+
             swipeContainer.isEnabledSwipe = isSwipeEnabled
             swipeContainer.setOnActionsListener(object : SwipeLayout.SwipeActionsListener {
                 override fun onOpen(direction: Int, isContinuous: Boolean) {
+                    ChangeCompatibilityViewPagerUserInputEvent(false)
+
                     if (isContinuous) {
                         EventBus.getDefault().post(DeletePartnerItemEvent(model.id))
                     }
                 }
 
                 override fun onClose() {
-
+                    ChangeCompatibilityViewPagerUserInputEvent(false)
                 }
             })
 

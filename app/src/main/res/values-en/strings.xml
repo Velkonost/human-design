@@ -148,6 +148,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="profile_title">Profile</string>
     <string name="authority_title">Authority</string>
     <string name="strategy_title">Strategy</string>
+    <string name="business_title">Business &amp; Career</string>
     <string name="injury_title">Genetic Trauma</string>
     <string name="nutrition_title">Nutrition</string>
     <string name="environment_title">Environment</string>
@@ -171,7 +172,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
         <item>Visit the App to read it ☝🏽</item>
     </string-array>
 
-    <string name="compatibility_detail_title">Relationship</string>
+    <string name="compatibility_detail_title">Compatibility</string>
     <string name="profiles_title">Profile</string>
 
     <string name="add_partner_rave_title"><![CDATA[Let’s calculate\nthe bodygraph!]]></string>
@@ -281,6 +282,8 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
 
     <string name="about_authority_subtitle">How to make the right decisions</string>
     <string name="about_strategy_subtitle">How to live without resistance</string>
+    <string name="about_business_subtitle">How to become successful</string>
+
     <string name="about_injury_subtitle">How to take control over your trauma</string>
     <string name="about_nutrition_subtitle">The way you are designed to eat</string>
     <string name="about_environment_subtitle">The most nourishing surrounding</string>

@@ -22,7 +22,15 @@ data class GetDesignResponse(
     @field:JsonProperty("strategy") val strategy: Strategy = Strategy(),
     @field:JsonProperty("nutrition") val nutrition: Nutrition = Nutrition(),
     @field:JsonProperty("environment") val environment: Environment = Environment(),
+    @field:JsonProperty("business") val business: Business = Business(),
 ) : Parcelable
+
+@Parcelize
+data class Business(
+    @field:JsonProperty("id") val id: Int = 0,
+    @field:JsonProperty("name") val name: String? = "",
+    @field:JsonProperty("description") val description: String? = "",
+): Parcelable
 
 @Parcelize
 data class ChildrenDescriptions(
@@ -126,6 +134,7 @@ data class AboutItem(
 enum class AboutType {
     BODYGRAPH,
     TYPE,
+    BUSINESS,
     PROFILE,
     AUTHORITY,
     STRATEGY,

@@ -169,6 +169,7 @@
     <string name="profile_title">Профиль</string>
     <string name="authority_title">Внутренний авторитет</string>
     <string name="strategy_title">Внешняя стратегия</string>
+    <string name="business_title">Бизнес и Карьера</string>
     <string name="injury_title">Генетическая Травма</string>
     <string name="nutrition_title">Питание</string>
     <string name="environment_title">Среда Обитания</string>
@@ -192,7 +193,7 @@
         <item>Зайдите, чтобы прочитать ☝🏽</item>
     </string-array>
 
-    <string name="compatibility_detail_title">Отношения</string>
+    <string name="compatibility_detail_title">Совместимость</string>
     <string name="profiles_title">Профиль</string>
 
     <string name="add_partner_rave_title"><![CDATA[Вы на пути к расчету бодиграфа! Вперед!]]></string>
@@ -311,6 +312,7 @@
 
     <string name="about_authority_subtitle">Как принимать правильные решения</string>
     <string name="about_strategy_subtitle">Как двигаться по жизни без сопротивления</string>
+    <string name="about_business_subtitle">Как достичь успеха</string>
     <string name="about_injury_subtitle">Как взять свою травму под контроль</string>
     <string name="about_nutrition_subtitle">Как выбрать корректный режим питания</string>
     <string name="about_environment_subtitle">Как создать правильное окружение</string>
@@ -475,13 +477,18 @@
     <!--  COMPATIBILITY  -->
     <string name="compatibility_partner_empty_title">Проверьте вашу совместимость</string>
     <string name="compatibility_partner_empty_text">Узнайте насколько вы совместимы и что\nожидать от вашего союза.\n\nНайдите ключ к корректным и\nгармоничным отношениям.</string>
+
     <string name="compatibility_partner_empty_add_btn">ДОБАВИТЬ ПАРТНЕРА</string>
     <string name="compatibility_child_empty_title">Проверьте ваши взаимоотношения</string>
     <string name="compatibility_child_empty_text">Узнайте, как направить ребенка к его\nсобственной природе.\n\nНайдите гармоничные пути взаимодействия,\nчтобы дать потенциалу вашего ребенка\nсвободно расти.</string>
+
     <string name="compatibility_child_empty_add_btn">ДОБАВИТЬ РЕБЕНКА</string>
     <!--  COMPATIBILITY  -->
 
     <string name="compatibility_range">Совместимость:</string>
     <string name="compatibility_about_warning">Проценты не отображают полной картины.\nИзучите подробное описание совместимости.</string>
     <string name="compatibility_success">совпадение</string>
+
+    <string name="start_bodygraph_creating_title">Создание бодиграфа…</string>
+
 </resources>

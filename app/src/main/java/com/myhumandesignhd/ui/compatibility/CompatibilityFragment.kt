@@ -297,12 +297,14 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
     @Subscribe
     fun onChangeCompatibilityViewPagerUserInputEvent(e: ChangeCompatibilityViewPagerUserInputEvent) {
-//        binding.viewPager.isUserInputEnabled = e.isEnableUserInput
+        binding.viewPager.isUserInputEnabled = e.isEnableUserInput
     }
 
     private fun setupViewPager() {
         binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.isUserInputEnabled = true
+        binding.viewPager.adapter = compatibilityAdapter
+
 
         baseViewModel.allBodygraphsData.observe(this) { bodygraphs ->
             val partners =
@@ -340,7 +342,13 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
                 if (!App.preferences.isCompatibilityFromChild) {
                     when (position) {
-                        0 -> selectPartners()
+                        0 -> {
+                            if (App.preferences.isCompatibilityFromChild) {
+                                binding.viewPager.setCurrentItem(1, false)
+                            } else {
+                                selectPartners()
+                            }
+                        }
                         else -> selectChildren()
                     }
                 }
@@ -350,9 +358,12 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         binding.viewPager.postDelayed({
             binding.viewPager.adapter = compatibilityAdapter
             if (App.preferences.isCompatibilityFromChild) {
-                App.preferences.isCompatibilityFromChild = false
-                binding.viewPager.setCurrentItem(1, false)
-                selectChildren()
+                android.os.Handler().postDelayed({
+
+                    App.preferences.isCompatibilityFromChild = false
+                    binding.viewPager.setCurrentItem(1, false)
+                    selectChildren()
+                }, 100)
             }
         }, 150)
 

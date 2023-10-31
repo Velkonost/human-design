@@ -31,6 +31,12 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
 
     private val columnsAdapter: CompatibilityChildAdapter by lazy { CompatibilityChildAdapter() }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Handler().onBackClicked(binding.childTitle)
+    }
+
+
     override fun updateThemeAndLocale() {
         super.updateThemeAndLocale()
         binding.compatibilityContainer.setBackgroundColor(ContextCompat.getColor(

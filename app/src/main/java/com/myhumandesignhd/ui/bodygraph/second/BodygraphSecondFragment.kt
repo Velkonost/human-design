@@ -200,6 +200,15 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
 
             aboutItemsList.add(
                 AboutItem(
+                    name = it.business.name?: "",
+                    description = it.business.description?: "",
+                    type = AboutType.BUSINESS
+                )
+            )
+
+
+            aboutItemsList.add(
+                AboutItem(
                     name = it.nutrition.name?: "",
                     description = it.nutrition.description?: "",
                     type = AboutType.NUTRITION

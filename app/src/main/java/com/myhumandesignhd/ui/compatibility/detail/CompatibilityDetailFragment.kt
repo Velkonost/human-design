@@ -39,6 +39,12 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
         CompatibilityDetailsAdapter()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Handler().onBackClicked(binding.aboutTitle)
+    }
+
+
     override fun updateThemeAndLocale() {
         super.updateThemeAndLocale()
 
@@ -242,7 +248,8 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
                         if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_dark
                         else R.drawable.ic_chart_manifestor_light
                     },
-                    context = requireContext()
+                    context = requireContext(),
+                    descs = it.newDescriptions
                 )
             }
 
