@@ -8,8 +8,6 @@ import com.myhumandesignhd.event.SetInjuryAlarmEvent
 import com.myhumandesignhd.event.SetupNotificationsEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
 import com.myhumandesignhd.model.Affirmation
-import com.myhumandesignhd.model.Child
-import com.myhumandesignhd.model.CompatibilityNewDescription
 import com.myhumandesignhd.model.CompatibilityResponse
 import com.myhumandesignhd.model.Cycle
 import com.myhumandesignhd.model.DailyAdvice
@@ -26,11 +24,6 @@ import com.myhumandesignhd.rest.ResponseStatus
 import com.myhumandesignhd.util.RxViewModel
 import com.myhumandesignhd.util.SingleLiveEvent
 import com.myhumandesignhd.util.ext.mutableLiveDataOf
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.threeten.bp.Instant
@@ -162,19 +155,12 @@ class BaseViewModel @Inject constructor(
         }
     }
 
-    fun setupCompatibility(id: String, onComplete: (Int, List<CompatibilityNewDescription>) -> Unit) {
+    fun setupCompatibility(id: String, onComplete: () -> Unit) {
 
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
 
         repoV2.getCompatibility(id = id, light = false).subscribe({
-            var percentageAvg = 0
-            it.newDescriptions.map { nd ->
-                percentageAvg += nd.percentage
-            }
-            percentageAvg /= it.newDescriptions.size
-
-            onComplete.invoke(percentageAvg, it.newDescriptions)
-
+            onComplete.invoke()
 
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             currentCompatibility.postValue(it)

@@ -20,7 +20,6 @@ import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentTransitBinding
 import com.myhumandesignhd.event.SelectNavItemEvent
-import com.myhumandesignhd.databinding.FragmentTransitBinding
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
@@ -131,11 +130,13 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     override fun updateThemeAndLocale() {
-        binding.icInfo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.icInfo.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
         binding.transitContainer.setBackgroundColor(
             ContextCompat.getColor(
@@ -190,7 +191,8 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
-            ) {}
+            ) {
+            }
 
             override fun onPageSelected(position: Int) {
                 when (position) {
@@ -356,6 +358,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                     container.addView(view)
                     view
                 }
+
                 1 -> {
                     val view = layoutInflater.inflate(R.layout.item_transit_cycles, null)
 
@@ -369,6 +372,7 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                     container.addView(view)
                     view
                 }
+
                 else -> {
                     val view = layoutInflater.inflate(R.layout.item_transit_advice, null)
 
@@ -378,7 +382,8 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                         view.adviceText.text = it.text
                     }
 
-                    view.adviceSubtitle.text = App.resourcesProvider.getStringLocale(R.string.daily_advice_subtitle)
+                    view.adviceSubtitle.text =
+                        App.resourcesProvider.getStringLocale(R.string.daily_advice_subtitle)
 
                     view.adviceBlock.background = ContextCompat.getDrawable(
                         requireContext(),
@@ -386,23 +391,29 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
                         else R.drawable.bg_daily_advice_light
                     )
 
-                    view.adviceTitle.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
+                    view.adviceTitle.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
 
-                    view.adviceText.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
+                    view.adviceText.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
 
-                    view.adviceSubtitle.setTextColor(ContextCompat.getColor(
-                        requireContext(),
-                        if (App.preferences.isDarkTheme) R.color.lightColor
-                        else R.color.darkColor
-                    ))
+                    view.adviceSubtitle.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
 
                     view.adviceIcon.setImageResource(
                         if (App.preferences.isDarkTheme) R.drawable.ic_advice_icon_dark

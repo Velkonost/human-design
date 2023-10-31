@@ -370,7 +370,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     if (location != null)
                         binding.viewModel!!.reverseNominatim(
                             location.latitude.toString(),
-                            location.longitude.toString()
+                            location.longitude.toString(),
+                            type = 2
                         )
                 }
             }
@@ -383,7 +384,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         if (location != null)
                             binding.viewModel!!.reverseNominatim(
                                 location.latitude.toString(),
-                                location.longitude.toString()
+                                location.longitude.toString(),
+                                type = 3
                             )
                     }
                 })
@@ -395,7 +397,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 if (location != null)
                     binding.viewModel!!.reverseNominatim(
                         location.latitude.toString(),
-                        location.longitude.toString()
+                        location.longitude.toString(),
+                        type = 4
                     )
             }
         }.onFailure {
@@ -706,7 +709,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             overridePendingTransition(0, 0)
             startActivity(intent)
             overridePendingTransition(0, 0)
-            //Do specific came-here-from-background code
         }
         myApp.stopActivityTransitionTimer()
     }
@@ -733,27 +735,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     setupLocationListener()
                 }
 
-//                } else {
-//                    YandexMetrica.reportEvent("userDisabledGps")
-//                    Amplitude.getInstance().logEvent("userDisabledGeo");
-//                    // permission denied, boo! Disable the
-//                    // functionality that depends on this permission.
-////                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
-//
-//                    // Check if we are in a state where the user has denied the permission and
-//                    // selected Don't ask again
-//                    if (!ActivityCompat.shouldShowRequestPermissionRationale(
-//                            this, Manifest.permission.ACCESS_FINE_LOCATION
-//                        )
-//                    ) {
-//                        startActivity(
-//                            Intent(
-//                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-//                                Uri.fromParts("package", this.packageName, null),
-//                            ),
-//                        )
-//                    }
-//                }
                 return
             }
         }

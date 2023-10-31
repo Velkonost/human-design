@@ -27,7 +27,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     private final DateHelper dateHelper = new DateHelper();
     private Listener listener;
-    private final com.github.florent37.singledateandtimepicker.dialog.BottomSheetHelper bottomSheetHelper;
+    private final BottomSheetHelper bottomSheetHelper;
     private SingleDateAndTimePicker picker;
 
     @Nullable
@@ -48,7 +48,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     private SingleDateAndTimePickerDialog(Context context, boolean bottomSheet) {
         final int layout = bottomSheet ? R.layout.bottom_sheet_picker_bottom_sheet :
                 R.layout.bottom_sheet_picker;
-        this.bottomSheetHelper = new com.github.florent37.singledateandtimepicker.dialog.BottomSheetHelper(context, layout);
+        this.bottomSheetHelper = new BottomSheetHelper(context, layout);
 
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
             @Override

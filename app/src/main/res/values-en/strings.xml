@@ -62,19 +62,19 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="continue_btn_start">Continue</string>
     <string name="start_rave_btn_text">Create</string>
 
-    <string name="start_name_title"><![CDATA[What is<br>your name?]]></string>
-    <string name="start_name_desc"><![CDATA[We’ll enjoy getting to know your better.]]></string>
+    <string name="start_name_title">What is your\nname?</string>
+    <string name="start_name_desc">Let’s get acquainted! Please introduce\nyourself so that we know how best to address you!</string>
     <string name="start_name_hint">Name</string>
 
     <string name="start_date_title">Date of birth</string>
-    <string name="start_date_desc"><![CDATA[You date of birth is essential for identifying the exact position of the planets at the moment you were born.]]></string>
+    <string name="start_date_desc">enter the date of birth, and we will calculate your personal bodygraph!</string>
 
     <string name="start_time_title">Time of birth</string>
-    <string name="start_time_desc"><![CDATA[We are almost done!<br>name, please enter your time of birth.]]></string>
-    <string name="start_time_skip">I DON\'T KNOW FOR SURE</string>
+    <string name="start_time_desc">It will show the exact location of the planets and stars at the time of your birth, which is important for calculating the card.</string>
+    <string name="start_time_skip">I don\'t know the exact time</string>
 
     <string name="start_place_title">Place of birth</string>
-    <string name="start_place_desc"><![CDATA[Your place of birth will give a clearer image of how stars affect you.]]></string>
+    <string name="start_place_desc">The place where you were born is very important. We will be able to accurately determine the position of the heavenly bodies that have left an imprint on your destiny.</string>
     <string name="start_place_hint">City, Country</string>
 
     <string name="settings_title">Settings</string>
@@ -148,7 +148,6 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="profile_title">Profile</string>
     <string name="authority_title">Authority</string>
     <string name="strategy_title">Strategy</string>
-    <string name="business_title">Business &amp; Career</string>
     <string name="injury_title">Genetic Trauma</string>
     <string name="nutrition_title">Nutrition</string>
     <string name="environment_title">Environment</string>
@@ -172,7 +171,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
         <item>Visit the App to read it ☝🏽</item>
     </string-array>
 
-    <string name="compatibility_detail_title">Compatibility</string>
+    <string name="compatibility_detail_title">Relationship</string>
     <string name="profiles_title">Profile</string>
 
     <string name="add_partner_rave_title"><![CDATA[Let’s calculate\nthe bodygraph!]]></string>
@@ -282,7 +281,6 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
 
     <string name="about_authority_subtitle">How to make the right decisions</string>
     <string name="about_strategy_subtitle">How to live without resistance</string>
-    <string name="about_business_subtitle">How to become successful</string>
     <string name="about_injury_subtitle">How to take control over your trauma</string>
     <string name="about_nutrition_subtitle">The way you are designed to eat</string>
     <string name="about_environment_subtitle">The most nourishing surrounding</string>
@@ -372,14 +370,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="best_offer">best offer</string>
     <string name="pw_4_autorenewable">auto-renewable</string>
 
-    <!--  COMPATIBILITY  -->
-    <string name="compatibility_partner_empty_title">Test your compatibility</string>
-    <string name="compatibility_partner_empty_text">Check your partner and unlock keys to your\npeaceful relationships.\n\nCreate a deeper connection and discover\nhow to interact harmoniously.</string>
-    <string name="compatibility_partner_empty_add_btn">add partner</string>
-    <string name="compatibility_child_empty_title">Improve your relationship</string>
-    <string name="compatibility_child_empty_text">Discover how to guide your child to their\ninnate nature.\n\nFind out harmonious ways of interaction to\nallow your child\'s potential to grow freely.</string>
-    <string name="compatibility_child_empty_add_btn">add child</string>
-    <!--  COMPATIBILITY  -->
+    <string name="onboarding_title_1">Human Design</string>
 
     <!--  PLANET TRANSITS  -->
     <string name="planet_transits_title">Planet Transits</string>
@@ -404,6 +395,16 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="old_users_forth_text">Registration will enable us to provide you\nwith higher quality support and promptly\naddress any issues that may arise.</string>
     <string name="create_account">CREATE ACCOUNT</string>
     <!--  OLD USERS  -->
+
+    <!--  COMPATIBILITY  -->
+    <string name="compatibility_partner_empty_title">Test your compatibility</string>
+    <string name="compatibility_partner_empty_text">Check your partner and unlock keys to your\npeaceful relationships.\n\nCreate a deeper connection and discover\nhow to interact harmoniously.</string>
+    <string name="compatibility_partner_empty_add_btn">add partner</string>
+    <string name="compatibility_child_empty_title">Improve your relationship</string>
+    <string name="compatibility_child_empty_text">Discover how to guide your child to their\ninnate nature.\n\nFind out harmonious ways of interaction to\nallow your child\'s potential to grow freely.</string>
+    <string name="compatibility_child_empty_add_btn">add child</string>
+    <!--  COMPATIBILITY  -->
+
     <string name="compatibility_range">Compatibility:</string>
     <string name="compatibility_about_warning">Percentage match is not a full guarantee.\nRead your detailed compatibility description.</string>
     <string name="compatibility_success">success</string>

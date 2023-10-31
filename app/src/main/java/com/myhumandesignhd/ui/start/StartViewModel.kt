@@ -13,6 +13,7 @@ import com.myhumandesignhd.model.getDateStr
 import com.myhumandesignhd.model.request.GoogleAccessTokenBody
 import com.myhumandesignhd.model.response.LoginResponse
 import com.myhumandesignhd.repo.base.RestRepo
+import com.myhumandesignhd.repo.base.RestV2Repo
 import com.myhumandesignhd.util.RxViewModel
 import com.myhumandesignhd.util.SingleLiveEvent
 import com.myhumandesignhd.util.ext.mutableLiveDataOf
@@ -24,7 +25,8 @@ import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class StartViewModel @Inject constructor(
-    private val repo: RestRepo
+    private val repo: RestRepo,
+    private val repoV2: RestV2Repo
 ) : RxViewModel() {
 
     val errorEvent = SingleLiveEvent<Error>()
@@ -182,7 +184,6 @@ class StartViewModel @Inject constructor(
 
     fun geocodingNominatim(query: String?) {
         if (query.isNullOrEmpty()) {
-//https://nominatim.openstreetmap.org/search?q=%D0%BE%D0%BC%D1%81%D0%BA&format=json&accept-language=ru
         } else {
             val acceptLang = if (App.preferences.locale == "es") "en" else App.preferences.locale
 

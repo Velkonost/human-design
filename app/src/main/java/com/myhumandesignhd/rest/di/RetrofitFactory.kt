@@ -1,6 +1,7 @@
 package com.myhumandesignhd.rest.di
 
 import android.content.Context
+import com.myhumandesignhd.App
 import com.myhumandesignhd.BuildConfig
 import com.myhumandesignhd.rest.Json
 import io.reactivex.schedulers.Schedulers

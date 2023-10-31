@@ -115,11 +115,7 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
             selectedLat = App.preferences.lastKnownLocationLat!!
             selectedLon = App.preferences.lastKnownLocationLon!!
         }
-    }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        Handler().onBackClicked(binding.backBtn)
     }
 
     private var prevHeightDiff = -1

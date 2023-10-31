@@ -179,26 +179,6 @@ class AboutAdapter(
 
                     pointViewContainer.isVisible = false
                 }
-                AboutType.BUSINESS -> {
-                    expandButton.text =
-                        if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun)
-                            items[adapterPosition].name
-                        else App.resourcesProvider.getStringLocale(R.string.business_title)
-                    text.text = items[position].description
-
-                    subtitle.isVisible =
-                        android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK
-                    if (!App.preferences.isPremiun)
-                        subtitle.isVisible = true
-
-                    subtitle.text = App.resourcesProvider.getStringLocale(R.string.about_business_subtitle)
-
-                    generateBtn.isVisible = false
-                    generateProgress.isVisible = false
-                    generateProgressText.isVisible = false
-
-                    pointViewContainer.isVisible = false
-                }
                 AboutType.NUTRITION -> {
                     expandButton.text =
                         if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK && App.preferences.isPremiun)
@@ -458,11 +438,7 @@ class AboutAdapter(
                     }
                     AboutType.STRATEGY -> {
                         YandexMetrica.reportEvent("Tab2AboutStrategyTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutStrategyTapped")
-                    }
-                    AboutType.BUSINESS -> {
-                        YandexMetrica.reportEvent("Tab2AboutBusinessTapped")
-                        Amplitude.getInstance().logEvent("tab2AboutBusinessTapped")
+                        Amplitude.getInstance().logEvent("tab2AboutStategyTapped")
                     }
                     AboutType.INJURY -> {
                         YandexMetrica.reportEvent("Tab2AboutTraumaTapped")

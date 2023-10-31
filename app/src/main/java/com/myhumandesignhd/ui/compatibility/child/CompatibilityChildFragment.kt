@@ -15,10 +15,6 @@ import com.myhumandesignhd.ui.compatibility.child.adapter.CompatibilityChildAdap
 import com.myhumandesignhd.util.ext.setTextAnimation
 import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.util.Locale
 import java.util.Locale
 
 class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, FragmentCompatibilityChildBinding>(
@@ -198,11 +194,6 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
                 }
             }
         })
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        Handler().onBackClicked(binding.childTitle)
     }
 
     private fun selectParent() {

@@ -19,12 +19,11 @@ import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
 import java.util.Locale
 
-class CompatibilityDetailFragment :
-    BaseFragment<CompatibilityViewModel, FragmentCompatibilityDetailBinding>(
-        R.layout.fragment_compatibility_detail,
-        CompatibilityViewModel::class,
-        Handler::class
-    ) {
+class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, FragmentCompatibilityDetailBinding>(
+    R.layout.fragment_compatibility_detail,
+    CompatibilityViewModel::class,
+    Handler::class
+) {
 
     private val baseViewModel: BaseViewModel by lazy {
         ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
@@ -36,88 +35,71 @@ class CompatibilityDetailFragment :
 
     private val secondUserChartResId: Int by lazy { arguments?.getInt("chartResId")!! }
 
-    private val detailsAdapter: CompatibilityDetailsAdapter by lazy { CompatibilityDetailsAdapter() }
+    private val detailsAdapter: CompatibilityDetailsAdapter by lazy {
+        CompatibilityDetailsAdapter()
+    }
 
     override fun updateThemeAndLocale() {
         super.updateThemeAndLocale()
 
-        binding.icInfo.imageTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            )
-        )
+        binding.icInfo.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
 
-        binding.compatibilityContainer.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.darkColor
-                else R.color.lightColor
-            )
-        )
+        binding.compatibilityContainer.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkColor
+            else R.color.lightColor
+        ))
 
-        binding.icArrow.imageTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            )
-        )
+        binding.icArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
 
-        binding.compatibilityTitle.text =
-            App.resourcesProvider.getStringLocale(R.string.compatibility_detail_title)
-        binding.compatibilityTitle.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            )
-        )
+        binding.compatibilityTitle.text = App.resourcesProvider.getStringLocale(R.string.compatibility_detail_title)
+        binding.compatibilityTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
 
         binding.aboutTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.about_title))
         binding.profilesTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.profiles_title))
         binding.channelsTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.channels_title))
 
-        binding.aboutTitle.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            )
-        )
+        binding.aboutTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
 
-        binding.profilesTitle.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            )
-        )
+        binding.profilesTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
 
-        binding.channelsTitle.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            )
-        )
+        binding.channelsTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
 
-        binding.selectionCard.backgroundTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                else R.color.lightSettingsCard
-            )
-        )
+        binding.selectionCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+            else R.color.lightSettingsCard
+        ))
 
-        binding.selectionLinear.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                else R.color.lightSettingsCard
-            )
-        )
+        binding.selectionLinear.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+            else R.color.lightSettingsCard
+        ))
 
         selectAbout()
         setupViewPager()
@@ -135,22 +117,19 @@ class CompatibilityDetailFragment :
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.color.lightColor
                 else R.color.darkColor
-            )
-        )
+            ))
 
         binding.channelsTitle.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
                 R.color.unselectText
-            )
-        )
+            ))
 
         binding.profilesTitle.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
                 R.color.unselectText
-            )
-        )
+            ))
 
         binding.aboutTitle.background = ContextCompat.getDrawable(
             requireContext(),
@@ -173,22 +152,19 @@ class CompatibilityDetailFragment :
                 requireContext(),
                 if (App.preferences.isDarkTheme) R.color.lightColor
                 else R.color.darkColor
-            )
-        )
+            ))
 
         binding.aboutTitle.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
                 R.color.unselectText
-            )
-        )
+            ))
 
         binding.channelsTitle.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
                 R.color.unselectText
-            )
-        )
+            ))
 
         binding.profilesTitle.background = ContextCompat.getDrawable(
             requireContext(),
@@ -208,25 +184,22 @@ class CompatibilityDetailFragment :
         binding.icInfo.isVisible = true
         binding.channelsTitle.setTextColor(
             ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            )
-        )
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
 
         binding.aboutTitle.setTextColor(
             ContextCompat.getColor(
-                requireContext(),
-                R.color.unselectText
-            )
-        )
+            requireContext(),
+            R.color.unselectText
+        ))
 
         binding.profilesTitle.setTextColor(
             ContextCompat.getColor(
-                requireContext(),
-                R.color.unselectText
-            )
-        )
+            requireContext(),
+            R.color.unselectText
+        ))
 
         binding.channelsTitle.background = ContextCompat.getDrawable(
             requireContext(),
@@ -236,11 +209,6 @@ class CompatibilityDetailFragment :
 
         binding.aboutTitle.background = null
         binding.profilesTitle.background = null
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        Handler().onBackClicked(binding.aboutTitle)
     }
 
     private fun setupViewPager() {
@@ -274,8 +242,7 @@ class CompatibilityDetailFragment :
                         if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_dark
                         else R.drawable.ic_chart_manifestor_light
                     },
-                    context = requireContext(),
-                    descs = it.data.newDescriptions
+                    context = requireContext()
                 )
             }
 
@@ -313,7 +280,7 @@ class CompatibilityDetailFragment :
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
-                when (position) {
+                when(position) {
                     0 -> selectAbout()
                     1 -> selectProfiles()
                     else -> selectChannels()

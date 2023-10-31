@@ -166,7 +166,6 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="profile_title">Perfil</string>
     <string name="authority_title">Autoridad</string>
     <string name="strategy_title">Estrategia</string>
-    <string name="business_title">Negocio y Trabajo</string>
     <string name="injury_title">Trauma Genético</string>
     <string name="nutrition_title">Nutrición</string>
     <string name="environment_title">Ambiente</string>
@@ -299,7 +298,6 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
 
     <string name="about_authority_subtitle">Cómo tomar las decisiones correctas</string>
     <string name="about_strategy_subtitle">Cómo vivir sin resistencia</string>
-    <string name="about_business_subtitle">Cómo tener éxito</string>
     <string name="about_injury_subtitle">Cómo tomar el control de tu trauma</string>
     <string name="about_nutrition_subtitle">La forma en que estás diseñado para comer</string>
     <string name="about_environment_subtitle">El entorno más nutritivo</string>
@@ -427,6 +425,7 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="old_users_forth_title">Soporte y Servicio</string>
     <string name="old_users_forth_text">Registrarse nos permitirá ofrecerte soporte de mayor calidad y abordar rápidamente cualquier problema que pueda surgir.</string>
     <!--  OLD USERS  -->
+
     <!--  COMPATIBILITY  -->
     <string name="compatibility_partner_empty_title">Prueba tu compatibilidad</string>
     <string name="compatibility_partner_empty_text">Consulta a tu pareja y desbloquea las llaves de tus relaciones de paz.\n\nCrea una conexión más profunda y descubre cómo interactuar de manera armoniosa.</string>

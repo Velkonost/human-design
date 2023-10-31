@@ -2,7 +2,6 @@ package com.myhumandesignhd.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.myhumandesignhd.App
@@ -87,12 +86,7 @@ data class User(
     @ColumnInfo(name = "pushForecastPosition")
     var pushForecastPosition: Int = 0,
 
-
-
-) {
-    @Ignore
-    var compatibilityAvg: Int = 0
-}
+)
 
 fun User.getDateStr(): String {
     val hours = time.split(":")[0]//.toInt()

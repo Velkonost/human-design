@@ -352,12 +352,14 @@ fun StartFragment.animateCirclesBtwPages(duration: Long) {
 
             binding.icSplashBigCircle
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleName.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircle
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleName.y)
                 .setDuration(1000)
                 .start()
@@ -392,12 +394,14 @@ fun StartFragment.animateCirclesBtwPages(duration: Long) {
 
             binding.icSplashBigCircleName
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleDate.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleName
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleDate.y)
                 .setDuration(1000)
                 .start()
@@ -432,12 +436,14 @@ fun StartFragment.animateCirclesBtwPages(duration: Long) {
 
             binding.icSplashBigCircleDate
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleTime.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleDate
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleTime.y)
                 .setDuration(1000)
                 .start()
@@ -472,12 +478,14 @@ fun StartFragment.animateCirclesBtwPages(duration: Long) {
 
             binding.icSplashBigCircleTime
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCirclePlaceOfBirth.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleTime
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCirclePlaceOfBirth.y)
                 .setDuration(1000)
                 .start()
@@ -826,7 +834,6 @@ fun StartFragment.animateBackCirclesBtwPages() {
         ValueAnimator.ofInt(oldSizeMidCircle.toInt(), newSizeMidCircle.toInt())
 
     animSizeBigCircle.duration = 1000
-
     animSizeMidCircle.duration = 1000
 
     val yAnimatorBigCircle = ObjectAnimator.ofFloat(
@@ -900,12 +907,14 @@ fun StartFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircle
                 .animate()
+                .withLayer()
                 .y(0f)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircle
                 .animate()
+                .withLayer()
                 .y(0f)
                 .setDuration(1000)
                 .start()
@@ -940,12 +949,14 @@ fun StartFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircleName
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleNamePlaceholder.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleName
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleNamePlaceholder.y)
                 .setDuration(1000)
                 .start()
@@ -980,12 +991,14 @@ fun StartFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircleDate
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleName.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleDate
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleName.y)
                 .setDuration(1000)
                 .start()
@@ -1020,12 +1033,14 @@ fun StartFragment.animateBackCirclesBtwPages() {
 
             binding.icSplashBigCircleTime
                 .animate()
+                .withLayer()
                 .y(binding.icSplashBigCircleDate.y)
                 .setDuration(1000)
                 .start()
 
             binding.icSplashMidCircleTime
                 .animate()
+                .withLayer()
                 .y(binding.icSplashMidCircleDate.y)
                 .setDuration(1000)
                 .start()

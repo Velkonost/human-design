@@ -257,6 +257,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             "with_scroll" -> setupSecondPaywall()
             else -> setupSecond2Paywall()
         }
+
     }
 
     private fun launchBilling() {

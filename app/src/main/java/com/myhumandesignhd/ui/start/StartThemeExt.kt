@@ -15,108 +15,6 @@ import kotlinx.android.synthetic.main.view_signup_old_users.view.oldUsersSubtitl
 import kotlinx.android.synthetic.main.view_signup_old_users.view.oldUsersTitle
 
 fun StartFragment.updateTheme() {
-    binding.variant1Block.background = ContextCompat.getDrawable(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
-        else R.drawable.bg_quiz_variant
-    )
-
-    binding.variant2Block.background = ContextCompat.getDrawable(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
-        else R.drawable.bg_quiz_variant
-    )
-
-    binding.variant3Block.background = ContextCompat.getDrawable(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
-        else R.drawable.bg_quiz_variant
-    )
-
-    binding.variant4Block.background = ContextCompat.getDrawable(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
-        else R.drawable.bg_quiz_variant
-    )
-
-    binding.variant5Block.background = ContextCompat.getDrawable(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
-        else R.drawable.bg_quiz_variant
-    )
-
-    binding.variant6Block.background = ContextCompat.getDrawable(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.drawable.bg_quiz_variant_dark
-        else R.drawable.bg_quiz_variant
-    )
-
-    binding.variant1Check.setImageResource(
-        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
-        else R.drawable.ic_quiz_variant
-    )
-
-    binding.variant2Check.setImageResource(
-        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
-        else R.drawable.ic_quiz_variant
-    )
-
-    binding.variant3Check.setImageResource(
-        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
-        else R.drawable.ic_quiz_variant
-    )
-
-    binding.variant4Check.setImageResource(
-        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
-        else R.drawable.ic_quiz_variant
-    )
-
-    binding.variant5Check.setImageResource(
-        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
-        else R.drawable.ic_quiz_variant
-    )
-
-    binding.variant6Check.setImageResource(
-        if (App.preferences.isDarkTheme) R.drawable.ic_quiz_variant_dark
-        else R.drawable.ic_quiz_variant
-    )
-
-    binding.variant1Text.setTextColor(ContextCompat.getColor(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.color.lightColor
-        else R.color.darkColor
-    ))
-
-    binding.variant2Text.setTextColor(ContextCompat.getColor(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.color.lightColor
-        else R.color.darkColor
-    ))
-
-    binding.variant3Text.setTextColor(ContextCompat.getColor(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.color.lightColor
-        else R.color.darkColor
-    ))
-
-    binding.variant4Text.setTextColor(ContextCompat.getColor(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.color.lightColor
-        else R.color.darkColor
-    ))
-
-    binding.variant5Text.setTextColor(ContextCompat.getColor(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.color.lightColor
-        else R.color.darkColor
-    ))
-
-    binding.variant6Text.setTextColor(ContextCompat.getColor(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.color.lightColor
-        else R.color.darkColor
-    ))
-
     binding.loaderView.container.background = ContextCompat.getDrawable(
         requireContext(),
         if (App.preferences.isDarkTheme) R.drawable.bg_splash_dark
@@ -193,52 +91,37 @@ fun StartFragment.updateTheme() {
         )
     )
 
-    binding.bodygraphReadyText.setTextColor(ContextCompat.getColor(
-        requireContext(),
-        if (App.preferences.isDarkTheme) R.color.lightColor
-        else R.color.darkColor
-    ))
+//    binding.bodygraphReadyText.setTextColor(ContextCompat.getColor(
+//        requireContext(),
+//        if (App.preferences.isDarkTheme) R.color.lightColor
+//        else R.color.darkColor
+//    ))
 
-//    binding.splashContainer.setBackgroundColor(
+//    binding.titleSplash0102.setTextColor(
 //        ContextCompat.getColor(
 //            requireContext(),
-//            if (App.preferences.isDarkTheme) R.color.darkColor
-//            else R.color.lightColor
+//            if (App.preferences.isDarkTheme) R.color.lightColor
+//            else R.color.darkColor
 //        )
 //    )
-
-//    binding.icSplash01Footer.setImageResource(
-//        if (App.preferences.isDarkTheme) R.drawable.ic_splash_01_footer_dark
-//        else R.drawable.ic_splash_01_footer_light
+//
+//    binding.descSplash0102.setTextColor(
+//        ContextCompat.getColor(
+//            requireContext(),
+//            if (App.preferences.isDarkTheme) R.color.lightColor
+//            else R.color.darkColor
+//        )
 //    )
-
-    binding.titleSplash0102.setTextColor(
-        ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        )
-    )
-
-    binding.descSplash0102.setTextColor(
-        ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        )
-    )
-
-
-
-    binding.icSplashBigCircle.setImageResource(
-        if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
-        else R.drawable.ic_circle_big_light
-    )
-
-    binding.icSplashMidCircle.setImageResource(
-        if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
-        else R.drawable.ic_circle_mid_light
-    )
+//
+//    binding.icSplashBigCircle.setImageResource(
+//        if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
+//        else R.drawable.ic_circle_big_light
+//    )
+//
+//    binding.icSplashMidCircle.setImageResource(
+//        if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
+//        else R.drawable.ic_circle_mid_light
+//    )
 
     binding.icSplashBigCircle.setImageResource(
         if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
@@ -281,10 +164,13 @@ fun StartFragment.updateTheme() {
 //        else R.drawable.bg_start_header_light
 //    )
 
-//    binding.startHeaderAnim.setAnimation(
-//        if (App.preferences.isDarkTheme) R.raw.start_header_dark
+//    LottieCompositionFactory.fromRawResSync(
+//        requireContext(),
+//        if (!App.preferences.isDarkTheme) R.raw.start_header_dark
 //        else R.raw.start_header_light
-//    )
+//    )?.let { result ->
+//        result.value?.let { composition -> binding.startHeaderAnim.setComposition(composition) }
+//    }
 
 //    binding.bodygraphReadyText1.setTextColor(ContextCompat.getColor(
 //        requireContext(),

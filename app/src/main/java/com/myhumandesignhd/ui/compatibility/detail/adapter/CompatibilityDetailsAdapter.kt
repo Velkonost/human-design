@@ -8,6 +8,7 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.MotionEvent
@@ -22,7 +23,6 @@ import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.model.CompatibilityChannel
-import com.myhumandesignhd.model.CompatibilityNewDescription
 import com.myhumandesignhd.model.CompatibilityResponse
 import com.myhumandesignhd.util.convertDpToPx
 import com.skydoves.balloon.ArrowOrientation
@@ -45,6 +45,7 @@ import kotlinx.android.synthetic.main.item_compatibility_detail_channels.view.*
 import kotlinx.android.synthetic.main.item_compatibility_detail_channels.view.channelsRecycler
 import kotlinx.android.synthetic.main.item_compatibility_detail_profiles.view.*
 import kotlinx.android.synthetic.main.item_compatibility_info.view.*
+import pl.droidsonroids.gif.GifDrawable
 
 class CompatibilityDetailsAdapter : EpoxyAdapter() {
 
@@ -56,8 +57,7 @@ class CompatibilityDetailsAdapter : EpoxyAdapter() {
         compatibility: CompatibilityResponse,
         chart1ResId: Int,
         chart2ResId: Int,
-        context: Context,
-        descs: List<CompatibilityNewDescription>
+        context: Context
     ) {
         removeAllModels()
 
@@ -66,8 +66,7 @@ class CompatibilityDetailsAdapter : EpoxyAdapter() {
             firstTitle, secondTitle,
             firstName, secondName,
             compatibility.data.description,
-            chart1ResId, chart2ResId,
-                descs
+            chart1ResId, chart2ResId
         )
         )
         addModel(
@@ -98,7 +97,6 @@ class AboutModel(
     private val description: String,
     private val chart1ResId: Int,
     private val chart2ResId: Int,
-    private val descs: List<CompatibilityNewDescription>
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -108,71 +106,52 @@ class AboutModel(
         root = view
 
         with(view) {
-//            chart1.setImageResource(chart1ResId)
-//            chart2.setImageResource(chart2ResId)
-//
-//            firstTitle.text = firstTitleValue
-//            secondTitle.text = secondTitleValue
-//
-//            firstName.text = firstNameValue
-//            secondName.text = secondNameValue
-//
-//            firstTitle.setTextColor(
-//                ContextCompat.getColor(
-//                    context,
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            firstName.setTextColor(
-//                ContextCompat.getColor(
-//                    context,
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            secondTitle.setTextColor(
-//                ContextCompat.getColor(
-//                    context,
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            secondName.setTextColor(
-//                ContextCompat.getColor(
-//                    context,
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            warning.setTextColor(
-//                ContextCompat.getColor(
-//                    context,
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            Handler().postDelayed({
-//                (gif.drawable as GifDrawable).start()
-//            }, 1000)
+            chart1.setImageResource(chart1ResId)
+            chart2.setImageResource(chart2ResId)
 
-            val aboutAdapter = CompatibilityDetailAboutAdapter(
+            firstTitle.text = firstTitleValue
+            secondTitle.text = secondTitleValue
+
+            firstName.text = firstNameValue
+            secondName.text = secondNameValue
+
+            aboutDesc.text = description
+
+            firstTitle.setTextColor(ContextCompat.getColor(
                 context,
-                aboutRecycler,
-                descs,
-                firstTitleValue,
-                secondTitleValue,
-                firstNameValue,
-                secondNameValue,
-                chart1ResId,
-                chart2ResId,
-            )
-            aboutRecycler.adapter = aboutAdapter
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
+            firstName.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
+            secondTitle.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
+            secondName.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
+            aboutDesc.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
+            Handler().postDelayed({
+                (gif.drawable as GifDrawable).start()
+            }, 1000)
+
+
         }
     }
 
@@ -194,43 +173,34 @@ class ProfilesModel(
         root = view
 
         with(view) {
-            profileTitle.text =
-                "$profileTitleValue ${App.resourcesProvider.getStringLocale(R.string.profile_title)} $line"
+            profileTitle.text = "$profileTitleValue ${App.resourcesProvider.getStringLocale(R.string.profile_title)} $line"
             profileDesc.text = profileDescriptionValue
             descrTitle.text = this@ProfilesModel.descrTitle
             descNext.text = this@ProfilesModel.descNext
 
-            profileTitle.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+            profileTitle.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
 
-            profileDesc.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+            profileDesc.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
 
-            descrTitle.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+            descrTitle.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
 
-            descNext.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+            descNext.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
 
 
         }
@@ -249,8 +219,7 @@ class CompatibilityChannelsTitleModel : EpoxyModel<View>() {
         with(view) {
             activeGatesTitle.text =
                 App.resourcesProvider.getStringLocale(R.string.compatibility_channels_title)
-            activeGatesDesc.text =
-                App.resourcesProvider.getStringLocale(R.string.compatibility_channels_desc)
+            activeGatesDesc.text = App.resourcesProvider.getStringLocale(R.string.compatibility_channels_desc)
 
             activeGatesTitle.setTextColor(
                 ContextCompat.getColor(
@@ -298,13 +267,13 @@ class ChannelsModel(
         }
     }
 
-    private fun lastPosUpdate(memeID: Long, scrollPos: Int) {
+    private fun lastPosUpdate(memeID: Long, scrollPos: Int){
 
-        if (countDownTimer != null) {
+        if(countDownTimer != null){
             countDownTimer!!.cancel()
         }
 
-        countDownTimer = object : CountDownTimer(300, 300) {
+        countDownTimer = object: CountDownTimer(300, 300) {
             override fun onTick(millisUntilFinished: Long) {
 
             }
@@ -348,10 +317,7 @@ class ChannelsModel(
                         if (model is CompatibilityChannelModel) {
                             if (model.getTypeView().isVisible() && !isHelpShowing) {
                                 isHelpShowing = true
-                                balloon.showAlignBottom(
-                                    model.getTypeView(),
-                                    xOff = context.convertDpToPx(64f).toInt()
-                                )
+                                balloon.showAlignBottom(model.getTypeView(), xOff = context.convertDpToPx(64f).toInt())
 
                             }
                         }
@@ -367,11 +333,7 @@ class ChannelsModel(
 }
 
 @SuppressLint("ClickableViewAccessibility")
-fun NestedScrollView.onScrollStateChanged(
-    startDelay: Long = 100,
-    stopDelay: Long = 400,
-    listener: (Boolean) -> Unit
-) {
+fun NestedScrollView.onScrollStateChanged(startDelay: Long = 100, stopDelay: Long = 400, listener: (Boolean) -> Unit) {
     setOnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_SCROLL, MotionEvent.ACTION_MOVE -> {
@@ -402,7 +364,7 @@ class CompatibilityChannelsAdapter : EpoxyAdapter() {
         var position = 0
         models.map {
             addModel(CompatibilityChannelModel(it, position + 1, recyclerView))
-            position++
+            position ++
         }
         notifyDataSetChanged()
     }
@@ -432,37 +394,29 @@ class CompatibilityChannelModel(
             channelDesc.text = model.description
             number.text = model.number
 
-            channelTitle.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+            channelTitle.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
 
-            channelDesc.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+            channelDesc.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
 
-            number.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+            number.setTextColor(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
 
-            channelCard.backgroundTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.darkSettingsCard
-                    else R.color.lightSettingsCard
-                )
-            )
+            channelCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                else R.color.lightSettingsCard
+            ))
 
             number.background = ContextCompat.getDrawable(
                 context,
@@ -470,11 +424,11 @@ class CompatibilityChannelModel(
                 else R.drawable.bg_channel_number_light
             )
 
-            typeTitle.text = when (model.type) {
-                "0" -> App.resourcesProvider.getStringLocale(R.string.channel_type_4)
+            typeTitle.text = when(model.type) {
+                "0" -> App.resourcesProvider.getStringLocale(R.string.channel_type_1)
                 "1" -> App.resourcesProvider.getStringLocale(R.string.channel_type_2)
                 "2" -> App.resourcesProvider.getStringLocale(R.string.channel_type_3)
-                "3" -> App.resourcesProvider.getStringLocale(R.string.channel_type_1)
+                "3" -> App.resourcesProvider.getStringLocale(R.string.channel_type_4)
                 "4" -> App.resourcesProvider.getStringLocale(R.string.channel_type_5)
                 "5" -> App.resourcesProvider.getStringLocale(R.string.channel_type_6)
                 else -> App.resourcesProvider.getStringLocale(R.string.channel_type_4)
@@ -482,24 +436,22 @@ class CompatibilityChannelModel(
 
             typeTitle.background = ContextCompat.getDrawable(
                 context,
-                when (model.type) {
-                    "0" -> R.drawable.bg_channel_type_1
+                when(model.type) {
+                    "0" -> R.drawable.bg_channel_type_4
                     "1" -> R.drawable.bg_channel_type_2
                     "2" -> R.drawable.bg_channel_type_3
-                    "3" -> R.drawable.bg_channel_type_4
-                    "4" -> R.drawable.bg_channel_type_2
-                    "5" -> R.drawable.bg_channel_type_3
-                    else -> R.drawable.bg_channel_type_1
+                    "3" -> R.drawable.bg_channel_type_1
+                    "4" -> R.drawable.bg_channel_type_3
+                    "5" -> R.drawable.bg_channel_type_2
+                    else -> R.drawable.bg_channel_type_4
                 }
             )
 
-            channelArrow.imageTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    context,
-                    if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
-                )
-            )
+            channelArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
 
             if (isExpanded) {
                 channelDesc.maxLines = 70
@@ -518,17 +470,16 @@ class CompatibilityChannelModel(
                 isExpanded = !isExpanded
 
                 if (isExpanded) {
-                    val smoothScroller: RecyclerView.SmoothScroller =
-                        object : LinearSmoothScroller(context) {
-                            override fun getVerticalSnapPreference(): Int {
-                                return SNAP_TO_START
-                            }
-
-                            override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-                                return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
-                            }
-
+                    val smoothScroller: RecyclerView.SmoothScroller = object : LinearSmoothScroller(context) {
+                        override fun getVerticalSnapPreference(): Int {
+                            return SNAP_TO_START
                         }
+
+                        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                            return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
+                        }
+
+                    }
                     smoothScroller.targetPosition = position
                     (recyclerView.layoutManager as LinearLayoutManager)
                         .startSmoothScroll(smoothScroller)

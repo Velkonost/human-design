@@ -233,17 +233,17 @@ class PersonalInfoFragment : BaseFragment<SettingsViewModel, FragmentPersonalInf
                 timeBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
                 var newTime = String.format(
-                    "%02d", this.time.hoursPicker.currentHour
+                    "%02d",
+                    this.time.hoursPicker.currentHour
                 ) + ":" + String.format("%02d", this.time.minutesPicker.currentMinute)
                 binding.timeET.setText(newTime)
 
                 if (App.preferences.locale == "en") {
-                    var currentHour = this.time.hoursPicker.currentHour
-//                    if (currentHour == 0) currentHour = 12
-
                     newTime =
                         String.format(
-                            "%02d", currentHour + if (this.time.amPmPicker.isPm) 12 else 0
+                            "%02d",
+                            this.time.hoursPicker.currentHour +
+                                    if (this.time.amPmPicker.isPm) 12 else 0
                         ) + ":" + String.format("%02d", this.time.minutesPicker.currentMinute)
 
                     val sdf = SimpleDateFormat("hh:mm")

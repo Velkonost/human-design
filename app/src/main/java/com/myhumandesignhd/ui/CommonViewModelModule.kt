@@ -5,6 +5,7 @@ import com.myhumandesignhd.di.scope.ViewModelKey
 import com.myhumandesignhd.ui.affirmation.AffirmationViewModel
 import com.myhumandesignhd.ui.bodygraph.BodygraphViewModel
 import com.myhumandesignhd.ui.compatibility.CompatibilityViewModel
+import com.myhumandesignhd.ui.description.DescriptionViewModel
 import com.myhumandesignhd.ui.faq.FaqViewModel
 import com.myhumandesignhd.ui.loader.LoaderViewModel
 import com.myhumandesignhd.ui.settings.SettingsViewModel
@@ -62,5 +63,10 @@ interface CommonViewModelModule {
     @IntoMap
     @ViewModelKey(LoaderViewModel::class)
     fun loaderViewModel(m: LoaderViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DescriptionViewModel::class)
+    fun descriptionViewModel(m: DescriptionViewModel): ViewModel
 
 }
