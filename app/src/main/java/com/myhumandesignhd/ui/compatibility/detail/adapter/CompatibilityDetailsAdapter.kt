@@ -65,23 +65,23 @@ class CompatibilityDetailsAdapter : EpoxyAdapter() {
             AboutModel(
                 firstTitle, secondTitle,
                 firstName, secondName,
-                compatibility.description,
+                compatibility.data.description,
                 chart1ResId, chart2ResId,
                 descs
             )
         )
         addModel(
             ProfilesModel(
-                compatibility.line,
-                compatibility.profileTitle,
-                compatibility.profileDescription,
-                compatibility.descrTitle,
-                compatibility.descrNext
+                compatibility.data.line,
+                compatibility.data.profileTitle,
+                compatibility.data.profileDescription,
+                compatibility.data.descrTitle,
+                compatibility.data.descrNext
             )
         )
         addModel(
             ChannelsModel(
-                compatibility.channels,
+                compatibility.data.channels,
                 context
             )
         )

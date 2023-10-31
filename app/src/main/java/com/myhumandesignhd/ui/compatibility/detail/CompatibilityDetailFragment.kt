@@ -249,7 +249,7 @@ class CompatibilityDetailFragment : BaseFragment<CompatibilityViewModel, Fragmen
                         else R.drawable.ic_chart_manifestor_light
                     },
                     context = requireContext(),
-                    descs = it.newDescriptions
+                    descs = it.data.newDescriptions
                 )
             }
 

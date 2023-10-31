@@ -79,6 +79,7 @@ class CompatibilityAdapter : EpoxyAdapter() {
             childrenAdapter.createList(children)
         }
 
+        notifyDataSetChanged()
         isCreated = true
 
     }
@@ -144,14 +145,20 @@ class PartnersModel(
 
             partnersAdapter.createList(partners)
 
-            emptyAnim.setAnimation(
-                if (App.preferences.isDarkTheme) R.raw.compatibility_empty_light
-                else R.raw.compatibility_empty_dark
-            )
-            emptyAnim.playAnimation()
+            if (partners.isNullOrEmpty()) {
+                emptyAnim.setAnimation(
+                    if (App.preferences.isDarkTheme) R.raw.compatibility_empty_light
+                    else R.raw.compatibility_empty_dark
+                )
+                emptyAnim.playAnimation()
 
-            emptyBlock.isVisible = partners.isEmpty()
-            addPartnerBtn.isVisible = partners.isEmpty()
+                emptyBlock.isVisible = true
+                addPartnerBtn.isVisible = true
+            } else {
+                emptyBlock.isVisible = false
+                addPartnerBtn.isVisible = false
+            }
+
 
             emptyTitle.setTextColor(ContextCompat.getColor(
                 context,

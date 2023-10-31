@@ -517,6 +517,7 @@ class AboutAdapter(
                 kotlin.runCatching {
                     expandButton.setTextAnimation(
                         when (items[adapterPosition].type) {
+                            AboutType.BODYGRAPH -> App.resourcesProvider.getStringLocale(R.string.type_title)
                             AboutType.TYPE -> App.resourcesProvider.getStringLocale(R.string.type_title)
                             AboutType.PROFILE -> App.resourcesProvider.getStringLocale(R.string.profile_title)
                             AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)

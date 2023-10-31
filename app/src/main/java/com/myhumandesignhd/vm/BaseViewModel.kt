@@ -155,18 +155,24 @@ class BaseViewModel @Inject constructor(
         }
     }
 
-    fun setupCompatibility(id: String, onComplete: () -> Unit) {
+    fun setupCompatibility(id: String, onComplete: (Int) -> Unit) {
 
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
 
         repoV2.getCompatibility(id = id, light = false).subscribe({
-            onComplete.invoke()
+            var percentageAvg = 0
+            it.data.newDescriptions.map { nd ->
+                percentageAvg += nd.percentage
+            }
+            percentageAvg /= it.data.newDescriptions.size
+
+            onComplete.invoke(percentageAvg)
 
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             currentCompatibility.postValue(it)
         }, {
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
-            EventBus.getDefault().post(NoInetEvent())
+//            EventBus.getDefault().post(NoInetEvent())
         }).disposeOnCleared()
     }
 
@@ -467,7 +473,7 @@ class BaseViewModel @Inject constructor(
         checkIsUserDataLoaded()
     }
 
-    fun deleteUser(userIdToDelete: Long) {
+    fun deleteUser(userIdToDelete: Long, onComplete: () -> Unit) {
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
 
         repoV2.deleteBodygraph(userIdToDelete)
@@ -484,12 +490,13 @@ class BaseViewModel @Inject constructor(
                 allBodygraphsData.postValue(result.data)
 
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                onComplete.invoke()
             }, {
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             }).disposeOnCleared()
     }
 
-    fun deleteChild(childIdToDelete: Long) {
+    fun deleteChild(childIdToDelete: Long, onComplete: () -> Unit) {
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
 
         repoV2.deleteBodygraph(childIdToDelete)
@@ -506,6 +513,7 @@ class BaseViewModel @Inject constructor(
                 allBodygraphsData.postValue(result.data)
 
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
+                onComplete.invoke()
             }, {
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             }).disposeOnCleared()

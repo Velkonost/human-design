@@ -52,8 +52,10 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
         if (lastDeletedUserId != e.userId) {
             lastDeletedUserId = e.userId
 
-            baseViewModel.deleteUser(e.userId)
-            diagramsAdapter.deleteUserById(e.userId)
+            baseViewModel.deleteUser(e.userId) {
+                diagramsAdapter.deleteUserById(e.userId)
+            }
+
         }
     }
 

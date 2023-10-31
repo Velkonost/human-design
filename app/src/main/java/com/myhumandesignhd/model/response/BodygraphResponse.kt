@@ -54,7 +54,9 @@ data class BodygraphResponse(
 
     @field:JsonProperty("children") val children: List<BodygraphResponse>? = null,
     @field:JsonProperty("cycles") val cycles: List<Cycle> = emptyList(),
-) : Parcelable
+) : Parcelable {
+    var compatibilityAvg: Int = 0
+}
 
 @Parcelize
 data class AboutItem(

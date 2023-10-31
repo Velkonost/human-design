@@ -35,6 +35,11 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.skydoves.balloon.overlay.BalloonOverlayRoundRect
 import com.yandex.metrica.YandexMetrica
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -69,7 +74,22 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     fun onDeletePartnerEvent(e: DeletePartnerEvent) {
         if (e.partnerId != lastDeletedPartnerId) {
             lastDeletedPartnerId = e.partnerId
-            baseViewModel.deleteUser(e.partnerId)
+            baseViewModel.deleteUser(e.partnerId) {
+
+                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                    val partners = (baseViewModel.allBodygraphsData.value ?: emptyList())
+                        .toMutableList().filter { it.id != App.preferences.currentUserId }
+                    val children = baseViewModel.childrenData.value ?: emptyList()
+
+                    if (partners.isEmpty()) {
+                        compatibilityAdapter.createList(
+                            partners,
+                            children,
+                            forceRecreate = true
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -77,7 +97,21 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     fun onDeleteChildEvent(e: DeleteChildEvent) {
         if (e.childId != lastDeletedChildId) {
             lastDeletedChildId = e.childId
-            baseViewModel.deleteChild(e.childId)
+            baseViewModel.deleteChild(e.childId) {
+                GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                    val partners = (baseViewModel.allBodygraphsData.value ?: emptyList())
+                        .toMutableList().filter { it.id != App.preferences.currentUserId }
+                    val children = baseViewModel.childrenData.value ?: emptyList()
+
+                    if (children.isEmpty()) {
+                        compatibilityAdapter.createList(
+                            partners,
+                            children,
+                            forceRecreate = true
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -307,12 +341,57 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
 
         baseViewModel.allBodygraphsData.observe(this) { bodygraphs ->
+            if (!compatibilityAdapter.partnersAdapter.isEmpty) return@observe
+
             val partners =
                 bodygraphs.toMutableList().filter { it.id != App.preferences.currentUserId }
 
             baseViewModel.childrenData.observe(this) { children ->
 //                if (!compatibilityAdapter.isCreated)
-                    compatibilityAdapter.createList(partners, children)
+
+                runBlocking {
+                    var ready = 0
+
+                    if (partners.isEmpty()) {
+                        compatibilityAdapter.createList(partners, children)
+
+                        binding.viewPager.postDelayed({
+                            if (App.preferences.isCompatibilityFromChild) {
+                                android.os.Handler().postDelayed({
+                                    App.preferences.isCompatibilityFromChild = false
+                                    binding.viewPager.setCurrentItem(1, false)
+                                    selectChildren()
+                                }, 100)
+
+                            }
+                        }, 150)
+                    } else {
+                        partners.forEachIndexed { index, partner ->
+                            baseViewModel.setupCompatibility(
+                                id = partner.id.toString()
+                            ) { avg ->
+                                ready += 1
+                                partner.compatibilityAvg = avg
+
+                                if (ready == partners.size) {
+                                    compatibilityAdapter.createList(partners, children)
+
+                                    binding.viewPager.postDelayed({
+                                        if (App.preferences.isCompatibilityFromChild) {
+                                            android.os.Handler().postDelayed({
+                                                App.preferences.isCompatibilityFromChild = false
+                                                binding.viewPager.setCurrentItem(1, false)
+                                                selectChildren()
+                                            }, 100)
+
+                                        }
+                                    }, 150)
+                                }
+                            }
+                        }
+                    }
+                }
+//                    compatibilityAdapter.createList(partners, children)
 
                 val identify = Identify()
                 identify.set("partnersadded", partners.size.toString())
@@ -349,24 +428,12 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
                                 selectPartners()
                             }
                         }
+
                         else -> selectChildren()
                     }
                 }
             }
         })
-
-        binding.viewPager.postDelayed({
-            binding.viewPager.adapter = compatibilityAdapter
-            if (App.preferences.isCompatibilityFromChild) {
-                android.os.Handler().postDelayed({
-
-                    App.preferences.isCompatibilityFromChild = false
-                    binding.viewPager.setCurrentItem(1, false)
-                    selectChildren()
-                }, 100)
-            }
-        }, 150)
-
     }
 
     @Subscribe
