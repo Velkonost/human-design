@@ -3,6 +3,7 @@ package com.myhumandesignhd.ui.bodygraph.diagram.adapter
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.text.Html
+import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -263,6 +264,10 @@ class DiagramEmptyModel(
                 )
             )
 
+            val height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 105f, resources.displayMetrics)
+
+            val cardParams = emptyPartnerCard.layoutParams
+            cardParams.height = height.toInt()
 
         }
     }
