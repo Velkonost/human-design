@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import androidx.annotation.DimenRes
 import androidx.annotation.StringRes
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -25,7 +25,8 @@ class ResourcesProvider @Inject constructor(
         return context.createConfigurationContext(config).getText(stringResId).toString()
     }
 
-    fun getStringArray() {}
+    fun getStringArray() {
+    }
 
 
     fun getDimen(

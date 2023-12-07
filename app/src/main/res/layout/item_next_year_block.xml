@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/blockTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="32dp"
+            android:textSize="29sp"
+            android:textColor="@color/lightColor"
+            android:fontFamily="@font/roboto"
+            android:text="@string/next_year_general_overview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/blockNumber"
+            android:textSize="17sp"
+            android:fontFamily="@font/roboto"
+            android:background="@drawable/bg_next_year_number_dark"
+            android:textColor="@color/lightColor"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/blockTitle"
+            app:layout_constraintBottom_toBottomOf="@id/blockTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/blockText"
+        android:textSize="19sp"
+        android:fontFamily="@font/roboto"
+        android:layout_marginTop="20dp"
+        android:alpha="0.7"
+        android:text="@string/next_year_general_overview_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
