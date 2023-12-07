@@ -47,8 +47,8 @@ class CompatibilityAdapter : EpoxyAdapter() {
 
     var isCreated = false
 
-    private var childrenItems: MutableList<Child> = mutableListOf()
-    private var partnersItems: MutableList<User> = mutableListOf()
+    var childrenItems: MutableList<Child> = mutableListOf()
+    var partnersItems: MutableList<User> = mutableListOf()
 
 
     fun createList(

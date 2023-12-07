@@ -212,8 +212,8 @@
     <string name="channel_type_2">Главенство</string>
     <string name="channel_type_3">Подавление</string>
     <string name="channel_type_4">Взаимозависимость</string>
-    <string name="channel_type_5">Главенство партнера</string>
-    <string name="channel_type_6">Подавление партнером</string>
+    <string name="channel_type_5">Подавление партнером</string>
+    <string name="channel_type_6">Главенство партнера</string>
 
     <string name="compatibility_child_title">Ребенок</string>
     <string name="compatibility_parent_title">Родитель</string>

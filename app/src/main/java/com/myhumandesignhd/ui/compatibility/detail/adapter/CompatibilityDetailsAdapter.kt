@@ -487,8 +487,8 @@ class CompatibilityChannelModel(
                     "1" -> R.drawable.bg_channel_type_2
                     "2" -> R.drawable.bg_channel_type_3
                     "3" -> R.drawable.bg_channel_type_4
-                    "4" -> R.drawable.bg_channel_type_2
-                    "5" -> R.drawable.bg_channel_type_3
+                    "4" -> R.drawable.bg_channel_type_3
+                    "5" -> R.drawable.bg_channel_type_2
                     else -> R.drawable.bg_channel_type_1
                 }
             )

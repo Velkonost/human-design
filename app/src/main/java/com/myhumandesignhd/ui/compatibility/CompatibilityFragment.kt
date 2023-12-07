@@ -117,7 +117,7 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
     fun onDeleteChildEvent(e: DeleteChildEvent) {
         baseViewModel.deleteChild(e.childId) {
             GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-                val partners = baseViewModel.getAllUsers()
+                val partners = compatibilityAdapter.partnersItems
                     .toMutableList().filter { it.id != App.preferences.currentUserId }
                 val children = baseViewModel.getAllChildren()
 
