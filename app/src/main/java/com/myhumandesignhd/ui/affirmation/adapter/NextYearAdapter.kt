@@ -3,6 +3,7 @@ package com.myhumandesignhd.ui.affirmation.adapter
 import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.App
@@ -10,6 +11,7 @@ import com.myhumandesignhd.R
 import kotlinx.android.synthetic.main.item_next_year_block.view.blockNumber
 import kotlinx.android.synthetic.main.item_next_year_block.view.blockText
 import kotlinx.android.synthetic.main.item_next_year_block.view.blockTitle
+import kotlinx.android.synthetic.main.item_next_year_block.view.footerText
 import kotlinx.android.synthetic.main.item_next_year_first_part.view.activationDate
 import kotlinx.android.synthetic.main.item_next_year_first_part.view.activationDateTitle
 import kotlinx.android.synthetic.main.item_next_year_first_part.view.generalOverview
@@ -38,6 +40,8 @@ class NextYearAdapter : EpoxyAdapter() {
                 )
             )
         }
+
+        addModel(NextYearConclusionModel())
     }
 }
 
@@ -82,6 +86,9 @@ class NextYearBlockModel(
                 else R.color.darkColor
             )
 
+            blockNumber.isVisible = true
+            footerText.isVisible = false
+
             blockTitle.text = title
             blockText.text = text
             blockNumber.text = number
@@ -94,6 +101,36 @@ class NextYearBlockModel(
                 context, if (App.preferences.isDarkTheme) R.drawable.bg_next_year_number_dark
                 else R.drawable.bg_next_year_number_light
             )
+        }
+    }
+
+    override fun getDefaultLayout(): Int = R.layout.item_next_year_block
+}
+
+class NextYearConclusionModel : EpoxyModel<View>() {
+    private var root: View? = null
+
+    override fun bind(view: View) {
+        super.bind(view)
+        root = view
+
+        with(view) {
+            val color = ContextCompat.getColor(
+                context, if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+
+            blockTitle.setTextColor(color)
+            blockText.setTextColor(color)
+            footerText.setTextColor(color)
+
+            blockNumber.isVisible = false
+            footerText.isVisible = true
+
+            blockTitle.text = context.getString(R.string.next_year_conclusion_title)
+            blockText.text = context.getString(R.string.next_year_conclusion_text)
+
+
         }
     }
 

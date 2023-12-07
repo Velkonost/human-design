@@ -48,4 +48,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <TextView
+        android:id="@+id/footerText"
+        android:textSize="24sp"
+        android:visibility="gone"
+        android:fontFamily="@font/roboto"
+        android:textStyle="italic"
+        android:layout_marginTop="20dp"
+        android:text="@string/next_year_conclusion_footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </androidx.appcompat.widget.LinearLayoutCompat>
