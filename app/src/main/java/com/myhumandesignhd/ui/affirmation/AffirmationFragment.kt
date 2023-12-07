@@ -26,11 +26,24 @@ import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.yandex.metrica.YandexMetrica
-import kotlinx.android.synthetic.main.item_affirmation.view.*
-import kotlinx.android.synthetic.main.item_forecast.view.*
+import kotlinx.android.synthetic.main.item_affirmation.view.affirmationCard
+import kotlinx.android.synthetic.main.item_affirmation.view.affirmationIcon
+import kotlinx.android.synthetic.main.item_affirmation.view.affirmationNextText
+import kotlinx.android.synthetic.main.item_affirmation.view.affirmationText
+import kotlinx.android.synthetic.main.item_affirmation.view.shareBtn
+import kotlinx.android.synthetic.main.item_forecast.view.forecastNextTitle
+import kotlinx.android.synthetic.main.item_forecast.view.forecastText
+import kotlinx.android.synthetic.main.item_forecast.view.forecastTitle
+import kotlinx.android.synthetic.main.item_forecast.view.line1
+import kotlinx.android.synthetic.main.item_forecast.view.line2
+import kotlinx.android.synthetic.main.item_forecast.view.line3
+import kotlinx.android.synthetic.main.item_forecast.view.line4
+import kotlinx.android.synthetic.main.item_forecast.view.line5
+import kotlinx.android.synthetic.main.item_forecast.view.line6
+import kotlinx.android.synthetic.main.item_forecast.view.line7
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Calendar
 
 class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmationBinding>(
     R.layout.fragment_affirmation,
@@ -47,7 +60,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
-        Amplitude.getInstance().logEvent("tab5_screen_shown");
+        Amplitude.getInstance().logEvent("tab5_screen_shown")
     }
 
     private fun setupViewPager() {
@@ -64,6 +77,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                 when(position) {
                     0 -> selectAffirmations()
                     1 -> selectForecasts()
+                    2 -> selectNextYear()
                     else -> selectInsights()
                 }
             }
@@ -115,7 +129,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
     private fun selectAffirmations() {
         YandexMetrica.reportEvent("Tap5AffirmationsTapped")
-        Amplitude.getInstance().logEvent("tab5TappedAffirmations");
+        Amplitude.getInstance().logEvent("tab5TappedAffirmations")
 
         binding.affirmationTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -124,6 +138,11 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
         ))
 
         binding.forecastTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.nextYearTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             R.color.unselectText
         ))
@@ -140,12 +159,49 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
         )
 
         binding.forecastTitle.background = null
+        binding.nextYearTitle.background = null
+        binding.insightsTitle.background = null
+    }
+
+    private fun selectNextYear() {
+        YandexMetrica.reportEvent("tab5_2024_clicked")
+        Amplitude.getInstance().logEvent("tab5_2024_clicked")
+
+        binding.nextYearTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        binding.forecastTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.affirmationTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.insightsTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.nextYearTitle.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
+            else R.drawable.bg_section_active_light
+        )
+
+        binding.forecastTitle.background = null
+        binding.affirmationTitle.background = null
         binding.insightsTitle.background = null
     }
 
     private fun selectForecasts() {
         YandexMetrica.reportEvent("Tap5ForecastsTapped")
-        Amplitude.getInstance().logEvent("tab5TappedForecasts");
+        Amplitude.getInstance().logEvent("tab5TappedForecasts")
 
         binding.forecastTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
@@ -154,6 +210,11 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
         ))
 
         binding.affirmationTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
+        binding.nextYearTitle.setTextColor(ContextCompat.getColor(
             requireContext(),
             R.color.unselectText
         ))
@@ -171,6 +232,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
         binding.affirmationTitle.background = null
         binding.insightsTitle.background = null
+        binding.nextYearTitle.background = null
     }
 
     private fun selectInsights() {
@@ -190,6 +252,11 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
             R.color.unselectText
         ))
 
+        binding.nextYearTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            R.color.unselectText
+        ))
+
         binding.insightsTitle.background = ContextCompat.getDrawable(
             requireContext(),
             if (App.preferences.isDarkTheme) R.drawable.bg_section_active_dark
@@ -198,6 +265,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
         binding.affirmationTitle.background = null
         binding.forecastTitle.background = null
+        binding.nextYearTitle.background = null
     }
 
     private lateinit var shareBtnView: View
@@ -242,7 +310,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
     private fun getViewPagerAdapter(): PagerAdapter = object : PagerAdapter() {
         override fun getCount(): Int {
-            return 2
+            return 3
         }
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -278,7 +346,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     view.shareBtn.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.affirmation_share))
                     view.shareBtn.setOnClickListener {
                         YandexMetrica.reportEvent("Tab5TappedShareTapped")
-                        Amplitude.getInstance().logEvent("tab5TappedShare");
+                        Amplitude.getInstance().logEvent("tab5TappedShare")
 
 //                        view.shareBtn.isVisible = false
                         GlobalScope.launch {
@@ -617,6 +685,10 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
             binding.viewPager.setCurrentItem(2, true)
         }
 
+        fun onNextYearClicked(v: View) {
+            selectNextYear()
+            binding.viewPager.setCurrentItem(2, true)
+        }
     }
 
 }
