@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/activationDateTitle"
+        android:text="@string/next_year_activation_date_title"
+        android:fontFamily="@font/roboto"
+        android:textSize="17sp"
+        android:textColor="@color/lightColor"
+        android:alpha="0.5"
+        android:layout_marginTop="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/activationDate"
+        android:text="@string/next_year_activation_date"
+        android:textSize="29sp"
+        android:textColor="@color/lightColor"
+        android:fontFamily="@font/roboto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/mainText"
+        android:alpha="0.7"
+        android:textSize="19sp"
+        android:layout_marginTop="20dp"
+        android:text="@string/next_year_main_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/generalOverviewTitle"
+        android:layout_marginTop="32dp"
+        android:textSize="29sp"
+        android:textColor="@color/lightColor"
+        android:fontFamily="@font/roboto"
+        android:text="@string/next_year_general_overview_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/generalOverview"
+        android:textSize="19sp"
+        android:fontFamily="@font/roboto"
+        android:layout_marginTop="20dp"
+        android:alpha="0.7"
+        android:text="@string/next_year_general_overview_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

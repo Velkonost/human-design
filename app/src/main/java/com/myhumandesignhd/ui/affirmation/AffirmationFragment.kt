@@ -16,6 +16,7 @@ import com.myhumandesignhd.App
 import com.myhumandesignhd.BuildConfig
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentAffirmationBinding
+import com.myhumandesignhd.ui.affirmation.adapter.NextYearAdapter
 import com.myhumandesignhd.ui.affirmation.ext.shareAffirmation
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.util.ext.setTextAnimation
@@ -41,6 +42,7 @@ import kotlinx.android.synthetic.main.item_forecast.view.line4
 import kotlinx.android.synthetic.main.item_forecast.view.line5
 import kotlinx.android.synthetic.main.item_forecast.view.line6
 import kotlinx.android.synthetic.main.item_forecast.view.line7
+import kotlinx.android.synthetic.main.item_next_year.view.nextYearRecycler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -360,6 +362,15 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     }
 
                     shareBtnView = view.shareBtn
+
+                    container.addView(view)
+                    view
+                }
+                2 -> {
+                    val view = layoutInflater.inflate(R.layout.item_next_year, null)
+                    val adapter = NextYearAdapter()
+                    view.nextYearRecycler.adapter = adapter
+                    adapter.create()
 
                     container.addView(view)
                     view
