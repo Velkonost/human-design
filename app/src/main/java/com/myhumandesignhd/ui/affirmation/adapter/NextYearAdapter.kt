@@ -1,13 +1,23 @@
 package com.myhumandesignhd.ui.affirmation.adapter
 
+import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.res.ColorStateList
+import android.util.DisplayMetrics
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyAdapter
 import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
+import kotlinx.android.synthetic.main.item_channel.view.channelArrow
+import kotlinx.android.synthetic.main.item_channel.view.channelCard
+import kotlinx.android.synthetic.main.item_channel.view.channelDesc
+import kotlinx.android.synthetic.main.item_channel.view.channelTitle
+import kotlinx.android.synthetic.main.item_channel.view.number
 import kotlinx.android.synthetic.main.item_next_year_block.view.blockNumber
 import kotlinx.android.synthetic.main.item_next_year_block.view.blockText
 import kotlinx.android.synthetic.main.item_next_year_block.view.blockTitle
@@ -17,6 +27,8 @@ import kotlinx.android.synthetic.main.item_next_year_first_part.view.activationD
 import kotlinx.android.synthetic.main.item_next_year_first_part.view.generalOverview
 import kotlinx.android.synthetic.main.item_next_year_first_part.view.generalOverviewTitle
 import kotlinx.android.synthetic.main.item_next_year_first_part.view.mainText
+import kotlinx.android.synthetic.main.item_next_year_planet_title.view.globalProcesses
+import kotlinx.android.synthetic.main.item_next_year_planet_title.view.planetInsights
 
 class NextYearAdapter : EpoxyAdapter() {
 
@@ -31,18 +43,183 @@ class NextYearAdapter : EpoxyAdapter() {
         val texts = context.resources.getStringArray(R.array.next_year_texts)
         val numbers = context.resources.getStringArray(R.array.next_year_numbers)
 
-        titles.forEachIndexed { index, s ->
+        titles.forEachIndexed { index, _ ->
             addModel(
                 NextYearBlockModel(
                     title = titles[index],
                     text = texts[index],
-                    number = numbers[index]
+                    numberStr = numbers[index]
+                )
+            )
+        }
+
+        val planetTitles = context.resources.getStringArray(R.array.next_year_planets_titles)
+        val planetTexts = context.resources.getStringArray(R.array.next_year_planets_texts)
+        val planetNumbers = context.resources.getStringArray(R.array.next_year_planets_numbers)
+
+        addModel(NextYearPlanetsTitle())
+
+        planetTitles.forEachIndexed { index, _ ->
+            addModel(
+                NextYearPlanetModel(
+                    title = planetTitles[index],
+                    text = planetTexts[index],
+                    numberStr = planetNumbers[index]
                 )
             )
         }
 
         addModel(NextYearConclusionModel())
     }
+}
+
+class NextYearPlanetsTitle : EpoxyModel<View>() {
+    private var root: View? = null
+
+    override fun bind(view: View) {
+        super.bind(view)
+        root = view
+
+        with(view) {
+            val color = ContextCompat.getColor(
+                context, if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+
+            globalProcesses.setTextColor(color)
+            planetInsights.setTextColor(color)
+        }
+    }
+    override fun getDefaultLayout(): Int = R.layout.item_next_year_planet_title
+}
+
+class NextYearPlanetModel(
+    val title: String,
+    val text: String,
+    val numberStr: String,
+//    private val position: Int,
+//    private val recyclerView: RecyclerView,
+    private var isExpanded: Boolean = false
+) : EpoxyModel<View>() {
+
+    private var root: View? = null
+
+    override fun bind(view: View) {
+        super.bind(view)
+        root = view
+
+        with(view) {
+            channelTitle.text = title
+            channelDesc.text = text
+            number.text = numberStr
+
+            channelTitle.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                ))
+
+            channelDesc.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                ))
+
+            number.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                ))
+
+            channelCard.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.darkSettingsCard
+                    else R.color.lightSettingsCard
+                ))
+
+            number.background = ContextCompat.getDrawable(
+                context,
+                if (App.preferences.isDarkTheme) R.drawable.bg_channel_number_dark
+                else R.drawable.bg_channel_number_light
+            )
+
+            channelArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
+                context,
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            ))
+
+            if (isExpanded) {
+                channelDesc.maxLines = 70
+                channelArrow
+                    .animate().rotation(-90f).duration = 300
+                channelArrow.alpha = 0.3f
+            } else {
+
+                channelDesc.maxLines = 3
+                channelArrow
+                    .animate().rotation(90f).duration = 300
+                channelArrow.alpha = 1f
+            }
+
+            if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) {
+                channelDesc.maxLines = 70
+                channelArrow.isVisible = false
+            }
+
+            channelCard.setOnClickListener {
+                if (android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK) {
+                    isExpanded = !isExpanded
+
+                    if (isExpanded) {
+
+                        val smoothScroller: RecyclerView.SmoothScroller =
+                            object : LinearSmoothScroller(context) {
+                                override fun getVerticalSnapPreference(): Int {
+                                    return SNAP_TO_START
+                                }
+
+                                override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                                    return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
+                                }
+
+                            }
+//                        smoothScroller.targetPosition = position
+//                        (recyclerView.layoutManager as LinearLayoutManager)
+//                            .startSmoothScroll(smoothScroller)
+
+                        val animation = ObjectAnimator.ofInt(
+                            channelDesc,
+                            "maxLines",
+                            70
+                        )
+                        animation.duration = 1000
+                        animation.start()
+                        channelArrow
+                            .animate().rotation(-90f).duration = 300
+                        channelArrow.alpha = 0.3f
+                    } else {
+                        val animation = ObjectAnimator.ofInt(
+                            channelDesc,
+                            "maxLines",
+                            3
+                        )
+                        animation.duration = 500
+                        animation.start()
+                        channelArrow
+                            .animate().rotation(90f).duration = 300
+                        channelArrow.alpha = 1f
+                    }
+                }
+            }
+        }
+    }
+
+    override fun getDefaultLayout(): Int = R.layout.item_channel
 }
 
 class NextYearFirstPartModel : EpoxyModel<View>() {
@@ -72,7 +249,7 @@ class NextYearFirstPartModel : EpoxyModel<View>() {
 class NextYearBlockModel(
     val title: String,
     val text: String,
-    val number: String
+    val numberStr: String
 ) : EpoxyModel<View>() {
     private var root: View? = null
 
@@ -91,7 +268,7 @@ class NextYearBlockModel(
 
             blockTitle.text = title
             blockText.text = text
-            blockNumber.text = number
+            blockNumber.text = numberStr
 
             blockTitle.setTextColor(color)
             blockText.setTextColor(color)

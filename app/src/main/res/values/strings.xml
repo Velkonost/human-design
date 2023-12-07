@@ -467,6 +467,27 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
         <item>If people inefficiently use resources, the blow this year will hit individuality. You may have to sacrifice your uniqueness and lose money if you cannot be an effective manager for yourself and others. Feelings of melancholy and boredom might arise. If we behave correctly regarding the law of this year, there is a chance to unleash the power of inner strength through earning money and accumulating resources, which naturally benefits those around us. Money and spirituality go hand in hand, which is the lesson of this year. The slogan of this activation could be: "The more I personally earn, the happier the world becomes."\n\nPeople will want to associate only with those who are "like-minded" and preferably not for free. However, if an unpleasant client comes to you, for the sake of preserving your spirit, you may not want to sell them your product or service. Ultimately, honesty and materialism complement each other. Insufficient honesty with oneself and one\'s clients brings more losses than profits from a compromising deal. Focus on your prosperity and minimize ideological-spiritual rhetoric.</item>
     </string-array>
 
+    <string name="next_year_global_processes">Global Processes</string>
+    <string name="next_year_planet_insights">Planetary Insights for 2024</string>
+
+    <string-array name="next_year_planets_titles">
+        <item>Uranus</item>
+        <item>Neptune</item>
+        <item>Pluto</item>
+    </string-array>
+
+    <string-array name="next_year_planets_numbers">
+        <item>23.1</item>
+        <item>36.4</item>
+        <item>60.4</item>
+    </string-array>
+
+    <string-array name="next_year_planets_texts">
+        <item>There is a chance that new knowledge or ways of organizing the world, both revolutionary and destructive, will be advanced. It\'s unlikely that what is proposed to society this year will take root. This refers to a profound change in humanity\'s beliefs. Even if new trends are not immediately accepted, the process itself will be initiated. Most likely, after some time, we will witness an entirely new world with a new form of organization and a system of values.</item>
+        <item>The world is still going through a crisis period, ultimately leading to change. We continue to live "in the history books." This might be a year of significant revelations that either help cope with the crisis or give rise to new ones. If you possess any secrets, guard them until the right moment. People may also disclose secrets willingly or unwittingly. We are eager for change and will seize any opportunity. If you are aware in advance that your company is expecting layoffs or closure, you will start looking for a job sooner and be better prepared. This is just an example. Therefore, do not underestimate your environment and information. People may also use information they have to manipulate others for their benefit. Be more attentive. You may not immediately understand which information will become particularly crucial.</item>
+        <item>Since the time of COVID-19, humanity continues to live in an era of limited possibilities. In the coming year, the entire world will be focused on extracting maximum opportunities within such constraints. "Yes, we cannot create world peace, but what is the best we can do at the moment?" "Yes, we cannot increase the education budget, but how can we maximize what is possible? Which funding programs can we cut?" This theme continues the rhetoric, drivers, politics, economics, values, and laws. People will be forced to continue adapting and maximizing.</item>
+    </string-array>
+
     <string name="next_year_conclusion_title">Conclusion</string>
     <string name="next_year_conclusion_text">As evident from the forecast, our society and the world at large are undergoing significant changes. The recent years have become an era of transformation. It\'s crucial during times of turbulence to understand that people are mostly driven by a program and don\'t know why they act in a certain way. Whether it\'s their internal content or the herd instinct fueled by the media. Everything described in the 2024 forecast is a framework showing the settings in which events will unfold and the type of events that might occur. It\'s important to stay connected with yourself, regardless of what is happening around you. Therefore, be attentive, listen to your strategy and inner authority, stock up on popcorn, and navigate your way through these interesting and challenging times.</string>
     <string name="next_year_conclusion_footer">To make the most of 2024, delve into your Human Design, thoroughly explore the "About Me" section, don\'t ignore daily insights, strive to follow them, and closely monitor planetary transits and how you evolve with them each day! Activate your success, and may the New Year 2024 be unforgettable! 🚀\n\nThis 2024 Rave Forecast is always accessible in the "Insight" section.</string>
