@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearSmoothScroller
@@ -29,6 +30,7 @@ import kotlinx.android.synthetic.main.item_next_year_first_part.view.generalOver
 import kotlinx.android.synthetic.main.item_next_year_first_part.view.mainText
 import kotlinx.android.synthetic.main.item_next_year_planet_title.view.globalProcesses
 import kotlinx.android.synthetic.main.item_next_year_planet_title.view.planetInsights
+
 
 class NextYearAdapter : EpoxyAdapter() {
 
@@ -90,6 +92,7 @@ class NextYearPlanetsTitle : EpoxyModel<View>() {
             planetInsights.setTextColor(color)
         }
     }
+
     override fun getDefaultLayout(): Int = R.layout.item_next_year_planet_title
 }
 
@@ -113,33 +116,42 @@ class NextYearPlanetModel(
             channelDesc.text = text
             number.text = numberStr
 
+            val lp = (channelCard.layoutParams as ViewGroup.MarginLayoutParams)
+            lp.marginStart = 0
+            lp.marginEnd = 0
+            channelCard.requestLayout()
+
             channelTitle.setTextColor(
                 ContextCompat.getColor(
                     context,
                     if (App.preferences.isDarkTheme) R.color.lightColor
                     else R.color.darkColor
-                ))
+                )
+            )
 
             channelDesc.setTextColor(
                 ContextCompat.getColor(
                     context,
                     if (App.preferences.isDarkTheme) R.color.lightColor
                     else R.color.darkColor
-                ))
+                )
+            )
 
             number.setTextColor(
                 ContextCompat.getColor(
                     context,
                     if (App.preferences.isDarkTheme) R.color.lightColor
                     else R.color.darkColor
-                ))
+                )
+            )
 
             channelCard.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
                     context,
                     if (App.preferences.isDarkTheme) R.color.darkSettingsCard
                     else R.color.lightSettingsCard
-                ))
+                )
+            )
 
             number.background = ContextCompat.getDrawable(
                 context,
@@ -147,11 +159,13 @@ class NextYearPlanetModel(
                 else R.drawable.bg_channel_number_light
             )
 
-            channelArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                context,
-                if (App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            ))
+            channelArrow.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             if (isExpanded) {
                 channelDesc.maxLines = 70
