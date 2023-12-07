@@ -84,7 +84,7 @@ class NextYearBlockModel(
 
             blockTitle.text = title
             blockText.text = text
-            blockNumber.text = text
+            blockNumber.text = number
 
             blockTitle.setTextColor(color)
             blockText.setTextColor(color)
