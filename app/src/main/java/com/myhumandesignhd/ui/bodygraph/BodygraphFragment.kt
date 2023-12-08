@@ -216,12 +216,14 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     private fun setupNextYearBottomSheet() {
+        binding.nextYearBlock.isVisible = !App.preferences.isNextYearShown
 
         val sheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    binding.nextYearBlock.isVisible = false
                     EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
@@ -237,6 +239,8 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         binding.nextYearBottomSheet.closeSheetBtn.setOnClickListener {
             nextYearSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            YandexMetrica.reportEvent("tab1_forecast_close_clicked")
+            Amplitude.getInstance().logEvent("tab1_forecast_close_clicked")
         }
 
         var range: Int = binding.nextYearBottomSheet.nextYearRecycler.computeVerticalScrollRange()
@@ -256,7 +260,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 val extent: Int = recycler.computeVerticalScrollExtent()
 
                 val percentage = offset / (range - extent).toFloat()
-                binding.nextYearBottomSheet.nextYearIndicator.isVisible = percentage > 0
+                binding.nextYearBottomSheet.nextYearIndicator.isVisible = percentage > 0.02
                 if (dy > 0 && percentage > prevNextYearPercentage) {
                     binding.nextYearBottomSheet.nextYearIndicator.layoutParams.width =
                         (getScreenWidth(requireContext()) * percentage).toInt()
@@ -661,7 +665,19 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         }
 
         fun onNextYearClicked(v: View) {
-            nextYearSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            YandexMetrica.reportEvent("tab1_forecast_click")
+            Amplitude.getInstance().logEvent("tab1_forecast_click")
+
+            if (!App.preferences.isPremiun) {
+                if (isAdded) {
+                    router.navigateTo(Screens.paywallScreen(source = "bodygraph"))
+                }
+            } else {
+                App.preferences.isNextYearShown = true
+                nextYearSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                YandexMetrica.reportEvent("tab1_forecast_shown")
+                Amplitude.getInstance().logEvent("tab1_forecast_shown")
+            }
         }
     }
 

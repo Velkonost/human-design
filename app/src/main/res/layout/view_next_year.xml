@@ -61,7 +61,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/sheetTitle"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
-                android:layout_width="1dp"
+                android:layout_width="2dp"
                 android:layout_height="4dp"/>
 
             <FrameLayout

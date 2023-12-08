@@ -16,7 +16,6 @@ class Preferences(context: Context) {
         sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
     }
 
-
     var locale: String
         set(value) = sharedPreferences.edit().putString(LOCALE, value).apply()
         get() =
@@ -28,6 +27,11 @@ class Preferences(context: Context) {
         set(value) = sharedPreferences.edit().putBoolean(IS_DARK_THEME, value)
             .apply()
         get() = sharedPreferences.getBoolean(IS_DARK_THEME, true)
+
+    var isNextYearShown: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("is_next_year_shown", value)
+            .apply()
+        get() = sharedPreferences.getBoolean("is_next_year_shown", false)
 
     var isFirstLaunch: Boolean
         set(value) = sharedPreferences.edit().putBoolean(IS_FIRST_LAUNCH, value)
@@ -85,7 +89,7 @@ class Preferences(context: Context) {
 
     var isPremiun: Boolean
         set(value) = sharedPreferences.edit().putBoolean("is_premium", value).apply()
-        get() = true//sharedPreferences.getBoolean("is_premium", false)
+        get() = sharedPreferences.getBoolean("is_premium", false)
 
     var uniqueUserId: String?
         set(value) = sharedPreferences.edit().putString("unique_user_id", value).apply()
