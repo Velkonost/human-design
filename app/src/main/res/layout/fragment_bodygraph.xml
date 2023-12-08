@@ -14,6 +14,9 @@
             type="com.myhumandesignhd.ui.bodygraph.BodygraphFragment.Handler" />
     </data>
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bodygraphContainer"
         android:layout_width="match_parent"
@@ -134,7 +137,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="100dp"
+                android:layout_marginBottom="160dp"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 app:layout_constraintDimensionRatio="547:1046"
@@ -144,6 +147,8 @@
             
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/nextYearBlock"
+                android:onClick="@{handler::onNextYearClicked}"
+                android:layout_marginTop="18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="16dp"
@@ -174,6 +179,7 @@
                     app:layout_constraintStart_toEndOf="@id/icNextYear"
                     android:layout_marginStart="8dp">
                     <TextView
+                        android:id="@+id/nextYearTitle"
                         android:text="@string/next_year_btn_title"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -181,6 +187,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
+                        android:id="@+id/nextYearSubtitle"
                         android:text="@string/next_year_btn_subtitle"
                         android:textSize="14sp"
                         android:alpha="0.7"
@@ -909,4 +916,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/nextYearBottomSheet"
+            layout="@layout/view_about_item_sheet" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

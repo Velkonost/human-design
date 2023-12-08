@@ -10,10 +10,12 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.amplitude.api.Amplitude
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentBodygraphBinding
@@ -25,6 +27,7 @@ import com.myhumandesignhd.event.ShowHelpEvent
 import com.myhumandesignhd.event.UpdateBalloonBgStateEvent
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.navigation.Screens
+import com.myhumandesignhd.ui.affirmation.adapter.NextYearAdapter
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.util.convertDpToPx
 import com.myhumandesignhd.util.ext.alpha1
@@ -38,7 +41,11 @@ import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.yandex.metrica.YandexMetrica
+import kotlinx.android.synthetic.main.item_next_year.view.nextYearRecycler
 import kotlinx.android.synthetic.main.item_transit_advice.view.*
+import kotlinx.android.synthetic.main.view_next_year.view.backSheet
+import kotlinx.android.synthetic.main.view_next_year.view.bottomSheetContainer
+import kotlinx.android.synthetic.main.view_next_year.view.closeSheetBtn
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -53,11 +60,15 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     private val fromStart: Boolean by lazy {
-        arguments?.getBoolean("fromStart")?: false
+        arguments?.getBoolean("fromStart") ?: false
     }
 
     private val needUpdateNavMenu: Boolean by lazy {
-        arguments?.getBoolean("needUpdateNavMenu")?: false
+        arguments?.getBoolean("needUpdateNavMenu") ?: false
+    }
+
+    private val nextYearSheetBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
+        BottomSheetBehavior.from(binding.nextYearBottomSheet.bottomSheetContainer)
     }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
@@ -65,6 +76,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         setupUserData()
         setupZnaks()
+        setupNextYearBottomSheet()
 
         if (needUpdateNavMenu)
             EventBus.getDefault().post(SetupNavMenuEvent())
@@ -196,7 +208,20 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             }
             .build()
 
-        balloon.showAlignBottom(binding.icAddUser, xOff = -requireContext().convertDpToPx(112f).toInt())
+        balloon.showAlignBottom(
+            binding.icAddUser,
+            xOff = -requireContext().convertDpToPx(112f).toInt()
+        )
+    }
+
+    private fun setupNextYearBottomSheet() {
+        val adapter = NextYearAdapter()
+        binding.nextYearBottomSheet.nextYearRecycler.adapter = adapter
+        adapter.create(requireContext())
+
+        binding.nextYearBottomSheet.closeSheetBtn.setOnClickListener {
+            nextYearSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
     }
 
     private fun setupUserData() {
@@ -225,66 +250,102 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 } else {
                     binding.subtitle1.text =
                         "${if (App.preferences.locale == "ru") it.typeRu else if (App.preferences.locale == "es") it.typeEs else it.typeEn} • " +
-                            "${it.line} •\n" +
-                            "${if (App.preferences.locale == "ru") it.profileRu else if (App.preferences.locale == "es") it.profileEs else it.profileEn}"
+                                "${it.line} •\n" +
+                                "${if (App.preferences.locale == "ru") it.profileRu else if (App.preferences.locale == "es") it.profileEs else it.profileEn}"
                 }
             }
         }
     }
 
     override fun updateThemeAndLocale() {
-        binding.bodygraphContainer.setBackgroundColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        ))
+        // next year
+        binding.nextYearBlock.background = ContextCompat.getDrawable(
+            requireContext(), if (App.preferences.isDarkTheme) R.drawable.bg_next_year_dark
+            else R.drawable.bg_next_year_light
+        )
 
-        binding.userName.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
+        val color = ContextCompat.getColor(
+            requireContext(), if (App.preferences.isDarkTheme) R.color.lightColor
             else R.color.darkColor
-        ))
+        )
+        binding.nextYearTitle.setTextColor(color)
+        binding.nextYearSubtitle.setTextColor(color)
 
-        binding.subtitle1.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.nextYearBottomSheet.backSheet.background = ContextCompat.getDrawable(
+            requireContext(), if (App.preferences.isDarkTheme) R.drawable.bg_sheet_header_dark
+            else R.drawable.bg_sheet_header_light
+        )
+//
 
-        binding.icAddUser.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.bodygraphContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.darkColor
+                else R.color.lightColor
+            )
+        )
 
-        binding.icSettings.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.userName.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+
+        binding.subtitle1.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+
+        binding.icAddUser.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+
+        binding.icSettings.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
 //        first
         if (isFirstFragmentLaunch) {
             binding.designTitle.text = App.resourcesProvider.getStringLocale(R.string.design_title)
-            binding.transitTitle.text = App.resourcesProvider.getStringLocale(R.string.personality_title)
+            binding.transitTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.personality_title)
             binding.toDecryptionText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.to_decryption_text))
         } else {
             binding.designTitle.text = App.resourcesProvider.getStringLocale(R.string.design_title)
-            binding.transitTitle.text = App.resourcesProvider.getStringLocale(R.string.personality_title)
-            binding.toDecryptionText.text = App.resourcesProvider.getStringLocale(R.string.to_decryption_text)
+            binding.transitTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.personality_title)
+            binding.toDecryptionText.text =
+                App.resourcesProvider.getStringLocale(R.string.to_decryption_text)
         }
 
-        binding.doubleArrow.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.doubleArrow.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
 
-        binding.toDecryptionText.setTextColor(ContextCompat.getColor(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        ))
+        binding.toDecryptionText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
     }
 
     @SuppressLint("SetTextI18n")
@@ -317,36 +378,62 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             }
 
             if (!it.design.planets.isNullOrEmpty()) {
-                binding.rightZnak1.text = "${it.design.planets[0].gate}.${it.design.planets[0].line}"
+                binding.rightZnak1.text =
+                    "${it.design.planets[0].gate}.${it.design.planets[0].line}"
 
-                binding.rightZnak2.text = "${it.design.planets[1].gate}.${it.design.planets[1].line}"
-                binding.rightZnak3.text = "${it.design.planets[2].gate}.${it.design.planets[2].line}"
-                binding.rightZnak4.text = "${it.design.planets[3].gate}.${it.design.planets[3].line}"
-                binding.rightZnak5.text = "${it.design.planets[4].gate}.${it.design.planets[4].line}"
-                binding.rightZnak6.text = "${it.design.planets[5].gate}.${it.design.planets[5].line}"
-                binding.rightZnak7.text = "${it.design.planets[6].gate}.${it.design.planets[6].line}"
-                binding.rightZnak8.text = "${it.design.planets[7].gate}.${it.design.planets[7].line}"
-                binding.rightZnak9.text = "${it.design.planets[8].gate}.${it.design.planets[8].line}"
-                binding.rightZnak10.text = "${it.design.planets[9].gate}.${it.design.planets[9].line}"
-                binding.rightZnak11.text = "${it.design.planets[10].gate}.${it.design.planets[10].line}"
-                binding.rightZnak12.text = "${it.design.planets[11].gate}.${it.design.planets[11].line}"
-                binding.rightZnak13.text = "${it.design.planets[12].gate}.${it.design.planets[12].line}"
+                binding.rightZnak2.text =
+                    "${it.design.planets[1].gate}.${it.design.planets[1].line}"
+                binding.rightZnak3.text =
+                    "${it.design.planets[2].gate}.${it.design.planets[2].line}"
+                binding.rightZnak4.text =
+                    "${it.design.planets[3].gate}.${it.design.planets[3].line}"
+                binding.rightZnak5.text =
+                    "${it.design.planets[4].gate}.${it.design.planets[4].line}"
+                binding.rightZnak6.text =
+                    "${it.design.planets[5].gate}.${it.design.planets[5].line}"
+                binding.rightZnak7.text =
+                    "${it.design.planets[6].gate}.${it.design.planets[6].line}"
+                binding.rightZnak8.text =
+                    "${it.design.planets[7].gate}.${it.design.planets[7].line}"
+                binding.rightZnak9.text =
+                    "${it.design.planets[8].gate}.${it.design.planets[8].line}"
+                binding.rightZnak10.text =
+                    "${it.design.planets[9].gate}.${it.design.planets[9].line}"
+                binding.rightZnak11.text =
+                    "${it.design.planets[10].gate}.${it.design.planets[10].line}"
+                binding.rightZnak12.text =
+                    "${it.design.planets[11].gate}.${it.design.planets[11].line}"
+                binding.rightZnak13.text =
+                    "${it.design.planets[12].gate}.${it.design.planets[12].line}"
             }
 
             if (!it.personality.planets.isNullOrEmpty()) {
-                binding.blueZnak1.text = "${it.personality.planets[0].gate}.${it.personality.planets[0].line}"
-                binding.blueZnak2.text = "${it.personality.planets[1].gate}.${it.personality.planets[1].line}"
-                binding.blueZnak3.text = "${it.personality.planets[2].gate}.${it.personality.planets[2].line}"
-                binding.blueZnak4.text = "${it.personality.planets[3].gate}.${it.personality.planets[3].line}"
-                binding.blueZnak5.text = "${it.personality.planets[4].gate}.${it.personality.planets[4].line}"
-                binding.blueZnak6.text = "${it.personality.planets[5].gate}.${it.personality.planets[5].line}"
-                binding.blueZnak7.text = "${it.personality.planets[6].gate}.${it.personality.planets[6].line}"
-                binding.blueZnak8.text = "${it.personality.planets[7].gate}.${it.personality.planets[7].line}"
-                binding.blueZnak9.text = "${it.personality.planets[8].gate}.${it.personality.planets[8].line}"
-                binding.blueZnak10.text = "${it.personality.planets[9].gate}.${it.personality.planets[9].line}"
-                binding.blueZnak11.text = "${it.personality.planets[10].gate}.${it.personality.planets[10].line}"
-                binding.blueZnak12.text = "${it.personality.planets[11].gate}.${it.personality.planets[11].line}"
-                binding.blueZnak13.text = "${it.personality.planets[12].gate}.${it.personality.planets[12].line}"
+                binding.blueZnak1.text =
+                    "${it.personality.planets[0].gate}.${it.personality.planets[0].line}"
+                binding.blueZnak2.text =
+                    "${it.personality.planets[1].gate}.${it.personality.planets[1].line}"
+                binding.blueZnak3.text =
+                    "${it.personality.planets[2].gate}.${it.personality.planets[2].line}"
+                binding.blueZnak4.text =
+                    "${it.personality.planets[3].gate}.${it.personality.planets[3].line}"
+                binding.blueZnak5.text =
+                    "${it.personality.planets[4].gate}.${it.personality.planets[4].line}"
+                binding.blueZnak6.text =
+                    "${it.personality.planets[5].gate}.${it.personality.planets[5].line}"
+                binding.blueZnak7.text =
+                    "${it.personality.planets[6].gate}.${it.personality.planets[6].line}"
+                binding.blueZnak8.text =
+                    "${it.personality.planets[7].gate}.${it.personality.planets[7].line}"
+                binding.blueZnak9.text =
+                    "${it.personality.planets[8].gate}.${it.personality.planets[8].line}"
+                binding.blueZnak10.text =
+                    "${it.personality.planets[9].gate}.${it.personality.planets[9].line}"
+                binding.blueZnak11.text =
+                    "${it.personality.planets[10].gate}.${it.personality.planets[10].line}"
+                binding.blueZnak12.text =
+                    "${it.personality.planets[11].gate}.${it.personality.planets[11].line}"
+                binding.blueZnak13.text =
+                    "${it.personality.planets[12].gate}.${it.personality.planets[12].line}"
             }
         }
     }
@@ -359,7 +446,8 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             1,
             1
         )
-        view.x = binding.bodygraphContainer2.width / 2f//binding.bodygraphView.getTopPoint().x.toFloat()
+        view.x =
+            binding.bodygraphContainer2.width / 2f//binding.bodygraphView.getTopPoint().x.toFloat()
         view.y = binding.bodygraphContainer2.top + binding.bodygraphView.getTopPoint().y.toFloat()
 
         binding.bodygraphContainer.addView(view)
@@ -511,6 +599,9 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             router.navigateTo(Screens.settingsScreen())
         }
 
+        fun onNextYearClicked(v: View) {
+            nextYearSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
     }
 
 }
