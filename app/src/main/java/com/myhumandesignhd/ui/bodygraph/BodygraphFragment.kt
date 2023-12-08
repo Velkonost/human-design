@@ -1,9 +1,12 @@
 package com.myhumandesignhd.ui.bodygraph
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
 import android.view.animation.Animation
@@ -14,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.amplitude.api.Amplitude
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.myhumandesignhd.App
@@ -41,13 +45,10 @@ import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.yandex.metrica.YandexMetrica
-import kotlinx.android.synthetic.main.item_next_year.view.nextYearRecycler
 import kotlinx.android.synthetic.main.item_transit_advice.view.*
-import kotlinx.android.synthetic.main.view_next_year.view.backSheet
-import kotlinx.android.synthetic.main.view_next_year.view.bottomSheetContainer
-import kotlinx.android.synthetic.main.view_next_year.view.closeSheetBtn
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+
 
 class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBinding>(
     R.layout.fragment_bodygraph,
@@ -215,6 +216,21 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     private fun setupNextYearBottomSheet() {
+
+        val sheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+                }
+            }
+        }
+        nextYearSheetBehavior.addBottomSheetCallback(sheetCallback)
+
+
         val adapter = NextYearAdapter()
         binding.nextYearBottomSheet.nextYearRecycler.adapter = adapter
         adapter.create(requireContext())
@@ -222,6 +238,27 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         binding.nextYearBottomSheet.closeSheetBtn.setOnClickListener {
             nextYearSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
+
+        binding.nextYearBottomSheet.nextYearRecycler.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                val recycler = binding.nextYearBottomSheet.nextYearRecycler
+                val offset: Int = recycler.computeVerticalScrollOffset()
+                val extent: Int = recycler.computeVerticalScrollExtent()
+                val range: Int = recycler.computeVerticalScrollRange()
+
+                val percentage = 100.0f * offset / (range - extent).toFloat()
+                binding.nextYearBottomSheet.nextYearIndicator.layoutParams.width = (getScreenWidth(requireContext()) * percentage).toInt()
+            }
+        })
+    }
+
+    fun getScreenWidth(context: Context): Int {
+        val displayMetrics = DisplayMetrics()
+        (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.widthPixels
     }
 
     private fun setupUserData() {
@@ -274,6 +311,11 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         binding.nextYearBottomSheet.backSheet.background = ContextCompat.getDrawable(
             requireContext(), if (App.preferences.isDarkTheme) R.drawable.bg_sheet_header_dark
             else R.drawable.bg_sheet_header_light
+        )
+
+        binding.nextYearBottomSheet.sheetContainer.background = ContextCompat.getDrawable(
+            requireContext(), if (App.preferences.isDarkTheme) R.color.darkColor
+            else R.color.lightColor
         )
 //
 

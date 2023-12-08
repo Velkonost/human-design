@@ -46,7 +46,7 @@
                 android:gravity="center"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:text="The Role of the self in interacion"
+                android:text="@string/next_year_title"
                 android:textColor="@color/lightColor"
                 app:layout_constraintTop_toTopOf="parent"
                 android:background="@drawable/bg_sheet_header_dark"
@@ -54,9 +54,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+            <ImageView
+                android:id="@+id/nextYearIndicator"
+                android:src="@drawable/ic_next_year_indicator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/sheetTitle"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"/>
+
             <FrameLayout
                 android:id="@+id/closeSheetBtn"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/sheetTitle"
                 app:layout_constraintBottom_toBottomOf="@id/sheetTitle"
                 android:layout_width="44dp"
