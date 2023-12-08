@@ -918,6 +918,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
         <include
             android:id="@+id/nextYearBottomSheet"
-            layout="@layout/view_about_item_sheet" />
+            layout="@layout/view_next_year" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
