@@ -239,21 +239,40 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             nextYearSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
+        var range: Int = binding.nextYearBottomSheet.nextYearRecycler.computeVerticalScrollRange()
+
         binding.nextYearBottomSheet.nextYearRecycler.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
                 val recycler = binding.nextYearBottomSheet.nextYearRecycler
                 val offset: Int = recycler.computeVerticalScrollOffset()
-                val extent: Int = recycler.computeVerticalScrollExtent()
-                val range: Int = recycler.computeVerticalScrollRange()
 
-                val percentage = 100.0f * offset / (range - extent).toFloat()
-                binding.nextYearBottomSheet.nextYearIndicator.layoutParams.width = (getScreenWidth(requireContext()) * percentage).toInt()
+
+                range = binding.nextYearBottomSheet.nextYearRecycler.computeVerticalScrollRange()
+
+                val extent: Int = recycler.computeVerticalScrollExtent()
+
+                val percentage = offset / (range - extent).toFloat()
+                binding.nextYearBottomSheet.nextYearIndicator.isVisible = percentage > 0
+                if (dy > 0 && percentage > prevNextYearPercentage) {
+                    binding.nextYearBottomSheet.nextYearIndicator.layoutParams.width =
+                        (getScreenWidth(requireContext()) * percentage).toInt()
+                    binding.nextYearBottomSheet.nextYearIndicator.requestLayout()
+                    prevNextYearPercentage = percentage
+                } else if (dy < 0 && percentage <= prevNextYearPercentage) {
+                    binding.nextYearBottomSheet.nextYearIndicator.layoutParams.width =
+                        (getScreenWidth(requireContext()) * percentage).toInt()
+                    binding.nextYearBottomSheet.nextYearIndicator.requestLayout()
+                    prevNextYearPercentage = percentage
+                }
             }
         })
     }
+
+    private var prevNextYearPercentage = 0f
 
     fun getScreenWidth(context: Context): Int {
         val displayMetrics = DisplayMetrics()
