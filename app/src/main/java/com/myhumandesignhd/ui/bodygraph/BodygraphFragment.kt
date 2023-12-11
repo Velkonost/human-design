@@ -232,7 +232,6 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         }
         nextYearSheetBehavior.addBottomSheetCallback(sheetCallback)
 
-
         val adapter = NextYearAdapter()
         binding.nextYearBottomSheet.nextYearRecycler.adapter = adapter
         adapter.create(requireContext())
@@ -340,6 +339,21 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             requireContext(), if (App.preferences.isDarkTheme) R.color.darkColor
             else R.color.lightColor
         )
+
+        binding.nextYearBottomSheet.sheetTitle.background = ContextCompat.getDrawable(
+            requireContext(), if (App.preferences.isDarkTheme) R.drawable.bg_sheet_header_dark
+            else R.drawable.bg_sheet_header_light
+        )
+
+        binding.nextYearBottomSheet.sheetTitle.setTextColor(color)
+        binding.nextYearBottomSheet.bottomSheetContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(), if (!App.preferences.isDarkTheme) R.color.lightColor
+                else R.color.darkColor
+            )
+        )
+
+        binding.nextYearBottomSheet.icSheetCross.imageTintList = ColorStateList.valueOf(color)
 //
 
         binding.bodygraphContainer.setBackgroundColor(
@@ -670,10 +684,11 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
             if (!App.preferences.isPremiun) {
                 if (isAdded) {
-                    router.navigateTo(Screens.paywallScreen(source = "bodygraph"))
+                    router.navigateTo(Screens.paywallScreen(source = "bodygraph", fromStart = true))
                 }
             } else {
                 App.preferences.isNextYearShown = true
+
                 nextYearSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                 YandexMetrica.reportEvent("tab1_forecast_shown")
                 Amplitude.getInstance().logEvent("tab1_forecast_shown")

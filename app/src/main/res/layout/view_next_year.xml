@@ -45,12 +45,13 @@
                 android:textSize="16sp"
                 android:gravity="center"
                 android:paddingTop="14dp"
+                android:textStyle="bold"
                 android:paddingBottom="14dp"
                 android:text="@string/next_year_title"
                 android:textColor="@color/lightColor"
                 app:layout_constraintTop_toTopOf="parent"
                 android:background="@drawable/bg_sheet_header_dark"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/roboto_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

@@ -8,7 +8,7 @@
         android:id="@+id/activationDateTitle"
         android:text="@string/next_year_activation_date_title"
         android:fontFamily="@font/roboto"
-        android:textSize="17sp"
+        android:textSize="14sp"
         android:textColor="@color/lightColor"
         android:alpha="0.5"
         android:layout_marginTop="36dp"
@@ -18,15 +18,16 @@
     <TextView
         android:id="@+id/activationDate"
         android:text="@string/next_year_activation_date"
-        android:textSize="29sp"
+        android:textSize="24sp"
         android:textColor="@color/lightColor"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="@font/roboto_bold"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/mainText"
         android:alpha="0.7"
-        android:textSize="19sp"
+        android:textSize="16sp"
         android:layout_marginTop="20dp"
         android:text="@string/next_year_main_text"
         android:layout_width="wrap_content"
@@ -35,16 +36,17 @@
     <TextView
         android:id="@+id/generalOverviewTitle"
         android:layout_marginTop="32dp"
-        android:textSize="29sp"
+        android:textSize="24sp"
         android:textColor="@color/lightColor"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="@font/roboto_bold"
+        android:textStyle="bold"
         android:text="@string/next_year_general_overview_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/generalOverview"
-        android:textSize="19sp"
+        android:textSize="16sp"
         android:fontFamily="@font/roboto"
         android:layout_marginTop="20dp"
         android:alpha="0.7"

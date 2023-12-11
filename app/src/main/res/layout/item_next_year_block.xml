@@ -15,16 +15,18 @@
             app:layout_constraintEnd_toStartOf="@id/blockNumber"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="32dp"
-            android:textSize="29sp"
+            android:textSize="24sp"
             android:textColor="@color/lightColor"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/roboto_bold"
+            android:textStyle="bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/blockNumber"
-            android:textSize="17sp"
-            android:fontFamily="@font/roboto"
+            android:textSize="14sp"
+            android:fontFamily="@font/roboto_bold"
+            android:textStyle="bold"
             android:background="@drawable/bg_next_year_number_dark"
             android:textColor="@color/lightColor"
             android:paddingHorizontal="12dp"
@@ -40,7 +42,7 @@
 
     <TextView
         android:id="@+id/blockText"
-        android:textSize="19sp"
+        android:textSize="16sp"
         android:fontFamily="@font/roboto"
         android:layout_marginTop="20dp"
         android:alpha="0.7"
@@ -50,7 +52,7 @@
 
     <TextView
         android:id="@+id/footerText"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:visibility="gone"
         android:fontFamily="@font/roboto"
         android:textStyle="italic"

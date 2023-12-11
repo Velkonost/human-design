@@ -3,6 +3,7 @@ package com.myhumandesignhd.ui.affirmation.adapter
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,8 @@ import kotlinx.android.synthetic.main.item_next_year_planet_title.view.planetIns
 class NextYearAdapter : EpoxyAdapter() {
 
     fun create(
-        context: Context
+        context: Context,
+        includeConclusion: Boolean = true
     ) {
         removeAllModels()
 
@@ -71,7 +73,7 @@ class NextYearAdapter : EpoxyAdapter() {
             )
         }
 
-        addModel(NextYearConclusionModel())
+        addModel(NextYearConclusionModel(includeConclusion))
     }
 }
 
@@ -283,6 +285,7 @@ class NextYearBlockModel(
             blockTitle.text = title
             blockText.text = text
             blockNumber.text = numberStr
+            blockText.setTypeface(blockText.typeface, Typeface.NORMAL)
 
             blockTitle.setTextColor(color)
             blockText.setTextColor(color)
@@ -298,7 +301,7 @@ class NextYearBlockModel(
     override fun getDefaultLayout(): Int = R.layout.item_next_year_block
 }
 
-class NextYearConclusionModel : EpoxyModel<View>() {
+class NextYearConclusionModel(val includeAll: Boolean = true) : EpoxyModel<View>() {
     private var root: View? = null
 
     override fun bind(view: View) {
@@ -314,6 +317,7 @@ class NextYearConclusionModel : EpoxyModel<View>() {
             blockTitle.setTextColor(color)
             blockText.setTextColor(color)
             footerText.setTextColor(color)
+            blockText.setTypeface(blockText.typeface, Typeface.BOLD)
 
             blockNumber.isVisible = false
             footerText.isVisible = true
@@ -321,7 +325,11 @@ class NextYearConclusionModel : EpoxyModel<View>() {
             blockTitle.text = context.getString(R.string.next_year_conclusion_title)
             blockText.text = context.getString(R.string.next_year_conclusion_text)
 
-
+            footerText.text =
+                if (includeAll) context.getString(R.string.next_year_conclusion_footer) + context.getString(
+                    R.string.next_year_conclusion_footer_2
+                )
+                else context.getString(R.string.next_year_conclusion_footer)
         }
     }
 
