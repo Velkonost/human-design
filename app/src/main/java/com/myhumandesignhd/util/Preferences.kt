@@ -19,7 +19,7 @@ class Preferences(context: Context) {
     var locale: String
         set(value) = sharedPreferences.edit().putString(LOCALE, value).apply()
         get() =
-            if (Locale.getDefault().language == "en" || Locale.getDefault().language == "ru" || Locale.getDefault().language == "es")//|| Locale.getDefault().language == "es"
+            if (Locale.getDefault().language == "en" || Locale.getDefault().language == "ru")//|| Locale.getDefault().language == "es"
                 Locale.getDefault().language
             else "en"
 
