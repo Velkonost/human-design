@@ -145,7 +145,7 @@ class CycleModel(
             ))
 
             if (isExpanded) {
-                cycleDesc.maxLines = 70
+                cycleDesc.maxLines = 140
                 cycleArrow
                     .animate().rotation(-90f).duration = 300
                 cycleArrow.alpha = 0.3f
