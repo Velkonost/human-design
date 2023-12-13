@@ -8,6 +8,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -161,6 +162,8 @@ class NextYearPlanetModel(
                 else R.drawable.bg_channel_number_light
             )
 
+            channelArrow.setImageResource(R.drawable.ic_next_year_arrow)
+
             channelArrow.imageTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
                     context,
@@ -172,13 +175,13 @@ class NextYearPlanetModel(
             if (isExpanded) {
                 channelDesc.maxLines = 70
                 channelArrow
-                    .animate().rotation(-90f).duration = 300
+                    .animate().rotation(-180f).duration = 300
                 channelArrow.alpha = 0.3f
             } else {
 
                 channelDesc.maxLines = 3
                 channelArrow
-                    .animate().rotation(90f).duration = 300
+                    .animate().rotation(0f).duration = 300
                 channelArrow.alpha = 1f
             }
 
@@ -216,7 +219,7 @@ class NextYearPlanetModel(
                         animation.duration = 1000
                         animation.start()
                         channelArrow
-                            .animate().rotation(-90f).duration = 300
+                            .animate().rotation(-180f).duration = 300
                         channelArrow.alpha = 0.3f
                     } else {
                         val animation = ObjectAnimator.ofInt(
@@ -227,7 +230,7 @@ class NextYearPlanetModel(
                         animation.duration = 500
                         animation.start()
                         channelArrow
-                            .animate().rotation(90f).duration = 300
+                            .animate().rotation(0f).duration = 300
                         channelArrow.alpha = 1f
                     }
                 }
@@ -317,7 +320,9 @@ class NextYearConclusionModel(val includeAll: Boolean = true) : EpoxyModel<View>
             blockTitle.setTextColor(color)
             blockText.setTextColor(color)
             footerText.setTextColor(color)
-            blockText.setTypeface(blockText.typeface, Typeface.BOLD)
+
+            val typeface = ResourcesCompat.getFont(context, R.font.roboto_bold)
+            blockText.typeface = typeface
 
             blockNumber.isVisible = false
             footerText.isVisible = true

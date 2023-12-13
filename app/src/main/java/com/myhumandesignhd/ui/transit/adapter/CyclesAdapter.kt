@@ -197,7 +197,7 @@ class CycleModel(
                     val animation = ObjectAnimator.ofInt(
                         cycleDesc,
                         "maxLines",
-                        50
+                        140
                     )
                     animation.duration = 1000
                     animation.start()

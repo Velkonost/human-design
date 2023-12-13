@@ -42,7 +42,7 @@
 
             <TextView
                 android:id="@+id/sheetTitle"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:gravity="center"
                 android:paddingTop="14dp"
                 android:textStyle="bold"
@@ -78,8 +78,8 @@
                     android:adjustViewBounds="true"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_cross"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"/>
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
             </FrameLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -97,6 +97,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="vertical"
                     android:clipToPadding="false"
+                    android:paddingTop="16dp"
                     android:paddingBottom="140dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
