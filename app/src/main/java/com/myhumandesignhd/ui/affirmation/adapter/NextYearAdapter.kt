@@ -4,11 +4,11 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
+import android.os.Build
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +32,9 @@ import kotlinx.android.synthetic.main.item_next_year_first_part.view.generalOver
 import kotlinx.android.synthetic.main.item_next_year_first_part.view.mainText
 import kotlinx.android.synthetic.main.item_next_year_planet_title.view.globalProcesses
 import kotlinx.android.synthetic.main.item_next_year_planet_title.view.planetInsights
+import java.text.SimpleDateFormat
+import java.util.TimeZone
+import java.util.concurrent.TimeUnit
 
 
 class NextYearAdapter : EpoxyAdapter() {
@@ -185,13 +188,13 @@ class NextYearPlanetModel(
                 channelArrow.alpha = 1f
             }
 
-            if (android.os.Build.VERSION.SDK_INT < App.TARGET_SDK) {
+            if (Build.VERSION.SDK_INT < App.TARGET_SDK) {
                 channelDesc.maxLines = 70
                 channelArrow.isVisible = false
             }
 
             channelCard.setOnClickListener {
-                if (android.os.Build.VERSION.SDK_INT >= App.TARGET_SDK) {
+                if (Build.VERSION.SDK_INT >= App.TARGET_SDK) {
                     isExpanded = !isExpanded
 
                     if (isExpanded) {
@@ -259,6 +262,16 @@ class NextYearFirstPartModel : EpoxyModel<View>() {
             mainText.setTextColor(color)
             generalOverviewTitle.setTextColor(color)
             generalOverview.setTextColor(color)
+
+            val diff = TimeUnit.HOURS.convert(TimeZone.getDefault().rawOffset.toLong(), TimeUnit.MILLISECONDS) - 3
+            val millsToAdd = diff * 1000 * 60 * 60
+            val dateFormat = SimpleDateFormat("HH:mm")
+            val d = dateFormat.parse("16:18")
+            if (d != null) {
+                d.time = d.time + millsToAdd
+                val activationDateText = context.getString(R.string.next_year_activation_date) + " " + dateFormat.format(d)
+                activationDate.text = activationDateText
+            }
         }
     }
 
@@ -288,7 +301,11 @@ class NextYearBlockModel(
             blockTitle.text = title
             blockText.text = text
             blockNumber.text = numberStr
-            blockText.setTypeface(blockText.typeface, Typeface.NORMAL)
+//            val typeface = ResourcesCompat.getFont(context, R.font.roboto)
+//            blockText.typeface = typeface
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                blockText.typeface = Typeface.create(blockText.typeface, 400, false)
+            }
 
             blockTitle.setTextColor(color)
             blockText.setTextColor(color)
@@ -321,8 +338,11 @@ class NextYearConclusionModel(val includeAll: Boolean = true) : EpoxyModel<View>
             blockText.setTextColor(color)
             footerText.setTextColor(color)
 
-            val typeface = ResourcesCompat.getFont(context, R.font.roboto_bold)
-            blockText.typeface = typeface
+//            val typeface = ResourcesCompat.getFont(context, R.font.roboto_bold)
+//            blockText.typeface = typeface
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                blockText.typeface = Typeface.create(blockText.typeface, 590, false)
+            }
 
             blockNumber.isVisible = false
             footerText.isVisible = true
