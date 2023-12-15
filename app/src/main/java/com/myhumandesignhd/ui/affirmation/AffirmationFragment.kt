@@ -315,6 +315,11 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
             return 3
         }
 
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+//            super.destroyItem(container, position, `object`)
+            (container as ViewPager).removeView(`object` as View)
+        }
+
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             return when (position) {
                 0 -> {

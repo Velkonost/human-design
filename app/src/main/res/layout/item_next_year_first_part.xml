@@ -20,7 +20,8 @@
         android:text="@string/next_year_activation_date"
         android:textSize="24sp"
         android:textColor="@color/lightColor"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/roboto"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
@@ -37,7 +38,8 @@
         android:layout_marginTop="32dp"
         android:textSize="24sp"
         android:textColor="@color/lightColor"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/roboto"
+        android:textStyle="bold"
         android:text="@string/next_year_general_overview_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

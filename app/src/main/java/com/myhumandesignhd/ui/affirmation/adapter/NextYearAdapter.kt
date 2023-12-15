@@ -341,7 +341,7 @@ class NextYearConclusionModel(val includeAll: Boolean = true) : EpoxyModel<View>
 //            val typeface = ResourcesCompat.getFont(context, R.font.roboto_bold)
 //            blockText.typeface = typeface
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                blockText.typeface = Typeface.create(blockText.typeface, 590, false)
+                blockText.typeface = Typeface.create(blockText.typeface, 600, false)
             }
 
             blockNumber.isVisible = false
