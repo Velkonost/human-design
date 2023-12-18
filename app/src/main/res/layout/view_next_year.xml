@@ -51,7 +51,7 @@
                 android:textColor="@color/lightColor"
                 app:layout_constraintTop_toTopOf="parent"
                 android:background="@drawable/bg_sheet_header_dark"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -102,6 +102,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
+                <View
+                    android:id="@+id/gradient"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:background="@drawable/gradient_next_year_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyAdapter
@@ -41,11 +42,14 @@ class NextYearAdapter : EpoxyAdapter() {
 
     fun create(
         context: Context,
+        recyclerView: RecyclerView,
         includeConclusion: Boolean = true
     ) {
         removeAllModels()
 
         addModel(NextYearFirstPartModel())
+
+        var i = 1
 
         val titles = context.resources.getStringArray(R.array.next_year_titles)
         val texts = context.resources.getStringArray(R.array.next_year_texts)
@@ -59,6 +63,7 @@ class NextYearAdapter : EpoxyAdapter() {
                     numberStr = numbers[index]
                 )
             )
+            i += 1
         }
 
         val planetTitles = context.resources.getStringArray(R.array.next_year_planets_titles)
@@ -66,15 +71,19 @@ class NextYearAdapter : EpoxyAdapter() {
         val planetNumbers = context.resources.getStringArray(R.array.next_year_planets_numbers)
 
         addModel(NextYearPlanetsTitle())
+        i += 1
 
         planetTitles.forEachIndexed { index, _ ->
             addModel(
                 NextYearPlanetModel(
                     title = planetTitles[index],
                     text = planetTexts[index],
-                    numberStr = planetNumbers[index]
+                    numberStr = planetNumbers[index],
+                    recyclerView = recyclerView,
+                    position = i
                 )
             )
+            i += 1
         }
 
         addModel(NextYearConclusionModel(includeConclusion))
@@ -106,8 +115,8 @@ class NextYearPlanetModel(
     val title: String,
     val text: String,
     val numberStr: String,
-//    private val position: Int,
-//    private val recyclerView: RecyclerView,
+    private val position: Int,
+    private val recyclerView: RecyclerView,
     private var isExpanded: Boolean = false
 ) : EpoxyModel<View>() {
 
@@ -210,9 +219,9 @@ class NextYearPlanetModel(
                                 }
 
                             }
-//                        smoothScroller.targetPosition = position
-//                        (recyclerView.layoutManager as LinearLayoutManager)
-//                            .startSmoothScroll(smoothScroller)
+                        smoothScroller.targetPosition = position
+                        (recyclerView.layoutManager as LinearLayoutManager)
+                            .startSmoothScroll(smoothScroller)
 
                         val animation = ObjectAnimator.ofInt(
                             channelDesc,
@@ -341,7 +350,7 @@ class NextYearConclusionModel(val includeAll: Boolean = true) : EpoxyModel<View>
 //            val typeface = ResourcesCompat.getFont(context, R.font.roboto_bold)
 //            blockText.typeface = typeface
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                blockText.typeface = Typeface.create(blockText.typeface, 600, false)
+                blockText.typeface = Typeface.create(blockText.typeface, 590, false)
             }
 
             blockNumber.isVisible = false

@@ -375,7 +375,7 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
                     val view = layoutInflater.inflate(R.layout.item_next_year, null)
                     val adapter = NextYearAdapter()
                     view.nextYearRecycler.adapter = adapter
-                    adapter.create(requireContext(), includeConclusion = false)
+                    adapter.create(requireContext(), includeConclusion = false, recyclerView = view.nextYearRecycler)
 
                     container.addView(view)
                     view

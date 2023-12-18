@@ -1826,9 +1826,10 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(true))
         Amplitude.getInstance().logEvent("subscription_exit_clicked")
 
-        if (fromStart)
-            router.replaceScreen(Screens.bodygraphScreen(true))
-        else router.exit()
+        router.replaceScreen(Screens.bodygraphScreen(true))
+//        if (fromStart)
+//            router.replaceScreen(Screens.bodygraphScreen(true))
+//        else router.exit()
     }
 
 

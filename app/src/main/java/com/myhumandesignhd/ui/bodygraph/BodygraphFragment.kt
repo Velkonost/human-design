@@ -91,6 +91,9 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             !App.preferences.isDarkTheme
             && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M
         ) {
+            binding.bigCircle.clearAnimation()
+            binding.midCircle.clearAnimation()
+
             binding.bigCircle.setImageResource(R.drawable.ic_circle_big_light)
             binding.midCircle.setImageResource(R.drawable.ic_circle_mid_light)
 
@@ -234,7 +237,12 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         val adapter = NextYearAdapter()
         binding.nextYearBottomSheet.nextYearRecycler.adapter = adapter
-        adapter.create(requireContext())
+        binding.nextYearBottomSheet.gradient.background = ContextCompat.getDrawable(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.drawable.gradient_next_year_dark
+            else R.drawable.gradient_next_year_light
+        )
+        adapter.create(requireContext(), recyclerView = binding.nextYearBottomSheet.nextYearRecycler)
 
         binding.nextYearBottomSheet.closeSheetBtn.setOnClickListener {
             nextYearSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
