@@ -87,6 +87,14 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         isFirstFragmentLaunch = false
         Amplitude.getInstance().logEvent("tab1_screen_shown")
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+
         if (
             !App.preferences.isDarkTheme
             && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M
@@ -110,7 +118,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             )
 
             rotate.repeatCount = Animation.INFINITE
-            rotate.fillAfter = true
+            rotate.fillAfter = false
             rotate.duration = 100000
             rotate.interpolator = LinearInterpolator()
 
@@ -123,20 +131,13 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 0.5f
             )
             rotateNegative.repeatCount = Animation.INFINITE
-            rotateNegative.fillAfter = true
+            rotateNegative.fillAfter = false
             rotateNegative.duration = 100000
             rotateNegative.interpolator = LinearInterpolator()
 
             binding.bigCircle.startAnimation(rotate)
             binding.midCircle.startAnimation(rotateNegative)
-
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
     }
 
     @Subscribe
