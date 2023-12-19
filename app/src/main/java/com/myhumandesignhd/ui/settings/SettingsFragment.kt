@@ -501,7 +501,8 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
 
         fun onBackClicked(v: View) {
-            router.exit()
+//            router.exit()
+            router.replaceScreen(Screens.bodygraphScreen(true))
         }
 
         fun openPlaystoreAccount(v: View) {

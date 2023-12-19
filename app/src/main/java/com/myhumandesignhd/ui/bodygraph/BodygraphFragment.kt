@@ -86,8 +86,13 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         isFirstFragmentLaunch = false
         Amplitude.getInstance().logEvent("tab1_screen_shown")
+    }
 
+    override fun onPause() {
+        binding.bigCircle.clearAnimation()
+        binding.midCircle.clearAnimation()
 
+        super.onPause()
     }
 
     override fun onResume() {
@@ -117,9 +122,10 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 0.5f
             )
 
+            rotate.startOffset = 0
             rotate.repeatCount = Animation.INFINITE
-            rotate.fillAfter = false
-            rotate.duration = 100000
+            rotate.fillAfter = true
+            rotate.duration = 10000
             rotate.interpolator = LinearInterpolator()
 
             val rotateNegative = RotateAnimation(
@@ -130,9 +136,10 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 Animation.RELATIVE_TO_SELF,
                 0.5f
             )
+            rotateNegative.startOffset = 0
             rotateNegative.repeatCount = Animation.INFINITE
-            rotateNegative.fillAfter = false
-            rotateNegative.duration = 100000
+            rotateNegative.fillAfter = true
+            rotateNegative.duration = 10000
             rotateNegative.interpolator = LinearInterpolator()
 
             binding.bigCircle.startAnimation(rotate)
