@@ -15,7 +15,7 @@ android {
     defaultConfig {
 
         buildConfigField "String", "BASE_URL", "\"http://5.45.79.21/\""
-        buildConfigField "String", "BASE_URL_V2", "\"https://webhumandesign.site/\""
+        buildConfigField "String", "BASE_URL_V2", "\"https://dev.webhumandesign.site\""
         buildConfigField "String", "FILE_PROVIDER_PATH", "\"com.myhumandesignhd.fileprovider\""
         buildConfigField "String", "APPSFLYER_KEY", "\"FVNQ5k6ARz9gfd8sEjR3sS\""
         buildConfigField "String", "APPMETRICA_API_KEY", "\"da3a31cb-6fde-4d13-a4ea-c93f51213e48\""
