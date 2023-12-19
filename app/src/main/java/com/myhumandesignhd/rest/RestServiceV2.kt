@@ -41,8 +41,17 @@ interface RestServiceV2 {
     @POST("api/login/email")
     fun loginEmail(@Body loginEmailBody: LoginEmailBody): Single<LoginResponse>
 
-    @POST("api/login/check_login")
+    @POST("api/check_login")
     fun checkLogin(@Body checkLoginRequestBody: CheckLoginRequestBody): Single<LoginResponse>
+
+    @POST("api/verify_email")
+    fun verifyEmail(
+        @Query("device_id") deviceId: String,
+        @Query("expires") expires: String,
+        @Query("id") id: String,
+        @Query("signature") signature: String,
+        @Query("token") token: String
+    ): Single<LoginResponse>
 
     @POST
     fun getGoogleAccessToken(

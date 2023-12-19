@@ -23,6 +23,7 @@ import com.myhumandesignhd.repo.base.RestV2Repo
 import com.myhumandesignhd.rest.ResponseStatus
 import com.myhumandesignhd.util.RxViewModel
 import com.myhumandesignhd.util.SingleLiveEvent
+import com.myhumandesignhd.util.ViewState
 import com.myhumandesignhd.util.ext.mutableLiveDataOf
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -83,6 +84,8 @@ class BaseViewModel @Inject constructor(
 
     var subscriptionData: MutableLiveData<SubscriptionStatusData?> = mutableLiveDataOf(null)
 
+    val verifyEmailState = mutableLiveDataOf<ViewState<String>>(ViewState.Idle)
+
     init {
         if (EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this)
@@ -95,6 +98,24 @@ class BaseViewModel @Inject constructor(
     private var isTransitLoaded = false
     private var isDailyAdviceLoaded = false
     private var isCyclesLoaded = false
+
+    fun verifyEmail(deviceId: String) {
+        if (App.preferences.authToken == null) {
+            verifyEmailState.postValue(ViewState.Data("error"))
+            return
+        }
+        repoV2.verifyEmail(
+            deviceId = deviceId,
+            expires = App.preferences.authExpires ?: "",
+            id = App.preferences.authId ?: "",
+            signature = App.preferences.authSignature ?: "",
+            token = App.preferences.authToken ?: ""
+        ).subscribe({
+            verifyEmailState.postValue(ViewState.Data(it.status))
+        }, {
+            verifyEmailState.postValue(ViewState.Data("error"))
+        }).disposeOnCleared()
+    }
 
     fun setUserInfo(gclid: String, appInstanceId: String) {
         repo.setUserInfo("http://5.45.79.21/setuserinfo.php", gclid, appInstanceId)
@@ -111,15 +132,17 @@ class BaseViewModel @Inject constructor(
     }
 
     fun checkSubscription() {
-        repoV2.checkSubscriptionStatus().subscribe({
-            it.data?.let { data ->
-                subscriptionData.postValue(data)
-                App.preferences.isPremiun = data.isActive
-            }
+        App.preferences.authToken?.let {
+            repoV2.checkSubscriptionStatus().subscribe({
+                it.data?.let { data ->
+                    subscriptionData.postValue(data)
+                    App.preferences.isPremiun = data.isActive
+                }
 
-        }, {
+            }, {
 
-        }).disposeOnCleared()
+            }).disposeOnCleared()
+        }
     }
 
     private fun resetAllUserDataStates() {
@@ -177,6 +200,8 @@ class BaseViewModel @Inject constructor(
     }
 
     fun getAllBodygraphs() {
+        if (App.preferences.authToken.isNullOrEmpty()) return
+
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
         repoV2.getAllBodygraphs()
             .subscribe({
@@ -213,6 +238,7 @@ class BaseViewModel @Inject constructor(
     }
 
     private fun setupCurrentBodygraph() {
+        if (App.preferences.authToken.isNullOrEmpty()) return
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
 
         repoV2.getAllBodygraphs().subscribe({ result ->
@@ -361,6 +387,7 @@ class BaseViewModel @Inject constructor(
         name: String, place: String, date: Long, time: String, lat: String, lon: String,
         fromCompatibility: Boolean = false, fromDiagram: Boolean = false
     ) {
+        if (App.preferences.authToken.isNullOrEmpty()) return
         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
 
         val hours = time.split(":")[0]
@@ -524,7 +551,7 @@ class BaseViewModel @Inject constructor(
 
         repoV2.startInjury()
             .subscribe({
-                injuryStatus = when(it.data.status) {
+                injuryStatus = when (it.data.status) {
                     InjuryStatus.NOT_STARTED.title -> InjuryStatus.NOT_STARTED
                     InjuryStatus.STARTED.title -> InjuryStatus.STARTED
                     else -> InjuryStatus.FINISHED
@@ -545,7 +572,7 @@ class BaseViewModel @Inject constructor(
 
         repoV2.checkInjury()
             .subscribe({
-                injuryStatus = when(it.data.status) {
+                injuryStatus = when (it.data.status) {
                     InjuryStatus.NOT_STARTED.title -> InjuryStatus.NOT_STARTED
                     InjuryStatus.STARTED.title -> InjuryStatus.STARTED
                     else -> InjuryStatus.FINISHED
@@ -620,7 +647,8 @@ class BaseViewModel @Inject constructor(
     }
 
     @Subscribe
-    fun onEvent(event: Any) { /* Dummy event subscription to prevent exceptions */ }
+    fun onEvent(event: Any) { /* Dummy event subscription to prevent exceptions */
+    }
 
     enum class InjuryStatus(val title: String) {
         NOT_STARTED("NOT_STARTED"),

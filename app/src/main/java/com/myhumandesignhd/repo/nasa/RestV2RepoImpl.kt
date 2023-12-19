@@ -26,7 +26,9 @@ import com.myhumandesignhd.util.ext.subscribeIoObserveMain
 import io.reactivex.Single
 import javax.inject.Inject
 
-class RestV2RepoImpl @Inject constructor(private val restServiceV2: RestServiceV2) : RestV2Repo {
+class RestV2RepoImpl @Inject constructor(
+    private val restServiceV2: RestServiceV2
+) : RestV2Repo {
 
     override fun loginFb(
         accessToken: String,
@@ -69,6 +71,15 @@ class RestV2RepoImpl @Inject constructor(private val restServiceV2: RestServiceV
 
     override fun checkLogin(deviceId: String, email: String): Single<LoginResponse> =
         restServiceV2.checkLogin(CheckLoginRequestBody(deviceId, email)).subscribeIoObserveMain()
+
+    override fun verifyEmail(
+        deviceId: String,
+        expires: String,
+        id: String,
+        signature: String,
+        token: String
+    ): Single<LoginResponse> =
+        restServiceV2.verifyEmail(deviceId, expires, id, signature, token).subscribeIoObserveMain()
 
     override fun getGoogleAccessToken(
         body: GoogleAccessTokenBody

@@ -73,6 +73,9 @@ import com.myhumandesignhd.util.MyLocation
 import com.myhumandesignhd.util.SingleShotLocationProvider
 import com.myhumandesignhd.util.SingleShotLocationProvider.GPSCoordinates
 import com.myhumandesignhd.util.SingleShotLocationProvider.requestSingleUpdate
+import com.myhumandesignhd.util.ViewState
+import com.myhumandesignhd.util.doOn
+import com.myhumandesignhd.util.ext.getDeviceId
 import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.activity_main.*
@@ -120,7 +123,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         if (savedInstanceState == null) {
             activateAdapty()
             receiveLinkData()
-            initStartPage()
         }
 
         navigator = SupportAppNavigator(this, R.id.subContainer)
@@ -229,21 +231,32 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     private var navigateToInjury = false
     private fun receiveLinkData() {
         intent?.let { intent ->
+            Log.d("keke", "hello!")
             intent.extras?.let { data ->
                 kotlin.runCatching {
                     val section = intent.extras?.getString("section")
-                    val link = data.toString()
-
-                    val linkUri = Uri.parse(link)
-
-                    if (link.contains("token=")) {
-                        val token = linkUri.getQueryParameter("token")
-                        App.preferences.authToken = token
-                    }
 
                     if (section == "trauma") {
                         navigateToInjury = true
                     }
+                }
+            }
+
+            runCatching {
+                val link = intent.data.toString()
+
+                val linkUri = Uri.parse(link)
+
+                if (link.contains("token=")) {
+                    val token = linkUri.getQueryParameter("token")
+                    val expires = linkUri.getQueryParameter("expires")
+                    val id = linkUri.getQueryParameter("id")
+                    val signature = linkUri.getQueryParameter("signature")
+
+                    App.preferences.authToken = token
+                    App.preferences.authId = id
+                    App.preferences.authExpires = expires
+                    App.preferences.authSignature = signature
                 }
             }
         }
@@ -401,7 +414,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         type = 4
                     )
             }
-        }.onFailure {
         }
     }
 
@@ -559,6 +571,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private var isPriorityLocationSet = false
     override fun onViewModelReady(viewModel: BaseViewModel) {
+        viewModel.verifyEmail(this.getDeviceId())
         viewModel.loadFaqs()
 
         if (App.preferences.currentUserId != -1L && isNetworkConnected()) {
@@ -569,6 +582,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             isFirstAnimationPlayed = true
         }
 
+
+        viewModel.verifyEmailState.observe(this, ::observeVerifyEmailState)
         viewModel.reverseSuggestions.observe(this) {
             if (isPriorityLocationSet) {
                 return@observe
@@ -608,6 +623,22 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         receiveNotificationData()
     }
 
+    private fun observeVerifyEmailState(viewState: ViewState<String>) {
+        viewState.doOn(
+            error = {
+                App.preferences.authToken = null
+                initStartPage()
+            },
+            data = {
+                if (it != "success") {
+                    App.preferences.authToken = null
+                }
+
+                initStartPage()
+            }
+        )
+    }
+
     @Subscribe
     fun onSetupLocationEvent(e: SetupLocationEvent) {
         setupLocationListener()
@@ -615,7 +646,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private fun receiveNotificationData() {
         intent?.let { intent ->
+            Log.d("keke", "hello again")
             intent.extras?.let {
+
                 val section = intent.extras?.getString("section")
                 val title = intent.extras?.getString("title")
                 YandexMetrica.reportEvent("Push Clicked: $title")

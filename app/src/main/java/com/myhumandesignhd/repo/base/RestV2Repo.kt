@@ -26,6 +26,14 @@ interface RestV2Repo {
 
     fun checkLogin(deviceId: String, email: String): Single<LoginResponse>
 
+    fun verifyEmail(
+        deviceId: String,
+        expires: String,
+        id: String,
+        signature: String,
+        token: String
+    ): Single<LoginResponse>
+
     fun getGoogleAccessToken(body: GoogleAccessTokenBody): Single<GoogleAccessTokenResponse>
 
     fun getAllBodygraphs(): Single<BodygraphListResponse>

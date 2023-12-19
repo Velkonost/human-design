@@ -94,6 +94,19 @@ class Preferences(context: Context) {
         set(value) = sharedPreferences.edit().putString("auth_token", value).apply()
         get() = sharedPreferences.getString("auth_token", null)
 
+    var authId: String?
+        set(value) = sharedPreferences.edit().putString("auth_id", value).apply()
+        get() = sharedPreferences.getString("auth_id", null)
+
+    var authExpires: String?
+        set(value) = sharedPreferences.edit().putString("auth_expires", value).apply()
+        get() = sharedPreferences.getString("auth_expires", null)
+
+    var authSignature: String?
+        set(value) = sharedPreferences.edit().putString("auth_signature", value).apply()
+        get() = sharedPreferences.getString("auth_signature", null)
+
+
     fun clearNewUserTemps() {
         newUserName = null
         newUserDate = null
