@@ -118,6 +118,7 @@ class BaseViewModel @Inject constructor(
             token = App.preferences.authToken ?: ""
         ).subscribe({
             verifyEmailState.postValue(ViewState.Data(it.status))
+            App.preferences.authToken = it.data?.token
             App.preferences.authSignature = null
         }, {
             verifyEmailState.postValue(ViewState.Data("error"))

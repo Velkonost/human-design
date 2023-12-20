@@ -70,7 +70,7 @@ private fun getHeaderInterceptor(context: Context) = Interceptor { chain ->
 
 //        val skipAuthToken = chain.request().url.toString().contains("api/design") && !App.preferences.isUserLoginBodygraphSetup
 
-        if (!App.preferences.authToken.isNullOrEmpty())
+        if (!App.preferences.authToken.isNullOrEmpty() && !originalRequest.url.encodedPath.contains("verify_email"))
             addHeader("Authorization", "Bearer ${App.preferences.authToken}")
 
         addHeader("Accept-Language", App.preferences.locale)
