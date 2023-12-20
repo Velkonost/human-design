@@ -466,6 +466,7 @@ class StartFragment :
                 showError("Check Email Inbox")
             }
         }
+
     }
 
     private fun setupPlacesView() {

@@ -54,7 +54,7 @@ class StartViewModel @Inject constructor(
                 App.preferences.currentUserId = activeBodygraph.id
             }
 
-            skipOnboarding.postValue(activeBodygraph != null)
+            skipOnboarding.postValue(activeBodygraph != null && App.preferences.authToken.isNullOrEmpty())
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
         }, {
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))

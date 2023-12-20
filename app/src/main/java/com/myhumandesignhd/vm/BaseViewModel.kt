@@ -104,6 +104,12 @@ class BaseViewModel @Inject constructor(
             verifyEmailState.postValue(ViewState.Data("error"))
             return
         }
+
+        if (App.preferences.authToken != null && App.preferences.authSignature == null) {
+            verifyEmailState.postValue(ViewState.Data("success"))
+            return
+        }
+
         repoV2.verifyEmail(
             deviceId = deviceId,
             expires = App.preferences.authExpires ?: "",
@@ -112,6 +118,7 @@ class BaseViewModel @Inject constructor(
             token = App.preferences.authToken ?: ""
         ).subscribe({
             verifyEmailState.postValue(ViewState.Data(it.status))
+            App.preferences.authSignature = null
         }, {
             verifyEmailState.postValue(ViewState.Data("error"))
         }).disposeOnCleared()
