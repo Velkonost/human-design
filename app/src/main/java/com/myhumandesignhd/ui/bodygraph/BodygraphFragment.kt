@@ -125,7 +125,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             rotate.startOffset = 0
             rotate.repeatCount = Animation.INFINITE
             rotate.fillAfter = true
-            rotate.duration = 10000
+            rotate.duration = 100000
             rotate.interpolator = LinearInterpolator()
 
             val rotateNegative = RotateAnimation(
@@ -139,7 +139,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             rotateNegative.startOffset = 0
             rotateNegative.repeatCount = Animation.INFINITE
             rotateNegative.fillAfter = true
-            rotateNegative.duration = 10000
+            rotateNegative.duration = 100000
             rotateNegative.interpolator = LinearInterpolator()
 
             binding.bigCircle.startAnimation(rotate)
@@ -227,14 +227,15 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     private fun setupNextYearBottomSheet() {
-        binding.nextYearBlock.isVisible = !App.preferences.isNextYearShown
+        binding.nextYearBlock.visibility =
+            if (!App.preferences.isNextYearShown) View.VISIBLE else View.INVISIBLE
 
         val sheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    binding.nextYearBlock.isVisible = false
+                    binding.nextYearBlock.visibility = View.INVISIBLE
                     EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
                 } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
