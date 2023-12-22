@@ -89,8 +89,12 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     override fun onPause() {
+
         binding.bigCircle.clearAnimation()
         binding.midCircle.clearAnimation()
+
+        binding.bigCircle.requestLayout()
+        binding.midCircle.requestLayout()
 
         super.onPause()
     }
@@ -106,6 +110,9 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         ) {
             binding.bigCircle.clearAnimation()
             binding.midCircle.clearAnimation()
+
+            binding.bigCircle.requestLayout()
+            binding.midCircle.requestLayout()
 
             binding.bigCircle.setImageResource(R.drawable.ic_circle_big_light)
             binding.midCircle.setImageResource(R.drawable.ic_circle_mid_light)
@@ -123,7 +130,7 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
             )
 
             rotate.startOffset = 0
-            rotate.repeatCount = Animation.INFINITE
+            rotate.repeatCount = 1
             rotate.fillAfter = true
             rotate.duration = 100000
             rotate.interpolator = LinearInterpolator()
@@ -137,12 +144,25 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 0.5f
             )
             rotateNegative.startOffset = 0
-            rotateNegative.repeatCount = Animation.INFINITE
+            rotateNegative.repeatCount = 1//Animation.INFINITE
             rotateNegative.fillAfter = true
             rotateNegative.duration = 100000
             rotateNegative.interpolator = LinearInterpolator()
 
             binding.bigCircle.startAnimation(rotate)
+//            rotate.setAnimationListener(object  : Animation.AnimationListener {
+//                override fun onAnimationStart(animation: Animation?) {
+//
+//                }
+//
+//                override fun onAnimationEnd(animation: Animation?) {
+//                    binding.bigCircle.startAnimation(rotate)
+//                }
+//
+//                override fun onAnimationRepeat(animation: Animation?) {
+//                }
+//
+//            })
             binding.midCircle.startAnimation(rotateNegative)
         }
     }
@@ -582,42 +602,6 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
 
         balloon.showAlignTop(view)
-    }
-
-    private fun showToDecryptionHelp() {
-        val balloon = Balloon.Builder(context!!)
-            .setArrowSize(15)
-            .setArrowOrientation(ArrowOrientation.BOTTOM)
-            .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
-            .setArrowPosition(0.5f)
-            .setTextGravity(Gravity.START)
-            .setPadding(10)
-            .setWidth(BalloonSizeSpec.WRAP)
-            .setMaxWidth(300)
-            .setHeight(BalloonSizeSpec.WRAP)
-            .setTextSize(12f)
-            .setCornerRadius(10f)
-            .setText(App.resourcesProvider.getStringLocale(R.string.help_bodygraph_to_decryption))
-            .setTextColor(
-                ContextCompat.getColor(
-                    context!!,
-                    R.color.lightColor
-                )
-            )
-            .setTextIsHtml(true)
-            .setOverlayColorResource(R.color.helpBgColor)
-            .setIsVisibleOverlay(true)
-            .setBackgroundColor(
-                Color.parseColor("#4D494D")
-            )
-            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
-            .setOnBalloonDismissListener {
-                App.preferences.bodygraphToDecryptionHelpShown = true
-                EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphAddDiagram))
-            }
-            .build()
-
-        balloon.showAlignTop(binding.toDescryptionContainer)
     }
 
     @Subscribe
