@@ -104,7 +104,7 @@ class ManageSubscriptionFragment : BaseFragment<SettingsViewModel, FragmentManag
                         }
 
                     }
-                    binding.cancelSubscriptionBtn.isVisible = true
+//                    binding.cancelSubscriptionBtn.isVisible = true
                 }
             }
 
