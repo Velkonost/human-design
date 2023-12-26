@@ -146,7 +146,6 @@ class BaseViewModel @Inject constructor(
                     subscriptionData.postValue(data)
                     App.preferences.isPremiun = data.isActive
                 }
-
             }, {
 
             }).disposeOnCleared()

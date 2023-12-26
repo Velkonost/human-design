@@ -136,7 +136,7 @@ class CycleModel(
             ))
 
             if (isExpanded) {
-                cycleDesc.maxLines = 70
+                cycleDesc.maxLines = 140
                 cycleArrow
                     .animate().rotation(-90f).duration = 300
                 cycleArrow.alpha = 0.3f
@@ -188,7 +188,7 @@ class CycleModel(
                     val animation = ObjectAnimator.ofInt(
                         cycleDesc,
                         "maxLines",
-                        50
+                        140
                     )
                     animation.duration = 1000
                     animation.start()
