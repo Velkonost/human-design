@@ -349,9 +349,10 @@ class BaseViewModel @Inject constructor(
         ).subscribe({ result ->
             val activeBodygraph = result.data.first { it.isActive }
 
+            val newBodygraph = result.data.first { it.name == name }
             App.preferences.currentUserId = activeBodygraph.id
 
-            currentPartnerBodygraph.postValue(activeBodygraph)
+            currentPartnerBodygraph.postValue(newBodygraph)
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
 
             if (isActive) {
@@ -381,7 +382,7 @@ class BaseViewModel @Inject constructor(
                 childrenData.postValue(activeBodygraph.children)
             }
 
-            currentChildBodygraph.postValue(activeBodygraph)
+            currentChildBodygraph.postValue(activeBodygraph.children!!.find { it.name == name })
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
 
         }, {

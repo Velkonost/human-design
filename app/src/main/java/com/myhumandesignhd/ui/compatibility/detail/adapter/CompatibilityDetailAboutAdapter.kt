@@ -341,6 +341,7 @@ class CompatibilityDetailAboutAdapter(
                 icArrow.animate()
                     .rotation(-90f)
                     .duration = 300
+                icArrow.alpha = 0.3f
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     val smoothScroller: RecyclerView.SmoothScroller =
@@ -374,6 +375,7 @@ class CompatibilityDetailAboutAdapter(
                     icArrow.animate()
                         .rotation(90f)
                         .duration = 300
+                    icArrow.alpha = 1f
                 }
             }
         }
