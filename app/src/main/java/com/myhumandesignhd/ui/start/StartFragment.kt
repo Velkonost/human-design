@@ -610,6 +610,10 @@ class StartFragment :
         val filter = InputFilter { source, start, end, dest, dstart, dend ->
             val stringSource = source.toString()
             val stringDest = dest.toString()
+
+            if (inflatedNameContainer.nameET.text.toString().length >= 30)
+                return@InputFilter ""
+
             if (stringSource == " ") {
                 if (stringDest.isEmpty()) return@InputFilter ""
 

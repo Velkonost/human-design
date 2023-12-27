@@ -111,7 +111,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
 
     <string name="settings_trial_active">Your weekly trial is active</string>
     <string name="settings_trial_expires_at">Your weekly trial expires on {date}</string>
-    <string name="settings_subscription_active">Your subscription is active</string>
+    <string name="settings_subscription_active">Your three-month subscription is active</string>
     <string name="settings_subscription_expires_at">Your subscription expires on {date}</string>
     <string name="settings_subscription_inactive">You don\'t have any active subscriptions</string>
 

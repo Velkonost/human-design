@@ -106,7 +106,7 @@
 
     <string name="settings_trial_active">Ваша недельная пробная версия активна</string>
     <string name="settings_trial_expires_at">Ваша недельная пробная версия истекает {date}</string>
-    <string name="settings_subscription_active">Ваша подписка активна</string>
+    <string name="settings_subscription_active">Ваша трехмесячная подписка активна</string>
     <string name="settings_subscription_expires_at">Ваша трехмесячная подписка истекает {date}</string>
     <string name="settings_subscription_inactive">У вас нет активных подписок</string>
 
