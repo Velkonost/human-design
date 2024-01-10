@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HDesign</string>
+    <string name="default_notification_channel_id" translatable="false">@string/app_name</string>
+    <string name="search">Buscar</string>
+    <string name="title_splash_01">Dieseño Humano</string>
+    <string name="next">SIGUIENTE</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="desc_splash_01">
+        <![CDATA[
+Dieseño Humano es el sistema más nuevo para el autodescubrimiento.
+<br><br>
+Esta es una herramienta que reúne principios del I Ching chino, el sistema de chakras hindú, Kaballah, astrología, física cuántica y genética.
+<br><br>
+El Diseño Humano ayuda a vivir en sintonía con tu verdadera naturaleza. Te guía en la construcción de relaciones armoniosas contigo mismo y con el mundo que te rodea.]]></string>
+
+    <string name="desc_splash_02">
+    <![CDATA[
+Diseño Humano ofrece un análisis de personalidad basado en el Cuerpo Gráfico, la llamada Tarjeta Rave.
+<br><br>
+La Tarjeta Rave individual contiene una imagen esquemática de centros de energía, canales y puertas que reflejan el flujo de energía de cada persona.
+]]></string>
+
+    <!--    <string name="title_splash_03"><![CDATA[Did you know<br>something about<br>Human Design?]]></string>-->
+    <!--    <string name="title_splash_04"><![CDATA[What would you like<br>to get using<br>Human Design?]]></string>-->
+
+    <!--    <string name="desc_splash_03"><![CDATA[Your answers will help us find<br>a more personalized approach for you.]]></string>-->
+    <!--    <string name="desc_splash_04"><![CDATA[Your answers will help us choose<br>a personal approach.]]></string>-->
+
+    <!--    <string name="variant_1_splash_03"><![CDATA[I didn\'t know anything<br>about Human Design]]></string>-->
+    <!--    <string name="variant_2_splash_03"><![CDATA[I knew something, but<br>superficially]]></string>-->
+    <!--    <string name="variant_3_splash_03"><![CDATA[I understand a little about<br>this system]]></string>-->
+    <!--    <string name="variant_4_splash_03"><![CDATA[I study Human Design<br>professionally]]></string>-->
+
+    <!--    <string name="variant_1_splash_04"><![CDATA[Know yourself better]]></string>-->
+    <!--    <string name="variant_2_splash_04"><![CDATA[Improve the quality of life]]></string>-->
+    <!--    <string name="variant_3_splash_04"><![CDATA[Find your destination]]></string>-->
+    <!--    <string name="variant_4_splash_04"><![CDATA[Build relationships<br>with loved ones]]></string>-->
+    <!--    <string name="variant_5_splash_04"><![CDATA[For general development]]></string>-->
+
+    <!--    <string name="splash_05_title">Please allow us to track application usage</string>-->
+    <!--    <string name="splash_05_desc">It is important for us, so that we can:</string>-->
+    <!--    <string name="splash_05_text_1">Personalize your experience of using the App</string>-->
+    <!--    <string name="splash_05_text_2">Send individual offers especially for you</string>-->
+    <!--    <string name="splash_05_text_3">Invite users similar to you to the App</string>-->
+
+    <!--    <string name="text_1_splash_05"><![CDATA[Please allow us to track application usage. It is<br>important for us, so that we can:]]></string>-->
+    <!--    <string name="text_2_splash_05"><![CDATA[- Personalize your experience of using the App<br>- Invite users similar to you to the App<br>- Send individual offers especially for you]]></string>-->
+    <!--    <string name="text_3_splash_05"><![CDATA[These parameters can always be changed in the<br>"settings" of your device.]]></string>-->
+
+    <string name="rave_title">Tarjeta Rave</string>
+    <!--    <string name="rave_desc"><![CDATA[-->
+    <!--    In Human Design, personality analysis is<br>carried out on the basis of a bodygraph,<br>the so-called Rave Card.-->
+    <!--<br><br>-->
+    <!--An individual Rave Card (bodygraph)<br>contains a schematic image of energy<br>centers, channels and gates that reflect<br>the personal energy mechanics of each<br>person, as well as the algorithm of its<br>work.-->
+    <!--<br><br>-->
+    <!--To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<br>and answer a few questions.-->
+    <!--]]></string>-->
+    <string name="understand">Continuar</string>
+    <string name="continue_btn">Continuar</string>
+    <string name="continue_btn_start">SIGUIENTE</string>
+    <string name="start_rave_btn_text">Crear</string>
+
+    <string name="start_name_title"><![CDATA[¿Cuál es<br>tu nombre?]]></string>
+    <string name="start_name_desc"><![CDATA[¡Preséntate para que sepamos cuál es la mejor manera de dirigirnos a ti!]]></string>
+    <string name="start_name_hint">Nombre</string>
+
+    <string name="start_date_title">Fecha de nacimiento</string>
+    <string name="start_date_desc"><![CDATA[ , ingresa la fecha de nacimiento, ¡y<br>calcularemos tu Cuerpo Gráfico personal!]]></string>
+
+    <string name="start_time_title">Hora de nacimiento</string>
+    <string name="start_time_desc"><![CDATA[Mostrará la ubicación exacta de los planetas<br>y las estrellas en el momento de tu nacimiento, lo cual es<br>importante para calcular la tarjeta.]]></string>
+    <string name="start_time_skip">NO ESTOY SEGURO</string>
+
+    <string name="start_place_title">Lugar de nacimiento</string>
+    <string name="start_place_desc"><![CDATA[El lugar donde naciste es muy importante. Podremos determinar con precisión la posición de los planetas y estrellas que dejaron una huella en tu destino.]]></string>
+    <string name="start_place_hint">Ciudad, País</string>
+
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_notifications_title">Notificaciones</string>
+    <string name="settings_theme_title">Aspecto</string>
+    <string name="settings_dark_theme_title">Oscuro</string>
+    <string name="settings_light_theme_title">Claro</string>
+
+    <string name="settings_personal_info_title">Información personal</string>
+    <string name="settings_faq_title">FAQ</string>
+    <string name="settings_privace_policy_title">Privacidad</string>
+    <string name="settings_terms_conditions_title">Términos y condiciones</string>
+    <string name="settings_manage_sub_title">Administrar Suscripciones</string>
+    <string name="settings_version_title">Versión</string>
+    <string name="settings_write_us_title">Escríbenos</string>
+    <string name="settings_manage_subscription">Administrar suscripción</string>
+    <string name="settings_manage_account">Administrar cuenta</string>
+    <string name="settings_logout">CERRAR SESIÓN</string>
+    <string name="settings_delete_acc">ELIMINAR MI CUENTA</string>
+    <string name="settings_account_title">Cuenta</string>
+    <string name="settings_account_text">Puedes cerrar sesión en tu cuenta o eliminarla en cualquier momento. Cuando eliminas tu cuenta, se borrarán todos tus datos y no será posible recuperarlos.</string>
+    <string name="settings_confirm_logout">¿Estás seguro de que deseas cerrar sesión\nen tu cuenta?</string>
+    <string name="settings_delete">ELIMINAR</string>
+    <string name="settings_confirm_delete_text">¿Estás seguro de que quieres eliminar tu cuenta? Después de esto, tus datos serán eliminados y no será posible recuperarlos.</string>
+
+    <string name="settings_subscription">Suscripción</string>
+    <string name="settings_cancel_subscription">CANCELAR SUSCRIPCIÓN</string>
+    <string name="settings_subscribe">SUSCRIBIRSE</string>
+
+    <string name="settings_trial_active">Tu prueba semanal está activa.</string>
+    <string name="settings_trial_expires_at">Tu prueba semanal expira el {date}</string>
+    <string name="settings_subscription_active">Tu suscripción de está activa</string>
+    <string name="settings_subscription_expires_at">Tu suscripción de vence el {date}</string>
+    <string name="settings_subscription_inactive">No tienes ninguna suscripción activa</string>
+
+    <string name="faq_title">FAQ</string>
+    <string name="affirmations_title">Afirmaciones</string>
+    <string name="forecasts_title">Pronósticos</string>
+    <string name="next_affirmation_text">La próxima afirmación será mañana</string>
+    <string name="next_forecast_text">Pronóstico individual para la semana</string>
+    <string name="affirmation_share">COMPARTIR</string>
+
+    <string name="daily_transits_title">Tránsitos Planetarios</string>
+    <string name="gates_title">Puertas</string>
+    <string name="channels_title">Canales</string>
+    <string name="next_transit_text">El próximo tránsito será mañana</string>
+
+    <string name="design_title">Diseño</string>
+    <string name="transit_title">Tránsitos</string>
+    <string name="personality_title">Personalidad</string>
+
+    <!--    <string name="to_decryption_text">to decryption</string>-->
+
+    <string name="about_title">General</string>
+    <string name="centers_title">Centros</string>
+
+    <string name="places_empty_text">No hay resultados</string>
+
+    <string name="active_channels_title">Canales Activos</string>
+    <string name="active_channels_text">Los canales son puentes que conectan todos los centros activos dentro de tu diseño. Aquí encontrarás las descripciones de los aspectos más importantes de tu vida.</string>
+
+    <string name="active_gates_title">Puertas Activas</string>
+    <string name="active_gates_text">Las puertas son un rasgo personal de tu carácter, mostrando el potencial que puedes descubrir en ti mismo, tomando ciertas decisiones todos los días.</string>
+
+    <string name="active_centers_title">Centros Definidos</string>
+    <string name="active_centers_text">Los centros definidos realizan las funciones que les son asignadas. Esto es lo que está determinado en ti desde el nacimiento, esta es la energía constante por la que eres reconocido. Desde aquí estás transmitiendo tu energía al mundo, influenciando e inspirando a otros. Es lo que es fijo y confiable dentro de ti.</string>
+
+    <string name="inactive_centers_title">Centros Indefinidos</string>
+    <string name="inactive_centers_text">Los centros indefinidos están abiertos a la influencia del exterior, estos son lugares donde estás diseñado para ser receptivo con las personas y la vida. Estos son lugares de vulnerabilidad y sensibilidad donde el mundo te afecta.</string>
+
+    <!--    <string name="to_bodygraph">to bodygraph</string>-->
+    <string name="diagram_title">Mis Gráficos</string>
+    <string name="diagram_empty_text">En esta sección, puedes agregar cuerpos gráficos de otras personas (amigos, conocidos) y conocerlos desde un lado completamente nuevo.</string>
+
+    <string name="partners_title">Pareja</string>
+    <string name="children_title">Niños</string>
+    <string name="compatibility_title">Relación</string>
+
+    <string name="name_title">Nombre</string>
+    <string name="city_birth_title">Ciudad de nacimiento</string>
+    <string name="date_birth_title">Fecha de nacimiento</string>
+    <string name="time_birth_title">Hora de nacimiento</string>
+    <string name="personal_info_title">Información personal</string>
+    <string name="done_title">Hecho</string>
+    <string name="confirm">Confirmar</string>
+    <string name="confirm_title">¿Está seguro?</string>
+    <string name="confirm_text">La introducción de nuevos datos\nllevará al hecho de que tu\ndiseño cambiará irreversiblemente.\n¿Seguro que quieres cambiar los datos?</string>
+
+    <string name="type_title">Tipo</string>
+    <string name="profile_title">Perfil</string>
+    <string name="authority_title">Autoridad</string>
+    <string name="business_title">Negocia y Trabajo</string>
+    <string name="strategy_title">Estrategia</string>
+    <string name="injury_title">Trauma Genético</string>
+    <string name="nutrition_title">Nutrición</string>
+    <string name="environment_title">Ambiente</string>
+
+    <string name="start_bodygraph_ready_title">¡El Cuerpo Gráfico está listo!</string>
+    <string name="start_bodygraph_ready_text"><![CDATA[¡Descubre tu verdadero yo y comienza tu experimento!]]></string>
+
+    <string-array name="push_titles">
+        <item>Instrucciones para revelar tu verdadero yo 👤</item>
+        <item>Tu potencial bioquímico 🧬</item>
+        <item>¡Tu pronóstico individual está listo! 🔮</item>
+        <item>Haz clic aquí para leer 🔍</item>
+        <item>Descodificación de diseño humano gratuita ⚛️️</item>
+    </string-array>
+
+    <string-array name="push_descs">
+        <item>3 días gratis 🔥 Haz clic para probar</item>
+        <item>Pruébelo gratis ahora 🔬</item>
+        <item>Visita la aplicación para obtener más información ☝🏽</item>
+        <item>Tu informe de compatibilidad te espera 🔥</item>
+        <item>Visita la app para leerlo ☝🏽</item>
+    </string-array>
+
+    <string name="compatibility_detail_title">Relación</string>
+    <string name="profiles_title">Perfil</string>
+
+    <string name="add_partner_rave_title"><![CDATA[¡Calculemos el\nCuerpo Gráfico!]]></string>
+    <string name="add_child_rave_title"><![CDATA[¡Calculemos el\nCuerpo Gráfico de tu hijo!]]></string>
+
+    <string name="add_partner_rave_desc"><![CDATA[Introduce los datos de tu\npareja y entérate de todo sobre vuestra\ncompatibilidad. Comprenderás dónde\ncoincides y dónde eres diferente.]]></string>
+    <string name="add_child_rave_desc"><![CDATA[Ingresa los detalles de tu hijo, esto te permitirá elegir el enfoque correcto en su crianza.\n\nEl Cuerpo Gráfico del niño no se puede utilizar como Cuerpo Gráfico principal.]]></string>
+
+    <string name="add_partner_name_title"><![CDATA[¿Cómo se llama tu pareja?]]></string>
+    <string name="add_child_name_title"><![CDATA[Nombre de tu hijo]]></string>
+    <string name="add_partner_name_desc"><![CDATA[¡Preséntanos a tu pareja!]]></string>
+    <string name="add_child_name_desc"><![CDATA[Ingresa el nombre del niño para quien se calcula el Cuerpo Gráfico.]]></string>
+
+    <string name="add_partner_date_birth_title"><![CDATA[Fecha de nacimiento de tu pareja]]></string>
+    <string name="add_partner_date_birth_desc"><![CDATA[¡Ingresa la fecha de nacimiento de tu\npareja y calcularemos su Cuerpo  Gráfico!]]></string>
+    <string name="add_child_date_birth_title"><![CDATA[Fecha de nacimiento]]></string>
+    <string name="add_child_date_birth_desc"><![CDATA[Indica la fecha de nacimiento del niño\npara el cual se calcula el Cuerpo Gráfico.]]></string>
+
+    <string name="add_partner_time_birth_title"><![CDATA[Hora de nacimiento de tu pareja]]></string>
+    <string name="add_partner_time_birth_desc"><![CDATA[Mostrará la ubicación exacta de los planetas y estrellas en el momento del nacimiento de tu pareja, lo cual es importante para calcular la carta.\n\n]]></string>
+    <string name="add_child_time_birth_title"><![CDATA[Hora de nacimiento]]></string>
+    <string name="add_child_time_birth_desc"><![CDATA[Muestra la ubicación exacta de los planetas y las estrellas en el momento del nacimiento de tu hijo]]></string>
+
+    <string name="add_partner_place_birth_title"><![CDATA[Lugar de nacimiento de tu pareja]]></string>
+    <string name="add_partner_place_birth_desc"><![CDATA[El lugar donde nació tu pareja es muy importante. Podremos determinar con precisión la posición de los cuerpos celestes que han dejado una huella en el destino de tu pareja.]]></string>
+    <string name="add_child_place_birth_title"><![CDATA[Lugar de nacimiento]]></string>
+    <string name="add_child_place_birth_desc"><![CDATA[Esta información es muy importante para el cálculo del Cuerpo Gráfico. Podremos determinar con precisión la posición de los cuerpos celestes que han dejado una huella en el destino de tu hijo.]]></string>
+
+    <string name="add_partner_bodygraph_ready_title"><![CDATA[¡El Cuerpo Gráfico está listo!]]></string>
+    <string name="add_partner_bodygraph_ready_desc"><![CDATA[Ahora puedes revelar todos los secretos de tu relación y aprender a vivir en armonía.]]></string>
+    <string name="add_child_bodygraph_ready_title"><![CDATA[¡El Cuerpo Gráfico está listo!]]></string>
+    <string name="add_child_bodygraph_ready_desc"><![CDATA[Ahora puedes descubrir las fortalezas y debilidades de tu hijo, puedes encontrar la forma más armoniosa de su desarrollo personal.]]></string>
+
+    <string name="channel_type_1">Cooperación</string>
+    <string name="channel_type_2">Dominio</string>
+    <string name="channel_type_3">Supresión</string>
+    <string name="channel_type_4">Interdependencia</string>
+    <string name="channel_type_5">Supremacía de socios</string>
+    <string name="channel_type_6">Supresión por parte de un socio</string>
+
+    <string name="compatibility_channels_title">Canales de Compatibilidad</string>
+    <string name="compatibility_channels_desc">Los canales de compatibilidad demuestran cómo las personas se influyen entre sí. Al superponer tarjetas rave de dos personas, podemos ver si tú y tu pareja tienen canales que coinciden total o parcialmente. En base a esto, se concluye si tu relación será armoniosa</string>
+
+    <string name="compatibility_child_title">Hijo</string>
+    <string name="compatibility_parent_title">Pareja</string>
+
+    <string name="transit_no_channels">Hoy no hay canales activos</string>
+
+    <string name="diagram_rave_title">¡Calculemos el Сuerpo Gráfico!</string>
+    <string name="diagram_rave_desc"><![CDATA[Ingresa la información de la persona para la que deseas calcular el cuerpo gráfico. Esto te ayudará a conocer mejor a esta persona.<br><br>Después de la creación, este Cuerpo Gráfico se convertirá en el principal. Puedes cambiar el Cuerpo Gráfico principal a cualquiera de los creados en cualquier momento.]]></string>
+
+    <string name="diagram_name_title">Nombre</string>
+    <string name="diagram_name_desc">Introduce el nombre de la persona para la que se calcula el Cuerpo Gráfico.</string>
+
+    <string name="diagram_date_title">Fecha de nacimiento</string>
+    <string name="diagram_date_desc">Introduce la fecha de nacimiento de la persona para la que se calculará el Cuerpo Gráfico.</string>
+
+    <string name="diagram_time_title">Hora de nacimiento</string>
+    <string name="diagram_time_desc">Muestra la ubicación exacta de los planetas y estrellas en el momento del nacimiento, lo cual es muy importante para calcular la tarjeta.</string>
+
+    <string name="diagram_place_title">Lugar de nacimiento</string>
+    <string name="diagram_place_desc">Esta información es muy importante. Podremos determinar con precisión la posición de los cuerpos celestes que influyeron en el destino.</string>
+
+    <string name="diagram_bodygraph_title">¡El Cuerpo Gráfico está listo!</string>
+    <string name="diagram_bodygraph_desc">Ahora se te revelarán todos los secretos, encontrarás las mejores formas para un contacto armonioso y una interacción productiva.</string>
+
+    <string name="help_bodygraph_add_diagram">Haz clic si deseas agregar un nuevo usuario para descifrar su tarjeta rave personal.</string>
+    <string name="help_bodygraph_centers">Haz clic en el centro para leer su descripción. Tus centros definidos están coloreados.</string>
+    <string name="help_bodygraph_to_decryption">Deslizar para decodificar tu Cuerpo Gráfico.</string>
+    <string name="help_transit">Aquí puedes encontrar más información sobre los tránsitos diarios.</string>
+    <string name="help_compatibility_channel">Aquí puedes encontrar más información sobre los canales de compatibilidad</string>
+    <string name="help_affirmation">Puedes compartir la afirmación en las redes sociales.</string>
+    <string name="help_compatibility_partners">Compatibilidad con otras personas</string>
+    <string name="help_compatibility_children">Relación con los niños</string>
+
+    <string name="information_title">Información</string>
+    <string name="compatibility_information_desc">Hay 4 tipos de conexiones por Canales de Compatibilidad:</string>
+
+    <string name="partners_empty_text"><![CDATA[¿Quieres tener una relación armoniosa y pacífica?<br><br>Comprueba tu compatibilidad y descubre qué esperar de tu pareja.<br><br>Descubrirás las fortalezas y debilidades de tu relación, aprenderás a interactuar armoniosamente.]]></string>
+    <string name="children_empty_text"><![CDATA[Descubre cómo guiar a tu hijo hacia su propia naturaleza.<br><br>Podrás encontrar formas armoniosas de interacción para permitir que el potencial de tu hijo crezca libremente.]]></string>
+
+    <string name="compatibility_info_title_1">Interdependencia</string>
+    <string name="compatibility_info_title_2">Dominio</string>
+    <string name="compatibility_info_title_3">Supresión</string>
+    <string name="compatibility_info_title_4">Cooperación</string>
+
+    <string name="compatibility_info_desc_1">La interdependencia define los lazos en una relación que provocan emociones entre tú y tu pareja. Estas emociones pueden ser tanto positivas como negativas. Las emociones con signo positivo son pasión, admiración por otra persona. Con un signo negativo: resentimiento, deseo de corregir a tu pareja. La interdependencia ocurre cuando un lado del Canal se activa en tu cuerpo gráfico y el otro lado se activa en el cuerpo gráfico de tu pareja. Cuantas más conexiones existan en la imposición de cuerpo grafo entre sí, más sensible, brillante y emocional será la relación.</string>
+    <string name="compatibility_info_desc_2">El dominio es un tipo de compatibilidad que muestra qué cualidades están presentes solo en ti. Esto significa que cierto canal en tu bodygraff está coloreado y tu pareja no tiene energía en absoluto. Estas son las características que los hacen diferentes entre sí, esta es tu singularidad, algo que realmente puede impresionar, sorprender a tu pareja. Por un lado, tu singularidad es un reto para tu pareja, porque es difícil aceptar lo que no entiendes del todo. Por otro lado, este tipo de compatibilidad enseña paciencia, amor y aceptación de otras personas tal como son.</string>
+    <string name="compatibility_info_desc_3">Este tipo de compatibilidad surge cuando uno de los socios tiene un Canal activo y el otro solo tiene una Puerta. Tal compuesto muestra dónde tenemos que jugar según las reglas de la pareja y olvidarnos de nuestros deseos. A menudo, este tipo de comunicación entre canales trae resentimiento, malentendidos, reclamos mutuos en las relaciones, señala lugares difíciles donde puede surgir un conflicto.</string>
+    <string name="compatibility_info_desc_4">Si te sientes atraído por una persona y estás listo después de una pequeña comunicación para ir con él/ella hasta los confines de la tierra, entonces existe un tipo de compatibilidad como la Cooperación. Esto se debe al hecho de que tienes los mismos Canales activados con la persona, y las mismas Puertas están presentes en ambos bodygraffos. Con tal compuesto, uno puede observar una relación armoniosa, estable y duradera. La cooperación trae empatía y comprensión a la vida de dos personas.</string>
+
+    <string name="transits_title">Tránsitos</string>
+    <string name="cycles_title">Ciclos</string>
+    <string name="advice_title">Consejos</string>
+
+    <string name="snackbar_title">Error</string>
+    <string name="snackbar_inet_title">Sin Сonexión a Internet</string>
+    <string name="snackbar_inet">Su conexión a Internet es inestable o está desconectada</string>
+    <string name="snackbar_name">El campo de nombre no puede estar vacío.</string>
+    <string name="snackbar_address">No pudimos reconocer tu dirección</string>
+
+    <string name="injury_push_title">, revisa tu cuenta!</string>
+    <string name="injury_push_desc">¡Tus consejos personales sobre trauma genético están listos!</string>
+    <string name="injury_desc_before"><![CDATA[ El trauma genético yace profundamente del subconsciente. El trauma es individual, por lo que necesitamos tiempo para recopilar información para ti personalmente.<br><br>Tus recomendaciones aparecerán en este bloque en 24 horas, tendrás acceso constante y gratuito a ellas en cualquier momento.<br><br>Si estás listo para superar tu trauma genético, haz clic el botón a continuación.]]></string>
+    <string name="injury_desc_progress"><![CDATA[Estamos trabajando arduamente para preparar toda la información sobre la naturaleza de tu trauma genético.<br><br>¡Recibirás tus recomendaciones personales en las próximas 24 horas!]]></string>
+
+    <string name="about_authority_subtitle">Cómo tomar las decisiones correctas</string>
+    <string name="about_strategy_subtitle">Cómo vivir sin resistencia</string>
+    <string name="about_business_subtitle">Cómo tener éxito</string>
+    <string name="about_injury_subtitle">Cómo tomar el control de tu trauma</string>
+    <string name="about_nutrition_subtitle">La forma en que estás diseñado para comer</string>
+    <string name="about_environment_subtitle">El entorno más nutritivo</string>
+
+    <string name="menu_first_title">Gráfico</string>
+    <string name="menu_second_title">Descripción</string>
+    <string name="menu_third_title">Tránsitos</string>
+    <string name="menu_forth_title">Compatibilidad</string>
+    <string name="menu_fifth_title">Visión</string>
+
+    <string name="daily_advice_subtitle">Recibe tu consejo diario</string>
+
+    <string name="transit_cycles_title">Retornos de los planetas</string>
+    <string name="transit_cycles_desc">En el Diseño Humano, los ciclos de la vida se reflejan en los Retornos de los planetas, que tienen un efecto especial sobre nosotros. Hay muchos planetas, pero solamente el Retorno de Saturno, Quirón y la Oposición de Urano dividen nuestra vida en ciclos principales. Cada ciclo refleja sus propios momentos individuales que aportan una expresión especial a su Diseño personal. Al comprender la mecánica de los ciclos, puedes averiguar en qué etapa te encuentras en este momento, o por lo que aún tienes que pasar en el futuro, comprender por qué tu vida se ve diferente en diferentes períodos.</string>
+    <string name="cycle_age_title">Edad:</string>
+
+    <string name="paywall_restore">Restaurar</string>
+    <string name="paywall_terms_of_use">Términos de Uso</string>
+    <string name="paywall_privacy_policy">Privacidad</string>
+
+    <string name="forecast_push_title">¿Listo para una nueva semana?</string>
+    <string name="forecast_push_desc">¡Tu predicción personal ya está disponible!</string>
+
+    <string name="paywall_open_full_access">Abrir acceso completo</string>
+    <string name="paywall_text_1">Obtenga lecturas personales de tu gráfico</string>
+    <string name="paywall_text_2">Descubre tus talentos ocultos</string>
+    <string name="paywall_text_3">Comprueba la compatibilidad con otras personas</string>
+    <string name="paywall_text_4">Descubre cómo te afectan los planetas</string>
+    <string name="paywall_btn">Obtenga acceso completo</string>
+
+    <string name="paywall_1_month">Mes</string>
+    <string name="paywall_1_week">Semana</string>
+    <string name="paywall_1_year">Año</string>
+    <string name="paywall_1_autorenewable">auto-renovable</string>
+    <string name="paywall_1_trial">3 días de prueba\nauto-renovable</string>
+    <string name="paywall_1_trial_year">auto-renovable</string>
+
+    <string name="injury_generate_text">GENERAR</string>
+    <string name="injury_generating_text">GENERANDO</string>
+
+    <string-array name="forecast_push_titles">
+        <item>⚡️¿Listo para una nueva semana?</item>
+        <item>Nueva semana - nuevo comienzo💥</item>
+        <item>☀️Имя, felicidades por la nueva semana!!</item>
+        <item>Es hora de una nueva pronóstico💥</item>
+        <item>¡Les deseamos una semana productiva!</item>
+        <item>🌟¡Nueva semana, nuevas metas!</item>
+        <item>⏰El pronóstico ya te está esperando👉🏽</item>
+        <item>Prepárate para una nueva semana</item>
+        <item>Una nueva semana ha comenzado🔥</item>
+        <item>💥¡Vienen grandes cambios!</item>
+    </string-array>
+
+    <string-array name="forecast_push_desc">
+        <item>¡Tu predicción personal ya está disponible!</item>
+        <item>¡El pronóstico para la semana ya está disponible!</item>
+        <item>💫Prepárate para futuros eventos💫</item>
+        <item>Comienza la nueva semana con una nota positiva🤩</item>
+        <item>Имя, tu pronóstico está lista🤩</item>
+        <item>¡El pronóstico lo guiará en la dirección correcta!</item>
+        <item>Prepárate para lo que trae esta semana🌟</item>
+        <item>¡Que nada te detenga!</item>
+        <item>Ya hemos preparado tu pronóstico personal👉🏽</item>
+        <item>Abre pronto tu pronóstico personal🔥</item>
+    </string-array>
+
+    <string name="paywall_3_review_1_title">Abigail, 46 y.o.</string>
+    <string name="paywall_3_review_2_title">Liam, 38 y.o.</string>
+    <string name="paywall_3_review_3_title">Ethan, 34 y.o.</string>
+    <string name="paywall_3_review_4_title">Charlotte, 31 y.o.</string>
+    <string name="paywall_3_review_5_title">Olivia, 42 y.o.</string>
+
+    <string name="paywall_2_open_full_access">Comienza tu viaje\nhacia el Diseño Humano</string>
+
+    <string name="pw_price_1">$5.99</string>
+    <string name="pw_price_2">$14.99</string>
+    <string name="pw_price_3">$36.99</string>
+
+    <string name="promocode">Promo</string>
+    <string name="promocode_ok">OK</string>
+    <string name="promocode_cancel">Cancelar</string>
+    <string name="promocode_subtitle">Introduce un promocode</string>
+    <string name="promocode_error">Promocode no válido</string>
+    <string name="pw_3_days_free">3 días gratis</string>
+    <string name="pw_4_75_per_week">$3.75 por semana</string>
+    <string name="_0_90_per_week">$0.75 por semana</string>
+    <string name="_5_99_per_week">$5.99 por semana</string>
+
+    <string name="enjoy_hd">¡Disfruta del Diseño Humano!</string>
+
+    <string name="start_quiz_title">¿Qué esperas del Diseño Humano?</string>
+    <string name="start_quiz_variant_1">Encontrar mi propósito de vida</string>
+    <string name="start_quiz_variant_2">Mejorar mi relacion</string>
+    <string name="start_quiz_variant_3">Recibe recomendaciones sobre cómo vivir</string>
+    <string name="start_quiz_variant_4">Mejorar mi vida laboral</string>
+    <string name="start_quiz_variant_5">Descubre mis talentos ocultos</string>
+    <string name="start_quiz_variant_6">Recibir consejos para mi vida diaria</string>
+    <string name="_37_discount">37% descuento</string>
+    <string name="best_offer">mejor oferta</string>
+    <string name="paywall_btn_trial">Comienza tu prueba gratuita</string>
+
+    <string name="creating_your_bodygraph">Creación del Cuerpo Gráfico…</string>
+    <string name="analyzing_your_info">Analizando Tu Información</string>
+    <string name="determining_your_gates">Determinando Tus Puertas</string>
+    <string name="synchronizing_with_planet_transits">Sincronizando con Tránsitos de Planetas</string>
+    <string name="designing_your_type_amp_profile"><![CDATA[Diseñando Tu Tipo y Perfil]]></string>
+    <string name="generating_your_life_strategy">Generando Tu Estrategia</string>
+    <string name="pw_4_autorenewable">auto-renewable</string>
+
+    <!--  PLANET TRANSITS  -->
+    <string name="planet_transits_title">Planet Transits</string>
+    <!--  PLANET TRANSITS  -->
+
+    <!--  OLD USERS  -->
+    <string name="old_users_first_title">¡Tenemos excelentes noticias para ti!</string>
+    <string name="old_users_first_text">Hemos realizado una actualización importante que hará que el uso de la aplicación sea aún más conveniente.</string>
+    <string name="old_users_first_footer">Te llevará solo unos segundos crear una cuenta.</string>
+
+    <string name="old_users_second_title">Preservación de Datos</string>
+    <string name="old_users_second_text">Al registrarte, aseguras la preservación y seguridad de tus datos y ajustes. Esto te permitirá restaurar tus ajustes fácilmente, incluso si cambias de dispositivo o reinstalas la aplicación.</string>
+
+    <string name="old_users_third_title">Acceso a Nuevas Funciones</string>
+    <string name="old_users_third_text">La inscripción te brinda un acceso temprano a futuras funciones y actualizaciones. Tendrás la oportunidad de ser uno de los primeros en experimentar las capacidades mejoradas de la aplicación.</string>
+
+    <string name="old_users_forth_title">Soporte y Servicio</string>
+    <string name="old_users_forth_text">Registrarse nos permitirá ofrecerte soporte de mayor calidad y abordar rápidamente cualquier problema que pueda surgir.</string>
+    <!--  OLD USERS  -->
+
+    <!--  COMPATIBILITY  -->
+    <string name="compatibility_partner_empty_title">Prueba tu compatibilidad</string>
+    <string name="compatibility_partner_empty_text">Consulta a tu pareja y desbloquea las llaves de tus relaciones de paz.\n\nCrea una conexión más profunda y descubre cómo interactuar de manera armoniosa.</string>
+    <string name="compatibility_partner_empty_add_btn">AÑADIR PAREJA</string>
+    <string name="compatibility_child_empty_title">Mejora tu relación</string>
+    <string name="compatibility_child_empty_text">Descubre cómo guiar a tu hijo hacia su naturaleza innata.\n\nDescubra formas armoniosas de interacción para permitir que el potencial de su hijo crezca libremente.</string>
+    <string name="compatibility_child_empty_add_btn">AÑADIR NIÑO</string>
+    <!--  COMPATIBILITY  -->
+
+    <string name="compatibility_range">Compatibilidad:</string>
+    <string name="compatibility_about_warning">Porcentajes no muestran la imagen completa.\nLee la descripción detallada de la compatibilidad.</string>
+    <string name="compatibility_success">coincidencia</string>
+</resources>

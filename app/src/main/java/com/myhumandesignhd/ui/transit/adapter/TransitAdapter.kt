@@ -106,11 +106,12 @@ class TransitAdapter : EpoxyAdapter() {
         currentDesignPlanets: ArrayList<TransitionPlanet>,
         currentPersonalityPlanets: ArrayList<TransitionPlanet>,
     ) {
+        enableDiffing()
         removeAllModels()
 
         addModel(
             TransitModel(
-                gates.isNullOrEmpty() && channels.isNullOrEmpty(),
+                gates.isEmpty() && channels.isEmpty(),
                 birthDesignPlanets,
                 birthPersonalityPlanets,
                 currentDesignPlanets,
@@ -123,6 +124,7 @@ class TransitAdapter : EpoxyAdapter() {
             addModel(GatesTitleModel(true))
             position++
         }
+
         gates.map {
             addModel(GateModel(it, position + 1, recyclerView))
             position++
@@ -136,7 +138,7 @@ class TransitAdapter : EpoxyAdapter() {
             addModel(ChannelModel(it, position + 1, recyclerView))
             position++
         }
-        notifyDataSetChanged()
+        notifyModelsChanged()
     }
 }
 
@@ -148,6 +150,12 @@ class TransitModel(
     private val currentPersonalityPlanets: ArrayList<TransitionPlanet>,
 ) : EpoxyModel<View>() {
     private var root: View? = null
+
+    override fun onViewAttachedToWindow(view: View) {
+        bind(view)
+        super.onViewAttachedToWindow(view)
+    }
+
 
     override fun bind(view: View) {
         super.bind(view)
@@ -174,7 +182,7 @@ class TransitModel(
             )
             emptyText.text = App.resourcesProvider.getStringLocale(R.string.transit_no_channels)
 
-            if (!birthDesignPlanets.isNullOrEmpty()) {
+            if (birthDesignPlanets.isNotEmpty()) {
                 leftZnak1.setTextAnimation("${birthDesignPlanets[0].gate}.${birthDesignPlanets[0].line}".strip()) {
                     designTitle.alpha1(500)
                     znak1Red.alpha1(500)
@@ -229,7 +237,7 @@ class TransitModel(
                 }
             }
 
-            if (!currentDesignPlanets.isNullOrEmpty()) {
+            if (currentDesignPlanets.isNotEmpty()) {
                 rightZnak1.setTextAnimation("${currentDesignPlanets[0].gate}.${currentDesignPlanets[0].line}")
                 rightZnak2.setTextAnimation("${currentDesignPlanets[1].gate}.${currentDesignPlanets[1].line}")
                 rightZnak3.setTextAnimation("${currentDesignPlanets[2].gate}.${currentDesignPlanets[2].line}")
@@ -245,7 +253,7 @@ class TransitModel(
                 rightZnak13.setTextAnimation("${currentDesignPlanets[12].gate}.${currentDesignPlanets[12].line}")
             }
 
-            if (!currentPersonalityPlanets.isNullOrEmpty()) {
+            if (currentPersonalityPlanets.isNotEmpty()) {
                 blueZnak1.setTextAnimation("${currentPersonalityPlanets[0].gate}.${currentPersonalityPlanets[0].line}") {
                     transitTitle.alpha1(500)
                     znak1Blue.alpha1(500)

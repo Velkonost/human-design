@@ -6,7 +6,6 @@ import android.util.DisplayMetrics
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
@@ -15,9 +14,9 @@ import com.airbnb.epoxy.EpoxyModel
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.model.TransitionGate
-import kotlinx.android.synthetic.main.item_about_gates_title.view.*
-import kotlinx.android.synthetic.main.item_center.view.*
-import kotlinx.android.synthetic.main.item_channel.view.*
+import kotlinx.android.synthetic.main.item_about_gates_title.view.activeGatesDesc
+import kotlinx.android.synthetic.main.item_about_gates_title.view.activeGatesTitle
+import kotlinx.android.synthetic.main.item_channel.view.channelArrow
 import kotlinx.android.synthetic.main.item_channel.view.channelCard
 import kotlinx.android.synthetic.main.item_channel.view.channelDesc
 import kotlinx.android.synthetic.main.item_channel.view.channelTitle
@@ -45,7 +44,7 @@ class GatesAdapter : EpoxyAdapter() {
     }
 }
 
-class AboutGatesTitleModel(): EpoxyModel<View>() {
+class AboutGatesTitleModel : EpoxyModel<View>() {
     private var root: View? = null
 
     override fun bind(view: View) {
@@ -159,7 +158,6 @@ class GateModel(
                     isExpanded = !isExpanded
 
                     if (isExpanded) {
-
                         val smoothScroller: RecyclerView.SmoothScroller =
                             object : LinearSmoothScroller(context) {
                                 override fun getVerticalSnapPreference(): Int {
@@ -170,7 +168,18 @@ class GateModel(
                                     return 0.5f//3000f / recyclerView.computeVerticalScrollRange()
                                 }
 
+//                                override fun calculateDtToFit(
+//                                    viewStart: Int,
+//                                    viewEnd: Int,
+//                                    boxStart: Int,
+//                                    boxEnd: Int,
+//                                    snapPreference: Int
+//                                ): Int {
+//                                    return boxStart// - viewStart
+////                                    (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+//                                }
                             }
+
                         smoothScroller.targetPosition = position
                         (recyclerView.layoutManager as LinearLayoutManager)
                             .startSmoothScroll(smoothScroller)
