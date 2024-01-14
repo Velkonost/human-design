@@ -170,7 +170,9 @@ class BaseViewModel @Inject constructor(
         }).disposeOnCleared()
     }
 
-    suspend fun updateBodygraphs() =
+    suspend fun updateBodygraphs(
+        onComplete: (() -> Unit)? = null
+    ) =
         coroutineScope {
             withContext(Dispatchers.IO) {
                 EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
@@ -208,6 +210,7 @@ class BaseViewModel @Inject constructor(
                         if (updatedAmount == users.size) {
                             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
                             updateUsersEvent.postValue(true)
+                            onComplete?.invoke()
                         }
                     }, {
                         EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))

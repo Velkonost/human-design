@@ -203,6 +203,10 @@ fun BodygraphView.initLines() {
             firstNumber = numbers.find { it.text == "40" }!!,
             secondNumber = numbers.find { it.text == "37" }!!
         ),
+        BodygraphLine(
+            firstNumber = numbers.find { it.text == "45" }!!,
+            secondNumber = numbers.find { it.text == "21" }!!
+        ),
 
         BodygraphLine(
             firstNumber = numbers.find { it.text == "34" }!!,

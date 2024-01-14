@@ -400,47 +400,21 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
         binding.viewPager.isUserInputEnabled = true
         binding.viewPager.adapter = compatibilityAdapter
 
-        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
-            val partners = baseViewModel.getAllUsers()
-                .toMutableList().filter { it.id != App.preferences.currentUserId }
-            val children = baseViewModel.getAllChildren()
+        if (App.preferences.locale == "es") {
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                baseViewModel.updateBodygraphs {
+                    GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                        val partners = baseViewModel.getAllUsers()
+                            .toMutableList().filter { it.id != App.preferences.currentUserId }
+                        val children = baseViewModel.getAllChildren()
 
-            runBlocking {
-                var ready = 0
+                        runBlocking {
+                            var ready = 0
 
-                if (partners.isEmpty()) {
-                    compatibilityAdapter.createList(
-                        partners,
-                        children.filter { it.parentId == App.preferences.currentUserId })
-
-                    binding.viewPager.postDelayed({
-                        if (App.preferences.isCompatibilityFromChild) {
-                            android.os.Handler().postDelayed({
-                                App.preferences.isCompatibilityFromChild = false
-                                binding.viewPager.setCurrentItem(1, false)
-                                selectChildren()
-                            }, 100)
-
-                        }
-                    }, 150)
-                } else {
-                    partners.forEachIndexed { index, partner ->
-                        baseViewModel.setupCompatibility(
-                            lat1 = partner.lat,
-                            lon1 = partner.lon,
-                            date = partner.getDateStr(),
-                        ) { avg, _ ->
-                            ready += 1
-                            partner.compatibilityAvg = avg
-
-                            if (ready == partners.size) {
-//                                if (!compatibilityAdapter.isCreated)
+                            if (partners.isEmpty()) {
                                 compatibilityAdapter.createList(
                                     partners,
                                     children.filter { it.parentId == App.preferences.currentUserId })
-//                                else compatibilityAdapter.updateList(
-//                                    partners,
-//                                    children.filter { it.parentId == App.preferences.currentUserId })
 
                                 binding.viewPager.postDelayed({
                                     if (App.preferences.isCompatibilityFromChild) {
@@ -452,17 +426,114 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
                                     }
                                 }, 150)
+                            } else {
+                                partners.forEachIndexed { index, partner ->
+                                    baseViewModel.setupCompatibility(
+                                        lat1 = partner.lat,
+                                        lon1 = partner.lon,
+                                        date = partner.getDateStr(),
+                                    ) { avg, _ ->
+                                        ready += 1
+                                        partner.compatibilityAvg = avg
+
+                                        if (ready == partners.size) {
+//                                if (!compatibilityAdapter.isCreated)
+                                            compatibilityAdapter.createList(
+                                                partners,
+                                                children.filter { it.parentId == App.preferences.currentUserId })
+//                                else compatibilityAdapter.updateList(
+//                                    partners,
+//                                    children.filter { it.parentId == App.preferences.currentUserId })
+
+                                            binding.viewPager.postDelayed({
+                                                if (App.preferences.isCompatibilityFromChild) {
+                                                    android.os.Handler().postDelayed({
+                                                        App.preferences.isCompatibilityFromChild =
+                                                            false
+                                                        binding.viewPager.setCurrentItem(1, false)
+                                                        selectChildren()
+                                                    }, 100)
+
+                                                }
+                                            }, 150)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        val identify = Identify()
+                        identify.set("partnersadded", partners.size.toString())
+                        identify.set("kidsadded", children.size.toString())
+                        Amplitude.getInstance().identify(identify)
+                    }
+                }
+            }
+        } else {
+            GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+                val partners = baseViewModel.getAllUsers()
+                    .toMutableList().filter { it.id != App.preferences.currentUserId }
+                val children = baseViewModel.getAllChildren()
+
+                runBlocking {
+                    var ready = 0
+
+                    if (partners.isEmpty()) {
+                        compatibilityAdapter.createList(
+                            partners,
+                            children.filter { it.parentId == App.preferences.currentUserId })
+
+                        binding.viewPager.postDelayed({
+                            if (App.preferences.isCompatibilityFromChild) {
+                                android.os.Handler().postDelayed({
+                                    App.preferences.isCompatibilityFromChild = false
+                                    binding.viewPager.setCurrentItem(1, false)
+                                    selectChildren()
+                                }, 100)
+
+                            }
+                        }, 150)
+                    } else {
+                        partners.forEachIndexed { index, partner ->
+                            baseViewModel.setupCompatibility(
+                                lat1 = partner.lat,
+                                lon1 = partner.lon,
+                                date = partner.getDateStr(),
+                            ) { avg, _ ->
+                                ready += 1
+                                partner.compatibilityAvg = avg
+
+                                if (ready == partners.size) {
+//                                if (!compatibilityAdapter.isCreated)
+                                    compatibilityAdapter.createList(
+                                        partners,
+                                        children.filter { it.parentId == App.preferences.currentUserId })
+//                                else compatibilityAdapter.updateList(
+//                                    partners,
+//                                    children.filter { it.parentId == App.preferences.currentUserId })
+
+                                    binding.viewPager.postDelayed({
+                                        if (App.preferences.isCompatibilityFromChild) {
+                                            android.os.Handler().postDelayed({
+                                                App.preferences.isCompatibilityFromChild =
+                                                    false
+                                                binding.viewPager.setCurrentItem(1, false)
+                                                selectChildren()
+                                            }, 100)
+
+                                        }
+                                    }, 150)
+                                }
                             }
                         }
                     }
                 }
+
+                val identify = Identify()
+                identify.set("partnersadded", partners.size.toString())
+                identify.set("kidsadded", children.size.toString())
+                Amplitude.getInstance().identify(identify)
             }
-
-
-            val identify = Identify()
-            identify.set("partnersadded", partners.size.toString())
-            identify.set("kidsadded", children.size.toString())
-            Amplitude.getInstance().identify(identify)
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
