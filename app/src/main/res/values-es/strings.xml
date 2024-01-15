@@ -165,7 +165,7 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
 
     <string name="type_title">Tipo</string>
     <string name="profile_title">Perfil</string>
-    <string name="authority_title">Autoridad</string>
+    <string name="authority_title">Autoridad Interna</string>
     <string name="business_title">Negocia y Trabajo</string>
     <string name="strategy_title">Estrategia</string>
     <string name="injury_title">Trauma Genético</string>
@@ -229,8 +229,8 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="channel_type_2">Dominio</string>
     <string name="channel_type_3">Supresión</string>
     <string name="channel_type_4">Interdependencia</string>
-    <string name="channel_type_5">Supremacía de socios</string>
-    <string name="channel_type_6">Supresión por parte de un socio</string>
+    <string name="channel_type_5">Supresión por parte de un socio</string>
+    <string name="channel_type_6">Supremacía de socios</string>
 
     <string name="compatibility_channels_title">Canales de Compatibilidad</string>
     <string name="compatibility_channels_desc">Los canales de compatibilidad demuestran cómo las personas se influyen entre sí. Al superponer tarjetas rave de dos personas, podemos ver si tú y tu pareja tienen canales que coinciden total o parcialmente. En base a esto, se concluye si tu relación será armoniosa</string>
@@ -403,7 +403,7 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="paywall_btn_trial">Comienza tu prueba gratuita</string>
 
     <string name="creating_your_bodygraph">Creación del Cuerpo Gráfico…</string>
-    <string name="start_bodygraph_creating_title">Creating bodygraph…</string>
+    <string name="start_bodygraph_creating_title">Creación del Cuerpo Gráfico…</string>
     <string name="analyzing_your_info">Analizando Tu Información</string>
     <string name="determining_your_gates">Determinando Tus Puertas</string>
     <string name="synchronizing_with_planet_transits">Sincronizando con Tránsitos de Planetas</string>
