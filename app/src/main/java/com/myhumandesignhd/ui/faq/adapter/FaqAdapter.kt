@@ -117,6 +117,8 @@ class FaqModel(
                     "Tránsitos Diarios",
                     "Compatibilidad",
                     "Trauma Genético",
+                    "Nutrición",
+                    "Hábitat",
 
                     model = model
                 )
@@ -159,7 +161,6 @@ fun TextView.highlightKeys(vararg keys: String, model: Faq) {
     for (link in keys) {
         val clickableSpan = object : ClickableSpan() {
             override fun updateDrawState(textPaint: TextPaint) {
-
                 textPaint.typeface = ResourcesCompat.getFont(context, R.font.roboto_bold)
                 textPaint.isUnderlineText = false
             }
