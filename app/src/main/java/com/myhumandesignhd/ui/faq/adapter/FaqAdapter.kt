@@ -17,20 +17,28 @@ import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.FaqClickedEvent
 import com.myhumandesignhd.model.Faq
-import kotlinx.android.synthetic.main.item_faq.view.*
+import kotlinx.android.synthetic.main.item_faq.view.faqArrow
+import kotlinx.android.synthetic.main.item_faq.view.faqClick
+import kotlinx.android.synthetic.main.item_faq.view.faqSeparator
+import kotlinx.android.synthetic.main.item_faq.view.faqTitle
 import org.greenrobot.eventbus.EventBus
 
 class FaqAdapter : EpoxyAdapter() {
 
     fun createList(models: List<Faq>) {
         removeAllModels()
-        models.map { addModel(FaqModel(it)) }
+        var isFirst = true
+        models.map {
+            addModel(FaqModel(it, isFirst))
+            isFirst = false
+        }
         notifyDataSetChanged()
     }
 }
 
 class FaqModel(
-    private val model: Faq
+    private val model: Faq,
+    private val isFirst: Boolean = false
 ) : EpoxyModel<View>() {
 
     private var root: View? = null
@@ -41,28 +49,78 @@ class FaqModel(
 
         with(view) {
             faqTitle.text =
-                if (App.preferences.locale == "ru") Html.fromHtml(model.titleRu)
-                else if (App.preferences.locale == "es") Html.fromHtml(model.titleEs)
-                else Html.fromHtml(model.titleEn)
+                when (App.preferences.locale) {
+                    "ru" -> Html.fromHtml(model.titleRu)
+                    "es" -> Html.fromHtml(model.titleEs)
+                    else -> Html.fromHtml(model.titleEn)
+                }
 
-            faqTitle.highlightKeys(
-                "Human Design",
-                "Types",
-                "Profiles",
-                "Gate",
-                "Channels",
-                "Daily Transits",
-                "Compatibility",
-                "Каналы",
-                "Дизайн Человека",
-                "Типы",
-                "Ворота",
-                "Профили",
-                "Отношения",
-                "Транзиты",
-                "Inner Authority",
-                model = model
-            )
+            if (isFirst) {
+                faqTitle.highlightKeys(
+                    "Human Design",
+                    "Types",
+                    "Profiles",
+                    "Gate",
+                    "Channels",
+                    "Daily Transits",
+                    "Compatibility",
+
+                    "Каналы",
+                    "Дизайн Человека",
+                    "Типы",
+                    "Ворота",
+                    "Профили",
+                    "Отношения",
+                    "Транзиты",
+                    "Inner Authority",
+
+                    "Diseño Humano",
+                    "Tipos",
+                    "Perfiles",
+                    "Autoridad Interior",
+                    "Estrategia",
+                    "Centros",
+                    "Canales",
+                    "una puerta",
+                    "Tránsitos Diarios",
+                    "Compatibilidad",
+                    "Trauma Genético",
+
+                    model = model
+                )
+            } else {
+                faqTitle.highlightKeys(
+                    "Human Design",
+                    "Types",
+                    "Profiles",
+                    "Gate",
+                    "Channels",
+                    "Daily Transits",
+                    "Compatibility",
+
+                    "Каналы",
+                    "Дизайн Человека",
+                    "Типы",
+                    "Ворота",
+                    "Профили",
+                    "Отношения",
+                    "Транзиты",
+                    "Inner Authority",
+
+                    "Tipos",
+                    "Perfiles",
+                    "Autoridad Interior",
+                    "Estrategia",
+                    "Centros",
+                    "Canales",
+                    "una puerta",
+                    "Tránsitos Diarios",
+                    "Compatibilidad",
+                    "Trauma Genético",
+
+                    model = model
+                )
+            }
 
             faqSeparator.setBackgroundColor(
                 ContextCompat.getColor(

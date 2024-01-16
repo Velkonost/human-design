@@ -493,24 +493,20 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             else PendingIntent.FLAG_CANCEL_CURRENT
         )
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 100
-                /** 60 * 60 * 24*/
-                ,
-                pendingIntent
-            )
-        } else {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            alarmManager.setAndAllowWhileIdle(
+//                AlarmManager.RTC_WAKEUP,
+//                System.currentTimeMillis() + 60 * 60 * 24,
+//                pendingIntent
+//            )
+//        } else {
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 100
-                /** 60 * 60 * 24*/
-                ,
+                System.currentTimeMillis() + 60 * 60 * 24,
                 (1000 * 60 * 60 * 24).toLong(),
                 pendingIntent
             )
-        }
+//        }
         val cal = Calendar.getInstance()
 
         cal.add(Calendar.DAY_OF_WEEK, -(cal[Calendar.DAY_OF_WEEK]))
@@ -547,7 +543,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
             alarmManagerForecasts.setRepeating(
                 AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis(),//cal.timeInMillis + 100,// mult * 86400000,
+                cal.timeInMillis + mult * 86400000,
                 AlarmManager.INTERVAL_DAY * 7,
                 pendingIntentForecasts
             )
