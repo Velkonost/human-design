@@ -186,7 +186,7 @@ dependencies {
     implementation 'com.github.zerobranch:SwipeLayout:1.3.1'
 
     // AppsFlyer
-    implementation 'com.appsflyer:af-android-sdk:6.3.2'
+    implementation 'com.appsflyer:af-android-sdk:6.12.5'
     implementation 'com.appsflyer:oaid:6.2.4'
     implementation "com.deepleaper:oaid_sdk:1.0.25"
 
@@ -201,7 +201,8 @@ dependencies {
     implementation ('com.yandex.android:mobmetricalib:4.2.0')
 
 //    Adapty
-    implementation 'com.github.adaptyteam:AdaptySDK-Android:2.4.1'
+//    implementation 'com.github.adaptyteam:AdaptySDK-Android:2.4.1'
+    implementation 'io.adapty:android-sdk:2.8.0'
 
     implementation 'com.intuit.sdp:sdp-android:1.0.5'
     implementation 'at.wirecube:additive_animations:1.9.3'

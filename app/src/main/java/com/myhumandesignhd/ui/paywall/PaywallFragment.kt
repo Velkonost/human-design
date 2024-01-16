@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator
 import com.adapty.Adapty
+import com.adapty.models.AdaptyProductDiscountPhase
 import com.adapty.utils.AdaptyResult
 import com.amplitude.api.Amplitude
 import com.amplitude.api.Identify
@@ -162,11 +163,11 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
     }
 
     private val fromStart: Boolean by lazy {
-        arguments?.getBoolean("fromStart")?: false
+        arguments?.getBoolean("fromStart") ?: false
     }
 
     private val source: String by lazy {
-        arguments?.getString("source")?: ""
+        arguments?.getString("source") ?: ""
     }
 
     private val promoBehavior: BottomSheetBehavior<ConstraintLayout> by lazy {
@@ -181,10 +182,12 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
         Amplitude.getInstance().logEvent(
             "subscription_shown",
-            JSONObject(mutableMapOf(
-                "source" to "from $source",
-                "type" to if (App.preferences.amountPaywallsShown == 3) "special" else "basic"
-            ).toMap())
+            JSONObject(
+                mutableMapOf(
+                    "source" to "from $source",
+                    "type" to if (App.preferences.amountPaywallsShown == 3) "special" else "basic"
+                ).toMap()
+            )
         )
 
         EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(false))
@@ -253,7 +256,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         if (App.adaptyPaywallModel != null)
             Adapty.logShowPaywall(App.adaptyPaywallModel!!)
 
-        when(App.adaptySplitPwName) {
+        when (App.adaptySplitPwName) {
             "with_scroll" -> setupSecondPaywall()
             else -> setupSecond2Paywall()
         }
@@ -269,7 +272,11 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         else -> "P1Y"
                     }
                 }
-                PAYWALL_TYPE.SPECIAL -> { "P1Y" }
+
+                PAYWALL_TYPE.SPECIAL -> {
+                    "P1Y"
+                }
+
                 else -> {
                     when (selectedOffer) {
                         2 -> "P1M"
@@ -279,7 +286,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 }
             }
 
-        var vendorProductId = when(billingPeriod) {
+        var vendorProductId = when (billingPeriod) {
             "P1M" -> "hd_month_sub"
             "P1W" -> "hd_week_sub"
             "P1Y" -> "hd_year_sub"
@@ -301,9 +308,17 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         val profile = result.value
                         val firebaseAnalytics = Firebase.analytics
 
-                        if (App.adaptyProducts!!.first { productModel ->
+                        if (
+//                            result.value?.subscriptions?.values?.firstOrNull { it.isActive }?.activePromotionalOfferId == "trial"
+//                            App.adaptyProducts!!.first { productModel ->
+//                                productModel.vendorProductId == vendorProductId
+//                            }.freeTrialPeriod != null
+                            App.adaptyProducts!!.first { productModel ->
                                 productModel.vendorProductId == vendorProductId
-                            }.freeTrialPeriod != null) {
+                            }.subscriptionDetails?.introductoryOfferPhases?.any {
+                                it.paymentMode == AdaptyProductDiscountPhase.PaymentMode.FREE_TRIAL
+                            } == true
+                        ) {
                             firebaseAnalytics.logEvent("start_trial", null)
                         } else {
                             firebaseAnalytics.logEvent("subscription", null)
@@ -313,14 +328,16 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         if (profile?.accessLevels?.get("premium")?.isActive == true) {
                             Amplitude.getInstance().logEvent(
                                 "subscription_purchased",
-                                JSONObject(mutableMapOf(
-                                    "type" to when(billingPeriod) {
-                                        "P1M" -> "Month"
-                                        "P1W" -> "Week"
-                                        "P1Y" -> "Year"
-                                        else -> "Month"
-                                    }
-                                ).toMap())
+                                JSONObject(
+                                    mutableMapOf(
+                                        "type" to when (billingPeriod) {
+                                            "P1M" -> "Month"
+                                            "P1W" -> "Week"
+                                            "P1Y" -> "Year"
+                                            else -> "Month"
+                                        }
+                                    ).toMap()
+                                )
                             )
                             App.preferences.isPremiun = true
 
@@ -331,6 +348,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                             close()
                         }
                     }
+
                     is AdaptyResult.Error -> {
                         val error = result.error
                         // handle the error
@@ -401,6 +419,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         close()
                     }
                 }
+
                 is AdaptyResult.Error -> {
                     val error = result.error
                 }
@@ -428,7 +447,10 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         binding.paywall2.isVisible = true
         with(binding.paywall2) {
             if (fromStart) {
-                title.text = "${App.preferences.userNameFromStart?.strip()},\n" + App.resourcesProvider.getStringLocale(R.string.enjoy_hd)
+                title.text =
+                    "${App.preferences.userNameFromStart?.strip()},\n" + App.resourcesProvider.getStringLocale(
+                        R.string.enjoy_hd
+                    )
             }
 
             endingPw2.setTextColor(
@@ -701,7 +723,10 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         binding.paywall22.isVisible = true
         with(binding.paywall22) {
             if (fromStart) {
-                title.text = "${App.preferences.userNameFromStart?.strip()},\n" + App.resourcesProvider.getStringLocale(R.string.enjoy_hd)
+                title.text =
+                    "${App.preferences.userNameFromStart?.strip()},\n" + App.resourcesProvider.getStringLocale(
+                        R.string.enjoy_hd
+                    )
             }
 
             title.setTextColor(
@@ -967,18 +992,20 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         with(binding.paywall4) {
             bottomGradientPw4.isVisible = App.preferences.isDarkTheme
 
-            subtitlePw4.text = App.resourcesProvider.getStringLocale(R.string.it_s_a_lucky_day_for_manifestor) + " " +
-                    if (App.preferences.locale == "ru") {
-                        when(baseViewModel.currentUser.subtitle1Ru) {
-                            "Манифестор" -> "Манифестора"
-                            "Манифестирующий Генератор" -> "Манифестирующего Генератора"
-                            "Генератор" -> "Генератора"
-                            "Проектор" -> "Проектора"
-                            "Рефлектор" -> "Рефлектора"
-                            else -> "Манифестора"
-                        }
-                    }
-                    else { baseViewModel.currentUser.subtitle1En } + "!"
+            subtitlePw4.text =
+                App.resourcesProvider.getStringLocale(R.string.it_s_a_lucky_day_for_manifestor) + " " +
+                        if (App.preferences.locale == "ru") {
+                            when (baseViewModel.currentUser.subtitle1Ru) {
+                                "Манифестор" -> "Манифестора"
+                                "Манифестирующий Генератор" -> "Манифестирующего Генератора"
+                                "Генератор" -> "Генератора"
+                                "Проектор" -> "Проектора"
+                                "Рефлектор" -> "Рефлектора"
+                                else -> "Манифестора"
+                            }
+                        } else {
+                            baseViewModel.currentUser.subtitle1En
+                        } + "!"
 
             bigCirclePw4.setImageResource(
                 if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
@@ -1070,7 +1097,12 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 else R.drawable.bg_paywall_2_offer_active_light
             )
 
-            offerUptitlePw4.setTextColor(ContextCompat.getColor(requireContext(), R.color.lightColor))
+            offerUptitlePw4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.lightColor
+                )
+            )
             offerUptitlePw4.background = ContextCompat.getDrawable(
                 requireContext(), R.drawable.bg_pw_offer_title_selected
             )
@@ -1165,9 +1197,11 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     }
                 }
             }
+
             PAYWALL_TYPE.PAYWALL2 -> {
                 with(binding.paywall2) {
-                    startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
+                    startBtnText.text =
+                        App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
 
                     endingPw2.text = App.resourcesProvider.getStringLocale(R.string.pw_ending_week)
 
@@ -1228,9 +1262,11 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     )
                 }
             }
+
             PAYWALL_TYPE.PAYWALL22 -> {
                 with(binding.paywall22) {
-                    startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
+                    startBtnText.text =
+                        App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
 
                     offer1TitlePw22.setTextColor(
                         ContextCompat.getColor(
@@ -1289,6 +1325,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     )
                 }
             }
+
             PAYWALL_TYPE.PAYWALL3 -> {
                 with(binding.paywall3) {
                     offer1Pw3.background = ContextCompat.getDrawable(
@@ -1354,6 +1391,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     }
                 }
             }
+
             PAYWALL_TYPE.PAYWALL2 -> {
                 with(binding.paywall2) {
                     startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn)
@@ -1416,6 +1454,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     )
                 }
             }
+
             PAYWALL_TYPE.PAYWALL22 -> {
                 with(binding.paywall22) {
                     startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn)
@@ -1478,6 +1517,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     )
                 }
             }
+
             PAYWALL_TYPE.PAYWALL3 -> {
                 with(binding.paywall3) {
                     offer1Pw3.background = ContextCompat.getDrawable(
@@ -1542,6 +1582,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     }
                 }
             }
+
             PAYWALL_TYPE.PAYWALL2 -> {
                 with(binding.paywall2) {
                     startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn)
@@ -1605,6 +1646,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     )
                 }
             }
+
             PAYWALL_TYPE.PAYWALL22 -> {
                 with(binding.paywall22) {
                     startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn)
@@ -1666,6 +1708,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     )
                 }
             }
+
             PAYWALL_TYPE.PAYWALL3 -> {
                 with(binding.paywall3) {
                     offer1Pw3.background = ContextCompat.getDrawable(
@@ -1794,7 +1837,8 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         snackbar
     }
 
-    inner class Pw3ReviewsChangeTimer(private val timer: Timer, private val random: Random) : TimerTask() {
+    inner class Pw3ReviewsChangeTimer(private val timer: Timer, private val random: Random) :
+        TimerTask() {
         override fun run() {
             binding.paywall3.recycler.apply {
                 val totalItemCount: Int = layoutManager!!.itemCount
@@ -1807,14 +1851,14 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 isNestedScrollingEnabled = false
 
 //                if (!isNewsUserClicked)
-                    post {
-                        if (isAdded)
-                            requireActivity().runOnUiThread {
-                                if (totalItemCount > lastVisibleItemPosition + 1)
-                                    smoothScrollToPosition(lastVisibleItemPosition + 1)
-                                else smoothScrollToPosition(0)
-                            }
-                    }
+                post {
+                    if (isAdded)
+                        requireActivity().runOnUiThread {
+                            if (totalItemCount > lastVisibleItemPosition + 1)
+                                smoothScrollToPosition(lastVisibleItemPosition + 1)
+                            else smoothScrollToPosition(0)
+                        }
+                }
             }
 
             timer.schedule(Pw3ReviewsChangeTimer(timer, random), 5000)
@@ -1834,7 +1878,8 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
 
     fun hideKeyboard(view: View) {
-        val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 

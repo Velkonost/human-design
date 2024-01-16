@@ -17,7 +17,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import com.amplitude.api.Amplitude
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.myhumandesignhd.App
@@ -31,7 +30,6 @@ import com.myhumandesignhd.event.ShowHelpEvent
 import com.myhumandesignhd.event.UpdateBalloonBgStateEvent
 import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.navigation.Screens
-import com.myhumandesignhd.ui.affirmation.adapter.NextYearAdapter
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.util.convertDpToPx
 import com.myhumandesignhd.util.ext.alpha1
@@ -247,69 +245,69 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     private fun setupNextYearBottomSheet() {
-        binding.nextYearBlock.visibility =
-            if (!App.preferences.isNextYearShown) View.VISIBLE else View.INVISIBLE
+//        binding.nextYearBlock.visibility =
+//            if (!App.preferences.isNextYearShown) View.VISIBLE else View.INVISIBLE
+//
+//        val sheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+//
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+//                    binding.nextYearBlock.visibility = View.INVISIBLE
+//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
+//                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+//                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
+//                }
+//            }
+//        }
+//        nextYearSheetBehavior.addBottomSheetCallback(sheetCallback)
 
-        val sheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    binding.nextYearBlock.visibility = View.INVISIBLE
-                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
-                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                    EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = false))
-                }
-            }
-        }
-        nextYearSheetBehavior.addBottomSheetCallback(sheetCallback)
-
-        val adapter = NextYearAdapter()
-        binding.nextYearBottomSheet.nextYearRecycler.adapter = adapter
-        binding.nextYearBottomSheet.gradient.background = ContextCompat.getDrawable(
-            requireContext(),
-            if (App.preferences.isDarkTheme) R.drawable.gradient_next_year_dark
-            else R.drawable.gradient_next_year_light
-        )
-        adapter.create(requireContext(), recyclerView = binding.nextYearBottomSheet.nextYearRecycler)
-
-        binding.nextYearBottomSheet.closeSheetBtn.setOnClickListener {
-            nextYearSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            YandexMetrica.reportEvent("tab1_forecast_close_clicked")
-            Amplitude.getInstance().logEvent("tab1_forecast_close_clicked")
-        }
-
-        var range: Int = binding.nextYearBottomSheet.nextYearRecycler.computeVerticalScrollRange()
-
-        binding.nextYearBottomSheet.nextYearRecycler.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val recycler = binding.nextYearBottomSheet.nextYearRecycler
-                val offset: Int = recycler.computeVerticalScrollOffset()
-
-
-                range = binding.nextYearBottomSheet.nextYearRecycler.computeVerticalScrollRange()
-
-                val extent: Int = recycler.computeVerticalScrollExtent()
-
-                val percentage = offset / (range - extent).toFloat()
-                binding.nextYearBottomSheet.nextYearIndicator.isVisible = percentage > 0.02
-                if (dy > 0 && percentage > prevNextYearPercentage) {
-                    binding.nextYearBottomSheet.nextYearIndicator.layoutParams.width =
-                        (getScreenWidth(requireContext()) * percentage).toInt()
-                    binding.nextYearBottomSheet.nextYearIndicator.requestLayout()
-                    prevNextYearPercentage = percentage
-                } else if (dy < 0 && percentage <= prevNextYearPercentage) {
-                    binding.nextYearBottomSheet.nextYearIndicator.layoutParams.width =
-                        (getScreenWidth(requireContext()) * percentage).toInt()
-                    binding.nextYearBottomSheet.nextYearIndicator.requestLayout()
-                    prevNextYearPercentage = percentage
-                }
-            }
-        })
+//        val adapter = NextYearAdapter()
+//        binding.nextYearBottomSheet.nextYearRecycler.adapter = adapter
+//        binding.nextYearBottomSheet.gradient.background = ContextCompat.getDrawable(
+//            requireContext(),
+//            if (App.preferences.isDarkTheme) R.drawable.gradient_next_year_dark
+//            else R.drawable.gradient_next_year_light
+//        )
+//        adapter.create(requireContext(), recyclerView = binding.nextYearBottomSheet.nextYearRecycler)
+//
+//        binding.nextYearBottomSheet.closeSheetBtn.setOnClickListener {
+//            nextYearSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+//            YandexMetrica.reportEvent("tab1_forecast_close_clicked")
+//            Amplitude.getInstance().logEvent("tab1_forecast_close_clicked")
+//        }
+//
+//        var range: Int = binding.nextYearBottomSheet.nextYearRecycler.computeVerticalScrollRange()
+//
+//        binding.nextYearBottomSheet.nextYearRecycler.addOnScrollListener(object :
+//            RecyclerView.OnScrollListener() {
+//
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//
+//                val recycler = binding.nextYearBottomSheet.nextYearRecycler
+//                val offset: Int = recycler.computeVerticalScrollOffset()
+//
+//
+//                range = binding.nextYearBottomSheet.nextYearRecycler.computeVerticalScrollRange()
+//
+//                val extent: Int = recycler.computeVerticalScrollExtent()
+//
+//                val percentage = offset / (range - extent).toFloat()
+//                binding.nextYearBottomSheet.nextYearIndicator.isVisible = percentage > 0.02
+//                if (dy > 0 && percentage > prevNextYearPercentage) {
+//                    binding.nextYearBottomSheet.nextYearIndicator.layoutParams.width =
+//                        (getScreenWidth(requireContext()) * percentage).toInt()
+//                    binding.nextYearBottomSheet.nextYearIndicator.requestLayout()
+//                    prevNextYearPercentage = percentage
+//                } else if (dy < 0 && percentage <= prevNextYearPercentage) {
+//                    binding.nextYearBottomSheet.nextYearIndicator.layoutParams.width =
+//                        (getScreenWidth(requireContext()) * percentage).toInt()
+//                    binding.nextYearBottomSheet.nextYearIndicator.requestLayout()
+//                    prevNextYearPercentage = percentage
+//                }
+//            }
+//        })
     }
 
     private var prevNextYearPercentage = 0f
@@ -355,42 +353,42 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
     override fun updateThemeAndLocale() {
         // next year
-        binding.nextYearBlock.background = ContextCompat.getDrawable(
-            requireContext(), if (App.preferences.isDarkTheme) R.drawable.bg_next_year_dark
-            else R.drawable.bg_next_year_light
-        )
+//        binding.nextYearBlock.background = ContextCompat.getDrawable(
+//            requireContext(), if (App.preferences.isDarkTheme) R.drawable.bg_next_year_dark
+//            else R.drawable.bg_next_year_light
+//        )
+//
+//        val color = ContextCompat.getColor(
+//            requireContext(), if (App.preferences.isDarkTheme) R.color.lightColor
+//            else R.color.darkColor
+//        )
+//        binding.nextYearTitle.setTextColor(color)
+//        binding.nextYearSubtitle.setTextColor(color)
 
-        val color = ContextCompat.getColor(
-            requireContext(), if (App.preferences.isDarkTheme) R.color.lightColor
-            else R.color.darkColor
-        )
-        binding.nextYearTitle.setTextColor(color)
-        binding.nextYearSubtitle.setTextColor(color)
-
-        binding.nextYearBottomSheet.backSheet.background = ContextCompat.getDrawable(
-            requireContext(), if (App.preferences.isDarkTheme) R.drawable.bg_sheet_header_dark
-            else R.drawable.bg_sheet_header_light
-        )
-
-        binding.nextYearBottomSheet.sheetContainer.background = ContextCompat.getDrawable(
-            requireContext(), if (App.preferences.isDarkTheme) R.color.darkColor
-            else R.color.lightColor
-        )
-
-        binding.nextYearBottomSheet.sheetTitle.background = ContextCompat.getDrawable(
-            requireContext(), if (App.preferences.isDarkTheme) R.drawable.bg_sheet_header_dark
-            else R.drawable.bg_sheet_header_light
-        )
-
-        binding.nextYearBottomSheet.sheetTitle.setTextColor(color)
-        binding.nextYearBottomSheet.bottomSheetContainer.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(), if (!App.preferences.isDarkTheme) R.color.lightColor
-                else R.color.darkColor
-            )
-        )
-
-        binding.nextYearBottomSheet.icSheetCross.imageTintList = ColorStateList.valueOf(color)
+//        binding.nextYearBottomSheet.backSheet.background = ContextCompat.getDrawable(
+//            requireContext(), if (App.preferences.isDarkTheme) R.drawable.bg_sheet_header_dark
+//            else R.drawable.bg_sheet_header_light
+//        )
+//
+//        binding.nextYearBottomSheet.sheetContainer.background = ContextCompat.getDrawable(
+//            requireContext(), if (App.preferences.isDarkTheme) R.color.darkColor
+//            else R.color.lightColor
+//        )
+//
+//        binding.nextYearBottomSheet.sheetTitle.background = ContextCompat.getDrawable(
+//            requireContext(), if (App.preferences.isDarkTheme) R.drawable.bg_sheet_header_dark
+//            else R.drawable.bg_sheet_header_light
+//        )
+//
+//        binding.nextYearBottomSheet.sheetTitle.setTextColor(color)
+//        binding.nextYearBottomSheet.bottomSheetContainer.setBackgroundColor(
+//            ContextCompat.getColor(
+//                requireContext(), if (!App.preferences.isDarkTheme) R.color.lightColor
+//                else R.color.darkColor
+//            )
+//        )
+//
+//        binding.nextYearBottomSheet.icSheetCross.imageTintList = ColorStateList.valueOf(color)
 //
 
         binding.bodygraphContainer.setBackgroundColor(

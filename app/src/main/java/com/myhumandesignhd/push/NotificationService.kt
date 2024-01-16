@@ -83,8 +83,6 @@ class NotificationService(name: String?) : IntentService(name) {
             title = title.replace("Имя", intent.getStringExtra("userNameForecast")!!)
             desc = desc.replace("Имя", intent.getStringExtra("userNameForecast")!!)
 
-//                App.resourcesProvider.getStringLocale(R.string.forecast_push_title)
-//            val desc = App.resourcesProvider.getStringLocale(R.string.forecast_push_desc)
 
             notificationHelper.createNotification(
                 title = title,
