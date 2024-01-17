@@ -256,10 +256,11 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         if (App.adaptyPaywallModel != null)
             Adapty.logShowPaywall(App.adaptyPaywallModel!!)
 
-        when (App.adaptySplitPwName) {
-            "with_scroll" -> setupSecondPaywall()
-            else -> setupSecond2Paywall()
-        }
+        setupSecondPaywall()
+//        when (App.adaptySplitPwName) {
+//            "with_scroll" -> setupSecondPaywall()
+//            else -> setupSecond2Paywall()
+//        }
     }
 
     private fun launchBilling() {

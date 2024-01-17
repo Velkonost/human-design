@@ -377,7 +377,7 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="pw_3_days_free">3 days free</string>
     <string name="pw_4_75_per_week">$4.75 per week</string>
     <string name="_0_90_per_week">$0.89 per week</string>
-    <string name="_5_99_per_week">$7.49 per week</string>
+    <string name="_5_99_per_week">3 days free, then $7.49 per week</string>
 
     <string name="enjoy_hd">Enjoy Human Design!</string>
 
@@ -406,9 +406,10 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="analyzing_your_info">Analyzing Your Info</string>
     <string name="synchronizing_with_planet_transits">Synchronizing with Planet Transits</string>
     <string name="pw_4_autorenewable">auto-renewable</string>
-    <string name="pw_ending_week">After the 3 days free trial this subscription automatically renews for 7.49 $/week unless it is canceled at least 24 hours before the end of the trial period. Subscriptions automatically renew unless auto-renew is turned off at least 24-hours before the end of the current period. You can cancel or change your membership at any time in Subscription on Google play.</string>
-    <string name="pw_ending_month">Subscription automatically renews for 18.99 $/ month unless auto-renew is turned off at least 24-hours before the end of the current period. You can cancel or change your membership at any time in Subscription on Google play.</string>
-    <string name="pw_ending_year">Subscription automatically renews for 45.99 $/ year unless auto-renew is turned off at least 24-hours before the end of the current period. You can cancel or change your membership at any time in Subscription on Google play.</string>
+
+    <string name="pw_ending_week">The 3 days trial version will automatically convert to a paid subscription at $7.49 per week unless canceled at least 24 hours before the end of the trial period. You can manage or cancel your membership anytime in Google Play Subscriptions.</string>
+    <string name="pw_ending_month">The subscription automatically renews at $18.99 per month unless canceled at least 24 hours before the end of the paid period. You can manage or cancel your membership anytime in Google Play Subscriptions.</string>
+    <string name="pw_ending_year">The subscription automatically renews at $45.99 per year unless canceled at least 24 hours before the end of the paid period. You can manage or cancel your membership anytime in Google Play Subscriptions.</string>
 
     <!--  COMPATIBILITY  -->
     <string name="compatibility_partner_empty_title">Test your compatibility</string>
