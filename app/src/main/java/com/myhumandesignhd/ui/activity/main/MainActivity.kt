@@ -15,6 +15,7 @@ import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -78,7 +79,6 @@ import com.yandex.metrica.YandexMetrica
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.util.Calendar
-import java.util.UUID
 
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
@@ -125,7 +125,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         if (savedInstanceState == null) {
             FirebaseAnalytics.getInstance(this).appInstanceId.addOnCompleteListener {
                 if (!it.isSuccessful || it.result.isNullOrEmpty()) {
-                    val uniqueId = UUID.randomUUID().toString()
+                    val uniqueId = Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)//UUID.randomUUID().toString()
                     if (App.preferences.uniqueUserId == null) {
                         App.preferences.uniqueUserId = uniqueId
                     }
