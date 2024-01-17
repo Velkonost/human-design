@@ -37,6 +37,7 @@ class FaqFragment : BaseFragment<FaqViewModel, FragmentFaqBinding>(
 //        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(isVisible = true))
 
         binding.faqsRecycler.adapter = faqAdapter
+        baseViewModel.faqsList.firstNotNullOfOrNull {  }
         faqAdapter.createList(baseViewModel.faqsList)
     }
 

@@ -375,9 +375,9 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
 
     <string name="paywall_2_open_full_access">Comienza tu viaje\nhacia el Diseño Humano</string>
 
-    <string name="pw_price_1">$5.99</string>
-    <string name="pw_price_2">$14.99</string>
-    <string name="pw_price_3">$36.99</string>
+    <string name="pw_price_1">$7.49</string>
+    <string name="pw_price_2">$18.99</string>
+    <string name="pw_price_3">$45.99</string>
 
     <string name="promocode">Promo</string>
     <string name="promocode_ok">OK</string>

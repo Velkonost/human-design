@@ -209,7 +209,7 @@
                                 android:layout_height="wrap_content"
                                 android:alpha="0.7"
                                 android:text="@string/_5_99_per_week"
-                                android:textSize="12sp" />
+                                android:textSize="11sp" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
