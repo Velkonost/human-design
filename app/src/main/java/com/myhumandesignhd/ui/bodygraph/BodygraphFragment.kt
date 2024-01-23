@@ -553,53 +553,58 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     }
 
     private fun showCentersHelp() {
-        val view = View(
-            requireContext()
-        )
-        view.layoutParams = LinearLayout.LayoutParams(
-            1,
-            1
-        )
-        view.x =
-            binding.bodygraphContainer2.width / 2f//binding.bodygraphView.getTopPoint().x.toFloat()
-        view.y = binding.bodygraphContainer2.top + binding.bodygraphView.getTopPoint().y.toFloat()
+        if (!isAdded) return
 
-        binding.bodygraphContainer.addView(view)
+        runCatching {
+            val view = View(
+                requireContext()
+            )
+            view.layoutParams = LinearLayout.LayoutParams(
+                1,
+                1
+            )
+            view.x =
+                binding.bodygraphContainer2.width / 2f//binding.bodygraphView.getTopPoint().x.toFloat()
+            view.y =
+                binding.bodygraphContainer2.top + binding.bodygraphView.getTopPoint().y.toFloat()
 
-        val balloon = Balloon.Builder(context!!)
-            .setArrowSize(15)
-            .setArrowOrientation(ArrowOrientation.BOTTOM)
-            .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
-            .setArrowPosition(0.5f)
-            .setTextGravity(Gravity.CENTER)
-            .setPadding(10)
-            .setWidth(BalloonSizeSpec.WRAP)
-            .setMaxWidth(300)
-            .setHeight(BalloonSizeSpec.WRAP)
-            .setTextSize(12f)
-            .setCornerRadius(10f)
-            .setText(App.resourcesProvider.getStringLocale(R.string.help_bodygraph_centers))
-            .setTextColor(
-                ContextCompat.getColor(
-                    context!!,
-                    R.color.lightColor
+            binding.bodygraphContainer.addView(view)
+
+            val balloon = Balloon.Builder(context!!)
+                .setArrowSize(15)
+                .setArrowOrientation(ArrowOrientation.BOTTOM)
+                .setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
+                .setArrowPosition(0.5f)
+                .setTextGravity(Gravity.CENTER)
+                .setPadding(10)
+                .setWidth(BalloonSizeSpec.WRAP)
+                .setMaxWidth(300)
+                .setHeight(BalloonSizeSpec.WRAP)
+                .setTextSize(12f)
+                .setCornerRadius(10f)
+                .setText(App.resourcesProvider.getStringLocale(R.string.help_bodygraph_centers))
+                .setTextColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        R.color.lightColor
+                    )
                 )
-            )
-            .setTextIsHtml(true)
-            .setOverlayColorResource(R.color.helpBgColor)
-            .setIsVisibleOverlay(true)
-            .setBackgroundColor(
-                Color.parseColor("#4D494D")
-            )
-            .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
-            .setOnBalloonDismissListener {
-                App.preferences.bodygraphCentersHelpShown = true
-                showHelp(HelpType.BodygraphAddDiagram)
-            }
-            .build()
+                .setTextIsHtml(true)
+                .setOverlayColorResource(R.color.helpBgColor)
+                .setIsVisibleOverlay(true)
+                .setBackgroundColor(
+                    Color.parseColor("#4D494D")
+                )
+                .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+                .setOnBalloonDismissListener {
+                    App.preferences.bodygraphCentersHelpShown = true
+                    showHelp(HelpType.BodygraphAddDiagram)
+                }
+                .build()
 
 
-        balloon.showAlignTop(view)
+            balloon.showAlignTop(view)
+        }
     }
 
     @Subscribe

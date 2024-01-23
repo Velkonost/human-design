@@ -27,7 +27,6 @@ class NotificationService(name: String?) : IntentService(name) {
     override fun onCreate() {
         super.onCreate()
 
-//        startForeground()
         val channelId =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 createNotificationChannel("my_service", "My Background Service")
@@ -43,10 +42,6 @@ class NotificationService(name: String?) : IntentService(name) {
             .setContentText("pez")
             .build()
         startForeground(101, notification)
-    }
-
-    private fun startForeground() {
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

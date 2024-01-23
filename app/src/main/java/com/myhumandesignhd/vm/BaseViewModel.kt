@@ -228,32 +228,33 @@ class BaseViewModel @Inject constructor(
             lon = currentUser.lon,
             date = currentUser.getDateStr()
         ).subscribe({
-            currentUser.subtitle1Ru = it.typeRu
-            currentUser.subtitle1En = it.typeEn
+            runCatching {
+                currentUser.subtitle1Ru = it.typeRu
+                currentUser.subtitle1En = it.typeEn
 
-            if (App.preferences.locale == "es")
-                currentUser.subtitle1En = it.typeEs
+                if (App.preferences.locale == "es")
+                    currentUser.subtitle1En = it.typeEs
 
-            currentUser.subtitle2 = it.line
+                currentUser.subtitle2 = it.line
 
-            currentUser.subtitle3Ru = it.profileRu
-            currentUser.subtitle3En = it.profileEn
+                currentUser.subtitle3Ru = it.profileRu
+                currentUser.subtitle3En = it.profileEn
 
-            if (App.preferences.locale == "es")
-                currentUser.subtitle3En = it.profileEs
+                if (App.preferences.locale == "es")
+                    currentUser.subtitle3En = it.profileEs
 
-            currentUser.parentDescription = it.parentDescription
+                currentUser.parentDescription = it.parentDescription
 
-            updateUser()
+                updateUser()
 
-            currentBodygraph.postValue(it)
+                currentBodygraph.postValue(it)
 
-            isBodygraphLoaded = true
-            checkIsUserDataLoaded()
+                isBodygraphLoaded = true
+                checkIsUserDataLoaded()
 
-            setupCurrentDailyAdvice()
-            setupCurrentCycles()
-
+                setupCurrentDailyAdvice()
+                setupCurrentCycles()
+            }
         }, {
             EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = false))
             EventBus.getDefault().post(NoInetEvent())

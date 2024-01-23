@@ -1867,11 +1867,15 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
     }
 
     private fun close() {
-        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(true))
-        Amplitude.getInstance().logEvent("subscription_exit_clicked")
+        if (!isAdded) return
 
-        router.replaceScreen(Screens.bodygraphScreen(true))
+        runCatching {
+            requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+            EventBus.getDefault().post(UpdateNavMenuVisibleStateEvent(true))
+            Amplitude.getInstance().logEvent("subscription_exit_clicked")
+
+            router.replaceScreen(Screens.bodygraphScreen(true))
+        }
 //        if (fromStart)
 //            router.replaceScreen(Screens.bodygraphScreen(true))
 //        else router.exit()

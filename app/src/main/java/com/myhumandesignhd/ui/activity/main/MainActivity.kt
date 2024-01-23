@@ -124,121 +124,127 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         if (savedInstanceState == null) {
             FirebaseAnalytics.getInstance(this).appInstanceId.addOnCompleteListener {
-                if (!it.isSuccessful || it.result.isNullOrEmpty()) {
-                    val uniqueId = Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)//UUID.randomUUID().toString()
-                    if (App.preferences.uniqueUserId == null) {
-                        App.preferences.uniqueUserId = uniqueId
-                    }
-
-                    Amplitude.getInstance().userId = App.preferences.uniqueUserId
-
-                    Adapty.activate(
-                        applicationContext,
-                        "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy",
-                        customerUserId = App.preferences.uniqueUserId
-                    )
-                    Adapty.logLevel = AdaptyLogLevel.VERBOSE
-
-                    referrerClient = InstallReferrerClient.newBuilder(this).build()
-                    referrerClient.startConnection(object : InstallReferrerStateListener {
-
-                        override fun onInstallReferrerSetupFinished(responseCode: Int) {
-                            when (responseCode) {
-                                InstallReferrerClient.InstallReferrerResponse.OK -> {
-                                    // Connection established.
-                                    val response: ReferrerDetails = referrerClient.installReferrer
-                                    val referrerUrl: String = response.installReferrer
-
-                                    setupAdapty(referrerUrl)
-                                }
-
-                                InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
-                                    // API not available on the current Play Store app.
-                                    setupAdapty()
-                                }
-
-                                InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
-                                    // Connection couldn't be established.
-                                    setupAdapty()
-                                }
-                            }
+                runCatching {
+                    if (!it.isSuccessful || it.result.isNullOrEmpty()) {
+                        val uniqueId = Settings.Secure.getString(
+                            this.contentResolver,
+                            Settings.Secure.ANDROID_ID
+                        )//UUID.randomUUID().toString()
+                        if (App.preferences.uniqueUserId == null) {
+                            App.preferences.uniqueUserId = uniqueId
                         }
 
-                        override fun onInstallReferrerServiceDisconnected() {
-                            // Try to restart the connection on the next request to
-                            // Google Play by calling the startConnection() method.
-                        }
-                    })
+                        Amplitude.getInstance().userId = App.preferences.uniqueUserId
 
+                        Adapty.activate(
+                            applicationContext,
+                            "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy",
+                            customerUserId = App.preferences.uniqueUserId
+                        )
+                        Adapty.logLevel = AdaptyLogLevel.VERBOSE
 
-//                    setupAdapty()
+                        referrerClient = InstallReferrerClient.newBuilder(this).build()
+                        referrerClient.startConnection(object : InstallReferrerStateListener {
 
-                    return@addOnCompleteListener
-                }
-                if (it.isSuccessful) {
-                    val appInstanceId = it.result.toString()
-                    if (App.preferences.uniqueUserId == null) {
-                        App.preferences.uniqueUserId = appInstanceId
-                    }
-
-                    Amplitude.getInstance().userId = App.preferences.uniqueUserId
-                    Adapty.activate(
-                        applicationContext,
-                        "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy",
-                        customerUserId = App.preferences.uniqueUserId
-                    )
-                    Adapty.logLevel = AdaptyLogLevel.VERBOSE
-
-                    referrerClient = InstallReferrerClient.newBuilder(this).build()
-                    referrerClient.startConnection(object : InstallReferrerStateListener {
-
-                        override fun onInstallReferrerSetupFinished(responseCode: Int) {
-                            when (responseCode) {
-                                InstallReferrerClient.InstallReferrerResponse.OK -> {
-                                    kotlin.runCatching {
+                            override fun onInstallReferrerSetupFinished(responseCode: Int) {
+                                when (responseCode) {
+                                    InstallReferrerClient.InstallReferrerResponse.OK -> {
                                         // Connection established.
                                         val response: ReferrerDetails =
                                             referrerClient.installReferrer
                                         val referrerUrl: String = response.installReferrer
 
                                         setupAdapty(referrerUrl)
-
-                                        if (
-                                            referrerUrl.isNotEmpty()
-                                            && appInstanceId.isNotEmpty()
-                                            && referrerUrl.contains("utm_source=")
-                                            && referrerUrl.substringAfter("utm_source=")
-                                                .split("&")[0] != "google-play"
-                                        ) {
-                                            binding.viewModel!!.setUserInfo(
-                                                gclid = referrerUrl.substringAfter("utm_source=")
-                                                    .split("&")[0],
-                                                appInstanceId = appInstanceId
-                                            )
-                                        }
                                     }
 
-                                }
+                                    InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
+                                        // API not available on the current Play Store app.
+                                        setupAdapty()
+                                    }
 
-                                InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
-                                    // API not available on the current Play Store app.
-                                    setupAdapty()
-                                }
-
-                                InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
-                                    // Connection couldn't be established.
-                                    setupAdapty()
+                                    InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
+                                        // Connection couldn't be established.
+                                        setupAdapty()
+                                    }
                                 }
                             }
-                        }
 
-                        override fun onInstallReferrerServiceDisconnected() {
-                            // Try to restart the connection on the next request to
-                            // Google Play by calling the startConnection() method.
-                        }
-                    })
+                            override fun onInstallReferrerServiceDisconnected() {
+                                // Try to restart the connection on the next request to
+                                // Google Play by calling the startConnection() method.
+                            }
+                        })
+
 
 //                    setupAdapty()
+
+                        return@addOnCompleteListener
+                    }
+                    if (it.isSuccessful) {
+                        val appInstanceId = it.result.toString()
+                        if (App.preferences.uniqueUserId == null) {
+                            App.preferences.uniqueUserId = appInstanceId
+                        }
+
+                        Amplitude.getInstance().userId = App.preferences.uniqueUserId
+                        Adapty.activate(
+                            applicationContext,
+                            "public_live_fec6Kl1K.e7EdG5TbzwOPAO55qjDy",
+                            customerUserId = App.preferences.uniqueUserId
+                        )
+                        Adapty.logLevel = AdaptyLogLevel.VERBOSE
+
+                        referrerClient = InstallReferrerClient.newBuilder(this).build()
+                        referrerClient.startConnection(object : InstallReferrerStateListener {
+
+                            override fun onInstallReferrerSetupFinished(responseCode: Int) {
+                                when (responseCode) {
+                                    InstallReferrerClient.InstallReferrerResponse.OK -> {
+                                        kotlin.runCatching {
+                                            // Connection established.
+                                            val response: ReferrerDetails =
+                                                referrerClient.installReferrer
+                                            val referrerUrl: String = response.installReferrer
+
+                                            setupAdapty(referrerUrl)
+
+                                            if (
+                                                referrerUrl.isNotEmpty()
+                                                && appInstanceId.isNotEmpty()
+                                                && referrerUrl.contains("utm_source=")
+                                                && referrerUrl.substringAfter("utm_source=")
+                                                    .split("&")[0] != "google-play"
+                                            ) {
+                                                binding.viewModel!!.setUserInfo(
+                                                    gclid = referrerUrl.substringAfter("utm_source=")
+                                                        .split("&")[0],
+                                                    appInstanceId = appInstanceId
+                                                )
+                                            }
+                                        }
+
+                                    }
+
+                                    InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
+                                        // API not available on the current Play Store app.
+                                        setupAdapty()
+                                    }
+
+                                    InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
+                                        // Connection couldn't be established.
+                                        setupAdapty()
+                                    }
+                                }
+                            }
+
+                            override fun onInstallReferrerServiceDisconnected() {
+                                // Try to restart the connection on the next request to
+                                // Google Play by calling the startConnection() method.
+                            }
+                        })
+
+//                    setupAdapty()
+                    }
                 }
             }
 

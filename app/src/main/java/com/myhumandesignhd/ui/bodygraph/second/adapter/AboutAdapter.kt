@@ -507,7 +507,8 @@ class AboutAdapter(
         override fun onExpansionUpdate(expansionFraction: Float, state: Int) {
             Log.d("ExpandableLayout", "State: $state")
 
-            if (state == ExpandableLayout.State.EXPANDED) {
+            runCatching {
+                if (state == ExpandableLayout.State.EXPANDED) {
                     if (items[adapterPosition].type == AboutType.INJURY) {
 
                         if (currentUser.injuryDateStart != null) {
@@ -516,7 +517,7 @@ class AboutAdapter(
                             if (currentProgress > 100) currentProgress = 100
 
                             if (currentProgress == 100) {
-                                expandButton.setTextAnimation(items[adapterPosition].name?: "")
+                                expandButton.setTextAnimation(items[adapterPosition].name ?: "")
                             }
                         }
 
@@ -528,54 +529,54 @@ class AboutAdapter(
                         val paddingPixel = (paddingDp * density).toInt()
                         val paddingTopPixel = (paddingTopDp * density).toInt()
 
-                        expandButton.setPadding(paddingPixel,paddingTopPixel, paddingPixel, 0)
+                        expandButton.setPadding(paddingPixel, paddingTopPixel, paddingPixel, 0)
                     } else {
-                        expandButton.setTextAnimation(items[adapterPosition].name?: "")
+                        expandButton.setTextAnimation(items[adapterPosition].name ?: "")
                     }
 
                     subtitle.isVisible = false
 //                }
 
-                icArrow.animate()
-                    .rotation(-90f)
-                    .duration = 300
-            }
-
-            if (state == ExpandableLayout.State.COLLAPSED) {
-                kotlin.runCatching {
-                    expandButton.setTextAnimation(
-                        when (items[adapterPosition].type) {
-                            AboutType.TYPE -> App.resourcesProvider.getStringLocale(R.string.type_title)
-                            AboutType.PROFILE -> App.resourcesProvider.getStringLocale(R.string.profile_title)
-                            AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)
-                            AboutType.STRATEGY -> App.resourcesProvider.getStringLocale(R.string.strategy_title)
-                            AboutType.BUSINESS -> App.resourcesProvider.getStringLocale(R.string.business_title)
-                            AboutType.INJURY -> App.resourcesProvider.getStringLocale(R.string.injury_title)
-                            AboutType.NUTRITION -> App.resourcesProvider.getStringLocale(R.string.nutrition_title)
-                            AboutType.ENVIRONMENT -> App.resourcesProvider.getStringLocale(R.string.environment_title)
-                        }
-                    )
-                    subtitle.isVisible = true
-
                     icArrow.animate()
-                        .rotation(90f)
+                        .rotation(-90f)
                         .duration = 300
+                }
 
-                    if (items[adapterPosition].type == AboutType.INJURY && currentUser.injuryDateStart == null) {
-                        pointViewContainer.isVisible = true
+                if (state == ExpandableLayout.State.COLLAPSED) {
+                    kotlin.runCatching {
+                        expandButton.setTextAnimation(
+                            when (items[adapterPosition].type) {
+                                AboutType.TYPE -> App.resourcesProvider.getStringLocale(R.string.type_title)
+                                AboutType.PROFILE -> App.resourcesProvider.getStringLocale(R.string.profile_title)
+                                AboutType.AUTHORITY -> App.resourcesProvider.getStringLocale(R.string.authority_title)
+                                AboutType.STRATEGY -> App.resourcesProvider.getStringLocale(R.string.strategy_title)
+                                AboutType.BUSINESS -> App.resourcesProvider.getStringLocale(R.string.business_title)
+                                AboutType.INJURY -> App.resourcesProvider.getStringLocale(R.string.injury_title)
+                                AboutType.NUTRITION -> App.resourcesProvider.getStringLocale(R.string.nutrition_title)
+                                AboutType.ENVIRONMENT -> App.resourcesProvider.getStringLocale(R.string.environment_title)
+                            }
+                        )
+                        subtitle.isVisible = true
 
-                        val paddingDp = 6f
-                        val paddingTopDp = 18
-                        val density = context.resources.displayMetrics.density
-                        val paddingPixel = (paddingDp * density).toInt()
-                        val paddingTopPixel = (paddingTopDp * density).toInt()
+                        icArrow.animate()
+                            .rotation(90f)
+                            .duration = 300
 
-                        expandButton.setPadding(paddingPixel,paddingTopPixel, paddingPixel, 0)
+                        if (items[adapterPosition].type == AboutType.INJURY && currentUser.injuryDateStart == null) {
+                            pointViewContainer.isVisible = true
+
+                            val paddingDp = 6f
+                            val paddingTopDp = 18
+                            val density = context.resources.displayMetrics.density
+                            val paddingPixel = (paddingDp * density).toInt()
+                            val paddingTopPixel = (paddingTopDp * density).toInt()
+
+                            expandButton.setPadding(paddingPixel, paddingTopPixel, paddingPixel, 0)
+                        }
                     }
                 }
-            }
 
-            if (state == ExpandableLayout.State.EXPANDING) {
+                if (state == ExpandableLayout.State.EXPANDING) {
 //                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 //                    val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
 //                        override fun getVerticalSnapPreference(): Int {
@@ -593,6 +594,7 @@ class AboutAdapter(
 //                    (recyclerView.layoutManager as LinearLayoutManager)
 //                        .startSmoothScroll(smoothScroller)
 //                }
+                }
             }
         }
 

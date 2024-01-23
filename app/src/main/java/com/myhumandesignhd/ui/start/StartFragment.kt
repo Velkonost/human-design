@@ -266,13 +266,15 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     if (!binding.placesView.isVisible)
                         binding.startBtn.isVisible = true
 
-                    (inflatedNameContainer.nameET.layoutParams as ViewGroup.MarginLayoutParams)
-                        .setMargins(
-                            dpToPx(requireContext(), 20f).toInt(),
-                            0,
-                            dpToPx(requireContext(), 20f).toInt(),
-                            dpToPx(requireContext(), 46f).toInt()
-                        )
+                    if (isAdded) {
+                        (inflatedNameContainer.nameET.layoutParams as ViewGroup.MarginLayoutParams)
+                            .setMargins(
+                                dpToPx(requireContext(), 20f).toInt(),
+                                0,
+                                dpToPx(requireContext(), 20f).toInt(),
+                                dpToPx(requireContext(), 46f).toInt()
+                            )
+                    }
                 }, 10)
             }
         }

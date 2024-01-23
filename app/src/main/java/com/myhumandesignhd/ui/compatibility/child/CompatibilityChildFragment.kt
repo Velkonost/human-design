@@ -97,58 +97,60 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
         binding.viewPager.adapter = columnsAdapter
 
         GlobalScope.launch(Dispatchers.Main) {
-            val child = baseViewModel.getAllChildren().find { it.id == childId }!!
+            runCatching {
+                val child = baseViewModel.getAllChildren().find { it.id == childId }!!
 
-            requireActivity().runOnUiThread {
-                columnsAdapter.createList(
-                    childTitle =
-                    if (App.preferences.locale == "ru") child.subtitle1Ru!!
-                    else child.subtitle1En!!,
-                    childDesc =
-                    if (App.preferences.locale == "ru") child.kidDescriptionRu!!
-                    else child.kidDescriptionEn!!,
-                    parentTitle =
-                    if (App.preferences.locale == "ru") baseViewModel.currentUser.subtitle1Ru!!
-                    else baseViewModel.currentUser.subtitle1En!!,
-                    parentDesc =
-                    baseViewModel.currentUser.parentDescription!!,
-                    childrenTitles = child.titles,
-                    childrenDescriptions = child.descriptions,
-                    chart1ResId =
-                    if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
-                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_child_dark
-                        else R.drawable.ic_chart_proektor_child_light
-                    } else if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
-                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_child_dark
-                        else R.drawable.ic_chart_reflector_child_light
-                    } else if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
-                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_child_dark
-                        else R.drawable.ic_chart_generator_child_light
-                    } else if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
-                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_child_dark
-                        else R.drawable.ic_chart_mangenerator_child_light
-                    } else {
-                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_child_dark
-                        else R.drawable.ic_chart_manifestor_child_light
-                    },
-                    chart2ResId =
-                    if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
-                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
-                        else R.drawable.ic_chart_proektor_light
-                    } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
-                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_dark
-                        else R.drawable.ic_chart_reflector_light
-                    } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
-                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_dark
-                        else R.drawable.ic_chart_generator_light
-                    } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
-                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_dark
-                        else R.drawable.ic_chart_mangenerator_light
-                    } else {
-                        if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_dark
-                        else R.drawable.ic_chart_manifestor_light
-                    }
-                )
+                requireActivity().runOnUiThread {
+                    columnsAdapter.createList(
+                        childTitle =
+                        if (App.preferences.locale == "ru") child.subtitle1Ru!!
+                        else child.subtitle1En!!,
+                        childDesc =
+                        if (App.preferences.locale == "ru") child.kidDescriptionRu!!
+                        else child.kidDescriptionEn!!,
+                        parentTitle =
+                        if (App.preferences.locale == "ru") baseViewModel.currentUser.subtitle1Ru!!
+                        else baseViewModel.currentUser.subtitle1En!!,
+                        parentDesc =
+                        baseViewModel.currentUser.parentDescription!!,
+                        childrenTitles = child.titles,
+                        childrenDescriptions = child.descriptions,
+                        chart1ResId =
+                        if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
+                            if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_child_dark
+                            else R.drawable.ic_chart_proektor_child_light
+                        } else if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
+                            if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_child_dark
+                            else R.drawable.ic_chart_reflector_child_light
+                        } else if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
+                            if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_child_dark
+                            else R.drawable.ic_chart_generator_child_light
+                        } else if (child.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
+                            if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_child_dark
+                            else R.drawable.ic_chart_mangenerator_child_light
+                        } else {
+                            if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_child_dark
+                            else R.drawable.ic_chart_manifestor_child_light
+                        },
+                        chart2ResId =
+                        if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "проектор") {
+                            if (App.preferences.isDarkTheme) R.drawable.ic_chart_proektor_dark
+                            else R.drawable.ic_chart_proektor_light
+                        } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "рефлектор") {
+                            if (App.preferences.isDarkTheme) R.drawable.ic_chart_reflector_dark
+                            else R.drawable.ic_chart_reflector_light
+                        } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "генератор") {
+                            if (App.preferences.isDarkTheme) R.drawable.ic_chart_generator_dark
+                            else R.drawable.ic_chart_generator_light
+                        } else if (baseViewModel.currentUser.subtitle1Ru?.lowercase(Locale.getDefault()) == "манифестирующий генератор") {
+                            if (App.preferences.isDarkTheme) R.drawable.ic_chart_mangenerator_dark
+                            else R.drawable.ic_chart_mangenerator_light
+                        } else {
+                            if (App.preferences.isDarkTheme) R.drawable.ic_chart_manifestor_dark
+                            else R.drawable.ic_chart_manifestor_light
+                        }
+                    )
+                }
             }
         }
 
