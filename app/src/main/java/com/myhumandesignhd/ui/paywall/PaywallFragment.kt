@@ -1878,11 +1878,6 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
     }
 
     private fun close() {
-        if (!App.preferences.firstReviewUsed) {
-            App.preferences.showAskReview = true
-//            App.preferences.firstReviewUsed = true
-        }
-
         if (!isAdded) return
 
         runCatching {
