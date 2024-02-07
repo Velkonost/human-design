@@ -320,8 +320,19 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                                 it.paymentMode == AdaptyProductDiscountPhase.PaymentMode.FREE_TRIAL
                             } == true
                         ) {
+                            if (!App.preferences.firstReviewUsed) {
+                                App.preferences.showAskReview = true
+//                                App.preferences.firstReviewUsed = true
+                            }
+
                             firebaseAnalytics.logEvent("start_trial", null)
                         } else {
+
+                            if (!App.preferences.firstReviewUsed && vendorProductId == "hd_month_sub") {
+                                App.preferences.showAskReview = true
+//                                App.preferences.firstReviewUsed = true
+                            }
+
                             firebaseAnalytics.logEvent("subscription", null)
                             firebaseAnalytics.logEvent(vendorProductId, null)
                         }
@@ -1867,6 +1878,11 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
     }
 
     private fun close() {
+        if (!App.preferences.firstReviewUsed) {
+            App.preferences.showAskReview = true
+//            App.preferences.firstReviewUsed = true
+        }
+
         if (!isAdded) return
 
         runCatching {

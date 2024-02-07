@@ -19,6 +19,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.amplitude.api.Amplitude
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentBodygraphBinding
@@ -84,10 +85,29 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 
         isFirstFragmentLaunch = false
         Amplitude.getInstance().logEvent("tab1_screen_shown")
+
+        if (App.preferences.showAskReview) {
+            requestReviewFlow()
+            App.preferences.showAskReview = false
+        }
+    }
+
+    private fun requestReviewFlow() {
+        val reviewManager = ReviewManagerFactory.create(requireActivity())
+        val requestReviewFlow = reviewManager.requestReviewFlow()
+
+        requestReviewFlow.addOnCompleteListener { request ->
+            if (request.isSuccessful) {
+                val reviewInfo = request.result
+                val flow = reviewManager.launchReviewFlow(requireActivity(), reviewInfo)
+                flow.addOnCompleteListener {
+                }
+            } else {
+            }
+        }
     }
 
     override fun onPause() {
-
         binding.bigCircle.clearAnimation()
         binding.midCircle.clearAnimation()
 

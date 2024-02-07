@@ -91,6 +91,14 @@ class Preferences(context: Context) {
         set(value) = sharedPreferences.edit().putBoolean("is_premium", value).apply()
         get() = sharedPreferences.getBoolean("is_premium", false)
 
+    var showAskReview: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("should_ask_review", value).apply()
+        get() = sharedPreferences.getBoolean("should_ask_review", false)
+
+    var firstReviewUsed: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("first_review_used", value).apply()
+        get() = sharedPreferences.getBoolean("first_review_used", false)
+
     var uniqueUserId: String?
         set(value) = sharedPreferences.edit().putString("unique_user_id", value).apply()
         get() = sharedPreferences.getString("unique_user_id", null)
