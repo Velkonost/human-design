@@ -13,33 +13,40 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+    <uses-permission
+        android:name="com.google.android.gms.permission.AD_ID"
+        tools:node="remove" />
 
-    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_REMOTE_MESSAGING"
+        android:minSdkVersion="34" />
 
     <application
         android:name="com.myhumandesignhd.App"
         android:allowBackup="true"
-        tools:replace="android:fullBackupContent"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-<!--android:icon="@drawable/ic_launcher_background"-->
-<!--        android:roundIcon="@drawable/logo"-->
+        android:usesCleartextTraffic="true"
+        tools:replace="android:fullBackupContent">
+        <!--android:icon="@drawable/ic_launcher_background"-->
+        <!--        android:roundIcon="@drawable/logo"-->
         <activity
-            android:screenOrientation="portrait"
-            android:exported="false"
             android:name="com.myhumandesignhd.ui.activity.main.MainActivity"
             android:configChanges="uiMode"
+            android:exported="false"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <activity-alias
@@ -47,8 +54,8 @@
             android:enabled="true"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
-            android:roundIcon="@mipmap/ic_launcher_round"
             android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
             android:targetActivity="com.myhumandesignhd.ui.activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -98,7 +105,8 @@
         <service
             android:name="com.myhumandesignhd.push.NotificationService"
             android:exported="false"
-            tools:ignore="Instantiatable"/>
+            android:foregroundServiceType="remoteMessaging"
+            tools:ignore="Instantiatable" />
 
         <receiver
             android:name="com.appsflyer.SingleInstallBroadcastReceiver"
@@ -111,10 +119,10 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-<!--        <meta-data android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled"-->
-<!--            android:value="true"/>-->
-<!--        <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled"-->
-<!--            android:value="true"/>-->
+        <!--        <meta-data android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled"-->
+        <!--            android:value="true"/>-->
+        <!--        <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled"-->
+        <!--            android:value="true"/>-->
     </application>
 
 </manifest>

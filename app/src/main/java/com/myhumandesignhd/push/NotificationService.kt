@@ -6,6 +6,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_REMOTE_MESSAGING
 import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -15,6 +16,10 @@ import com.myhumandesignhd.R
 
 
 class NotificationService(name: String?) : IntentService(name) {
+
+    companion object {
+        private const val SERVICE_ID = 101
+    }
 
     constructor() : this("servicerykdtr")
 
@@ -41,7 +46,12 @@ class NotificationService(name: String?) : IntentService(name) {
             .setCategory(Notification.CATEGORY_SERVICE)
             .setContentText("pez")
             .build()
-        startForeground(101, notification)
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+            startForeground(SERVICE_ID, notification)
+        } else {
+            startForeground(SERVICE_ID, notification, FOREGROUND_SERVICE_TYPE_REMOTE_MESSAGING)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

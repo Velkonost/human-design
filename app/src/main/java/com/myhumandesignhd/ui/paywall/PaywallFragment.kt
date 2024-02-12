@@ -1807,7 +1807,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         with(binding.promoBottomSheet) {
             this.ok.setOnClickListener {
                 if (
-                    App.PROMOCODES.contains(this.promoET.text.toString())
+                    App.PROMOCODES.contains(this.promoET.text.toString().trim())
 //                    this.promoET.text.toString() == App.PROMOCODE
                 ) {
                     val identify = Identify()
@@ -1817,6 +1817,12 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     App.preferences.isPremiun = true
                     hideKeyboard(this.promoET)
                     promoBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+//                    if (!App.preferences.firstReviewUsed) {
+                        App.preferences.showAskReview = true
+//                                App.preferences.firstReviewUsed = true
+//                    }
+
                     close()
                 } else snackbarPromo.show()
             }

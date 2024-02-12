@@ -506,12 +506,12 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 //                pendingIntent
 //            )
 //        } else {
-            alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 60 * 60 * 24,
-                (1000 * 60 * 60 * 24).toLong(),
-                pendingIntent
-            )
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            System.currentTimeMillis() + 60 * 60 * 24,
+            (1000 * 60 * 60 * 24).toLong(),
+            pendingIntent
+        )
 //        }
         val cal = Calendar.getInstance()
 
@@ -538,7 +538,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                     PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
                 else PendingIntent.FLAG_CANCEL_CURRENT
-//                PendingIntent.FLAG_UPDATE_CURRENT
             )
 
             val mult =
@@ -547,6 +546,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
             val alarmManagerForecasts = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+            pendingIntentForecasts.send()
             alarmManagerForecasts.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 cal.timeInMillis + mult * 86400000,

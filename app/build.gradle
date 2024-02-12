@@ -29,9 +29,17 @@ android {
         minSdkVersion 21
         targetSdkVersion 34
         versionCode 1
-        versionName "1.0.0"
+        versionName "0.0.306"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    applicationVariants.configureEach {
+        it.outputs
+                .forEach { output ->
+                    output.outputFileName =
+                            "hd-${it.baseName}-${it.versionName}.apk"
+                }
     }
 
     buildTypes {
@@ -198,7 +206,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:latest.release'
 
     //  AppMetrica
-    implementation ('com.yandex.android:mobmetricalib:4.2.0')
+    implementation('com.yandex.android:mobmetricalib:4.2.0')
 
 //    Adapty
 //    implementation 'com.github.adaptyteam:AdaptySDK-Android:2.4.1'
