@@ -78,9 +78,9 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="19dp"
-                android:src="@drawable/ic_pw_p1" />
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_paywall_2_mark" />
 
             <TextView
                 android:id="@+id/text1Pw22"
@@ -101,9 +101,9 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="19dp"
-                android:src="@drawable/ic_pw_p2" />
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_paywall_2_mark" />
 
             <TextView
                 android:id="@+id/text2Pw22"
@@ -124,9 +124,9 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="19dp"
-                android:src="@drawable/ic_pw_p3" />
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_paywall_2_mark" />
 
             <TextView
                 android:id="@+id/text3Pw22"
@@ -147,9 +147,9 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="19dp"
-                android:src="@drawable/ic_pw_p4" />
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_paywall_2_mark" />
 
             <TextView
                 android:id="@+id/text4Pw22"

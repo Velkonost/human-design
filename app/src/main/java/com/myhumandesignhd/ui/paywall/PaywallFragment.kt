@@ -23,6 +23,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator
 import com.adapty.Adapty
 import com.adapty.models.AdaptyProductDiscountPhase
@@ -41,15 +43,12 @@ import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.loader.LoaderViewModel
+import com.myhumandesignhd.ui.paywall.adapter.Pw3ReviewsAdapter
+import com.myhumandesignhd.util.ext.scaleXY
 import com.myhumandesignhd.vm.BaseViewModel
 import io.reactivex.Single
 import io.reactivex.subjects.SingleSubject
-import kotlinx.android.synthetic.main.view_paywall_1.view.offer1
-import kotlinx.android.synthetic.main.view_paywall_1.view.offer2
-import kotlinx.android.synthetic.main.view_paywall_1.view.offer2Title
-import kotlinx.android.synthetic.main.view_paywall_1.view.offer3
-import kotlinx.android.synthetic.main.view_paywall_1.view.offer3Title
-import kotlinx.android.synthetic.main.view_paywall_1.view.snackbarContainer
+import kotlinx.android.synthetic.main.view_paywall_1.view.*
 import kotlinx.android.synthetic.main.view_paywall_2.view.bottomGradientPw2
 import kotlinx.android.synthetic.main.view_paywall_2.view.breakline1Pw2
 import kotlinx.android.synthetic.main.view_paywall_2.view.breakline2Pw2
@@ -113,6 +112,7 @@ import kotlinx.android.synthetic.main.view_paywall_22.text1Pw22
 import kotlinx.android.synthetic.main.view_paywall_22.text2Pw22
 import kotlinx.android.synthetic.main.view_paywall_22.text3Pw22
 import kotlinx.android.synthetic.main.view_paywall_22.text4Pw22
+import kotlinx.android.synthetic.main.view_paywall_3.view.*
 import kotlinx.android.synthetic.main.view_paywall_3.view.indicator1
 import kotlinx.android.synthetic.main.view_paywall_3.view.indicator2
 import kotlinx.android.synthetic.main.view_paywall_3.view.indicator3
@@ -257,10 +257,523 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             Adapty.logShowPaywall(App.adaptyPaywallModel!!)
 
         setupSecondPaywall()
+//        setupFirstPaywall()
+//        setupSecond2Paywall()
+//        setupThirdPaywall()
 //        when (App.adaptySplitPwName) {
 //            "with_scroll" -> setupSecondPaywall()
 //            else -> setupSecond2Paywall()
 //        }
+    }
+
+    private fun setupFirstPaywall() {
+        selectedPaywall = PAYWALL_TYPE.PAYWALL1
+
+        binding.paywall1.isVisible = true
+        with(binding.paywall1) {
+
+            paywall1Title.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            text1.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            text2.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            text3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            text4.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer1Duration.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer2Duration.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer3Duration.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer1Price.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer2Price.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer3Price.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer1Text.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer2Text.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer3Text.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer2Title.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer3Title.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            paywall1TermsOfUse.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            paywall1Policy.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            paywall1Restore.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            paywall1Promo.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline1.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline2.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            bottomGradient.isVisible = App.preferences.isDarkTheme
+            paywall1Close.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer1.setOnClickListener { selectFirstOffer() }
+            offer2.setOnClickListener { selectSecondOffer() }
+            offer3.setOnClickListener { selectThirdOffer() }
+            paywall1TermsOfUse.setOnClickListener { openTermsOfUse() }
+            paywall1Policy.setOnClickListener { openPrivacyPolicy() }
+            paywall1Restore.setOnClickListener { openRestore() }
+            paywall1Close.setOnClickListener { close() }
+            paywall1Promo.setOnClickListener { promocodeClicked() }
+            startBtn.setOnClickListener { launchBilling() }
+
+            icBigCircle.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            icMidCircle.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            val rotate = RotateAnimation(
+                0f,
+                360f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f
+            )
+
+            rotate.repeatCount = Animation.INFINITE
+            rotate.fillAfter = true
+            rotate.duration = 100000
+            rotate.interpolator = LinearInterpolator()
+
+            val rotateNegative = RotateAnimation(
+                0f,
+                -360f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f
+            )
+            rotateNegative.repeatCount = Animation.INFINITE
+            rotateNegative.fillAfter = true
+            rotateNegative.duration = 100000
+//        rotateNegative.interpolator = LinearInterpolator()
+
+            icBigCircle.startAnimation(rotate)
+            icMidCircle.startAnimation(rotateNegative)
+
+            bodygraphView.changeIsAllowDrawTextState(false)
+            baseViewModel.currentBodygraph.observe(viewLifecycleOwner) {
+                if (
+                    !it.design.channels.isNullOrEmpty()
+                    && !it.personality.channels.isNullOrEmpty()
+                    && !it.activeCentres.isNullOrEmpty()
+                    && !it.inactiveCentres.isNullOrEmpty()
+                ) {
+                    android.os.Handler().postDelayed({
+                        bodygraphView.isVisible = true
+                        bodygraphView.scaleXY(1.1f, 1.1f, 1500) {
+                            bodygraphView.changeSpeedAnimationFactor(3f)
+                            bodygraphView.changeIsAllowDrawLinesState(true)
+                        }
+                    }, 200)
+                }
+
+                bodygraphView.setupData(
+                    it.design,
+                    it.personality,
+                    it.activeCentres,
+                    it.inactiveCentres
+                )
+            }
+
+            selectSecondOffer()
+        }
+    }
+
+    private fun setupThirdPaywall() {
+        selectedPaywall = PAYWALL_TYPE.PAYWALL3
+
+        binding.paywall3.isVisible = true
+        with(binding.paywall3) {
+            titlePw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            subtitlePw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer1DurationPw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer2DurationPw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer3DurationPw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer1PricePw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer2PricePw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer3PricePw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer1TextPw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer2TextPw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer3TextPw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer1TitlePw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer2TitlePw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer3TitlePw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            termsOfUsePw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            policyPw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            restorePw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline1Pw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline2Pw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline3Pw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            paywall1PromoPw3.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer1TitlePw3.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                else R.drawable.bg_paywall_2_offer_title_light
+            )
+
+            offer2TitlePw3.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                else R.drawable.bg_paywall_2_offer_title_light
+            )
+
+            offer3TitlePw3.background = ContextCompat.getDrawable(
+                requireContext(),
+                if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
+                else R.drawable.bg_paywall_2_offer_title_light
+            )
+
+            bottomGradientPw3.isVisible = App.preferences.isDarkTheme
+            closePw3.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            offer1Pw3.setOnClickListener { selectFirstOffer() }
+            offer2Pw3.setOnClickListener { selectSecondOffer() }
+            offer3Pw3.setOnClickListener { selectThirdOffer() }
+            termsOfUsePw3.setOnClickListener { openTermsOfUse() }
+            policyPw3.setOnClickListener { openPrivacyPolicy() }
+            restorePw3.setOnClickListener { openRestore() }
+            closePw3.setOnClickListener { close() }
+            paywall1PromoPw3.setOnClickListener { promocodeClicked() }
+            startBtnPw3.setOnClickListener { launchBilling() }
+
+            subtitlePw3.text = getString(R.string.paywall_3_subtitle)
+
+            val reviewsAdapter = Pw3ReviewsAdapter()
+            val snapHelper = PagerSnapHelper()
+
+            recycler.adapter = reviewsAdapter
+            snapHelper.attachToRecyclerView(recycler)
+            reviewsAdapter.createList()
+
+            updatePw3IndicatorsState(0)
+            recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    recyclerView.layoutManager?.apply {
+                        this as LinearLayoutManager
+                        val firstVisibleItemPosition: Int = findFirstVisibleItemPosition()
+                        updatePw3IndicatorsState(firstVisibleItemPosition)
+                    }
+                }
+            })
+
+            val random = Random()
+            val timer = Timer()
+
+            kotlin.runCatching { timer.purge() }
+            timer.schedule(Pw3ReviewsChangeTimer(timer, random), 5000)
+
+            selectSecondOffer()
+        }
     }
 
     private fun launchBilling() {

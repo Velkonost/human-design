@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -101,6 +102,24 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private var navController: NavController? = null
     private lateinit var referrerClient: InstallReferrerClient
+
+    private val pushNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+
+        val notifyIntentForecasts = Intent(this, NotificationReceiver::class.java)
+        notifyIntentForecasts.putExtra("isForecast", "true")
+        notifyIntentForecasts.putExtra("userNameForecast", "test")
+        notifyIntentForecasts.putExtra("forecastPosition", 0)
+
+        val pendingIntentForecasts = PendingIntent.getBroadcast(
+            this, 948,
+            notifyIntentForecasts,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_CANCEL_CURRENT
+        )
+    }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -325,6 +344,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             }
 
         }
+
+        pushNotificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+
     }
 
     @Subscribe
@@ -546,7 +568,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
             val alarmManagerForecasts = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            pendingIntentForecasts.send()
             alarmManagerForecasts.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 cal.timeInMillis + mult * 86400000,
