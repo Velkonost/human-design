@@ -48,7 +48,39 @@ import com.myhumandesignhd.util.ext.scaleXY
 import com.myhumandesignhd.vm.BaseViewModel
 import io.reactivex.Single
 import io.reactivex.subjects.SingleSubject
-import kotlinx.android.synthetic.main.view_paywall_1.view.*
+import kotlinx.android.synthetic.main.view_paywall_1.view.bodygraphView
+import kotlinx.android.synthetic.main.view_paywall_1.view.bottomGradient
+import kotlinx.android.synthetic.main.view_paywall_1.view.breakline1
+import kotlinx.android.synthetic.main.view_paywall_1.view.breakline2
+import kotlinx.android.synthetic.main.view_paywall_1.view.breakline3
+import kotlinx.android.synthetic.main.view_paywall_1.view.icBigCircle
+import kotlinx.android.synthetic.main.view_paywall_1.view.icMidCircle
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer1
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer1Duration
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer1Price
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer1Text
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer2
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer2Duration
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer2Price
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer2Text
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer2Title
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer3
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer3Duration
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer3Price
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer3Text
+import kotlinx.android.synthetic.main.view_paywall_1.view.offer3Title
+import kotlinx.android.synthetic.main.view_paywall_1.view.paywall1Close
+import kotlinx.android.synthetic.main.view_paywall_1.view.paywall1Policy
+import kotlinx.android.synthetic.main.view_paywall_1.view.paywall1Promo
+import kotlinx.android.synthetic.main.view_paywall_1.view.paywall1Restore
+import kotlinx.android.synthetic.main.view_paywall_1.view.paywall1TermsOfUse
+import kotlinx.android.synthetic.main.view_paywall_1.view.paywall1Title
+import kotlinx.android.synthetic.main.view_paywall_1.view.snackbarContainer
+import kotlinx.android.synthetic.main.view_paywall_1.view.startBtn
+import kotlinx.android.synthetic.main.view_paywall_1.view.text1
+import kotlinx.android.synthetic.main.view_paywall_1.view.text2
+import kotlinx.android.synthetic.main.view_paywall_1.view.text3
+import kotlinx.android.synthetic.main.view_paywall_1.view.text4
 import kotlinx.android.synthetic.main.view_paywall_2.view.bottomGradientPw2
 import kotlinx.android.synthetic.main.view_paywall_2.view.breakline1Pw2
 import kotlinx.android.synthetic.main.view_paywall_2.view.breakline2Pw2
@@ -112,16 +144,39 @@ import kotlinx.android.synthetic.main.view_paywall_22.text1Pw22
 import kotlinx.android.synthetic.main.view_paywall_22.text2Pw22
 import kotlinx.android.synthetic.main.view_paywall_22.text3Pw22
 import kotlinx.android.synthetic.main.view_paywall_22.text4Pw22
-import kotlinx.android.synthetic.main.view_paywall_3.view.*
+import kotlinx.android.synthetic.main.view_paywall_3.view.bottomGradientPw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.breakline1Pw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.breakline2Pw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.breakline3Pw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.closePw3
 import kotlinx.android.synthetic.main.view_paywall_3.view.indicator1
 import kotlinx.android.synthetic.main.view_paywall_3.view.indicator2
 import kotlinx.android.synthetic.main.view_paywall_3.view.indicator3
 import kotlinx.android.synthetic.main.view_paywall_3.view.indicator4
 import kotlinx.android.synthetic.main.view_paywall_3.view.indicator5
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer1DurationPw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer1PricePw3
 import kotlinx.android.synthetic.main.view_paywall_3.view.offer1Pw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer1TextPw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer1TitlePw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer2DurationPw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer2PricePw3
 import kotlinx.android.synthetic.main.view_paywall_3.view.offer2Pw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer2TextPw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer2TitlePw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer3DurationPw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer3PricePw3
 import kotlinx.android.synthetic.main.view_paywall_3.view.offer3Pw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer3TextPw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.offer3TitlePw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.paywall1PromoPw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.policyPw3
 import kotlinx.android.synthetic.main.view_paywall_3.view.recycler
+import kotlinx.android.synthetic.main.view_paywall_3.view.restorePw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.startBtnPw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.subtitlePw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.termsOfUsePw3
+import kotlinx.android.synthetic.main.view_paywall_3.view.titlePw3
 import kotlinx.android.synthetic.main.view_paywall_4.view.bigCirclePw4
 import kotlinx.android.synthetic.main.view_paywall_4.view.bottomGradientPw4
 import kotlinx.android.synthetic.main.view_paywall_4.view.closePw4
@@ -256,7 +311,17 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         if (App.adaptyPaywallModel != null)
             Adapty.logShowPaywall(App.adaptyPaywallModel!!)
 
-        setupSecondPaywall()
+        if (App.preferences.lastPaywall % 3 == 0) {
+            setupFirstPaywall()
+        } else if (App.preferences.lastPaywall % 3 == 1) {
+            setupSecond2Paywall()
+        } else {
+            setupThirdPaywall()
+        }
+
+        App.preferences.lastPaywall += 1
+
+//        setupSecondPaywall()
 //        setupFirstPaywall()
 //        setupSecond2Paywall()
 //        setupThirdPaywall()
