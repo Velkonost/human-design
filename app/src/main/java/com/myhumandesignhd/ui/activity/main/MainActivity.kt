@@ -92,13 +92,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private lateinit var navigator: SupportAppNavigator
 
-    private val navigationHolder by lazy {
-        App.instance.navigatorHolder
-    }
+    private val navigationHolder by lazy { App.instance.navigatorHolder }
 
-    private val router by lazy {
-        App.instance.router
-    }
+    private val router by lazy { App.instance.router }
 
     private var navController: NavController? = null
     private lateinit var referrerClient: InstallReferrerClient
@@ -345,7 +341,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         }
 
-        pushNotificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        pushNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
 
     }
 

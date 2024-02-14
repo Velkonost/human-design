@@ -305,10 +305,10 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="forecast_push_desc">Your personal forecast is already available. Hurry up to read it!</string>
 
     <string name="paywall_open_full_access">Open full access</string>
-    <string name="paywall_text_1">Get personal bodygraph readings</string>
-    <string name="paywall_text_2">Find out your hidden talents</string>
-    <string name="paywall_text_3">Check compatibility with other people</string>
-    <string name="paywall_text_4">Discover how planets affect you</string>
+    <string name="paywall_text_1">Personal bodygraph decoding</string>
+    <string name="paywall_text_2">Planetary movements and their impact on you</string>
+    <string name="paywall_text_3">Calculation of compatibility with others</string>
+    <string name="paywall_text_4">Check what the Universe has in store for you</string>
     <string name="paywall_btn">Get full access</string>
 
     <string name="paywall_1_month">Month</string>
