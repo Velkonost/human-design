@@ -967,7 +967,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 //            }
 //        }
 
-        Adapty.getPaywall("pw_test") { result ->
+        Adapty.getPaywall("new_paywalls") { result ->
             when (result) {
                 is AdaptyResult.Success -> {
                     App.adaptySplitPwName = result.value.name

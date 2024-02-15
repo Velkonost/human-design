@@ -320,11 +320,11 @@
     <string name="paywall_3_review_5_title">Olivia, 42 y.o.</string>
 
     <string name="paywall_3_subtitle">Start your Human Design journey</string>
-    <string name="paywall_3_review_1_text">This is so deeply beautiful and I am truly fascinated by what I have discovered!</string>
-    <string name="paywall_3_review_2_text">Useful app! It’s so exciting to check how I can change with planetary transits.</string>
-    <string name="paywall_3_review_3_text">Love this app! Super useful &amp; in-depth text information.</string>
-    <string name="paywall_3_review_4_text">This is a brilliant app! It has my ears perked up &amp; eyes wide open. Thank you!</string>
-    <string name="paywall_3_review_5_text">I’m enjoying the app so far! Thank you for creating such a unique experience for me!</string>
+    <string name="paywall_3_review_1_text">”This is so deeply beautiful and I am truly fascinated by what I have discovered!”</string>
+    <string name="paywall_3_review_2_text">”Useful app! It’s so exciting to check how I can change with planetary transits.”</string>
+    <string name="paywall_3_review_3_text">”Love this app! Super useful &amp; in-depth text information.”</string>
+    <string name="paywall_3_review_4_text">”This is a brilliant app! It has my ears perked up &amp; eyes wide open. Thank you!”</string>
+    <string name="paywall_3_review_5_text">”I’m enjoying the app so far! Thank you for creating such a unique experience for me!”</string>
 
     <string name="paywall_1_month">Месяц</string>
     <string name="paywall_1_week">Неделя</string>

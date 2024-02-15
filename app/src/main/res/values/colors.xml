@@ -47,4 +47,5 @@
     <color name="darkColor0.5">#800E0E0F</color>
     <color name="lightColor0.5">#80FFFFFF</color>
 
+    <color name="blackColor">#000000</color>
 </resources>

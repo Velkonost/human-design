@@ -37,7 +37,9 @@
             android:layout_marginTop="6dp"
             android:gravity="center"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/sf_pro_medium"
+            android:textFontWeight="590"
+             />
 
         <TextView
             android:id="@+id/text"

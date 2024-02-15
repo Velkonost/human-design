@@ -26,7 +26,7 @@
 
     <ImageView
         android:id="@+id/icHeader"
-        android:layout_width="50dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:adjustViewBounds="true"
@@ -52,8 +52,10 @@
             android:layout_marginHorizontal="20dp"
             android:gravity="center"
             android:text="@string/paywall_open_full_access"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textSize="32sp"
+            android:fontFamily="@font/sf_pro_medium"
+            android:textFontWeight="590"
+             />
 
         <TextView
             android:id="@+id/subtitlePw3"

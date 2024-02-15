@@ -55,8 +55,9 @@
         android:layout_marginTop="12dp"
         android:gravity="start"
         android:text="@string/paywall_2_open_full_access"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textSize="32sp"
+        android:textFontWeight="590"
+        android:fontFamily="@font/sf_pro_medium"
         app:layout_constraintBottom_toTopOf="@id/textsBlock"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/icLogoPw22" />
@@ -386,7 +387,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="16dp"
+        android:layout_marginTop="24dp"
+
         android:background="@android:color/transparent"
         android:backgroundTint="@android:color/transparent"
         android:clickable="true"
@@ -402,7 +404,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:background="@drawable/bg_btn" />
 
         <TextView
@@ -424,7 +425,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:orientation="horizontal"

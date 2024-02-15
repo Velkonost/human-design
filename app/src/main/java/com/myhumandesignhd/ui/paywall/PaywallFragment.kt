@@ -307,7 +307,6 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         }
         promoBehavior.addBottomSheetCallback(promoCallback)
 
-
         if (App.adaptyPaywallModel != null)
             Adapty.logShowPaywall(App.adaptyPaywallModel!!)
 
@@ -321,13 +320,11 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
         App.preferences.lastPaywall += 1
 
-//        setupSecondPaywall()
-//        setupFirstPaywall()
-//        setupSecond2Paywall()
-//        setupThirdPaywall()
-//        when (App.adaptySplitPwName) {
-//            "with_scroll" -> setupSecondPaywall()
-//            else -> setupSecond2Paywall()
+//        when(App.adaptySplitPwName) {
+//            "0.3" -> setupFirstPaywall()
+//            "0.4" -> setupSecond2Paywall()
+//            "0.5" -> setupThirdPaywall()
+//            else -> selectSecondOffer()
 //        }
     }
 
@@ -696,7 +693,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
+                    else R.color.blackColor
                 )
             )
 
@@ -704,7 +701,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
+                    else R.color.blackColor
                 )
             )
 
@@ -712,7 +709,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
+                    else R.color.blackColor
                 )
             )
 
@@ -1331,7 +1328,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
+                    else R.color.blackColor
                 )
             )
 
@@ -1339,7 +1336,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
+                    else R.color.blackColor
                 )
             )
 
@@ -1347,7 +1344,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
+                    else R.color.blackColor
                 )
             )
 
@@ -1355,7 +1352,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
+                    else R.color.blackColor
                 )
             )
 
@@ -1440,7 +1437,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
+                    else R.color.blackColor
                 )
             )
 
@@ -1448,7 +1445,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
+                    else R.color.blackColor
                 )
             )
 
@@ -1456,7 +1453,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 ContextCompat.getColor(
                     requireContext(),
                     if (App.preferences.isDarkTheme) R.color.lightColor
-                    else R.color.darkColor
+                    else R.color.blackColor
                 )
             )
 
@@ -1859,16 +1856,14 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
 
                     offer1TitlePw22.setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(), R.color.lightColor
-                        )
+                        ContextCompat.getColor(requireContext(), R.color.lightColor)
                     )
 
                     offer2TitlePw22.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             if (App.preferences.isDarkTheme) R.color.lightColor
-                            else R.color.darkColor
+                            else R.color.blackColor
                         )
                     )
 
@@ -1876,7 +1871,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         ContextCompat.getColor(
                             requireContext(),
                             if (App.preferences.isDarkTheme) R.color.lightColor
-                            else R.color.darkColor
+                            else R.color.blackColor
                         )
                     )
 
@@ -2059,7 +2054,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         ContextCompat.getColor(
                             requireContext(),
                             if (App.preferences.isDarkTheme) R.color.lightColor
-                            else R.color.darkColor
+                            else R.color.blackColor
                         )
                     )
 
@@ -2067,7 +2062,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         ContextCompat.getColor(
                             requireContext(),
                             if (App.preferences.isDarkTheme) R.color.lightColor
-                            else R.color.darkColor
+                            else R.color.blackColor
                         )
                     )
 
@@ -2251,7 +2246,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         ContextCompat.getColor(
                             requireContext(),
                             if (App.preferences.isDarkTheme) R.color.lightColor
-                            else R.color.darkColor
+                            else R.color.blackColor
                         )
                     )
 
@@ -2259,7 +2254,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         ContextCompat.getColor(
                             requireContext(),
                             if (App.preferences.isDarkTheme) R.color.lightColor
-                            else R.color.darkColor
+                            else R.color.blackColor
                         )
                     )
 
