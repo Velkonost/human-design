@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
+            android:layout_marginTop="12dp"
             android:layout_width="74dp"
             android:layout_height="74dp"
             app:cardCornerRadius="40dp">
@@ -46,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="4dp"
             android:alpha="0.7"
             android:gravity="center"
             android:lines="3"

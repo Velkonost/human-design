@@ -205,7 +205,7 @@
             android:id="@+id/offer2Pw3Block"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp">
+            android:layout_marginTop="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/offer2Pw3"
@@ -273,7 +273,7 @@
             android:id="@+id/offer3Pw3Block"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp">
+            android:layout_marginTop="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/offer3Pw3"
@@ -344,16 +344,16 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="6dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="20dp"
+        android:layout_marginBottom="14dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toTopOf="@id/footerBlock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/offersBlock">
+        >
 
         <View
             android:layout_width="match_parent"
