@@ -86,10 +86,10 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         isFirstFragmentLaunch = false
         Amplitude.getInstance().logEvent("tab1_screen_shown")
 
-        if (App.preferences.showAskReview) {
-            requestReviewFlow()
-            App.preferences.showAskReview = false
-        }
+//        if (App.preferences.showAskReview) {
+//            requestReviewFlow()
+//            App.preferences.showAskReview = false
+//        }
     }
 
     private fun requestReviewFlow() {

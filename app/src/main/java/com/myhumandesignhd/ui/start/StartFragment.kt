@@ -32,6 +32,7 @@ import com.amplitude.api.Amplitude
 import com.amplitude.api.Identify
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.databinding.FragmentStartBinding
@@ -88,14 +89,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     private var selectedLon = ""
 
     private val baseViewModel: BaseViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(
-            BaseViewModel::class.java
-        )
+        ViewModelProviders.of(requireActivity())[BaseViewModel::class.java]
     }
 
-    private val placesAdapter: PlacesAdapter by lazy {
-        PlacesAdapter()
-    }
+    private val placesAdapter: PlacesAdapter by lazy { PlacesAdapter() }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
@@ -200,6 +197,21 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
             inflated.date.updateTheme()
             inflated.time.updateTheme()
+        }
+    }
+
+    private fun requestReviewFlow() {
+        val reviewManager = ReviewManagerFactory.create(requireActivity())
+        val requestReviewFlow = reviewManager.requestReviewFlow()
+
+        requestReviewFlow.addOnCompleteListener { request ->
+            if (request.isSuccessful) {
+                val reviewInfo = request.result
+                val flow = reviewManager.launchReviewFlow(requireActivity(), reviewInfo)
+                flow.addOnCompleteListener {
+                }
+            } else {
+            }
         }
     }
 
@@ -1059,6 +1071,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     if (inflatedNameContainer.placeET.text.toString().replace(" ", "").isNullOrEmpty()) {
                         snackbarAddress.show()
                     } else {
+                        requestReviewFlow()
                         animateCirclesBtwPages(1000)
 
                         lifecycleScope.launch {

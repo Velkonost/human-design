@@ -321,9 +321,9 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         App.preferences.lastPaywall += 1
 
 //        when(App.adaptySplitPwName) {
-//            "0.3" -> setupFirstPaywall()
-//            "0.4" -> setupSecond2Paywall()
-//            "0.5" -> setupThirdPaywall()
+//            "openfull_horizontal" -> setupFirstPaywall()
+//            "start_vertical" -> setupSecond2Paywall()
+//            "reviews_slider_vertical" -> setupThirdPaywall()
 //            else -> selectSecondOffer()
 //        }
     }
@@ -895,19 +895,8 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                                 it.paymentMode == AdaptyProductDiscountPhase.PaymentMode.FREE_TRIAL
                             } == true
                         ) {
-                            if (!App.preferences.firstReviewUsed) {
-                                App.preferences.showAskReview = true
-//                                App.preferences.firstReviewUsed = true
-                            }
-
                             firebaseAnalytics.logEvent("start_trial", null)
                         } else {
-
-                            if (!App.preferences.firstReviewUsed && vendorProductId == "hd_month_sub") {
-                                App.preferences.showAskReview = true
-//                                App.preferences.firstReviewUsed = true
-                            }
-
                             firebaseAnalytics.logEvent("subscription", null)
                             firebaseAnalytics.logEvent(vendorProductId, null)
                         }
@@ -2390,11 +2379,6 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     App.preferences.isPremiun = true
                     hideKeyboard(this.promoET)
                     promoBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-
-//                    if (!App.preferences.firstReviewUsed) {
-                        App.preferences.showAskReview = true
-//                                App.preferences.firstReviewUsed = true
-//                    }
 
                     close()
                 } else snackbarPromo.show()

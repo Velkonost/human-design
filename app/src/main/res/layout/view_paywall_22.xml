@@ -57,7 +57,7 @@
         android:text="@string/paywall_2_open_full_access"
         android:textSize="32sp"
         android:textFontWeight="590"
-        android:fontFamily="@font/sf_pro_medium"
+        android:fontFamily="@font/roboto_bold"
         app:layout_constraintBottom_toTopOf="@id/textsBlock"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/icLogoPw22" />
