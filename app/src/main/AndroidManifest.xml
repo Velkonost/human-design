@@ -77,6 +77,7 @@
         <service
             android:name="com.myhumandesignhd.push.FirebaseMessagingService"
             android:enabled="true"
+            android:foregroundServiceType="remoteMessaging"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -105,7 +106,7 @@
 
         <service
             android:name="com.myhumandesignhd.push.NotificationService"
-            android:exported="false"
+            android:exported="true"
             android:foregroundServiceType="remoteMessaging"
             tools:ignore="Instantiatable" />
 

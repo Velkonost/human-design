@@ -206,9 +206,11 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         requestReviewFlow.addOnCompleteListener { request ->
             if (request.isSuccessful) {
-                val reviewInfo = request.result
-                val flow = reviewManager.launchReviewFlow(requireActivity(), reviewInfo)
-                flow.addOnCompleteListener {
+                if (isAdded) {
+                    val reviewInfo = request.result
+                    val flow = reviewManager.launchReviewFlow(requireActivity(), reviewInfo)
+                    flow.addOnCompleteListener {
+                    }
                 }
             } else {
             }

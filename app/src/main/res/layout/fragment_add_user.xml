@@ -36,7 +36,7 @@
 
             <FrameLayout
                 android:id="@+id/backBtn"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="27dp"
                 android:layout_height="27dp"
                 android:layout_marginStart="24dp"
@@ -47,7 +47,7 @@
 
                 <ImageView
                     android:id="@+id/icArrow"
-                    android:layerType="none"
+                    android:layerType="software"
                     android:layout_width="15dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
@@ -67,7 +67,7 @@
 
             <ImageView
                 android:id="@+id/icSplashBigCircle"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="977dp"
                 android:layout_height="977dp"
                 android:layout_marginTop="-120dp"
@@ -81,7 +81,7 @@
 
             <ImageView
                 android:id="@+id/icSplashMidCircle"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="977dp"
                 android:layout_height="977dp"
                 android:layout_marginTop="-30dp"
@@ -94,7 +94,7 @@
 
             <ImageView
                 android:id="@+id/icSplashBigCircleTime"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="590dp"
                 android:layout_height="590dp"
                 android:adjustViewBounds="true"
@@ -108,7 +108,7 @@
 
             <ImageView
                 android:id="@+id/icSplashMidCircleTime"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="480dp"
                 android:layout_height="480dp"
                 android:adjustViewBounds="true"
@@ -122,7 +122,7 @@
 
             <ImageView
                 android:id="@+id/icSplashBigCircleDate"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="719dp"
                 android:layout_height="719dp"
                 android:adjustViewBounds="true"
@@ -136,7 +136,7 @@
 
             <ImageView
                 android:id="@+id/icSplashMidCircleDate"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="640dp"
                 android:layout_height="640dp"
                 android:adjustViewBounds="true"
@@ -151,7 +151,7 @@
 <!--            -->
             <ImageView
                 android:id="@+id/icSplashBigCircleName"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="848dp"
                 android:layout_height="848dp"
                 android:adjustViewBounds="true"
@@ -165,7 +165,7 @@
 
             <ImageView
                 android:id="@+id/icSplashMidCircleName"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="780dp"
                 android:layout_height="780dp"
                 android:adjustViewBounds="true"
@@ -179,7 +179,7 @@
 
             <ImageView
                 android:id="@+id/icSplashBigCircleNamePlaceholder"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="848dp"
                 android:layout_height="848dp"
                 android:adjustViewBounds="true"
@@ -192,7 +192,7 @@
 
             <ImageView
                 android:id="@+id/icSplashMidCircleNamePlaceholder"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="780dp"
                 android:layout_height="780dp"
                 android:adjustViewBounds="true"
@@ -206,7 +206,7 @@
 
             <ImageView
                 android:id="@+id/icSplashBigCirclePlaceOfBirth"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="461dp"
                 android:layout_height="461dp"
                 android:adjustViewBounds="true"
@@ -221,7 +221,7 @@
 
             <ImageView
                 android:id="@+id/icSplashMidCirclePlaceOfBirth"
-                android:layerType="none"
+                android:layerType="software"
                 android:layout_width="380dp"
                 android:layout_height="380dp"
                 android:adjustViewBounds="true"

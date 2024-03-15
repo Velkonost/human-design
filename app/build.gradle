@@ -222,7 +222,7 @@ dependencies {
 
     implementation 'com.amplitude:android-sdk:2.23.2'
 
-    implementation group: 'org.threeten', name: 'threetenbp', version: '1.5.2', classifier: 'no-tzdb'
+    implementation group: 'org.threeten', name: 'threetenbp', version: '1.6.8', classifier: 'no-tzdb'
 
 //    room
     def roomVersion = "2.3.0"

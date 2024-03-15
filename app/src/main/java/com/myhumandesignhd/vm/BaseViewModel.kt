@@ -581,22 +581,24 @@ class BaseViewModel @Inject constructor(
 
     fun setupCurrentUser() {
         GlobalScope.launch {
-            EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
-            resetAllUserDataStates()
+            runCatching {
+                EventBus.getDefault().post(UpdateLoaderStateEvent(isVisible = true))
+                resetAllUserDataStates()
 
-            currentUser = App.database.userDao()
-                .findById(App.preferences.currentUserId)!!
+                currentUser = App.database.userDao()
+                    .findById(App.preferences.currentUserId)!!
 
-            setupCurrentBodygraph()
-            setupCurrentForecast()
+                setupCurrentBodygraph()
+                setupCurrentForecast()
 
-            setupCurrentAffirmation()
-            setupCurrentTransit()
+                setupCurrentAffirmation()
+                setupCurrentTransit()
 
-            currentUserSetupEvent.postValue(true)
+                currentUserSetupEvent.postValue(true)
 
-            isUserLoaded = true
-            checkIsUserDataLoaded()
+                isUserLoaded = true
+                checkIsUserDataLoaded()
+            }
         }
     }
 

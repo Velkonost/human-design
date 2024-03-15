@@ -310,21 +310,22 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         if (App.adaptyPaywallModel != null)
             Adapty.logShowPaywall(App.adaptyPaywallModel!!)
 
-        if (App.preferences.lastPaywall % 3 == 0) {
-            setupFirstPaywall()
-        } else if (App.preferences.lastPaywall % 3 == 1) {
-            setupSecond2Paywall()
-        } else {
-            setupThirdPaywall()
-        }
+//        if (App.preferences.lastPaywall % 3 == 0) {
+//            setupFirstPaywall()
+//        } else if (App.preferences.lastPaywall % 3 == 1) {
+//            setupSecond2Paywall()
+//        } else {
+//            setupThirdPaywall()
+//        }
 
         App.preferences.lastPaywall += 1
+        setupSecondPaywall()
 
 //        when(App.adaptySplitPwName) {
 //            "openfull_horizontal" -> setupFirstPaywall()
 //            "start_vertical" -> setupSecond2Paywall()
 //            "reviews_slider_vertical" -> setupThirdPaywall()
-//            else -> selectSecondOffer()
+//            else -> setupSecondPaywall()
 //        }
     }
 
@@ -2416,23 +2417,25 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         TimerTask() {
         override fun run() {
             binding.paywall3.recycler.apply {
-                val totalItemCount: Int = layoutManager!!.itemCount
-                this.layoutManager as LinearLayoutManager
+                runCatching {
+                    val totalItemCount: Int = layoutManager!!.itemCount
+                    this.layoutManager as LinearLayoutManager
 
 
-                val lastVisibleItemPosition: Int =
-                    (this.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val lastVisibleItemPosition: Int =
+                        (this.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
 
-                isNestedScrollingEnabled = false
+                    isNestedScrollingEnabled = false
 
 //                if (!isNewsUserClicked)
-                post {
-                    if (isAdded)
-                        requireActivity().runOnUiThread {
-                            if (totalItemCount > lastVisibleItemPosition + 1)
-                                smoothScrollToPosition(lastVisibleItemPosition + 1)
-                            else smoothScrollToPosition(0)
-                        }
+                    post {
+                        if (isAdded)
+                            requireActivity().runOnUiThread {
+                                if (totalItemCount > lastVisibleItemPosition + 1)
+                                    smoothScrollToPosition(lastVisibleItemPosition + 1)
+                                else smoothScrollToPosition(0)
+                            }
+                    }
                 }
             }
 

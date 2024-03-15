@@ -162,24 +162,26 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         referrerClient.startConnection(object : InstallReferrerStateListener {
 
                             override fun onInstallReferrerSetupFinished(responseCode: Int) {
-                                when (responseCode) {
-                                    InstallReferrerClient.InstallReferrerResponse.OK -> {
-                                        // Connection established.
-                                        val response: ReferrerDetails =
-                                            referrerClient.installReferrer
-                                        val referrerUrl: String = response.installReferrer
+                                runCatching {
+                                    when (responseCode) {
+                                        InstallReferrerClient.InstallReferrerResponse.OK -> {
+                                            // Connection established.
+                                            val response: ReferrerDetails =
+                                                referrerClient.installReferrer
+                                            val referrerUrl: String = response.installReferrer
 
-                                        setupAdapty(referrerUrl)
-                                    }
+                                            setupAdapty(referrerUrl)
+                                        }
 
-                                    InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
-                                        // API not available on the current Play Store app.
-                                        setupAdapty()
-                                    }
+                                        InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
+                                            // API not available on the current Play Store app.
+                                            setupAdapty()
+                                        }
 
-                                    InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
-                                        // Connection couldn't be established.
-                                        setupAdapty()
+                                        InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
+                                            // Connection couldn't be established.
+                                            setupAdapty()
+                                        }
                                     }
                                 }
                             }
@@ -360,8 +362,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     private fun isNetworkConnected(): Boolean {
-        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnected
+        runCatching {
+            val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+            return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnected
+        }
+        return true
     }
 
     private val snackbarInet: Snackbar by lazy {
@@ -1085,7 +1090,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 //        if (android.os.Build.VERSION.SDK_INT != android.os.Build.VERSION_CODES.P)
 //            return
 
-        if (e.isEnable) enableHardwareAcceleration()
+//        if (e.isEnable) enableHardwareAcceleration()
 //        else disableHardwareAcceleration()
     }
 
