@@ -6,11 +6,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_REMOTE_MESSAGING
 import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 
@@ -29,30 +27,30 @@ class NotificationService(name: String?) : IntentService(name) {
         )
     }
 
-    override fun onCreate() {
-        super.onCreate()
-
-        val channelId =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                createNotificationChannel("my_service", "My Background Service")
-            } else {
-                ""
-            }
-
-        val notificationBuilder = NotificationCompat.Builder(this, channelId )
-        val notification = notificationBuilder.setOngoing(true)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setPriority(NotificationCompat.PRIORITY_MIN)
-            .setCategory(Notification.CATEGORY_SERVICE)
-            .setContentText("pez")
-            .build()
-
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
-            startForeground(SERVICE_ID, notification)
-        } else {
-            startForeground(SERVICE_ID, notification, FOREGROUND_SERVICE_TYPE_REMOTE_MESSAGING)
-        }
-    }
+//    override fun onCreate() {
+//        super.onCreate()
+//
+//        val channelId =
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                createNotificationChannel("my_service", "My Background Service")
+//            } else {
+//                ""
+//            }
+//
+//        val notificationBuilder = NotificationCompat.Builder(this, channelId )
+//        val notification = notificationBuilder.setOngoing(true)
+//            .setSmallIcon(R.mipmap.ic_launcher)
+//            .setPriority(NotificationCompat.PRIORITY_MIN)
+//            .setCategory(Notification.CATEGORY_SERVICE)
+//            .setContentText("pez")
+//            .build()
+//
+////        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+////            startForeground(SERVICE_ID, notification)
+////        } else {
+////            startForeground(SERVICE_ID, notification, FOREGROUND_SERVICE_TYPE_REMOTE_MESSAGING)
+////        }
+//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(channelId: String, channelName: String): String{

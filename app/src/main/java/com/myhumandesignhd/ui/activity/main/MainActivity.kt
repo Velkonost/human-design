@@ -60,7 +60,6 @@ import com.myhumandesignhd.event.OpenBodygraphEvent
 import com.myhumandesignhd.event.SetupLocationEvent
 import com.myhumandesignhd.event.SetupNavMenuEvent
 import com.myhumandesignhd.event.SetupNotificationsEvent
-import com.myhumandesignhd.event.TestResponseEvent
 import com.myhumandesignhd.event.UpdateBalloonBgStateEvent
 import com.myhumandesignhd.event.UpdateHadrdwareAccelerationStateEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
@@ -115,6 +114,15 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
             else PendingIntent.FLAG_CANCEL_CURRENT
         )
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+//        alarmManager.setRepeating(
+//            AlarmManager.RTC_WAKEUP,
+//            System.currentTimeMillis(),
+//            10000,
+//            pendingIntentForecasts
+//        )
     }
 
     override fun onLayoutReady(savedInstanceState: Bundle?) {
@@ -348,10 +356,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     @Subscribe
-    fun onTestResponseEvent(e: TestResponseEvent) {
-    }
-
-    @Subscribe
     fun onOpenBodygraphEvent(e: OpenBodygraphEvent) {
         binding.navView.selectedItemId = R.id.navigation_bodygraph
     }
@@ -422,7 +426,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
     }
 
-    fun requestLocationPermission() {
+    private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -433,7 +437,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         )
     }
 
-    fun setupLocationListener() {
+    private fun setupLocationListener() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -655,6 +659,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 locationStr += it[0].address.country
 
+                Log.d("hd_geo", locationStr)
                 App.preferences.lastKnownLocation = locationStr
 //                    "${it[0].address.city}, ${it[0].address.country}"
                 EventBus.getDefault().post(LastKnownLocationUpdateEvent())
