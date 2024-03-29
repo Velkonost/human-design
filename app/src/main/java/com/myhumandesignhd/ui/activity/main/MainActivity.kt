@@ -990,6 +990,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                             }
                         }
                     }
+
                 }
             }
         }

@@ -31,6 +31,7 @@ import com.adapty.models.AdaptyProductDiscountPhase
 import com.adapty.utils.AdaptyResult
 import com.amplitude.api.Amplitude
 import com.amplitude.api.Identify
+import com.facebook.appevents.AppEventsLogger
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -197,6 +198,9 @@ import kotlinx.android.synthetic.main.view_paywall_4.view.subtitlePw4
 import kotlinx.android.synthetic.main.view_paywall_4.view.titlePw4
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
+import java.math.BigDecimal
+import java.util.Currency
+import java.util.Locale
 import java.util.Random
 import java.util.Timer
 import java.util.TimerTask
@@ -319,15 +323,23 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 //        }
 
         App.preferences.lastPaywall += 1
-        setupSecondPaywall()
 
-//        when(App.adaptySplitPwName) {
-//            "openfull_horizontal" -> setupFirstPaywall()
-//            "start_vertical" -> setupSecond2Paywall()
-//            "reviews_slider_vertical" -> setupThirdPaywall()
-//            else -> setupSecondPaywall()
-//        }
+        when(App.adaptySplitPwName) {
+            "openfull_horizontal" -> setupFirstPaywall()
+            "start_vertical" -> setupSecond2Paywall()
+            "reviews_slider_vertical" -> setupThirdPaywall()
+            "second_paywall_no_trial" -> {
+                isTrialEnabled = false
+                setupSecondPaywall()
+            }
+            else -> setupSecondPaywall()
+        }
+
+//        isTrialEnabled = false
+//        setupSecondPaywall()
     }
+
+    private var isTrialEnabled = true
 
     private fun setupFirstPaywall() {
         selectedPaywall = PAYWALL_TYPE.PAYWALL1
@@ -865,7 +877,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
         var vendorProductId = when (billingPeriod) {
             "P1M" -> "hd_month_sub"
-            "P1W" -> "hd_week_sub"
+            "P1W" -> if (isTrialEnabled) "hd_week_sub" else "hd_week_sub_no_trial"
             "P1Y" -> "hd_year_sub"
             else -> "hd_month_sub"
         }
@@ -882,8 +894,18 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             ) { result ->
                 when (result) {
                     is AdaptyResult.Success -> {
+
                         val profile = result.value
                         val firebaseAnalytics = Firebase.analytics
+                        val facebookLogger = AppEventsLogger.newLogger(requireContext())
+
+                        facebookLogger.logPurchase(
+                            purchaseAmount = App.adaptyProducts!!.firstOrNull { productModel ->
+                                productModel.vendorProductId == vendorProductId
+                            }?.price?.amount ?: BigDecimal(0),
+                            currency = Currency.getInstance(Locale.getDefault())
+                        )
+
 
                         if (
 //                            result.value?.subscriptions?.values?.firstOrNull { it.isActive }?.activePromotionalOfferId == "trial"
@@ -1023,6 +1045,12 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
         binding.paywall2.isVisible = true
         with(binding.paywall2) {
+
+            if (!isTrialEnabled) {
+                offer1TitlePw2.isVisible = false
+                offer1TextPw2.text = resources.getString(R.string._5_99_per_week_no_trial)
+            }
+
             if (fromStart) {
                 title.text =
                     "${App.preferences.userNameFromStart?.strip()},\n" + App.resourcesProvider.getStringLocale(
@@ -1299,6 +1327,12 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
         binding.paywall22.isVisible = true
         with(binding.paywall22) {
+
+            if (!isTrialEnabled) {
+                offer1TitlePw2.isVisible = false
+                offer1TextPw2.text = resources.getString(R.string._5_99_per_week_no_trial)
+            }
+
             if (fromStart) {
                 title.text =
                     "${App.preferences.userNameFromStart?.strip()},\n" + App.resourcesProvider.getStringLocale(
@@ -1777,10 +1811,14 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
             PAYWALL_TYPE.PAYWALL2 -> {
                 with(binding.paywall2) {
-                    startBtnText.text =
-                        App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
+                    if (isTrialEnabled) {
+                        startBtnText.text =
+                            App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
+                    }
 
-                    endingPw2.text = App.resourcesProvider.getStringLocale(R.string.pw_ending_week)
+                    endingPw2.text = App.resourcesProvider.getStringLocale(
+                        if (isTrialEnabled) R.string.pw_ending_week else R.string.pw_ending_week_no_trial
+                    )
 
                     offer1TitlePw2.setTextColor(
                         ContextCompat.getColor(
@@ -1842,8 +1880,10 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
             PAYWALL_TYPE.PAYWALL22 -> {
                 with(binding.paywall22) {
-                    startBtnText.text =
-                        App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
+                    if (isTrialEnabled) {
+                        startBtnText.text =
+                            App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
+                    }
 
                     offer1TitlePw22.setTextColor(
                         ContextCompat.getColor(requireContext(), R.color.lightColor)

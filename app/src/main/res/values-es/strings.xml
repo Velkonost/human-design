@@ -388,6 +388,7 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="pw_4_75_per_week">$3.75 por semana</string>
     <string name="_0_90_per_week">$0.75 por semana</string>
     <string name="_5_99_per_week">3 días gratis, luego $7.49 por semana</string>
+    <string name="_5_99_per_week_no_trial">$7.49 por semana</string>
 
     <string name="enjoy_hd">¡Disfruta del Diseño Humano!</string>
 
@@ -412,6 +413,7 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="pw_4_autorenewable">auto-renewable</string>
 
     <string name="pw_ending_week">La versión de prueba de 3 días se convertirá automáticamente en una suscripción paga de $7.49 por semana a menos que se cancele al menos 24 horas antes del final del período de prueba. Puedes gestionar o cancelar tu membresía en cualquier momento en Google Play Subscriptions.</string>
+    <string name="pw_ending_week_no_trial">La suscripción se renueva automáticamente a $7.49 por semana a menos que se cancele al menos 24 horas antes del final del período pagado. Puedes gestionar o cancelar tu membresía en cualquier momento en Google Play Subscriptions.</string>
     <string name="pw_ending_month">La suscripción se renueva automáticamente a $18.99 a menos que se cancele al menos 24 horas antes del final del período pagado. Puedes gestionar o cancelar tu membresía en cualquier momento en Google Play Subscriptions.</string>
     <string name="pw_ending_year">La suscripción se renueva automáticamente a $45.99 a menos que se cancele al menos 24 horas antes del final del período pagado. Puedes gestionar o cancelar tu membresía en cualquier momento en Google Play Subscriptions.</string>
 
