@@ -71,14 +71,14 @@ class NotificationService(name: String?) : IntentService(name) {
             val title = intent.getStringExtra("userName") + App.resourcesProvider.getStringLocale(R.string.injury_push_title)
             val desc =  App.resourcesProvider.getStringLocale(R.string.injury_push_desc)
 
-            notificationHelper.createNotification(
-                title = title,
-                message = desc,
-                link = "google.com",
-                pageTitle = "pageTitle",
-                filter = "filter",
-                section = "trauma"
-            )
+//            notificationHelper.createNotification(
+//                title = title,
+//                message = desc,
+//                link = "google.com",
+//                pageTitle = "pageTitle",
+//                filter = "filter",
+//                section = "trauma"
+//            )
         } else if (intent != null && !intent.getStringExtra("isForecast").isNullOrEmpty()) {
             var title = resources.getStringArray(R.array.forecast_push_titles)[intent.getStringExtra("forecastPosition")?.toInt()?: 0]
             var desc = resources.getStringArray(R.array.forecast_push_desc)[intent.getStringExtra("forecastPosition")?.toInt()?: 0]
@@ -87,14 +87,14 @@ class NotificationService(name: String?) : IntentService(name) {
             desc = desc.replace("Имя", intent.getStringExtra("userNameForecast")!!)
 
 
-            notificationHelper.createNotification(
-                title = title,
-                message = desc,
-                link = "google.com",
-                pageTitle = "pageTitle",
-                filter = "filter",
-                section = "section"
-            )
+//            notificationHelper.createNotification(
+//                title = title,
+//                message = desc,
+//                link = "google.com",
+//                pageTitle = "pageTitle",
+//                filter = "filter",
+//                section = "section"
+//            )
         } else {
 
             if (App.preferences.pushNumber > 4)
@@ -105,14 +105,14 @@ class NotificationService(name: String?) : IntentService(name) {
 
             App.preferences.pushNumber++
 
-            notificationHelper.createNotification(
-                title = title,
-                message = desc,
-                link = "google.com",
-                pageTitle = "pageTitle",
-                filter = "filter",
-                section = "section"
-            )
+//            notificationHelper.createNotification(
+//                title = title,
+//                message = desc,
+//                link = "google.com",
+//                pageTitle = "pageTitle",
+//                filter = "filter",
+//                section = "section"
+//            )
         }
     }
 }

@@ -382,4 +382,19 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="compatibility_range">Compatibility:</string>
     <string name="compatibility_about_warning">Percentage match is not a full guarantee.\nRead your detailed compatibility description.</string>
     <string name="compatibility_success">success</string>
+
+    <string name="allow_push_title">🔔 We’ll Notify You</string>
+    <string name="allow_push_text">Allow push notifications for instant updates on your Bodygraph and weekly personal forecasts.</string>
+
+    <string name="popup_push_title">Your Bodygraph Description is Ready!</string>
+    <string name="popup_push_text">Discover how you are designed to interact harmoniously with the world.</string>
+    <string name="popup_push_trial">Free 3 days trial</string>
+    <string name="popup_push_btn">Unlock now</string>
+
+    <string name="first_push_title">Bodygraph is ready</string>
+    <string name="first_push_text">Tap to decrypt it and discover your own talents and unique qualities.</string>
+    <string name="second_push_title">1 trial week</string>
+    <string name="second_push_text">Change your life in just 1 week with personalized advice based on your Human Design for free.</string>
+    <string name="third_push_title">It\'s your day!</string>
+    <string name="third_push_text">Planets are in a good position according to your Human Design. Get your trial subscription to learn more.</string>
 </resources>

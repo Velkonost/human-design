@@ -5,6 +5,10 @@ import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieCompositionFactory
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
+import kotlinx.android.synthetic.main.view_allow_pushes.view.allowPushBackground
+import kotlinx.android.synthetic.main.view_allow_pushes.view.allowPushCard
+import kotlinx.android.synthetic.main.view_allow_pushes.view.allowPushText
+import kotlinx.android.synthetic.main.view_allow_pushes.view.allowPushTitle
 import kotlinx.android.synthetic.main.view_place_select.view.icArrowPlace
 import kotlinx.android.synthetic.main.view_place_select.view.icSearch
 import kotlinx.android.synthetic.main.view_place_select.view.newPlaceET
@@ -288,5 +292,29 @@ fun StartFragment.updateTheme() {
         else R.color.darkColor
     ))
 
+    with(binding.allowPushView) {
+        allowPushBackground.setBackgroundColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        allowPushCard.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.darkCardColor
+            else R.color.lightCardColor
+        ))
+        allowPushTitle.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+
+        allowPushText.setTextColor(ContextCompat.getColor(
+            requireContext(),
+            if (App.preferences.isDarkTheme) R.color.lightColor
+            else R.color.darkColor
+        ))
+    }
 
 }

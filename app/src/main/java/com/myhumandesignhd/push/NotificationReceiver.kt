@@ -16,26 +16,11 @@ class NotificationReceiver : BroadcastReceiver() {
         kotlin.runCatching {
             val intent1 = Intent(context, NotificationService::class.java)
 
-            if (intent != null && !intent.getStringExtra("userName").isNullOrEmpty())
-                intent1.putExtra("userName", intent.getStringExtra("userName"))
-
-            if (
-                intent != null && !intent.getStringExtra("isForecast").isNullOrEmpty()
-                && intent.getStringExtra("isForecast") == "true"
-            ) {
-                intent1.putExtra("isForecast", "true")
-                intent1.putExtra("userNameForecast", intent.getStringExtra("userNameForecast"))
-                intent1.putExtra("forecastPosition", intent.getStringExtra("forecastPosition"))
+            if (!App.preferences.isPremiun) {
+                val type = intent?.getStringExtra("type")
+                intent1.putExtra("type", type)
+                handleIntent(intent1, context)
             }
-
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                context.startForegroundService(intent1)
-//            } else {
-//                context.startService(intent1)
-//            }
-            handleIntent(intent1, context)
-
-
             context.bindService(intent1, object : ServiceConnection {
                 override fun onServiceConnected(name: ComponentName, service: IBinder) {
                     //retrieve an instance of the service here from the IBinder returned
@@ -54,53 +39,145 @@ class NotificationReceiver : BroadcastReceiver() {
         val notificationHelper = NotificationHelper(context)
         val resources = context.resources
 
-        if (intent != null && !intent.getStringExtra("userName").isNullOrEmpty()) {
-            val title = intent.getStringExtra("userName") + App.resourcesProvider.getStringLocale(R.string.injury_push_title)
-            val desc =  App.resourcesProvider.getStringLocale(R.string.injury_push_desc)
+        val type = intent?.getStringExtra("type")
+        val title = when (type) {
+            "first" -> resources.getString(R.string.first_push_title)
+            "second" -> resources.getString(R.string.second_push_title)
+            "third" -> resources.getString(R.string.third_push_title)
+            else -> null
+        }
+        val text = when (type) {
+            "first" -> resources.getString(R.string.first_push_text)
+            "second" -> resources.getString(R.string.second_push_text)
+            "third" -> resources.getString(R.string.third_push_text)
+            else -> null
+        }
 
+        if (title != null) {
             notificationHelper.createNotification(
                 title = title,
-                message = desc,
+                message = text,
                 link = "google.com",
                 pageTitle = "pageTitle",
                 filter = "filter",
                 section = "trauma"
             )
-        } else if (intent != null && !intent.getStringExtra("isForecast").isNullOrEmpty()) {
-            var title = resources.getStringArray(R.array.forecast_push_titles)[intent.getStringExtra("forecastPosition")?.toInt()?: 0]
-            var desc = resources.getStringArray(R.array.forecast_push_desc)[intent.getStringExtra("forecastPosition")?.toInt()?: 0]
-
-            title = title.replace("Имя", intent.getStringExtra("userNameForecast")!!)
-            desc = desc.replace("Имя", intent.getStringExtra("userNameForecast")!!)
+        }
+    }
+}
 
 
-            notificationHelper.createNotification(
-                title = title,
-                message = desc,
-                link = "google.com",
-                pageTitle = "pageTitle",
-                filter = "filter",
-                section = "section"
-            )
-        } else {
+class SecondNotificationReceiver : BroadcastReceiver() {
 
-            if (App.preferences.pushNumber > 4)
-                return
+    override fun onReceive(context: Context, intent: Intent?) {
 
-            val title = resources.getStringArray(R.array.push_titles)[App.preferences.pushNumber]
-            val desc = resources.getStringArray(R.array.push_descs)[App.preferences.pushNumber]
+        kotlin.runCatching {
+            val intent1 = Intent(context, NotificationService::class.java)
 
-            App.preferences.pushNumber++
+            if (!App.preferences.isPremiun) {
+                val type = intent?.getStringExtra("type")
+                intent1.putExtra("type", type)
+                handleIntent(intent1, context)
+            }
+            context.bindService(intent1, object : ServiceConnection {
+                override fun onServiceConnected(name: ComponentName, service: IBinder) {
+                    //retrieve an instance of the service here from the IBinder returned
+                    //from the onBind method to communicate with
+                }
 
-            notificationHelper.createNotification(
-                title = title,
-                message = desc,
-                link = "google.com",
-                pageTitle = "pageTitle",
-                filter = "filter",
-                section = "section"
-            )
+                override fun onServiceDisconnected(name: ComponentName) {}
+            }, Context.BIND_AUTO_CREATE)
+        }.onFailure {}
+    }
+
+    private fun handleIntent(intent: Intent?, context: Context) {
+        if (!App.preferences.isPushAvailable)
+            return
+
+        val notificationHelper = NotificationHelper(context)
+        val resources = context.resources
+
+        val type = intent?.getStringExtra("type")
+        val title = when (type) {
+            "first" -> resources.getString(R.string.first_push_title)
+            "second" -> resources.getString(R.string.second_push_title)
+            "third" -> resources.getString(R.string.third_push_title)
+            else -> null
+        }
+        val text = when (type) {
+            "first" -> resources.getString(R.string.first_push_text)
+            "second" -> resources.getString(R.string.second_push_text)
+            "third" -> resources.getString(R.string.third_push_text)
+            else -> null
         }
 
+        if (title != null) {
+            notificationHelper.createNotification(
+                title = title,
+                message = text,
+                link = "google.com",
+                pageTitle = "pageTitle",
+                filter = "filter",
+                section = "trauma"
+            )
+        }
+    }
+}
+
+
+class ThirdNotificationReceiver : BroadcastReceiver() {
+
+    override fun onReceive(context: Context, intent: Intent?) {
+
+        kotlin.runCatching {
+            val intent1 = Intent(context, NotificationService::class.java)
+
+            if (!App.preferences.isPremiun) {
+                val type = intent?.getStringExtra("type")
+                intent1.putExtra("type", type)
+                handleIntent(intent1, context)
+            }
+            context.bindService(intent1, object : ServiceConnection {
+                override fun onServiceConnected(name: ComponentName, service: IBinder) {
+                    //retrieve an instance of the service here from the IBinder returned
+                    //from the onBind method to communicate with
+                }
+
+                override fun onServiceDisconnected(name: ComponentName) {}
+            }, Context.BIND_AUTO_CREATE)
+        }.onFailure {}
+    }
+
+    private fun handleIntent(intent: Intent?, context: Context) {
+        if (!App.preferences.isPushAvailable)
+            return
+
+        val notificationHelper = NotificationHelper(context)
+        val resources = context.resources
+
+        val type = intent?.getStringExtra("type")
+        val title = when (type) {
+            "first" -> resources.getString(R.string.first_push_title)
+            "second" -> resources.getString(R.string.second_push_title)
+            "third" -> resources.getString(R.string.third_push_title)
+            else -> null
+        }
+        val text = when (type) {
+            "first" -> resources.getString(R.string.first_push_text)
+            "second" -> resources.getString(R.string.second_push_text)
+            "third" -> resources.getString(R.string.third_push_text)
+            else -> null
+        }
+
+        if (title != null) {
+            notificationHelper.createNotification(
+                title = title,
+                message = text,
+                link = "google.com",
+                pageTitle = "pageTitle",
+                filter = "filter",
+                section = "trauma"
+            )
+        }
     }
 }

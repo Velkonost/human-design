@@ -4,6 +4,7 @@
     package="com.myhumandesignhd">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -11,7 +12,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
@@ -19,15 +20,13 @@
 
     <uses-permission android:name="com.android.vending.BILLING" />
 
-<!--    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />-->
-<!--    <uses-permission-->
-<!--        android:name="android.permission.FOREGROUND_SERVICE_REMOTE_MESSAGING"-->
-<!--        android:minSdkVersion="34" />-->
+    <!--    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />-->
+    <!--    <uses-permission-->
+    <!--        android:name="android.permission.FOREGROUND_SERVICE_REMOTE_MESSAGING"-->
+    <!--        android:minSdkVersion="34" />-->
 
     <application
         android:name="com.myhumandesignhd.App"
-        android:allowBackup="true"
-        android:fullBackupContent="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -37,8 +36,10 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        tools:replace="android:fullBackupContent">
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        tools:replace="android:allowBackup,android:fullBackupContent"
+        android:usesCleartextTraffic="true">
         <!--android:icon="@drawable/ic_launcher_background"-->
         <!--        android:roundIcon="@drawable/logo"-->
         <activity
@@ -82,6 +83,11 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".push.MyService"
+            android:enabled="true"
+            />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.myhumandesignhd.fileprovider"
@@ -102,10 +108,28 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name="com.myhumandesignhd.push.SecondNotificationReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.myhumandesignhd.push.ThirdNotificationReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name="com.myhumandesignhd.push.NotificationService"
-            android:exported="false"
-            android:enabled="true"/>
+            android:enabled="true"
+            android:exported="false" />
 
         <receiver
             android:name="com.appsflyer.SingleInstallBroadcastReceiver"
@@ -115,13 +139,33 @@
             </intent-filter>
         </receiver>
 
+        <service android:name=".push.fresh.JobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".push.fresh.AutoStartService"
+            android:enabled="true" >
+        </service>
+        <receiver
+            android:name=".push.fresh.RestartBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+        </receiver>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <!--        <meta-data android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled"-->
-        <!--            android:value="true"/>-->
-        <!--        <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled"-->
-        <!--            android:value="true"/>-->
+
+        <meta-data
+            android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled"
+            android:value="true" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="8300d3e22249a339f57e6edb01d7d6b966540ca1d4c946977cf72597e0e9d374" />
+        <meta-data
+            android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
+            android:value="true" />
     </application>
 
 </manifest>

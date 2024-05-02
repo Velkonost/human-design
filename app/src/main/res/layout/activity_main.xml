@@ -112,5 +112,11 @@
             android:alpha="0.4"
             android:background="#0E0E0F"
             android:visibility="gone" />
+
+        <include
+            android:elevation="10dp"
+            android:id="@+id/pushPopup"
+            android:visibility="gone"
+            layout="@layout/view_popup_from_push"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

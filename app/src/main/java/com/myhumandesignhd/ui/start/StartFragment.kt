@@ -1,5 +1,6 @@
 package com.myhumandesignhd.ui.start
 
+import android.Manifest
 import android.animation.Animator
 import android.content.Context
 import android.content.res.ColorStateList
@@ -20,6 +21,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.os.ConfigurationCompat
@@ -40,6 +42,7 @@ import com.myhumandesignhd.event.LastKnownLocationUpdateEvent
 import com.myhumandesignhd.event.NoInetEvent
 import com.myhumandesignhd.event.PlaceSelectedEvent
 import com.myhumandesignhd.event.SetupLocationEvent
+import com.myhumandesignhd.event.SetupNotificationsEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
 import com.myhumandesignhd.event.UpdateThemeEvent
 import com.myhumandesignhd.model.Place
@@ -64,6 +67,9 @@ import kotlinx.android.synthetic.main.container_start_name.view.placeET
 import kotlinx.android.synthetic.main.container_start_name.view.skipTime
 import kotlinx.android.synthetic.main.container_start_name.view.time
 import kotlinx.android.synthetic.main.single_day_and_time_picker.view.minutesPicker
+import kotlinx.android.synthetic.main.view_allow_pushes.view.allowPushBackground
+import kotlinx.android.synthetic.main.view_allow_pushes.view.allowPushBtn
+import kotlinx.android.synthetic.main.view_allow_pushes.view.allowPushCard
 import kotlinx.android.synthetic.main.view_place_select.view.icArrowPlace
 import kotlinx.android.synthetic.main.view_place_select.view.newPlaceET
 import kotlinx.android.synthetic.main.view_place_select.view.placeRecycler
@@ -80,6 +86,41 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     StartViewModel::class,
     Handler::class
 ) {
+
+    private val pushNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+
+        Amplitude.getInstance().logEvent(if (granted) "push allowed" else "push  denied")
+
+        EventBus.getDefault().post(SetupNotificationsEvent())
+
+        android.os.Handler().postDelayed({
+            binding.bodygraphReadyMark4.isVisible = true
+            binding.bodygraphReadyMark4.playAnimation()
+        }, 1000)
+        android.os.Handler().postDelayed({
+            binding.bodygraphReadyMark5.isVisible = true
+            binding.bodygraphReadyMark5.playAnimation()
+        }, 2500)
+        android.os.Handler().postDelayed({
+            binding.bodygraphReadyTitle.text =
+                App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title)
+            App.preferences.lastLoginPageId = -1
+            App.preferences.userNameFromStart = inflatedNameContainer.nameET.text.toString()
+
+            if (!App.preferences.isPremiun && !isPaywallOpened) {
+                isPaywallOpened = true
+                android.os.Handler().postDelayed({
+                    router.replaceScreen(Screens.paywallScreen(true, source = "start"))
+                }, 1000)
+            } else {
+                android.os.Handler().postDelayed({
+                    router.replaceScreen(Screens.bodygraphScreen(fromStart = true))
+                }, 1000)
+            }
+        }, 4000)
+    }
 
     var currentStartPage: StartPage = StartPage.RAVE
 
@@ -177,17 +218,21 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 )
             )
 
-            inflated.nameET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.darkHintColor
-                else R.color.lightHintColor
-            ))
+            inflated.nameET.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.darkHintColor
+                    else R.color.lightHintColor
+                )
+            )
 
-            inflated.placeET.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(
-                requireContext(),
-                if (App.preferences.isDarkTheme) R.color.darkHintColor
-                else R.color.lightHintColor
-            ))
+            inflated.placeET.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.darkHintColor
+                    else R.color.lightHintColor
+                )
+            )
 
             inflated.skipTime.background = ContextCompat.getDrawable(
                 requireContext(),
@@ -237,18 +282,19 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     }
 
     private var prevHeightDiff = -1
-    private fun addKeyboardDetectListener(){
+    private fun addKeyboardDetectListener() {
         binding.startContainer.viewTreeObserver.addOnGlobalLayoutListener {
             if (!isAdded) return@addOnGlobalLayoutListener
 
-            val heightDifference = binding.startContainer.rootView.height - binding.startContainer.height
+            val heightDifference =
+                binding.startContainer.rootView.height - binding.startContainer.height
 
             if (heightDifference == prevHeightDiff) {
                 return@addOnGlobalLayoutListener
             }
             prevHeightDiff = heightDifference
 
-            if(heightDifference > dpToPx(requireContext(), 200F)) {
+            if (heightDifference > dpToPx(requireContext(), 200F)) {
                 inflatedNameContainer.nameET.isVisible = false
                 inflatedNameContainer.nameET.requestLayout()
 
@@ -294,7 +340,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         }
     }
 
-    private fun dpToPx(context: Context, valueInDp: Float) : Float{
+    private fun dpToPx(context: Context, valueInDp: Float): Float {
         val displayMetrics = context.resources.displayMetrics
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, displayMetrics)
     }
@@ -392,7 +438,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     }
 
     private fun setupPlacesView() {
-        (binding.placesView.placeRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        (binding.placesView.placeRecycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
+            false
         binding.placesView.placeRecycler.itemAnimator = null
         binding.placesView.placeRecycler.adapter = placesAdapter
 
@@ -491,7 +538,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         inflatedNameContainer.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_name_title))
         inflatedNameContainer.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.start_name_desc))
-        inflatedNameContainer.nameET.hint = App.resourcesProvider.getStringLocale(R.string.start_name_hint)
+        inflatedNameContainer.nameET.hint =
+            App.resourcesProvider.getStringLocale(R.string.start_name_hint)
 
         binding.startBtnText.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.next))
     }
@@ -529,7 +577,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             )
         } else {
             inflatedNameContainer.nameDesc.setTextAnimation07(
-                    App.resourcesProvider.getStringLocale(R.string.start_date_desc)
+                App.resourcesProvider.getStringLocale(R.string.start_date_desc)
             )
         }
     }
@@ -550,11 +598,17 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         inflatedNameContainer.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_time_title))
 
         val desc = App.resourcesProvider.getStringLocale(R.string.start_time_desc)
-        inflatedNameContainer.nameDesc.setTextAnimation07(desc.replace("name", inflatedNameContainer.nameET.text.toString()))
+        inflatedNameContainer.nameDesc.setTextAnimation07(
+            desc.replace(
+                "name",
+                inflatedNameContainer.nameET.text.toString()
+            )
+        )
 
         inflatedNameContainer.skipTime.isVisible = true
         inflatedNameContainer.skipTime.alpha = 1f
-        inflatedNameContainer.skipTime.text = (App.resourcesProvider.getStringLocale(R.string.start_time_skip))
+        inflatedNameContainer.skipTime.text =
+            (App.resourcesProvider.getStringLocale(R.string.start_time_skip))
 
         inflatedNameContainer.date.alpha0(300) {
             inflatedNameContainer.date.isVisible = false
@@ -601,7 +655,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         }
 
         if (!isCurrentLocationVariantSet)
-            inflatedNameContainer.placeET.hint = App.resourcesProvider.getStringLocale(R.string.start_place_hint)
+            inflatedNameContainer.placeET.hint =
+                App.resourcesProvider.getStringLocale(R.string.start_place_hint)
 
         if (!App.preferences.lastKnownLocation.isNullOrEmpty())
             inflatedNameContainer.placeET.setText(App.preferences.lastKnownLocation)
@@ -639,49 +694,28 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                 !it.design.channels.isNullOrEmpty()
                 && !it.personality.channels.isNullOrEmpty()
             ) {
-              android.os.Handler().postDelayed({
-                  binding.bodygraphView.isVisible = true
-                  binding.bodygraphView.scaleXY(1f, 1f, 1500) {
-                      binding.bodygraphView.changeSpeedAnimationFactor(10f)
-                      binding.bodygraphView.changeIsAllowDrawLinesState(true)
-                  }
+                android.os.Handler().postDelayed({
+                    binding.bodygraphView.isVisible = true
 
-                  binding.bodygraphReadyMark1.isVisible = true
-                  binding.bodygraphReadyMark1.playAnimation()
-                  android.os.Handler().postDelayed({
-                      binding.bodygraphReadyMark2.isVisible = true
-                      binding.bodygraphReadyMark2.playAnimation()
-                  }, 1500)
-                  android.os.Handler().postDelayed({
-                      binding.bodygraphReadyMark3.isVisible = true
-                      binding.bodygraphReadyMark3.playAnimation()
-                  }, 3000)
+                    binding.bodygraphView.scaleXY(1f, 1f, 1500) {
+                        binding.bodygraphView.changeSpeedAnimationFactor(10f)
+                        binding.bodygraphView.changeIsAllowDrawLinesState(true)
+                    }
 
-                  android.os.Handler().postDelayed({
-                      binding.bodygraphReadyMark4.isVisible = true
-                      binding.bodygraphReadyMark4.playAnimation()
-                  }, 4500)
-                  android.os.Handler().postDelayed({
-                      binding.bodygraphReadyMark5.isVisible = true
-                      binding.bodygraphReadyMark5.playAnimation()
-                  }, 6000)
-                  android.os.Handler().postDelayed({
-                      binding.bodygraphReadyTitle.text = App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title)
-                      App.preferences.lastLoginPageId = -1
-                      App.preferences.userNameFromStart = inflatedNameContainer.nameET.text.toString()
+                    binding.bodygraphReadyMark1.isVisible = true
+                    binding.bodygraphReadyMark1.playAnimation()
+                    android.os.Handler().postDelayed({
+                        binding.bodygraphReadyMark2.isVisible = true
+                        binding.bodygraphReadyMark2.playAnimation()
+                    }, 1500)
+                    android.os.Handler().postDelayed({
+                        binding.bodygraphReadyMark3.isVisible = true
+                        binding.bodygraphReadyMark3.playAnimation()
 
-                      if (!App.preferences.isPremiun && !isPaywallOpened) {
-                          isPaywallOpened = true
-                          android.os.Handler().postDelayed({
-                              router.replaceScreen(Screens.paywallScreen(true, source = "start"))
-                          }, 1000)
-                      } else {
-                          android.os.Handler().postDelayed({
-                              router.replaceScreen(Screens.bodygraphScreen(fromStart = true))
-                          }, 1000)
-                      }
-                  }, 7500)
-              }, 700)
+                        showAllowPushBlock()
+
+                    }, 3000)
+                }, 700)
 
             }
 
@@ -693,6 +727,37 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             )
 
 
+        }
+    }
+
+    private fun showAllowPushBlock() {
+        binding.allowPushView.isVisible = true
+        Amplitude.getInstance().logEvent("Turnonpush_shown")
+
+        with(binding.allowPushView) {
+            allowPushCard.animate()
+                .alpha(1f)
+                .scaleY(1f)
+                .scaleX(1f)
+                .duration = 600
+
+            allowPushBackground.animate()
+                .alpha(0.5f).setDuration(600)
+
+            allowPushBtn.setOnClickListener {
+                Amplitude.getInstance().logEvent("turnonpush_clicked")
+                allowPushCard.animate()
+                    .alpha(0f)
+                    .scaleY(0f)
+                    .scaleX(0f)
+                    .duration = 600
+
+                allowPushBackground.animate()
+                    .alpha(0f).setDuration(600)
+                    .withEndAction { binding.allowPushView.isVisible = false }
+
+                pushNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
         }
     }
 
@@ -740,8 +805,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         (snackbar.view as ViewGroup).removeAllViews()
         (snackbar.view as ViewGroup).addView(snackView)
 
-        snackView.findViewById<TextView>(R.id.title).text = App.resourcesProvider.getStringLocale(R.string.snackbar_title)
-        snackView.findViewById<TextView>(R.id.desc).text = App.resourcesProvider.getStringLocale(R.string.snackbar_name)
+        snackView.findViewById<TextView>(R.id.title).text =
+            App.resourcesProvider.getStringLocale(R.string.snackbar_title)
+        snackView.findViewById<TextView>(R.id.desc).text =
+            App.resourcesProvider.getStringLocale(R.string.snackbar_name)
         snackbar.setBackgroundTint(Color.parseColor("#F7C52B"))
 
         snackbar
@@ -759,8 +826,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         (snackbar.view as ViewGroup).removeAllViews()
         (snackbar.view as ViewGroup).addView(snackView)
 
-        snackView.findViewById<TextView>(R.id.title).text = App.resourcesProvider.getStringLocale(R.string.snackbar_title)
-        snackView.findViewById<TextView>(R.id.desc).text = App.resourcesProvider.getStringLocale(R.string.snackbar_address)
+        snackView.findViewById<TextView>(R.id.title).text =
+            App.resourcesProvider.getStringLocale(R.string.snackbar_title)
+        snackView.findViewById<TextView>(R.id.desc).text =
+            App.resourcesProvider.getStringLocale(R.string.snackbar_address)
         snackbar.setBackgroundTint(Color.parseColor("#F7C52B"))
 
         snackbar
@@ -810,12 +879,18 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.titleSplash0102.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.start_quiz_title))
         binding.descSplash0102.setTextAnimation07("")
 
-        binding.variant1Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_1)
-        binding.variant2Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_2)
-        binding.variant3Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_3)
-        binding.variant4Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_4)
-        binding.variant5Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_5)
-        binding.variant6Text.text = App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_6)
+        binding.variant1Text.text =
+            App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_1)
+        binding.variant2Text.text =
+            App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_2)
+        binding.variant3Text.text =
+            App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_3)
+        binding.variant4Text.text =
+            App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_4)
+        binding.variant5Text.text =
+            App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_5)
+        binding.variant6Text.text =
+            App.resourcesProvider.getStringLocale(R.string.start_quiz_variant_6)
         binding.variantsBlock.isVisible = true
 
         binding.variant1Block.setOnClickListener {
@@ -931,7 +1006,8 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     }
 
     private fun isNetworkConnected(): Boolean {
-        val cm = requireContext().getSystemService(DaggerAppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm =
+            requireContext().getSystemService(DaggerAppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnected
     }
 
@@ -944,7 +1020,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
         fun onBackClicked(v: View) {
             animateBackCirclesBtwPages()
-            when(currentStartPage) {
+            when (currentStartPage) {
                 StartPage.NAME -> {
                     binding.backBtn.isVisible = false
                     inflatedNameContainer.nameContainer.alpha0(500) {
@@ -959,6 +1035,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 //                    binding.startBtn.translationY(requireContext().convertDpToPx(0f), 500)
                     setupSplash03()
                 }
+
                 StartPage.DATE_BIRTH -> {
                     inflatedNameContainer.date.alpha0(500) {
                         inflatedNameContainer.date.isVisible = false
@@ -968,6 +1045,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
                     setupName()
                 }
+
                 StartPage.TIME_BIRTH -> {
                     inflatedNameContainer.skipTime.isVisible = false
                     inflatedNameContainer.time.alpha0(500) {
@@ -975,6 +1053,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     }
                     setupDateBirth()
                 }
+
                 StartPage.PLACE_BIRTH -> {
                     inflatedNameContainer.placeET.alpha0(500) {
                         inflatedNameContainer.placeET.isVisible = false
@@ -982,6 +1061,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     inflatedNameContainer.skipTime.alpha = 1f
                     setupTimeBirth()
                 }
+
                 StartPage.BODYGRAPH -> {
                     setupPlaceBirth()
                 }
@@ -1004,6 +1084,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 //                    }, 4000)
                     setupSplash03()
                 }
+
                 StartPage.SPLASH_02 -> {
                     if (selectedVariant != -1) {
                         binding.startHeaderAnim.playAnimation()
@@ -1017,20 +1098,25 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                         setupSplash03()
                     }
                 }
+
                 StartPage.SPLASH_03 -> {
                     animateCirclesBtwPages(1000)
                     Amplitude.getInstance().logEvent("welcome2screen_next_clicked")
                     setupName()
                 }
+
                 StartPage.SPLASH_05 -> setupName()
                 StartPage.RAVE -> {
                     animateCirclesBtwPages(1000)
                     setupName()
                 }
+
                 StartPage.NAME -> {
                     Amplitude.getInstance().logEvent("userTappedStart1")
 
-                    if (inflatedNameContainer.nameET.text.toString().replace(" ", "").isNullOrEmpty()) {
+                    if (inflatedNameContainer.nameET.text.toString().replace(" ", "")
+                            .isNullOrEmpty()
+                    ) {
                         snackbarName.show()
                     } else {
                         lifecycleScope.launch(Dispatchers.Main) {
@@ -1043,23 +1129,28 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                         }
                     }
                 }
+
                 StartPage.DATE_BIRTH -> {
                     Amplitude.getInstance().logEvent("userTappedStart2")
 
                     animateCirclesBtwPages(1000)
                     setupTimeBirth()
                 }
+
                 StartPage.TIME_BIRTH -> {
                     Amplitude.getInstance().logEvent(
                         "userTappedStart3",
-                        JSONObject(mutableMapOf(
-                            "source" to "fromFirstBodygraphCreating"
-                        ).toMap())
+                        JSONObject(
+                            mutableMapOf(
+                                "source" to "fromFirstBodygraphCreating"
+                            ).toMap()
+                        )
                     )
 
                     animateCirclesBtwPages(1000)
                     setupPlaceBirth()
                 }
+
                 StartPage.PLACE_BIRTH -> {
                     Amplitude.getInstance().logEvent("userTappedStart4")
 
@@ -1070,7 +1161,9 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                         return
                     }
 
-                    if (inflatedNameContainer.placeET.text.toString().replace(" ", "").isNullOrEmpty()) {
+                    if (inflatedNameContainer.placeET.text.toString().replace(" ", "")
+                            .isNullOrEmpty()
+                    ) {
                         snackbarAddress.show()
                     } else {
                         requestReviewFlow()
@@ -1084,7 +1177,10 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                                 time = String.format(
                                     "%02d",
                                     inflatedNameContainer.time.date.hours
-                                ) + ":" + String.format("%02d", inflatedNameContainer.time.minutesPicker.currentMinute),
+                                ) + ":" + String.format(
+                                    "%02d",
+                                    inflatedNameContainer.time.minutesPicker.currentMinute
+                                ),
                                 lat = selectedLat,
                                 lon = selectedLon
                             )
@@ -1093,6 +1189,7 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                     }
 
                 }
+
                 StartPage.BODYGRAPH -> {
                     App.preferences.lastLoginPageId = -1
                     router.navigateTo(Screens.bodygraphScreen(fromStart = true))

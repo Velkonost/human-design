@@ -29,6 +29,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.adapty.Adapty
 import com.adapty.models.AdaptyAttributionSource
 import com.adapty.models.AdaptyProfileParameters
@@ -67,6 +69,7 @@ import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.navigation.SupportAppNavigator
 import com.myhumandesignhd.push.NotificationReceiver
+import com.myhumandesignhd.push.NotificationWorker
 import com.myhumandesignhd.ui.base.BaseActivity
 import com.myhumandesignhd.ui.bodygraph.BodygraphFragment
 import com.myhumandesignhd.ui.start.StartPage
@@ -76,9 +79,18 @@ import com.myhumandesignhd.util.SingleShotLocationProvider.GPSCoordinates
 import com.myhumandesignhd.util.SingleShotLocationProvider.requestSingleUpdate
 import com.myhumandesignhd.vm.BaseViewModel
 import com.yandex.metrica.YandexMetrica
+import kotlinx.android.synthetic.main.view_popup_from_push.view.icPopupBigCircle
+import kotlinx.android.synthetic.main.view_popup_from_push.view.icPopupMidCircle
+import kotlinx.android.synthetic.main.view_popup_from_push.view.popupBackground
+import kotlinx.android.synthetic.main.view_popup_from_push.view.popupPushCard
+import kotlinx.android.synthetic.main.view_popup_from_push.view.popupPushContainer
+import kotlinx.android.synthetic.main.view_popup_from_push.view.popupPushText
+import kotlinx.android.synthetic.main.view_popup_from_push.view.popupPushTitle
+import kotlinx.android.synthetic.main.view_popup_from_push.view.popupPushTrial
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
@@ -128,6 +140,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     override fun onLayoutReady(savedInstanceState: Bundle?) {
         super.onLayoutReady(savedInstanceState)
 
+        initNotificationReceiver()
         Amplitude.getInstance().initialize(this, "179ff8d2378573275e642a2ecf49e3b3")
             .enableForegroundTracking(application)
         Amplitude.getInstance().logEvent("start_session")
@@ -295,7 +308,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     YandexMetrica.reportEvent("Tab2Tapped")
                     Amplitude.getInstance().logEvent("tab2Tapped")
 
-                    if (App.preferences.isPremiun) {
+                    if (App.preferences.isPremiun || forceDescriptionScreen) {
                         router.navigateTo(Screens.bodygraphSecondScreen())
                         true
                     } else {
@@ -351,7 +364,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
         }
 
-        pushNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+//        pushNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
 
     }
 
@@ -517,29 +530,74 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private fun initNotificationReceiver() {
         val notifyIntent = Intent(this, NotificationReceiver::class.java)
+        notifyIntent.putExtra("type", "fucking off")
+
         val pendingIntent = PendingIntent.getBroadcast(
             this,
-            3,
+            948,
             notifyIntent,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
             else PendingIntent.FLAG_CANCEL_CURRENT
         )
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            alarmManager.setAndAllowWhileIdle(
-//                AlarmManager.RTC_WAKEUP,
-//                System.currentTimeMillis() + 60 * 60 * 24,
-//                pendingIntent
-//            )
-//        } else {
-        alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + 60 * 60 * 24,
-            (1000 * 60 * 60 * 24).toLong(),
-            pendingIntent
-        )
+
+        if (!App.preferences.pushSetup) {
+            val notificationWorkFirst = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
+                .setInitialDelay(7, TimeUnit.MINUTES) // Delay for idle mode
+                .addTag("first") // Tag for identifying the work
+                .build()
+            val notificationWorkSecond = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
+                .setInitialDelay(4, TimeUnit.HOURS) // Delay for idle mode
+                .addTag("second") // Tag for identifying the work
+                .build()
+            val notificationWorkThird = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
+                .setInitialDelay(1, TimeUnit.DAYS) // Delay for idle mode
+                .addTag("third") // Tag for identifying the work
+                .build()
+
+            WorkManager.getInstance(this).enqueue(notificationWorkFirst)
+            WorkManager.getInstance(this).enqueue(notificationWorkSecond)
+            WorkManager.getInstance(this).enqueue(notificationWorkThird)
+            App.preferences.pushSetup = true
+        }
+
+
+//        if (!App.preferences.pushSetup) {
+//            App.preferences.firstPushTime = System.currentTimeMillis() + 1000 * 60 * 7
+//            App.preferences.secondPushTime = System.currentTimeMillis() + 1000 * 60 * 60 * 4
+//            App.preferences.thirdPushTime = System.currentTimeMillis() + 1000 * 60 * 60 * 24
+//            App.preferences.pushSetup = true
 //        }
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//                    alarmManager.canScheduleExactAlarms()
+//                } else {
+//                    true
+//                }
+//            ) {
+//                alarmManager.setExactAndAllowWhileIdle(
+//                    AlarmManager.RTC_WAKEUP,
+//                    System.currentTimeMillis() + 1000 * 60 * 7,
+//                    pendingIntent
+//                )
+//            }
+//        }
+
+//        alarmManager.setInexactRepeating(
+//            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//            SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+//            AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+//            pendingIntent
+//        )
+//        alarmManager.setRepeating(
+//            AlarmManager.RTC_WAKEUP,
+//            System.currentTimeMillis() + AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+//            AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+////            (1000 * 60 * 60).toLong(),
+//            pendingIntent
+//        )
+
         val cal = Calendar.getInstance()
 
         cal.add(Calendar.DAY_OF_WEEK, -(cal[Calendar.DAY_OF_WEEK]))
@@ -547,40 +605,42 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         cal.set(Calendar.HOUR_OF_DAY, 14)
         cal.set(Calendar.SECOND, 0)
 
-        if (binding.viewModel!!.currentUser.name.isNotEmpty()) {
-            val notifyIntentForecasts = Intent(this, NotificationReceiver::class.java)
-            notifyIntentForecasts.putExtra("isForecast", "true")
-            notifyIntentForecasts.putExtra("userNameForecast", binding.viewModel!!.currentUser.name)
-            notifyIntentForecasts.putExtra(
-                "forecastPosition",
-                binding.viewModel!!.currentUser.pushForecastIdsList?.get(binding.viewModel!!.currentUser.pushForecastPosition % 10)
-                    ?: 0
-            )
-
-            binding.viewModel!!.updatePushForecastPosition()
-
-            val pendingIntentForecasts = PendingIntent.getBroadcast(
-                this, 948,
-                notifyIntentForecasts,
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
-                else PendingIntent.FLAG_CANCEL_CURRENT
-            )
-
-            val mult =
-                if (App.preferences.locale == "ru") 8
-                else 7
-
-            val alarmManagerForecasts = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-            alarmManagerForecasts.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                cal.timeInMillis + mult * 86400000,
-                AlarmManager.INTERVAL_DAY * 7,
-                pendingIntentForecasts
-            )
-        }
+//        if (binding.viewModel!!.currentUser.name.isNotEmpty()) {
+//            val notifyIntentForecasts = Intent(this, NotificationReceiver::class.java)
+//            notifyIntentForecasts.putExtra("isForecast", "true")
+//            notifyIntentForecasts.putExtra("userNameForecast", binding.viewModel!!.currentUser.name)
+//            notifyIntentForecasts.putExtra(
+//                "forecastPosition",
+//                binding.viewModel!!.currentUser.pushForecastIdsList?.get(binding.viewModel!!.currentUser.pushForecastPosition % 10)
+//                    ?: 0
+//            )
+//
+//            binding.viewModel!!.updatePushForecastPosition()
+//
+//            val pendingIntentForecasts = PendingIntent.getBroadcast(
+//                this, 948,
+//                notifyIntentForecasts,
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+//                    PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
+//                else PendingIntent.FLAG_CANCEL_CURRENT
+//            )
+//
+//            val mult =
+//                if (App.preferences.locale == "ru") 8
+//                else 7
+//
+//            val alarmManagerForecasts = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//
+////            alarmManagerForecasts.setRepeating(
+////                AlarmManager.RTC_WAKEUP,
+////                cal.timeInMillis + mult * 86400000,
+////                AlarmManager.INTERVAL_DAY * 7,
+////                pendingIntentForecasts
+////            )
+//        }
     }
+
+    private var forceDescriptionScreen = false
 
     private fun initStartPage() {
         if (isStartPageInitialized) return
@@ -589,29 +649,35 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             router.replaceScreen(Screens.loaderScreen())
         } else {
             isStartPageInitialized = true
-            router.replaceScreen(
-                when (App.preferences.lastLoginPageId) {
-                    StartPage.SPLASH_01.pageId,
-                    StartPage.SPLASH_02.pageId,
-                    StartPage.SPLASH_03.pageId,
-                    StartPage.SPLASH_04.pageId,
-                    StartPage.SPLASH_05.pageId,
-                    StartPage.RAVE.pageId,
-                    StartPage.NAME.pageId,
-                    StartPage.DATE_BIRTH.pageId,
-                    StartPage.TIME_BIRTH.pageId,
-                    StartPage.PLACE_BIRTH.pageId,
-                    StartPage.BODYGRAPH.pageId,
-                    -> {
-                        Screens.startScreen()
-                    }
 
-                    else -> {
+            if (forceDescriptionScreen) {
+                router.replaceScreen(Screens.bodygraphSecondScreen())
+            } else {
+
+                router.replaceScreen(
+                    when (App.preferences.lastLoginPageId) {
+                        StartPage.SPLASH_01.pageId,
+                        StartPage.SPLASH_02.pageId,
+                        StartPage.SPLASH_03.pageId,
+                        StartPage.SPLASH_04.pageId,
+                        StartPage.SPLASH_05.pageId,
+                        StartPage.RAVE.pageId,
+                        StartPage.NAME.pageId,
+                        StartPage.DATE_BIRTH.pageId,
+                        StartPage.TIME_BIRTH.pageId,
+                        StartPage.PLACE_BIRTH.pageId,
+                        StartPage.BODYGRAPH.pageId,
+                        -> {
+                            Screens.startScreen()
+                        }
+
+                        else -> {
 //                        setupNavMenu()
-                        Screens.bodygraphScreen()
+                            Screens.bodygraphScreen()
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 
@@ -682,10 +748,34 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
                 if (section == "trauma") {
                     YandexMetrica.reportEvent("OpenedAfterTraumaGenerated")
+                } else if (section == "open_offer") {
+                    Amplitude.getInstance().logEvent("push_clicked")
+                    forceDescriptionScreen = true
+
+                    setupPushPopup()
+                    setupNavMenu()
+                    updateNavMenuVisible(true)
+                    binding.navView.selectedItemId = R.id.navigation_description
                 }
             }
         }
     }
+
+    private fun setupPushPopup() {
+        binding.pushPopup.isVisible = true
+        Amplitude.getInstance().logEvent("bodygraph_unlock_shown")
+
+        binding.pushPopup.popupPushContainer.setOnClickListener {
+            Amplitude.getInstance().logEvent("bodygraph_unlock_clicked")
+            router.navigateTo(Screens.paywallScreen(source = "popupPush"))
+            android.os.Handler().postDelayed ({
+                binding.pushPopup.isVisible = false
+                forceDescriptionScreen = false
+            }, 500)
+
+        }
+    }
+
 
     @Subscribe
     fun onSetupNavMenuEvent(e: SetupNavMenuEvent) {
@@ -825,6 +915,54 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     override fun updateThemeAndLocale() {
+        with(binding.pushPopup) {
+            popupBackground.setBackgroundColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.darkColor
+                    else R.color.lightColor
+                )
+            )
+            popupPushCard.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.darkCardColor
+                    else R.color.lightCardColor
+                )
+            )
+
+            icPopupBigCircle.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_circle_big_dark
+                else R.drawable.ic_circle_big_light
+            )
+            icPopupMidCircle.setImageResource(
+                if (App.preferences.isDarkTheme) R.drawable.ic_circle_mid_dark
+                else R.drawable.ic_circle_mid_light
+            )
+
+            popupPushTitle.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            popupPushText.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            popupPushTrial.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+        }
+
         StatusBarUtil.setColor(
             this, resources.getColor(
                 if (App.preferences.isDarkTheme) R.color.darkColor
@@ -970,12 +1108,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         }
         AppsFlyerLib.getInstance().registerConversionListener(this, conversionListener)
 
-//        val params = ProfileParameterBuilder().withFacebookAnonymousId(AppEventsLogger.getAnonymousAppDeviceGUID(this))
-//        Adapty.updateProfile(params) { error ->
-//            if (error == null) {
-//                // successful update
-//            }
-//        }
+        val params = AdaptyProfileParameters.Builder()
+            .withFacebookAnonymousId(AppEventsLogger.getAnonymousAppDeviceGUID(this))
+        Adapty.updateProfile(params.build()) { error ->
+            if (error == null) {
+                // successful update
+            }
+        }
 
         Adapty.getPaywall("new_paywalls") { result ->
             when (result) {

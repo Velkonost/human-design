@@ -190,6 +190,35 @@ class Preferences(context: Context) {
         set(value) = sharedPreferences.edit().putString("user_name_from_start", value).apply()
         get() = sharedPreferences.getString("user_name_from_start", null)
 
+    var pushSetup: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("push_setup", value)
+            .apply()
+        get() = sharedPreferences.getBoolean("push_setup", false)
+
+    var firstPushTime: Long
+        set(value) = sharedPreferences.edit().putLong("first_push_time", value).apply()
+        get() = sharedPreferences.getLong("first_push_time", 0L)
+
+    var secondPushTime: Long
+        set(value) = sharedPreferences.edit().putLong("second_push_time", value).apply()
+        get() = sharedPreferences.getLong("second_push_time", 0L)
+
+    var thirdPushTime: Long
+        set(value) = sharedPreferences.edit().putLong("third_push_time", value).apply()
+        get() = sharedPreferences.getLong("third_push_time", 0L)
+
+    var firstPushSent: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("first_push_sent", value).apply()
+        get() = sharedPreferences.getBoolean("first_push_sent", false)
+
+    var secondPushSent: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("second_push_sent", value).apply()
+        get() = sharedPreferences.getBoolean("second_push_sent", false)
+
+    var thirdPushSent: Boolean
+        set(value) = sharedPreferences.edit().putBoolean("third_push_sent", value).apply()
+        get() = sharedPreferences.getBoolean("third_push_sent", false)
+
     companion object {
         const val PREF_FILE_NAME = "cv_prefs_upgrade"
 

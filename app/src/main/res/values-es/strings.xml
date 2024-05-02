@@ -519,4 +519,19 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="next_year_conclusion_footer">Para aprovechar al máximo el 2024, sumérgete en tu Diseño Humano, explora a fondo la sección "Acerca de mí", no ignores las ideas diarias, esfuérzate por seguirlas y supervisa de cerca los tránsitos planetarios y cómo evolucionas con ellos cada día. ¡Activa tu éxito y que el Año Nuevo 2024 sea inolvidable! 🚀\n\n</string>
     <string name="next_year_conclusion_footer_2">Para tu comodidad, el Pronóstico Rave para 2024 siempre está disponible en la sección “Visión”.</string>
     <!-- 2024 -->
+
+    <string name="allow_push_title">🔔Te notificaremos</string>
+    <string name="allow_push_text">Permite las notificaciones push para actualizaciones instantáneas sobre tu Cuerpo-Gráfico y pronósticos personales semanales.</string>
+
+    <string name="popup_push_title">¡Tu Descripción del Cuerpo Gráfico Está Lista!</string>
+    <string name="popup_push_text">Descubre cómo estás diseñado para interactuar armoniosamente con el mundo.</string>
+    <string name="popup_push_trial">Prueba gratuita de 3 días</string>
+    <string name="popup_push_btn">Desbloquea ahora</string>
+
+    <string name="first_push_title">Tu cuerpo gráfico está listo</string>
+    <string name="first_push_text">Toca para descifrarlo y descubrir tus propios talentos y cualidades únicas.</string>
+    <string name="second_push_title">1 semana de prueba</string>
+    <string name="second_push_text">Transforma tu vida en solo 1 semana de forma gratuita con consejos personalizados basados en tu Diseño Humano.</string>
+    <string name="third_push_title">¡Hoy es tu día!</string>
+    <string name="third_push_text">Los planetas están en una posición favorable según tu Diseño Humano. Obtén tu suscripción de prueba para aprender más.</string>
 </resources>

@@ -5,7 +5,6 @@ import com.myhumandesignhd.App
 import com.myhumandesignhd.event.CurrentUserLoadedEvent
 import com.myhumandesignhd.event.HelpType
 import com.myhumandesignhd.event.NoInetEvent
-import com.myhumandesignhd.event.SetupNotificationsEvent
 import com.myhumandesignhd.event.ShowHelpEvent
 import com.myhumandesignhd.event.UpdateLoaderStateEvent
 import com.myhumandesignhd.model.Affirmation
@@ -133,7 +132,7 @@ class BaseViewModel @Inject constructor(
 
             EventBus.getDefault().post(ShowHelpEvent(type = HelpType.BodygraphCenters))
 
-            EventBus.getDefault().post(SetupNotificationsEvent())
+//            EventBus.getDefault().post(SetupNotificationsEvent())
         }
     }
 

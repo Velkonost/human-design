@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/darkColor"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/snackbarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/icBigCirclePush"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="true"
+        android:alpha="0.2"
+        android:rotation="90"
+        android:src="@drawable/ic_circle_big_dark"
+        app:layout_constraintBottom_toBottomOf="@id/bodygraphViewPush"
+        app:layout_constraintEnd_toEndOf="@id/bodygraphViewPush"
+        app:layout_constraintStart_toStartOf="@id/bodygraphViewPush" />
+
+    <ImageView
+        android:id="@+id/icMidCirclePush"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="24dp"
+        android:adjustViewBounds="true"
+        android:alpha="0.2"
+        android:src="@drawable/ic_circle_mid_dark"
+        app:layout_constraintBottom_toBottomOf="@id/icBigCirclePush"
+        app:layout_constraintEnd_toEndOf="@id/icBigCirclePush"
+        app:layout_constraintStart_toStartOf="@id/icBigCirclePush"
+        app:layout_constraintTop_toTopOf="@id/icBigCirclePush"
+
+        />
+
+    <com.myhumandesignhd.ui.view.bodygraph.BodygraphView
+        android:id="@+id/bodygraphViewPush"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:minHeight="123dp"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        app:layout_constraintBottom_toTopOf="@id/paywallPushTitle"
+        app:layout_constraintDimensionRatio="720:852"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bottomGradientPush"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:alpha="1"
+        android:src="@drawable/ic_btn_bottom_gradient"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/paywall1ClosePush"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:alpha="0.5"
+        android:src="@drawable/ic_cross"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/paywallPushTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:text="@string/paywall_open_full_access"
+        android:textSize="28sp"
+        android:textFontWeight="590"
+        android:textColor="@color/lightColor"
+        android:fontFamily="@font/roboto_bold"
+        app:layout_constraintBottom_toTopOf="@id/textBlockPush"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bodygraphViewPush" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/textBlockPush"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/offersBlockPush"
+        app:layout_constraintTop_toBottomOf="@id/paywallPushTitle">
+
+        <TextView
+            android:id="@+id/text1Push"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:textColor="@color/lightColor"
+            android:text="@string/paywall_text_1"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text2Push"
+            android:layout_width="wrap_content"
+            android:textColor="@color/lightColor"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:alpha="0.7"
+            android:text="@string/paywall_text_2"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text3Push"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lightColor"
+            android:layout_marginTop="6dp"
+            android:alpha="0.7"
+            android:text="@string/paywall_text_3"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text4Push"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lightColor"
+            android:layout_marginTop="6dp"
+            android:alpha="0.7"
+            android:text="@string/paywall_text_4"
+            android:textSize="14sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/offersBlockPush"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center|bottom"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/startBtnPush"
+        app:layout_constraintTop_toBottomOf="@id/textBlockPush">
+
+        <TextView
+            android:id="@+id/offer1TitlePush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trial 3 days"
+            android:textColor="@color/lightColor"
+            android:textSize="9sp"
+            android:paddingHorizontal="12dp"
+            android:fontFamily="@font/roboto_bold"
+            android:elevation="10dp"
+            app:layout_constraintBottom_toTopOf="@id/offer1Push"
+            app:layout_constraintEnd_toEndOf="@id/offer1Push"
+            app:layout_constraintStart_toStartOf="@id/offer1Push"
+            app:layout_constraintTop_toTopOf="@id/offer1Push" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/offer1Push"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_paywall_push_offer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="103:127"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.3">
+
+
+            <TextView
+                android:id="@+id/offer1DurationPush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightColor"
+                android:text="1\nMonth"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/offer1PricePush"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/offer1PricePush"
+                android:textColor="@color/lightColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$7.49/week"
+                android:textSize="11sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/offer1DurationPush"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                 />
+
+            <TextView
+                android:id="@+id/offer1TextPush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="$7.49\nper week"
+                android:textColor="@color/lightColor"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/offer1PricePush" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/offer2Push"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/offer3Push"
+            app:layout_constraintStart_toEndOf="@id/offer1Push"
+            app:layout_constraintWidth_percent="0.3">
+
+            <TextView
+                android:id="@+id/offer2TitlePush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Best Value"
+                android:paddingHorizontal="12dp"
+                android:textSize="9sp"
+                android:textColor="@color/lightColor"
+                android:textFontWeight="590"
+                android:elevation="10dp"
+                android:fontFamily="@font/roboto_bold"
+                app:layout_constraintBottom_toTopOf="@id/offer2MainBlockPush"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/offer2MainBlockPush" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/offer2MainBlockPush"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_paywall_push_offer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="103:127">
+
+                <TextView
+                    android:id="@+id/offer2DurationPush"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1\nyear"
+                    android:textAllCaps="true"
+                    android:textColor="@color/lightColor"
+                    android:textSize="16sp"
+                    android:layout_marginTop="12dp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@id/offer2PricePush"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offer2PricePush"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$0.9/week"
+                    android:textColor="@color/lightColor"
+                    android:textSize="11sp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/offer2DurationPush"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/offer2TextPush"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/lightColor"
+                    android:text="$49.99\nper week"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/offer2PricePush" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/offer3Push"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.3">
+
+            <TextView
+                android:id="@+id/offer3TitlePush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="10dp"
+                android:text="Popular"
+                android:textColor="@color/lightColor"
+                android:paddingHorizontal="12dp"
+                android:textSize="9sp"
+                android:fontFamily="@font/roboto_bold"
+                app:layout_constraintBottom_toTopOf="@id/offer3MainBlockPush"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/offer3MainBlockPush" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/offer3MainBlockPush"
+                android:layout_width="match_parent"
+                android:background="@drawable/bg_paywall_push_offer"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="103:127">
+
+                <TextView
+                    android:id="@+id/offer3DurationPush"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3\nMonths"
+                    android:textColor="@color/lightColor"
+                    android:textAllCaps="true"
+                    android:textSize="16sp"
+                    android:layout_marginTop="12dp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@id/offer3PricePush"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/offer3PricePush"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/lightColor"
+                    android:text="$2.8/week"
+                    android:textSize="11sp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/offer3DurationPush" />
+
+                <TextView
+                    android:id="@+id/offer3TextPush"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="$33.99\nper 3 months"
+                    android:textColor="@color/lightColor"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/offer3PricePush" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/startBtnPush"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/transparent"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@id/footerBlock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_btn" />
+
+        <TextView
+            android:id="@+id/startBtnText1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:letterSpacing="0.12"
+            android:text="@string/continue_btn"
+            android:textAllCaps="true"
+            android:textColor="@color/lightColor"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/footerBlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="6dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/paywall1TermsOfUsePush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:text="@string/paywall_terms_of_use"
+            android:textColor="@color/lightColor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/breakline1Push"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="6dp"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:text="|"
+            android:textColor="@color/lightColor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/paywall1PolicyPush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="6dp"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:text="@string/paywall_privacy_policy"
+            android:textColor="@color/lightColor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/breakline2Push"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="6dp"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:text="|"
+            android:textColor="@color/lightColor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/paywall1RestorePush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="6dp"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:text="@string/paywall_restore"
+            android:textColor="@color/lightColor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/breakline3Push"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="6dp"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:text="|"
+            android:textColor="@color/lightColor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/paywall1PromoPush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="6dp"
+            android:alpha="0.5"
+            android:gravity="center"
+            android:text="@string/promocode"
+            android:textColor="@color/lightColor"
+            android:textSize="12sp" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <!--Terms of Use  |  Privacy Policy  |  Restore-->
+</androidx.constraintlayout.widget.ConstraintLayout>

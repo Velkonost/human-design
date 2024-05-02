@@ -759,6 +759,11 @@
                 android:id="@+id/loaderView"
                 layout="@layout/fragment_loader" />
 
+            <include
+                android:visibility="gone"
+                android:id="@+id/allowPushView"
+                layout="@layout/view_allow_pushes"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

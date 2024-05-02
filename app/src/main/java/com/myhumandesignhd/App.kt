@@ -9,7 +9,9 @@ import com.adapty.models.AdaptyPaywall
 import com.adapty.models.AdaptyPaywallProduct
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.attribution.AppsFlyerRequestListener
+import com.facebook.FacebookSdk
 import com.github.terrakok.cicerone.Cicerone
+import com.google.android.gms.common.util.ProcessUtils
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.myhumandesignhd.di.AppModule
 import com.myhumandesignhd.di.DaggerAppComponent
@@ -58,6 +60,14 @@ class App : DaggerApplication() {
         OneSignal.initWithContext(this)
         OneSignal.setAppId(BuildConfig.ONESIGNAL_APP_ID)
 
+        if (isMainProcess()) {
+            FacebookSdk.setClientToken("8300d3e22249a339f57e6edb01d7d6b966540ca1d4c946977cf72597e0e9d374")
+            FacebookSdk.sdkInitialize(this)
+            FacebookSdk.fullyInitialize()
+            FacebookSdk.setAutoLogAppEventsEnabled(true)
+            FacebookSdk.setAdvertiserIDCollectionEnabled(true)
+        }
+
         setupAppsFlyer()
         activateAppMetrica()
 
@@ -69,6 +79,11 @@ class App : DaggerApplication() {
     }
 
     fun getAppComponent() = appComponent
+
+    private fun isMainProcess(): Boolean {
+        return packageName == ProcessUtils.getMyProcessName()
+    }
+
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> = appComponent
 
