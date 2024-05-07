@@ -534,4 +534,19 @@ La Tarjeta Rave individual contiene una imagen esquemática de centros de energ�
     <string name="second_push_text">Transforma tu vida en solo 1 semana de forma gratuita con consejos personalizados basados en tu Diseño Humano.</string>
     <string name="third_push_title">¡Hoy es tu día!</string>
     <string name="third_push_text">Los planetas están en una posición favorable según tu Diseño Humano. Obtén tu suscripción de prueba para aprender más.</string>
+
+    <string name="push_week">1\nsemana</string>
+    <string name="push_week_price">$7.49/semana</string>
+    <string name="push_week_per">$7.49\nper semana</string>
+    <string name="push_week_title">3 Días Gratis</string>
+
+    <string name="push_year_title">Mejor Oferta</string>
+    <string name="push_year">1\nAño</string>
+    <string name="push_year_price">$0.9/semana</string>
+    <string name="push_year_per">$49.99\nper año</string>
+
+    <string name="push_month_title">Popular</string>
+    <string name="push_month">3\nMes</string>
+    <string name="push_month_price">$2.8/semana</string>
+    <string name="push_month_per">$33.99\nper 3 mes</string>
 </resources>

@@ -197,6 +197,10 @@ import kotlinx.android.synthetic.main.view_paywall_4.view.startBtnPw4
 import kotlinx.android.synthetic.main.view_paywall_4.view.subtitlePw4
 import kotlinx.android.synthetic.main.view_paywall_4.view.titlePw4
 import kotlinx.android.synthetic.main.view_paywall_push.bodygraphViewPush
+import kotlinx.android.synthetic.main.view_paywall_push.bottomGradientPush
+import kotlinx.android.synthetic.main.view_paywall_push.breakline1Push
+import kotlinx.android.synthetic.main.view_paywall_push.breakline2Push
+import kotlinx.android.synthetic.main.view_paywall_push.breakline3Push
 import kotlinx.android.synthetic.main.view_paywall_push.icBigCirclePush
 import kotlinx.android.synthetic.main.view_paywall_push.icMidCirclePush
 import kotlinx.android.synthetic.main.view_paywall_push.offer1DurationPush
@@ -221,7 +225,12 @@ import kotlinx.android.synthetic.main.view_paywall_push.paywall1PolicyPush
 import kotlinx.android.synthetic.main.view_paywall_push.paywall1PromoPush
 import kotlinx.android.synthetic.main.view_paywall_push.paywall1RestorePush
 import kotlinx.android.synthetic.main.view_paywall_push.paywall1TermsOfUsePush
+import kotlinx.android.synthetic.main.view_paywall_push.paywallPushTitle
 import kotlinx.android.synthetic.main.view_paywall_push.startBtnPush
+import kotlinx.android.synthetic.main.view_paywall_push.text1Push
+import kotlinx.android.synthetic.main.view_paywall_push.text2Push
+import kotlinx.android.synthetic.main.view_paywall_push.text3Push
+import kotlinx.android.synthetic.main.view_paywall_push.text4Push
 import kotlinx.android.synthetic.main.view_paywall_push.view.offer2MainBlockPush
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
@@ -356,24 +365,23 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         App.preferences.lastPaywall += 1
 
 
-        if (source == "popupPush") {
-            setupPushPaywall()
-        } else {
-            when (App.adaptySplitPwName) {
-                "openfull_horizontal" -> setupFirstPaywall()
-                "start_vertical" -> setupSecond2Paywall()
-                "reviews_slider_vertical" -> setupThirdPaywall()
-                "second_paywall_no_trial" -> {
-                    isTrialEnabled = false
-                    setupSecondPaywall()
-                }
+//        if (source == "popupPush") {
+//            setupPushPaywall()
+//        } else {
+//            when (App.adaptySplitPwName) {
+//                "openfull_horizontal" -> setupFirstPaywall()
+//                "start_vertical" -> setupSecond2Paywall()
+//                "reviews_slider_vertical" -> setupThirdPaywall()
+//                "second_paywall_no_trial" -> {
+//                    isTrialEnabled = false
+//                    setupSecondPaywall()
+//                }
+//
+//                else -> setupSecondPaywall()
+//            }
+//        }
 
-                else -> setupSecondPaywall()
-            }
-        }
-
-//        isTrialEnabled = false
-//        setupSecondPaywall()
+        setupPushPaywall()
     }
 
     private var isTrialEnabled = true
@@ -653,183 +661,193 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         binding.paywallPush.isVisible = true
         with(binding.paywallPush) {
 
-//            paywallPushTitle.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            text1Push.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            text2Push.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            text3Push.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            text4Push.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer1DurationPush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer2DurationPush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer3DurationPush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer1PricePush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer2PricePush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer3PricePush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer1TextPush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer2TextPush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer3TextPush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer2TitlePush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//            offer3TitlePush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            paywall1TermsOfUsePush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
+            paywallPushTitle.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            text1Push.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            text2Push.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            text3Push.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            text4Push.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer1DurationPush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer2DurationPush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer3DurationPush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer1PricePush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer2PricePush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer3PricePush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer1TextPush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer2TextPush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer3TextPush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-//            paywall1PolicyPush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            paywall1RestorePush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
+            offer2TitlePush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-//            paywall1PromoPush.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            breakline1Push.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            breakline2Push.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
+            offer1TitlePush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+            offer3TitlePush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-//            breakline3Push.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
+            paywall1TermsOfUsePush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
-//            bottomGradientPush.isVisible = App.preferences.isDarkTheme
-//            paywall1ClosePush.imageTintList = ColorStateList.valueOf(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
+            paywall1PolicyPush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            paywall1RestorePush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            paywall1PromoPush.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline1Push.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline2Push.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            breakline3Push.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            bottomGradientPush.isVisible = App.preferences.isDarkTheme
+            paywall1ClosePush.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
 
             offer1Push.setOnClickListener { selectFirstOffer() }
             offer2Push.setOnClickListener { selectSecondOffer() }
@@ -841,21 +859,21 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             paywall1PromoPush.setOnClickListener { promocodeClicked() }
             startBtnPush.setOnClickListener { launchBilling() }
 
-//            icBigCirclePush.imageTintList = ColorStateList.valueOf(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
-//
-//            icMidCirclePush.imageTintList = ColorStateList.valueOf(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    if (App.preferences.isDarkTheme) R.color.lightColor
-//                    else R.color.darkColor
-//                )
-//            )
+            icBigCirclePush.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
+
+            icMidCirclePush.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    if (App.preferences.isDarkTheme) R.color.lightColor
+                    else R.color.darkColor
+                )
+            )
 
             val rotate = RotateAnimation(
                 0f,
@@ -2130,6 +2148,23 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                         R.drawable.bg_paywall_push_offer_active
                     )
 
+                    offer1TitlePush.setTextColor(
+                        ContextCompat.getColor(requireContext(), R.color.lightColor)
+                    )
+                    offer2TitlePush.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+                    offer3TitlePush.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+
+
                     offer1DurationPush.alpha = 1f
                     offer1PricePush.alpha = 1f
                     offer1TextPush.alpha = 1f
@@ -2148,27 +2183,31 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
                     offer2TitlePush.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer_title
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_title_light
 //                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
 //                        else R.drawable.bg_paywall_2_offer_title_light
                     )
 
                     offer3TitlePush.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer_title
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_title_light
 //                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
 //                        else R.drawable.bg_paywall_2_offer_title_light
                     )
 
                     offer2MainBlockPush.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_light
 //                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_1_offer_2_inactive
 //                        else R.drawable.bg_paywall_1_offer_2_inactive_light
                     )
                     offer3MainBlockPush.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_light
 //                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_1_offer_2_inactive
 //                        else R.drawable.bg_paywall_1_offer_2_inactive_light
                     )
@@ -2377,7 +2416,24 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 with(binding.paywallPush) {
                     offer1Push.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_light
+                    )
+
+                    offer2TitlePush.setTextColor(
+                        ContextCompat.getColor(requireContext(), R.color.lightColor)
+                    )
+                    offer1TitlePush.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+                    offer3TitlePush.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
                     )
 
                     offer1DurationPush.alpha = 0.5f
@@ -2393,7 +2449,9 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     offer3TextPush.alpha = 0.5f
 
                     offer1TitlePush.background = ContextCompat.getDrawable(
-                        requireContext(), R.drawable.bg_paywall_push_offer_title
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_title_light
                     )
 
                     offer2TitlePush.background = ContextCompat.getDrawable(
@@ -2405,7 +2463,8 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
                     offer3TitlePush.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer_title
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_title_light
 //                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
 //                        else R.drawable.bg_paywall_2_offer_title_light
                     )
@@ -2418,7 +2477,8 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     )
                     offer3MainBlockPush.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_light
 //                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_1_offer_2_inactive
 //                        else R.drawable.bg_paywall_1_offer_2_inactive_light
                     )
@@ -2620,7 +2680,24 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 with(binding.paywallPush) {
                     offer1Push.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_light
+                    )
+
+                    offer3TitlePush.setTextColor(
+                        ContextCompat.getColor(requireContext(), R.color.lightColor)
+                    )
+                    offer2TitlePush.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
+                    )
+                    offer1TitlePush.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                            if (App.preferences.isDarkTheme) R.color.lightColor
+                            else R.color.darkColor
+                        )
                     )
 
                     offer1DurationPush.alpha = 0.5f
@@ -2636,12 +2713,15 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     offer3TextPush.alpha = 1f
 
                     offer1TitlePush.background = ContextCompat.getDrawable(
-                        requireContext(), R.drawable.bg_paywall_push_offer_title
+                        requireContext(),
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_title_light
                     )
 
                     offer2TitlePush.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer_title
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_title_light
 //                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_2_offer_title_dark
 //                        else R.drawable.bg_paywall_2_offer_title_light
                     )
@@ -2655,13 +2735,14 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
                     offer2MainBlockPush.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer
+                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_push_offer_title
+                        else R.drawable.bg_paywall_push_offer_light
 //                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_1_offer_2_inactive
 //                        else R.drawable.bg_paywall_1_offer_2_inactive_light
                     )
                     offer3MainBlockPush.background = ContextCompat.getDrawable(
                         requireContext(),
-                        R.drawable.bg_paywall_push_offer
+                        R.drawable.bg_paywall_push_offer_active
 //                        if (App.preferences.isDarkTheme) R.drawable.bg_paywall_1_offer_2_inactive
 //                        else R.drawable.bg_paywall_1_offer_2_inactive_light
                     )

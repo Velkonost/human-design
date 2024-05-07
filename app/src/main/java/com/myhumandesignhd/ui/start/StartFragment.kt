@@ -712,7 +712,40 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
                         binding.bodygraphReadyMark3.isVisible = true
                         binding.bodygraphReadyMark3.playAnimation()
 
-                        showAllowPushBlock()
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                            showAllowPushBlock()
+                        } else {
+                            Amplitude.getInstance().logEvent("push allowed")
+
+                            EventBus.getDefault().post(SetupNotificationsEvent())
+
+                            android.os.Handler().postDelayed({
+                                binding.bodygraphReadyMark4.isVisible = true
+                                binding.bodygraphReadyMark4.playAnimation()
+                            }, 1000)
+                            android.os.Handler().postDelayed({
+                                binding.bodygraphReadyMark5.isVisible = true
+                                binding.bodygraphReadyMark5.playAnimation()
+                            }, 2500)
+                            android.os.Handler().postDelayed({
+                                binding.bodygraphReadyTitle.text =
+                                    App.resourcesProvider.getStringLocale(R.string.start_bodygraph_ready_title)
+                                App.preferences.lastLoginPageId = -1
+                                App.preferences.userNameFromStart = inflatedNameContainer.nameET.text.toString()
+
+                                if (!App.preferences.isPremiun && !isPaywallOpened) {
+                                    isPaywallOpened = true
+                                    android.os.Handler().postDelayed({
+                                        router.replaceScreen(Screens.paywallScreen(true, source = "start"))
+                                    }, 1000)
+                                } else {
+                                    android.os.Handler().postDelayed({
+                                        router.replaceScreen(Screens.bodygraphScreen(fromStart = true))
+                                    }, 1000)
+                                }
+                            }, 4000)
+                        }
+
 
                     }, 3000)
                 }, 700)

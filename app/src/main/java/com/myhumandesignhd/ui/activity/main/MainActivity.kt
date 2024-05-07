@@ -82,6 +82,7 @@ import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.view_popup_from_push.view.icPopupBigCircle
 import kotlinx.android.synthetic.main.view_popup_from_push.view.icPopupMidCircle
 import kotlinx.android.synthetic.main.view_popup_from_push.view.popupBackground
+import kotlinx.android.synthetic.main.view_popup_from_push.view.popupPushBtn
 import kotlinx.android.synthetic.main.view_popup_from_push.view.popupPushCard
 import kotlinx.android.synthetic.main.view_popup_from_push.view.popupPushContainer
 import kotlinx.android.synthetic.main.view_popup_from_push.view.popupPushText
@@ -530,12 +531,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     private fun initNotificationReceiver() {
         val notifyIntent = Intent(this, NotificationReceiver::class.java)
-        notifyIntent.putExtra("type", "fucking off")
 
         val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            948,
-            notifyIntent,
+            this, 948, notifyIntent,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 PendingIntent.FLAG_CANCEL_CURRENT + PendingIntent.FLAG_IMMUTABLE
             else PendingIntent.FLAG_CANCEL_CURRENT
@@ -766,6 +764,24 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         Amplitude.getInstance().logEvent("bodygraph_unlock_shown")
 
         binding.pushPopup.popupPushContainer.setOnClickListener {
+            Amplitude.getInstance().logEvent("bodygraph_unlock_clicked")
+            router.navigateTo(Screens.paywallScreen(source = "popupPush"))
+            android.os.Handler().postDelayed ({
+                binding.pushPopup.isVisible = false
+                forceDescriptionScreen = false
+            }, 500)
+        }
+
+        binding.pushPopup.setOnClickListener {
+            Amplitude.getInstance().logEvent("bodygraph_unlock_clicked")
+            router.navigateTo(Screens.paywallScreen(source = "popupPush"))
+            android.os.Handler().postDelayed ({
+                binding.pushPopup.isVisible = false
+                forceDescriptionScreen = false
+            }, 500)
+        }
+
+        binding.pushPopup.popupPushBtn.setOnClickListener {
             Amplitude.getInstance().logEvent("bodygraph_unlock_clicked")
             router.navigateTo(Screens.paywallScreen(source = "popupPush"))
             android.os.Handler().postDelayed ({
@@ -1051,9 +1067,9 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
     }
 
     private fun setupAdapty(referrer: String = "") {
-        Adapty.identify(App.preferences.uniqueUserId!!, {
+        Adapty.identify(App.preferences.uniqueUserId!!) {
             Log.d("ekke", "keke")
-        })
+        }
         if (
             Amplitude.getInstance().deviceId != null
             && Amplitude.getInstance().userId != null
@@ -1126,6 +1142,25 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                         when (products) {
                             is AdaptyResult.Success -> {
                                 App.adaptyProducts = products.value
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        Adapty.getPaywall("pw_test") { result ->
+            when (result) {
+                is AdaptyResult.Success -> {
+                    App.adaptySplitPwName = result.value.name
+                    App.adaptyPaywallModel = result.value
+
+                    Adapty.getPaywallProducts(result.value) { products ->
+                        when (products) {
+                            is AdaptyResult.Success -> {
+                                App.adaptyProducts =
+                                    App.adaptyProducts?.plus(products.value)
+                                Log.d("keke", "keke")
                             }
                         }
                     }

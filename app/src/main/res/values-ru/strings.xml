@@ -512,4 +512,19 @@
     <string name="second_push_text">Измените свою жизнь с персонализированными советами на основе Дизайна Человека. Попробуйте бесплатно.</string>
     <string name="third_push_title">Сегодня ваш день!</string>
     <string name="third_push_text">Планеты в выгодном положении согласно вашему Дизайну Человека. Узнайте больше с пробным периодом.</string>
+
+    <string name="push_week">1\nНеделя</string>
+    <string name="push_week_price">₽399/неделя</string>
+    <string name="push_week_per">₽399\nв неделю</string>
+    <string name="push_week_title">3 дня бесплатно</string>
+
+    <string name="push_year_title">Лучший выбор</string>
+    <string name="push_year">1\nгод</string>
+    <string name="push_year_price">₽56/неделя</string>
+    <string name="push_year_per">₽2699\nв год</string>
+
+    <string name="push_month_title">Популярное</string>
+    <string name="push_month">3\nМесяца</string>
+    <string name="push_month_price">₽75/неделя</string>
+    <string name="push_month_per">₽899\nв 3 месяца</string>
 </resources>

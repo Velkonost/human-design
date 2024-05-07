@@ -516,4 +516,19 @@ To calculate a personal Rave Card<br>(bodygraph), you need to fill in the data<b
     <string name="second_push_text">Change your life in just 1 week with personalized advice based on your Human Design for free.</string>
     <string name="third_push_title">It\'s your day!</string>
     <string name="third_push_text">Planets are in a good position according to your Human Design. Get your trial subscription to learn more.</string>
+
+    <string name="push_week">1\nWeek</string>
+    <string name="push_week_price">$7.49/week</string>
+    <string name="push_week_per">$7.49\nper week</string>
+    <string name="push_week_title">Trial 3 days</string>
+
+    <string name="push_year_title">Best Value</string>
+    <string name="push_year">1\nyear</string>
+    <string name="push_year_price">$0.9/week</string>
+    <string name="push_year_per">$49.99\nper year</string>
+
+    <string name="push_month_title">Popular</string>
+    <string name="push_month">3\nMonths</string>
+    <string name="push_month_price">$2.8/week</string>
+    <string name="push_month_per">$33.99\nper 3 months</string>
 </resources>
