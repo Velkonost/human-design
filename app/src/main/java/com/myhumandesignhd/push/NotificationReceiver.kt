@@ -17,7 +17,22 @@ class NotificationReceiver : BroadcastReceiver() {
             val intent1 = Intent(context, NotificationService::class.java)
 
             if (!App.preferences.isPremiun) {
-                val type = intent?.getStringExtra("type")
+
+                val now = System.currentTimeMillis()
+                val type = if (App.preferences.firstPushTime <= now && !App.preferences.firstPushSent) {
+                    App.preferences.firstPushSent = true
+                    "first"
+                }
+                else if (App.preferences.secondPushTime <= now && !App.preferences.secondPushSent) {
+                    App.preferences.secondPushSent = true
+                    "second"
+                }
+                else if (App.preferences.thirdPushTime <= now && !App.preferences.thirdPushSent) {
+                    App.preferences.thirdPushSent = true
+                    "third"
+                }
+                else null
+
                 intent1.putExtra("type", type)
                 handleIntent(intent1, context)
             }

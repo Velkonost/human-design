@@ -18,7 +18,6 @@ import com.myhumandesignhd.databinding.FragmentSettingsBinding
 import com.myhumandesignhd.event.UpdateThemeEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
-import com.yandex.metrica.YandexMetrica
 import org.greenrobot.eventbus.EventBus
 
 class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding>(
@@ -346,7 +345,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
             App.preferences.isPushAvailable = isChecked
 
             if (!App.preferences.isPushAvailable) {
-                YandexMetrica.reportEvent("Tab1userDisabledNotifications")
                 Amplitude.getInstance().logEvent("settingsDisabledNotifications")
 
                 binding.notificationBlockActive.background = null
@@ -361,7 +359,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
                     R.color.darkSettingsArrowTint
                 ))
             } else {
-                YandexMetrica.reportEvent("Tab1userAllowedNotifications")
                 Amplitude.getInstance().logEvent("settingsAllowedNotifications")
 
                 binding.notificationBlockActive.background = ContextCompat.getDrawable(
@@ -398,7 +395,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
 
         fun onNightClicked(v: View) {
-            YandexMetrica.reportEvent("Tab1UserSwitchedToDarkMode")
             Amplitude.getInstance().logEvent("userSwitchedToDarkMode")
 
             val identify = Identify()
@@ -418,7 +414,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
 
         fun onDayClicked(v: View) {
-            YandexMetrica.reportEvent("Tab1UserSwitchedToWhiteMode")
             Amplitude.getInstance().logEvent("userSwitchedToWhiteMode")
 
             val identify = Identify()
@@ -452,8 +447,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
 
         fun onWriteUsClicked(v: View) {
-            YandexMetrica.reportEvent("Tab1WriteToUsTapped")
-
             kotlin.runCatching {
                 val email: Array<String> = arrayOf("humdesignhd@gmail.com")
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
@@ -487,14 +480,12 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
 
         fun onFaqClicked(v: View) {
-            YandexMetrica.reportEvent("Tab1SettingsFAQTapped")
             Amplitude.getInstance().logEvent("settingsTappedFAQ")
 
             router.navigateTo(Screens.faqScreen())
         }
 
         fun onPersonalInfoClicked(v: View) {
-            YandexMetrica.reportEvent("Tab1SettingsPersonalInfoTapped")
             Amplitude.getInstance().logEvent("settingsTappedChangeInfo")
 
             router.navigateTo(Screens.personalInfoScreen())

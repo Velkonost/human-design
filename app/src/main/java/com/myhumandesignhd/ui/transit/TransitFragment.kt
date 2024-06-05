@@ -31,7 +31,6 @@ import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
-import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.item_transit_advice.view.*
 import kotlinx.android.synthetic.main.item_transit_cycles.view.*
 import kotlinx.android.synthetic.main.item_transit_gates.view.*
@@ -194,7 +193,6 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     private fun selectTransits() {
-        YandexMetrica.reportEvent("Tab3TransitsTapped")
         Amplitude.getInstance().logEvent("tab3TappedTransits")
 
         binding.icInfo.isVisible = true
@@ -226,7 +224,6 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     private fun selectCycles() {
-        YandexMetrica.reportEvent("Tab3CyclesTapped")
         Amplitude.getInstance().logEvent("tab3TappedCycles")
 
         binding.icInfo.isVisible = false
@@ -258,7 +255,6 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
     }
 
     private fun selectAdvice() {
-        YandexMetrica.reportEvent("Tab3AdviceTapped")
         Amplitude.getInstance().logEvent("tab3TappedDailyAdvice")
 
         binding.icInfo.isVisible = false
@@ -458,8 +454,6 @@ class TransitFragment : BaseFragment<TransitViewModel, FragmentTransitBinding>(
         }
 
         fun onFaqClicked(v: View) {
-            YandexMetrica.reportEvent("Tab3FAQTapped")
-
             router.navigateTo(
                 Screens.faqDetailScreen(
                 title = if (App.preferences.locale == "ru") baseViewModel.faqsList[7].titleRu

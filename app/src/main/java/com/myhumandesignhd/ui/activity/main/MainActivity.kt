@@ -78,7 +78,6 @@ import com.myhumandesignhd.util.SingleShotLocationProvider
 import com.myhumandesignhd.util.SingleShotLocationProvider.GPSCoordinates
 import com.myhumandesignhd.util.SingleShotLocationProvider.requestSingleUpdate
 import com.myhumandesignhd.vm.BaseViewModel
-import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.view_popup_from_push.view.icPopupBigCircle
 import kotlinx.android.synthetic.main.view_popup_from_push.view.icPopupMidCircle
 import kotlinx.android.synthetic.main.view_popup_from_push.view.popupBackground
@@ -296,7 +295,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_bodygraph -> {
-                    YandexMetrica.reportEvent("Tab1Tapped")
                     Amplitude.getInstance().logEvent("tab1Tapped")
 
                     if (supportFragmentManager.fragments.last() !is BodygraphFragment)
@@ -306,7 +304,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
 
                 R.id.navigation_description -> {
-                    YandexMetrica.reportEvent("Tab2Tapped")
                     Amplitude.getInstance().logEvent("tab2Tapped")
 
                     if (App.preferences.isPremiun || forceDescriptionScreen) {
@@ -319,7 +316,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
 
                 R.id.navigation_transit -> {
-                    YandexMetrica.reportEvent("Tab3Tapped")
                     Amplitude.getInstance().logEvent("tab3Tapped")
 
                     if (App.preferences.isPremiun) {
@@ -332,7 +328,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
 
                 R.id.navigation_compatibility -> {
-                    YandexMetrica.reportEvent("Tab4Tapped")
                     Amplitude.getInstance().logEvent("tab4Tapped")
 
                     if (App.preferences.isPremiun) {
@@ -345,7 +340,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
 
                 R.id.navigation_affirmation -> {
-                    YandexMetrica.reportEvent("Tab5Tapped")
                     Amplitude.getInstance().logEvent("tab5Tapped")
 
                     if (App.preferences.isPremiun) {
@@ -539,24 +533,46 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             else PendingIntent.FLAG_CANCEL_CURRENT
         )
 
-        if (!App.preferences.pushSetup) {
-            val notificationWorkFirst = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
-                .setInitialDelay(7, TimeUnit.MINUTES) // Delay for idle mode
-                .addTag("first") // Tag for identifying the work
-                .build()
-            val notificationWorkSecond = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
-                .setInitialDelay(4, TimeUnit.HOURS) // Delay for idle mode
-                .addTag("second") // Tag for identifying the work
-                .build()
-            val notificationWorkThird = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
-                .setInitialDelay(1, TimeUnit.DAYS) // Delay for idle mode
-                .addTag("third") // Tag for identifying the work
-                .build()
+        if (App.preferences.pushSetup < 2) {
+            val manufacturer = Build.MANUFACTURER
 
-            WorkManager.getInstance(this).enqueue(notificationWorkFirst)
-            WorkManager.getInstance(this).enqueue(notificationWorkSecond)
-            WorkManager.getInstance(this).enqueue(notificationWorkThird)
-            App.preferences.pushSetup = true
+            when (manufacturer.lowercase()) {
+                "xiaomi", "oppo", "vivo" -> {
+                    App.preferences.firstPushTime = System.currentTimeMillis() + 60 * 1000 * 7
+                    App.preferences.secondPushTime = System.currentTimeMillis() + 60 * 1000 * 60 * 4
+                    App.preferences.thirdPushTime = System.currentTimeMillis() + 60 * 1000 * 60 * 24
+
+                    val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                    alarmManager.setRepeating(
+                        AlarmManager.RTC_WAKEUP,
+                        System.currentTimeMillis(),
+                        7 * 60 * 1000,
+                        pendingIntent
+                    )
+                }
+
+                else -> {
+                    val notificationWorkFirst = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
+                        .setInitialDelay(7, TimeUnit.MINUTES) // Delay for idle mode
+                        .addTag("first") // Tag for identifying the work
+                        .build()
+                    val notificationWorkSecond = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
+                        .setInitialDelay(4, TimeUnit.HOURS) // Delay for idle mode
+                        .addTag("second") // Tag for identifying the work
+                        .build()
+                    val notificationWorkThird = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
+                        .setInitialDelay(1, TimeUnit.DAYS) // Delay for idle mode
+                        .addTag("third") // Tag for identifying the work
+                        .build()
+
+                    WorkManager.getInstance(this).enqueue(notificationWorkFirst)
+                    WorkManager.getInstance(this).enqueue(notificationWorkSecond)
+                    WorkManager.getInstance(this).enqueue(notificationWorkThird)
+                }
+            }
+
+            App.preferences.pushSetup += 1
         }
 
 
@@ -688,7 +704,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     override fun onPause() {
         navigationHolder.removeNavigator()
-        YandexMetrica.pauseSession(this)
 
         (this.application as App).startActivityTransitionTimer()
         super.onPause()
@@ -742,10 +757,8 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             intent.extras?.let {
                 val section = intent.extras?.getString("section")
                 val title = intent.extras?.getString("title")
-                YandexMetrica.reportEvent("Push Clicked: $title")
 
                 if (section == "trauma") {
-                    YandexMetrica.reportEvent("OpenedAfterTraumaGenerated")
                 } else if (section == "open_offer") {
                     Amplitude.getInstance().logEvent("push_clicked")
                     forceDescriptionScreen = true
@@ -766,7 +779,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.pushPopup.popupPushContainer.setOnClickListener {
             Amplitude.getInstance().logEvent("bodygraph_unlock_clicked")
             router.navigateTo(Screens.paywallScreen(source = "popupPush"))
-            android.os.Handler().postDelayed ({
+            android.os.Handler().postDelayed({
                 binding.pushPopup.isVisible = false
                 forceDescriptionScreen = false
             }, 500)
@@ -775,7 +788,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.pushPopup.setOnClickListener {
             Amplitude.getInstance().logEvent("bodygraph_unlock_clicked")
             router.navigateTo(Screens.paywallScreen(source = "popupPush"))
-            android.os.Handler().postDelayed ({
+            android.os.Handler().postDelayed({
                 binding.pushPopup.isVisible = false
                 forceDescriptionScreen = false
             }, 500)
@@ -784,7 +797,7 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
         binding.pushPopup.popupPushBtn.setOnClickListener {
             Amplitude.getInstance().logEvent("bodygraph_unlock_clicked")
             router.navigateTo(Screens.paywallScreen(source = "popupPush"))
-            android.os.Handler().postDelayed ({
+            android.os.Handler().postDelayed({
                 binding.pushPopup.isVisible = false
                 forceDescriptionScreen = false
             }, 500)
@@ -867,7 +880,6 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
 
     override fun onResume() {
         super.onResume()
-        YandexMetrica.resumeSession(this)
 
         val myApp: App = this.application as App
         if (myApp.wasInBackground) {
@@ -898,13 +910,11 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                     ) != PackageManager.PERMISSION_GRANTED
                     || grantResults.contains(0)
                 ) {
-                    YandexMetrica.reportEvent("userAllowedGps")
                     Amplitude.getInstance().logEvent("userAllowedGeo")
                     setupLocationListener()
                 }
 
 //                } else {
-//                    YandexMetrica.reportEvent("userDisabledGps")
 //                    Amplitude.getInstance().logEvent("userDisabledGeo");
 //                    // permission denied, boo! Disable the
 //                    // functionality that depends on this permission.
@@ -1132,11 +1142,13 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
             }
         }
 
+
         Adapty.getPaywall("new_paywalls") { result ->
             when (result) {
                 is AdaptyResult.Success -> {
                     App.adaptySplitPwName = result.value.name
                     App.adaptyPaywallModel = result.value
+                    App.adaptyOffers = result.value.remoteConfig
 
                     Adapty.getPaywallProducts(result.value) { products ->
                         when (products) {
@@ -1149,17 +1161,17 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>(
                 }
             }
         }
-        Adapty.getPaywall("pw_test") { result ->
+        Adapty.getPaywall("general") { result ->
             when (result) {
                 is AdaptyResult.Success -> {
-                    App.adaptySplitPwName = result.value.name
-                    App.adaptyPaywallModel = result.value
+//                    App.adaptySplitPwName = result.value.name
+//                    App.adaptyPaywallModel = result.value
 
                     Adapty.getPaywallProducts(result.value) { products ->
                         when (products) {
                             is AdaptyResult.Success -> {
-                                App.adaptyProducts =
-                                    App.adaptyProducts?.plus(products.value)
+                                App.adaptyProducts = products.value
+//                                    App.adaptyProducts?.plus(products.value)
                                 Log.d("keke", "keke")
                             }
                         }

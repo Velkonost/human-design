@@ -289,7 +289,7 @@ class BaseViewModel @Inject constructor(
         val currentWeek = System.currentTimeMillis() / 604800000
 
         if (currentUser.forecastWeekMills != currentWeek) {
-            currentUser.forecastNumber ++
+            currentUser.forecastNumber += 1//(1..7).random()
             currentUser.forecastWeekMills = currentWeek
 
             updateUser()
@@ -319,7 +319,7 @@ class BaseViewModel @Inject constructor(
                     }
                 }
 
-                val position = currentUser.forecastNumber % it.size
+                val position = currentUser.forecastNumber % it[currentUserProfileId.toString()]!!.size
                 val forecast = it[currentUserProfileId.toString()]!![position]
                 currentForecast.postValue(forecast)
 
@@ -509,7 +509,7 @@ class BaseViewModel @Inject constructor(
                         date = date,
                         time = time,
                         affirmationNumber = 0,
-                        forecastNumber = (0..10).random(),
+                        forecastNumber = (0..17).random(),
                         affirmationDayMills = System.currentTimeMillis() / 86400000,
                         forecastWeekMills = System.currentTimeMillis() / 604800000,
                         lat = lat,
@@ -609,6 +609,9 @@ class BaseViewModel @Inject constructor(
         GlobalScope.launch {
             val userToDelete = App.database.userDao().findById(userIdToDelete)
 
+            val usersCount = App.database.userDao().getAll().count()
+            if (usersCount == 1) return@launch
+
             if (userToDelete != null) {
 
                 App.database.userDao().delete(userToDelete)
@@ -624,7 +627,9 @@ class BaseViewModel @Inject constructor(
                 }
             }
 
-            onComplete?.invoke()
+            withContext(Dispatchers.Main) {
+                onComplete?.invoke()
+            }
         }
     }
 

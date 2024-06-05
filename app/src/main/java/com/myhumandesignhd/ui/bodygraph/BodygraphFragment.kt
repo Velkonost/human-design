@@ -43,7 +43,6 @@ import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
-import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.item_transit_advice.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -293,7 +292,6 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
 //
 //        binding.nextYearBottomSheet.closeSheetBtn.setOnClickListener {
 //            nextYearSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//            YandexMetrica.reportEvent("tab1_forecast_close_clicked")
 //            Amplitude.getInstance().logEvent("tab1_forecast_close_clicked")
 //        }
 //
@@ -631,8 +629,6 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     fun onBodygraphCenterClickEvent(e: BodygraphCenterClickEvent) {
         if (!isAdded) return
 
-        YandexMetrica.reportEvent("UserClickedBodygraphCenter")
-
         val view = View(requireContext())
         view.layoutParams = LinearLayout.LayoutParams(
             1,
@@ -686,7 +682,6 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
     inner class Handler {
 
         fun onAddUserClicked(v: View) {
-            YandexMetrica.reportEvent("Tab1AddUserTapped")
             Amplitude.getInstance().logEvent("tab1TappedShowUsers")
 
             router.navigateTo(
@@ -696,14 +691,12 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
         }
 
         fun onSettingsClicked(v: View) {
-            YandexMetrica.reportEvent("Tab1SettingsTapped")
             Amplitude.getInstance().logEvent("tab1TappedSettings")
 
             router.navigateTo(Screens.settingsScreen())
         }
 
         fun onNextYearClicked(v: View) {
-            YandexMetrica.reportEvent("tab1_forecast_click")
             Amplitude.getInstance().logEvent("tab1_forecast_click")
 
             if (!App.preferences.isPremiun) {
@@ -714,7 +707,6 @@ class BodygraphFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphBind
                 App.preferences.isNextYearShown = true
 
                 nextYearSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                YandexMetrica.reportEvent("tab1_forecast_shown")
                 Amplitude.getInstance().logEvent("tab1_forecast_shown")
             }
         }

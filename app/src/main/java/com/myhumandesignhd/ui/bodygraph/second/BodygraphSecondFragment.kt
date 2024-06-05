@@ -22,7 +22,6 @@ import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.bodygraph.BodygraphViewModel
 import com.myhumandesignhd.ui.bodygraph.second.adapter.ColumnsAdapter
 import com.myhumandesignhd.vm.BaseViewModel
-import com.yandex.metrica.YandexMetrica
 import org.greenrobot.eventbus.Subscribe
 
 class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygraphSecondBinding>(
@@ -214,14 +213,16 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
                 )
             )
 
-            columnsAdapter.createList(
-                activeCenters = it.activeCentres,
-                inactiveCenters = it.inactiveCentres,
-                gates = gates,
-                channels = channels,
-                aboutItems = aboutItemsList,
-                currentUser = baseViewModel.currentUser
-            )
+            runCatching {
+                columnsAdapter.createList(
+                    activeCenters = it.activeCentres,
+                    inactiveCenters = it.inactiveCentres,
+                    gates = gates,
+                    channels = channels,
+                    aboutItems = aboutItemsList,
+                    currentUser = baseViewModel.currentUser
+                )
+            }
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -244,7 +245,6 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     }
 
     private fun selectAbout() {
-        YandexMetrica.reportEvent("Tab2AboutTapped")
         Amplitude.getInstance().logEvent("tab2TappedAbout")
 
         binding.aboutTitle.setTextColor(ContextCompat.getColor(
@@ -291,7 +291,6 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     private fun selectCenters() {
         if (!App.preferences.isPremiun) return
 
-        YandexMetrica.reportEvent("Tab2CentersTapped")
         Amplitude.getInstance().logEvent("tab2TappedCenters")
 
         binding.centersTitle.setTextColor(ContextCompat.getColor(
@@ -332,7 +331,6 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     private fun selectGates() {
         if (!App.preferences.isPremiun) return
 
-        YandexMetrica.reportEvent("Tab2GatesTapped")
         Amplitude.getInstance().logEvent("tab2TappedGates")
 
         binding.gatesTitle.setTextColor(ContextCompat.getColor(
@@ -373,7 +371,6 @@ class BodygraphSecondFragment : BaseFragment<BodygraphViewModel, FragmentBodygra
     private fun selectChannels() {
         if (!App.preferences.isPremiun) return
 
-        YandexMetrica.reportEvent("Tab2ChannelsTapped")
         Amplitude.getInstance().logEvent("tab2TappedChannels")
 
         binding.channelsTitle.setTextColor(ContextCompat.getColor(

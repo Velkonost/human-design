@@ -38,7 +38,6 @@ import com.myhumandesignhd.model.User
 import com.myhumandesignhd.push.NotificationReceiver
 import com.myhumandesignhd.util.ext.setTextAnimation
 import com.myhumandesignhd.util.ext.setTextAnimation07
-import com.yandex.metrica.YandexMetrica
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
 
@@ -312,7 +311,6 @@ class AboutAdapter(
                             generateProgressText.isVisible = false
 
                             generateBtn.setOnClickListener {
-                                YandexMetrica.reportEvent("Tab2AboutTraumaGenerateTapped")
                                 Amplitude.getInstance().logEvent("tab2AboutTraumaGenerateTapped")
 
                                 val injuryGenerationDuration = (12..24).random() * 3600000L
@@ -469,35 +467,27 @@ class AboutAdapter(
 
                 when (items[adapterPosition].type) {
                     AboutType.TYPE -> {
-                        YandexMetrica.reportEvent("Tab2AboutTypeTapped")
                         Amplitude.getInstance().logEvent("tab2AboutTypeTapped")
                     }
                     AboutType.PROFILE -> {
-                        YandexMetrica.reportEvent("Tab2AboutProfileTapped")
                         Amplitude.getInstance().logEvent("tab2AboutProfileTapped")
                     }
                     AboutType.AUTHORITY -> {
-                        YandexMetrica.reportEvent("Tab2AboutAuthorityTapped")
                         Amplitude.getInstance().logEvent("tab2AboutAuthorityTapped")
                     }
                     AboutType.STRATEGY -> {
-                        YandexMetrica.reportEvent("Tab2AboutStrategyTapped")
                         Amplitude.getInstance().logEvent("tab2AboutStrategyTapped")
                     }
                     AboutType.BUSINESS -> {
-                        YandexMetrica.reportEvent("Tab2AboutBusinessTapped")
                         Amplitude.getInstance().logEvent("tab2AboutBusinessTapped")
                     }
                     AboutType.INJURY -> {
-                        YandexMetrica.reportEvent("Tab2AboutTraumaTapped")
                         Amplitude.getInstance().logEvent("tab2AboutTraumaTapped")
                     }
                     AboutType.NUTRITION -> {
-                        YandexMetrica.reportEvent("Tab2AboutNutrition")
                         Amplitude.getInstance().logEvent("tab2AboutNutritionTapped")
                     }
                     AboutType.ENVIRONMENT -> {
-                        YandexMetrica.reportEvent("Tab2AboutEnvironment")
                         Amplitude.getInstance().logEvent("tab2AboutEnvironmentTapped")
                     }
                 }

@@ -14,7 +14,6 @@ import com.myhumandesignhd.ui.compatibility.CompatibilityViewModel
 import com.myhumandesignhd.ui.compatibility.child.adapter.CompatibilityChildAdapter
 import com.myhumandesignhd.util.ext.setTextAnimation
 import com.myhumandesignhd.vm.BaseViewModel
-import com.yandex.metrica.YandexMetrica
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -172,7 +171,6 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
     }
 
     private fun selectParent() {
-        YandexMetrica.reportEvent("Tab4ChildrenParent")
         Amplitude.getInstance().logEvent("tab4TappedFamilyParent")
 
         binding.parentTitle.setTextColor(
@@ -198,7 +196,6 @@ class CompatibilityChildFragment : BaseFragment<CompatibilityViewModel, Fragment
     }
 
     private fun selectChild() {
-        YandexMetrica.reportEvent("Tab4ChildrenChild")
         Amplitude.getInstance().logEvent("tab4TappedFamilyChild")
 
         binding.childTitle.setTextColor(

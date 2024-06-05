@@ -111,6 +111,7 @@
                 <TextView
                     android:id="@+id/popupPushTrial"
                     android:layout_width="0dp"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="32dp"
                     android:layout_marginBottom="20dp"

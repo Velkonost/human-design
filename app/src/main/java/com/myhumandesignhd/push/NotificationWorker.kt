@@ -3,6 +3,7 @@ package com.myhumandesignhd.push
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 
 class NotificationWorker(val context: Context, val params: WorkerParameters) :
@@ -15,17 +16,17 @@ class NotificationWorker(val context: Context, val params: WorkerParameters) :
             tags.contains("first") -> resources.getString(R.string.first_push_title)
             tags.contains("second") -> resources.getString(R.string.second_push_title)
             tags.contains("third") -> resources.getString(R.string.third_push_title)
-            else -> null
+            else -> resources.getString(R.string.first_push_title)
         }
 
         val text = when {
             tags.contains("first") -> resources.getString(R.string.first_push_text)
             tags.contains("second") -> resources.getString(R.string.second_push_text)
             tags.contains("third") -> resources.getString(R.string.third_push_text)
-            else -> null
+            else -> resources.getString(R.string.first_push_text)
         }
 
-        if (title != null) {
+        if (!App.preferences.isPremiun) {
             notificationHelper.createNotification(
                 title = title,
                 message = text,

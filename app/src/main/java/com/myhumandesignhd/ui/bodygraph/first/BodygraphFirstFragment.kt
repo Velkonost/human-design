@@ -27,7 +27,6 @@ import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
-import com.yandex.metrica.YandexMetrica
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -356,7 +355,6 @@ class BodygraphFirstFragment : BaseFragment<BodygraphViewModel, FragmentBodygrap
 
     @Subscribe
     fun onBodygraphCenterClickEvent(e: BodygraphCenterClickEvent) {
-        YandexMetrica.reportEvent("UserClickedBodygraphCenter")
 
         val view = View(
             requireContext()

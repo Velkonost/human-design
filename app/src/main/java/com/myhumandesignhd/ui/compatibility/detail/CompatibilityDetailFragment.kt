@@ -16,7 +16,6 @@ import com.myhumandesignhd.ui.compatibility.CompatibilityViewModel
 import com.myhumandesignhd.ui.compatibility.detail.adapter.CompatibilityDetailsAdapter
 import com.myhumandesignhd.util.ext.setTextAnimation
 import com.myhumandesignhd.vm.BaseViewModel
-import com.yandex.metrica.YandexMetrica
 import java.util.Locale
 
 class CompatibilityDetailFragment :
@@ -124,7 +123,6 @@ class CompatibilityDetailFragment :
     }
 
     private fun selectAbout() {
-        YandexMetrica.reportEvent("Tab4AdultsAbout")
         Amplitude.getInstance().logEvent("tab4PartnerGeneral")
 
         App.preferences.isCompatibilityDetailChannelsAddedNow = false
@@ -163,7 +161,6 @@ class CompatibilityDetailFragment :
     }
 
     private fun selectProfiles() {
-        YandexMetrica.reportEvent("Tab4AdultsProfile")
         Amplitude.getInstance().logEvent("tab4PartnerProfile")
 
         App.preferences.isCompatibilityDetailChannelsAddedNow = false
@@ -201,7 +198,6 @@ class CompatibilityDetailFragment :
     }
 
     private fun selectChannels() {
-        YandexMetrica.reportEvent("Tab4AdultsChannels")
         Amplitude.getInstance().logEvent("tab4PartnerChannels")
 
         App.preferences.isCompatibilityDetailChannelsAddedNow = true

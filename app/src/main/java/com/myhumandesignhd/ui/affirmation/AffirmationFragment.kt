@@ -26,7 +26,6 @@ import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
-import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.item_affirmation.view.affirmationCard
 import kotlinx.android.synthetic.main.item_affirmation.view.affirmationIcon
 import kotlinx.android.synthetic.main.item_affirmation.view.affirmationNextText
@@ -130,7 +129,6 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
     }
 
     private fun selectAffirmations() {
-        YandexMetrica.reportEvent("Tap5AffirmationsTapped")
         Amplitude.getInstance().logEvent("tab5TappedAffirmations")
 
         binding.affirmationTitle.setTextColor(ContextCompat.getColor(
@@ -166,7 +164,6 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
     }
 
     private fun selectNextYear() {
-        YandexMetrica.reportEvent("tab5_2024_clicked")
         Amplitude.getInstance().logEvent("tab5_2024_clicked")
 
         binding.nextYearTitle.setTextColor(ContextCompat.getColor(
@@ -202,7 +199,6 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
     }
 
     private fun selectForecasts() {
-        YandexMetrica.reportEvent("Tap5ForecastsTapped")
         Amplitude.getInstance().logEvent("tab5TappedForecasts")
 
         binding.forecastTitle.setTextColor(ContextCompat.getColor(
@@ -352,7 +348,6 @@ class AffirmationFragment : BaseFragment<AffirmationViewModel, FragmentAffirmati
 
                     view.shareBtn.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.affirmation_share))
                     view.shareBtn.setOnClickListener {
-                        YandexMetrica.reportEvent("Tab5TappedShareTapped")
                         Amplitude.getInstance().logEvent("tab5TappedShare")
 
 //                        view.shareBtn.isVisible = false

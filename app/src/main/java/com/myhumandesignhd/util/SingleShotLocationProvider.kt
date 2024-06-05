@@ -3,17 +3,14 @@ package com.myhumandesignhd.util
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Bundle
-
 import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
-
 import android.location.LocationManager
+import android.os.Bundle
 import androidx.core.app.ActivityCompat
-import com.yandex.metrica.impl.ob.fa
-import java.lang.Exception
-import java.util.*
+import java.util.Timer
+import java.util.TimerTask
 
 
 object SingleShotLocationProvider {
@@ -41,8 +38,8 @@ object SingleShotLocationProvider {
                 override fun onLocationChanged(location: Location) {
                     callback.onNewLocationAvailable(
                         GPSCoordinates(
-                            location.getLatitude(),
-                            location.getLongitude()
+                            location.latitude,
+                            location.longitude
                         )
                     )
                 }
@@ -60,8 +57,8 @@ object SingleShotLocationProvider {
                     override fun onLocationChanged(location: Location) {
                         callback.onNewLocationAvailable(
                             GPSCoordinates(
-                                location.getLatitude(),
-                                location.getLongitude()
+                                location.latitude,
+                                location.longitude
                             )
                         )
                     }

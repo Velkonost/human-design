@@ -190,10 +190,10 @@ class Preferences(context: Context) {
         set(value) = sharedPreferences.edit().putString("user_name_from_start", value).apply()
         get() = sharedPreferences.getString("user_name_from_start", null)
 
-    var pushSetup: Boolean
-        set(value) = sharedPreferences.edit().putBoolean("push_setup", value)
+    var pushSetup: Int
+        set(value) = sharedPreferences.edit().putInt("push_setup_int", value)
             .apply()
-        get() = sharedPreferences.getBoolean("push_setup", false)
+        get() = sharedPreferences.getInt("push_setup_int", 0)
 
     var firstPushTime: Long
         set(value) = sharedPreferences.edit().putLong("first_push_time", value).apply()

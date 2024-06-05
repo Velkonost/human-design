@@ -50,7 +50,6 @@ import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
-import com.yandex.metrica.YandexMetrica
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.single_day_and_time_picker.view.minutesPicker
 import kotlinx.android.synthetic.main.view_place_select.view.icArrowPlace
@@ -489,19 +488,16 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         when {
             isChild -> {
-                YandexMetrica.reportEvent("TabAddChildren1Screen")
 
                 binding.raveTitle.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_child_rave_title))
                 binding.raveDesc.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_child_rave_desc))
             }
             fromCompatibility -> {
-                YandexMetrica.reportEvent("TabAddAdults1Screen")
 
                 binding.raveTitle.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_title))
                 binding.raveDesc.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.add_partner_rave_desc))
             }
             else -> {
-                YandexMetrica.reportEvent("Tab1AddUserTappedStart2")
 
                 binding.raveTitle.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_rave_title))
                 binding.raveDesc.text = Html.fromHtml(App.resourcesProvider.getStringLocale(R.string.diagram_rave_desc))
@@ -531,19 +527,16 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         when {
             isChild -> {
-                YandexMetrica.reportEvent("TabAddChildrenNameScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_name_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_name_desc))
             }
             fromCompatibility -> {
-                YandexMetrica.reportEvent("TabAddAdultsNameScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_name_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_name_desc))
             }
             else -> {
-                YandexMetrica.reportEvent("Tab1AddUserTappedStartName")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_name_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.diagram_name_desc))
@@ -576,19 +569,16 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         when {
             isChild -> {
-                YandexMetrica.reportEvent("TabAddChildrenDateScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_date_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_date_birth_desc))
             }
             fromCompatibility -> {
-                YandexMetrica.reportEvent("TabAddAdultsDateScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_date_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_date_birth_desc))
             }
             else -> {
-                YandexMetrica.reportEvent("Tab1AddUserTappedStartDate")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_date_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.diagram_date_desc))
@@ -608,19 +598,16 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         when {
             isChild -> {
-                YandexMetrica.reportEvent("TabAddChildrenTimeScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_time_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_time_birth_desc))
             }
             fromCompatibility -> {
-                YandexMetrica.reportEvent("TabAddAdultsTimeScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_time_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_time_birth_desc))
             }
             else -> {
-                YandexMetrica.reportEvent("Tab1AddUserTappedStartTime")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_time_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.diagram_time_desc))
@@ -661,20 +648,16 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         when {
             isChild -> {
-                YandexMetrica.reportEvent("TabAddChildrenPlaceScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_place_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_child_place_birth_desc))
             }
             fromCompatibility -> {
-                YandexMetrica.reportEvent("TabAddAdultsPlaceScreen")
 
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_place_birth_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.add_partner_place_birth_desc))
             }
             else -> {
-                YandexMetrica.reportEvent("Tab1AddUserTappedStartPlace")
-
                 binding.nameTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_place_title))
                 binding.nameDesc.setTextAnimation07(App.resourcesProvider.getStringLocale(R.string.diagram_place_desc))
             }
@@ -713,16 +696,13 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
 
         when {
             isChild -> {
-                YandexMetrica.reportEvent("TabAddChildrenBodygrapsScreenShowen")
 //                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_child_bodygraph_ready_title))
 
             }
             fromCompatibility -> {
-                YandexMetrica.reportEvent("TabAddAdultsBodygrapsScreenShowen")
 //                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.add_partner_bodygraph_ready_title))
             }
             else -> {
-                YandexMetrica.reportEvent("Tab1AddUserStartBodygraphShowen")
 //                binding.bodygraphReadyTitle.setTextAnimation(App.resourcesProvider.getStringLocale(R.string.diagram_bodygraph_title))
 
             }
@@ -1078,8 +1058,6 @@ class AddUserFragment : BaseFragment<StartViewModel, FragmentAddUserBinding>(
     @Subscribe
     fun onBodygraphCenterClickEvent(e: BodygraphCenterClickEvent) {
         if (!isAdded) return
-
-        YandexMetrica.reportEvent("UserClickedBodygraphCenter")
 
         val view = View(
             requireContext()

@@ -13,6 +13,7 @@ import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.event.DeleteDiagramItemEvent
 import com.myhumandesignhd.event.DiagramAddUserClickEvent
+import com.myhumandesignhd.event.DiagramSetSwipingModelEvent
 import com.myhumandesignhd.event.UpdateCurrentUserEvent
 import com.myhumandesignhd.model.User
 import com.zerobranch.layout.SwipeLayout
@@ -23,6 +24,8 @@ import java.util.*
 
 class DiagramsAdapter : EpoxyAdapter() {
 
+    private var swipingModelId: Long? = null
+
     fun createList(
         users: List<User>
     ) {
@@ -31,7 +34,11 @@ class DiagramsAdapter : EpoxyAdapter() {
             addModel(
                 DiagramModel(
                     it,
-                    isSwipeEnabled = users.size > 1
+                    isSwipeEnabled =
+
+                    if (swipingModelId != null) {
+                        it.id == swipingModelId
+                    } else users.size > 1
                 )
             )
         }
@@ -83,6 +90,7 @@ class DiagramsAdapter : EpoxyAdapter() {
             if (
                 model is DiagramModel
                 && model.model.id == id
+                && models.size != 1
             ) {
                 hideModel(model)
 
@@ -96,6 +104,14 @@ class DiagramsAdapter : EpoxyAdapter() {
                 }
 
                 return@forEach
+            } else {
+                if (
+                    model is DiagramModel
+                    && model.model.id == id
+                ) {
+                    model.isSwipeEnabled = false
+                    notifyModelChanged(model)
+                }
             }
 
         }
@@ -206,13 +222,14 @@ class DiagramModel(
             swipeContainer.isEnabledSwipe = isSwipeEnabled
             swipeContainer.setOnActionsListener(object : SwipeLayout.SwipeActionsListener {
                 override fun onOpen(direction: Int, isContinuous: Boolean) {
+                    EventBus.getDefault().post(DiagramSetSwipingModelEvent(model.id, true))
                     if (isContinuous) {
                         EventBus.getDefault().post(DeleteDiagramItemEvent(model.id))
                     }
                 }
 
                 override fun onClose() {
-
+                    EventBus.getDefault().post(DiagramSetSwipingModelEvent(model.id, false))
                 }
             })
         }

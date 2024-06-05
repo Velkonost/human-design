@@ -18,6 +18,7 @@ import android.text.method.ScrollingMovementMethod
 import android.text.style.ClickableSpan
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -29,6 +30,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.amplitude.api.Amplitude
 import com.amplitude.api.Identify
@@ -56,7 +58,6 @@ import com.myhumandesignhd.util.ext.scaleXY
 import com.myhumandesignhd.util.ext.setTextAnimation
 import com.myhumandesignhd.util.ext.setTextAnimation07
 import com.myhumandesignhd.vm.BaseViewModel
-import com.yandex.metrica.YandexMetrica
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.container_start_name.view.date
 import kotlinx.android.synthetic.main.container_start_name.view.nameContainer
@@ -443,6 +444,20 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         binding.placesView.placeRecycler.itemAnimator = null
         binding.placesView.placeRecycler.adapter = placesAdapter
 
+        binding.placesView.placeRecycler.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                return false
+            }
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+                requireActivity().currentFocus?.clearFocus()
+            }
+
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+            }
+
+        })
+
         binding.placesView.icArrowPlace.setOnClickListener {
             Keyboard.hide(requireActivity())
             binding.placesView.isVisible = false
@@ -502,8 +517,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
             setupPlacesView()
         }
 
-        YandexMetrica.reportEvent("StartScreenNameShowen")
-
         binding.backBtn.isVisible = true
 
         currentStartPage = StartPage.NAME
@@ -545,8 +558,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     }
 
     private fun setupDateBirth() {
-        YandexMetrica.reportEvent("StartScreenDateShowen")
-
         currentStartPage = StartPage.DATE_BIRTH
         App.preferences.lastLoginPageId = StartPage.DATE_BIRTH.pageId
 
@@ -583,8 +594,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     }
 
     private fun setupTimeBirth() {
-        YandexMetrica.reportEvent("StartScreenTimeShowen")
-
         currentStartPage = StartPage.TIME_BIRTH
         App.preferences.lastLoginPageId = StartPage.TIME_BIRTH.pageId
 
@@ -630,7 +639,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupPlaceBirth() {
         EventBus.getDefault().post(SetupLocationEvent())
-        YandexMetrica.reportEvent("StartScreenPlaceShowen")
 
         currentStartPage = StartPage.PLACE_BIRTH
         App.preferences.lastLoginPageId = StartPage.PLACE_BIRTH.pageId
@@ -667,7 +675,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private var isPaywallOpened = false
     private fun setupBodygraph() {
-        YandexMetrica.reportEvent("StartScreenBodygraphShowen")
 
         currentStartPage = StartPage.BODYGRAPH
         App.preferences.lastLoginPageId = StartPage.BODYGRAPH.pageId
@@ -869,7 +876,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
     }
 
     private fun setupSplash01() {
-        YandexMetrica.reportEvent("Onboarding1Showen")
         Amplitude.getInstance().logEvent("welcome1ScreenShowen")
 
         binding.indicatorsContainer.alpha1(500)
@@ -895,7 +901,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
         selectedVariant = -1
         unselectAllVariants()
 
-        YandexMetrica.reportEvent("Onboarding2Showen")
         Amplitude.getInstance().logEvent("welcome2ScreenShowen")
 
         unselectAllIndicators()
@@ -1015,7 +1020,6 @@ class StartFragment : BaseFragment<StartViewModel, FragmentStartBinding>(
 
     private fun setupSplash03() {
         binding.variantsBlock.isVisible = false
-        YandexMetrica.reportEvent("Onboarding2Showen")
         Amplitude.getInstance().logEvent("welcome2ScreenShowen")
 
         unselectAllIndicators()

@@ -44,6 +44,8 @@ import com.myhumandesignhd.event.UpdateNavMenuVisibleStateEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.loader.LoaderViewModel
+import com.myhumandesignhd.ui.paywall.PaywallFragment.OFFERS.Companion.getEnding
+import com.myhumandesignhd.ui.paywall.PaywallFragment.OFFERS.Companion.getPerWeek
 import com.myhumandesignhd.ui.paywall.adapter.Pw3ReviewsAdapter
 import com.myhumandesignhd.util.ext.scaleXY
 import com.myhumandesignhd.vm.BaseViewModel
@@ -209,7 +211,6 @@ import kotlinx.android.synthetic.main.view_paywall_push.offer1Push
 import kotlinx.android.synthetic.main.view_paywall_push.offer1TextPush
 import kotlinx.android.synthetic.main.view_paywall_push.offer1TitlePush
 import kotlinx.android.synthetic.main.view_paywall_push.offer2DurationPush
-import kotlinx.android.synthetic.main.view_paywall_push.offer2MainBlockPush
 import kotlinx.android.synthetic.main.view_paywall_push.offer2PricePush
 import kotlinx.android.synthetic.main.view_paywall_push.offer2Push
 import kotlinx.android.synthetic.main.view_paywall_push.offer2TextPush
@@ -364,33 +365,167 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
         App.preferences.lastPaywall += 1
 
+        if (source == "popupPush") {
+            isTrialEnabled = false
+            setupPushPaywall()
+        } else {
+            when (App.adaptySplitPwName) {
+                "openfull_horizontal" -> setupFirstPaywall()
+                "start_vertical" -> setupSecond2Paywall()
+                "reviews_slider_vertical" -> setupThirdPaywall()
+                "second_paywall_no_trial" -> {
+                    isTrialEnabled = false
+                    setupSecondPaywall()
+                }
 
-//        if (source == "popupPush") {
-//            setupPushPaywall()
-//        } else {
-//            when (App.adaptySplitPwName) {
-//                "openfull_horizontal" -> setupFirstPaywall()
-//                "start_vertical" -> setupSecond2Paywall()
-//                "reviews_slider_vertical" -> setupThirdPaywall()
-//                "second_paywall_no_trial" -> {
-//                    isTrialEnabled = false
-//                    setupSecondPaywall()
-//                }
-//
-//                else -> setupSecondPaywall()
-//            }
-//        }
-
-        setupPushPaywall()
+                else -> setupSecondPaywall()
+            }
+        }
+//        setupPushPaywall()
     }
 
-    private var isTrialEnabled = true
+    private var isTrialEnabled = false
+
+    enum class OFFERS(
+        val title: String,
+        val priceEn: String, val priceRu: String,
+        val offerType: OFFER_TYPE,
+        val endingRu: String,
+        val endingEn: String,
+        val perWeekEn: String,
+        val perWeekRu: String
+    ) {
+        WEEK_899_NO_TRIAL(
+            "hd_week_899_no_trial","$8.99", "₽820", OFFER_TYPE.WEEK,
+            endingEn = "The subscription automatically renews at \$8.99 per week unless canceled at least 24 hours before the end of the paid period. You can manage or cancel your membership anytime in Google Play Subscriptions.",
+            endingRu = "Подписка автоматически продлевается по цене ₽820 в неделю, если не будет отменена хотя бы за 24 часа до окончания оплаченного периода. Вы можете изменить или отменить свою подписку в любое время в подписках Google Play.",
+            perWeekEn = "$8.99 per week",
+            perWeekRu = "₽820 в неделю"
+        ),
+        WEEK_899(
+            "hd_week_899","$8.99", "₽820", OFFER_TYPE.WEEK,
+            endingEn = "The 3 days trial version will automatically convert to a paid subscription at \$8.99 per week unless canceled at least 24 hours before the end of the trial period. You can manage or cancel your membership anytime in Google Play Subscriptions.",
+            endingRu = "Пробная версия на 3 дня, если не будет отменена хотя бы за 24 часа до окончания пробного периода, автоматически переходит в платную подписку за ₽820 в неделю. Вы можете изменить или отменить подписку в любое время в подписках Google Play.",
+            perWeekEn = "3 days free, then $8.99 per week",
+            perWeekRu = "3 дня бесплатно, затем ₽820 в неделю"
+        ),
+        WEEK_549_NO_TRIAL(
+            "hd_week_599_no_trial","$5.49", "₽500", OFFER_TYPE.WEEK,
+            endingEn = "The subscription automatically renews at \$5.49 per week unless canceled at least 24 hours before the end of the paid period. You can manage or cancel your membership anytime in Google Play Subscriptions.",
+            endingRu = "Подписка автоматически продлевается по цене ₽500 в неделю, если не будет отменена хотя бы за 24 часа до окончания оплаченного периода. Вы можете изменить или отменить свою подписку в любое время в подписках Google Play.",
+            perWeekEn = "$5.49 per week",
+            perWeekRu = "₽500 в неделю"
+        ),
+        YEAR_NO_TRIAL(
+            "hd_year_no_trial","$39.99", "₽3660", OFFER_TYPE.YEAR,
+            endingEn = "The subscription automatically renews at \$39.99 per year unless canceled at least 24 hours before the end of the paid period. You can manage or cancel your membership anytime in Google Play Subscriptions.",
+            endingRu = "Подписка автоматически продлевается по цене ₽3660 в год, если не будет отменена хотя бы за 24 часа до завершения оплаченного периода. Вы можете изменить или отменить свою подписку в любое время в подписках Google Play.",
+            perWeekEn = "$0.8 per week",
+            perWeekRu = "₽76 в неделю"
+        ),
+        WEEK(
+            "hd_week_sub","$7.49", "₽399", OFFER_TYPE.WEEK,
+            endingEn = "The subscription automatically renews at \$7.49 per week unless canceled at least 24 hours before the end of the paid period. You can manage or cancel your membership anytime in Google Play Subscriptions.",
+            endingRu = "Подписка автоматически продлевается по цене ₽399 в неделю, если не будет отменена хотя бы за 24 часа до окончания оплаченного периода. Вы можете изменить или отменить свою подписку в любое время в подписках Google Play.",
+            perWeekEn = "3 days free, then $7.49 per week",
+            perWeekRu = "3 дня бесплатно, затем ₽399 в неделю"
+        ),
+        WEEK_NO_TRIAL(
+            "hd_week_sub_no_trial","$7.49", "₽399", OFFER_TYPE.WEEK,
+            endingEn = "The subscription automatically renews at \$7.49 per week unless canceled at least 24 hours before the end of the paid period. You can manage or cancel your membership anytime in Google Play Subscriptions.",
+            endingRu = "Подписка автоматически продлевается по цене ₽399 в неделю, если не будет отменена хотя бы за 24 часа до окончания оплаченного периода. Вы можете изменить или отменить свою подписку в любое время в подписках Google Play.",
+            perWeekEn = "$7.49 per week",
+            perWeekRu = "₽399 в неделю"
+        ),
+        YEAR(
+            "hd_year_sub", "$49.99", "₽2699", OFFER_TYPE.YEAR,
+            endingEn = "The subscription automatically renews at \$49.99 per year unless canceled at least 24 hours before the end of the paid period. You can manage or cancel your membership anytime in Google Play Subscriptions.",
+            endingRu = "Подписка автоматически продлевается по цене ₽2699 в год, если не будет отменена хотя бы за 24 часа до завершения оплаченного периода. Вы можете изменить или отменить свою подписку в любое время в подписках Google Play.",
+            perWeekEn = "$1 per week",
+            perWeekRu = "₽56 в неделю"
+        ),
+        MONTH(
+            "hd_month_sub", "$33.99", "₽899", OFFER_TYPE.MONTH,
+            endingEn = "The subscription automatically renews at \$33.99 per month unless canceled at least 24 hours before the end of the paid period. You can manage or cancel your membership anytime in Google Play Subscriptions.",
+            endingRu = "Подписка автоматически продлевается по цене ₽899 в месяц, если не будет отменена хотя бы за 24 часа до окончания оплаченного периода. Вы можете изменить или отменить свою подписку в любое время в подписках Google Play.",
+            perWeekEn = "$8.4 per week",
+            perWeekRu = "₽224 в неделю"
+        );
+
+        companion object {
+            private fun OFFERS.getPrice(): String {
+                return if (App.preferences.locale == "ru") priceRu
+                else priceEn
+            }
+
+            fun getPriceBy(offer: String): Pair<String?, String?> {
+                val _offer = OFFERS.values().firstOrNull { it.title == offer }
+                return Pair(_offer?.getPrice(), _offer?.getDuration())
+            }
+
+            fun getPerWeek(offer: String): String? {
+                OFFERS.values().firstOrNull { it.title == offer }?.let {
+                    return if (App.preferences.locale == "ru") it.perWeekRu else it.perWeekEn
+                }
+                return null
+            }
+
+            fun OFFERS.getDuration(): String {
+                return when(this.offerType) {
+                    OFFER_TYPE.WEEK -> App.resourcesProvider.getStringLocale(R.string.paywall_1_week)
+                    OFFER_TYPE.MONTH -> App.resourcesProvider.getStringLocale(R.string.paywall_1_month)
+                    OFFER_TYPE.YEAR -> App.resourcesProvider.getStringLocale(R.string.paywall_1_year)
+                }
+            }
+
+            fun String.getEnding(): String? {
+                OFFERS.values().firstOrNull { it.title == this }?.let {
+                    return if (App.preferences.locale == "ru") it.endingRu
+                    else it.endingEn
+                }
+                return null
+            }
+        }
+    }
+
+    enum class OFFER_TYPE {
+        WEEK,
+        MONTH,
+        YEAR;
+    }
 
     private fun setupFirstPaywall() {
         selectedPaywall = PAYWALL_TYPE.PAYWALL1
 
         binding.paywall1.isVisible = true
         with(binding.paywall1) {
+
+            App.adaptyOffers?.let {
+                it["first_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer1Price.text = it }
+                            result.second?.let { offer1Duration.text = it }
+                        }
+                    }
+                }
+                it["second_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer2Price.text = it }
+                            result.second?.let { offer2Duration.text = it }
+                        }
+                    }
+                }
+                it["third_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer3Price.text = it }
+                            result.second?.let { offer3Duration.text = it }
+                        }
+                    }
+                }
+            }
 
             paywall1Title.setTextColor(
                 ContextCompat.getColor(
@@ -916,8 +1051,10 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     android.os.Handler().postDelayed({
                         bodygraphViewPush.isVisible = true
                         bodygraphViewPush.scaleXY(1.1f, 1.1f, 1500) {
-                            bodygraphViewPush.changeSpeedAnimationFactor(3f)
-                            bodygraphViewPush.changeIsAllowDrawLinesState(true)
+                            runCatching {
+                                bodygraphViewPush.changeSpeedAnimationFactor(3f)
+                                bodygraphViewPush.changeIsAllowDrawLinesState(true)
+                            }
                         }
                     }, 200)
                 }
@@ -939,6 +1076,35 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
         binding.paywall3.isVisible = true
         with(binding.paywall3) {
+
+            App.adaptyOffers?.let {
+                it["first_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer1PricePw3.text = it }
+                            result.second?.let { offer1DurationPw3.text = it }
+                        }
+                    }
+                }
+                it["second_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer2PricePw3.text = it }
+                            result.second?.let { offer2DurationPw3.text = it }
+                        }
+                    }
+                }
+                it["third_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer3PricePw3.text = it }
+                            result.second?.let { offer3DurationPw3.text = it }
+                        }
+                    }
+                }
+            }
+
+
             titlePw3.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
@@ -1177,14 +1343,15 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
     private fun launchBilling() {
         val billingPeriod =
+
             when (selectedPaywall) {
-                PAYWALL_TYPE.PAYWALL1 -> {
-                    when (selectedOffer) {
-                        1 -> "P1M"
-                        2 -> "P1W"
-                        else -> "P1Y"
-                    }
-                }
+//                PAYWALL_TYPE.PAYWALL1 -> {
+//                    when (selectedOffer) {
+//                        1 -> "P1M"
+//                        2 -> "P1W"
+//                        else -> "P1Y"
+//                    }
+//                }
 
                 PAYWALL_TYPE.PAYWALL_PUSH -> {
                     when(selectedOffer) {
@@ -1194,98 +1361,107 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                     }
                 }
 
-                PAYWALL_TYPE.SPECIAL -> {
-                    "P1Y"
-                }
-
+//                PAYWALL_TYPE.SPECIAL -> {
+//                    "P1Y"
+//                }
                 else -> {
-                    when (selectedOffer) {
-                        2 -> "P1M"
-                        1 -> "P1W"
-                        else -> "P1Y"
+                    when(selectedOffer) {
+                        1 -> App.adaptyOffers?.get("first_offer") as? String ?: "P1M"
+                        2 -> App.adaptyOffers?.get("second_offer") as? String ?: "P1W"
+                        else -> App.adaptyOffers?.get("third_offer") as? String ?: "P1Y"
                     }
                 }
+
+//                else -> {
+//                    when (selectedOffer) {
+//                        2 -> "P1M"
+//                        1 -> "P1W"
+//                        else -> "P1Y"
+//                    }
+//                }
             }
 
         var vendorProductId = when (billingPeriod) {
             "P1M" -> "hd_month_sub"
             "P1W" -> if (isTrialEnabled) "hd_week_sub" else "hd_week_sub_no_trial"
             "P1Y" -> "hd_year_sub"
-            else -> "hd_month_sub"
+            else -> billingPeriod
+//            else -> "hd_month_sub"
         }
 
         if (selectedPaywall == PAYWALL_TYPE.SPECIAL)
             vendorProductId = "hd_year_sub_3d_trial"
 
-        if (!App.adaptyProducts.isNullOrEmpty()) {
-            Adapty.makePurchase(
-                requireActivity(),
-                App.adaptyProducts!!.first { productModel ->
-                    productModel.vendorProductId == vendorProductId
-                }
-            ) { result ->
-                when (result) {
-                    is AdaptyResult.Success -> {
-                        val facebookLogger = AppEventsLogger.newLogger(requireContext())
+        runCatching {
+            if (!App.adaptyProducts.isNullOrEmpty()) {
+                Adapty.makePurchase(
+                    requireActivity(),
+                    App.adaptyProducts!!.first { productModel ->
+                        productModel.vendorProductId == vendorProductId
+                    }
+                ) { result ->
+                    when (result) {
+                        is AdaptyResult.Success -> {
+                            val facebookLogger = AppEventsLogger.newLogger(requireContext())
 
-                        facebookLogger.logPurchase(
-                            purchaseAmount = App.adaptyProducts!!.firstOrNull { productModel ->
-                                productModel.vendorProductId == vendorProductId
-                            }?.price?.amount ?: BigDecimal(10),
-                            currency = Currency.getInstance(Locale.getDefault())
-                        )
+                            facebookLogger.logPurchase(
+                                purchaseAmount = App.adaptyProducts!!.firstOrNull { productModel ->
+                                    productModel.vendorProductId == vendorProductId
+                                }?.price?.amount ?: BigDecimal(10),
+                                currency = Currency.getInstance(Locale.getDefault())
+                            )
 
-                        val profile = result.value
-                        val firebaseAnalytics = Firebase.analytics
+                            val profile = result.value
+                            val firebaseAnalytics = Firebase.analytics
 
 
-                        if (
+                            if (
 //                            result.value?.subscriptions?.values?.firstOrNull { it.isActive }?.activePromotionalOfferId == "trial"
 //                            App.adaptyProducts!!.first { productModel ->
 //                                productModel.vendorProductId == vendorProductId
 //                            }.freeTrialPeriod != null
-                            App.adaptyProducts!!.first { productModel ->
-                                productModel.vendorProductId == vendorProductId
-                            }.subscriptionDetails?.introductoryOfferPhases?.any {
-                                it.paymentMode == AdaptyProductDiscountPhase.PaymentMode.FREE_TRIAL
-                            } == true
-                        ) {
-                            firebaseAnalytics.logEvent("start_trial", null)
-                        } else {
-                            firebaseAnalytics.logEvent("subscription", null)
-                            firebaseAnalytics.logEvent(vendorProductId, null)
-                        }
+                                App.adaptyProducts!!.first { productModel ->
+                                    productModel.vendorProductId == vendorProductId
+                                }.subscriptionDetails?.introductoryOfferPhases?.any {
+                                    it.paymentMode == AdaptyProductDiscountPhase.PaymentMode.FREE_TRIAL
+                                } == true
+                            ) {
+                                firebaseAnalytics.logEvent("start_trial", null)
+                            } else {
+                                firebaseAnalytics.logEvent("subscription", null)
+                                firebaseAnalytics.logEvent(vendorProductId, null)
+                            }
 
-                        if (profile?.accessLevels?.get("premium")?.isActive == true) {
-                            Amplitude.getInstance().logEvent(
-                                "subscription_purchased",
-                                JSONObject(
-                                    mutableMapOf(
-                                        "type" to when (billingPeriod) {
-                                            "P1M" -> "Month"
-                                            "P1W" -> "Week"
-                                            "P1Y" -> "Year"
-                                            else -> "Month"
-                                        }
-                                    ).toMap()
+                            if (profile?.accessLevels?.get("premium")?.isActive == true) {
+                                Amplitude.getInstance().logEvent(
+                                    "subscription_purchased",
+                                    JSONObject(
+                                        mutableMapOf(
+                                            "type" to when (billingPeriod) {
+                                                "P1M" -> "Month"
+                                                "P1W" -> "Week"
+                                                "P1Y" -> "Year"
+                                                else -> "Month"
+                                            }
+                                        ).toMap()
+                                    )
                                 )
-                            )
-                            App.preferences.isPremiun = true
+                                App.preferences.isPremiun = true
 
-                            val identify = Identify()
-                            identify.set("Purchased", "yes")
-                            Amplitude.getInstance().identify(identify)
+                                val identify = Identify()
+                                identify.set("Purchased", "yes")
+                                Amplitude.getInstance().identify(identify)
 
-                            close()
+                                close()
+                            }
                         }
-                    }
 
-                    is AdaptyResult.Error -> {
-                        val error = result.error
-                        // handle the error
+                        is AdaptyResult.Error -> {
+                            val error = result.error
+                            // handle the error
+                        }
                     }
                 }
-            }
 
 //            Adapty.makePurchase(
 //                requireActivity(),
@@ -1332,6 +1508,7 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 //                    }
 //                }
 //            }
+            }
         }
     }
 
@@ -1378,10 +1555,42 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
         binding.paywall2.isVisible = true
         with(binding.paywall2) {
 
-            if (!isTrialEnabled) {
+//            if (!isTrialEnabled) {
                 offer1TitlePw2.isVisible = false
                 offer1TextPw2.text = resources.getString(R.string._5_99_per_week_no_trial)
+//            }
+
+            App.adaptyOffers?.let {
+                it["first_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer1PricePw2.text = it }
+                            result.second?.let { offer1DurationPw2.text = it }
+                        }
+                        getPerWeek(offer)?.let { offer1TextPw2.text = it }
+
+                    }
+                }
+                it["second_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer2PricePw2.text = it }
+                            result.second?.let { offer2DurationPw2.text = it }
+                        }
+                        getPerWeek(offer)?.let { offer2TextPw2.text = it }
+                    }
+                }
+                it["third_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer3PricePw2.text = it }
+                            result.second?.let { offer3DurationPw2.text = it }
+                        }
+                        getPerWeek(offer)?.let { offer3TextPw2.text = it }
+                    }
+                }
             }
+
 
             if (fromStart) {
                 title.text =
@@ -1664,6 +1873,34 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
                 offer1TitlePw2.isVisible = false
                 offer1TextPw2.text = resources.getString(R.string._5_99_per_week_no_trial)
             }
+
+            App.adaptyOffers?.let {
+                it["first_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer1PricePw2.text = it }
+                            result.second?.let { offer1DurationPw2.text = it }
+                        }
+                    }
+                }
+                it["second_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer2PricePw2.text = it }
+                            result.second?.let { offer2DurationPw2.text = it }
+                        }
+                    }
+                }
+                it["third_offer"]?.let { offer ->
+                    if (offer is String) {
+                        OFFERS.getPriceBy(offer).let { result ->
+                            result.first?.let { offer3PricePw2.text = it }
+                            result.second?.let { offer3DurationPw2.text = it }
+                        }
+                    }
+                }
+            }
+
 
             if (fromStart) {
                 title.text =
@@ -2216,14 +2453,19 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
 
             PAYWALL_TYPE.PAYWALL2 -> {
                 with(binding.paywall2) {
-                    if (isTrialEnabled) {
-                        startBtnText.text =
-                            App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
-                    }
+//                    if (isTrialEnabled) {
+//                        startBtnText.text =
+//                            App.resourcesProvider.getStringLocale(R.string.paywall_btn_trial)
+//                    }
 
-                    endingPw2.text = App.resourcesProvider.getStringLocale(
-                        if (isTrialEnabled) R.string.pw_ending_week else R.string.pw_ending_week_no_trial
-                    )
+                    endingPw2.text =
+                        App.adaptyOffers?.let {
+                            it["first_offer"]?.let { offer ->
+                                if (offer is String) {
+                                    offer.getEnding() ?: App.resourcesProvider.getStringLocale(R.string.pw_ending_week_no_trial)
+                                } else App.resourcesProvider.getStringLocale(R.string.pw_ending_week_no_trial)
+                            } ?: App.resourcesProvider.getStringLocale(R.string.pw_ending_week_no_trial)
+                        } ?: App.resourcesProvider.getStringLocale(R.string.pw_ending_week_no_trial)
 
                     offer1TitlePw2.setTextColor(
                         ContextCompat.getColor(
@@ -2488,7 +2730,15 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             PAYWALL_TYPE.PAYWALL2 -> {
                 with(binding.paywall2) {
                     startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn)
-                    endingPw2.text = App.resourcesProvider.getStringLocale(R.string.pw_ending_month)
+                    endingPw2.text =
+                        App.adaptyOffers?.let {
+                            it["second_offer"]?.let { offer ->
+                                if (offer is String) {
+                                    offer.getEnding() ?: App.resourcesProvider.getStringLocale(R.string.pw_ending_month)
+                                } else App.resourcesProvider.getStringLocale(R.string.pw_ending_month)
+                            } ?: App.resourcesProvider.getStringLocale(R.string.pw_ending_month)
+                        } ?: App.resourcesProvider.getStringLocale(R.string.pw_ending_month)
+
                     offer2TitlePw2.setTextColor(
                         ContextCompat.getColor(
                             requireContext(), R.color.lightColor
@@ -2752,7 +3002,15 @@ class PaywallFragment : BaseFragment<LoaderViewModel, FragmentPaywallBinding>(
             PAYWALL_TYPE.PAYWALL2 -> {
                 with(binding.paywall2) {
                     startBtnText.text = App.resourcesProvider.getStringLocale(R.string.paywall_btn)
-                    endingPw2.text = App.resourcesProvider.getStringLocale(R.string.pw_ending_year)
+                    endingPw2.text =
+                        App.adaptyOffers?.let {
+                            it["third_offer"]?.let { offer ->
+                                if (offer is String) {
+                                    offer.getEnding() ?: App.resourcesProvider.getStringLocale(R.string.pw_ending_year)
+                                } else App.resourcesProvider.getStringLocale(R.string.pw_ending_year)
+                            } ?: App.resourcesProvider.getStringLocale(R.string.pw_ending_year)
+                        } ?: App.resourcesProvider.getStringLocale(R.string.pw_ending_year)
+
 
                     offer3TitlePw2.setTextColor(
                         ContextCompat.getColor(

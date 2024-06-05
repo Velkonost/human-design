@@ -172,6 +172,7 @@
                 android:layout_marginTop="-240dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
+                android:layerType="software"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -184,6 +185,7 @@
                 android:layout_marginTop="-160dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
+                android:layerType="software"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -193,9 +195,10 @@
                 android:id="@+id/icSplashBigCirclePlaceOfBirth"
                 android:layout_width="461dp"
                 android:layout_height="461dp"
+                android:layout_marginTop="150dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
-                android:layout_marginTop="150dp"
+                android:layerType="software"
                 android:src="@drawable/ic_circle_big_dark"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -207,9 +210,10 @@
                 android:id="@+id/icSplashMidCirclePlaceOfBirth"
                 android:layout_width="380dp"
                 android:layout_height="380dp"
+                android:layout_marginTop="150dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.2"
-                android:layout_marginTop="150dp"
+                android:layerType="software"
                 android:src="@drawable/ic_circle_mid_dark"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -291,9 +295,9 @@
                 android:layout_marginBottom="16dp"
                 android:background="@android:color/transparent"
                 android:backgroundTint="@android:color/transparent"
-                android:foreground="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:onClick="@{handler::onBtnClicked}"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp"
@@ -563,10 +567,10 @@
                     android:layout_marginTop="66dp"
                     android:fontFamily="@font/roboto"
                     android:gravity="center"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
                     android:lines="2"
                     android:minLines="2"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -604,13 +608,13 @@
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/bodygraphReadyMark1"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
                             android:layout_width="24dp"
                             android:layout_height="19dp"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            app:lottie_rawRes="@raw/bodygraph_ready_loader" />
 
                         <TextView
                             android:id="@+id/bodygraphReadyText1"
@@ -631,13 +635,13 @@
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/bodygraphReadyMark2"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
                             android:layout_width="24dp"
                             android:layout_height="19dp"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            app:lottie_rawRes="@raw/bodygraph_ready_loader" />
 
                         <TextView
                             android:id="@+id/bodygraphReadyText2"
@@ -658,13 +662,13 @@
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/bodygraphReadyMark3"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
                             android:layout_width="24dp"
                             android:layout_height="19dp"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            app:lottie_rawRes="@raw/bodygraph_ready_loader" />
 
                         <TextView
                             android:id="@+id/bodygraphReadyText3"
@@ -685,13 +689,13 @@
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/bodygraphReadyMark4"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
                             android:layout_width="24dp"
                             android:layout_height="19dp"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            app:lottie_rawRes="@raw/bodygraph_ready_loader" />
 
                         <TextView
                             android:id="@+id/bodygraphReadyText4"
@@ -712,13 +716,13 @@
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/bodygraphReadyMark5"
-                            app:lottie_rawRes="@raw/bodygraph_ready_loader"
                             android:layout_width="24dp"
                             android:layout_height="19dp"
                             android:layout_gravity="center_vertical"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_bodygraph_ready_mark"
-                            android:visibility="invisible" />
+                            android:visibility="invisible"
+                            app:lottie_rawRes="@raw/bodygraph_ready_loader" />
 
                         <TextView
                             android:id="@+id/bodygraphReadyText5"
@@ -760,9 +764,9 @@
                 layout="@layout/fragment_loader" />
 
             <include
-                android:visibility="gone"
                 android:id="@+id/allowPushView"
-                layout="@layout/view_allow_pushes"/>
+                layout="@layout/view_allow_pushes"
+                android:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

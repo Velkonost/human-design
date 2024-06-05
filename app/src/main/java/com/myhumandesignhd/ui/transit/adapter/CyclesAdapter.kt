@@ -16,7 +16,6 @@ import com.amplitude.api.Amplitude
 import com.myhumandesignhd.App
 import com.myhumandesignhd.R
 import com.myhumandesignhd.model.Cycle
-import com.yandex.metrica.YandexMetrica
 import kotlinx.android.synthetic.main.item_about_gates_title.view.activeGatesDesc
 import kotlinx.android.synthetic.main.item_about_gates_title.view.activeGatesTitle
 import kotlinx.android.synthetic.main.item_cycle.view.cycleAge
@@ -159,19 +158,15 @@ class CycleModel(
             cycleCard.setOnClickListener {
                 when(model.id) {
                     "SaturnReturn" -> {
-                        YandexMetrica.reportEvent("Tab3CyclesSaturnTapped")
                         Amplitude.getInstance().logEvent("tab3CyclesSaturnTapped")
                     }
                     "OppositionUran" -> {
-                        YandexMetrica.reportEvent("Tab3CyclesUranusTapped")
                         Amplitude.getInstance().logEvent("tab3CyclesUranusTapped")
                     }
                     "ReturnChiron" -> {
-                        YandexMetrica.reportEvent("Tab3CyclesChironTapped")
                         Amplitude.getInstance().logEvent("tab3CyclesChironTapped")
                     }
                     "SecondSaturn" -> {
-                        YandexMetrica.reportEvent("Tab3CyclesSecondSaturnTapped")
                         Amplitude.getInstance().logEvent("tab3CyclesSecondSaturnTapped")
                     }
                 }

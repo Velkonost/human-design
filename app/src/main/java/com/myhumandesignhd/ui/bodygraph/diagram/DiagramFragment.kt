@@ -13,13 +13,13 @@ import com.myhumandesignhd.databinding.FragmentDiagramBinding
 import com.myhumandesignhd.event.CurrentUserLoadedEvent
 import com.myhumandesignhd.event.DeleteDiagramItemEvent
 import com.myhumandesignhd.event.DiagramAddUserClickEvent
+import com.myhumandesignhd.event.DiagramSetSwipingModelEvent
 import com.myhumandesignhd.event.UpdateCurrentUserEvent
 import com.myhumandesignhd.navigation.Screens
 import com.myhumandesignhd.ui.base.BaseFragment
 import com.myhumandesignhd.ui.bodygraph.BodygraphViewModel
 import com.myhumandesignhd.ui.bodygraph.diagram.adapter.DiagramsAdapter
 import com.myhumandesignhd.vm.BaseViewModel
-import com.yandex.metrica.YandexMetrica
 import io.sulek.ssml.SSMLLinearLayoutManager
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
@@ -54,15 +54,31 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
     }
 
     @Subscribe
+    fun onDiagramSetSwipingModelEvent(e: DiagramSetSwipingModelEvent) {
+
+    }
+
+
+    private var isAllowDeleteUser = true
+    @Subscribe
     fun onDeleteDiagramItemEvent(e: DeleteDiagramItemEvent) {
-        baseViewModel.deleteUser(e.userId,
-            diagramsAdapter.getUserAtPosition(
-                diagramsAdapter.getNextPosition(
-                    diagramsAdapter.getPositionByUserId(e.userId)
-                )
-            ).id
-        )
-        diagramsAdapter.deleteUserById(e.userId)
+        if (isAllowDeleteUser) {
+            isAllowDeleteUser = false
+            baseViewModel.deleteUser(
+                e.userId,
+                diagramsAdapter.getUserAtPosition(
+                    diagramsAdapter.getNextPosition(
+                        diagramsAdapter.getPositionByUserId(e.userId)
+                    )
+                ).id,
+                onComplete = {
+                    isAllowDeleteUser = true
+                }
+            )
+
+            diagramsAdapter.deleteUserById(e.userId)
+
+        }
     }
 
     override fun updateThemeAndLocale() {
@@ -128,7 +144,6 @@ class DiagramFragment : BaseFragment<BodygraphViewModel, FragmentDiagramBinding>
 
     @Subscribe
     fun onDiagramAddUserClickEvent(e: DiagramAddUserClickEvent) {
-        YandexMetrica.reportEvent("Tab1AddUserTappedStart1")
 
         router.navigateTo(
             Screens.addUserScreen(

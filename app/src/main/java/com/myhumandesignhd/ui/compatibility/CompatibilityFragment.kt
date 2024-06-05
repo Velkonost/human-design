@@ -34,7 +34,6 @@ import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.skydoves.balloon.overlay.BalloonOverlayRoundRect
-import com.yandex.metrica.YandexMetrica
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -163,7 +162,6 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
     @Subscribe
     fun onCompatibilityStartClickEvent(e: CompatibilityStartClickEvent) {
-        YandexMetrica.reportEvent("Tab4AdultsCreatedProfileTapped")
 
         baseViewModel.setupCompatibility(
             lat1 = e.user.lat,
@@ -186,7 +184,6 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
     @Subscribe
     fun onCompatibilityChildStartClickEvent(e: CompatibilityChildStartClickEvent) {
-        YandexMetrica.reportEvent("Tab4ChildrenCreatedProfileTapped")
         Amplitude.getInstance().logEvent("tab4CheckedFamilyRelationship")
 
         router.navigateTo(Screens.compatibilityChildScreen(e.childId))
@@ -592,7 +589,6 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
     @Subscribe
     fun onAddPartnerClickEvent(e: AddPartnerClickEvent) {
-        YandexMetrica.reportEvent("Tab4AddAdultsTapped")
         Amplitude.getInstance().logEvent("tab4TappedAddUser")
 
         if (App.preferences.isPremiun) {
@@ -604,7 +600,6 @@ class CompatibilityFragment : BaseFragment<CompatibilityViewModel, FragmentCompa
 
     @Subscribe
     fun onAddChildClickEvent(e: AddChildClickEvent) {
-        YandexMetrica.reportEvent("Tab4AddChildrenTapped")
         Amplitude.getInstance().logEvent("tab4TappedAddKid")
 
         if (App.preferences.isPremiun) {

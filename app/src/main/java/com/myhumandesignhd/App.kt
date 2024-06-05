@@ -7,6 +7,7 @@ import android.content.Context
 import android.util.Log
 import com.adapty.models.AdaptyPaywall
 import com.adapty.models.AdaptyPaywallProduct
+import com.adapty.utils.ImmutableMap
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.attribution.AppsFlyerRequestListener
 import com.facebook.FacebookSdk
@@ -20,13 +21,11 @@ import com.myhumandesignhd.rest.di.RetrofitModule
 import com.myhumandesignhd.util.Preferences
 import com.myhumandesignhd.util.ResourcesProvider
 import com.onesignal.OneSignal
-import com.yandex.metrica.ReporterConfig
-import com.yandex.metrica.YandexMetrica
-import com.yandex.metrica.YandexMetricaConfig
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import timber.log.Timber
 import java.util.*
+
 
 class App : DaggerApplication() {
 
@@ -61,6 +60,8 @@ class App : DaggerApplication() {
         OneSignal.setAppId(BuildConfig.ONESIGNAL_APP_ID)
 
         if (isMainProcess()) {
+//            ANRWatchDog().setReportMainThreadOnly().start()
+
             FacebookSdk.setClientToken("8300d3e22249a339f57e6edb01d7d6b966540ca1d4c946977cf72597e0e9d374")
             FacebookSdk.sdkInitialize(this)
             FacebookSdk.fullyInitialize()
@@ -69,7 +70,7 @@ class App : DaggerApplication() {
         }
 
         setupAppsFlyer()
-        activateAppMetrica()
+//        activateAppMetrica()
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
@@ -139,34 +140,12 @@ class App : DaggerApplication() {
                 )
             }
         })
-        AppsFlyerLib.getInstance().setDebugLog(true)
-    }
-
-    private fun activateAppMetrica() {
-        val appMetricaConfig: YandexMetricaConfig =
-            YandexMetricaConfig.newConfigBuilder(BuildConfig.APPMETRICA_API_KEY)
-                .withLocationTracking(true)
-                .withCrashReporting(true)
-                .withLogs()
-                .withStatisticsSending(true)
-                .withAppOpenTrackingEnabled(true)
-                .build()
-        YandexMetrica.activate(applicationContext, appMetricaConfig)
-        YandexMetrica.enableActivityAutoTracking(this)
-
-        val reporterConfig = ReporterConfig.newConfigBuilder(BuildConfig.APPMETRICA_API_KEY)
-            .withLogs()
-            .withStatisticsSending(true)
-            .build()
-
-        YandexMetrica.activateReporter(applicationContext, reporterConfig)
-
-        if (preferences.isFirstLaunch) {
-            YandexMetrica.reportEvent("Install")
-        }
+//        AppsFlyerLib.getInstance().setDebugLog(true)
     }
 
     companion object {
+
+
         lateinit var instance: App
         lateinit var preferences: Preferences
         lateinit var database: AppDatabase
@@ -205,6 +184,7 @@ class App : DaggerApplication() {
 
         var adaptySplitPwName: String? = null
         var adaptyPaywallModel: AdaptyPaywall? = null
+        var adaptyOffers: ImmutableMap<String, Any>? = ImmutableMap(HashMap())
         var adaptyProducts: List<AdaptyPaywallProduct>? = null
     }
 }

@@ -25,7 +25,6 @@ import com.myhumandesignhd.R
 import com.myhumandesignhd.event.OpenPaywallEvent
 import com.myhumandesignhd.model.CompatibilityNewDescription
 import com.myhumandesignhd.ui.bodygraph.second.adapter.AboutAdapter
-import com.yandex.metrica.YandexMetrica
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
 import pl.droidsonroids.gif.GifDrawable
@@ -314,17 +313,14 @@ class CompatibilityDetailAboutAdapter(
 
                 when (adapterPosition - 1) {
                     0 -> {
-                        YandexMetrica.reportEvent("CompatibilityOverviewTapped")
                         Amplitude.getInstance().logEvent("CompatibilityOverviewTapped")
                     }
 
                     1 -> {
-                        YandexMetrica.reportEvent("CompatibilityLoveTapped")
                         Amplitude.getInstance().logEvent("CompatibilityLoveTapped")
                     }
 
                     else -> {
-                        YandexMetrica.reportEvent("CompatibilityBusinessTapped")
                         Amplitude.getInstance().logEvent("CompatibilityBusinessTapped")
                     }
 
